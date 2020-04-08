@@ -1,0 +1,74 @@
+@MainMenuBackgroundActive: #013141;
+.Menu {
+	// Кнопка переключения меню
+	.toggleButton {
+		cursor: pointer;
+		border-bottom: 1px solid #013141;
+		//border-bottom: 1px solid #fff;
+		//padding: 10px 10px 10px 10px;
+		margin-bottom: 10px;
+		text-align: right;
+		font-size: 18px;
+		color: white;
+		display: flex;
+
+		.logoLink {
+			flex: 1 1 auto;
+			margin: 6px 8px 0 8px;
+			color: white;
+
+			.logoImg {
+				height: 35px;
+			}
+		}
+	}
+
+	.toggleButton.collapsed {
+		text-align: center;
+	}
+
+	.subMenu {
+		.menuItem {
+			margin-left: 24px;
+		}
+	}
+
+	.subMenuItem {
+		padding: 5px 10px;
+		color: white;
+		//border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		&.active {
+			background: @MainMenuBackgroundActive;
+		}
+
+		span:first-child {
+			margin-right: 10px;
+		}
+	}
+
+	.menuItem {
+		//border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		display: flex;
+
+		.anticon {
+			margin-right: 10px;
+		}
+
+		&:hover {
+			cursor: pointer;
+			background: #17556b;
+		}
+
+		&.active {
+			background: @MainMenuBackgroundActive;
+			border-right: 3px solid #00b7ff;
+		}
+
+		a {
+			padding: 5px 10px;
+			text-decoration: none;
+			color: white;
+			flex: 1 1 auto;
+		}
+	}
+}
