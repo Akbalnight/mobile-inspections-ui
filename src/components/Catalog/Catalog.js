@@ -12,11 +12,13 @@ import {catalogConfigs} from "./catalogConfigs";
 
 const Catalog = () => {
 	let {pathname} = useLocation();
-	let history = useHistory();
-	// console.log('pathname - ', pathname);
+	// let history = useHistory();
+	console.log('pathname - ', pathname.split('/'));
 
 	return (
-		<BasePage>
+		<BasePage
+			path={ pathname.split('/').length > 2 ? paths.CATALOG_DATA.path : null }
+		>
 			<SplitPane
 				className={'Catalog'}
 				split='vertical'

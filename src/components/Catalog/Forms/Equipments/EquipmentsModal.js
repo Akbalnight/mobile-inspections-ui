@@ -302,3 +302,4 @@ EquipmentsModal.propTypes = {
 };
 
 export default EquipmentsModal;
+

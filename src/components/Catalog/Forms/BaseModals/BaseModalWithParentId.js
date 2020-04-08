@@ -17,7 +17,8 @@ const BaseModalWithParentId = props => {
         typeOperation,
 		setVisibleSaveForm,
 		initFormObject,
-		catalogName
+		catalogName,
+        setReloadTable
 	} = props;
 
 	const [mounted, setMounted] = useState(false);
@@ -67,6 +68,7 @@ const BaseModalWithParentId = props => {
 				// console.log('response -> ', response);
 				notification.success({message: 'Сохранение прошло успешно'});
 				setVisibleSaveForm(false);
+                setReloadTable(true);
 			})
 			.catch(error => {
 				console.log('error -> ', error);

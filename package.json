@@ -12,7 +12,7 @@
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-split-pane": "^0.1.89",
+    "react-split-pane": "^0.1.91",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rt-design": "git+https://github.com/air-tech/react-tech-design.git#semver:^0.0.10"

@@ -1,18 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useRouteMatch} from 'react-router';
+import {useLocation, useRouteMatch} from 'react-router';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import {Layout} from 'antd';
 
 const {Header, Content} = Layout;
 
 const BasePage = (props) => {
-	let match = useRouteMatch();
 
+	const { path } = props;
+
+	let match = useRouteMatch();
+	// let pathname = useLocation();
+	// console.log('match.path', pathname);
 	return (
 		<>
 			<Header className='header'>
-				<Breadcrumbs path={match.path} />
+				<Breadcrumbs path={ path ? path : match.path} />
 			</Header>
 			<Content
 				className={'rootLayoutContent ' + props.className}
@@ -26,6 +30,7 @@ const BasePage = (props) => {
 
 BasePage.propTypes = {
 	className: PropTypes.string,
+	path: PropTypes.string,
 };
 
 export default BasePage;

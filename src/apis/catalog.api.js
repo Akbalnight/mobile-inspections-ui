@@ -62,3 +62,10 @@ export const apiSaveEquipment = ({method, data, params}) => {
 		params
 	});
 };
+
+export const apiGetTechMapById = ({id, params}) =>
+	genericRequest({
+		url: `/api/catalog/techMaps/${id}`,
+		method: 'GET',
+		params
+	});

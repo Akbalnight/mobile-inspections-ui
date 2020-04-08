@@ -33,7 +33,7 @@ export const menu = [
 		icon: SettingOutlined,
 		children: [
 			paths.CONTROL_EQUIPMENTS_WORK_SCHEDULES,
-			paths.CONTROL_EQUIPMENTS_TECH_MAPS_AND_OPERATIONS,
+			paths.CONTROL_EQUIPMENTS_TECH_MAPS,
 		]
 	},
 	{

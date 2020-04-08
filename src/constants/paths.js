@@ -1,6 +1,7 @@
 import Home from '../components/Home/Home';
 import Catalog from '../components/Catalog/Catalog';
 import CatalogData from '../components/Catalog/CatalogData';
+import TechMaps from "../components/TechMaps/TechMaps";
 
 export const paths = {
 	HOME: {
@@ -41,16 +42,21 @@ export const paths = {
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',
-		path: '/control-equipments',
-		redirect: '/control-equipments/work-schedules'
+		path: '/controlEquipments',
+		redirect: '/controlEquipments/work-schedules'
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
-		path: '/control-equipments/work-schedules'
+		path: '/controlEquipments/work-schedules'
 	},
-	CONTROL_EQUIPMENTS_TECH_MAPS_AND_OPERATIONS: {
+	CONTROL_EQUIPMENTS_TECH_MAPS: {
 		title: 'Технологические карты и операции',
-		path: '/control-equipments/tech-maps-and-operations'
+		path: '/controlEquipments/techMaps',
+		component: TechMaps
+	},
+	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
+		title: 'Технологическая карта',
+		path: '/controlEquipments/techMaps/:id'
 	},
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
