@@ -8,14 +8,14 @@ module.exports = function(app) {
 	app.use(
 		'/api/catalog',
 		createProxyMiddleware({
-			target: `${LOCAL_API_URL}:8803/catalog`,
+			target: `${API_URL}:8803/catalog`,
 			pathRewrite: {'^/api/catalog': ''}
 		})
 	);
 	app.use(
 		'/api/dynamicdq',
 		createProxyMiddleware({
-			target: `${LOCAL_API_URL}:8804/dynamicdq`,
+			target: `${API_URL}:8804/dynamicdq`,
 			pathRewrite: {'^/api/dynamicdq': ''}
 		})
 	);

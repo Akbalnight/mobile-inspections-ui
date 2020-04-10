@@ -21,6 +21,7 @@ const CatalogData = props => {
 	const [selectObject, setSelectObject] = useState({});
 
 	/** Ссылка на объект таблицы */
+	// let tableRef = React.createRef();
 	const [reloadTable, setReloadTable] = useState(false);
 
 	const [defaultSort, setDefaultSort] = useState({});
@@ -52,7 +53,7 @@ const CatalogData = props => {
 	};
 
 	const onClickAddHandler = () => {
-		// console.log('onClickAddHandler');
+		// console.log('onClickAddHandler tableRef', tableRef);
 		setTitleSaveForm('Создать элемент справочника');
 		setTypeOperationSaveForm('create');
 		setSelectObject({});
@@ -99,9 +100,10 @@ const CatalogData = props => {
 		<>
 			<AdvancedTable
 				// ref={tableRef}
+				// ref={tableRef}
 				autoDeleteRows={false}
-				hardReload={reloadTable}
-				setHardReload={setReloadTable}
+				// hardReload={reloadTable}
+				// setHardReload={setReloadTable}
 				configData={configData}
 				customCellRenders={customCellRenders}
 				expandDefaultAll={true}
@@ -116,7 +118,8 @@ const CatalogData = props => {
 					})
 				}
 				sortBy={defaultSort}
-				section={'BaseTableServerData'}
+				// section={'BaseTableServerData'}
+				tyle={'serverSide'}
 				showElements={[
 					'add',
 					'addGroup',

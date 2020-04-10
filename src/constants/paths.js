@@ -2,12 +2,18 @@ import Home from '../components/Home/Home';
 import Catalog from '../components/Catalog/Catalog';
 import CatalogData from '../components/Catalog/CatalogData';
 import TechMaps from "../components/TechMaps/TechMaps";
+import Debug from "../components/Debug/Debug";
 
 export const paths = {
 	HOME: {
 		title: 'Главная',
 		path: '/home',
 		component: Home
+	},
+	DEBUG: {
+		title: 'Debug',
+		path: '/debug',
+		component: Debug
 	},
 	CATALOG: {
 		title: 'НСИ',

@@ -11,6 +11,11 @@ const Routes = () => {
 				path={paths.HOME.path}
 				component={paths.HOME.component}
 			/>
+			<Route
+				exact
+				path={paths.DEBUG.path}
+				component={paths.DEBUG.component}
+			/>
 			{/** НСИ */}
 			<Route
 				path={paths.CATALOG.path}

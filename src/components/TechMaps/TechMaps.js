@@ -90,7 +90,7 @@ const TechMaps = props => {
 						<AdvancedTable
 							autoDeleteRows={false}
 							configData={configData}
-							defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : null}
+							defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []}
 							customCellRenders={customCellRenders}
 							expandDefaultAll={true}
 							fixWidthColumn={false}

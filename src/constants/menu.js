@@ -15,6 +15,9 @@ export const menu = [
 		icon: HomeOutlined,
 	},
 	{
+		...paths.DEBUG
+	},
+	{
 		...paths.CATALOG,
 		icon: ReadOutlined
 	},
