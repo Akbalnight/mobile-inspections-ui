@@ -2,7 +2,7 @@ import React from 'react';
 import SplitPane from 'react-split-pane';
 import {List} from 'rt-design';
 import './Catalog.less';
-import {Link, useHistory, useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {paths} from '../../constants/paths';
 import {Route, Switch} from 'react-router';
 import BasePage from "../App/BasePage";
@@ -13,7 +13,7 @@ import {catalogConfigs} from "./catalogConfigs";
 const Catalog = () => {
 	let {pathname} = useLocation();
 	// let history = useHistory();
-	console.log('pathname - ', pathname.split('/'));
+	// console.log('pathname - ', pathname.split('/'));
 
 	return (
 		<BasePage
@@ -29,9 +29,9 @@ const Catalog = () => {
 				<div className={'CatalogList'}>
 					<List
 						autoLoadRows={false}
-						defaultRows={catalogConfigs(paths)}
-						defaultSelectedRowKeys={[pathname]}
-						section={'CatalogLists'}
+						rows={catalogConfigs(paths)}
+						selectedRowKeys={[pathname]}
+						type={'localSide'}
 						showElements={['search']}
 						// rowRender={"title"}
 						rowRender={({rowData}) => (

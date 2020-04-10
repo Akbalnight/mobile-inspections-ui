@@ -1,5 +1,4 @@
 import React, {forwardRef, useState} from 'react';
-import PropTypes from 'prop-types';
 
 const DebugChild = forwardRef((props, ref) => {
 

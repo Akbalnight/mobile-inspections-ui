@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	apiGetConfigByName,
 	apiGetDataByConfigName
@@ -22,17 +22,17 @@ const CatalogData = props => {
 
 	/** Ссылка на объект таблицы */
 	// let tableRef = React.createRef();
-	const [reloadTable, setReloadTable] = useState(false);
+	/** Ссылка на объект таблицы */
+	const [tableRef, setTableRef] = useState({});
+	// const [reloadTable, setReloadTable] = useState(false);
 
 	const [defaultSort, setDefaultSort] = useState({});
 
 	const {catalogName, SaveForm, SaveGroup} = props;
 
-	useEffect(() => {
-		loadConfig();
-	}, []);
+	const _setTableRef = (ref) => setTableRef(ref);
 
-	const loadConfig = () => {
+	useEffect(() => {
 		apiGetConfigByName({configName: catalogName})
 			.then(response => {
 				setConfigData(response.data);
@@ -50,7 +50,7 @@ const CatalogData = props => {
 			.catch(error => {
 				console.log('error -> ', error);
 			});
-	};
+	}, [catalogName, mounted]);
 
 	const onClickAddHandler = () => {
 		// console.log('onClickAddHandler tableRef', tableRef);
@@ -96,10 +96,14 @@ const CatalogData = props => {
 		}
 	];
 
+	const onClickUpHandler = () => {
+		console.log("tableRef ", tableRef);
+	};
+
 	return mounted ? (
 		<>
 			<AdvancedTable
-				// ref={tableRef}
+				ref={_setTableRef}
 				// ref={tableRef}
 				autoDeleteRows={false}
 				// hardReload={reloadTable}
@@ -117,21 +121,27 @@ const CatalogData = props => {
 						params
 					})
 				}
-				sortBy={defaultSort}
+                defaultSortBy={defaultSort}
 				// section={'BaseTableServerData'}
-				tyle={'serverSide'}
-				showElements={[
-					'add',
-					'addGroup',
-					'edit',
-					'delete',
-					'addAsCopy'
-				]}
+				type={'serverSide'}
+
 				// centerCustomSideElement={<Button onClick={() => setReloadTable(true)}>Hard reload</Button>}
-				onClickAdd={onClickAddHandler}
-				onClickAddGroup={onClickAddGroupHandler}
-				onClickEdit={onClickEditHandler}
-				onClickDelete={(event, selectedRowKeys) => console.log('selectedRowKeys catalog', selectedRowKeys)}
+                commandPanelProps={{
+                    onClickAdd: onClickAddHandler,
+                    onClickAddGroup: onClickAddGroupHandler,
+                    onClickEdit: onClickEditHandler,
+                    onClickDelete: (event, selectedRowKeys) => console.log('selectedRowKeys catalog', selectedRowKeys),
+					onClickUp: onClickUpHandler,
+                    showElements: [
+                            'add',
+                            'addGroup',
+                            'edit',
+                            'delete',
+                            'addAsCopy',
+							'up'
+                    ]
+                }}
+
 				// deleteConfirm={false}
 				// deleteConfirmTitle={'Удалить что-ли?'}
 			/>
@@ -142,7 +152,7 @@ const CatalogData = props => {
 				setVisibleSaveForm={setVisibleSaveForm}
 				initFormObject={selectObject}
 				catalogName={catalogName}
-				setReloadTable={setReloadTable}
+				setReloadTable={tableRef && tableRef.reloadData} // onClickUpHandler.bind(tableRef)
 			/>
 
 			{SaveGroup ?
@@ -152,6 +162,7 @@ const CatalogData = props => {
 					typeOperation={typeOperationSaveGroup}
 					setVisibleSaveForm={setVisibleSaveGroup}
 					initFormObject={selectObject}
+					setReloadTable={tableRef && tableRef.reloadData}
 				/>
 				: null
 			}

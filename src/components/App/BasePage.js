@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useLocation, useRouteMatch} from 'react-router';
+import {useRouteMatch} from 'react-router';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import {Layout} from 'antd';
 

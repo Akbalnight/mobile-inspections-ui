@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Modal, Input, InputNumber, notification} from 'antd';
-import {Select} from 'rt-design';
-import {
-	apiSaveBaseCatalog
-} from '../../../../apis/catalog.api';
-
-import {Form} from 'antd';
+import {Modal, Input, InputNumber, notification, Form} from 'antd';
+import { apiSaveBaseCatalog } from '../../../../apis/catalog.api';
 
 const BaseModal = props => {
 	const {
@@ -24,14 +19,14 @@ const BaseModal = props => {
 
 	useEffect(() => {
 		setMounted(true);
-	}, []);
+	}, [mounted]);
 
 	// Первичная загрузка селекта родителя
 	useEffect(() => {
 		if (visible && initFormObject && mounted) {
 			setTimeout(() => form.resetFields(), 100);
 		}
-	}, [visible]);
+	}, [visible, initFormObject, mounted, form]);
 
 	const onSave = values => {
 		const saveObject = {...initFormObject, ...values};
@@ -46,7 +41,8 @@ const BaseModal = props => {
 				notification.success({message: 'Сохранение прошло успешно'});
 				form.resetFields();
 				setVisibleSaveForm(false);
-				setReloadTable(true);
+				// console.log('setReloadTable', setReloadTable);
+				setReloadTable();
 			})
 			.catch(error => {
 				console.log('error -> ', error);
@@ -63,14 +59,6 @@ const BaseModal = props => {
 	const layout = {
 		labelCol: {span: 8},
 		wrapperCol: {span: 16}
-	};
-	const tailLayout = {
-		wrapperCol: {offset: 8, span: 16}
-	};
-
-	const parentIdHandler = (name, keys) => {
-		if (keys && keys.length > 0) return keys[0];
-		else return null;
 	};
 
 	return (
@@ -93,15 +81,15 @@ const BaseModal = props => {
 		>
 			<Form
 				{...layout}
-				name={title}
+				name='CatalogModalForm'
 				form={form}
 				size={'small'}
+				labelAlign={'left'}
 				initialValues={{
 					code: initFormObject && initFormObject.code,
 					name: initFormObject && initFormObject.name,
 				}}
 			>
-				{/*<div style={{display: 'flex'}}>*/}
 				{typeOperation === 'update' ? (
 					<Form.Item
 						label='Код'
@@ -126,12 +114,19 @@ const BaseModal = props => {
 				>
 					<Input size={'small'} placeholder='Введите значение' />
 				</Form.Item>
-				{/*</div>*/}
 			</Form>
 		</Modal>
 	);
 };
 
-BaseModal.propTypes = {};
+BaseModal.propTypes = {
+	title: PropTypes.string,
+	visible: PropTypes.bool,
+	typeOperation: PropTypes.string,
+	setVisibleSaveForm: PropTypes.func,
+	initFormObject: PropTypes.func,
+	catalogName: PropTypes.string,
+	setReloadTable: PropTypes.func,
+};
 
 export default BaseModal;

@@ -8,12 +8,32 @@ export const apiGetConfigByName = ({configName, data, params}) =>
 		params
 	});
 
-export const apiGetDataByConfigName = ({hierarchical, lazyLoad, configName,  data, params}) => genericRequest({
-	url: `/api/dynamicdq/data/${hierarchical && !lazyLoad ? 'hierarchical' : 'flat'}/${configName}`,
-	method: 'POST',
-	data,
-	params
-});
+export const apiGetFlatDataByConfigName = (configName) => ({data, params}) =>
+	apiGetDataByConfigName({
+		configName: configName,
+		hierarchical: false,
+		lazyLoad: false,
+		data,
+		params
+	});
+
+export const apiGetHierarchicalDataByConfigName = (configName) => ({data, params}) =>
+	apiGetDataByConfigName({
+		configName: configName,
+		hierarchical: true,
+		lazyLoad: false,
+		data,
+		params
+	});
+
+
+export const apiGetDataByConfigName = ({hierarchical, lazyLoad, configName,  data, params}) =>
+	genericRequest({
+		url: `/api/dynamicdq/data/${hierarchical && !lazyLoad ? 'hierarchical' : 'flat'}/${configName}`,
+		method: 'POST',
+		data,
+		params
+	});
 
 export const apiGetCatalogWithParentById = ({catalogName, id, params}) =>
 	genericRequest({

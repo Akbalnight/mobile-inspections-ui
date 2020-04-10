@@ -15,7 +15,7 @@ module.exports = function(app) {
 	app.use(
 		'/api/dynamicdq',
 		createProxyMiddleware({
-			target: `${API_URL}:8804/dynamicdq`,
+			target: `${LOCAL_API_URL}:8804/dynamicdq`,
 			pathRewrite: {'^/api/dynamicdq': ''}
 		})
 	);
