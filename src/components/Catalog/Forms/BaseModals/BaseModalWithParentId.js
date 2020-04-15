@@ -6,7 +6,7 @@ import {Select} from 'rt-design';
 import {
 	apiSaveBaseCatalogWithParentId,
 	apiGetHierarchicalDataByConfigName,
-	apiGetFlatDataByConfigName
+	apiGetFlatDataByConfigName, apiGetDataByConfigName
 } from '../../../../apis/catalog.api';
 
 const BaseModalWithParentId = props => {
@@ -34,6 +34,7 @@ const BaseModalWithParentId = props => {
 		if (visible) {
 			if (mounted) {
 				setLoading(true);
+				console.log('initFormObject', initFormObject);
 				setTimeout(() => {
 					form.resetFields();
 					setLoading(false);
@@ -174,14 +175,23 @@ const BaseModalWithParentId = props => {
 								widthControl={0}
 								heightPopup={300}
 								defaultSelectedRowKeys={
-									initFormObject
+									initFormObject && initFormObject.parentId
 										? [initFormObject.parentId]
 										: []
 								}
 								// onChangeKeys={selectParentHandler}
-								requestLoadRows={apiGetHierarchicalDataByConfigName(
-									catalogName
-								)}
+								// requestLoadRows={apiGetHierarchicalDataByConfigName(
+								// 	catalogName
+								// )}
+								requestLoadRows={({data, params}) =>
+									apiGetDataByConfigName({
+										configName: catalogName,
+										hierarchical: true,
+										lazyLoad: false,
+										data: {...data, isGroup: true, owner: initFormObject && initFormObject.id},
+										params
+									})
+								}
 								requestLoadDefault={apiGetFlatDataByConfigName(
 									catalogName
 								)}
@@ -206,7 +216,7 @@ BaseModalWithParentId.propTypes = {
 	visible: PropTypes.bool,
 	typeOperation: PropTypes.string,
 	setVisibleSaveForm: PropTypes.func,
-	initFormObject: PropTypes.func,
+	initFormObject: PropTypes.object,
 	catalogName: PropTypes.string,
 	setReloadTable: PropTypes.func,
 };

@@ -185,7 +185,7 @@ EquipmentsGroupModal.propTypes = {
 	visible: PropTypes.bool,
 	typeOperation: PropTypes.string,
 	setVisibleSaveForm: PropTypes.func,
-	initFormObject: PropTypes.func,
+	initFormObject: PropTypes.object,
 	setReloadTable: PropTypes.func,
 };
 

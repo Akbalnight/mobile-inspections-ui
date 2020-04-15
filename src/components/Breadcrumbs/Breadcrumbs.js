@@ -16,17 +16,27 @@ const FindTitleBreadcrumb = path => {
 };
 
 const Breadcrumbs = props => {
-	const {path} = props;
+	const {path, breadcrumb} = props;
+
 	const pathSnippets = path.split('/').filter(i => i);
+
 	const breadcrumbItems = pathSnippets.map((_, index) => {
 		const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
 		// console.log('Breadcrumbs - url: ', url);
 		const title = FindTitleBreadcrumb(url);
-		return (
-			<Breadcrumb.Item key={url}>
-				<NavLink to={url}>{title}</NavLink>
-			</Breadcrumb.Item>
-		);
+		if(breadcrumb && index === pathSnippets.length - 1){
+			return (
+				<Breadcrumb.Item key={url}>
+					<span>{breadcrumb}</span>
+				</Breadcrumb.Item>
+			);
+		} else {
+			return (
+				<Breadcrumb.Item key={url}>
+					<NavLink to={url}>{title}</NavLink>
+				</Breadcrumb.Item>
+			);
+		}
 	});
 	return (
 		<Breadcrumb>

@@ -21,7 +21,7 @@ const BaseModal = props => {
 		setMounted(true);
 	}, [mounted]);
 
-	// Первичная загрузка селекта родителя
+	// Сброс значений формы
 	useEffect(() => {
 		if (visible && initFormObject && mounted) {
 			setTimeout(() => form.resetFields(), 100);
@@ -124,7 +124,7 @@ BaseModal.propTypes = {
 	visible: PropTypes.bool,
 	typeOperation: PropTypes.string,
 	setVisibleSaveForm: PropTypes.func,
-	initFormObject: PropTypes.func,
+	initFormObject: PropTypes.object,
 	catalogName: PropTypes.string,
 	setReloadTable: PropTypes.func,
 };

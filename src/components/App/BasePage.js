@@ -8,7 +8,7 @@ const {Header, Content} = Layout;
 
 const BasePage = (props) => {
 
-	const { path } = props;
+	const { path, breadcrumb } = props;
 
 	let match = useRouteMatch();
 	// let pathname = useLocation();
@@ -16,7 +16,7 @@ const BasePage = (props) => {
 	return (
 		<>
 			<Header className='header'>
-				<Breadcrumbs path={ path ? path : match.path} />
+				<Breadcrumbs path={ path ? path : match.path} breadcrumb={breadcrumb} />
 			</Header>
 			<Content
 				className={'rootLayoutContent ' + props.className}
@@ -31,6 +31,7 @@ const BasePage = (props) => {
 BasePage.propTypes = {
 	className: PropTypes.string,
 	path: PropTypes.string,
+	breadcrumb: PropTypes.string,
 };
 
 export default BasePage;

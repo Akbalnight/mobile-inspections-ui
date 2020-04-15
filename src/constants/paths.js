@@ -3,6 +3,7 @@ import Catalog from '../components/Catalog/Catalog';
 import CatalogData from '../components/Catalog/CatalogData';
 import TechMaps from "../components/TechMaps/TechMaps";
 import Debug from "../components/Debug/Debug";
+import TechMapData from "../components/TechMaps/TechMapData";
 
 export const paths = {
 	HOME: {
@@ -62,7 +63,8 @@ export const paths = {
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
 		title: 'Технологическая карта',
-		path: '/controlEquipments/techMaps/:id'
+		path: '/controlEquipments/techMaps/:id',
+		component: TechMapData
 	},
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',

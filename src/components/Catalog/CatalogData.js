@@ -4,18 +4,20 @@ import {
 	apiGetDataByConfigName
 } from '../../apis/catalog.api';
 import {AdvancedTable} from 'rt-design';
+import { Button } from 'antd';
 import { FolderOutlined, ToolOutlined } from '@ant-design/icons';
+import less from 'less';
 
 const CatalogData = props => {
 	const [mounted, setMounted] = useState(false);
 	const [configData, setConfigData] = useState({});
 
-	const [titleSaveForm, setTitleSaveForm] = useState(false);
-	const [typeOperationSaveForm, setTypeOperationSaveForm] = useState(false);
+	const [titleSaveForm, setTitleSaveForm] = useState("");
+	const [typeOperationSaveForm, setTypeOperationSaveForm] = useState("");
 	const [visibleSaveForm, setVisibleSaveForm] = useState(false);
 
-	const [titleSaveGroup, setTitleSaveGroup] = useState(false);
-	const [typeOperationSaveGroup, setTypeOperationSaveGroup] = useState(false);
+	const [titleSaveGroup, setTitleSaveGroup] = useState("");
+	const [typeOperationSaveGroup, setTypeOperationSaveGroup] = useState("");
 	const [visibleSaveGroup, setVisibleSaveGroup] = useState(false);
 
 	const [selectObject, setSelectObject] = useState({});
@@ -96,8 +98,17 @@ const CatalogData = props => {
 		}
 	];
 
-	const onClickUpHandler = () => {
-		console.log("tableRef ", tableRef);
+	const onClickUpH = () => {
+		less.modifyVars(
+			{
+				"@font-size-base": "15px",
+				"@label-color" : "#848484",
+				"@input-color" : "#525254",
+				"@cmd-panel-border-width": '5px',
+				'@btn-primary-color': 'red'
+			}
+		);
+		less.refreshStyles();
 	};
 
 	return mounted ? (
@@ -131,14 +142,16 @@ const CatalogData = props => {
                     onClickAddGroup: onClickAddGroupHandler,
                     onClickEdit: onClickEditHandler,
                     onClickDelete: (event, selectedRowKeys) => console.log('selectedRowKeys catalog', selectedRowKeys),
-					onClickUp: onClickUpHandler,
+					centerCustomSideElement: (
+						<Button size={'small'} type='primary' onClick={onClickUpH}>
+							Custom element
+						</Button>
+					),
                     showElements: [
                             'add',
                             'addGroup',
                             'edit',
                             'delete',
-                            'addAsCopy',
-							'up'
                     ]
                 }}
 

@@ -1,72 +1,129 @@
-.TechMaps {
-	.TechMapsList,
-	.TechMapData {
-		height: 100%;
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		.ant-result .anticon.anticon-arrow-left {
-			font-size: 40px;
-		}
-	}
-	.TechMapsList {
-		.BaseTable__row-cell a {
-			height: 100%;
-			width: 100%;
-			line-height: 30px;
-		}
-	}
-	.TechMapData {
-		.tmTitle {
-			border-bottom: 3px solid #f0f2f5;
-			padding: 5px 15px 4px 15px;
-			font-size: 20px;
-		}
+@import "../../utils/lib";
 
-		#TechMapDataForm {
-			flex: 1 1;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			.FieldsLine {
-				padding: 10px 18px 0px 18px;
-				display: flex;
-				.ant-row {
-					flex-direction: column;
-					.ant-form-item-label {
-						text-align: left;
-					}
-
-					&.tmName {
-						width: 200px;
-					}
-
-					&.tmCode {
-						width: 100px;
-					}
-
-					&.tmStatus {
-						width: 100px;
-					}
-				}
-			}
-		}
-
-		.OperationsTable {
-			flex: 1 1;
-			//height: 100%;
-			.ant-checkbox-disabled.ant-checkbox-checked
-				.ant-checkbox-inner::after {
-				border-color: #1890ff;
-			}
-		}
-      .tmDataFooter{
-        text-align: right;
-        padding: 15px;
-        .ant-form-item{
-          margin-bottom: 0;
-        }
-      }
+.TechMapsList,
+.TechMapData {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.ant-result .anticon.anticon-arrow-left {
+		font-size: 40px;
 	}
 }
+.TechMapsList {
+	width: 100%;
+	.BaseTable__row-cell a {
+		height: 100%;
+		width: 100%;
+		line-height: 30px;
+	}
+}
+.TechMapData {
+	.tmTitle {
+		border-bottom: 3px solid #f0f2f5;
+		padding: 5px 15px 4px 20px;
+		font-size: 20px;
+	}
+
+	#TechMapDataForm {
+		flex: 1 1;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		.InfoTitle{
+			color: @input-color;
+			font-size: 14px;
+			font-weight: 600;
+			padding: 0 20px 10px 20px;
+		}
+		.FieldsLine {
+			padding: 10px 20px;
+			//	padding: 10px 18px 0px 18px;
+			//	display: flex;
+			//	.ant-row {
+			//		flex-direction: column;
+			//		margin-right: 10px;
+			//		.ant-form-item-label {
+			//			text-align: left;
+			//		}
+			//
+			//		&.tmName {
+			//			width: 200px;
+			//		}
+			//
+			//		&.tmCode {
+			//			width: 100px;
+			//		}
+			//
+			//		&.tmStatus {
+			//			width: 100px;
+			//		}
+			//	}
+		}
+	}
+
+	.OperationsTable {
+		flex: 1 1;
+		padding: 0 20px;
+		//height: 100%;
+		.ant-checkbox-disabled.ant-checkbox-checked
+		.ant-checkbox-inner::after {
+			border-color: #1890ff;
+		}
+	}
+	.tmDataFooter{
+		text-align: right;
+		padding: 15px 20px;
+		.cancelButton{
+			margin-right: 15px;
+		}
+		.ant-form-item{
+			margin-bottom: 0;
+		}
+	}
+}
+.TechMap-InfoModal{
+	.InfoTitle{
+		font-size: 14px;
+		//color: #525254;
+		color: @input-color;
+		font-weight: 600;
+		margin-bottom: 10px;
+	}
+	.InfoItem{
+		display: flex;
+		margin-bottom: 5px;
+		div:first-child{
+			color: #848484;
+			flex: 2 1;
+			//opacity: 0.75;
+		}
+		div:last-child{
+			color: @input-color;
+			flex: 6 1;
+			border: 1px solid #DDDFE1;
+			padding: 5px 10px;
+		}
+	}
+	.ant-checkbox-disabled.ant-checkbox-checked
+	.ant-checkbox-inner::after {
+		border-color: #1890ff;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

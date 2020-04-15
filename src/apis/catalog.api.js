@@ -8,6 +8,12 @@ export const apiGetConfigByName = ({configName, data, params}) =>
 		params
 	});
 
+export const apiGetConfigByName_2 = (configName) => () =>
+	genericRequest({
+		url: '/api/management-dynamicdq/configuration/'+configName,
+		method: 'GET',
+	});
+
 export const apiGetFlatDataByConfigName = (configName) => ({data, params}) =>
 	apiGetDataByConfigName({
 		configName: configName,
@@ -87,5 +93,12 @@ export const apiGetTechMapById = ({id, params}) =>
 	genericRequest({
 		url: `/api/catalog/techMaps/${id}`,
 		method: 'GET',
+		params
+	})
+export const apiSaveTechMap = ({method, data, params}) =>
+	genericRequest({
+		url: `/api/catalog/techMaps`,
+		method: method,
+		data,
 		params
 	});

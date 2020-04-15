@@ -1,27 +1,37 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import SplitPane, {Pane} from 'react-split-pane';
+// import PropTypes from 'prop-types';
 import BasePage from '../App/BasePage';
 import {AdvancedTable} from 'rt-design';
 import {
 	apiGetConfigByName,
-	apiGetDataByConfigName
+	apiGetDataByConfigName,
+	apiGetConfigByName_2
 } from '../../apis/catalog.api';
-import {Route, Switch, useLocation, useHistory} from 'react-router';
+import {useLocation, useHistory} from 'react-router';
 import {Link} from 'react-router-dom';
 import {paths} from '../../constants/paths';
-import {Checkbox, Result} from 'antd';
-import {ArrowLeftOutlined, FolderOutlined} from '@ant-design/icons';
-import TechMapData from './TechMapData';
-import TechMapGroupData from "./TechMapGroupData";
+import {FolderOutlined} from '@ant-design/icons';
 
 import './TechMaps.less';
+import TechMapDataView from "./TechMapDataView";
+import TechMapGroupView from "./TechMapGroupView";
+import {default as TechMapGroupEdit} from "../Catalog/Forms/BaseModals/BaseModalWithParentId";
 
 const TechMaps = props => {
 	const [mounted, setMounted] = useState(false);
 	const [configData, setConfigData] = useState({});
 
+	const [titleViewForm, setTitleViewForm] = useState("");
+	const [visibleDataViewForm, setVisibleDataViewForm] = useState(false);
+	const [visibleGroupViewForm, setVisibleGroupViewForm] = useState(false);
+	const [visibleGroupSaveForm, setVisibleGroupSaveForm] = useState(false);
+	const [typeOperationGroupSaveForm, setTypeOperationGroupSaveForm] = useState('');
+
 	const [selectTechMap, setSelectTechMap] = useState({});
+
+	/** Ссылка на объект таблицы */
+	const [tableRef, setTableRef] = useState({});
+	const _setTableRef = (ref) => setTableRef(ref);
 
 	let {pathname} = useLocation();
 	let history = useHistory();
@@ -43,20 +53,6 @@ const TechMaps = props => {
 			});
 	};
 
-	const rowRenderer = ({rowData, rowIndex, cells, columns}) => {
-		console.log('rowRenderer -> cells', cells);
-		return cells.map(item => {
-			return React.createElement(
-				Link,
-				{
-					to: `${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/${rowData.id}`
-				},
-				item
-			);
-		});
-		// return cells
-	};
-
 	const customCellRenders = [
 		{
 			name: 'code',
@@ -67,6 +63,43 @@ const TechMaps = props => {
 			cellRender: ({ rowData }) => rowData.isGroup ? <FolderOutlined style={{fontSize: '17px'}}  /> : <div>{rowData.techMapsStatusName}</div>
 		}
 	];
+
+	const onClickAddHandler = () => {
+		history.push(
+			`${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/new`
+		);
+	};
+
+	const onClickAddGroupHandler = () => {
+		setTitleViewForm(`Создание группы технологических карт`);
+		setTypeOperationGroupSaveForm('create');
+		setSelectTechMap({});
+		setVisibleGroupSaveForm(true)
+	};
+
+	const onClickEditHandler = (event, {rowData}) => {
+		if(rowData.isGroup) {
+			setTitleViewForm(`Изменение группы технологических карт ${rowData.code}`);
+			setTypeOperationGroupSaveForm('update');
+			setSelectTechMap(rowData);
+			setVisibleGroupSaveForm(true)
+		} else {
+			history.push(
+				`${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/${rowData.id}`
+			);
+		}
+	};
+
+	const onRowDoubleClickHandler = ({rowData}) => {
+		if(rowData.isGroup) {
+			setTitleViewForm(`Группа технологических карт ${rowData.code}`);
+			setVisibleGroupViewForm(true);
+		} else {
+			setTitleViewForm(`Технологическая карта ${rowData.code}`);
+			setVisibleDataViewForm(true);
+		}
+		setSelectTechMap(rowData);
+	};
 
 	const pathNameSplitted = pathname.split('/');
 	// console.log("pathNameSplitted", pathNameSplitted);
@@ -79,66 +112,86 @@ const TechMaps = props => {
 						: null
 				}
 			>
-				<SplitPane
-					className={'TechMaps'}
-					split='vertical'
-					// minSize={200}
-					// maxSize={500}
-					defaultSize={'30%'}
-				>
-					<div className={'TechMapsList'}>
-						<AdvancedTable
-							autoDeleteRows={false}
-							configData={configData}
-							defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []}
-							customCellRenders={customCellRenders}
-							expandDefaultAll={true}
-							fixWidthColumn={false}
-							section={'TechMapsList'}
-							showElements={[
+				<div className={'TechMapsList'}>
+					<AdvancedTable
+						ref={_setTableRef}
+						autoDeleteRows={false}
+						configData={configData}
+						defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []}
+						customCellRenders={customCellRenders}
+						expandDefaultAll={true}
+						fixWidthColumn={false}
+						type={'serverSide'}
+
+						// rowRenderer={rowRenderer}
+						// onRowClick={({selected, rowKey, rowData}) => {
+						// 	setSelectTechMap(rowData);
+						// }}
+						onRowDoubleClick={onRowDoubleClickHandler}
+						requestLoadRows={({data, params}) =>
+							apiGetDataByConfigName({
+								configName: configData.configName,
+								hierarchical: configData.hierarchical,
+								lazyLoad: configData.hierarchyLazyLoad,
+								data,
+								params
+							})
+						}
+						// requestLoadConfig={apiGetConfigByName_2('techMaps')}
+
+						commandPanelProps={{
+							onClickAdd: onClickAddHandler,
+							onClickAddGroup: onClickAddGroupHandler,
+							onClickEdit: onClickEditHandler,
+							showElements: [
 								'add',
-								'addAsCopy',
 								'addGroup',
+								'edit',
 								'delete'
-							]}
-							// rowRenderer={rowRenderer}
-							onRowClick={({selected, rowKey, rowData}) => {
-                                setSelectTechMap(rowData);
-								if (selected)
-									history.push(
-										`${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/${rowKey}`
-									);
-							}}
-							requestLoadRows={({data, params}) =>
-								apiGetDataByConfigName({
-									configName: configData.configName,
-									hierarchical: configData.hierarchical,
-									lazyLoad: configData.hierarchyLazyLoad,
-									data,
-									params
-								})
-							}
-						/>
-					</div>
-					<div className={'TechMapData'}>
-						<Switch>
-							<Route
-								exact
-								path={
-									paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.path
-								}
-								// component={TechMapData}
-								render={() => selectTechMap.isGroup ? <TechMapGroupData/> : <TechMapData/>}
-							/>
-							<Route>
-								<Result
-									title='Выберите технологическую карту'
-									extra={<ArrowLeftOutlined />}
-								/>
-							</Route>
-						</Switch>
-					</div>
-				</SplitPane>
+							]
+						}}
+					/>
+				</div>
+					{/*<div className={'TechMapData'}>*/}
+					{/*	<Switch>*/}
+					{/*		<Route*/}
+					{/*			exact*/}
+					{/*			path={*/}
+					{/*				paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.path*/}
+					{/*			}*/}
+					{/*			// component={TechMapData}*/}
+					{/*			render={() => selectTechMap.isGroup ? <TechMapGroupData/> : <TechMapData/>}*/}
+					{/*		/>*/}
+					{/*		<Route>*/}
+					{/*			<Result*/}
+					{/*				title='Выберите технологическую карту'*/}
+					{/*				extra={<ArrowLeftOutlined />}*/}
+					{/*			/>*/}
+					{/*		</Route>*/}
+					{/*	</Switch>*/}
+					{/*</div>*/}
+				<TechMapDataView
+					title={titleViewForm}
+					visible={visibleDataViewForm}
+					setVisible={setVisibleDataViewForm}
+					rowData={selectTechMap}
+				/>
+				<TechMapGroupView
+					title={titleViewForm}
+					visible={visibleGroupViewForm}
+					setVisible={setVisibleGroupViewForm}
+					rowData={selectTechMap}
+				/>
+
+				<TechMapGroupEdit
+					title={titleViewForm}
+					visible={visibleGroupSaveForm}
+					typeOperation={typeOperationGroupSaveForm}
+					setVisibleSaveForm={setVisibleGroupSaveForm}
+					initFormObject={selectTechMap}
+					catalogName={'techMaps'}
+					setReloadTable={tableRef && tableRef.reloadData} // onClickUpHandler.bind(tableRef)
+				/>
 			</BasePage>
 		);
 	} else return null;

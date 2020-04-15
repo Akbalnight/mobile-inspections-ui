@@ -53,9 +53,17 @@ const Routes = () => {
 				component={paths.CONTROL_EQUIPMENTS_WORK_SCHEDULES.component}
 			/>
 			<Route
+				exact
 				path={paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}
 				component={
 					paths.CONTROL_EQUIPMENTS_TECH_MAPS.component
+				}
+			/>
+			<Route
+				exact
+				path={paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.path}
+				component={
+					paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.component
 				}
 			/>
 

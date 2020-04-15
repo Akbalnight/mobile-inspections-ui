@@ -257,7 +257,7 @@ EquipmentsModal.propTypes = {
 	visible: PropTypes.bool,
 	typeOperation: PropTypes.string,
 	setVisibleSaveForm: PropTypes.func,
-	initFormObject: PropTypes.func,
+	initFormObject: PropTypes.object,
 	catalogName: PropTypes.string,
 	setReloadTable: PropTypes.func,
 };
