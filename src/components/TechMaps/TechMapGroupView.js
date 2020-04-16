@@ -1,13 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    apiGetConfigByName,
-    apiGetDataByConfigName,
-} from '../../apis/catalog.api';
-import {Checkbox, Button, Modal} from 'antd';
-import {AdvancedTable} from 'rt-design';
-
-import {toDDMMYYYYdot} from "../../utils/datesUtils";
+import {Button, Modal} from 'antd';
 
 const TechMapGroupView = props => {
 
@@ -34,7 +27,6 @@ const TechMapGroupView = props => {
 				</Button>,
 			]}
 		>
-			{/*<div className={'tmTitle'}>Информация о технологической карте</div>*/}
 			<div>
 				<div className={'InfoItem'}>
 					<div>Наименование</div>
@@ -59,6 +51,5 @@ TechMapGroupView.propTypes = {
 	setVisible: PropTypes.func,
 	rowData: PropTypes.object,
 };
-
 
 export default TechMapGroupView;

@@ -12,15 +12,10 @@ import Help from './Header/Help';
 
 const {Header, Content} = Layout;
 
-const info = (text) => {
-
-};
-
 const BasePage = props => {
 	const {path, breadcrumb} = props;
 
 	let match = useRouteMatch();
-	// let pathname = useLocation();
 	// console.log('match.path', pathname);
 	return (
 		<>

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Form, Input, InputNumber, Modal, notification, Checkbox} from "antd";
+import {Form, Input, InputNumber, Modal, Checkbox} from "antd";
 
 const TechOperationsModal = props => {
 
@@ -34,24 +34,10 @@ const TechOperationsModal = props => {
             .then(values => {
                 // onSave(values);
                 const saveObject = {...initFormObject, ...values, duration: parseInt(values.hours * 60) + parseInt(values.minutes)};
-                console.log('onSave:', saveObject);
-                // const method = typeOperation === 'create' ? 'POST' : 'PUT';
+                // console.log('onSave:', saveObject);
 
                 onSave(saveObject);
                 setVisible(false);
-                // apiSaveBaseCatalog({catalogName, method, data: saveObject})
-                //     .then(response => {
-                //         // console.log('response -> ', response);
-                //         notification.success({message: 'Сохранение прошло успешно'});
-                //         form.resetFields();
-                //         setVisible(false);
-                //     })
-                //     .catch(error => {
-                //         console.log('error -> ', error);
-                //         notification.error({
-                //             message: 'Произошла ошибка при хохранении'
-                //         });
-                //     });
             })
             .catch(info => {
                 console.log('Validate Failed:', info);

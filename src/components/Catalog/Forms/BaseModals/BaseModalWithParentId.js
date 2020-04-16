@@ -5,7 +5,6 @@ import {LoadingOutlined} from '@ant-design/icons';
 import {Select} from 'rt-design';
 import {
 	apiSaveBaseCatalogWithParentId,
-	apiGetHierarchicalDataByConfigName,
 	apiGetFlatDataByConfigName, apiGetDataByConfigName
 } from '../../../../apis/catalog.api';
 
@@ -34,7 +33,7 @@ const BaseModalWithParentId = props => {
 		if (visible) {
 			if (mounted) {
 				setLoading(true);
-				console.log('initFormObject', initFormObject);
+				// console.log('initFormObject', initFormObject);
 				setTimeout(() => {
 					form.resetFields();
 					setLoading(false);

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+import {AdvancedTable} from 'rt-design';
+import {Checkbox, Button, Modal} from 'antd';
+import {toDDMMYYYYdot} from "../../utils/datesUtils";
 import {
     apiGetConfigByName,
     apiGetDataByConfigName,
 } from '../../apis/catalog.api';
-import {Checkbox, Button, Modal} from 'antd';
-import {AdvancedTable} from 'rt-design';
-
-import {toDDMMYYYYdot} from "../../utils/datesUtils";
 
 const TechMapDataView = props => {
 

@@ -32,21 +32,18 @@ const TechMaps = () => {
 	let history = useHistory();
 
 	useEffect(() => {
-		loadConfig();
-	}, []);
-
-	const loadConfig = () => {
-		console.log('loadConfig -> setConfigData');
-		apiGetConfigByName({configName: 'techMaps'})
-			.then(response => {
-				setConfigData(response.data);
-				if (!mounted) setMounted(true);
-				// console.log('result -> ', result);
-			})
-			.catch(error => {
-				console.log('error -> ', error);
-			});
-	};
+		if (!mounted) {
+			// console.log('loadConfig -> setConfigData');
+			apiGetConfigByName({configName: 'techMaps'})
+				.then(response => {
+					setConfigData(response.data);
+					setMounted(true);
+				})
+				.catch(error => {
+					console.log('error -> ', error);
+				});
+		}
+	}, [mounted]);
 
 	const customCellRenders = [
 		{

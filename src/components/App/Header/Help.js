@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import {version} from '../../../../package.json';
 
 const Help = () => {
@@ -11,8 +9,6 @@ const Help = () => {
     );
 };
 
-Help.propTypes = {
-
-};
+Help.propTypes = {};
 
 export default Help;
