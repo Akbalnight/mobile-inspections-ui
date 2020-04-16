@@ -1,23 +1,18 @@
 import React, {useEffect, useState} from 'react';
-// import PropTypes from 'prop-types';
 import BasePage from '../App/BasePage';
 import {AdvancedTable} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetDataByConfigName,
-	apiGetConfigByName_2
 } from '../../apis/catalog.api';
 import {useLocation, useHistory} from 'react-router';
-import {Link} from 'react-router-dom';
 import {paths} from '../../constants/paths';
 import {FolderOutlined} from '@ant-design/icons';
-
-import './TechMaps.less';
 import TechMapDataView from "./TechMapDataView";
 import TechMapGroupView from "./TechMapGroupView";
 import {default as TechMapGroupEdit} from "../Catalog/Forms/BaseModals/BaseModalWithParentId";
 
-const TechMaps = props => {
+const TechMaps = () => {
 	const [mounted, setMounted] = useState(false);
 	const [configData, setConfigData] = useState({});
 
@@ -102,7 +97,6 @@ const TechMaps = props => {
 	};
 
 	const pathNameSplitted = pathname.split('/');
-	// console.log("pathNameSplitted", pathNameSplitted);
 	if (mounted) {
 		return (
 			<BasePage
@@ -122,11 +116,6 @@ const TechMaps = props => {
 						expandDefaultAll={true}
 						fixWidthColumn={false}
 						type={'serverSide'}
-
-						// rowRenderer={rowRenderer}
-						// onRowClick={({selected, rowKey, rowData}) => {
-						// 	setSelectTechMap(rowData);
-						// }}
 						onRowDoubleClick={onRowDoubleClickHandler}
 						requestLoadRows={({data, params}) =>
 							apiGetDataByConfigName({
@@ -137,7 +126,6 @@ const TechMaps = props => {
 								params
 							})
 						}
-						// requestLoadConfig={apiGetConfigByName_2('techMaps')}
 
 						commandPanelProps={{
 							onClickAdd: onClickAddHandler,
@@ -152,24 +140,6 @@ const TechMaps = props => {
 						}}
 					/>
 				</div>
-					{/*<div className={'TechMapData'}>*/}
-					{/*	<Switch>*/}
-					{/*		<Route*/}
-					{/*			exact*/}
-					{/*			path={*/}
-					{/*				paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.path*/}
-					{/*			}*/}
-					{/*			// component={TechMapData}*/}
-					{/*			render={() => selectTechMap.isGroup ? <TechMapGroupData/> : <TechMapData/>}*/}
-					{/*		/>*/}
-					{/*		<Route>*/}
-					{/*			<Result*/}
-					{/*				title='Выберите технологическую карту'*/}
-					{/*				extra={<ArrowLeftOutlined />}*/}
-					{/*			/>*/}
-					{/*		</Route>*/}
-					{/*	</Switch>*/}
-					{/*</div>*/}
 				<TechMapDataView
 					title={titleViewForm}
 					visible={visibleDataViewForm}
@@ -190,7 +160,7 @@ const TechMaps = props => {
 					setVisibleSaveForm={setVisibleGroupSaveForm}
 					initFormObject={selectTechMap}
 					catalogName={'techMaps'}
-					setReloadTable={tableRef && tableRef.reloadData} // onClickUpHandler.bind(tableRef)
+					setReloadTable={tableRef && tableRef.reloadData}
 				/>
 			</BasePage>
 		);

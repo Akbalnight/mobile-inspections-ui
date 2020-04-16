@@ -4,9 +4,7 @@ import {
 	apiGetDataByConfigName
 } from '../../apis/catalog.api';
 import {AdvancedTable} from 'rt-design';
-import { Button } from 'antd';
 import { FolderOutlined, ToolOutlined } from '@ant-design/icons';
-import less from 'less';
 
 const CatalogData = props => {
 	const [mounted, setMounted] = useState(false);
@@ -98,19 +96,6 @@ const CatalogData = props => {
 		}
 	];
 
-	const onClickUpH = () => {
-		less.modifyVars(
-			{
-				"@font-size-base": "15px",
-				"@label-color" : "#848484",
-				"@input-color" : "#525254",
-				"@cmd-panel-border-width": '5px',
-				'@btn-primary-color': 'red'
-			}
-		);
-		less.refreshStyles();
-	};
-
 	return mounted ? (
 		<>
 			<AdvancedTable
@@ -142,11 +127,6 @@ const CatalogData = props => {
                     onClickAddGroup: onClickAddGroupHandler,
                     onClickEdit: onClickEditHandler,
                     onClickDelete: (event, selectedRowKeys) => console.log('selectedRowKeys catalog', selectedRowKeys),
-					centerCustomSideElement: (
-						<Button size={'small'} type='primary' onClick={onClickUpH}>
-							Custom element
-						</Button>
-					),
                     showElements: [
                             'add',
                             'addGroup',

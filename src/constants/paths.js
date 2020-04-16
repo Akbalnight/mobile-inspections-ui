@@ -29,32 +29,37 @@ export const paths = {
 	DETOURS_CONFIGURATOR: {
 		title: 'Конфигуратор обходов',
 		path: '/detours-configurator',
-		redirect: '/detours-configurator/control-points'
+		component: Home
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
-		path: '/detours-configurator/control-points'
+		path: '/detours-configurator/control-points',
+		component: Home
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',
-		path: '/detours-configurator/routes'
+		path: '/detours-configurator/routes',
+		component: Home
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов',
-		path: '/detours-configurator/detours-schedules'
+		path: '/detours-configurator/detours-schedules',
+		component: Home
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
-		path: '/detours-configurator/route-maps'
+		path: '/detours-configurator/route-maps',
+		component: Home
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',
 		path: '/controlEquipments',
-		redirect: '/controlEquipments/work-schedules'
+		component: Home
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
-		path: '/controlEquipments/work-schedules'
+		path: '/controlEquipments/work-schedules',
+		component: Home
 	},
 	CONTROL_EQUIPMENTS_TECH_MAPS: {
 		title: 'Технологические карты и операции',
@@ -69,22 +74,26 @@ export const paths = {
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
-		redirect: '/control-defects/defects'
+		component: Home
 	},
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
-		path: '/control-defects/defects'
+		path: '/control-defects/defects',
+		component: Home
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
-		path: '/control-defects/panel-problems'
+		path: '/control-defects/panel-problems',
+		component: Home
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {
 		title: 'Панель отклонений',
-		path: '/control-defects/panel-deviations'
+		path: '/control-defects/panel-deviations',
+		component: Home
 	},
 	ANALYTICS: {
 		title: 'Аналитика и отчетность',
-		path: '/analytics'
+		path: '/analytics',
+		component: Home
 	}
 };

@@ -8,7 +8,7 @@ module.exports = function(app) {
 	app.use(
 		'/api/catalog',
 		createProxyMiddleware({
-			target: `${LOCAL_API_URL}:8803/catalog`,
+			target: `${API_URL}:8803/catalog`,
 			pathRewrite: {'^/api/catalog': ''}
 		})
 	);

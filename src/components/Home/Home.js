@@ -1,15 +1,26 @@
 import React from 'react';
 import {Result} from 'antd';
 import BasePage from "../App/BasePage";
+import {paths} from "../../constants/paths";
+import {useRouteMatch} from "react-router";
 
 const Home = () => {
+
+	let match = useRouteMatch();
+
+
+	const title = () => {
+		for (const pathItem in paths) {
+			if (paths[pathItem].path === match.path) return paths[pathItem].title;
+		}
+	};
 	return (
 		<BasePage>
 			<Result
 				style={{flex: '1 1 auto'}}
 				status='404'
 				title='Делаем'
-				subTitle='Мы очень стараемся, но пока не получается'
+				subTitle={`Страница [${title()}] находится в другом измерении, мы заняты ее материализацией`}
 				extra={
 					<a
 						style={{

@@ -1,7 +1,32 @@
-@import '~antd/lib/style/themes/default.less';
-//@import '~rt-design/dist/index.css';
+//@import '~antd/lib/style/themes/default.less';
+
 @import '~rt-design/lib/index';
+
+@import "./constants/variables";
+
+@import "./components/App/App.less";
+@import "./components/Catalog/Catalog.less";
+@import "./components/Menu/Menu.less";
+@import "./components/TechMaps/TechMaps.less";
 
 #root {
 	height: 100vh;
 }
+
+.SplitPane {
+	position: static !important;
+	display: flex;
+	.Pane {
+		display: flex;
+		overflow-x: hidden;
+	}
+	.Resizer.vertical {
+		width: 4px;
+		background: #f0f2f5;
+		&:hover {
+			cursor: col-resize;
+			//background: red;
+		}
+	}
+}
+

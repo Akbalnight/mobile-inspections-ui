@@ -1,7 +1,6 @@
 import React from 'react';
 import SplitPane from 'react-split-pane';
 import {List} from 'rt-design';
-import './Catalog.less';
 import {Link, useLocation} from 'react-router-dom';
 import {paths} from '../../constants/paths';
 import {Route, Switch} from 'react-router';

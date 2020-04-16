@@ -1,157 +1,40 @@
-@import '../../utils/lib';
-
-@MainMenuBackground: #205d79;
-//@MainMenuSelectBackground: #22262b;
-@MainMenuSelectBackground: #023040;
-
 .rootLayout {
 	height: 100%;
 
-	// Боковой блок
-	.ant-layout-sider {
-		background-color: @MainMenuBackground;
-	}
-
-	// Боковое меню (развернутый вид)
-	.ant-menu.side-menu.ant-menu-dark {
-		margin-top: 9px;
-		background-color: @MainMenuBackground;
-
-		// Кнопка переключения меню
-		.toggle-button {
-			border-bottom: 1px solid #22262b;
-			text-align: right;
-			padding: 10px 25px 10px 10px;
-			margin-bottom: 10px;
-
-			div {
-				cursor: pointer;
-				font-size: 18px;
-			}
-		}
-
-		// Элементы меню и блоки под-меню
-		.ant-menu-item,
-		.ant-menu-submenu {
-			-webkit-transition: none;
-			transition: none;
-			border-radius: 5px;
-			width: 230px;
-			margin: auto;
-			margin-bottom: 10px;
-			padding: 0 10px !important;
-
-			// Заголовок под-меню
-			.ant-menu-submenu-title {
-				padding: 0 !important;
-			}
-
-			// Под-меню (другой класс)
-			.ant-menu-inline.ant-menu-sub {
-				background-color: transparent;
-				box-shadow: none;
-			}
-
-			// Под-меню
-			.ant-menu {
-				-webkit-transition: none;
-				transition: none;
-				// Элементы под-меню
-				.ant-menu-item {
-					-webkit-transition: none;
-					transition: none;
-					border-radius: 5px;
-					padding: 0 10px !important;
-				}
-			}
-		}
-
-		// Выделенные элементы меню и под-меню
-		.ant-menu-item-selected,
-		.ant-menu-submenu-selected {
-			background: @MainMenuSelectBackground;
-			border-top: 1px solid #013141;
-			border-bottom: 1px solid #307790;
-		}
-
-		// Открытый под-меню (SubMenu)
-		.ant-menu-submenu-open {
-			margin: 10px;
-			border-radius: 5px;
-			background-color: transparent;
-
-			.ant-menu-sub {
-				box-shadow: none;
-				border-radius: 5px;
-				background-color: transparent;
-
-				.ant-menu-item {
-					width: 100%;
-				}
-			}
-		}
-
-		// Выбранный под-меню элемент (SubMenu)
-		.ant-menu-submenu-selected {
-			background-color: #17546a;
-		}
-	}
-
-	// Боковое меню (свернутый вид)
-	.side-menu.ant-menu-dark.ant-menu-inline-collapsed {
-		width: 60px;
-
-		.toggle-button {
-			text-align: center;
-			padding: 10px;
-		}
-
-		> .ant-menu-item,
-		.ant-menu-submenu {
-			width: 40px;
-			text-align: center;
-			padding: 0 !important;
-		}
-
-		.ant-menu-submenu-title {
-			margin: 0;
-		}
-	}
-
 	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 40px;
 		margin: 5px 5px 0 5px;
 		padding: 10px;
 		background-color: white;
-		border: 1px solid #dddfe1;
-		display: flex;
-		align-items: center;
-		height: 40px;
+		border: 1px solid @page-layout-border-color;
+
+		.profileControl{
+			height: 40px;
+			display: flex;
+			align-items: center;
+
+			.headerIcon{
+				cursor: pointer;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				margin: 0 7px;
+			}
+		}
 	}
 
 	.rootLayoutContent {
 		background-color: white;
 		display: flex;
 		margin: 5px;
-		border: 1px solid #dddfe1;
+		border: 1px solid @page-layout-border-color;
 		align-items: center;
 	}
 }
 
-// Боковое меню (свернутый вид)
-// Попап под-меню (переоперделение стиля)
-.ant-menu-submenu-popup.ant-menu-dark {
-	.ant-menu-sub {
-		box-shadow: none;
-		border-radius: 5px;
-		background-color: @MainMenuBackground !important;
-	}
-
-	.ant-menu-item {
-		margin: 0;
-		border-radius: 5px;
-	}
-
-	.ant-menu-item-selected {
-		background-color: @MainMenuSelectBackground !important;
-	}
+.ant-popover-title{
+	color: @popover-color;
 }

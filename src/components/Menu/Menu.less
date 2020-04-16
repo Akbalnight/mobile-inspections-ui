@@ -1,30 +1,35 @@
-@MainMenuBackgroundActive: #013141;
 .Menu {
+
 	// Кнопка переключения меню
 	.toggleButton {
 		cursor: pointer;
-		border-bottom: 1px solid #013141;
-		//border-bottom: 1px solid #fff;
-		//padding: 10px 10px 10px 10px;
+		border-bottom-width: @custom-menu-toggle-btn-border-width;
+		border-bottom-style: @custom-menu-toggle-btn-border-style;
+		border-bottom-color: @custom-menu-toggle-btn-border-color;
 		margin-bottom: 10px;
-		text-align: right;
+		text-align: left;
 		font-size: 18px;
 		color: white;
 		display: flex;
+		padding: 6px 8px 0 8px;
+		justify-content: space-between;
 
-		.logoLink {
-			flex: 1 1 auto;
-			margin: 6px 8px 0 8px;
-			color: white;
+		.caretLeft{
 
-			.logoImg {
-				height: 35px;
-			}
 		}
-	}
+		.caretRight{
+			position: absolute;
+			left: 12px;
+		}
 
-	.toggleButton.collapsed {
-		text-align: center;
+		.logoImg {
+			height: 35px;
+		}
+
+		&.collapsed{
+			justify-content: center;
+
+		}
 	}
 
 	.subMenu {
@@ -34,11 +39,11 @@
 	}
 
 	.subMenuItem {
-		padding: 5px 10px;
+		padding: 7px 10px;
 		color: white;
 		//border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 		&.active {
-			background: @MainMenuBackgroundActive;
+			background: @custom-menu-active-bg;
 		}
 
 		span:first-child {
@@ -56,19 +61,77 @@
 
 		&:hover {
 			cursor: pointer;
-			background: #17556b;
+			background: @custom-menu-hover-bg
 		}
 
 		&.active {
-			background: @MainMenuBackgroundActive;
-			border-right: 3px solid #00b7ff;
+			background: @custom-menu-active-bg;
+			border-right-width: @custom-menu-active-rb-width;
+			border-right-style: @custom-menu-active-rb-style;
+			border-right-color: @custom-menu-active-rb-color;
 		}
 
 		a {
-			padding: 5px 10px;
+			padding: 7px 10px;
 			text-decoration: none;
 			color: white;
 			flex: 1 1 auto;
+			display: flex;
+			align-items: center;
 		}
 	}
+
+	&.collapsed{
+		.subMenu {
+			.menuItem {
+				display: none;
+			}
+		}
+		.menuItem.collapsed{
+			color: white;
+			//padding: 14px;
+			font-size: 16px;
+			text-align: center;
+			justify-content: center;
+
+			.anticon {
+				margin-right: 0;
+			}
+			a, div {
+				display: block;
+				padding: 14px;
+				text-decoration: none;
+				color: white;
+				flex: 1 1 auto;
+			}
+		}
+
+	}
+}
+.menuPopover{
+	.ant-popover-inner-content{
+		padding: 5px;
+
+		.popoverMenuItem.collapsed{
+			&:hover{
+				&:extend(.Menu .menuItem:hover);
+			}
+			&.active {
+				&:extend(.Menu .menuItem.active);
+			}
+			color: white;
+			padding: 4px;
+
+			.anticon {
+				margin-right: 0;
+			}
+			a {
+				padding: 0;
+				text-decoration: none;
+				color: white;
+				flex: 1 1 auto;
+			}
+		}
+	}
+
 }
