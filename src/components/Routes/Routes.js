@@ -30,6 +30,11 @@ const Routes = () => {
 			/>
 			<Route
 				exact
+				path={paths.DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA.path}
+				component={paths.DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA.component}
+			/>
+			<Route
+				exact
 				path={paths.DETOURS_CONFIGURATOR_ROUTES.path}
 				component={paths.DETOURS_CONFIGURATOR_ROUTES.component}
 			/>

@@ -4,6 +4,8 @@ import CatalogData from '../components/Catalog/CatalogData';
 import TechMaps from "../components/TechMaps/TechMaps";
 import Debug from "../components/Debug/Debug";
 import TechMapData from "../components/TechMaps/TechMapData";
+import ControlPoints from "../components/DetoursConfigurator/ControlPoints/ControlPoints";
+import ControlPointData from "../components/DetoursConfigurator/ControlPoints/ControlPointData";
 
 export const paths = {
 	HOME: {
@@ -34,7 +36,12 @@ export const paths = {
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: Home
+		component: ControlPoints
+	},
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
+		title: 'Контрольная точка',
+		path: '/detours-configurator/control-points/:id',
+		component: ControlPointData
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',

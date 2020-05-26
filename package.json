@@ -32,7 +32,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "export PORT=3001 && react-app-rewired start",
     "build": "react-app-rewired build",
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",

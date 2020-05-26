@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const DEFAULT_HEADERS = {
 	'Content-type': 'application/json',
-	userId: 1
+	userId: 10,
+	Authorization: 'Bearer 698937c6-8a66-4301-bf9c-ff780a925eac'
 };
 
 export const instance = axios.create({

@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import BasePage from '../App/BasePage';
 import {AdvancedTable} from 'rt-design';
 import {
-	apiGetConfigByName,
+	apiGetConfigByObject,
 	apiGetDataByConfigName,
 } from '../../apis/catalog.api';
 import {useLocation, useHistory} from 'react-router';
 import {paths} from '../../constants/paths';
 import {FolderOutlined} from '@ant-design/icons';
 import TechMapDataView from "./TechMapDataView";
-import TechMapGroupView from "./TechMapGroupView";
+import GroupViewModal from "../Base/GroupViewModal";
 import {default as TechMapGroupEdit} from "../Catalog/Forms/BaseModals/BaseModalWithParentId";
 
 const TechMaps = () => {
@@ -34,7 +34,7 @@ const TechMaps = () => {
 	useEffect(() => {
 		if (!mounted) {
 			// console.log('loadConfig -> setConfigData');
-			apiGetConfigByName({configName: 'techMaps'})
+			apiGetConfigByObject({configName: 'techMaps'})
 				.then(response => {
 					setConfigData(response.data);
 					setMounted(true);
@@ -103,47 +103,45 @@ const TechMaps = () => {
 						: null
 				}
 			>
-				<div className={'TechMapsList'}>
-					<AdvancedTable
-						ref={_setTableRef}
-						autoDeleteRows={false}
-						configData={configData}
-						defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []}
-						customCellRenders={customCellRenders}
-						expandDefaultAll={true}
-						fixWidthColumn={false}
-						type={'serverSide'}
-						onRowDoubleClick={onRowDoubleClickHandler}
-						requestLoadRows={({data, params}) =>
-							apiGetDataByConfigName({
-								configName: configData.configName,
-								hierarchical: configData.hierarchical,
-								lazyLoad: configData.hierarchyLazyLoad,
-								data,
-								params
-							})
-						}
+				<AdvancedTable
+					ref={_setTableRef}
+					autoDeleteRows={false}
+					configData={configData}
+					defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []}
+					customCellRenders={customCellRenders}
+					expandDefaultAll={true}
+					fixWidthColumn={false}
+					type={'serverSide'}
+					onRowDoubleClick={onRowDoubleClickHandler}
+					requestLoadRows={({data, params}) =>
+						apiGetDataByConfigName({
+							configName: configData.configName,
+							hierarchical: configData.hierarchical,
+							lazyLoad: configData.hierarchyLazyLoad,
+							data,
+							params
+						})
+					}
 
-						commandPanelProps={{
-							onClickAdd: onClickAddHandler,
-							onClickAddGroup: onClickAddGroupHandler,
-							onClickEdit: onClickEditHandler,
-							showElements: [
-								'add',
-								'addGroup',
-								'edit',
-								'delete'
-							]
-						}}
-					/>
-				</div>
+					commandPanelProps={{
+						onClickAdd: onClickAddHandler,
+						onClickAddGroup: onClickAddGroupHandler,
+						onClickEdit: onClickEditHandler,
+						showElements: [
+							'add',
+							'addGroup',
+							'edit',
+							// 'delete'
+						]
+					}}
+				/>
 				<TechMapDataView
 					title={titleViewForm}
 					visible={visibleDataViewForm}
 					setVisible={setVisibleDataViewForm}
 					rowData={selectTechMap}
 				/>
-				<TechMapGroupView
+				<GroupViewModal
 					title={titleViewForm}
 					visible={visibleGroupViewForm}
 					setVisible={setVisibleGroupViewForm}

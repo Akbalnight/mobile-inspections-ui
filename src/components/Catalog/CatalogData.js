@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-	apiGetConfigByName,
+	apiGetConfigByObject,
 	apiGetDataByConfigName
 } from '../../apis/catalog.api';
 import {AdvancedTable} from 'rt-design';
@@ -33,7 +33,7 @@ const CatalogData = props => {
 	const _setTableRef = (ref) => setTableRef(ref);
 
 	useEffect(() => {
-		apiGetConfigByName({configName: catalogName})
+		apiGetConfigByObject({configName: catalogName})
 			.then(response => {
 				setConfigData(response.data);
 

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {useParams} from 'react-router';
 import {
-    apiGetConfigByName,
+    apiGetConfigByObject,
     apiGetDataByConfigName,
     apiGetTechMapById
 } from '../../apis/catalog.api';

@@ -6,7 +6,7 @@ import {Select} from 'rt-design';
 import {
 	apiGetDataByConfigName,
 	apiSaveEquipment,
-	apiGetFlatDataByConfigName
+	apiGetFlatDataByConfigName, apiGetHierarchicalDataByConfigName
 } from '../../../../apis/catalog.api';
 
 const EquipmentsGroupModal = props => {
@@ -157,10 +157,10 @@ const EquipmentsGroupModal = props => {
 									// onChangeKeys={selectParentHandler}
 									requestLoadRows={({data, params}) =>
 										apiGetDataByConfigName({
-											configName: 'equipmentsGroups',
+											configName: 'equipmentsAutoQuery', //'equipmentsGroups',
 											hierarchical: true,
 											lazyLoad: false,
-											data: {...data, owner: initFormObject && initFormObject.id},
+											data: {...data, isGroup: true, owner: initFormObject && initFormObject.id},
 											params
 										})
 									}

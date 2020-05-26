@@ -4,7 +4,7 @@ import {AdvancedTable} from 'rt-design';
 import {Checkbox, Button, Modal} from 'antd';
 import {toDDMMYYYYdot} from "../../utils/datesUtils";
 import {
-    apiGetConfigByName,
+    apiGetConfigByObject,
     apiGetDataByConfigName,
 } from '../../apis/catalog.api';
 
@@ -29,7 +29,7 @@ const TechMapDataView = props => {
 
 	async function loadForm() {
 		try {
-			const toConfig = await apiGetConfigByName({configName: 'techOperations'});
+			const toConfig = await apiGetConfigByObject({configName: 'techOperations'});
 			setTechOperationsConfig(toConfig.data);
 			setLoadingConfig(false);
 		} catch (error) {

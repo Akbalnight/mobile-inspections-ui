@@ -24,9 +24,9 @@ export const menu = [
 		...paths.HOME,
 		icon: HOME,
 	},
-	// {
-	// 	...paths.DEBUG
-	// },
+	{
+		...paths.DEBUG
+	},
 	{
 		...paths.CATALOG,
 		icon: CATALOG

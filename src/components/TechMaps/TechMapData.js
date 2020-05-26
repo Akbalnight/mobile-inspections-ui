@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {useHistory, useParams} from 'react-router';
 import {
-	apiGetConfigByName,
+	apiGetConfigByObject,
 	apiGetDataByConfigName,
 	apiGetFlatDataByConfigName,
 	apiGetTechMapById,
@@ -52,7 +52,7 @@ const TechMapData = () => {
 		async function fetchData() {
 			try {
 				setLoadingConfig(true);
-				const toConfig = await apiGetConfigByName({
+				const toConfig = await apiGetConfigByObject({
 					configName: 'techOperations'
 				});
 				setTechOperationsConfig(toConfig.data);
@@ -241,21 +241,22 @@ const TechMapData = () => {
 
 	return (
 		<BasePage
-			className={'TechMapData'}
+			className={'TechMapData PageForm'}
 			breadcrumb={
 				params.id === 'new'
 					? 'Создание технологической карты'
 					: `Технологическая карта ${initFormObject.code}`
 			}
 		>
+            <div className={'PageFormTitle'}>
+                Информация о технологической карте
+            </div>
 			<Form
 				{...layout}
-				name='TechMapDataForm'
+				name='PageFormData'
 				form={form}
 				size={'small'}
 				labelAlign={'left'}
-				// onFinish={onFinish}
-				// onFinishFailed={onFinishFailed}
 				initialValues={{
 					code: initFormObject && initFormObject.code,
 					name: initFormObject && initFormObject.name,
@@ -273,141 +274,123 @@ const TechMapData = () => {
 							: null
 				}}
 			>
-				<div className={'tmTitle'}>
-					Информация о технологической карте
-				</div>
-				<div className={'FieldsLine'}>
-					{params.id !== 'new' ? (
-						<Form.Item
-							className={'tmCode'}
-							label='Код'
-							name='code'
-							rules={[
-								{
-									required: true,
-									message: 'Пожалуйста введите код'
-								}
-							]}
-						>
-							<InputNumber
-								style={{width: '100%'}}
-								min={1}
-								max={99999999}
-								size={'small'}
-								placeholder='Введите значение'
-							/>
-						</Form.Item>
-					) : null}
-					<Form.Item
-						className={'tmName'}
-						label='Наименование'
-						name='name'
-						rules={[
-							{
-								required: true,
-								message: 'Пожалуйста введите наименование'
-							}
-						]}
-					>
-						<Input size={'small'} placeholder='Введите значение' />
-					</Form.Item>
-					<Form.Item
-						label='Группа'
-						name='parentId'
-						getValueFromEvent={selectHandler}
-						trigger={'onChangeKeys'}
-						rules={[
-							{
-								required: true,
-								message: 'Пожалуйста выберите группу'
-							}
-						]}
-					>
-						<Select
-							name={'parentId'}
-							section={'SelectTechMapsParent'}
-							type={'SingleSelect'}
-							expandColumnKey={'id'}
-							rowRender={'name'}
-							nodeAssociated={false}
-							expandDefaultAll={true}
-							widthControl={0}
-							heightPopup={300}
-							defaultSelectedRowKeys={
-								initFormObject && initFormObject.parentId
-									? [initFormObject.parentId]
-									: null
-							}
-							// onChangeKeys={selectParentHandler}
-							// requestLoadRows={ apiGetHierarchicalDataByConfigName('techMaps') }
-							requestLoadRows={({data, params}) =>
-								apiGetDataByConfigName({
-									configName: 'techMaps',
-									hierarchical: true,
-									lazyLoad: false,
-									data: {...data, isGroup: true},
-									params
-								})
-							}
-							requestLoadDefault={apiGetFlatDataByConfigName(
-								'techMaps'
-							)}
-						/>
-					</Form.Item>
+				{/*<div className={'FieldsLine'}>*/}
+                <div className={'PageFormDataTitle'}>Описание</div>
+                {params.id !== 'new' ? (
+                <Form.Item
+                    className={'tmCode'}
+                    label='Код'
+                    name='code'
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Пожалуйста введите код'
+                        }
+                    ]}
+                >
+                    <InputNumber
+                        style={{width: '100%'}}
+                        min={1}
+                        max={99999999}
+                        size={'small'}
+                        placeholder='Введите значение'
+                    />
+                </Form.Item>
+                ) : null}
+                <Form.Item
+                    className={'tmName'}
+                    label='Наименование'
+                    name='name'
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Пожалуйста введите наименование'
+                        }
+                    ]}
+                >
+                    <Input size={'small'} placeholder='Введите значение' />
+                </Form.Item>
+                <Form.Item
+                    label='Группа'
+                    name='parentId'
+                    className={"NoRequiredField"}
+                    getValueFromEvent={selectHandler}
+                    trigger={'onChangeKeys'}
+                >
+                    <Select
+                        name={'parentId'}
+                        section={'SelectTechMapsParent'}
+                        type={'SingleSelect'}
+                        expandColumnKey={'id'}
+                        rowRender={'name'}
+                        nodeAssociated={false}
+                        expandDefaultAll={true}
+                        widthControl={0}
+                        heightPopup={300}
+                        defaultSelectedRowKeys={
+                            initFormObject && initFormObject.parentId
+                                ? [initFormObject.parentId]
+                                : null
+                        }
+                        // onChangeKeys={selectParentHandler}
+                        // requestLoadRows={ apiGetHierarchicalDataByConfigName('techMaps') }
+                        requestLoadRows={({data, params}) =>
+                            apiGetDataByConfigName({
+                                configName: 'techMaps',
+                                hierarchical: true,
+                                lazyLoad: false,
+                                data: {...data, isGroup: true},
+                                params
+                            })
+                        }
+                        requestLoadDefault={apiGetFlatDataByConfigName(
+                            'techMaps'
+                        )}
+                    />
+                </Form.Item>
 
-					<Form.Item
-						label='Статус'
-						name='techMapsStatusId'
-						getValueFromEvent={selectHandler}
-						trigger={'onChangeKeys'}
-						rules={[
-							{
-								required: true,
-								message: 'Пожалуйста выберите статус'
-							}
-						]}
-					>
-						<Select
-							name={'techMapsStatusId'}
-							section={'SelectTechMapsStatus'}
-							type={'SingleSelect'}
-							rowRender={'name'}
-							widthControl={0}
-							heightPopup={300}
-							defaultSelectedRowKeys={
-								initFormObject &&
-								initFormObject.techMapsStatusId
-									? [initFormObject.techMapsStatusId]
-									: []
-							}
-							// onChangeKeys={selectParentHandler}
-							requestLoadRows={({data, params}) =>
-								apiGetDataByConfigName({
-									configName: 'techMapsStatuses',
-									hierarchical: false,
-									lazyLoad: false,
-									data,
-									params
-								})
-							}
-						/>
-					</Form.Item>
-					<Form.Item
-						className={'tmDateStart'}
-						label='Действует с'
-						name='dateStart'
-						rules={[
-							{
-								required: true,
-								message: 'Пожалуйста выберите дату'
-							}
-						]}
-					>
-						<DatePicker format={'DD.MM.YYYY'} />
-					</Form.Item>
-				</div>
-				<div className={'InfoTitle'}>Технологические операции</div>
-				<div className={'OperationsTable'}>
+                <Form.Item
+                    label='Статус'
+                    name='techMapsStatusId'
+                    className={"NoRequiredField"}
+                    getValueFromEvent={selectHandler}
+                    trigger={'onChangeKeys'}
+                >
+                    <Select
+                        name={'techMapsStatusId'}
+                        section={'SelectTechMapsStatus'}
+                        type={'SingleSelect'}
+                        rowRender={'name'}
+                        widthControl={0}
+                        heightPopup={300}
+                        defaultSelectedRowKeys={
+                            initFormObject &&
+                            initFormObject.techMapsStatusId
+                                ? [initFormObject.techMapsStatusId]
+                                : []
+                        }
+                        // onChangeKeys={selectParentHandler}
+                        requestLoadRows={({data, params}) =>
+                            apiGetDataByConfigName({
+                                configName: 'techMapsStatuses',
+                                hierarchical: false,
+                                lazyLoad: false,
+                                data,
+                                params
+                            })
+                        }
+                    />
+                </Form.Item>
+                <Form.Item
+                    label='Действует с'
+                    name='dateStart'
+                    className={"NoRequiredField"}
+                >
+                    <DatePicker format={'DD.MM.YYYY'} />
+                </Form.Item>
+				{/*</div>*/}
+				<div className={'PageFormDataTitle'}>Технологические операции</div>
+				<div className={'PageFormDataTable'}>
 					{!loadingConfig ? (
 						<AdvancedTable
 							configData={techOperationsConfig}
@@ -441,7 +424,7 @@ const TechMapData = () => {
 						/>
 					) : null}
 				</div>
-				<div className={'tmDataFooter'}>
+				<div className={'PageFormFooter'}>
 					<Button className={'cancelButton'} onClick={onCancel}>
 						Отмена
 					</Button>

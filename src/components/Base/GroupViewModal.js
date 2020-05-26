@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Modal} from 'antd';
 
-const TechMapGroupView = props => {
+const GroupViewModal = props => {
 
 	const {
 		title,
@@ -29,12 +29,12 @@ const TechMapGroupView = props => {
 		>
 			<div>
 				<div className={'InfoItem'}>
-					<div>Наименование</div>
-					<div>{rowData.name}</div>
-				</div>
-				<div className={'InfoItem'}>
 					<div>Код</div>
 					<div>{rowData.code}</div>
+				</div>
+				<div className={'InfoItem'}>
+					<div>Наименование</div>
+					<div>{rowData.name}</div>
 				</div>
 				<div className={'InfoItem'}>
 					<div>Группа</div>
@@ -45,11 +45,11 @@ const TechMapGroupView = props => {
 	);
 };
 
-TechMapGroupView.propTypes = {
+GroupViewModal.propTypes = {
 	title: PropTypes.string,
 	visible: PropTypes.bool,
 	setVisible: PropTypes.func,
 	rowData: PropTypes.object,
 };
 
-export default TechMapGroupView;
+export default GroupViewModal;

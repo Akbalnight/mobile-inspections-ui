@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
+	apiGetDataByConfigName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 	apiSaveEquipment
@@ -230,9 +231,18 @@ const EquipmentsModal = props => {
 										: []
 								}
 								// onChangeKeys={selectParentHandler}
-								requestLoadRows={apiGetHierarchicalDataByConfigName(
-									'equipmentsGroups'
-								)}
+								// requestLoadRows={apiGetHierarchicalDataByConfigName(
+								// 	'equipmentsGroups'
+								// )}
+								requestLoadRows={({data, params}) =>
+									apiGetDataByConfigName({
+										configName: 'equipmentsAutoQuery', //'equipmentsGroups',
+										hierarchical: true,
+										lazyLoad: false,
+										data: {...data, isGroup: true},
+										params
+									})
+								}
 								requestLoadDefault={apiGetFlatDataByConfigName(
 									'equipmentsAutoQuery'
 								)}
