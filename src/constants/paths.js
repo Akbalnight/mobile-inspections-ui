@@ -6,8 +6,26 @@ import Debug from "../components/Debug/Debug";
 import TechMapData from "../components/TechMaps/TechMapData";
 import ControlPoints from "../components/DetoursConfigurator/ControlPoints/ControlPoints";
 import ControlPointData from "../components/DetoursConfigurator/ControlPoints/ControlPointData";
+import Login from "../components/App/Auth/Login";
+import AuthorizationCode from "../components/App/Auth/AuthorizationCode";
+
+const pathPrefix = '/';
 
 export const paths = {
+	PATH_PREFIX: {
+		title: 'Portal ',
+		path: `${pathPrefix}`
+	},
+	LOGIN: {
+		title: 'Login',
+		path: '/login',
+		component: Login
+	},
+	AUTHORIZATION_CODE: {
+		title: 'Authorization code',
+		path: '/authorization_code',
+		component: AuthorizationCode
+	},
 	HOME: {
 		title: 'Главная',
 		path: '/home',

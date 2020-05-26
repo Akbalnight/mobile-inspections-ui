@@ -4,6 +4,8 @@ const API_URL_ASSD = 'http://10.5.31.73';
 const API_URL = 'http://10.5.121.117';
 const LOCAL_API_URL = 'http://localhost';
 
+const OAUTH_URL = 'https://oauth.dias-dev.ru';
+
 module.exports = function(app) {
 	app.use(
 		'/api/catalog',
@@ -24,6 +26,15 @@ module.exports = function(app) {
 		createProxyMiddleware({
 			target: `${API_URL}:8805/management-dynamicdq`,
 			pathRewrite: {'^/api/management-dynamicdq': ''}
+		})
+	);
+	app.use(
+		'/api/oauth',
+		createProxyMiddleware({
+			target: `${OAUTH_URL}/oauth`,
+			pathRewrite: {'^/api/oauth': ''},
+			changeOrigin: true,
+			secure: false,
 		})
 	);
 	app.use(

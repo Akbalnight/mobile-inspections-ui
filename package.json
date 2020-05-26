@@ -5,6 +5,8 @@
   "dependencies": {
     "antd": "^4.0.2",
     "axios": "^0.19.2",
+    "cookie": "^0.4.1",
+    "js-sha256": "^0.9.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
@@ -15,7 +17,7 @@
     "react-split-pane": "^0.1.91",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/air-tech/react-tech-design.git#semver:^0.0.10"
+    "rt-design": "git+https://github.com/air-tech/react-tech-design.git"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^2.23.0",

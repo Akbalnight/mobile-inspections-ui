@@ -21,7 +21,7 @@ import {
 import {ExclamationCircleOutlined} from '@ant-design/icons';
 import {AdvancedTable, Select} from 'rt-design';
 import BasePage from '../App/BasePage';
-import {generateUUID} from 'rt-design/src/components/utils/baseUtils';
+import {uuid} from "../../utils/baseUtils";
 import TechOperationsModal from './TechOperationsModal';
 import {paths} from '../../constants/paths';
 
@@ -187,7 +187,7 @@ const TechMapData = () => {
 
 	const onClickAddHandler = event => {
 		setTechOperationSelected({
-			id: generateUUID(),
+			id: uuid(),
 			name: '',
 			code:
 				parseInt(
@@ -220,7 +220,7 @@ const TechMapData = () => {
 
 	const onClickAddAsCopyHandler = (event, row) => {
 		let nRow = {...row};
-		nRow.id = generateUUID();
+		nRow.id = uuid();
 		let localArr = [...techOperations];
 		console.log('New row -> ', nRow);
 		localArr.push(nRow);

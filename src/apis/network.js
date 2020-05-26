@@ -1,10 +1,15 @@
 import axios from 'axios';
+import {store} from '../store';
+import {catchUnAuthError} from "./auth.api";
 
 const DEFAULT_HEADERS = {
 	'Content-type': 'application/json',
 	userId: 10,
 	Authorization: 'Bearer 698937c6-8a66-4301-bf9c-ff780a925eac'
 };
+
+const getAuth = () => store.getState().auth;
+const getAccessToken = () => getAuth().access_token;
 
 export const instance = axios.create({
 	baseURL: '/',
@@ -13,20 +18,14 @@ export const instance = axios.create({
 });
 
 export const genericRequest = options => {
-	const accessToken = 'Gop Token'; //getAccessToken();
+	const accessToken = getAccessToken();
 	return instance({
 		...options,
 		headers: {
-			Authorization: `Bearer ${accessToken}`
-			// ...{userId: getAuth() && getAuth().userId ? getAuth().userId : 10}
+			Authorization: accessToken ? `Bearer ${accessToken}` : null,
+			...{userId: getAuth() && getAuth().userId ? getAuth().userId : 1}
 		}
-	});
-	// .then(result => {
-	//     console.log("result", result);
-	//     return result.data
-	// })
-	// .catch(error => {
-	//     console.log("error", error);
-	//     return error
-	// });
+	})
+		.then(response => response)
+		.catch(catchUnAuthError(options, accessToken));
 };

@@ -1,21 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import App from './components/App/App';
-import store from './store';
+import { store } from './store';
 import * as serviceWorker from './serviceWorker';
 import {ConfigProvider} from 'antd';
 import ru_RU from 'antd/lib/locale-provider/ru_RU';
 import './index.less';
 import './init';
+import {paths} from "./constants/paths";
 
 ReactDOM.render(
 	<Provider store={store}>
 		<BrowserRouter>
-			<ConfigProvider locale={ru_RU}>
-				<App />
-			</ConfigProvider>
+			<Switch>
+				{/** Авторизация */}
+				<Route
+					exact
+					path={paths.LOGIN.path}
+					component={paths.LOGIN.component}
+				/>
+				<Route
+					exact
+					path={paths.AUTHORIZATION_CODE.path}
+					component={paths.AUTHORIZATION_CODE.component}
+				/>
+
+				{/** Приложение */}
+				<Route path={paths.PATH_PREFIX.path}>
+					<ConfigProvider locale={ru_RU}>
+						<App />
+					</ConfigProvider>
+				</Route>
+			</Switch>
 		</BrowserRouter>
 	</Provider>,
 	document.getElementById('root')
