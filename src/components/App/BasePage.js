@@ -9,8 +9,11 @@ import {ReactComponent as HelpIcon} from '../../imgs/header/help.svg';
 import {ReactComponent as SettingsIcon} from '../../imgs/header/settings.svg';
 
 import Help from './Header/Help';
+import UserProfile from "./Header/UserProfile";
 
 const {Header, Content} = Layout;
+
+const version = process && process.env && process.env.REACT_APP_VERSION;
 
 const BasePage = props => {
 	const {path, breadcrumb} = props;
@@ -25,9 +28,25 @@ const BasePage = props => {
 					breadcrumb={breadcrumb}
 				/>
 				<div className={'profileControl'}>
-					<span className='headerIcon' onClick={() => message.info('Раздел информации о пользователе находится в материализации')}>
-						<UserIcon />
-					</span>
+					<div
+						style={{color: 'rgba(0, 0, 0, 0.5)'}}
+					>
+						{version}
+					</div>
+					<Popover
+						arrowPointAtCenter
+						placement='bottomRight'
+						// overlayClassName={'helpPopover'}
+						title={'Профиль пользователя'}
+						content={<UserProfile/>}
+						trigger='click'
+					>
+						<span className='headerIcon'
+							//onClick={() => message.info('Раздел информации о пользователе находится в материализации')}
+						>
+							<UserIcon/>
+						</span>
+					</Popover>
 					<Popover
 						arrowPointAtCenter
 						placement='bottomRight'

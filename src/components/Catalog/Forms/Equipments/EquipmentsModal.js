@@ -53,7 +53,7 @@ const EquipmentsModal = props => {
 							message: 'Сохранение прошло успешно'
 						});
 						setVisibleSaveForm(false);
-						setReloadTable();
+						setReloadTable({});
 						form.resetFields();
 					})
 					.catch(error => {

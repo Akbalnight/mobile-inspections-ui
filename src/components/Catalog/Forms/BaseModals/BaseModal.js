@@ -42,7 +42,7 @@ const BaseModal = props => {
 				form.resetFields();
 				setVisibleSaveForm(false);
 				// console.log('setReloadTable', setReloadTable);
-				setReloadTable();
+				setReloadTable({});
 			})
 			.catch(error => {
 				console.log('error -> ', error);

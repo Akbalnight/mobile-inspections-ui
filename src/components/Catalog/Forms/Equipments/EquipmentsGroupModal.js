@@ -49,7 +49,7 @@ const EquipmentsGroupModal = props => {
 						// console.log('response -> ', response);
 						notification.success({message: 'Сохранение прошло успешно'});
 						setVisibleSaveForm(false);
-						setReloadTable();
+						setReloadTable({});
 						form.resetFields();
 
 					})

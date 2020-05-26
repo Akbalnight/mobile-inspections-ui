@@ -62,7 +62,7 @@ const BaseModalWithParentId = props => {
 							message: 'Сохранение прошло успешно'
 						});
 						setVisibleSaveForm(false);
-						setReloadTable(true);
+						setReloadTable({});
 						form.resetFields();
 					})
 					.catch(error => {
