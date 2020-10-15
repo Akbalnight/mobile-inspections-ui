@@ -1,28 +1,15 @@
-// import {
-// 	HomeOutlined,
-// 	ReadOutlined,
-// 	CalendarOutlined,
-// 	SettingOutlined,
-// 	DesktopOutlined,
-// 	BarChartOutlined
-// } from '@ant-design/icons';
-
 import {ReactComponent as HOME} from '../imgs/menu/home.svg';
 import {ReactComponent as CATALOG} from '../imgs/menu/catalog.svg';
 import {ReactComponent as DETOURS_CONFIGURATOR} from '../imgs/menu/detours_configurator.svg';
 import {ReactComponent as CONTROL_EQUIPMENTS} from '../imgs/menu/control_equipments.svg';
 import {ReactComponent as CONTROL_DEFECTS} from '../imgs/menu/control_defects.svg';
 import {ReactComponent as ANALYTICS} from '../imgs/menu/analytics.svg';
-
-
-
-
-import {paths} from "./paths";
+import {paths} from './paths';
 
 export const menu = [
 	{
 		...paths.HOME,
-		icon: HOME,
+		icon: HOME
 	},
 	{
 		...paths.DEBUG
@@ -31,34 +18,38 @@ export const menu = [
 		...paths.CATALOG,
 		icon: CATALOG
 	},
-	{ // detours_configurator
+	{
+		// detours_configurator
 		...paths.DETOURS_CONFIGURATOR,
 		icon: DETOURS_CONFIGURATOR,
 		children: [
 			paths.DETOURS_CONFIGURATOR_CONTROL_POINTS,
 			paths.DETOURS_CONFIGURATOR_ROUTES,
 			paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
-			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
+			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS
 		]
 	},
-	{ // control_equipments
+	{
+		// control_equipments
 		...paths.CONTROL_EQUIPMENTS,
 		icon: CONTROL_EQUIPMENTS,
 		children: [
 			paths.CONTROL_EQUIPMENTS_WORK_SCHEDULES,
-			paths.CONTROL_EQUIPMENTS_TECH_MAPS,
+			paths.CONTROL_EQUIPMENTS_TECH_MAPS
 		]
 	},
-	{ // control_defects
+	{
+		// control_defects
 		...paths.CONTROL_DEFECTS,
 		icon: CONTROL_DEFECTS,
 		children: [
 			paths.CONTROL_DEFECTS_DEFECTS,
 			paths.CONTROL_DEFECTS_PANEL_PROBLEMS,
-			paths.CONTROL_DEFECTS_PANEL_DEVIATIONS,
+			paths.CONTROL_DEFECTS_PANEL_DEVIATIONS
 		]
 	},
-	{ // analytics
+	{
+		// analytics
 		...paths.ANALYTICS,
 		icon: ANALYTICS
 	}
