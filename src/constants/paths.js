@@ -1,13 +1,13 @@
 import Home from '../components/Home/Home';
 import Catalog from '../components/Catalog/Catalog';
 import CatalogData from '../components/Catalog/CatalogData';
-import TechMaps from "../components/TechMaps/TechMaps";
-import Debug from "../components/Debug/Debug";
-import TechMapData from "../components/TechMaps/TechMapData";
-import ControlPoints from "../components/DetoursConfigurator/ControlPoints/ControlPoints";
-import ControlPointData from "../components/DetoursConfigurator/ControlPoints/ControlPointData";
-import Login from "../components/App/Auth/Login";
-import AuthorizationCode from "../components/App/Auth/AuthorizationCode";
+import TechMaps from '../components/TechMaps/TechMaps';
+import Debug from '../components/Debug/Debug';
+import TechMapData from '../components/TechMaps/TechMapData';
+import ControlPointsD from '../components/ControlPoints/ControlPointsD';
+import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
+import Login from '../components/App/Auth/Login';
+import AuthorizationCode from '../components/App/Auth/AuthorizationCode';
 
 const pathPrefix = '/';
 
@@ -54,12 +54,12 @@ export const paths = {
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPoints
+		component: ControlPointsD
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
 		title: 'Контрольная точка',
 		path: '/detours-configurator/control-points/:id',
-		component: ControlPointData
+		component: ControlPointDataD
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',

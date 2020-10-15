@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import {
 	apiGetDataByConfigName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 	apiSaveEquipment
 } from '../../../../apis/catalog.api';
 import {Form, Input, InputNumber, Modal, notification, Spin} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import {LoadingOutlined} from '@ant-design/icons';
 import {Select} from 'rt-design';
 
 const EquipmentsModal = props => {
@@ -97,7 +96,7 @@ const EquipmentsModal = props => {
 				name='CatalogModalForm'
 				form={form}
 				size={'small'}
-                labelAlign={'left'}
+				labelAlign={'left'}
 				initialValues={{
 					code: initFormObject && initFormObject.code,
 					name: initFormObject && initFormObject.name,
@@ -214,7 +213,7 @@ const EquipmentsModal = props => {
 							getValueFromEvent={selectHandler}
 							trigger={'onChangeKeys'}
 							rules={[{required: false}]}
-							className={"NoRequiredField"}
+							className={'NoRequiredField'}
 						>
 							<Select
 								name={'parentId'}
@@ -269,7 +268,7 @@ EquipmentsModal.propTypes = {
 	setVisibleSaveForm: PropTypes.func,
 	initFormObject: PropTypes.object,
 	catalogName: PropTypes.string,
-	setReloadTable: PropTypes.func,
+	setReloadTable: PropTypes.func
 };
 
 export default EquipmentsModal;

@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, Input, notification, Spin, Form} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import {LoadingOutlined} from '@ant-design/icons';
 import {Select} from 'rt-design';
 import {
 	apiGetDataByConfigName,
 	apiSaveEquipment,
-	apiGetFlatDataByConfigName, apiGetHierarchicalDataByConfigName
+	apiGetFlatDataByConfigName
 } from '../../../../apis/catalog.api';
 
 const EquipmentsGroupModal = props => {
 	const {
 		title,
 		visible,
-        typeOperation,
+		typeOperation,
 		setVisibleSaveForm,
 		initFormObject,
-		setReloadTable,
+		setReloadTable
 	} = props;
 
 	const [loading, setLoading] = useState(false);
@@ -47,11 +47,12 @@ const EquipmentsGroupModal = props => {
 						// setConfigData(response.data);
 						// if (!mounted) setMounted(true);
 						// console.log('response -> ', response);
-						notification.success({message: 'Сохранение прошло успешно'});
+						notification.success({
+							message: 'Сохранение прошло успешно'
+						});
 						setVisibleSaveForm(false);
 						setReloadTable({});
 						form.resetFields();
-
 					})
 					.catch(error => {
 						console.log('error -> ', error);
@@ -90,92 +91,111 @@ const EquipmentsGroupModal = props => {
 			onCancel={handleCancel}
 			onOk={onSave}
 		>
+			<Form
+				{...layout}
+				name='CatalogModalForm'
+				form={form}
+				// ref={_setFormRef()}
+				size={'small'}
+				labelAlign={'left'}
+				initialValues={{
+					code: initFormObject && initFormObject.code,
+					techPlace: initFormObject && initFormObject.techPlace,
+					name: initFormObject && initFormObject.name,
+					parentId:
+						initFormObject && initFormObject.parentId
+							? initFormObject.parentId
+							: null
+				}}
+			>
+				{!loading ? (
+					<>
+						<Form.Item
+							label='Тех. место'
+							name='techPlace'
+							rules={[
+								{
+									required: true,
+									message: 'Пожалуйста введите тех. место'
+								}
+							]}
+						>
+							<Input
+								size={'small'}
+								placeholder='Введите значение'
+							/>
+						</Form.Item>
 
-				<Form
-					{...layout}
-					name='CatalogModalForm'
-					form={form}
-					// ref={_setFormRef()}
-					size={'small'}
-					labelAlign={'left'}
-					initialValues={{
-						code: initFormObject && initFormObject.code,
-						techPlace: initFormObject && initFormObject.techPlace,
-						name: initFormObject && initFormObject.name,
-						parentId:
-							initFormObject && initFormObject.parentId
-								? initFormObject.parentId
-								: null
-					}}
-				>
-					{ !loading ?
-						<>
-							<Form.Item
-								label='Тех. место'
-								name='techPlace'
-								rules={[
-									{
-										required: true,
-										message: 'Пожалуйста введите тех. место'
-									}
-								]}
-							>
-								<Input size={'small'} placeholder='Введите значение'/>
-							</Form.Item>
+						<Form.Item
+							label='Наименование'
+							name='name'
+							rules={[
+								{
+									required: true,
+									message: 'Пожалуйста введите наименование'
+								}
+							]}
+						>
+							<Input
+								size={'small'}
+								placeholder='Введите значение'
+							/>
+						</Form.Item>
 
-							<Form.Item
-								label='Наименование'
-								name='name'
-								rules={[
-									{
-										required: true,
-										message: 'Пожалуйста введите наименование'
-									}
-								]}
-							>
-								<Input size={'small'} placeholder='Введите значение'/>
-							</Form.Item>
-
-							<Form.Item
-								label='Группа'
-								name='parentId'
-								getValueFromEvent={parentIdHandler}
-								trigger={'onChangeKeys'}
-								rules={[{required: false}]}
-								className={"NoRequiredField"}
-							>
-								<Select
-									name={'parentId'}
-									type={'SingleSelect'}
-									expandColumnKey={'id'}
-									rowRender={'name'}
-									nodeAssociated={false}
-									expandDefaultAll={true}
-									widthControl={0}
-									heightPopup={300}
-									defaultSelectedRowKeys={initFormObject && initFormObject.parentId ? [initFormObject.parentId] : []}
-									// onChangeKeys={selectParentHandler}
-									requestLoadRows={({data, params}) =>
-										apiGetDataByConfigName({
-											configName: 'equipmentsAutoQuery', //'equipmentsGroups',
-											hierarchical: true,
-											lazyLoad: false,
-											data: {...data, isGroup: true, owner: initFormObject && initFormObject.id},
-											params
-										})
-									}
-									requestLoadDefault={apiGetFlatDataByConfigName('equipmentsAutoQuery')}
-								/>
-							</Form.Item>
-						</>
-						: <Spin
+						<Form.Item
+							label='Группа'
+							name='parentId'
+							getValueFromEvent={parentIdHandler}
+							trigger={'onChangeKeys'}
+							rules={[{required: false}]}
+							className={'NoRequiredField'}
+						>
+							<Select
+								name={'parentId'}
+								type={'SingleSelect'}
+								expandColumnKey={'id'}
+								rowRender={'name'}
+								nodeAssociated={false}
+								expandDefaultAll={true}
+								widthControl={0}
+								heightPopup={300}
+								defaultSelectedRowKeys={
+									initFormObject && initFormObject.parentId
+										? [initFormObject.parentId]
+										: []
+								}
+								// onChangeKeys={selectParentHandler}
+								requestLoadRows={({data, params}) =>
+									apiGetDataByConfigName({
+										configName: 'equipmentsAutoQuery', //'equipmentsGroups',
+										hierarchical: true,
+										lazyLoad: false,
+										data: {
+											...data,
+											isGroup: true,
+											owner:
+												initFormObject &&
+												initFormObject.id
+										},
+										params
+									})
+								}
+								requestLoadDefault={apiGetFlatDataByConfigName(
+									'equipmentsAutoQuery'
+								)}
+							/>
+						</Form.Item>
+					</>
+				) : (
+					<Spin
 						tip='Загрузка...'
-						indicator={<LoadingOutlined style={{fontSize: 24}} spin/>}
-						/>
-					}
-					{/*</div>*/}
-				</Form>
-
+						indicator={
+							<LoadingOutlined style={{fontSize: 24}} spin />
+						}
+					/>
+				)}
+				{/*</div>*/}
+			</Form>
 		</Modal>
 	);
 };
@@ -186,7 +206,7 @@ EquipmentsGroupModal.propTypes = {
 	typeOperation: PropTypes.string,
 	setVisibleSaveForm: PropTypes.func,
 	initFormObject: PropTypes.object,
-	setReloadTable: PropTypes.func,
+	setReloadTable: PropTypes.func
 };
 
 export default EquipmentsGroupModal;

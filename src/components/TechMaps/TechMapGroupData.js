@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import moment from 'moment';
 import {useParams} from 'react-router';
 import {
-    apiGetConfigByObject,
-    apiGetDataByConfigName,
-    apiGetTechMapById
+	apiGetDataByConfigName,
+	apiGetTechMapById
 } from '../../apis/catalog.api';
-import {Form, Input, InputNumber, DatePicker, Checkbox, Button} from 'antd';
-import {AdvancedTable, Select, setTableRows} from 'rt-design';
+import {Form, Input, InputNumber, Button} from 'antd';
+import {Select} from 'rt-design';
 
 const TechMapGroupData = props => {
 	const params = useParams();
@@ -21,7 +18,7 @@ const TechMapGroupData = props => {
 
 	useEffect(() => {
 		loadForm();
-	}, [params && params.id]);
+	}, [loadForm, params, params.id]);
 
 	async function loadForm() {
 		try {
@@ -52,7 +49,7 @@ const TechMapGroupData = props => {
 	};
 
 	const onFinish = values => {
-		console.log('Success:', { ...values});
+		console.log('Success:', {...values});
 		//
 	};
 
@@ -80,7 +77,9 @@ const TechMapGroupData = props => {
 						: null
 			}}
 		>
-			<div className={'tmTitle'}>Информация о группе технологических карт</div>
+			<div className={'tmTitle'}>
+				Информация о группе технологических карт
+			</div>
 			<div className={'FieldsLine'}>
 				<Form.Item
 					className={'tmName'}
@@ -149,11 +148,10 @@ const TechMapGroupData = props => {
 					/>
 				</Form.Item>
 			</div>
-			<div className={'OperationsTable'}>
-            </div>
+			<div className={'OperationsTable'}></div>
 			<div className={'tmDataFooter'}>
 				<Form.Item>
-					<Button type="primary" htmlType="submit">
+					<Button type='primary' htmlType='submit'>
 						Сохранить
 					</Button>
 				</Form.Item>

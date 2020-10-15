@@ -1,8 +1,8 @@
 const {createProxyMiddleware} = require('http-proxy-middleware');
 
-const API_URL_ASSD = 'http://10.5.31.73';
+// const API_URL_ASSD = 'http://10.5.31.73';
 const API_URL = 'http://10.5.121.117';
-const LOCAL_API_URL = 'http://localhost';
+// const LOCAL_API_URL = 'http://localhost';
 
 const OAUTH_URL = 'https://oauth.dias-dev.ru';
 
@@ -34,14 +34,14 @@ module.exports = function(app) {
 			target: `${OAUTH_URL}/oauth`,
 			pathRewrite: {'^/api/oauth': ''},
 			changeOrigin: true,
-			secure: false,
+			secure: false
 		})
 	);
-	app.use(
-		'/api/advanced',
-		createProxyMiddleware({
-			target: `${API_URL_ASSD}:8818/advanced`,
-			pathRewrite: {'^/api/advanced': ''}
-		})
-	);
+	// app.use(
+	// 	'/api/advanced',
+	// 	createProxyMiddleware({
+	// 		target: `${API_URL_ASSD}:8818/advanced`,
+	// 		pathRewrite: {'^/api/advanced': ''}
+	// 	})
+	// );
 };

@@ -3,8 +3,8 @@ import {withRouter} from 'react-router-dom';
 import {Layout} from 'antd';
 import Menu from '../Menu/Menu';
 import Routes from '../Routes/Routes';
-import {paths} from "../../constants/paths";
-import {checkTokenRequest} from "../../apis/auth.api";
+import {paths} from '../../constants/paths';
+// import {checkTokenRequest} from "../../apis/auth.api";
 
 const {Sider} = Layout;
 

@@ -21,7 +21,7 @@ import {
 import {ExclamationCircleOutlined} from '@ant-design/icons';
 import {AdvancedTable, Select} from 'rt-design';
 import BasePage from '../App/BasePage';
-import {uuid} from "../../utils/baseUtils";
+import {uuid} from '../../utils/baseUtils';
 import TechOperationsModal from './TechOperationsModal';
 import {paths} from '../../constants/paths';
 
@@ -103,28 +103,34 @@ const TechMapData = () => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRender: ({rowData}) => String(rowData.code).padStart(8, '0')
+			cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0')
 		},
 		{
 			name: 'position',
-			cellRender: ({rowIndex}) => rowIndex + 1
+			cellRenderer: ({rowIndex}) => rowIndex + 1
 		},
 		{
 			// needInputData equipmentStop increasedDanger
 			name: 'needInputData',
-			cellRender: ({cellData}) => <Checkbox checked={cellData} disabled />
+			cellRenderer: ({cellData}) => (
+				<Checkbox checked={cellData} disabled />
+			)
 		},
 		{
 			name: 'equipmentStop',
-			cellRender: ({cellData}) => <Checkbox checked={cellData} disabled />
+			cellRenderer: ({cellData}) => (
+				<Checkbox checked={cellData} disabled />
+			)
 		},
 		{
 			name: 'increasedDanger',
-			cellRender: ({cellData}) => <Checkbox checked={cellData} disabled />
+			cellRenderer: ({cellData}) => (
+				<Checkbox checked={cellData} disabled />
+			)
 		},
 		{
 			name: 'duration',
-			cellRender: ({cellData}) => `${cellData} мин.`
+			cellRenderer: ({cellData}) => `${cellData} мин.`
 		}
 	];
 
@@ -248,9 +254,9 @@ const TechMapData = () => {
 					: `Технологическая карта ${initFormObject.code}`
 			}
 		>
-            <div className={'PageFormTitle'}>
-                Информация о технологической карте
-            </div>
+			<div className={'PageFormTitle'}>
+				Информация о технологической карте
+			</div>
 			<Form
 				{...layout}
 				name='PageFormData'
@@ -262,8 +268,8 @@ const TechMapData = () => {
 					name: initFormObject && initFormObject.name,
 					techMapsStatusId:
 						initFormObject && initFormObject.techMapsStatusId
-							? initFormObject.techMapsStatusId
-							: null,
+							? [initFormObject.techMapsStatusId]
+							: [],
 					dateStart:
 						initFormObject && initFormObject.dateStart
 							? moment(initFormObject.dateStart)
@@ -275,126 +281,133 @@ const TechMapData = () => {
 				}}
 			>
 				{/*<div className={'FieldsLine'}>*/}
-                <div className={'PageFormDataTitle'}>Описание</div>
-                {params.id !== 'new' ? (
-                <Form.Item
-                    className={'tmCode'}
-                    label='Код'
-                    name='code'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Пожалуйста введите код'
-                        }
-                    ]}
-                >
-                    <InputNumber
-                        style={{width: '100%'}}
-                        min={1}
-                        max={99999999}
-                        size={'small'}
-                        placeholder='Введите значение'
-                    />
-                </Form.Item>
-                ) : null}
-                <Form.Item
-                    className={'tmName'}
-                    label='Наименование'
-                    name='name'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Пожалуйста введите наименование'
-                        }
-                    ]}
-                >
-                    <Input size={'small'} placeholder='Введите значение' />
-                </Form.Item>
-                <Form.Item
-                    label='Группа'
-                    name='parentId'
-                    className={"NoRequiredField"}
-                    getValueFromEvent={selectHandler}
-                    trigger={'onChangeKeys'}
-                >
-                    <Select
-                        name={'parentId'}
-                        section={'SelectTechMapsParent'}
-                        type={'SingleSelect'}
-                        expandColumnKey={'id'}
-                        rowRender={'name'}
-                        nodeAssociated={false}
-                        expandDefaultAll={true}
-                        widthControl={0}
-                        heightPopup={300}
-                        defaultSelectedRowKeys={
-                            initFormObject && initFormObject.parentId
-                                ? [initFormObject.parentId]
-                                : null
-                        }
-                        // onChangeKeys={selectParentHandler}
-                        // requestLoadRows={ apiGetHierarchicalDataByConfigName('techMaps') }
-                        requestLoadRows={({data, params}) =>
-                            apiGetDataByConfigName({
-                                configName: 'techMaps',
-                                hierarchical: true,
-                                lazyLoad: false,
-                                data: {...data, isGroup: true},
-                                params
-                            })
-                        }
-                        requestLoadDefault={apiGetFlatDataByConfigName(
-                            'techMaps'
-                        )}
-                    />
-                </Form.Item>
+				<div className={'PageFormDataTitle'}>Описание</div>
+				{params.id !== 'new' ? (
+					<Form.Item
+						className={'tmCode'}
+						label='Код'
+						name='code'
+						rules={[
+							{
+								required: true,
+								message: 'Пожалуйста введите код'
+							}
+						]}
+					>
+						<InputNumber
+							style={{width: '100%'}}
+							min={1}
+							max={99999999}
+							size={'small'}
+							placeholder='Введите значение'
+						/>
+					</Form.Item>
+				) : null}
+				<Form.Item
+					className={'tmName'}
+					label='Наименование'
+					name='name'
+					rules={[
+						{
+							required: true,
+							message: 'Пожалуйста введите наименование'
+						}
+					]}
+				>
+					<Input size={'small'} placeholder='Введите значение' />
+				</Form.Item>
+				<Form.Item
+					label='Группа'
+					name='parentId'
+					className={'NoRequiredField'}
+					getValueFromEvent={selectHandler}
+					trigger={'onChangeKeys'}
+					valuePropName={'defaultSelectedRowKeys'}
+				>
+					<Select
+						name={'parentId'}
+						section={'SelectTechMapsParent'}
+						type={'SingleSelect'}
+						expandColumnKey={'id'}
+						rowRender={'name'}
+						nodeAssociated={false}
+						expandDefaultAll={true}
+						widthControl={0}
+						heightPopup={300}
+						// defaultSelectedRowKeys={
+						//     initFormObject && initFormObject.parentId
+						//                               ? [initFormObject.parentId]
+						//                               : null
+						//}
+						// onChangeKeys={selectParentHandler}
+						// requestLoadRows={ apiGetHierarchicalDataByConfigName('techMaps') }
+						requestLoadRows={({data, params}) =>
+							apiGetDataByConfigName({
+								configName: 'techMaps',
+								hierarchical: true,
+								lazyLoad: false,
+								data: {...data, isGroup: true},
+								params
+							})
+						}
+						requestLoadDefault={apiGetFlatDataByConfigName(
+							'techMaps'
+						)}
+					/>
+				</Form.Item>
 
-                <Form.Item
-                    label='Статус'
-                    name='techMapsStatusId'
-                    className={"NoRequiredField"}
-                    getValueFromEvent={selectHandler}
-                    trigger={'onChangeKeys'}
-                >
-                    <Select
-                        name={'techMapsStatusId'}
-                        section={'SelectTechMapsStatus'}
-                        type={'SingleSelect'}
-                        rowRender={'name'}
-                        widthControl={0}
-                        heightPopup={300}
-                        defaultSelectedRowKeys={
-                            initFormObject &&
-                            initFormObject.techMapsStatusId
-                                ? [initFormObject.techMapsStatusId]
-                                : []
-                        }
-                        // onChangeKeys={selectParentHandler}
-                        requestLoadRows={({data, params}) =>
-                            apiGetDataByConfigName({
-                                configName: 'techMapsStatuses',
-                                hierarchical: false,
-                                lazyLoad: false,
-                                data,
-                                params
-                            })
-                        }
-                    />
-                </Form.Item>
-                <Form.Item
-                    label='Действует с'
-                    name='dateStart'
-                    className={"NoRequiredField"}
-                >
-                    <DatePicker format={'DD.MM.YYYY'} />
-                </Form.Item>
+				<Form.Item
+					label='Статус'
+					name='techMapsStatusId'
+					className={'NoRequiredField'}
+					getValueFromEvent={selectHandler}
+					trigger={'onChangeKeys'}
+					valuePropName={'defaultSelectedRowKeys'}
+				>
+					<Select
+						name={'techMapsStatusId'}
+						section={'SelectTechMapsStatus'}
+						type={'SingleSelect'}
+						rowRender={'name'}
+						widthControl={0}
+						heightPopup={300}
+						// defaultSelectedRowKeys={
+						//     initFormObject &&
+						//     initFormObject.techMapsStatusId
+						//         ? [initFormObject.techMapsStatusId]
+						//         : []
+						// }
+						// onChangeKeys={selectParentHandler}
+						requestLoadRows={({data, params}) =>
+							apiGetDataByConfigName({
+								configName: 'techMapsStatuses',
+								hierarchical: false,
+								lazyLoad: false,
+								data,
+								params
+							})
+						}
+						// requestLoadDefault={apiGetFlatDataByConfigName(
+						// 	'techMapsStatuses'
+						// )}
+					/>
+				</Form.Item>
+				<Form.Item
+					label='Действует с'
+					name='dateStart'
+					className={'NoRequiredField'}
+				>
+					<DatePicker format={'DD.MM.YYYY'} />
+				</Form.Item>
 				{/*</div>*/}
-				<div className={'PageFormDataTitle'}>Технологические операции</div>
+				<div className={'PageFormDataTitle'}>
+					Технологические операции
+				</div>
 				<div className={'PageFormDataTable'}>
 					{!loadingConfig ? (
 						<AdvancedTable
 							configData={techOperationsConfig}
-							customCellRenders={customCellRenders}
+							customColumnProps={customCellRenders}
 							type={'localSide'}
 							headerHeight={50}
 							rows={techOperations}

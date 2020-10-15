@@ -1,20 +1,20 @@
 import {genericRequest} from './network';
 //
-export const apiGetConfigByName = (configName) => () =>
+export const apiGetConfigByName = configName => () =>
 	genericRequest({
-		url: '/api/management-dynamicdq/configuration/'+configName,
+		url: '/api/management-dynamicdq/configuration/' + configName,
 		method: 'GET'
 	});
 
 export const apiGetConfigByObject = ({configName, data, params}) =>
 	genericRequest({
-		url: '/api/management-dynamicdq/configuration/'+configName,
+		url: '/api/management-dynamicdq/configuration/' + configName,
 		method: 'GET',
 		data,
 		params
 	});
 
-export const apiGetFlatDataByConfigName = (configName) => ({data, params}) =>
+export const apiGetFlatDataByConfigName = configName => ({data, params}) =>
 	apiGetDataByConfigName({
 		configName: configName,
 		hierarchical: false,
@@ -23,7 +23,10 @@ export const apiGetFlatDataByConfigName = (configName) => ({data, params}) =>
 		params
 	});
 
-export const apiGetHierarchicalDataByConfigName = (configName) => ({data, params}) =>
+export const apiGetHierarchicalDataByConfigName = configName => ({
+	data,
+	params
+}) =>
 	apiGetDataByConfigName({
 		configName: configName,
 		hierarchical: true,
@@ -32,10 +35,25 @@ export const apiGetHierarchicalDataByConfigName = (configName) => ({data, params
 		params
 	});
 
-
-export const apiGetDataByConfigName = ({hierarchical, lazyLoad, configName,  data, params}) =>
+export const apiGetDataCountByConfigName = configName => ({data, params}) =>
 	genericRequest({
-		url: `/api/dynamicdq/data/${hierarchical && !lazyLoad ? 'hierarchical' : 'flat'}/${configName}`,
+		url: `/api/dynamicdq/data/flat/count/${configName}`,
+		method: 'POST',
+		data,
+		params
+	});
+
+export const apiGetDataByConfigName = ({
+	hierarchical,
+	lazyLoad,
+	configName,
+	data,
+	params
+}) =>
+	genericRequest({
+		url: `/api/dynamicdq/data/${
+			hierarchical && !lazyLoad ? 'hierarchical' : 'flat'
+		}/${configName}`,
 		method: 'POST',
 		data,
 		params
@@ -55,7 +73,25 @@ export const apiGetCatalogById = ({catalogName, id, params}) =>
 		params
 	});
 
-export const apiSaveBaseCatalogWithParentId = ({catalogName, method, data, params}) => {
+export const apiSaveBaseCatalogWithParentIdD = catalogName => ({
+	method,
+	data,
+	params
+}) => {
+	return genericRequest({
+		url: `/api/catalog/baseCatalogWithParent/${catalogName}`,
+		method: method,
+		data,
+		params
+	});
+};
+
+export const apiSaveBaseCatalogWithParentId = ({
+	catalogName,
+	method,
+	data,
+	params
+}) => {
 	return genericRequest({
 		url: `/api/catalog/baseCatalogWithParent/${catalogName}`,
 		method: method,
@@ -94,10 +130,19 @@ export const apiGetTechMapById = ({id, params}) =>
 		url: `/api/catalog/techMaps/${id}`,
 		method: 'GET',
 		params
-	})
+	});
+
 export const apiSaveTechMap = ({method, data, params}) =>
 	genericRequest({
 		url: `/api/catalog/techMaps`,
+		method: method,
+		data,
+		params
+	});
+
+export const apiSaveControlPoints = ({method, data, params}) =>
+	genericRequest({
+		url: `/api/catalog/controlPoints`,
 		method: method,
 		data,
 		params
