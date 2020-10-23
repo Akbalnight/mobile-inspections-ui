@@ -151,7 +151,7 @@ export const catchUnAuthError = (options, accessToken) => err => {
 						.catch();
 					break;
 				default:
-					break;
+					return Promise.reject(err.response.data);
 
 				// case 'invalid_request' : break;
 				// case 'invalid_client' : break;

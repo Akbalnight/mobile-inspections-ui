@@ -4,5 +4,5 @@ export const clientSecret = '24U7tcNLHRSvvjrr9sFEXGyMTpzk59mG';
 export const authorizeUrl = 'http://oauth.dias-dev.ru/oauth/authorize';
 // export const redirectUri = 'http://localhost:3001/authorization_code';
 export const redirectUri = 'https://mobinspect.dias-dev.ru/authorization_code';
-// export const slogoutUrl = 'http://localhost:8809/oauth/logout';
+// export const logoutUrl = 'http://localhost:8809/oauth/logout';
 export const logoutUrl = 'http://oauth.dias-dev.ru/oauth/logout';

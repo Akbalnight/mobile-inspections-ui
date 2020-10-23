@@ -3,38 +3,36 @@ import {
 	apiGetHierarchicalDataByConfigName,
 	apiSaveBaseCatalogWithParentIdD
 } from '../../../apis/catalog.api';
+import {codeInput} from '../Inputs/CodeInput';
 
-export const addGroupOnServer = catalogName =>
-	GroupOnServer('add', catalogName, {});
-export const editGroupOnServer = catalogName =>
-	GroupOnServer('edit', catalogName, {
-		componentType: 'Item',
-		label: 'Код',
-		name: 'code',
-		rules: [
-			{
-				message: 'Заполните наименование',
-				required: true
-			}
-		],
-		child: {
-			componentType: 'InputNumber'
-		}
+const loadRowsHandler = (catalogName, sRow, {params, data}) => {
+	// Формрование нового объекта
+	// isGroup: true - получить только группы
+	// owner - исключает собственный id и всю ветку под собой из выдачи сервером
+	const newData = {...data, isGroup: true, owner: sRow && sRow.id};
+	return apiGetHierarchicalDataByConfigName(catalogName)({
+		params,
+		data: newData
 	});
+};
 
 const GroupOnServer = (type, catalogName, code) => {
+	// sRow хранить ту строку с данными которая открывается на редактирование
 	let sRow;
 	return {
 		type: `${type}GroupOnServer`,
-		initialValues: row => {
-			sRow = row;
-			return type === 'edit' ? row : null;
-		},
 		requestSaveRow: apiSaveBaseCatalogWithParentIdD(catalogName),
 		width: 500,
 		form: {
 			labelCol: {span: 8},
 			wrapperCol: {span: 16},
+			loadInitData: (callBack, row) => {
+				// Сохранение строки, которую собираемся редактировать
+				sRow = row;
+
+				// Возвращение объекта или null в зависимоти от типа операции
+				callBack(type === 'edit' ? row : null);
+			},
 			body: [
 				code,
 				{
@@ -47,9 +45,7 @@ const GroupOnServer = (type, catalogName, code) => {
 							required: true
 						}
 					],
-					child: {
-						componentType: 'Input'
-					}
+					child: {componentType: 'Input'}
 				},
 				{
 					componentType: 'Item',
@@ -63,15 +59,10 @@ const GroupOnServer = (type, catalogName, code) => {
 						rowRender: 'name',
 						nodeAssociated: false,
 						expandDefaultAll: true,
-						requestLoadRows: ({data, params}) =>
-							apiGetHierarchicalDataByConfigName(catalogName)({
-								data: {
-									...data,
-									isGroup: true,
-									owner: sRow && sRow.id
-								},
-								params
-							}),
+						// (info) аналогично ({params, data})
+						// Но поскольку тут раскрывать объект не нужно, мы можем просто передать его дальше
+						requestLoadRows: info =>
+							loadRowsHandler(catalogName, sRow, info),
 						requestLoadDefault: apiGetFlatDataByConfigName(
 							catalogName
 						)
@@ -81,3 +72,9 @@ const GroupOnServer = (type, catalogName, code) => {
 		}
 	};
 };
+
+export const addGroupOnServer = catalogName =>
+	GroupOnServer('add', catalogName, {});
+
+export const editGroupOnServer = catalogName =>
+	GroupOnServer('edit', catalogName, codeInput);

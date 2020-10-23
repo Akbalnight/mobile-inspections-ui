@@ -35,6 +35,15 @@ export const apiGetHierarchicalDataByConfigName = configName => ({
 		params
 	});
 
+export const apiGetLazyLoadDataByConfigName = configName => ({data, params}) =>
+	apiGetDataByConfigName({
+		configName: configName,
+		hierarchical: true,
+		lazyLoad: true,
+		data,
+		params
+	});
+
 export const apiGetDataCountByConfigName = configName => ({data, params}) =>
 	genericRequest({
 		url: `/api/dynamicdq/data/flat/count/${configName}`,
