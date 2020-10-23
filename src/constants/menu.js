@@ -35,7 +35,10 @@ export const menu = [
 		icon: CONTROL_EQUIPMENTS,
 		children: [
 			paths.CONTROL_EQUIPMENTS_WORK_SCHEDULES,
-			paths.CONTROL_EQUIPMENTS_TECH_MAPS
+			paths.CONTROL_EQUIPMENTS_TECH_MAPS,
+
+			/** Тех. карты на формах */
+			paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM
 		]
 	},
 	{

@@ -31,7 +31,9 @@ const Routes = () => {
 			<Route
 				exact
 				path={paths.DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA.path}
-				component={paths.DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA.component}
+				component={
+					paths.DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA.component
+				}
 			/>
 			<Route
 				exact
@@ -60,18 +62,27 @@ const Routes = () => {
 			<Route
 				exact
 				path={paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}
-				component={
-					paths.CONTROL_EQUIPMENTS_TECH_MAPS.component
-				}
+				component={paths.CONTROL_EQUIPMENTS_TECH_MAPS.component}
 			/>
 			<Route
 				exact
 				path={paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.path}
-				component={
-					paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.component
-				}
+				component={paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA.component}
 			/>
 
+			{/** Тех. карты на формах */}
+			<Route
+				exact
+				path={paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM.path}
+				component={paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM.component}
+			/>
+			<Route
+				exact
+				path={paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM.path}
+				component={
+					paths.CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM.component
+				}
+			/>
 			{/** Учет и контроль дефектов */}
 			<Route
 				exact

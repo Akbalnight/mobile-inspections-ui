@@ -2,6 +2,8 @@ import Home from '../components/Home/Home';
 import Catalog from '../components/Catalog/Catalog';
 import CatalogData from '../components/Catalog/CatalogData';
 import TechMaps from '../components/TechMaps/TechMaps';
+import TechMapsForm from '../components/TechMapsForm/TechMaps';
+import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
 import ControlPointsD from '../components/ControlPoints/ControlPointsD';
@@ -96,6 +98,19 @@ export const paths = {
 		path: '/controlEquipments/techMaps/:id',
 		component: TechMapData
 	},
+
+	/** Тех. карты на формах */
+	CONTROL_EQUIPMENTS_TECH_MAPS_FORM: {
+		title: 'Технологические карты и операции (f)',
+		path: '/controlEquipments/formTechMaps',
+		component: TechMapsForm
+	},
+	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
+		title: 'Технологическая карта (f)',
+		path: '/controlEquipments/formTechMaps/:id',
+		component: TechMapDataForm
+	},
+
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
