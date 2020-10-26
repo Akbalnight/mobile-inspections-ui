@@ -1,17 +1,16 @@
 import React from 'react';
 import {Result} from 'antd';
-import BasePage from "../App/BasePage";
-import {paths} from "../../constants/paths";
-import {useRouteMatch} from "react-router";
+import {BasePage} from 'mobile-inspections-base-ui';
+import {paths} from '../../constants/paths';
+import {useRouteMatch} from 'react-router';
 
 const Home = () => {
-
 	let match = useRouteMatch();
-
 
 	const title = () => {
 		for (const pathItem in paths) {
-			if (paths[pathItem].path === match.path) return paths[pathItem].title;
+			if (paths[pathItem].path === match.path)
+				return paths[pathItem].title;
 		}
 	};
 	return (
@@ -26,7 +25,7 @@ const Home = () => {
 						style={{
 							padding: '10px',
 							background: '#1890ff',
-							color: 'white'
+							color: 'white',
 						}}
 						href={'https://www.youtube.com/user/AcademeG/videos'}
 					>

@@ -1,11 +1,11 @@
 import React from 'react';
-import BasePage from '../App/BasePage';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
 
 const Debug = () => {
 	const formConfig = {
 		noPadding: true,
-		body: []
+		body: [],
 	};
 
 	return (

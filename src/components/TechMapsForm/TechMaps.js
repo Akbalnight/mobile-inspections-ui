@@ -1,13 +1,13 @@
 import React from 'react';
 import {
 	apiGetConfigByName,
-	apiGetHierarchicalDataByConfigName
+	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
-import BasePage from '../App/BasePage';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
 import {
 	addGroupOnServer,
-	editGroupOnServer
+	editGroupOnServer,
 } from '../Base/Modals/GroupOnServer';
 import {useHistory} from 'react-router';
 import {techMapDataView} from '../TechMapsForm/TechMapDataView';
@@ -45,8 +45,8 @@ const TechMaps = () => {
 								systemBtnProps: {
 									add: {actionType: 'page'},
 									addGroup: {actionType: 'modal'},
-									edit: {actionType: ['page', 'modal']}
-								}
+									edit: {actionType: ['page', 'modal']},
+								},
 							},
 
 							// В примере #3 будет описан вот этот массив
@@ -56,13 +56,13 @@ const TechMaps = () => {
 								techMapDataView(),
 								groupView(
 									'Информация о группе технологической карты'
-								)
-							]
-						}
-					}
-				]
-			}
-		]
+								),
+							],
+						},
+					},
+				],
+			},
+		],
 	};
 
 	return (

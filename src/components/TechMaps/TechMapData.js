@@ -6,7 +6,7 @@ import {
 	apiGetDataByConfigName,
 	apiGetFlatDataByConfigName,
 	apiGetTechMapById,
-	apiSaveTechMap
+	apiSaveTechMap,
 } from '../../apis/catalog.api';
 import {
 	Form,
@@ -16,11 +16,11 @@ import {
 	Checkbox,
 	Button,
 	notification,
-	Modal
+	Modal,
 } from 'antd';
 import {ExclamationCircleOutlined} from '@ant-design/icons';
 import {AdvancedTable, Select} from 'rt-design';
-import BasePage from '../App/BasePage';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {uuid} from '../../utils/baseUtils';
 import TechOperationsModal from './TechOperationsModal';
 import {paths} from '../../constants/paths';
@@ -43,7 +43,7 @@ const TechMapData = () => {
 	const [techOperationModalTitle, setTechOperationModalTitle] = useState('');
 	const [
 		techOperationModalTypeOperation,
-		setTechOperationModalTypeOperation
+		setTechOperationModalTypeOperation,
 	] = useState('');
 
 	const [form] = Form.useForm();
@@ -53,7 +53,7 @@ const TechMapData = () => {
 			try {
 				setLoadingConfig(true);
 				const toConfig = await apiGetConfigByObject({
-					configName: 'techOperations'
+					configName: 'techOperations',
 				});
 				setTechOperationsConfig(toConfig.data);
 				setTechOperationSelected({});
@@ -67,7 +67,7 @@ const TechMapData = () => {
 						techMapsStatusId: null,
 						dateStart: undefined,
 						techOperations: [],
-						isGroup: false
+						isGroup: false,
 					});
 					form.resetFields();
 				} else {
@@ -78,7 +78,7 @@ const TechMapData = () => {
 						configName: 'techOperations',
 						hierarchical: false,
 						lazyLoad: false,
-						data: {techMapId: params.id}
+						data: {techMapId: params.id},
 					});
 					setTechOperations(techOpes.data);
 
@@ -103,40 +103,40 @@ const TechMapData = () => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0')
+			cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0'),
 		},
 		{
 			name: 'position',
-			cellRenderer: ({rowIndex}) => rowIndex + 1
+			cellRenderer: ({rowIndex}) => rowIndex + 1,
 		},
 		{
 			// needInputData equipmentStop increasedDanger
 			name: 'needInputData',
 			cellRenderer: ({cellData}) => (
 				<Checkbox checked={cellData} disabled />
-			)
+			),
 		},
 		{
 			name: 'equipmentStop',
 			cellRenderer: ({cellData}) => (
 				<Checkbox checked={cellData} disabled />
-			)
+			),
 		},
 		{
 			name: 'increasedDanger',
 			cellRenderer: ({cellData}) => (
 				<Checkbox checked={cellData} disabled />
-			)
+			),
 		},
 		{
 			name: 'duration',
-			cellRenderer: ({cellData}) => `${cellData} мин.`
-		}
+			cellRenderer: ({cellData}) => `${cellData} мин.`,
+		},
 	];
 
 	const layout = {
 		labelCol: {span: 4},
-		wrapperCol: {span: 20}
+		wrapperCol: {span: 20},
 	};
 
 	const onCancel = () => {
@@ -151,13 +151,13 @@ const TechMapData = () => {
 			onOk() {
 				history.push(paths.CONTROL_EQUIPMENTS_TECH_MAPS.path);
 			},
-			onCancel() {}
+			onCancel() {},
 		});
 	};
 
 	const onSave = () => {
 		form.validateFields()
-			.then(values => {
+			.then((values) => {
 				const saveObject = {
 					...initFormObject,
 					...values,
@@ -165,33 +165,33 @@ const TechMapData = () => {
 					techOperations: techOperations.map((item, index) => {
 						item.position = index + 1;
 						return item;
-					})
+					}),
 				};
 				console.log('onSave:', saveObject);
 				const method = params.id === 'new' ? 'POST' : 'PUT';
 
 				apiSaveTechMap({method, data: saveObject})
-					.then(response => {
+					.then((response) => {
 						// console.log('response -> ', response);
 						notification.success({
-							message: 'Сохранение прошло успешно'
+							message: 'Сохранение прошло успешно',
 						});
 						history.push(paths.CONTROL_EQUIPMENTS_TECH_MAPS.path);
 						// form.resetFields();
 					})
-					.catch(error => {
+					.catch((error) => {
 						console.log('error -> ', error);
 						notification.error({
-							message: 'Произошла ошибка при хохранении'
+							message: 'Произошла ошибка при хохранении',
 						});
 					});
 			})
-			.catch(info => {
+			.catch((info) => {
 				console.log('Validate Failed:', info);
 			});
 	};
 
-	const onClickAddHandler = event => {
+	const onClickAddHandler = (event) => {
 		setTechOperationSelected({
 			id: uuid(),
 			name: '',
@@ -209,7 +209,7 @@ const TechMapData = () => {
 			increasedDanger: false,
 			duration: 0,
 			position: techOperations.length + 1,
-			techMapId: params.id !== 'new' ? params.id : null
+			techMapId: params.id !== 'new' ? params.id : null,
 		});
 		setTechOperationModalVisible(true);
 		setTechOperationModalTypeOperation('create');
@@ -233,12 +233,12 @@ const TechMapData = () => {
 		setTechOperations(localArr);
 	};
 
-	const saveRowToTable = row => {
+	const saveRowToTable = (row) => {
 		if (techOperationModalTypeOperation === 'create') {
 			setTechOperations([...techOperations, row]);
 		} else {
 			let arr = [...techOperations];
-			const rowIndex = arr.findIndex(item => item.id === row.id);
+			const rowIndex = arr.findIndex((item) => item.id === row.id);
 			arr.splice(rowIndex, 1, row);
 			setTechOperations(arr);
 			// console.log()
@@ -277,7 +277,7 @@ const TechMapData = () => {
 					parentId:
 						initFormObject && initFormObject.parentId
 							? initFormObject.parentId
-							: null
+							: null,
 				}}
 			>
 				{/*<div className={'FieldsLine'}>*/}
@@ -290,8 +290,8 @@ const TechMapData = () => {
 						rules={[
 							{
 								required: true,
-								message: 'Пожалуйста введите код'
-							}
+								message: 'Пожалуйста введите код',
+							},
 						]}
 					>
 						<InputNumber
@@ -310,8 +310,8 @@ const TechMapData = () => {
 					rules={[
 						{
 							required: true,
-							message: 'Пожалуйста введите наименование'
-						}
+							message: 'Пожалуйста введите наименование',
+						},
 					]}
 				>
 					<Input size={'small'} placeholder='Введите значение' />
@@ -347,7 +347,7 @@ const TechMapData = () => {
 								hierarchical: true,
 								lazyLoad: false,
 								data: {...data, isGroup: true},
-								params
+								params,
 							})
 						}
 						requestLoadDefault={apiGetFlatDataByConfigName(
@@ -384,7 +384,7 @@ const TechMapData = () => {
 								hierarchical: false,
 								lazyLoad: false,
 								data,
-								params
+								params,
 							})
 						}
 						// requestLoadDefault={apiGetFlatDataByConfigName(
@@ -431,8 +431,8 @@ const TechMapData = () => {
 									'edit',
 									'delete',
 									'up',
-									'down'
-								]
+									'down',
+								],
 							}}
 						/>
 					) : null}
