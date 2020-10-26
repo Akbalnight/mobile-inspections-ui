@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import BasePage from '../App/BasePage';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {AdvancedTable} from 'rt-design';
 import {
 	apiGetConfigByObject,
@@ -8,19 +8,22 @@ import {
 import {useLocation, useHistory} from 'react-router';
 import {paths} from '../../constants/paths';
 import {FolderOutlined} from '@ant-design/icons';
-import TechMapDataView from "./TechMapDataView";
-import GroupViewModal from "../Base/GroupViewModal";
-import {default as TechMapGroupEdit} from "../Catalog/Forms/BaseModals/BaseModalWithParentId";
+import TechMapDataView from './TechMapDataView';
+import GroupViewModal from '../Base/GroupViewModal';
+import {default as TechMapGroupEdit} from '../Catalog/Forms/BaseModals/BaseModalWithParentId';
 
 const TechMaps = () => {
 	const [mounted, setMounted] = useState(false);
 	const [configData, setConfigData] = useState({});
 
-	const [titleViewForm, setTitleViewForm] = useState("");
+	const [titleViewForm, setTitleViewForm] = useState('');
 	const [visibleDataViewForm, setVisibleDataViewForm] = useState(false);
 	const [visibleGroupViewForm, setVisibleGroupViewForm] = useState(false);
 	const [visibleGroupSaveForm, setVisibleGroupSaveForm] = useState(false);
-	const [typeOperationGroupSaveForm, setTypeOperationGroupSaveForm] = useState('');
+	const [
+		typeOperationGroupSaveForm,
+		setTypeOperationGroupSaveForm,
+	] = useState('');
 
 	const [selectTechMap, setSelectTechMap] = useState({});
 
@@ -35,11 +38,11 @@ const TechMaps = () => {
 		if (!mounted) {
 			// console.log('loadConfig -> setConfigData');
 			apiGetConfigByObject({configName: 'techMaps'})
-				.then(response => {
+				.then((response) => {
 					setConfigData(response.data);
 					setMounted(true);
 				})
-				.catch(error => {
+				.catch((error) => {
 					console.log('error -> ', error);
 				});
 		}
@@ -48,33 +51,39 @@ const TechMaps = () => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRender: ({ rowData }) => String(rowData.code).padStart(8,'0')
+			cellRender: ({rowData}) => String(rowData.code).padStart(8, '0'),
 		},
-		{ //equipmentStop increasedDanger
+		{
+			//equipmentStop increasedDanger
 			name: 'techMapsStatusName',
-			cellRender: ({ rowData }) => rowData.isGroup ? <FolderOutlined style={{fontSize: '17px'}}  /> : <div>{rowData.techMapsStatusName}</div>
-		}
+			cellRender: ({rowData}) =>
+				rowData.isGroup ? (
+					<FolderOutlined style={{fontSize: '17px'}} />
+				) : (
+					<div>{rowData.techMapsStatusName}</div>
+				),
+		},
 	];
 
 	const onClickAddHandler = () => {
-		history.push(
-			`${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/new`
-		);
+		history.push(`${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/new`);
 	};
 
 	const onClickAddGroupHandler = () => {
 		setTitleViewForm(`Создание группы технологических карт`);
 		setTypeOperationGroupSaveForm('create');
 		setSelectTechMap({});
-		setVisibleGroupSaveForm(true)
+		setVisibleGroupSaveForm(true);
 	};
 
 	const onClickEditHandler = (event, {rowData}) => {
-		if(rowData.isGroup) {
-			setTitleViewForm(`Изменение группы технологических карт ${rowData.code}`);
+		if (rowData.isGroup) {
+			setTitleViewForm(
+				`Изменение группы технологических карт ${rowData.code}`
+			);
 			setTypeOperationGroupSaveForm('update');
 			setSelectTechMap(rowData);
-			setVisibleGroupSaveForm(true)
+			setVisibleGroupSaveForm(true);
 		} else {
 			history.push(
 				`${paths.CONTROL_EQUIPMENTS_TECH_MAPS.path}/${rowData.id}`
@@ -83,7 +92,7 @@ const TechMaps = () => {
 	};
 
 	const onRowDoubleClickHandler = ({rowData}) => {
-		if(rowData.isGroup) {
+		if (rowData.isGroup) {
 			setTitleViewForm(`Группа технологических карт ${rowData.code}`);
 			setVisibleGroupViewForm(true);
 		} else {
@@ -107,7 +116,9 @@ const TechMaps = () => {
 					ref={_setTableRef}
 					autoDeleteRows={false}
 					configData={configData}
-					defaultSelectedRowKeys={pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []}
+					defaultSelectedRowKeys={
+						pathNameSplitted.length > 3 ? [pathNameSplitted[3]] : []
+					}
 					customCellRenders={customCellRenders}
 					expandDefaultAll={true}
 					fixWidthColumn={false}
@@ -119,10 +130,9 @@ const TechMaps = () => {
 							hierarchical: configData.hierarchical,
 							lazyLoad: configData.hierarchyLazyLoad,
 							data,
-							params
+							params,
 						})
 					}
-
 					commandPanelProps={{
 						onClickAdd: onClickAddHandler,
 						onClickAddGroup: onClickAddGroupHandler,
@@ -132,7 +142,7 @@ const TechMaps = () => {
 							'addGroup',
 							'edit',
 							// 'delete'
-						]
+						],
 					}}
 				/>
 				<TechMapDataView

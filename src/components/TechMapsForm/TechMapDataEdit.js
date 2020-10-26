@@ -1,12 +1,12 @@
 import React from 'react';
-import BasePage from '../App/BasePage';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-	apiSaveTechMap
+	apiSaveTechMap,
 } from '../../apis/catalog.api';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {nameInput} from '../Base/Inputs/NameInput';
@@ -19,7 +19,7 @@ const TechMapDataEdit = () => {
 	const pageParams = useParams();
 	const history = useHistory();
 
-	const loadData = callBack => {
+	const loadData = (callBack) => {
 		if (pageParams.id === 'new') {
 			callBack({
 				code: null,
@@ -27,24 +27,24 @@ const TechMapDataEdit = () => {
 				parentId: null,
 				isGroup: false,
 				techMapsStatusId: null,
-				dateStart: null
+				dateStart: null,
 			});
 		} else {
 			apiGetFlatDataByConfigName('techMaps')({
-				data: {id: pageParams.id}
+				data: {id: pageParams.id},
 			})
-				.then(response => {
+				.then((response) => {
 					// console.log("loadData => response ", response.data);
 					callBack(response.data[0]);
 				})
-				.catch(error => {
+				.catch((error) => {
 					if (error.response) {
 						console.log(error.response.data);
 						console.log(error.response.status);
 						console.log(error.response.headers);
 						notification.error({
 							message:
-								'Произошла ошибка при загрузки данных формы'
+								'Произошла ошибка при загрузки данных формы',
 						});
 					}
 				});
@@ -55,18 +55,18 @@ const TechMapDataEdit = () => {
 		const newData = {...data, isGroup: true};
 		return apiGetHierarchicalDataByConfigName('techMaps')({
 			data: newData,
-			params
+			params,
 		});
 	};
 
 	const loadTechOperationsHandler = ({data, params}) => {
 		const newData = {
 			...data,
-			techMapId: pageParams.id === 'new' ? null : pageParams.id
+			techMapId: pageParams.id === 'new' ? null : pageParams.id,
 		};
 		return apiGetFlatDataByConfigName('techOperations')({
 			data: newData,
-			params
+			params,
 		});
 	};
 
@@ -74,7 +74,7 @@ const TechMapDataEdit = () => {
 	const customFields = [
 		{
 			name: 'duration',
-			value: row => parseInt(row.hours * 60) + parseInt(row.minutes)
+			value: (row) => parseInt(row.hours * 60) + parseInt(row.minutes),
 		},
 		{
 			name: 'code',
@@ -85,12 +85,12 @@ const TechMapDataEdit = () => {
 							parseInt(current.code) > max ? current.code : max,
 						0
 					)
-				) + 1
+				) + 1,
 		},
 		{
 			name: 'position',
-			value: (row, rows) => rows.length + 1
-		}
+			value: (row, rows) => rows.length + 1,
+		},
 	];
 
 	const headFields = [
@@ -99,8 +99,8 @@ const TechMapDataEdit = () => {
 			child: {
 				componentType: 'Title',
 				label: 'Описание',
-				level: 5
-			}
+				level: 5,
+			},
 		},
 		{
 			componentType: 'Row',
@@ -127,8 +127,8 @@ const TechMapDataEdit = () => {
 								requestLoadRows: loadGroupsHandler,
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'techMaps'
-								)
-							}
+								),
+							},
 						},
 						{
 							componentType: 'Item',
@@ -145,8 +145,8 @@ const TechMapDataEdit = () => {
 								),
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'techMapsStatuses'
-								)
-							}
+								),
+							},
 						},
 						{
 							componentType: 'Item',
@@ -154,20 +154,20 @@ const TechMapDataEdit = () => {
 							name: 'dateStart',
 							child: {
 								componentType: 'DatePicker',
-								format: 'DD.MM.YYYY'
-							}
-						}
-					]
-				}
-			]
+								format: 'DD.MM.YYYY',
+							},
+						},
+					],
+				},
+			],
 		},
 		{
 			componentType: 'Item',
 			child: {
 				componentType: 'Title',
 				label: 'Технологические операции',
-				level: 5
-			}
+				level: 5,
+			},
 		},
 		{
 			componentType: 'Layout',
@@ -185,8 +185,8 @@ const TechMapDataEdit = () => {
 								edit: {actionType: ['modal', 'modal']},
 								delete: {},
 								up: {},
-								down: {}
-							}
+								down: {},
+							},
 						},
 						headerHeight: 50,
 						customFields: customFields,
@@ -197,11 +197,11 @@ const TechMapDataEdit = () => {
 						requestLoadRows: loadTechOperationsHandler,
 
 						// Получение конфигурации по имени
-						requestLoadConfig: apiGetConfigByName('techOperations')
-					}
-				}
-			]
-		}
+						requestLoadConfig: apiGetConfigByName('techOperations'),
+					},
+				},
+			],
+		},
 	];
 
 	const formConfig = {
@@ -221,9 +221,9 @@ const TechMapDataEdit = () => {
 					componentType: 'Title',
 					label: 'Информация о технологической карте',
 					className: 'mb-0',
-					level: 3
-				}
-			}
+					level: 3,
+				},
+			},
 		],
 		body: [...headFields],
 		footer: [
@@ -236,8 +236,8 @@ const TechMapDataEdit = () => {
 					onClick: () =>
 						history.push(
 							paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM.path
-						)
-				}
+						),
+				},
 			},
 			{
 				componentType: 'Item',
@@ -245,10 +245,10 @@ const TechMapDataEdit = () => {
 					componentType: 'Button',
 					label: 'Сохранить',
 					type: 'primary',
-					htmlType: 'submit'
-				}
-			}
-		]
+					htmlType: 'submit',
+				},
+			},
+		],
 	};
 
 	return (

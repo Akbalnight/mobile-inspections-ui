@@ -1,18 +1,18 @@
 import React from 'react';
-import BasePage from '../App/BasePage';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetDataCountByConfigName,
-	apiGetHierarchicalDataByConfigName
+	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
 import {useHistory} from 'react-router';
 import {
 	addGroupOnServer,
-	editGroupOnServer
+	editGroupOnServer,
 } from '../Base/Modals/GroupOnServer';
 
-const ControlPointsD = props => {
+const ControlPointsD = (props) => {
 	let history = useHistory();
 	// /api/catalog/baseCatalogWithParent/controlPoints
 	// {"name":"2","parentId":"3244445c-9df8-4a5c-a123-106c1cdb4023"}
@@ -32,12 +32,12 @@ const ControlPointsD = props => {
 									add: {actionType: 'page'},
 									addGroup: {actionType: 'modal'},
 									edit: {actionType: ['page', 'modal']},
-									delete: {actionType: 'modal'}
-								}
+									delete: {actionType: 'modal'},
+								},
 							},
 							modals: [
 								addGroupOnServer('controlPoints'),
-								editGroupOnServer('controlPoints')
+								editGroupOnServer('controlPoints'),
 							],
 							history: history,
 							requestLoadRows: apiGetHierarchicalDataByConfigName(
@@ -48,12 +48,12 @@ const ControlPointsD = props => {
 							),
 							requestLoadConfig: apiGetConfigByName(
 								'controlPoints'
-							)
-						}
-					}
-				]
-			}
-		]
+							),
+						},
+					},
+				],
+			},
+		],
 	};
 
 	return (

@@ -8,132 +8,131 @@ import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
 import ControlPointsD from '../components/ControlPoints/ControlPointsD';
 import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
-import Login from '../components/App/Auth/Login';
-import AuthorizationCode from '../components/App/Auth/AuthorizationCode';
+import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 
 const pathPrefix = '/';
 
 export const paths = {
 	PATH_PREFIX: {
 		title: 'Portal ',
-		path: `${pathPrefix}`
+		path: `${pathPrefix}`,
 	},
 	LOGIN: {
 		title: 'Login',
 		path: '/login',
-		component: Login
+		component: Login,
 	},
 	AUTHORIZATION_CODE: {
 		title: 'Authorization code',
 		path: '/authorization_code',
-		component: AuthorizationCode
+		component: AuthorizationCode,
 	},
 	HOME: {
 		title: 'Главная',
 		path: '/home',
-		component: Home
+		component: Home,
 	},
 	DEBUG: {
 		title: 'Debug',
 		path: '/debug',
-		component: Debug
+		component: Debug,
 	},
 	CATALOG: {
 		title: 'НСИ',
 		path: '/catalog',
-		component: Catalog
+		component: Catalog,
 	},
 	CATALOG_DATA: {
 		title: 'Справочник',
 		path: '/catalog/:name',
-		component: CatalogData
+		component: CatalogData,
 	},
 	DETOURS_CONFIGURATOR: {
 		title: 'Конфигуратор обходов',
 		path: '/detours-configurator',
-		component: Home
+		component: Home,
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPointsD
+		component: ControlPointsD,
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
 		title: 'Контрольная точка',
 		path: '/detours-configurator/control-points/:id',
-		component: ControlPointDataD
+		component: ControlPointDataD,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',
 		path: '/detours-configurator/routes',
-		component: Home
+		component: Home,
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/detours-schedules',
-		component: Home
+		component: Home,
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
-		component: Home
+		component: Home,
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',
 		path: '/controlEquipments',
-		component: Home
+		component: Home,
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
 		path: '/controlEquipments/work-schedules',
-		component: Home
+		component: Home,
 	},
 	CONTROL_EQUIPMENTS_TECH_MAPS: {
 		title: 'Технологические карты и операции',
 		path: '/controlEquipments/techMaps',
-		component: TechMaps
+		component: TechMaps,
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
 		title: 'Технологическая карта',
 		path: '/controlEquipments/techMaps/:id',
-		component: TechMapData
+		component: TechMapData,
 	},
 
 	/** Тех. карты на формах */
 	CONTROL_EQUIPMENTS_TECH_MAPS_FORM: {
 		title: 'Технологические карты и операции (f)',
 		path: '/controlEquipments/formTechMaps',
-		component: TechMapsForm
+		component: TechMapsForm,
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
 		title: 'Технологическая карта (f)',
 		path: '/controlEquipments/formTechMaps/:id',
-		component: TechMapDataForm
+		component: TechMapDataForm,
 	},
 
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
-		component: Home
+		component: Home,
 	},
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
-		component: Home
+		component: Home,
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: Home
+		component: Home,
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {
 		title: 'Панель отклонений',
 		path: '/control-defects/panel-deviations',
-		component: Home
+		component: Home,
 	},
 	ANALYTICS: {
 		title: 'Аналитика и отчетность',
 		path: '/analytics',
-		component: Home
-	}
+		component: Home,
+	},
 };
