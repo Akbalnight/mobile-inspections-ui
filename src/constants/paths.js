@@ -10,7 +10,7 @@ import ControlPointsD from '../components/ControlPoints/ControlPointsD';
 import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import DetoursConfiguratorRoutes from '../components/Debug/DetourConfiguratorRoures/DetoursConfiguratorRoutes';
-import DetoursConfiguratorRoutesForm from '../components/Debug/DetourConfiguratorRoures/DetoursConfiguratorRoutesForm';
+// import DetoursConfiguratorRoutesForm from '../components/Debug/DetourConfiguratorRoures/DetoursConfiguratorRoutesForm';
 
 const pathPrefix = '/';
 
@@ -69,11 +69,13 @@ export const paths = {
 		path: '/detours-configurator/routes',
 		component: DetoursConfiguratorRoutes,
 	},
-	DETOURS_CONFIGURATOR_ROUTES_FORM: {
-		title: 'Маршруты',
-		path: '/detours-configurator/routes/:id',
-		component: DetoursConfiguratorRoutesForm,
-	},
+	// DETOURS_CONFIGURATOR_ROUTES_FORM: {
+	// 	title: 'Маршруты',
+	// 	path:
+	// 		'/detours-configurator/routes/:id',
+	// 	component: DetoursConfiguratorRoutesForm,
+
+	// },
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/detours-schedules',

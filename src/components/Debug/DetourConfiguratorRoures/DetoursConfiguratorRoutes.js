@@ -1,21 +1,22 @@
 import React from 'react';
-import {useHistory} from 'react-router';
+// import {useHistory} from 'react-router';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
-import {
-	addGroupOnServer,
-	editGroupOnServer,
-} from '../../Base/Modals/GroupOnServer';
+
 import {BasePage} from 'mobile-inspections-base-ui';
+import {
+	addControlPointToRoute,
+	editControlPointToRoute,
+} from './modalControlPointsRoute';
 
 /**
  * Компонент не закончен, не работают ссылки на EDIT и ADD
  */
 export default function DetoursConfiguratorRoutes() {
-	let history = useHistory();
+	// let history = useHistory();
 
 	const formConfig = {
 		noPadding: true,
@@ -26,22 +27,27 @@ export default function DetoursConfiguratorRoutes() {
 					{
 						componentType: 'Item',
 						child: {
-							componentType: 'ServerTable',
-							history,
-							requestLoadRows: apiGetHierarchicalDataByConfigName(
-								'techMaps'
-							),
-							requestLoadConfig: apiGetConfigByName('techMaps'),
+							componentType: 'LocalTable',
+
 							commandPanelProps: {
 								systemBtnProps: {
-									add: {actionType: 'page'},
+									add: {actionType: 'modal'},
 									edit: {actionType: ['page', 'modal']},
-									delete: {actionType: 'modal'},
+									delete: {},
+									up: {},
+									down: {},
 								},
 							},
-							madals: [
-								addGroupOnServer('techMaps'),
-								editGroupOnServer('techMaps'),
+							requestLoadRows: apiGetHierarchicalDataByConfigName(
+								'controlPoints'
+							),
+							requestLoadConfig: apiGetConfigByName(
+								'controlPoints'
+							),
+
+							modals: [
+								addControlPointToRoute('controlPoints'),
+								editControlPointToRoute('controlPoints'),
 							],
 						},
 					},

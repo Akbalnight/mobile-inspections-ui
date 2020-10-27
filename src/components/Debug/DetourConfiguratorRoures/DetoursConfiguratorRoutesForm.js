@@ -1,10 +1,10 @@
-import {notification} from 'antd';
 import React from 'react';
+import {notification} from 'antd';
 import {useHistory, useParams} from 'react-router';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {
-	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 	apiSaveTechMap,
 } from '../../../apis/catalog.api';
 import {Form} from 'rt-design';
@@ -15,7 +15,7 @@ import {paths} from '../../../constants/paths';
  */
 
 export default function DetoursConfiguratorRoutesForm() {
-	let history = useHistory();
+	const history = useHistory();
 	const pageParams = useParams();
 
 	const loadData = (callBack) => {
@@ -29,7 +29,7 @@ export default function DetoursConfiguratorRoutesForm() {
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
-					// console.log("loadData => response ", response.data);
+					console.log('loadData => response ', response.data);
 					callBack(response.data[0]);
 				})
 				.catch((error) => {
@@ -56,17 +56,6 @@ export default function DetoursConfiguratorRoutesForm() {
 			value: (row) => parseInt(row.hours * 60) + parseInt(row.minutes),
 		},
 	];
-
-	const loadTechMapsHandler = ({data, params}) => {
-		const newData = {
-			...data,
-			techMapId: pageParams.id === 'new' ? null : pageParams.id,
-		};
-		return apiGetFlatDataByConfigName('techOperations')({
-			data: newData,
-			params,
-		});
-	};
 
 	const formConfig = {
 		name: 'DetoursConfiguratorRoutes',
@@ -99,7 +88,17 @@ export default function DetoursConfiguratorRoutesForm() {
 				children: [
 					{
 						componentType: 'Item',
-						children: [],
+						children: [
+							{
+								componentType: 'Item',
+								child: {
+									componentType: 'Title',
+									label: 'Контрольные точки',
+								},
+								className: 'mb-0',
+								level: 5,
+							},
+						],
 					},
 					{
 						componentType: 'Item',
@@ -116,10 +115,9 @@ export default function DetoursConfiguratorRoutesForm() {
 							{
 								componentType: 'ServerTable',
 								customFields: customFields,
-								requestLoadConfig: apiGetConfigByName(
-									'techOperations'
+								requestLoadConfig: apiGetHierarchicalDataByConfigName(
+									'techMaps'
 								),
-								requestLoadRows: loadTechMapsHandler,
 							},
 						],
 					},
