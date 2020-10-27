@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {store} from '../store';
-import {catchUnAuthError, setUser} from 'mobile-inspections-base-ui';
+import {catchUnAuthError} from 'mobile-inspections-base-ui';
 import {paths} from '../constants/paths';
 
 const DEFAULT_HEADERS = {
@@ -12,6 +12,12 @@ const DEFAULT_HEADERS = {
 const getAuth = () => store.getState().auth;
 const getAccessToken = () => getAuth().access_token;
 const getRefreshToken = () => getAuth().refresh_token;
+const setUser = (data) => {
+	store.dispatch({
+		type: 'SET_USER',
+		payload: data,
+	});
+};
 
 export const instance = axios.create({
 	baseURL: '/',
