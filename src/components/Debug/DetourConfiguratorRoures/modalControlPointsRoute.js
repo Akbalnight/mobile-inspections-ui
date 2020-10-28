@@ -1,7 +1,7 @@
-import {notification} from 'antd';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 
 export const addControlPointToRoute = (catalogName) =>
@@ -11,36 +11,10 @@ export const editControlPointToRoute = (catalogName) =>
 	OperationOnLocal('edit', catalogName, {});
 
 const OperationOnLocal = (type, catalogName, code) => {
-	const loadData = (callBack) => {
-		if (type === 'add') {
-			callBack({
-				code: null,
-				name: null,
-				isGroup: false,
-				parentId: null,
-				equipments: [],
-				techMaps: [],
-			});
-		} else {
-			apiGetFlatDataByConfigName('controlPoints')({
-				data: {id: type},
-			})
-				.then((response) => {
-					console.log('loadData => response ', response.data);
-					callBack(response.data[0]);
-				})
-				.catch((error) => {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-						notification.error({
-							message:
-								'Произошла ошибка при загрузки данных формы',
-						});
-					}
-				});
-		}
+	let controlPointsId, techMapsId;
+
+	const loadData = (callBack, row) => {
+		callBack(null);
 	};
 
 	const headFields = [
@@ -63,16 +37,18 @@ const OperationOnLocal = (type, catalogName, code) => {
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
+								onChangeKeys: (value, option) => {
+									return (controlPointsId = option);
+								},
 								requestLoadRows: ({data, params}) =>
-									apiGetFlatDataByConfigName('controlPoints')(
-										{
-											data: {
-												...data,
-												// isGroup: true
-											},
-											params,
-										}
-									),
+									apiGetHierarchicalDataByConfigName(
+										'controlPoints'
+									)({
+										data: {
+											...data,
+										},
+										params,
+									}),
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'controlPoints'
 								),
@@ -107,11 +83,11 @@ const OperationOnLocal = (type, catalogName, code) => {
 							apiGetFlatDataByConfigName(
 								'controlPointsEquipments'
 							)({
-								data: {...data},
+								data: {...data, controlPointsId},
 								params,
-							}), //controlPointsId: pageParams.id
+							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
 						requestLoadConfig: () =>
-							apiGetConfigByName('controlPointsEquipments')(),
+							apiGetConfigByName('controlPointsEquipments')(), // правльно разметить столбцы в конфиге,
 					},
 				},
 			],
@@ -137,7 +113,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 						},
 						{
 							componentType: 'Item',
-							name: 'groupControlPoint',
+							name: 'techMapsGroup',
 							child: {
 								componentType: 'SingleSelect',
 								widthControl: 0,
@@ -146,11 +122,13 @@ const OperationOnLocal = (type, catalogName, code) => {
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
+								onChangeKeys: (value, option) => {
+									return (techMapsId = option);
+								},
 								requestLoadRows: ({data, params}) =>
 									apiGetFlatDataByConfigName('techMaps')({
 										data: {
 											...data,
-											// isGroup: true,
 										},
 										params,
 									}),
@@ -178,22 +156,35 @@ const OperationOnLocal = (type, catalogName, code) => {
 							apiGetFlatDataByConfigName('techOperations')({
 								data: {
 									...data,
-									code: null,
+									techMapsId,
 								},
 								params,
-							}), //controlPointsId: pageParams.id,
+							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
 						requestLoadConfig: () =>
-							apiGetConfigByName('techOperations')(),
+							apiGetConfigByName('techOperations')(), // правльно разметить столбцы в конфиге,
 					},
 				},
 			],
 		},
 		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Text',
-				label: 'TYPE',
-			},
+			componentType: 'Row',
+			gutter: [16, 16],
+			children: [
+				{
+					componentType: 'Col',
+					span: 12,
+					children: [
+						{
+							componentType: 'Item',
+
+							child: {
+								componentType: 'Text',
+								label: 'Продолжительность всех операций',
+							},
+						},
+					],
+				},
+			],
 		},
 	];
 
