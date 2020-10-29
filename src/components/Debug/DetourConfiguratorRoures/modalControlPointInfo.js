@@ -1,62 +1,52 @@
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {customColumnProps} from '../../TechMapsForm/TechMapColumnProps';
 
-export const addControlPointToRoute = (catalogName) =>
-	OperationOnLocal('add', catalogName, {});
-
-export const editControlPointToRoute = (catalogName) =>
-	OperationOnLocal('edit', catalogName, {}); // для редактрования сюда необходимо передать ROW
-
-const OperationOnLocal = (type, catalogName, code) => {
-	let controlPointsId, techMapsId, Row;
+export const controlPointViewModal = () => {
+	let techMapsId, Row;
 
 	const loadData = (callBack, row) => {
 		Row = row;
-		type === 'add' ? callBack(null) : callBack(Row);
+		callBack(row);
 	};
 
+	const loadControlPointEquipmentsHandler = ({data, params}) => {
+		const newData = {...data, controlPointsId: Row.id};
+		return apiGetFlatDataByConfigName('controlPointsEquipments')({
+			data: newData,
+			params,
+		});
+	};
 	const headFields = [
 		{
 			componentType: 'Row',
-			gutter: [16, 16],
+			// gutter: [4, 8],
 			children: [
 				{
 					componentType: 'Col',
-					span: 24,
+					span: 8,
 					children: [
 						{
 							componentType: 'Item',
-							name: 'groupControlPoint',
-							child: {
-								componentType: 'SingleSelect',
-								widthControl: 0,
-								widthPopup: 740,
-								heightPopup: 250,
-								expandColumnKey: 'id',
-								rowRender: 'name',
-								expandDefaultAll: true,
-								dispatchPath:
-									'controlPointsEquipment.modal.selected',
-								onChangeKeys: (value, option) => {
-									return (controlPointsId = option);
-								},
-								requestLoadRows: ({data, params}) =>
-									apiGetHierarchicalDataByConfigName(
-										'controlPoints'
-									)({
-										data: {
-											...data,
-										},
-										params,
-									}),
-								requestLoadDefault: apiGetFlatDataByConfigName(
-									'controlPoints'
-								),
-							},
+							label: 'Код',
+							name: 'code',
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+					],
+				},
+				{
+					componentType: 'Col',
+					span: 12,
+					children: [
+						{
+							componentType: 'Item',
+							label: 'Наименование',
+							name: 'name',
+							className: 'md-16',
+							child: {componentType: 'Text'},
 						},
 					],
 				},
@@ -64,7 +54,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 		},
 	];
 
-	const equipmentTableConfig = [
+	const equipmentFields = [
 		{
 			componentType: 'Item',
 			child: {
@@ -79,32 +69,14 @@ const OperationOnLocal = (type, catalogName, code) => {
 			children: [
 				{
 					componentType: 'Item',
-					name: 'equipments',
+					name: 'controlPointEquipmentsTable',
 					child: {
-						componentType: 'ServerTable',
-						selectable: true,
-						// subscribe: {
-						// 	name: 'controlPointsEquipments',
-						// 	path: 'controlPointsEquipment.modal.selected',
-						// 	onChange: ({value, setReloadTable}) =>
-						// 		value &&
-						// 		setReloadTable &&
-						// 		setReloadTable({
-						// 			filter: {controlPointsId: value.id},
-						// 		}),
-						// },
-						// requestLoadRows: apiGetFlatDataByConfigName(
-						// 	'controlPointsEquipments'
-						// ),
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName(
-								'controlPointsEquipments'
-							)({
-								data: {...data, controlPointsId},
-								params,
-							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
-						requestLoadConfig: () =>
-							apiGetConfigByName('controlPointsEquipments')(), // правльно разметить столбцы в конфиге,
+						componentType: 'LocalTable',
+						// customColumnProps: ,
+						requestLoadRows: loadControlPointEquipmentsHandler,
+						requestLoadConfig: apiGetConfigByName(
+							'controlPointsEquipments'
+						),
 					},
 				},
 			],
@@ -206,31 +178,16 @@ const OperationOnLocal = (type, catalogName, code) => {
 	];
 
 	return {
-		type: `${type}OnLocal`, //change ...OnServer нужно не забыть поставить requestSaveRow
-		title:
-			type === 'add'
-				? 'Добавление контрольной точки'
-				: 'Изменение контрольной точки',
+		type: 'viewObject',
+		title: 'Контрольная точка',
 		width: 783,
 		bodyStyle: {
 			height: 682,
 		},
-
-		initialValues: (row) => {
-			return null;
-		},
 		form: {
-			name: `${type}ModalForm`,
-
-			labelCol: {span: 10},
-			wrapperCol: {span: 14},
-
+			name: 'controlPointsDataView',
 			loadInitData: loadData,
-			onFinish: (values) => {
-				console.log('values', values);
-			},
-
-			body: [code, ...headFields, ...equipmentTableConfig, ...techMaps],
+			body: [...headFields, ...equipmentFields, ...techMaps],
 		},
 	};
 };

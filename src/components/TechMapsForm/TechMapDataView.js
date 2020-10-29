@@ -1,6 +1,6 @@
 import {
 	apiGetConfigByName,
-	apiGetFlatDataByConfigName
+	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {customColumnProps} from './TechMapColumnProps';
 
@@ -16,7 +16,7 @@ export const techMapDataView = () => {
 		const newData = {...data, techMapId: Row.id};
 		return apiGetFlatDataByConfigName('techOperations')({
 			data: newData,
-			params
+			params,
 		});
 	};
 
@@ -26,8 +26,8 @@ export const techMapDataView = () => {
 			child: {
 				componentType: 'Title',
 				label: 'Описание',
-				level: 5
-			}
+				level: 5,
+			},
 		},
 		{
 			componentType: 'Row',
@@ -42,28 +42,28 @@ export const techMapDataView = () => {
 							label: 'Код',
 							name: 'code',
 							className: 'mb-0',
-							child: {componentType: 'Text'}
+							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'Наименование',
 							name: 'name',
 							className: 'mb-0',
-							child: {componentType: 'Text'}
+							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'Группа',
 							name: 'parentName',
 							className: 'mb-0',
-							child: {componentType: 'Text'}
+							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'Статус',
 							name: 'techMapsStatusName',
 							className: 'mb-0',
-							child: {componentType: 'Text'}
+							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
@@ -72,20 +72,20 @@ export const techMapDataView = () => {
 							className: 'mb-0',
 							child: {
 								componentType: 'DateText',
-								format: 'DD.MM.YYYY'
-							}
-						}
-					]
-				}
-			]
+								format: 'DD.MM.YYYY',
+							},
+						},
+					],
+				},
+			],
 		},
 		{
 			componentType: 'Item',
 			child: {
 				componentType: 'Title',
 				label: 'Технологические операции',
-				level: 5
-			}
+				level: 5,
+			},
 		},
 		{
 			componentType: 'Layout',
@@ -104,11 +104,11 @@ export const techMapDataView = () => {
 						requestLoadRows: loadTechOperationsHandler,
 
 						// Получение конфигурации по имени
-						requestLoadConfig: apiGetConfigByName('techOperations')
-					}
-				}
-			]
-		}
+						requestLoadConfig: apiGetConfigByName('techOperations'),
+					},
+				},
+			],
+		},
 	];
 
 	return {
@@ -121,7 +121,7 @@ export const techMapDataView = () => {
 			wrapperCol: {span: 16},
 			labelAlign: 'left',
 			loadInitData: loadData,
-			body: [...headFields]
-		}
+			body: [...headFields],
+		},
 	};
 };

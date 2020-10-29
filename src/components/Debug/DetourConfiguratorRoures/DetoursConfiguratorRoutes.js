@@ -11,9 +11,11 @@ import {
 	addControlPointToRoute,
 	editControlPointToRoute,
 } from './modalControlPointsRoute';
+import {routeViewModal} from './modalRouteInfo';
+import {controlPointViewModal} from './modalControlPointInfo';
 
 /**
- * Компонент не закончен, не работают ссылки на EDIT и ADD
+ * Компонент не закончен, не работают ссылки на EDIT
  */
 export default function DetoursConfiguratorRoutes() {
 	// let history = useHistory();
@@ -28,7 +30,7 @@ export default function DetoursConfiguratorRoutes() {
 						componentType: 'Item',
 						child: {
 							componentType: 'LocalTable',
-
+							// history,
 							commandPanelProps: {
 								systemBtnProps: {
 									add: {actionType: 'modal'},
@@ -48,6 +50,8 @@ export default function DetoursConfiguratorRoutes() {
 							modals: [
 								addControlPointToRoute('controlPoints'),
 								editControlPointToRoute('controlPoints'),
+								routeViewModal(),
+								controlPointViewModal(),
 							],
 						},
 					},
