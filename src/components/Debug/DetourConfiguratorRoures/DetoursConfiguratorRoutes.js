@@ -14,9 +14,6 @@ import {
 import {routeViewModal} from './modalRouteInfo';
 import {controlPointViewModal} from './modalControlPointInfo';
 
-/**
- * Компонент не закончен, не работают ссылки на EDIT
- */
 export default function DetoursConfiguratorRoutes() {
 	// let history = useHistory();
 
