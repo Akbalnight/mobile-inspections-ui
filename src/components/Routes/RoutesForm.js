@@ -6,7 +6,7 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../apis/catalog.api';
 // import {paths} from '../../../constants/paths';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {controlPointViewModal} from './Modals/routeControlPointView';
