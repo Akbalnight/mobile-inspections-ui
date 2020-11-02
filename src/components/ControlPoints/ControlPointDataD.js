@@ -142,6 +142,7 @@ const ControlPointDataD = (props) => {
 					name: 'equipments',
 					child: {
 						componentType: 'LocalTable', //'LocalTable', // 'ServerTable', 'InfinityTAble'
+						// rowKey: 'equipmentId',
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -157,7 +158,19 @@ const ControlPointDataD = (props) => {
 							{
 								name: 'equipmentId',
 								value: (row) => row.id,
+								validate: (row, rows) => {
+									// console.log("validate => ", rows.map(row => row.equipmentId));
+									// console.log("validate => ", row.id);
+									// console.log("validate => ", !rows.map(row => row.equipmentId).includes(row.id));
+									return !rows
+										.map((row) => row.equipmentId)
+										.includes(row.id);
+								},
 							},
+							// {
+							// 	name: 'isGroup',
+							// 	validate: (row, rows) => !row.isGroup,
+							// },
 						],
 						// selectable: true,
 						// showSelection: true,

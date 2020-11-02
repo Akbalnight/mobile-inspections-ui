@@ -182,6 +182,7 @@ const TechMapDataEdit = () => {
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
+								// addAsCopy: {},
 								edit: {actionType: ['modal', 'modal']},
 								delete: {},
 								up: {},

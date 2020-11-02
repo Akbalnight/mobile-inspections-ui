@@ -1,13 +1,14 @@
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName
+	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 
 export const TechMapSelectModal = {
 	type: 'select',
 	width: 700,
 	form: {
+		loadInitData: (callBack, row) => callBack(row),
 		body: [
 			{
 				componentType: 'Layout',
@@ -27,10 +28,10 @@ export const TechMapSelectModal = {
 							requestLoadRows: apiGetHierarchicalDataByConfigName(
 								'techMaps'
 							),
-							requestLoadConfig: apiGetConfigByName('techMaps')
-						}
-					}
-				]
+							requestLoadConfig: apiGetConfigByName('techMaps'),
+						},
+					},
+				],
 			},
 			{
 				componentType: 'Layout',
@@ -50,19 +51,19 @@ export const TechMapSelectModal = {
 									value &&
 									setReloadTable &&
 									setReloadTable({
-										filter: {techMapId: value.id}
-									})
+										filter: {techMapId: value.id},
+									}),
 							},
 							requestLoadRows: apiGetFlatDataByConfigName(
 								'techOperationsSmall'
 							),
 							requestLoadConfig: apiGetConfigByName(
 								'techOperationsSmall'
-							)
-						}
-					}
-				]
-			}
-		]
-	}
+							),
+						},
+					},
+				],
+			},
+		],
+	},
 };

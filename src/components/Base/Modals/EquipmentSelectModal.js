@@ -1,12 +1,13 @@
 import {
 	apiGetConfigByName,
-	apiGetHierarchicalDataByConfigName
+	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 
 export const EquipmentSelectModal = {
 	type: 'select',
 	width: 800,
 	form: {
+		loadInitData: (callBack, row) => callBack(row),
 		body: [
 			{
 				componentType: 'Layout',
@@ -16,7 +17,7 @@ export const EquipmentSelectModal = {
 						name: 'equipments',
 						child: {
 							componentType: 'SelectTable', //'LocalTable', // 'ServerTable', 'InfinityTAble'
-							// selectable: true,
+							selectable: true,
 							commandPanelProps: {systemBtnProps: {search: {}}},
 							nodeAssociated: false,
 							searchParamName: 'name',
@@ -26,11 +27,11 @@ export const EquipmentSelectModal = {
 							),
 							requestLoadConfig: apiGetConfigByName(
 								'equipmentsAutoQuery'
-							)
-						}
-					}
-				]
-			}
-		]
-	}
+							),
+						},
+					},
+				],
+			},
+		],
+	},
 };
