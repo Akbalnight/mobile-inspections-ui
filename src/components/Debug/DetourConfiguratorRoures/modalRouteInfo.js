@@ -38,6 +38,8 @@ export const routeViewModal = () => {
 		 * свои инструкции без дополнительных действий. При этом возможно юзеру будет комфорнее понять что будет редактировать он Маршрут.
 		 *
 		 */
+
+		//headFields
 		{
 			componentType: 'Row',
 			gutter: [8, 8],
@@ -129,6 +131,8 @@ export const routeViewModal = () => {
 				},
 			],
 		},
+
+		//controlPointsFields
 		{
 			componentType: 'Item',
 			child: {
@@ -166,6 +170,8 @@ export const routeViewModal = () => {
 		 * Участок ниже сделан для компановкеи макета, на его место встнет новый компонент
 		 * В котором мы сможем увидеть отображение Маршрутных карт
 		 */
+
+		// routeMapsFields
 		{
 			componentType: 'Layout',
 			className: 'mb-16',

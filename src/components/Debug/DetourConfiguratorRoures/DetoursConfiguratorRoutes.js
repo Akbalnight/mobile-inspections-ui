@@ -1,5 +1,5 @@
 import React from 'react';
-// import {useHistory} from 'react-router';
+import {useHistory} from 'react-router';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
@@ -15,7 +15,7 @@ import {routeViewModal} from './modalRouteInfo';
 import {controlPointViewModal} from './modalControlPointInfo';
 
 export default function DetoursConfiguratorRoutes() {
-	// let history = useHistory();
+	let history = useHistory();
 
 	const formConfig = {
 		noPadding: true,
@@ -27,10 +27,10 @@ export default function DetoursConfiguratorRoutes() {
 						componentType: 'Item',
 						child: {
 							componentType: 'LocalTable',
-							// history,
+							history,
 							commandPanelProps: {
 								systemBtnProps: {
-									add: {actionType: 'modal'},
+									add: {actionType: 'page'},
 									edit: {actionType: ['page', 'modal']},
 									delete: {},
 									up: {},
@@ -47,8 +47,8 @@ export default function DetoursConfiguratorRoutes() {
 							modals: [
 								addControlPointToRoute('controlPoints'),
 								editControlPointToRoute('controlPoints'),
-								routeViewModal(),
-								controlPointViewModal(),
+								routeViewModal(), //info about Route
+								controlPointViewModal(), // info about ControlPoint
 							],
 						},
 					},

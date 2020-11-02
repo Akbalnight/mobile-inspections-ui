@@ -6,13 +6,15 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 // import {paths} from '../../../constants/paths';
 import {codeInput} from '../../Base/Inputs/CodeInput';
-
-/**
- * Компонент не закончен
- */
+import {controlPointViewModal} from './modalControlPointInfo';
+import {
+	addControlPointToRoute,
+	editControlPointToRoute,
+} from './modalControlPointsRoute';
 
 export default function DetoursConfiguratorRoutesForm() {
 	const history = useHistory();
@@ -25,7 +27,7 @@ export default function DetoursConfiguratorRoutesForm() {
 				duration: null,
 			});
 		} else {
-			apiGetConfigByName('techMaps')({
+			apiGetConfigByName('controlPoints')({
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
@@ -95,7 +97,7 @@ export default function DetoursConfiguratorRoutesForm() {
 			child: {
 				componentType: 'Title',
 				style: {
-					'margin-left': 20, // костыль с отображение были проблемы
+					marginLeft: 20, // костыль с отображение были проблемы
 				},
 				label: 'Контрольные точки',
 				level: 5,
@@ -116,16 +118,21 @@ export default function DetoursConfiguratorRoutesForm() {
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
-								edit: {actionType: ['page', 'modal']},
+								edit: {actionType: ['modal', 'page']},
 								delete: {},
 								up: {},
 								down: {},
 							},
 						},
-						requestLoadRows: apiGetFlatDataByConfigName(
+						requestLoadRows: apiGetHierarchicalDataByConfigName(
 							'controlPoints'
-						),
+						), // поставил иерархическую для наглядности модалки, она реагирует только на конечные контрольные точки
 						requestLoadConfig: apiGetConfigByName('controlPoints'),
+						modals: [
+							addControlPointToRoute('controlPoints'),
+							editControlPointToRoute('controlPoints'),
+							controlPointViewModal(),
+						],
 					},
 				},
 			],
@@ -136,17 +143,18 @@ export default function DetoursConfiguratorRoutesForm() {
 		{
 			componentType: 'Row',
 			gutter: [8, 0],
+			style: {
+				marginLeft: 20,
+				marginTop: 10, // костыль с отображение были проблемы
+			},
 			children: [
 				{
 					componentType: 'Col',
-					span: 3,
+					span: 5,
 					children: [
 						{
 							componentType: 'Item',
 							child: {
-								style: {
-									'margin-left': 20, // костыль с отображение были проблемы
-								},
 								componentType: 'Title',
 								label: 'Маршрутные карты',
 								level: 5,
@@ -200,6 +208,9 @@ export default function DetoursConfiguratorRoutesForm() {
 			children: [
 				{
 					componentType: 'Item',
+					style: {
+						marginTop: 10, // костыль с отображение были проблемы
+					},
 					child: {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
@@ -232,12 +243,11 @@ export default function DetoursConfiguratorRoutesForm() {
 				componentType: 'Item',
 				child: {
 					componentType: 'Title',
+					level: 4,
 					label:
 						pageParams.id === 'new'
 							? 'Создание маршрута'
 							: 'Редактирование маршрута',
-
-					level: 4,
 				},
 			},
 		],
@@ -249,6 +259,9 @@ export default function DetoursConfiguratorRoutesForm() {
 					componentType: 'Button',
 					label: 'Закрыть',
 					className: 'mr-8',
+					onClick: () => {
+						history.goBack();
+					},
 				},
 			},
 			{

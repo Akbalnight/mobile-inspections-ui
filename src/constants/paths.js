@@ -11,6 +11,7 @@ import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import DetoursConfiguratorRoutes from '../components/Debug/DetourConfiguratorRoures/DetoursConfiguratorRoutes';
 import DetoursConfiguratorRoutesForm from '../components/Debug/DetourConfiguratorRoures/DetoursConfiguratorRoutesForm';
+import DetourConfiguratorDetourSchedulesForm from '../components/Debug/DetourConfiguratorDetoursSchedules/DetourConfiguratorDetourSchedulesForm';
 
 const pathPrefix = '/';
 
@@ -65,20 +66,19 @@ export const paths = {
 		component: ControlPointDataD,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
-		title: 'Маршруты',
+		title: 'Маршруты(f)',
 		path: '/detours-configurator/routes',
-
 		component: DetoursConfiguratorRoutes,
 	},
-	DETOURS_CONFIGURATOR_ROUTES_FORM: {
-		title: 'Маршруты',
+	DETOURS_CONFIGURATOR_ROUTES_DATA: {
+		title: 'Маршруты созадние/редакитрование (f)',
 		path: '/detours-configurator/routes/:id',
 		component: DetoursConfiguratorRoutesForm,
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
-		title: 'Расписание обходов',
+		title: 'Расписание обходов(f)',
 		path: '/detours-configurator/detours-schedules',
-		component: Home,
+		component: DetourConfiguratorDetourSchedulesForm,
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',

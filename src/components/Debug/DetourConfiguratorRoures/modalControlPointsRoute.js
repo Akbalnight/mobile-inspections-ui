@@ -39,8 +39,8 @@ const OperationOnLocal = (type, catalogName, code) => {
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
-								dispatchPath:
-									'controlPointsEquipment.modal.selected',
+								// dispatchPath:
+								// 	'controlPointsEquipment.modal.selected',
 								onChangeKeys: (value, option) => {
 									return (controlPointsId = option);
 								},
@@ -177,7 +177,8 @@ const OperationOnLocal = (type, catalogName, code) => {
 								params,
 							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
 						requestLoadConfig: () =>
-							apiGetConfigByName('techOperations')(), // правльно разметить столбцы в конфиге,
+							apiGetConfigByName('techOperations')(),
+						// правльно разметить столбцы в конфиге,
 					},
 				},
 			],
@@ -196,7 +197,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 							componentType: 'Item',
 							child: {
 								componentType: 'Text',
-								label: `Продолжительность всех операций: {результат вычесления времени}`,
+								label: `Продолжительность всех операций: ${controlPointsId}`,
 							},
 						},
 					],
@@ -209,7 +210,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 		type: `${type}OnLocal`, //change ...OnServer нужно не забыть поставить requestSaveRow
 		title:
 			type === 'add'
-				? 'Добавление контрольной точки'
+				? 'Создание контрольной точки'
 				: 'Изменение контрольной точки',
 		width: 783,
 		bodyStyle: {
