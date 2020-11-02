@@ -47,12 +47,14 @@ export const TechMapSelectModal = {
 							subscribe: {
 								name: 'techMap',
 								path: 'controlPointData.modal.techMap.selected',
-								onChange: ({value, setReloadTable}) =>
+								onChange: ({value, setReloadTable}) => {
+									// console.log('TechMapSelectModal subscribe', value);
 									value &&
-									setReloadTable &&
-									setReloadTable({
-										filter: {techMapId: value.id},
-									}),
+										setReloadTable &&
+										setReloadTable({
+											filter: {techMapId: value.id},
+										});
+								},
 							},
 							requestLoadRows: apiGetFlatDataByConfigName(
 								'techOperationsSmall'

@@ -12,7 +12,7 @@ export const editControlPointToRoute = (catalogName) =>
 	OperationOnLocal('edit', catalogName, {}); // для редактрования сюда необходимо передать ROW
 
 const OperationOnLocal = (type, catalogName, code) => {
-	let controlPointsId, techMapsId, Row;
+	let controlPointsId, Row;
 
 	const loadData = (callBack, row) => {
 		Row = row;
@@ -39,11 +39,11 @@ const OperationOnLocal = (type, catalogName, code) => {
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
-								// dispatchPath:
-								// 	'controlPointsEquipment.modal.selected',
-								onChangeKeys: (value, option) => {
-									return (controlPointsId = option);
-								},
+								dispatchPath:
+									'routes.controlPointModal.controlPoint',
+								// onChangeKeys: (value, option) => {
+								// 	return (controlPointsId = option);
+								// },
 								requestLoadRows: ({data, params}) =>
 									apiGetHierarchicalDataByConfigName(
 										'controlPoints'
@@ -83,28 +83,25 @@ const OperationOnLocal = (type, catalogName, code) => {
 					child: {
 						componentType: 'ServerTable',
 						selectable: true,
-						// subscribe: {
-						// 	name: 'controlPointsEquipments',
-						// 	path: 'controlPointsEquipment.modal.selected',
-						// 	onChange: ({value, setReloadTable}) =>
-						// 		value &&
-						// 		setReloadTable &&
-						// 		setReloadTable({
-						// 			filter: {controlPointsId: value.id},
-						// 		}),
-						// },
-						// requestLoadRows: apiGetFlatDataByConfigName(
-						// 	'controlPointsEquipments'
-						// ),
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName(
-								'controlPointsEquipments'
-							)({
-								data: {...data, controlPointsId},
-								params,
-							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
-						requestLoadConfig: () =>
-							apiGetConfigByName('controlPointsEquipments')(), // правльно разметить столбцы в конфиге,
+						defaultFilter: {controlPointsId: null},
+						subscribe: {
+							name: 'controlPointEquipments',
+							path: 'routes.controlPointModal.controlPoint',
+							onChange: ({value, setReloadTable}) =>
+								value &&
+								setReloadTable &&
+								setReloadTable({
+									filter: {controlPointsId: value.id},
+								}),
+						},
+						// не отображает в онлайн режиме, необходимо праdильно выстоить
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'controlPointsEquipments'
+						),
+						// правльно разметить столбцы в конфиге,
+						requestLoadConfig: apiGetConfigByName(
+							'controlPointsEquipments'
+						),
 					},
 				},
 			],
@@ -139,16 +136,14 @@ const OperationOnLocal = (type, catalogName, code) => {
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
-								onChangeKeys: (value, option) => {
-									return (techMapsId = option);
-								},
-								requestLoadRows: ({data, params}) =>
-									apiGetFlatDataByConfigName('techMaps')({
-										data: {
-											...data,
-										},
-										params,
-									}),
+								// onChangeKeys: (value, option) => {
+								// 	return (techMapsId = option);
+								// },
+								dispatchPath:
+									'routes.controlPointModal.techMap',
+								requestLoadRows: apiGetHierarchicalDataByConfigName(
+									'techMaps'
+								),
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'techMaps'
 								),
@@ -166,19 +161,27 @@ const OperationOnLocal = (type, catalogName, code) => {
 					componentType: 'Item',
 					name: 'techMaps',
 					child: {
-						componentType: 'LocalTable',
+						componentType: 'ServerTable',
 						customColumnProps: customColumnProps,
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName('techOperations')({
-								data: {
-									...data,
-									techMapsId,
-								},
-								params,
-							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
-						requestLoadConfig: () =>
-							apiGetConfigByName('techOperations')(),
+						defaultFilter: {techMapId: null},
+						subscribe: {
+							name: 'controlPointTechMap',
+							path: 'routes.controlPointModal.techMap',
+							onChange: ({value, setReloadTable}) =>
+								value &&
+								setReloadTable &&
+								setReloadTable({
+									filter: {techMapId: value.id},
+								}),
+						},
+						// не отображает в онлайн режиме, необходимо праdильно выстоить
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'techOperationsSmall'
+						),
 						// правльно разметить столбцы в конфиге,
+						requestLoadConfig: apiGetConfigByName(
+							'techOperationsSmall'
+						),
 					},
 				},
 			],
@@ -207,7 +210,9 @@ const OperationOnLocal = (type, catalogName, code) => {
 	];
 
 	return {
-		type: `${type}OnLocal`, //change ...OnServer нужно не забыть поставить requestSaveRow
+		//change ...OnServer нужно не забыть поставить requestSaveRow
+		// НЕ нужно должно быть OnLocal
+		type: `${type}OnLocal`,
 		title:
 			type === 'add'
 				? 'Создание контрольной точки'

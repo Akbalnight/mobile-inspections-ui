@@ -246,7 +246,7 @@ const ControlPointDataD = (props) => {
 	];
 	const onFinish = (values) => {
 		console.log('Success:', values);
-		history.goBack();
+		// history.goBack();
 	};
 	//
 	// const onFinishFailed = errorInfo => {

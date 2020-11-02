@@ -6,17 +6,16 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 // import {paths} from '../../../constants/paths';
-import {codeInput} from '../../Base/Inputs/CodeInput';
-import {controlPointViewModal} from './modalControlPointInfo';
+import {codeInput} from '../Base/Inputs/CodeInput';
+import {controlPointViewModal} from './Modals/routeControlPointView';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
-} from './modalControlPointsRoute';
+} from './Modals/routeControlPointEdit';
 
-export default function DetoursConfiguratorRoutesForm() {
+export default function RoutesForm() {
 	const history = useHistory();
 	const pageParams = useParams();
 
@@ -27,7 +26,7 @@ export default function DetoursConfiguratorRoutesForm() {
 				duration: null,
 			});
 		} else {
-			apiGetConfigByName('controlPoints')({
+			apiGetConfigByName('routes')({
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
@@ -46,6 +45,17 @@ export default function DetoursConfiguratorRoutesForm() {
 					}
 				});
 		}
+	};
+
+	const loadControlPointsForRoute = ({params, data}) => {
+		const newData = {
+			...data,
+			id: pageParams.id === 'new' ? null : pageParams.id,
+		};
+		return apiGetFlatDataByConfigName('routeControlPoints')({
+			data: newData,
+			params,
+		});
 	};
 
 	const headFields = [
@@ -124,10 +134,10 @@ export default function DetoursConfiguratorRoutesForm() {
 								down: {},
 							},
 						},
-						requestLoadRows: apiGetHierarchicalDataByConfigName(
-							'controlPoints'
-						), // поставил иерархическую для наглядности модалки, она реагирует только на конечные контрольные точки
-						requestLoadConfig: apiGetConfigByName('controlPoints'),
+						requestLoadRows: loadControlPointsForRoute,
+						requestLoadConfig: apiGetConfigByName(
+							'routeControlPoints'
+						),
 						modals: [
 							addControlPointToRoute('controlPoints'),
 							editControlPointToRoute('controlPoints'),
