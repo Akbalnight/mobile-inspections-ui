@@ -9,7 +9,7 @@ import {ConfigProvider} from 'antd';
 import ru_RU from 'antd/lib/locale-provider/ru_RU';
 import {menu} from './constants/menu';
 import {paths} from './constants/paths';
-import Routes from './components/Routes/Routes';
+import AppRoutes from './AppRoutes';
 import {ReactComponent as LogoBig} from './imgs/logo-big.svg';
 import {ReactComponent as LogoSmall} from './imgs/logo-small.svg';
 import {ReactComponent as ToggleBtnLeft} from './imgs/toggle-btn-left.svg';
@@ -38,7 +38,7 @@ ReactDOM.render(
 					<ConfigProvider locale={ru_RU}>
 						<App
 							// For App
-							Routes={Routes}
+							Routes={AppRoutes}
 							paths={paths}
 							menuProps={{
 								menu: menu,
