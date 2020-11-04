@@ -4,12 +4,12 @@ const loadData = (callBack, row, type) => {
 	const newData = {
 		...row,
 		hours: row.duration && parseInt(row.duration / 60),
-		minutes: row.duration && row.duration % 60
+		minutes: row.duration && row.duration % 60,
 	};
 	callBack(type === 'edit' ? newData : null);
 };
 
-const TechOperationOnLocal = type => {
+const TechOperationOnLocal = (type) => {
 	return {
 		type: `${type}OnLocal`,
 		title: `${
@@ -38,41 +38,61 @@ const TechOperationOnLocal = type => {
 									rules: [
 										{
 											message: 'Заполните наименование',
-											required: true
-										}
+											required: true,
+										},
 									],
 									child: {
 										componentType: 'TextArea',
 										autoSize: true,
-										size: 'small'
-									}
+										size: 'small',
+									},
 								},
 								{
 									componentType: 'Item',
 									label: 'Ввод данных',
 									name: 'needInputData',
 									valuePropName: 'checked',
-									child: {componentType: 'Checkbox'}
+									child: {
+										componentType: 'Checkbox',
+										dispatchPath:
+											'techOperations.modal.needInputData',
+									},
 								},
 								{
 									componentType: 'Item',
 									label: 'Подпись ввода данных',
 									name: 'labelInputData',
-									child: {componentType: 'Input'}
+									child: {
+										componentType: 'Input',
+										subscribe: {
+											name: 'needInputData',
+											path:
+												'rtd.techOperations.modal.needInputData',
+											onChange: ({
+												value,
+												setSubscribeProps,
+											}) => {
+												// console.log('needInputData => value', value);
+												setSubscribeProps({
+													disabled: !value,
+												});
+											},
+										},
+									},
 								},
 								{
 									componentType: 'Item',
 									label: 'Остановка оборудования',
 									name: 'equipmentStop',
 									valuePropName: 'checked',
-									child: {componentType: 'Checkbox'}
+									child: {componentType: 'Checkbox'},
 								},
 								{
 									componentType: 'Item',
 									label: 'Повышенная опасность',
 									name: 'increasedDanger',
 									valuePropName: 'checked',
-									child: {componentType: 'Checkbox'}
+									child: {componentType: 'Checkbox'},
 								},
 								{
 									componentType: 'Row',
@@ -91,11 +111,11 @@ const TechOperationOnLocal = type => {
 														style: {
 															color:
 																'rgba(0, 0, 0, 0.85)',
-															fontSize: '12px'
-														}
-													}
-												}
-											]
+															fontSize: '12px',
+														},
+													},
+												},
+											],
 										},
 										{
 											componentType: 'Col',
@@ -111,10 +131,10 @@ const TechOperationOnLocal = type => {
 														placeholder: 'Часы',
 														size: 'small',
 														min: 0,
-														max: 12
-													}
-												}
-											]
+														max: 12,
+													},
+												},
+											],
 										},
 										{
 											componentType: 'Col',
@@ -123,7 +143,7 @@ const TechOperationOnLocal = type => {
 												{
 													componentType: 'Item',
 													style: {
-														textAlign: 'center'
+														textAlign: 'center',
 													},
 													child: {
 														componentType: 'Text',
@@ -131,11 +151,11 @@ const TechOperationOnLocal = type => {
 														level: 6,
 														style: {
 															lineHeight: '24px',
-															marginLeft: '8px'
-														}
-													}
-												}
-											]
+															marginLeft: '8px',
+														},
+													},
+												},
+											],
 										},
 										{
 											componentType: 'Col',
@@ -151,10 +171,10 @@ const TechOperationOnLocal = type => {
 														placeholder: 'Минуты',
 														size: 'small',
 														min: 0,
-														max: 59
-													}
-												}
-											]
+														max: 59,
+													},
+												},
+											],
 										},
 										{
 											componentType: 'Col',
@@ -163,7 +183,7 @@ const TechOperationOnLocal = type => {
 												{
 													componentType: 'Item',
 													style: {
-														textAlign: 'center'
+														textAlign: 'center',
 													},
 													child: {
 														componentType: 'Text',
@@ -171,20 +191,20 @@ const TechOperationOnLocal = type => {
 														level: 6,
 														style: {
 															lineHeight: '24px',
-															marginLeft: '8px'
-														}
-													}
-												}
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		}
+															marginLeft: '8px',
+														},
+													},
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		},
 	};
 };
 
