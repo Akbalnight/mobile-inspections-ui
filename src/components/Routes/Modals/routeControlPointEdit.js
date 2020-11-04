@@ -30,12 +30,16 @@ const OperationOnLocal = (type, catalogName, code) => {
 					children: [
 						{
 							componentType: 'Item',
-							name: 'groupControlPoint',
+							name: 'controlPointId',
 							child: {
 								componentType: 'SingleSelect',
+								commandPanelProps: {
+									systemBtnProps: {search: {}},
+								},
+								searchParamName: 'name',
 								widthControl: 0,
 								widthPopup: 740,
-								heightPopup: 250,
+								heightPopup: 350,
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
@@ -44,15 +48,9 @@ const OperationOnLocal = (type, catalogName, code) => {
 								// onChangeKeys: (value, option) => {
 								// 	return (controlPointsId = option);
 								// },
-								requestLoadRows: ({data, params}) =>
-									apiGetHierarchicalDataByConfigName(
-										'controlPoints'
-									)({
-										data: {
-											...data,
-										},
-										params,
-									}),
+								requestLoadRows: apiGetHierarchicalDataByConfigName(
+									'controlPoints'
+								),
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'controlPoints'
 								),
@@ -83,10 +81,24 @@ const OperationOnLocal = (type, catalogName, code) => {
 					child: {
 						componentType: 'ServerTable',
 						selectable: true,
+						footerShow: true,
+						footerProps: {
+							showElements: ['selected'],
+							rightCustomSideElement: [
+								{
+									componentType: 'Item',
+									child: {
+										componentType: 'Text',
+										label: 'DemoText',
+									},
+								},
+							],
+						},
 						defaultFilter: {controlPointsId: null},
 						subscribe: {
 							name: 'controlPointEquipments',
-							path: 'routes.controlPointModal.controlPoint',
+							path:
+								'rtd.routes.controlPointModal.controlPoint.selected',
 							onChange: ({value, setReloadTable}) =>
 								value &&
 								setReloadTable &&
@@ -127,7 +139,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 						},
 						{
 							componentType: 'Item',
-							name: 'techMapsGroup',
+							name: 'techMapId',
 							child: {
 								componentType: 'SingleSelect',
 								widthControl: 0,
@@ -159,14 +171,15 @@ const OperationOnLocal = (type, catalogName, code) => {
 			children: [
 				{
 					componentType: 'Item',
-					name: 'techMaps',
+					name: 'techOperations',
 					child: {
 						componentType: 'ServerTable',
 						customColumnProps: customColumnProps,
 						defaultFilter: {techMapId: null},
 						subscribe: {
 							name: 'controlPointTechMap',
-							path: 'routes.controlPointModal.techMap',
+							path:
+								'rtd.routes.controlPointModal.techMap.selected',
 							onChange: ({value, setReloadTable}) =>
 								value &&
 								setReloadTable &&
@@ -174,6 +187,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 									filter: {techMapId: value.id},
 								}),
 						},
+						footerShow: true,
 						// не отображает в онлайн режиме, необходимо праdильно выстоить
 						requestLoadRows: apiGetFlatDataByConfigName(
 							'techOperationsSmall'
@@ -182,6 +196,9 @@ const OperationOnLocal = (type, catalogName, code) => {
 						requestLoadConfig: apiGetConfigByName(
 							'techOperationsSmall'
 						),
+						onChange: (value) => {
+							console.log(value);
+						},
 					},
 				},
 			],
@@ -198,6 +215,7 @@ const OperationOnLocal = (type, catalogName, code) => {
 					children: [
 						{
 							componentType: 'Item',
+							name: 'techOperations',
 							child: {
 								componentType: 'Text',
 								label: `Продолжительность всех операций: ${controlPointsId}`,

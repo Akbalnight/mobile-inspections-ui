@@ -23,8 +23,7 @@ export const TechMapSelectModal = {
 							commandPanelProps: {systemBtnProps: {search: {}}},
 							searchParamName: 'name',
 							style: {height: '400px'},
-							dispatchPath:
-								'controlPointData.modal.techMap.selected',
+							dispatchPath: 'controlPointData.modal.techMap',
 							requestLoadRows: apiGetHierarchicalDataByConfigName(
 								'techMaps'
 							),
@@ -46,7 +45,8 @@ export const TechMapSelectModal = {
 							defaultFilter: {techMapId: null},
 							subscribe: {
 								name: 'techMap',
-								path: 'controlPointData.modal.techMap.selected',
+								path:
+									'rtd.controlPointData.modal.techMap.selected',
 								onChange: ({value, setReloadTable}) => {
 									// console.log('TechMapSelectModal subscribe', value);
 									value &&

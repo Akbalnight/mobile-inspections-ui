@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux';
 import {configBuilder} from './configBuilder.reducer';
 import {authReducer} from 'mobile-inspections-base-ui';
-import {tableReducer} from 'rt-design';
+import {rtdReducer} from 'rt-design';
 
 const reducer = combineReducers({
 	auth: authReducer,
 	configBuilder,
-	table: tableReducer,
+	rtd: rtdReducer,
 });
 
 export default reducer;
