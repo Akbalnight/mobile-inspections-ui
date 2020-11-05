@@ -5,14 +5,17 @@ import {Form} from 'rt-design';
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 
 export default function DetourConfiguratorDetourSchedulesForm() {
-	// let selectCase
 	//версия Никогда
-	// const [timeDetourCount, setTimeDetourCount] = useState(true);
-	// const [timeStartDetourCount, setTimeStartDetourCount] = useState(true);
-	// const [timeEndDetourCount, setTimeEndDetourCount] = useState(true);
+	const [timeDetourCount, setTimeDetourCount] = useState(true);
+	const [timeStartDetourCount, setTimeStartDetourCount] = useState(true);
+	const [timeEndDetourCount, setTimeEndDetourCount] = useState(true);
 	//версия Ежедневно
-	const [repeatTo, setRepeatTo] = useState(true);
-	const [repeatCount, setRepeatCount] = useState(true);
+	// const [repeatTo, setRepeatTo] = useState(true);
+	// const [repeatCount, setRepeatCount] = useState(true);
+	//Версия Еженедельно
+	// const [repeatTo, setRepeatTo] = useState(true);
+	//Версия Ежемесячно
+	// const [repeatTo, setRepeatTo] = useState(true);
 
 	const pageParams = useParams();
 	const history = useHistory();
@@ -143,19 +146,320 @@ export default function DetourConfiguratorDetourSchedulesForm() {
 			],
 		},
 	];
-	//версия - Никогда
-	// const repeatTimeFields = [
-	// 	{
-	// 		componentType: 'Item',
-	// 		child: {
-	// 			componentType: 'Title',
-	// 			label: 'Повторение',
-	// 			level: 5,
-	// 			style: {
-	// 				marginLeft: 20, // костыль с отображение были проблемы
-	// 				marginTop: 20, // костыль с отображение были проблемы
+	// версия - Никогда
+	const neverFields = [
+		{
+			componentType: 'Row',
+			children: [
+				{
+					componentType: 'Col',
+					span: 12,
+					children: [
+						{
+							componentType: 'Col',
+							span: 12,
+							children: [
+								{
+									componentType: 'Item',
+									label: 'Учитывать порядок обхода',
+									name: 'bypassDetour',
+									valuePropName: 'checked',
+									child: {
+										componentType: 'Checkbox',
+									},
+								},
+							],
+						},
+						{
+							componentType: 'Row',
+							children: [
+								{
+									componentType: 'Col',
+									span: 12,
+									children: [
+										{
+											componentType: 'Item',
+											label: 'Учитывать время обхода',
+											valuePropName: 'checked',
+											child: {
+												componentType: 'Checkbox',
+												onChange: () => {
+													setTimeDetourCount(
+														(state) => !state
+													);
+												},
+											},
+										},
+									],
+								},
+								{
+									componentType: 'Col',
+									span: 12,
+									children: [
+										{
+											componentType: 'Item',
+											name: 'timeDetourCount',
+											label:
+												'Допустимое откл. на точке, мин:',
+											child: {
+												componentType: 'InputNumber',
+												disabled: timeDetourCount, // надо обнулять при true
+											},
+										},
+									],
+								},
+							],
+						},
+						{
+							componentType: 'Row',
+							children: [
+								{
+									componentType: 'Col',
+									span: 12,
+									children: [
+										{
+											componentType: 'Item',
+											label: 'Учитывать время начала',
+											valuePropName: 'checked',
+											child: {
+												componentType: 'Checkbox',
+												onChange: () => {
+													setTimeStartDetourCount(
+														(state) => !state
+													);
+												},
+											},
+										},
+									],
+								},
+								{
+									componentType: 'Col',
+									span: 12,
+									children: [
+										{
+											componentType: 'Item',
+											name: 'timeStartDetourCount',
+											label: 'Допустимое откл., мин:',
+											child: {
+												componentType: 'InputNumber',
+												disabled: timeStartDetourCount, // надо обнулять при true
+											},
+										},
+									],
+								},
+							],
+						},
+						{
+							componentType: 'Row',
+							children: [
+								{
+									componentType: 'Col',
+									span: 12,
+									children: [
+										{
+											componentType: 'Item',
+											label: 'Учитывать время окончания',
+											valuePropName: 'checked',
+											child: {
+												componentType: 'Checkbox',
+												onChange: () => {
+													setTimeEndDetourCount(
+														(state) => !state
+													);
+												},
+											},
+										},
+									],
+								},
+								{
+									componentType: 'Col',
+									span: 12,
+									children: [
+										{
+											componentType: 'Item',
+											name: 'timeEndDetourCount',
+											label: 'Допустимое откл., мин:',
+											child: {
+												componentType: 'InputNumber',
+												disabled: timeEndDetourCount, // надо обнулять при true
+											},
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		},
+	];
+
+	// //версия - Ежедневно
+	// const everydayFields = [
+	//  	{
+	// 		componentType: 'Row',
+	// 		children: [
+	// 			{
+	// 				componentType: 'Col',
+	// 				className: 'md-4',
+	// 				span: 12,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Item',
+	// 						label: 'Интервал, дней',
+	// 						name: 'repeatCase',
+	// 						rules: [
+	// 							{
+	// 								message: 'Заполните интервал',
+	// 								required: true,
+	// 							},
+	// 						],
+
+	// 						child: {
+	// 							componentType: 'InputNumber',
+	// 						},
+	// 					},
+	// 				],
 	// 			},
-	// 		},
+	// 		],
+	// 	},
+	// 	{
+	// 		componentType: 'Row',
+	// 		gutter: [8, 8],
+	// 		children: [
+	// 			{
+	// 				componentType: 'Col',
+	// 				span: 4,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Item',
+	// 						child: {
+	// 							style: {
+	// 								marginLeft: 100,
+	// 							},
+	// 							componentType: 'Text',
+	// 							label: 'Завершить повторение:',
+	// 						},
+	// 					},
+	// 				],
+	// 			},
+
+	// 			// сюда надо поставить RadioGroup
+	// 			{
+	// 				componentType: 'Col',
+	// 				span: 12,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Row',
+	// 						className: 'mb-16',
+	// 						children: [
+	// 							{
+	// 								componentType: 'Item',
+
+	// 								child: {
+	// 									componentType: 'Radio',
+	// 									label: 'Никогда',
+	// 								},
+	// 							},
+	// 						],
+	// 					},
+	// 					{
+	// 						componentType: 'Row',
+	// 						className: 'mb-16',
+	// 						children: [
+	// 							{
+	// 								componentType: 'Item',
+	// 								child: {
+	// 									componentType: 'Radio',
+	// 									label: 'Повторять до',
+	// 									onChange: () => {
+	// 										setRepeatTo((state) => !state);
+	// 									},
+	// 									style: {
+	// 										marginTop: 10,
+	// 									},
+	// 								},
+	// 							},
+	// 							{
+	// 								componentType: 'Item',
+	// 								name: 'repeatDate',
+
+	// 								label: 'Выберите дату',
+	// 								child: {
+	// 									componentType: 'DatePicker',
+
+	// 									disabled: repeatTo,
+	// 								},
+	// 							},
+	// 						],
+	// 					},
+	// 					{
+	// 						componentType: 'Row',
+	// 						className: 'mb-16',
+	// 						children: [
+	// 							{
+	// 								componentType: 'Row',
+	// 								className: 'mb-16',
+	// 								children: [
+	// 									{
+	// 										componentType: 'Item',
+	// 										child: {
+	// 											componentType: 'Radio',
+	// 											label: 'После',
+	// 											onChange: () => {
+	// 												setRepeatCount(
+	// 													(state) => !state
+	// 												);
+	// 											},
+	// 										},
+	// 									},
+	// 								],
+	// 							},
+
+	// 							{
+	// 								componentType: 'Item',
+	// 								name: 'repeatDate',
+	// 								label: 'Количество',
+	// 								child: {
+	// 									componentType: 'InputNumber',
+	// 									disabled: repeatCount,
+	// 								},
+	// 							},
+	// 						],
+	// 					},
+	// 				],
+	// 			},
+	// 		],
+	// 	},
+	// ];
+
+	// //версия - Еженедельно
+	// const everyweekFields = [
+	// 	 	{
+	// 		componentType: 'Row',
+	// 		children: [
+	// 			{
+	// 				componentType: 'Col',
+	// 				span: 12,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Item',
+	// 						label: 'Интервал, месяцев',
+	// 						name: 'monthCount',
+	// 						rules: [
+	// 							{
+	// 								message: 'Заполните вариант интервала',
+	// 								required: true,
+	// 							},
+	// 						],
+	// 						child: {
+	// 							componentType: 'InputNumber',
+	// 							max: 12,
+	// 						},
+	// 					},
+	// 				],
+	// 			},
+	// 		],
 	// 	},
 	// 	{
 	// 		componentType: 'Row',
@@ -166,168 +470,231 @@ export default function DetourConfiguratorDetourSchedulesForm() {
 	// 				children: [
 	// 					{
 	// 						componentType: 'Item',
-	// 						label: 'Повторение:',
-	// 						name: 'repeatCase',
+	// 						label: 'День выполнения',
+	// 						name: 'dayCount',
 	// 						rules: [
 	// 							{
-	// 								message: 'Заполните вариант повторения',
+	// 								message: 'Заполните вариант дня',
 	// 								required: true,
 	// 							},
 	// 						],
 	// 						child: {
-	// 							componentType: 'SingleSelect',
-	// 							rowRender: 'name', // поменять на необходимое название 'repeatCase'
-	// 							widthControl: 0,
-	// 							onChangeKeys: (value, option) => {
-	// 								console.log(option);
-	// 							},
-	// 							// временное решение
-	// 							requestLoadDefault: apiGetFlatDataByConfigName(
-	// 								'techMapsStatuses'
-	// 							),
-	// 							requestLoadRows: apiGetFlatDataByConfigName(
-	// 								'techMapsStatuses'
-	// 							),
+	// 							componentType: 'InputNumber',
+	// 							max: 31,
 	// 						},
-	// 					},
-	// 					{
-	// 						componentType: 'Col',
-	// 						span: 12,
-	// 						children: [
-	// 							{
-	// 								componentType: 'Item',
-	// 								label: 'Учитывать порядок обхода',
-	// 								name: 'bypassDetour',
-	// 								valuePropName: 'checked',
-	// 								child: {
-	// 									componentType: 'Checkbox',
-	// 								},
-	// 							},
-	// 						],
-	// 					},
-	// 					{
-	// 						componentType: 'Row',
-	// 						children: [
-	// 							{
-	// 								componentType: 'Col',
-	// 								span: 12,
-	// 								children: [
-	// 									{
-	// 										componentType: 'Item',
-	// 										label: 'Учитывать время обхода',
-	// 										valuePropName: 'checked',
-	// 										child: {
-	// 											componentType: 'Checkbox',
-	// 											onChange: () => {
-	// 												setTimeDetourCount(
-	// 													(state) => !state
-	// 												);
-	// 											},
-	// 										},
-	// 									},
-	// 								],
-	// 							},
-	// 							{
-	// 								componentType: 'Col',
-	// 								span: 12,
-	// 								children: [
-	// 									{
-	// 										componentType: 'Item',
-	// 										name: 'timeDetourCount',
-	// 										label:
-	// 											'Допустимое откл. на точке, мин:',
-	// 										child: {
-	// 											componentType: 'InputNumber',
-	// 											disabled: timeDetourCount, // надо обнулять при true
-	// 										},
-	// 									},
-	// 								],
-	// 							},
-	// 						],
-	// 					},
-	// 					{
-	// 						componentType: 'Row',
-	// 						children: [
-	// 							{
-	// 								componentType: 'Col',
-	// 								span: 12,
-	// 								children: [
-	// 									{
-	// 										componentType: 'Item',
-	// 										label: 'Учитывать время начала',
-	// 										valuePropName: 'checked',
-	// 										child: {
-	// 											componentType: 'Checkbox',
-	// 											onChange: () => {
-	// 												setTimeStartDetourCount(
-	// 													(state) => !state
-	// 												);
-	// 											},
-	// 										},
-	// 									},
-	// 								],
-	// 							},
-	// 							{
-	// 								componentType: 'Col',
-	// 								span: 12,
-	// 								children: [
-	// 									{
-	// 										componentType: 'Item',
-	// 										name: 'timeStartDetourCount',
-	// 										label: 'Допустимое откл., мин:',
-	// 										child: {
-	// 											componentType: 'InputNumber',
-	// 											disabled: timeStartDetourCount, // надо обнулять при true
-	// 										},
-	// 									},
-	// 								],
-	// 							},
-	// 						],
-	// 					},
-	// 					{
-	// 						componentType: 'Row',
-	// 						children: [
-	// 							{
-	// 								componentType: 'Col',
-	// 								span: 12,
-	// 								children: [
-	// 									{
-	// 										componentType: 'Item',
-	// 										label: 'Учитывать время окончания',
-	// 										valuePropName: 'checked',
-	// 										child: {
-	// 											componentType: 'Checkbox',
-	// 											onChange: () => {
-	// 												setTimeEndDetourCount(
-	// 													(state) => !state
-	// 												);
-	// 											},
-	// 										},
-	// 									},
-	// 								],
-	// 							},
-	// 							{
-	// 								componentType: 'Col',
-	// 								span: 12,
-	// 								children: [
-	// 									{
-	// 										componentType: 'Item',
-	// 										name: 'timeEndDetourCount',
-	// 										label: 'Допустимое откл., мин:',
-	// 										child: {
-	// 											componentType: 'InputNumber',
-	// 											disabled: timeEndDetourCount, // надо обнулять при true
-	// 										},
-	// 									},
-	// 								],
-	// 							},
-	// 						],
 	// 					},
 	// 				],
 	// 			},
 	// 		],
 	// 	},
+	// 	{
+	// 		componentType: 'Row',
+	// 		gutter: [8, 8],
+	// 		children: [
+	// 			{
+	// 				componentType: 'Col',
+	// 				span: 4,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Item',
+	// 						child: {
+	// 							style: {
+	// 								marginLeft: 100,
+	// 							},
+	// 							componentType: 'Divider',
+	// 							// componentType: 'Text',// раскомментировать как заработает
+	// 							label: 'Завершить повторение:',
+	// 						},
+	// 					},
+	// 				],
+	// 			},
+	// 			// сюда надо поставить RadioGroup
+	// 						{
+	// 							componentType: 'Col',
+	// 							span: 12,
+	// 							children: [
+	// 								{
+	// 									componentType: 'Row',
+	// 									className: 'mb-16',
+	// 									children: [
+	// 										{
+	// 											componentType: 'Item',
+
+	// 											child: {
+	// 												componentType: 'Radio',
+	// 												label: 'Никогда',
+	// 											},
+	// 										},
+	// 									],
+	// 								},
+	// 								{
+	// 									componentType: 'Row',
+	// 									className: 'mb-16',
+	// 									children: [
+	// 										{
+	// 											componentType: 'Item',
+	// 											child: {
+	// 												componentType: 'Radio',
+	// 												label: 'Повторять до',
+	// 												checked: !repeatTo,//странно
+	// 												onChange: () => {
+	// 													setRepeatTo((state) => !state);
+	// 												},
+	// 												style: {
+	// 													marginTop: 10,
+	// 												},
+	// 											},
+	// 										},
+	// 										{
+	// 											componentType: 'Item',
+	// 											name: 'repeatDate',
+
+	// 											label: 'Выберите дату',
+	// 											child: {
+	// 												componentType: 'DatePicker',
+
+	// 												disabled: repeatTo,
+	// 											},
+	// 										},
+	// 									],
+	// 								},
+	// 							]
+	// 						}
+	// 		],
+	// 	},
 	// ];
+
+	// // версия Ежегодно
+	// const everyyearFields = [
+	// 		{
+	// 		componentType: 'Row',
+	// 		children: [
+	// 			{
+	// 				componentType: 'Col',
+	// 				span: 12,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Item',
+	// 						label: 'Интервал',
+	// 						name: 'monthCount',
+	// 						rules: [
+	// 							{
+	// 								message: 'Заполните вариант интервала',
+	// 								required: true,
+	// 							},
+	// 						],
+	// 						child: {
+	// 							componentType: 'InputNumber',
+	// 						},
+	// 					},
+	// 				],
+	// 			},
+	// 		],
+	// 	},
+	// 	{
+	// 		componentType: 'Row',
+	// 		children: [
+	// 			{
+	// 				componentType: 'Col',
+	// 				span: 12,
+	// 				children: [
+	// 					{
+	// 						componentType: 'Item',
+	// 						label: 'Дата выполнения',
+	// 						name: 'dayCount',
+	// 						rules: [
+	// 							{
+	// 								message: 'Заполните вариант дата',
+	// 								required: true,
+	// 							},
+	// 						],
+	// 						child: {
+	// 							componentType: 'DatePicker',
+	// 							// picker: 'date',
+	// 						},
+	// 					},
+	// 				],
+	// 			},
+	// 		],
+	// 	},
+	// 		{
+	// 			componentType: 'Row',
+	// 			gutter: [8, 8],
+	// 			children: [
+	// 				{
+	// 					componentType: 'Col',
+	// 					span: 4,
+	// 					children: [
+	// 						{
+	// 							componentType: 'Item',
+	// 							child: {
+	// 								style: {
+	// 									marginLeft: 100,
+	// 								},
+	// 								componentType: 'Divider',
+	// 								// componentType: 'Text',// раскомментировать как заработает
+	// 								label: 'Завершить повторение:',
+	// 							},
+	// 						},
+	// 					],
+	// 				},
+	// 				// сюда надо поставить RadioGroup
+	// 							{
+	// 								componentType: 'Col',
+	// 								span: 12,
+	// 								children: [
+	// 									{
+	// 										componentType: 'Row',
+	// 										className: 'mb-16',
+	// 										children: [
+	// 											{
+	// 												componentType: 'Item',
+
+	// 												child: {
+	// 													componentType: 'Radio',
+	// 													label: 'Никогда',
+	// 												},
+	// 											},
+	// 										],
+	// 									},
+	// 									{
+	// 										componentType: 'Row',
+	// 										className: 'mb-16',
+	// 										children: [
+	// 											{
+	// 												componentType: 'Item',
+	// 												child: {
+	// 													componentType: 'Radio',
+	// 													label: 'Повторять до',
+	// 													checked: !repeatTo,//странно
+	// 													onChange: () => {
+	// 														setRepeatTo((state) => !state);
+	// 													},
+	// 													style: {
+	// 														marginTop: 10,
+	// 													},
+	// 												},
+	// 											},
+	// 											{
+	// 												componentType: 'Item',
+	// 												name: 'repeatDate',
+
+	// 												label: 'Выберите дату',
+	// 												child: {
+	// 													componentType: 'DatePicker',
+
+	// 													disabled: repeatTo,
+	// 												},
+	// 											},
+	// 										],
+	// 									},
+	// 								]
+	// 							}
+	// 			],
+	// 		},
+	// ];
+
+	// итоговый вариант
 
 	const repeatTimeFields = [
 		{
@@ -379,144 +746,15 @@ export default function DetourConfiguratorDetourSchedulesForm() {
 				},
 			],
 		},
-		{
-			componentType: 'Row',
-			children: [
-				{
-					componentType: 'Col',
-					className: 'md-4',
-					span: 12,
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Интервал, дней',
-							name: 'repeatCase',
-							rules: [
-								{
-									message: 'Заполните интервал',
-									required: true,
-								},
-							],
-
-							child: {
-								componentType: 'InputNumber',
-							},
-						},
-					],
-				},
-			],
-		},
-		{
-			componentType: 'Row',
-			gutter: [8, 8],
-			children: [
-				{
-					componentType: 'Col',
-					span: 4,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								style: {
-									marginLeft: 100,
-								},
-								componentType: 'Text',
-								label: 'Завершить повторение:',
-							},
-						},
-					],
-				},
-				{
-					componentType: 'Col',
-					span: 12,
-					children: [
-						{
-							componentType: 'Row',
-							className: 'mb-16',
-							children: [
-								{
-									componentType: 'Item',
-
-									child: {
-										componentType: 'Radio',
-										label: 'Никогда',
-									},
-								},
-							],
-						},
-						{
-							componentType: 'Row',
-							className: 'mb-16',
-							children: [
-								{
-									componentType: 'Item',
-									child: {
-										componentType: 'Radio',
-										label: 'Повторять до',
-										onChange: () => {
-											setRepeatTo((state) => !state);
-										},
-										style: {
-											marginTop: 10,
-										},
-									},
-								},
-								{
-									componentType: 'Item',
-									name: 'repeatDate',
-
-									label: 'Выберите дату',
-									child: {
-										componentType: 'DatePicker',
-
-										disabled: repeatTo,
-									},
-								},
-							],
-						},
-						{
-							componentType: 'Row',
-							className: 'mb-16',
-							children: [
-								{
-									componentType: 'Row',
-									className: 'mb-16',
-									children: [
-										{
-											componentType: 'Item',
-											child: {
-												componentType: 'Radio',
-												label: 'После',
-												onChange: () => {
-													setRepeatCount(
-														(state) => !state
-													);
-												},
-											},
-										},
-									],
-								},
-
-								{
-									componentType: 'Item',
-									name: 'repeatDate',
-									label: 'Количество',
-									child: {
-										componentType: 'InputNumber',
-										disabled: repeatCount,
-									},
-								},
-							],
-						},
-					],
-				},
-			],
-		},
+		...neverFields,
+		// ...everydayFields,
+		// ...everyweekFields,
+		// ...everyyearFields,
 	];
 
 	const formConfig = {
 		noPadding: true,
-		name: 'DetoursConfiguratorDetourSchedules',
+		name: 'DetoursConfiguratorDetourSchedulesForm',
 		labelCol: {span: 16},
 		wrapperCol: {span: 24},
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',

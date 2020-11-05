@@ -12,6 +12,7 @@ import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
 import RoutesForm from '../components/Routes/RoutesForm';
 import DetourConfiguratorDetourSchedulesForm from '../components/Debug/DetourConfiguratorDetoursSchedules/DetourConfiguratorDetourSchedulesForm';
+import DetourConfiguratorDetourSchedules from '../components/Debug/DetourConfiguratorDetoursSchedules/DetourConfiguratorDetourSchedules';
 
 const pathPrefix = '/';
 
@@ -78,6 +79,11 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов(f)',
 		path: '/detours-configurator/detours-schedules',
+		component: DetourConfiguratorDetourSchedules,
+	},
+	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_DATA: {
+		title: 'Расписание обходов(f)',
+		path: '/detours-configurator/detours-schedules/:id',
 		component: DetourConfiguratorDetourSchedulesForm,
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
