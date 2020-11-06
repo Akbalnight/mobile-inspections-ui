@@ -1,32 +1,21 @@
 import React from 'react';
 import {Checkbox} from 'antd';
+import {code, duration, position} from '../Base/customColumnProps';
 
 export const customColumnProps = [
-	{
-		name: 'code',
-		cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0')
-	},
-	{
-		name: 'position',
-		cellRenderer: ({rowData, rowIndex}) => {
-			rowData.position = rowIndex + 1;
-			return rowIndex + 1;
-		}
-	},
+	{...code},
+	{...position},
+	{...duration},
 	{
 		name: 'needInputData',
-		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />
+		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
 	},
 	{
 		name: 'equipmentStop',
-		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />
+		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
 	},
 	{
 		name: 'increasedDanger',
-		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />
+		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
 	},
-	{
-		name: 'duration',
-		cellRenderer: ({cellData}) => `${cellData} мин.`
-	}
 ];

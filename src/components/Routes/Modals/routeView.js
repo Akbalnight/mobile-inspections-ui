@@ -3,6 +3,7 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 import {paths} from '../../../constants/paths';
+import {duration} from '../../Base/customColumnProps';
 
 export const routeViewModal = (history) => {
 	let Row;
@@ -112,6 +113,7 @@ export const routeViewModal = (history) => {
 					name: 'controlPointsTable',
 					child: {
 						componentType: 'LocalTable', // всего одна загрузка инфы с сервера
+						customColumnProps: [{...duration}],
 						requestLoadRows: loadControlPointsHandler,
 						requestLoadConfig: apiGetConfigByName(
 							'routeControlPoints'
@@ -148,10 +150,8 @@ export const routeViewModal = (history) => {
 	return {
 		type: 'viewObject',
 		title: 'Информация о маршруте',
-		width: 783,
-		bodyStyle: {
-			height: 682,
-		},
+		width: 900,
+		bodyStyle: {height: 700},
 		form: {
 			name: 'routeDataView',
 			loadInitData: loadData,

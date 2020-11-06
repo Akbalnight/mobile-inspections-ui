@@ -15,6 +15,7 @@ import {
 	addControlPointToRoute,
 	editControlPointToRoute,
 } from './Modals/routeControlPointEdit';
+import {duration, position} from '../Base/customColumnProps';
 
 export default function RoutesForm() {
 	const history = useHistory();
@@ -104,6 +105,13 @@ export default function RoutesForm() {
 			name: 'jsonEquipments',
 			value: (row) => JSON.stringify(row.equipments),
 		},
+		{
+			name: 'position',
+			value: (row, rows) => {
+				// console.log(row);
+				return rows.length + 1;
+			},
+		},
 	];
 
 	const controlPointsFields = [
@@ -127,6 +135,7 @@ export default function RoutesForm() {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
 						customFields: customFields,
+						customColumnProps: [{...position}, {...duration}],
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
