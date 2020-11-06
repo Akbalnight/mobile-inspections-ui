@@ -11,6 +11,7 @@ import {
 	addGroupOnServer,
 	editGroupOnServer,
 } from '../Base/Modals/GroupOnServer';
+import {code} from '../Base/customColumnProps';
 
 const ControlPointsD = (props) => {
 	let history = useHistory();
@@ -27,6 +28,7 @@ const ControlPointsD = (props) => {
 						componentType: 'Item',
 						child: {
 							componentType: 'ServerTable', //'LocalTable', // 'ServerTable', 'InfinityTable'
+							customColumnProps: [{...code}],
 							commandPanelProps: {
 								systemBtnProps: {
 									add: {actionType: 'page'},

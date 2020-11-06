@@ -1,7 +1,7 @@
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../apis/catalog.api';
 
 export const addChoiseExecutor = (catalogName) =>
 	choiseExecutor('add', catalogName, {});

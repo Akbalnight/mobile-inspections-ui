@@ -4,16 +4,17 @@ import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../apis/catalog.api';
 import {schedulesViewModal} from './Modals/SchedulesView';
 import {addChoiseExecutor} from './Modals/SelectEmploye';
+import {useHistory} from 'react-router';
 
-export default function DetoursConfiguratorDetoursSchedules() {
+export default function DetoursSchedules() {
+	let history = useHistory();
+
 	const formConfig = {
 		noPadding: true,
-		name: 'DetoursConfiguratorDetourSchedules',
-		labelCol: {span: 16},
-		wrapperCol: {span: 24},
+		name: 'DetourSchedules',
 		// methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		onFinish: (values) => {
 			console.log('Values', values);
@@ -27,20 +28,18 @@ export default function DetoursConfiguratorDetoursSchedules() {
 						componentType: 'Item',
 						child: {
 							componentType: 'LocalTable',
-							// history,
+							history,
 							commandPanelProps: {
 								systemBtnProps: {
-									add: {actionType: 'modal'},
+									add: {actionType: 'page'},
 									// edit: {actionType: ['page', 'modal']},
 									// delete: {},
 								},
 							},
 							requestLoadRows: apiGetFlatDataByConfigName(
-								'staffPositions'
+								'detours'
 							),
-							requestLoadConfig: apiGetConfigByName(
-								'staffPositions'
-							),
+							requestLoadConfig: apiGetConfigByName('detours'),
 
 							modals: [
 								addChoiseExecutor('staffPositions'),
