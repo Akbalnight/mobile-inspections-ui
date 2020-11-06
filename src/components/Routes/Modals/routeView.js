@@ -2,8 +2,9 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
+import {paths} from '../../../constants/paths';
 
-export const routeViewModal = () => {
+export const routeViewModal = (history) => {
 	let Row;
 
 	const loadData = (callBack, row) => {
@@ -12,86 +13,50 @@ export const routeViewModal = () => {
 	};
 
 	const loadControlPointsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.id};
-		return apiGetFlatDataByConfigName('controlPointsEquipments')({
-			//поставить верный конфиг
+		const newData = {...data, routeId: Row.id};
+		return apiGetFlatDataByConfigName('routeControlPoints')({
 			data: newData,
 			params,
 		});
 	};
 	const loadControlPointsTechMapsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.id};
-		return apiGetFlatDataByConfigName('controlPointsTechMaps')({
+		const newData = {...data, routeId: Row.id};
+		return apiGetFlatDataByConfigName('routeMaps')({
 			data: newData,
 			params,
 		});
 	};
-	/**
-	 * поставил тех карты и оборудование на контрольной точке, для проверки доставки ROW.id
-	 * Выдает оборудование по каждой точке. Нужно запрос заменить на подходящий
-	 */
 
 	const allFields = [
-		/**
-		 * ниже описан варивнт Есть Title и Button, в фигме эта кнопка нарисована в footer, но приработе с
-		 * footer, на придется вручную делать остальные кнопки. В данной систуации кнопака загрыть исполняет
-		 * свои инструкции без дополнительных действий. При этом возможно юзеру будет комфорнее понять что будет редактировать он Маршрут.
-		 *
-		 */
-
-		//headFields
 		{
 			componentType: 'Row',
-			gutter: [8, 8],
+			justify: 'space-between',
 			children: [
 				{
-					componentType: 'Col',
-					span: 3,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Описание',
-								level: 5,
-							},
-						},
-					],
+					componentType: 'Item',
+					child: {
+						componentType: 'Title',
+						label: 'Описание',
+						level: 5,
+					},
 				},
+
 				{
-					componentType: 'Col',
-					span: 3,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Button',
-								label: 'Редактировать',
-								size: 'small',
-								// icon: 'edit',
-								type: 'link',
-								onClick: () => {
-									console.log('Edit');
-								},
-							},
+					componentType: 'Item',
+					child: {
+						componentType: 'Button',
+						label: 'Редактировать',
+						size: 'small',
+						type: 'link',
+						onClick: () => {
+							history.push(
+								`${paths.DETOURS_CONFIGURATOR_ROUTES.path}/${Row.id}`
+							);
 						},
-					],
+					},
 				},
 			],
 		},
-
-		/**
-		 * ниже описан вариант где в шапке только Title
-		 */
-		// {
-		// 	componentType: 'Item',
-		// 	child: {
-		// 		componentType: 'Title',
-		// 		label: 'Описание',
-		// 		level: 5,
-		// 	},
-		// },
-
 		{
 			componentType: 'Row',
 			gutter: [16, 16],
@@ -124,15 +89,12 @@ export const routeViewModal = () => {
 							componentType: 'Item',
 							label: 'Наименование',
 							name: 'name',
-							className: 'md-16',
 							child: {componentType: 'Text'},
 						},
 					],
 				},
 			],
 		},
-
-		//controlPointsFields
 		{
 			componentType: 'Item',
 			child: {
@@ -150,9 +112,10 @@ export const routeViewModal = () => {
 					name: 'controlPointsTable',
 					child: {
 						componentType: 'LocalTable', // всего одна загрузка инфы с сервера
-
 						requestLoadRows: loadControlPointsHandler,
-						requestLoadConfig: apiGetConfigByName('controlPoints'), // нужно поставить конфиг
+						requestLoadConfig: apiGetConfigByName(
+							'routeControlPoints'
+						), // нужно поставить конфиг
 					},
 				},
 			],
@@ -166,15 +129,8 @@ export const routeViewModal = () => {
 				level: 5,
 			},
 		},
-		/**
-		 * Участок ниже сделан для компановкеи макета, на его место встнет новый компонент
-		 * В котором мы сможем увидеть отображение Маршрутных карт
-		 */
-
-		// routeMapsFields
 		{
 			componentType: 'Layout',
-			className: 'mb-16',
 			children: [
 				{
 					componentType: 'Item',
@@ -182,9 +138,7 @@ export const routeViewModal = () => {
 					child: {
 						componentType: 'LocalTable', // всего одна загрузка инфы с сервера
 						requestLoadRows: loadControlPointsTechMapsHandler,
-						requestLoadConfig: apiGetConfigByName(
-							'techMaps' // поставить правильный конфиг
-						),
+						requestLoadConfig: apiGetConfigByName('routeMaps'),
 					},
 				},
 			],

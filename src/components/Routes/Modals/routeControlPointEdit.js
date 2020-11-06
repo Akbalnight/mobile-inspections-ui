@@ -3,64 +3,100 @@ import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
-import {customColumnProps} from '../../TechMapsForm/TechMapColumnProps';
+import {techOperations} from './techOperationsConfig';
 
-export const addControlPointToRoute = (catalogName) =>
-	OperationOnLocal('add', catalogName, {});
+export const addControlPointToRoute = () => OperationOnLocal('add', {});
 
-export const editControlPointToRoute = (catalogName) =>
-	OperationOnLocal('edit', catalogName, {}); // для редактрования сюда необходимо передать ROW
+export const editControlPointToRoute = () => OperationOnLocal('edit', {});
 
-const OperationOnLocal = (type, catalogName, code) => {
-	let controlPointsId, Row;
-
+const OperationOnLocal = (type, code) => {
+	let Row = null;
 	const loadData = (callBack, row) => {
-		Row = row;
+		Row = {...row};
+		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
+		// console.log(row);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};
 
-	const headFields = [
-		{
-			componentType: 'Row',
-			gutter: [16, 16],
-			children: [
-				{
-					componentType: 'Col',
-					span: 24,
-					children: [
-						{
-							componentType: 'Item',
-							name: 'controlPointId',
-							child: {
-								componentType: 'SingleSelect',
-								commandPanelProps: {
-									systemBtnProps: {search: {}},
-								},
-								searchParamName: 'name',
-								widthControl: 0,
-								widthPopup: 740,
-								heightPopup: 350,
-								expandColumnKey: 'id',
-								rowRender: 'name',
-								expandDefaultAll: true,
-								dispatchPath:
-									'routes.controlPointModal.controlPoint',
-								// onChangeKeys: (value, option) => {
-								// 	return (controlPointsId = option);
-								// },
-								requestLoadRows: apiGetHierarchicalDataByConfigName(
-									'controlPoints'
-								),
-								requestLoadDefault: apiGetFlatDataByConfigName(
-									'controlPoints'
-								),
+	const addControlPoint = {
+		componentType: 'Row',
+		gutter: [16, 16],
+		children: [
+			{
+				componentType: 'Col',
+				span: 24,
+				children: [
+					{
+						componentType: 'Item',
+						name: 'controlPointId',
+						child: {
+							componentType: 'SingleSelect',
+							commandPanelProps: {
+								systemBtnProps: {search: {}},
 							},
+							searchParamName: 'name',
+							widthControl: 0,
+							widthPopup: 740,
+							heightPopup: 350,
+							expandColumnKey: 'id',
+							rowRender: 'name',
+							expandDefaultAll: true,
+							dispatchPath:
+								'routes.controlPointModal.controlPoint',
+							requestLoadRows: apiGetHierarchicalDataByConfigName(
+								'controlPoints'
+							),
+							requestLoadDefault: apiGetFlatDataByConfigName(
+								'controlPoints'
+							),
 						},
-					],
-				},
-			],
-		},
-	];
+					},
+				],
+			},
+		],
+	};
+
+	const editControlPoint = {
+		componentType: 'Row',
+		children: [
+			{
+				componentType: 'Col',
+				span: 12,
+				children: [
+					{
+						componentType: 'Item',
+						label: 'Наименование',
+						name: 'controlPointName',
+						className: 'mb-0',
+						child: {componentType: 'Text'},
+					},
+				],
+			},
+		],
+	};
+
+	const loadControlPointsEquipments = ({params, data}) => {
+		let newData = {...data};
+		// console.log('loadControlPointsEquipments Row => ', Row);
+		if (type === 'edit')
+			newData.controlPointsId = Row ? Row.controlPointId : null;
+		return apiGetFlatDataByConfigName('controlPointsEquipments')({
+			params,
+			data: newData,
+		});
+	};
+	//
+	const loadControlPointsTechOperations = ({params, data}) => {
+		let newData = {...data};
+		// console.log('loadControlPointsEquipments newData.techMapId => ', newData.techMapId);
+		if (type === 'edit' && newData.techMapId === undefined) {
+			newData.techMapId = Row ? Row.techMapId : null;
+		}
+		return apiGetFlatDataByConfigName('techOperationsSmall')({
+			params,
+			data: newData,
+		});
+	};
 
 	const equipmentTableConfig = [
 		{
@@ -79,37 +115,35 @@ const OperationOnLocal = (type, catalogName, code) => {
 					componentType: 'Item',
 					name: 'equipments',
 					child: {
-						componentType: 'ServerTable',
+						componentType:
+							type === 'add' ? 'ServerTable' : 'LocalTable',
+						rowKey: 'equipmentId',
 						selectable: true,
-						footerShow: true,
 						footerProps: {
 							showElements: ['selected'],
-							rightCustomSideElement: [
-								{
-									componentType: 'Item',
-									child: {
-										componentType: 'Text',
-										label: 'DemoText',
-									},
-								},
-							],
 						},
 						defaultFilter: {controlPointsId: null},
-						subscribe: {
-							name: 'controlPointEquipments',
-							path:
-								'rtd.routes.controlPointModal.controlPoint.selected',
-							onChange: ({value, setReloadTable}) =>
-								value &&
-								setReloadTable &&
-								setReloadTable({
-									filter: {controlPointsId: value.id},
-								}),
-						},
+						subscribe:
+							type === 'add'
+								? {
+										name: 'controlPointEquipments',
+										path:
+											'rtd.routes.controlPointModal.controlPoint.selected',
+										onChange: ({value, setReloadTable}) => {
+											value &&
+												setReloadTable &&
+												setReloadTable({
+													filter: {
+														controlPointsId: value.id
+															? value.id
+															: value,
+													},
+												});
+										},
+								  }
+								: {},
 						// не отображает в онлайн режиме, необходимо праdильно выстоить
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'controlPointsEquipments'
-						),
+						requestLoadRows: loadControlPointsEquipments,
 						// правльно разметить столбцы в конфиге,
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsEquipments'
@@ -148,9 +182,6 @@ const OperationOnLocal = (type, catalogName, code) => {
 								expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
-								// onChangeKeys: (value, option) => {
-								// 	return (techMapsId = option);
-								// },
 								dispatchPath:
 									'routes.controlPointModal.techMap',
 								requestLoadRows: apiGetHierarchicalDataByConfigName(
@@ -165,65 +196,37 @@ const OperationOnLocal = (type, catalogName, code) => {
 				},
 			],
 		},
+		...techOperations(loadControlPointsTechOperations),
+	];
 
+	const hiddenFields = [
 		{
-			componentType: 'Layout',
-			children: [
-				{
-					componentType: 'Item',
-					name: 'techOperations',
-					child: {
-						componentType: 'ServerTable',
-						customColumnProps: customColumnProps,
-						defaultFilter: {techMapId: null},
-						subscribe: {
-							name: 'controlPointTechMap',
-							path:
-								'rtd.routes.controlPointModal.techMap.selected',
-							onChange: ({value, setReloadTable}) =>
-								value &&
-								setReloadTable &&
-								setReloadTable({
-									filter: {techMapId: value.id},
-								}),
-						},
-						footerShow: true,
-						// не отображает в онлайн режиме, необходимо праdильно выстоить
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'techOperationsSmall'
-						),
-						// правльно разметить столбцы в конфиге,
-						requestLoadConfig: apiGetConfigByName(
-							'techOperationsSmall'
-						),
-						onChange: (value) => {
-							console.log(value);
-						},
-					},
+			componentType: 'Item',
+			name: 'techMapName',
+			hidden: true,
+			child: {
+				componentType: 'Text',
+				subscribe: {
+					name: 'controlPointTechMap',
+					path: 'rtd.routes.controlPointModal.techMap.selected',
+					onChange: ({value, setSubscribeProps}) =>
+						value && setSubscribeProps({value: value.name}),
 				},
-			],
+			},
 		},
 		{
-			componentType: 'Row',
-			gutter: [16, 24],
-			children: [
-				{
-					componentType: 'Col',
-					style: {
-						padding: '32px 30px',
-					},
-					children: [
-						{
-							componentType: 'Item',
-							name: 'techOperations',
-							child: {
-								componentType: 'Text',
-								label: `Продолжительность всех операций: ${controlPointsId}`,
-							},
-						},
-					],
+			componentType: 'Item',
+			name: 'controlPointName',
+			hidden: true,
+			child: {
+				componentType: 'Text',
+				subscribe: {
+					name: 'controlPointEquipments',
+					path: 'rtd.routes.controlPointModal.controlPoint.selected',
+					onChange: ({value, setSubscribeProps}) =>
+						value && setSubscribeProps({value: value.name}),
 				},
-			],
+			},
 		},
 	];
 
@@ -235,26 +238,27 @@ const OperationOnLocal = (type, catalogName, code) => {
 			type === 'add'
 				? 'Создание контрольной точки'
 				: 'Изменение контрольной точки',
-		width: 783,
+		width: 800,
 		bodyStyle: {
-			height: 682,
+			height: 700,
 		},
 
 		initialValues: (row) => {
-			return null;
+			return type === 'add' ? null : row;
 		},
 		form: {
 			name: `${type}ModalForm`,
-
-			labelCol: {span: 10},
-			wrapperCol: {span: 14},
-
 			loadInitData: loadData,
 			onFinish: (values) => {
 				console.log('values', values);
 			},
-
-			body: [code, ...headFields, ...equipmentTableConfig, ...techMaps],
+			body: [
+				code,
+				type === 'add' ? {...addControlPoint} : {...editControlPoint},
+				...equipmentTableConfig,
+				...techMaps,
+				...hiddenFields,
+			],
 		},
 	};
 };

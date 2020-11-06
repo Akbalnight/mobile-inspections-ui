@@ -161,3 +161,12 @@ export const apiSaveControlPoints = ({method, data, params}) =>
 		data,
 		params,
 	});
+
+export const apiSaveByConfigName = (catalogName) => ({method, data, params}) =>
+	genericRequest({
+		// url: `/api/catalog/controlPoints`,
+		url: `/api/dynamicdq/data/save/${catalogName}`,
+		method: method,
+		data,
+		params,
+	});
