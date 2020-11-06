@@ -12,6 +12,7 @@ import {
 	editControlPointToRoute,
 } from './Modals/routeControlPointEdit';
 import {routeViewModal} from './Modals/routeView';
+import {code} from '../Base/customColumnProps';
 // import {controlPointViewModal} from './Modals/routeControlPointView';
 
 export default function Routes() {
@@ -27,6 +28,7 @@ export default function Routes() {
 						componentType: 'Item',
 						child: {
 							componentType: 'LocalTable',
+							customColumnProps: [{...code}],
 							history,
 							commandPanelProps: {
 								systemBtnProps: {

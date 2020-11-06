@@ -239,9 +239,7 @@ const OperationOnLocal = (type, code) => {
 				? 'Создание контрольной точки'
 				: 'Изменение контрольной точки',
 		width: 800,
-		bodyStyle: {
-			height: 700,
-		},
+		bodyStyle: {height: 700},
 
 		initialValues: (row) => {
 			return type === 'add' ? null : row;

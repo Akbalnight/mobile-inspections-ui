@@ -11,6 +11,7 @@ import {notification} from 'antd';
 import {useHistory, useParams} from 'react-router';
 import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
 import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
+import {paths} from '../../constants/paths';
 
 const ControlPointDataD = (props) => {
 	const pageParams = useParams();
@@ -65,20 +66,20 @@ const ControlPointDataD = (props) => {
 					componentType: 'Col',
 					span: 12,
 					children: [
-						{
-							componentType: 'Item',
-							label: 'Код',
-							name: 'code',
-							rules: [
-								{
-									message: 'Заполните код',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'InputNumber',
-							},
-						},
+						// {
+						// 	componentType: 'Item',
+						// 	label: 'Код',
+						// 	name: 'code',
+						// 	rules: [
+						// 		{
+						// 			message: 'Заполните код',
+						// 			required: true,
+						// 		},
+						// 	],
+						// 	child: {
+						// 		componentType: 'InputNumber',
+						// 	},
+						// },
 						{
 							componentType: 'Item',
 							label: 'Наименование',
@@ -245,7 +246,9 @@ const ControlPointDataD = (props) => {
 		},
 	];
 	const onFinish = (values) => {
-		console.log('Success:', values);
+		// console.log('Success:', values);
+		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
+
 		// history.goBack();
 	};
 	//

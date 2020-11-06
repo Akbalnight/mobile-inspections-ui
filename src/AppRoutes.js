@@ -54,6 +54,13 @@ const AppRoutes = () => {
 			/>
 			<Route
 				exact
+				path={paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_DATA.path}
+				component={
+					paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_DATA.component
+				}
+			/>
+			<Route
+				exact
 				path={paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path}
 				component={paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.component}
 			/>

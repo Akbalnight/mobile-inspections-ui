@@ -105,10 +105,8 @@ export const controlPointViewModal = () => {
 	return {
 		type: 'viewObject',
 		title: 'Контрольная точка',
-		width: 783,
-		bodyStyle: {
-			height: 682,
-		},
+		width: 800,
+		bodyStyle: {height: 700},
 		form: {
 			name: 'controlPointsDataView',
 			loadInitData: loadData,

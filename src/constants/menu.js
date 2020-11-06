@@ -9,14 +9,14 @@ import {paths} from './paths';
 export const menu = [
 	{
 		...paths.HOME,
-		icon: HOME
+		icon: HOME,
 	},
-	{
-		...paths.DEBUG
-	},
+	// {
+	// 	...paths.DEBUG
+	// },
 	{
 		...paths.CATALOG,
-		icon: CATALOG
+		icon: CATALOG,
 	},
 	{
 		// detours_configurator
@@ -26,8 +26,8 @@ export const menu = [
 			paths.DETOURS_CONFIGURATOR_CONTROL_POINTS,
 			paths.DETOURS_CONFIGURATOR_ROUTES,
 			paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
-			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS
-		]
+			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
+		],
 	},
 	{
 		// control_equipments
@@ -35,11 +35,11 @@ export const menu = [
 		icon: CONTROL_EQUIPMENTS,
 		children: [
 			paths.CONTROL_EQUIPMENTS_WORK_SCHEDULES,
-			paths.CONTROL_EQUIPMENTS_TECH_MAPS,
+			// paths.CONTROL_EQUIPMENTS_TECH_MAPS,
 
 			/** Тех. карты на формах */
-			paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM
-		]
+			paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM,
+		],
 	},
 	{
 		// control_defects
@@ -48,12 +48,12 @@ export const menu = [
 		children: [
 			paths.CONTROL_DEFECTS_DEFECTS,
 			paths.CONTROL_DEFECTS_PANEL_PROBLEMS,
-			paths.CONTROL_DEFECTS_PANEL_DEVIATIONS
-		]
+			paths.CONTROL_DEFECTS_PANEL_DEVIATIONS,
+		],
 	},
 	{
 		// analytics
 		...paths.ANALYTICS,
-		icon: ANALYTICS
-	}
+		icon: ANALYTICS,
+	},
 ];

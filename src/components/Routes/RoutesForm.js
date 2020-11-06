@@ -9,12 +9,12 @@ import {
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
 import {paths} from '../../constants/paths';
-import {codeInput} from '../Base/Inputs/CodeInput';
 import {controlPointViewModal} from './Modals/routeControlPointView';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
 } from './Modals/routeControlPointEdit';
+import {duration, position} from '../Base/customColumnProps';
 
 export default function RoutesForm() {
 	const history = useHistory();
@@ -68,7 +68,7 @@ export default function RoutesForm() {
 					componentType: 'Col',
 					span: 16,
 					children: [
-						pageParams.id === 'new' ? {} : codeInput,
+						// pageParams.id === 'new' ? {} : codeInput,
 						//nameInput,// количество символов не ограниченно
 						{
 							componentType: 'Item',
@@ -104,6 +104,13 @@ export default function RoutesForm() {
 			name: 'jsonEquipments',
 			value: (row) => JSON.stringify(row.equipments),
 		},
+		{
+			name: 'position',
+			value: (row, rows) => {
+				// console.log(row);
+				return rows.length + 1;
+			},
+		},
 	];
 
 	const controlPointsFields = [
@@ -127,6 +134,7 @@ export default function RoutesForm() {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
 						customFields: customFields,
+						customColumnProps: [{...position}, {...duration}],
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -210,15 +218,15 @@ export default function RoutesForm() {
 	const formConfig = {
 		name: 'DetoursConfiguratorRoutes',
 		// noPadding: true,
-		labelCol: {span: 16},
-		wrapperCol: {span: 24},
+		labelCol: {span: 8},
+		wrapperCol: {span: 16},
 		loadInitData: loadData,
 		requestSaveForm: apiSaveByConfigName('routes'),
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		processBeforeSaveForm: processBeforeSaveForm,
 		onFinish: (values) => {
-			console.log('Values', values);
-			// history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
+			// console.log('Values', values);
+			history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 		},
 		header: [
 			{

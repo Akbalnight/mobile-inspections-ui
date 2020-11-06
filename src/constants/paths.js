@@ -11,7 +11,8 @@ import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
 import RoutesForm from '../components/Routes/RoutesForm';
-import DetourConfiguratorDetourSchedulesForm from '../components/Debug/DetourConfiguratorDetoursSchedules/DetourConfiguratorDetourSchedulesForm';
+import DetourSchedules from '../components/Detours/DetourSchedules';
+import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
 
 const pathPrefix = '/';
 
@@ -66,19 +67,24 @@ export const paths = {
 		component: ControlPointDataD,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
-		title: 'Маршруты(f)',
+		title: 'Маршруты',
 		path: '/detours-configurator/routes',
 		component: Routes,
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA: {
-		title: 'Маршруты созадние/редакитрование (f)',
+		title: 'редакитрование маршрута',
 		path: '/detours-configurator/routes/:id',
 		component: RoutesForm,
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
-		title: 'Расписание обходов(f)',
+		title: 'Расписание обходов',
 		path: '/detours-configurator/detours-schedules',
-		component: DetourConfiguratorDetourSchedulesForm,
+		component: DetourSchedules,
+	},
+	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_DATA: {
+		title: 'Редактирование обхода',
+		path: '/detours-configurator/detours-schedules/:id',
+		component: DetourSchedulesForm,
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
@@ -108,12 +114,12 @@ export const paths = {
 
 	/** Тех. карты на формах */
 	CONTROL_EQUIPMENTS_TECH_MAPS_FORM: {
-		title: 'Технологические карты и операции (f)',
+		title: 'Технологические карты и операции',
 		path: '/controlEquipments/formTechMaps',
 		component: TechMapsForm,
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
-		title: 'Технологическая карта (f)',
+		title: 'Технологическая карта',
 		path: '/controlEquipments/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
