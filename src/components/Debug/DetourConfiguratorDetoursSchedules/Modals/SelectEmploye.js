@@ -73,9 +73,9 @@ const choiseExecutor = (type, catalogName, code) => {
 		{
 			componentType: 'Item',
 			child: {
-				componentType: 'Checkbox',
-				// componentType: 'Title',// поменять как заработает
+				componentType: 'Title',
 				label: 'Исполнитель:',
+				level: 5,
 			},
 		},
 		{

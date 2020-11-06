@@ -5,7 +5,8 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {addChoiseExecutor} from './Modals/modalSelectEmploye';
+import {schedulesViewModal} from './Modals/SchedulesView';
+import {addChoiseExecutor} from './Modals/SelectEmploye';
 
 export default function DetoursConfiguratorDetoursSchedules() {
 	const formConfig = {
@@ -41,7 +42,10 @@ export default function DetoursConfiguratorDetoursSchedules() {
 								'staffPositions'
 							),
 
-							modals: [addChoiseExecutor('staffPositions')],
+							modals: [
+								addChoiseExecutor('staffPositions'),
+								schedulesViewModal(),
+							],
 						},
 					},
 				],
