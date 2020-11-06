@@ -41,9 +41,9 @@ export default function Routes() {
 							requestLoadConfig: apiGetConfigByName('routes'),
 
 							modals: [
-								addControlPointToRoute('controlPoints'),
-								editControlPointToRoute('controlPoints'),
-								routeViewModal(), //info about Route
+								addControlPointToRoute(),
+								editControlPointToRoute(),
+								routeViewModal(history), //info about Route
 								// controlPointViewModal(), // info about ControlPoint
 							],
 						},

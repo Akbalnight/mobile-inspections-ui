@@ -2,41 +2,39 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {customColumnProps} from '../../TechMapsForm/TechMapColumnProps';
+import {techOperations} from './techOperationsConfig';
 
 export const controlPointViewModal = () => {
-	let techMapsId, Row;
+	let Row;
 
 	const loadData = (callBack, row) => {
 		Row = row;
+		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		callBack(row);
 	};
 
 	const loadControlPointEquipmentsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.id};
-		return apiGetFlatDataByConfigName('controlPointsEquipments')({
+		const newData = {...data, routesDataId: Row.id};
+		return apiGetFlatDataByConfigName('routeEquipments')({
 			data: newData,
 			params,
 		});
 	};
+
+	const loadControlPointsTechOperations = ({params, data}) => {
+		let newData = {...data};
+		// console.log('loadControlPointsEquipments newData.techMapId => ', newData.techMapId);
+		newData.techMapId = Row ? Row.techMapId : null;
+		return apiGetFlatDataByConfigName('techOperationsSmall')({
+			params,
+			data: newData,
+		});
+	};
+
 	const headFields = [
 		{
 			componentType: 'Row',
-			// gutter: [4, 8],
 			children: [
-				{
-					componentType: 'Col',
-					span: 8,
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Код',
-							name: 'code',
-							className: 'mb-0',
-							child: {componentType: 'Text'},
-						},
-					],
-				},
 				{
 					componentType: 'Col',
 					span: 12,
@@ -44,8 +42,8 @@ export const controlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Наименование',
-							name: 'name',
-							className: 'md-16',
+							name: 'controlPointName',
+							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
 					],
@@ -69,10 +67,9 @@ export const controlPointViewModal = () => {
 			children: [
 				{
 					componentType: 'Item',
-					name: 'controlPointEquipmentsTable',
+					name: 'equipments',
 					child: {
 						componentType: 'LocalTable',
-						// customColumnProps: ,
 						requestLoadRows: loadControlPointEquipmentsHandler,
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsEquipments'
@@ -86,95 +83,23 @@ export const controlPointViewModal = () => {
 	const techMaps = [
 		{
 			componentType: 'Row',
-			gutter: [16, 16],
 			children: [
 				{
 					componentType: 'Col',
-					span: 24,
+					span: 12,
 					children: [
 						{
 							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Технологические карты',
-								level: 5,
-							},
-						},
-						{
-							componentType: 'Item',
-							name: 'techMapsGroup',
-							child: {
-								componentType: 'SingleSelect',
-								widthControl: 0,
-								widthPopup: 740,
-								heightPopup: 300,
-								expandColumnKey: 'id',
-								rowRender: 'name',
-								expandDefaultAll: true,
-								onChangeKeys: (value, option) => {
-									return (techMapsId = option);
-								},
-								requestLoadRows: ({data, params}) =>
-									apiGetFlatDataByConfigName('techMaps')({
-										data: {
-											...data,
-										},
-										params,
-									}),
-								requestLoadDefault: apiGetFlatDataByConfigName(
-									'techMaps'
-								),
-							},
+							label: 'Технологическая карта',
+							name: 'techMapName',
+							className: 'mb-0',
+							child: {componentType: 'Text'},
 						},
 					],
 				},
 			],
 		},
-
-		{
-			componentType: 'Layout',
-			children: [
-				{
-					componentType: 'Item',
-					name: 'techMaps',
-					child: {
-						componentType: 'LocalTable',
-						customColumnProps: customColumnProps,
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName('techOperations')({
-								data: {
-									...data,
-									techMapsId,
-								},
-								params,
-							}), // не отображает в онлайн режиме, необходимо праdильно выстоить
-						requestLoadConfig: () =>
-							apiGetConfigByName('techOperations')(), // правльно разметить столбцы в конфиге,
-					},
-				},
-			],
-		},
-		{
-			componentType: 'Row',
-			gutter: [16, 24],
-			children: [
-				{
-					componentType: 'Col',
-					style: {
-						padding: '32px 30px',
-					},
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Text',
-								label: `Продолжительность всех операций: {результат вычесления времени}`,
-							},
-						},
-					],
-				},
-			],
-		},
+		...techOperations(loadControlPointsTechOperations),
 	];
 
 	return {
