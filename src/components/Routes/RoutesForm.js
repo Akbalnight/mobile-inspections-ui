@@ -6,8 +6,9 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
 } from '../../apis/catalog.api';
-// import {paths} from '../../../constants/paths';
+import {paths} from '../../constants/paths';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {controlPointViewModal} from './Modals/routeControlPointView';
 import {
@@ -26,7 +27,7 @@ export default function RoutesForm() {
 				duration: null,
 			});
 		} else {
-			apiGetConfigByName('routes')({
+			apiGetFlatDataByConfigName('routes')({
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
@@ -50,7 +51,7 @@ export default function RoutesForm() {
 	const loadControlPointsForRoute = ({params, data}) => {
 		const newData = {
 			...data,
-			id: pageParams.id === 'new' ? null : pageParams.id,
+			routeId: pageParams.id === 'new' ? null : pageParams.id,
 		};
 		return apiGetFlatDataByConfigName('routeControlPoints')({
 			data: newData,
@@ -62,9 +63,6 @@ export default function RoutesForm() {
 		{
 			componentType: 'Row',
 			gutter: [0, 0],
-			style: {
-				margin: '20px 0px',
-			}, //очень не красиво, с классами гридов сегодня не получилось отодвинуть от header
 			children: [
 				{
 					componentType: 'Col',
@@ -101,14 +99,18 @@ export default function RoutesForm() {
 		},
 	];
 
+	const customFields = [
+		{
+			name: 'jsonEquipments',
+			value: (row) => JSON.stringify(row.equipments),
+		},
+	];
+
 	const controlPointsFields = [
 		{
 			componentType: 'Item',
 			child: {
 				componentType: 'Title',
-				style: {
-					marginLeft: 20, // костыль с отображение были проблемы
-				},
 				label: 'Контрольные точки',
 				level: 5,
 			},
@@ -116,15 +118,15 @@ export default function RoutesForm() {
 
 		{
 			componentType: 'Layout',
+			className: 'mb-16',
 			children: [
 				{
 					componentType: 'Item',
+					name: 'controlPoints',
 					child: {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
-						style: {
-							margin: 10, // костыль с отображение были проблемы
-						},
+						customFields: customFields,
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -152,64 +154,30 @@ export default function RoutesForm() {
 	const techMapsFields = [
 		{
 			componentType: 'Row',
-			gutter: [8, 0],
-			style: {
-				marginLeft: 20,
-				marginTop: 10, // костыль с отображение были проблемы
-			},
+			justify: 'space-between',
 			children: [
 				{
-					componentType: 'Col',
-					span: 5,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Маршрутные карты',
-								level: 5,
-							},
-						},
-					],
+					componentType: 'Item',
+					child: {
+						componentType: 'Title',
+						label: 'Маршрутные карты',
+						level: 5,
+					},
 				},
+
 				{
-					componentType: 'Col',
-					span: 2,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Button',
-								label: 'В конструктор...',
-								size: 'small',
-								// icon: 'edit',
-								type: 'link',
-								onClick: () => {
-									console.log('Edit');
-								},
-							},
+					componentType: 'Item',
+					child: {
+						componentType: 'Button',
+						label: 'В конструктор',
+						size: 'small',
+						type: 'link',
+						onClick: () => {
+							history.push(
+								paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path
+							);
 						},
-					],
-				},
-				{
-					componentType: 'Col',
-					span: 1,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Button',
-								label: 'Удаление',
-								size: 'small',
-								danger: true,
-								// icon: 'delete',
-								type: 'link',
-								onClick: () => {
-									console.log('Delete');
-								},
-							},
-						},
-					],
+					},
 				},
 			],
 		},
@@ -218,32 +186,36 @@ export default function RoutesForm() {
 			children: [
 				{
 					componentType: 'Item',
-					style: {
-						marginTop: 10, // костыль с отображение были проблемы
-					},
 					child: {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
-						style: {
-							margin: 10, // костыль с отображение были проблемы
-						},
 						requestLoadRows: apiGetFlatDataByConfigName(
-							'controlPoints'
+							'routeMaps'
 						),
-						requestLoadConfig: apiGetConfigByName('controlPoints'),
+						requestLoadConfig: apiGetConfigByName('routeMaps'),
 					},
 				},
 			],
 		},
 	];
 
+	const processBeforeSaveForm = (rawValues) => {
+		const values = {...rawValues};
+		// console.log('typeof values.equipments', typeof values.equipments);
+		// if(typeof values.equipments === 'string')
+		// 	values.equipments = JSON.parse(values.equipments);
+		return values;
+	};
+
 	const formConfig = {
 		name: 'DetoursConfiguratorRoutes',
-		noPadding: true,
+		// noPadding: true,
 		labelCol: {span: 16},
 		wrapperCol: {span: 24},
 		loadInitData: loadData,
+		requestSaveForm: apiSaveByConfigName('routes'),
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
+		processBeforeSaveForm: processBeforeSaveForm,
 		onFinish: (values) => {
 			console.log('Values', values);
 			// history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
@@ -253,7 +225,8 @@ export default function RoutesForm() {
 				componentType: 'Item',
 				child: {
 					componentType: 'Title',
-					level: 4,
+					className: 'mb-0',
+					level: 3,
 					label:
 						pageParams.id === 'new'
 							? 'Создание маршрута'
