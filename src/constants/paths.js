@@ -13,6 +13,7 @@ import Routes from '../components/Routes/Routes';
 import RoutesForm from '../components/Routes/RoutesForm';
 import DetourSchedules from '../components/Detours/DetourSchedules';
 import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
+import RouteMaps from '../components/RouteMaps/RouteMaps';
 
 const pathPrefix = '/';
 
@@ -89,7 +90,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
-		component: Home,
+		component: RouteMaps,
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',
