@@ -8,6 +8,7 @@ import {
 } from '../../apis/catalog.api';
 import {Rnd} from 'react-rnd';
 import {useHistory} from 'react-router';
+import {routeMapsControlPointViewModal} from './Modals/routeMapsControlPointsInfo';
 
 export default function RouteMaps() {
 	const [controlPointsRnd, setControlPointsRnd] = useState([]); // нужно подумать о найминге
@@ -126,12 +127,18 @@ export default function RouteMaps() {
 						requestLoadConfig: apiGetConfigByName(
 							'controlPoints' // для макета, нужно поменять
 						),
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'controlPoints' // для макета, нужно поменять
-						),
+						requestLoadRows: ({data, params}) =>
+							apiGetFlatDataByConfigName('controlPoints')({
+								data: {
+									...data,
+									isGroup: false,
+								},
+								params,
+							}), // для макета, нужно поменять
 						onRowClick: ({selected, rowData, rowIndex}) => {
 							setControlPointsRnd((state) => [...state, rowData]);
 						},
+						modals: [routeMapsControlPointViewModal()],
 					},
 				},
 			],
