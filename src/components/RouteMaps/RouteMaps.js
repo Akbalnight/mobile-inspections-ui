@@ -4,7 +4,6 @@ import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
 import {Rnd} from 'react-rnd';
 import {useHistory} from 'react-router';
@@ -27,10 +26,8 @@ export default function RouteMaps() {
 				rowRender: 'name',
 				expandDefaultAll: true,
 				dispatchPath: 'routeMaps.routeMapsPage.routeMapsSelect',
-				requestLoadRows: apiGetHierarchicalDataByConfigName(
-					'controlPoints' // 'routeMaps'
-				),
-				requestLoadDefault: apiGetFlatDataByConfigName('controlPoints'), // 'routeMaps'
+				requestLoadRows: apiGetFlatDataByConfigName('routeMaps'),
+				requestLoadDefault: apiGetConfigByName('routeMaps'),
 			},
 		},
 	];
@@ -96,7 +93,7 @@ export default function RouteMaps() {
 			componentType: 'Item',
 			child: {
 				componentType: 'Title',
-				label: 'Маршрутные карты',
+				label: 'Контрольные точки',
 				level: 5,
 				style: {
 					marginTop: 30,
@@ -124,6 +121,7 @@ export default function RouteMaps() {
 						// 			},
 						// 		}),
 						// },
+
 						requestLoadConfig: apiGetConfigByName(
 							'controlPoints' // для макета, нужно поменять
 						),
@@ -172,18 +170,40 @@ export default function RouteMaps() {
 		],
 	};
 
+	/**
+	 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+	 *
+	 * Что нам интересно(свойства)
+	 *
+	 *  position?: { x: number, y: number }-  тут мы сожем задавать начальные координаты на рисунке
+	 *
+	 *  disableDragging?: boolean; - оно отключает перетаскивание, вдруг точка является ключевой и ее нельзя перетаскивать
+	 *
+	 *  bounds?: string; - ограничение по передвижению элемента, можно задать 'parent'  или className  в формате '.className'. Возможно сюда
+	 * мы будем задавать взяимосвязь с загружаемыми данными в объекте выше.
+	 *
+	 * Сallback
+	 *
+	 *   onDragStop - пригодиться для получения новых координат
+	 *
+	 *
+	 */
+
 	return (
 		<BasePage>
 			<div style={{width: '30%', height: '100%'}}>
 				<Form {...formConfig} />
 			</div>
-			<div style={{width: '70%', height: '100%', background: 'yellow'}}>
+			<div
+				style={{width: '70%', height: '100%', background: 'yellow'}}
+				className={'yellowDiv'}
+			>
 				{controlPointsRnd &&
 					controlPointsRnd.map((controlPoints) => (
 						<>
 							<Rnd
 								key={controlPoints.id}
-								bounds={'parent'}
+								bounds={'.yellowDiv'}
 								style={{
 									display: 'inline-block!important',
 									width: 15,
@@ -194,8 +214,7 @@ export default function RouteMaps() {
 										'69% 31% 100% 0% / 53% 55% 45% 47%',
 								}} //над стилем нужно подумать
 								onDragStop={(e, d) => {
-									console.log('koor X', d.x);
-									console.log('koor Y', d.y);
+									console.log('koor X', d.x, 'koor Y', d.y);
 								}}
 							>
 								<div>{controlPoints.name}</div>
