@@ -14,7 +14,7 @@ import RoutesForm from '../components/Routes/RoutesForm';
 import DetourSchedules from '../components/Detours/DetourSchedules';
 import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
-import Defects from '../components/Debug/Defects/Defects';
+import Defects from '../components/Defects/Defects';
 
 const pathPrefix = '/';
 
