@@ -2,135 +2,206 @@ import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
+import {paths} from '../../../constants/paths';
 
-export const defectCardInfoModal = () => {
+export const defectCardInfoModal = (history) => {
 	let Row;
 	const loadData = (callBack, row) => {
 		Row = row;
 		callBack(row);
 	};
+	//вариант возможный для использования
+	/**
+	 * Почему представил вариант который ниже.
+	 * Мы открваем карточку дефекта и имеем сразу номер и стату, в случае необходимости кнопку реадктирвать
+	 * второстепенная иснформация , а так же разного рода таблицы прячем в Tabs. Единственное при переключении у меня не коректное отображение. но это настраивается.
+	 *
+	 * в случае если оставляем как в макете фигма.
+	 * У нас в футер падает кнопка редактировать (логика та же что и в первом варинте), но тогда придется для кнопеи закрыть в футере писать логику вручную
+	 *
+	 */
+	const defectInfoField = [
+		{
+			componentType: 'Layout',
+			className: 'mb-0',
+			children: [
+				{
+					componentType: 'Col',
+					style: {
+						marginLeft: 50,
+					},
+					children: [
+						{
+							componentType: 'Row',
+							children: [
+								{
+									componentType: 'Item',
+									label: '№ в Журнале Дефектов',
+									name: 'countDefectsLog', // с наймингов нужно определиться
+									className: 'mb-0',
+									child: {componentType: 'Text'},
+								},
+								{
+									componentType: 'Item',
+									child: {
+										componentType: 'Button',
+										label: 'Редактировать',
+										type: 'link',
+										style: {
+											marginLeft: 100,
+										},
+										onClick: () => {
+											history.push(`${paths.HOME.path}`);
+										}, // временно
+									},
+								},
+							],
+						},
+						{
+							componentType: 'Item',
+							label: 'Статус',
+							name: 'statusDefectsLog', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+					],
+				},
+				{
+					componentType: 'Col',
+					children: [],
+				},
+			],
+		},
+	];
 
 	const infoTabFields = [
 		{
-			componentType: 'Col',
-			style: {
-				marginLeft: 50,
-			},
+			componentType: 'Layout',
 			children: [
+				//стандартный вариант
+				// {
+				// 	componentType: 'Col',
+				// 	style: {
+				// 		marginLeft: 50,
+				// 	},
+				// 	children: [
+				// 		{
+				// 			componentType: 'Item',
+				// 			label: '№ в Журнале Дефектов',
+				// 			name: 'countDefectsLog', // с наймингов нужно определиться
+				// 			className: 'mb-0',
+				// 			child: {componentType: 'Text'},
+				// 		},
+				// 		{
+				// 			componentType: 'Item',
+				// 			label: 'Статус',
+				// 			name: 'statusDefectsLog', // с наймингов нужно определиться
+				// 			className: 'mb-0',
+				// 			child: {componentType: 'Text'},
+				// 		},
+				// 	],
+				// },
 				{
 					componentType: 'Item',
-					label: '№ в Журнале Дефектов',
-					name: 'countDefectsLog', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
+					child: {
+						componentType: 'Title',
+						label: 'Выявление дефекта',
+						level: 5,
+						style: {
+							marginTop: 20,
+						},
+					},
 				},
+
 				{
-					componentType: 'Item',
-					label: 'Статус',
-					name: 'statusDefectsLog', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-			],
-		},
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Выявление дефекта',
-				level: 5,
-				style: {
-					marginTop: 20,
-				},
-			},
-		},
-		{
-			componentType: 'Col',
-			style: {
-				marginLeft: 50,
-			},
-			children: [
-				{
-					componentType: 'Item',
-					label: 'Дата обнаружения',
-					name: 'dateDiscovery', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-				{
-					componentType: 'Item',
-					label: 'Оборудование',
-					name: 'equipment', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-				{
-					componentType: 'Item',
-					label: 'Описание',
-					name: 'description', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-				{
-					componentType: 'Item',
-					label: 'Обнаружил',
-					name: 'staffDiscovered', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-			],
-		},
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'План устранения',
-				level: 5,
-				style: {
-					marginTop: 20,
-				},
-			},
-		},
-		{
-			componentType: 'Col',
-			style: {
-				marginLeft: 50,
-			},
-			children: [
-				{
-					componentType: 'Item',
-					label: 'Плановый срок устранения',
-					name: 'plannedCorrectionPeriod', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
+					componentType: 'Col',
+					style: {
+						marginLeft: 50,
+					},
+					children: [
+						{
+							componentType: 'Item',
+							label: 'Дата обнаружения',
+							name: 'dateDiscovery', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'Оборудование',
+							name: 'equipment', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'Описание',
+							name: 'description', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'Обнаружил',
+							name: 'staffDiscovered', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+					],
 				},
 				{
 					componentType: 'Item',
-					label: 'Диспетчер',
-					name: 'dispatcher', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
+					child: {
+						componentType: 'Title',
+						label: 'План устранения',
+						level: 5,
+						style: {
+							marginTop: 20,
+						},
+					},
 				},
 				{
-					componentType: 'Item',
-					label: 'Отклонение от КПЭ',
-					name: 'deviationOf', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-				{
-					componentType: 'Item',
-					label: 'Причина возникновения',
-					name: 'causeOfOccurrence', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
-				},
-				{
-					componentType: 'Item',
-					label: 'План действий',
-					name: 'actionPlan', // с наймингов нужно определиться
-					className: 'mb-0',
-					child: {componentType: 'Text'},
+					componentType: 'Col',
+					style: {
+						marginLeft: 50,
+					},
+					children: [
+						{
+							componentType: 'Item',
+							label: 'Плановый срок устранения',
+							name: 'plannedCorrectionPeriod', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'Диспетчер',
+							name: 'dispatcher', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'Отклонение от КПЭ',
+							name: 'deviationOf', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'Причина возникновения',
+							name: 'causeOfOccurrence', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+						{
+							componentType: 'Item',
+							label: 'План действий',
+							name: 'actionPlan', // с наймингов нужно определиться
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+					],
 				},
 			],
 		},
@@ -143,10 +214,15 @@ export const defectCardInfoModal = () => {
 				{
 					componentType: 'Item',
 					child: {
+						componentType: 'Title',
+						label: 'Тут будет компонент с медиа',
+						level: 5,
+					},
+				},
+				{
+					componentType: 'Item',
+					child: {
 						componentType: 'LocalTable',
-						style: {
-							margin: 25,
-						},
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'page'},
@@ -184,17 +260,7 @@ export const defectCardInfoModal = () => {
 					componentType: 'TabPane',
 					tab: 'Вложения',
 					key: 'filesTab',
-					children: [
-						// {
-						// 	componentType: 'Item',
-						// 	child: {
-						// 		componentType: 'Title',
-						//         label: 'Тут будет компонент с медиа',
-						//         level:5
-						// 	},
-						// },
-						...exampleTableFields,
-					],
+					children: [...exampleTableFields],
 				},
 				{
 					componentType: 'TabPane',
@@ -205,7 +271,7 @@ export const defectCardInfoModal = () => {
 							componentType: 'Item',
 							child: {
 								componentType: 'Title',
-								label: 'Title',
+								label: 'Оборудование',
 							},
 						},
 					],
@@ -219,7 +285,7 @@ export const defectCardInfoModal = () => {
 							componentType: 'Item',
 							child: {
 								componentType: 'Title',
-								label: 'Title',
+								label: 'Обход',
 							},
 						},
 					],
@@ -237,7 +303,7 @@ export const defectCardInfoModal = () => {
 			name: 'defectDataView',
 			noPadding: false,
 			loadInitData: loadData,
-			body: [...tabsField],
+			body: [...defectInfoField, ...tabsField],
 		},
 	};
 };

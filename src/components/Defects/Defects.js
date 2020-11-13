@@ -6,8 +6,11 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {defectCardInfoModal} from './Modals/defectCardInfo';
+import {useHistory} from 'react-router';
+import {addDefectCard} from './Modals/defectEdit';
 
 export default function Defects() {
+	const history = useHistory();
 	const confirFilterPanel = [
 		// тут чуть-чуть деревянно получилось
 		{
@@ -49,10 +52,10 @@ export default function Defects() {
 					componentType: 'Item',
 					child: {
 						componentType: 'ServerTable', // 'InfinityTable' ?
-						selectable: true,
+						// selectable: true,
 						commandPanelProps: {
 							systemBtnProps: {
-								edit: {actionType: ['page', 'modal']},
+								edit: {actionType: ['modal', 'modal']},
 								up: {},
 								down: {},
 								delete: {},
@@ -61,13 +64,9 @@ export default function Defects() {
 						filterPanelProps: {
 							configFilter: [...confirFilterPanel],
 						},
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'defectTypicalGroups'
-						),
-						requestLoadConfig: apiGetConfigByName(
-							'defectTypicalGroups'
-						),
-						modals: [defectCardInfoModal()],
+						requestLoadRows: apiGetFlatDataByConfigName('techMaps'), //defects
+						requestLoadConfig: apiGetConfigByName('techMaps'), //defects
+						modals: [addDefectCard(), defectCardInfoModal(history)],
 					},
 				},
 			],
