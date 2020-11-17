@@ -15,6 +15,7 @@ import DetourSchedules from '../components/Detours/DetourSchedules';
 import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
 import Defects from '../components/Defects/Defects';
+import DefectsForm from '../components/Defects/DefectsForm';
 
 const pathPrefix = '/';
 
@@ -136,10 +137,15 @@ export const paths = {
 		path: '/control-defects/defects',
 		component: Defects,
 	},
+	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
+		title: 'Создание/редактирование дефекта',
+		path: '/control-defects/defects/:id',
+		component: DefectsForm,
+	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: Home,
+		component: Defects,
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {
 		title: 'Панель отклонений',

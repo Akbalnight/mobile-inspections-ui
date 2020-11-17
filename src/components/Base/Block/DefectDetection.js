@@ -2,12 +2,12 @@ import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 
 export const defectDetection = {
 	componentType: 'Layout',
-	className: 'mt-0',
+	className: 'mb-0',
+
 	children: [
 		{
 			componentType: 'Col',
 			span: 16,
-			style: {marginLeft: 50},
 			children: [
 				{
 					componentType: 'Item',

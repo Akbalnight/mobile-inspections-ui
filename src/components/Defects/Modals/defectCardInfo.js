@@ -253,7 +253,6 @@ export const defectCardInfoModal = (history) => {
 					componentType: 'TabPane',
 					tab: 'Информация о дефекте',
 					key: 'infoTab',
-
 					children: [...infoTabFields],
 				},
 				{

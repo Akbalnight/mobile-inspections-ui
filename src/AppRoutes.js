@@ -103,6 +103,11 @@ const AppRoutes = () => {
 			/>
 			<Route
 				exact
+				path={paths.CONTROL_DEFECTS_DEFECTS_DATA_FORM.path}
+				component={paths.CONTROL_DEFECTS_DEFECTS_DATA_FORM.component}
+			/>
+			<Route
+				exact
 				path={paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}
 				component={paths.CONTROL_DEFECTS_PANEL_PROBLEMS.component}
 			/>

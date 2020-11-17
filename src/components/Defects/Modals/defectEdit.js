@@ -20,6 +20,15 @@ const OperationOnServer = (catalogName, type, code) => {
 					},
 			  }
 			: {},
+		{
+			componentType: 'Item',
+			name: 'countDefectsLog',
+			label: '№ в журнале',
+			className: 'mb-8',
+			child: {
+				componentType: 'Text',
+			},
+		},
 		{...defectDetection},
 	];
 
@@ -39,7 +48,7 @@ const OperationOnServer = (catalogName, type, code) => {
 							name: 'countSAP',
 							className: 'mb-8',
 							child: {
-								componentType: 'Input',
+								componentType: 'Text', // 'Text' ведь номер в сап может и не будет меняться
 							},
 						},
 						{

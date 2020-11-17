@@ -2,13 +2,13 @@ import {genericRequest} from './network';
 //
 export const apiGetConfigByName = (configName) => () =>
 	genericRequest({
-		url: '/api/management-dynamicdq/configuration/' + configName,
+		url: '/api/dynamicdq/configuration/' + configName,
 		method: 'GET',
 	});
 
 export const apiGetConfigByObject = ({configName, data, params}) =>
 	genericRequest({
-		url: '/api/management-dynamicdq/configuration/' + configName,
+		url: '/api/dynamicdq/configuration/' + configName,
 		method: 'GET',
 		data,
 		params,
