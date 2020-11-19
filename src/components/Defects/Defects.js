@@ -10,6 +10,8 @@ import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
 import {addDefectCard} from './Modals/defectEdit';
 import {paths} from '../../constants/paths';
+// import { defectSendPanel } from './Modals/defectSendPanel';
+// import { defectCloseModal } from './Modals/defectCloseModal';
 
 export default function Defects() {
 	const history = useHistory();
@@ -163,7 +165,12 @@ export default function Defects() {
 							'controlPoints'
 						), //defects
 						requestLoadConfig: apiGetConfigByName('controlPoints'), //defects
-						modals: [addDefectCard(), defectCardInfoModal(history)],
+						modals: [
+							addDefectCard(),
+							defectCardInfoModal(history), // прокинул тут для кнопки Редактирвать, история тут ни к чему.
+							// defectSendPanel(),
+							// defectCloseModal()
+						],
 					},
 				},
 			],

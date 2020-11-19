@@ -177,6 +177,8 @@ export default function RouteMaps() {
 	 *
 	 *  position?: { x: number, y: number }-  тут мы сожем задавать начальные координаты на рисунке
 	 *
+	 * size?: { width: (number | string), height: (number | string) }
+	 *
 	 *  disableDragging?: boolean; - оно отключает перетаскивание, вдруг точка является ключевой и ее нельзя перетаскивать
 	 *
 	 *  bounds?: string; - ограничение по передвижению элемента, можно задать 'parent'  или className  в формате '.className'. Возможно сюда
@@ -203,11 +205,10 @@ export default function RouteMaps() {
 						<>
 							<Rnd
 								key={controlPoints.id}
+								size={{width: 32, height: 32}}
 								bounds={'.yellowDiv'}
 								style={{
 									display: 'inline-block!important',
-									width: 15,
-									height: 15,
 									margin: 20,
 									background: 'red',
 									borderRadius:
