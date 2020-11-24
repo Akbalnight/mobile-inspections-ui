@@ -119,7 +119,6 @@ const OperationOnServer = (catalogName, type, code) => {
 			children: [
 				{
 					componentType: 'Col',
-					span: 16,
 					style: {marginLeft: 50},
 					children: [
 						{
@@ -171,7 +170,6 @@ const OperationOnServer = (catalogName, type, code) => {
 			children: [
 				{
 					componentType: 'Col',
-					span: 16,
 					style: {marginLeft: 50},
 					children: [
 						{
@@ -221,6 +219,8 @@ const OperationOnServer = (catalogName, type, code) => {
 			onFinish: (values) => {
 				console.log('values', values);
 			},
+			labelCol: {span: 12},
+			wrapperCol: {span: 12},
 			body: [
 				code,
 				...defectDetectionField,

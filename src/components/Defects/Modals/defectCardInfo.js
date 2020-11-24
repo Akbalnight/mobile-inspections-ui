@@ -5,9 +5,9 @@ import {
 import {paths} from '../../../constants/paths';
 
 export const defectCardInfoModal = (history) => {
-	let Row;
+	// let Row;
 	const loadData = (callBack, row) => {
-		Row = row;
+		// Row = row;
 		callBack(row);
 	};
 	//вариант возможный для использования
@@ -296,7 +296,7 @@ export const defectCardInfoModal = (history) => {
 
 	return {
 		type: 'viewObject',
-		title: `Карточка дефекта ${Row}`,
+		title: `Карточка дефекта`,
 		width: 800,
 		bodyStyle: {height: 650},
 		form: {

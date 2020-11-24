@@ -16,6 +16,7 @@ import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
+import DebugMarsel from '../components/Debug/DebugMarsel/DebugMarsel';
 
 const pathPrefix = '/';
 
@@ -43,6 +44,11 @@ export const paths = {
 		title: 'Debug',
 		path: '/debug',
 		component: Debug,
+	},
+	DEBUG_MARSEL: {
+		title: 'DebugMarsel',
+		path: '/debugMarsel',
+		component: DebugMarsel,
 	},
 	CATALOG: {
 		title: 'НСИ',

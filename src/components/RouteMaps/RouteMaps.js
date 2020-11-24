@@ -218,7 +218,7 @@ export default function RouteMaps() {
 									console.log('koor X', d.x, 'koor Y', d.y);
 								}}
 							>
-								<div>{controlPoints.name}</div>
+								<div>{controlPoints.code}</div>
 							</Rnd>
 						</>
 					))}

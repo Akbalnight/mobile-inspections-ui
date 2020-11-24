@@ -16,6 +16,11 @@ const AppRoutes = () => {
 				path={paths.DEBUG.path}
 				component={paths.DEBUG.component}
 			/>
+			<Route
+				exact
+				path={paths.DEBUG_MARSEL.path}
+				component={paths.DEBUG_MARSEL.component}
+			/>
 			{/** НСИ */}
 			<Route
 				path={paths.CATALOG.path}

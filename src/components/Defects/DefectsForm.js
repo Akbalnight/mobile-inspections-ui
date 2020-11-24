@@ -5,7 +5,12 @@ import {useHistory, useParams} from 'react-router';
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {notification} from 'antd';
 import {defectDetection} from '../Base/Block/DefectDetection';
-
+/**
+ * этот компонент необязателен он представлен для вариативности с модальными окнами
+ * если в дальнейшем представится выборpage or modal. У нас есть оба рабочих решения
+ * modal defectRdit.js
+ * page  в этом файле
+ */
 export default function DefectsForm() {
 	const pageParams = useParams();
 	const history = useHistory();
@@ -44,7 +49,7 @@ export default function DefectsForm() {
 			children: [
 				{
 					componentType: 'Col',
-					span: 16,
+					span: 24,
 					children: [
 						{
 							componentType: 'Item',
@@ -80,7 +85,6 @@ export default function DefectsForm() {
 
 				{
 					componentType: 'Col',
-					span: 16,
 					children: [
 						{
 							componentType: 'Item',
@@ -151,7 +155,6 @@ export default function DefectsForm() {
 			children: [
 				{
 					componentType: 'Col',
-					span: 12,
 					children: [
 						{
 							componentType: 'Item',
@@ -206,8 +209,8 @@ export default function DefectsForm() {
 	const formConfig = {
 		noPadding: false,
 		name: 'DefectEditForm',
-		labelCol: {span: 12},
-		wrapperCol: {span: 16},
+		labelCol: {span: 8},
+		wrapperCol: {span: 10},
 		loadInitData: loadData,
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		onFinish: (values) => {
@@ -220,10 +223,9 @@ export default function DefectsForm() {
 					componentType: 'Title',
 					className: 'mb-0',
 					level: 3,
-					label:
-						pageParams.id === 'new'
-							? 'Создание дефекта'
-							: 'Редактирование дефекта',
+					label: `
+						${pageParams.id === 'new' ? 'Создание' : 'Редактирование'}
+							  дефекта`,
 				},
 			},
 		],

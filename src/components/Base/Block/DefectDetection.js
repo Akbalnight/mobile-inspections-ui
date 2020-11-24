@@ -6,7 +6,6 @@ export const defectDetection = {
 	children: [
 		{
 			componentType: 'Col',
-			span: 16,
 			children: [
 				{
 					componentType: 'Item',
