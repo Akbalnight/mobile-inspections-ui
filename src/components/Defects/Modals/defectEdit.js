@@ -2,6 +2,9 @@ import {defectDetection} from '../../Base/Block/DefectDetection';
 
 export const addDefectCard = () => OperationOnServer('catalogName', 'edit', {});
 
+/**
+ * Это модальное окно в зависимости от приходящего catalogName, может быть как в журнале дефектов, так и в панеле проблем
+ */
 const OperationOnServer = (catalogName, type, code) => {
 	let Row = null;
 	const loadData = (callBack, row) => {
@@ -22,7 +25,7 @@ const OperationOnServer = (catalogName, type, code) => {
 			: {},
 		{
 			componentType: 'Item',
-			name: 'countDefectsLog',
+			name: 'id',
 			label: '№ в журнале',
 			className: 'mb-8',
 			child: {
@@ -45,7 +48,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: '№ из SAP',
-							name: 'countSAP',
+							name: 'sapMessageId',
 							className: 'mb-8',
 							child: {
 								componentType: 'Text', // 'Text' ведь номер в сап может и не будет меняться
@@ -54,7 +57,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'План действий',
-							name: 'actionCorrect',
+							name: 'actionCorrect', // найминг тут неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'TextArea',
@@ -63,7 +66,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Что происходит',
-							name: 'whatsUp', //?
+							name: 'whatsUp', // найминг тут неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -72,7 +75,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Статус из SAP',
-							name: 'statusSAP',
+							name: 'statusSAP', // найминг тут неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -81,7 +84,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Дата начала устранения',
-							name: 'dateStartCorrect',
+							name: 'dateEliminationPlan',
 							className: 'mb-8',
 							child: {
 								componentType: 'DatePicker',
@@ -91,7 +94,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Дата окончания устранения',
-							name: 'dateEndCorrect',
+							name: 'dateEliminationFact',
 							className: 'mb-8',
 							child: {
 								componentType: 'DatePicker',
@@ -124,7 +127,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: '№ из SAP',
-							name: 'countSAP',
+							name: 'sapMessageId',
 							className: 'mb-8',
 							child: {
 								componentType: 'Text',
@@ -133,7 +136,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Диспетчер',
-							name: 'dispatcher',
+							name: 'dispatcher', // найминг туту неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'Text',
@@ -142,7 +145,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Плановый срок устранения до',
-							name: 'planDateEndCorrect',
+							name: 'dateEliminationPlan',
 							className: 'mb-8',
 							child: {
 								componentType: 'DatePicker',
@@ -175,7 +178,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Дата фактического устранения',
-							name: 'dateFactCorrect',
+							name: 'dateEliminationFact',
 							className: 'mb-8',
 							child: {
 								componentType: 'DatePicker',
@@ -185,7 +188,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Ответственный',
-							name: 'staffResponsible',
+							name: 'staffEliminationId',
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -194,7 +197,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Мероприятия по устранению',
-							name: 'activityDescription',
+							name: 'activityDescription', // найминг туту неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'TextArea',

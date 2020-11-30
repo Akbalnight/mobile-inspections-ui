@@ -53,7 +53,7 @@ export default function DefectsForm() {
 					children: [
 						{
 							componentType: 'Item',
-							name: 'countDefectsLog',
+							name: 'id',
 							label: '№ в журнале',
 							className: 'mb-8',
 							child: {
@@ -89,7 +89,7 @@ export default function DefectsForm() {
 						{
 							componentType: 'Item',
 							label: '№ из SAP',
-							name: 'countSAP',
+							name: 'sapMessageId',
 							className: 'mb-8',
 							child: {
 								componentType: 'Text', // 'Text' ведь номер в сап может и не будет меняться
@@ -98,7 +98,7 @@ export default function DefectsForm() {
 						{
 							componentType: 'Item',
 							label: 'План действий',
-							name: 'actionCorrect',
+							name: 'actionCorrect', // найминг тут неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'TextArea',
@@ -107,7 +107,7 @@ export default function DefectsForm() {
 						{
 							componentType: 'Item',
 							label: 'Что происходит',
-							name: 'whatsUp', //?
+							name: 'whatsUp', // найминг тут неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -116,7 +116,7 @@ export default function DefectsForm() {
 						{
 							componentType: 'Item',
 							label: 'Статус из SAP',
-							name: 'statusSAP',
+							name: 'statusSAP', // найминг тут неверный
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -125,7 +125,7 @@ export default function DefectsForm() {
 						{
 							componentType: 'Item',
 							label: 'Дата начала устранения',
-							name: 'dateStartCorrect',
+							name: 'dateEliminationPlan',
 							className: 'mb-8',
 							child: {
 								componentType: 'DatePicker',
@@ -135,7 +135,7 @@ export default function DefectsForm() {
 						{
 							componentType: 'Item',
 							label: 'Дата окончания устранения',
-							name: 'dateEndCorrect',
+							name: 'dateEliminationFact',
 							className: 'mb-8',
 							child: {
 								componentType: 'DatePicker',
@@ -213,6 +213,7 @@ export default function DefectsForm() {
 		wrapperCol: {span: 10},
 		loadInitData: loadData,
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
+		// надо указать метот сохранения дефекта
 		onFinish: (values) => {
 			console.log('Values', values);
 		},

@@ -1,6 +1,5 @@
-// /*eslint no-use-before-define: "off"*/
-import {BasePage} from 'mobile-inspections-base-ui';
 import React from 'react';
+import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,

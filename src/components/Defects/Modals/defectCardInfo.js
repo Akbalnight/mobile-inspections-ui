@@ -38,7 +38,7 @@ export const defectCardInfoModal = (history) => {
 								{
 									componentType: 'Item',
 									label: '№ в Журнале Дефектов',
-									name: 'countDefectsLog', // с наймингов нужно определиться
+									name: 'id',
 									className: 'mb-0',
 									child: {componentType: 'Text'},
 								},
@@ -61,7 +61,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Статус',
-							name: 'statusDefectsLog', // с наймингов нужно определиться
+							name: 'statusProcessId',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -89,14 +89,14 @@ export const defectCardInfoModal = (history) => {
 				// 		{
 				// 			componentType: 'Item',
 				// 			label: '№ в Журнале Дефектов',
-				// 			name: 'countDefectsLog', // с наймингов нужно определиться
+				// 			name: 'id',
 				// 			className: 'mb-0',
 				// 			child: {componentType: 'Text'},
 				// 		},
 				// 		{
 				// 			componentType: 'Item',
 				// 			label: 'Статус',
-				// 			name: 'statusDefectsLog', // с наймингов нужно определиться
+				// 			name: 'statusProcessId',
 				// 			className: 'mb-0',
 				// 			child: {componentType: 'Text'},
 				// 		},
@@ -130,21 +130,21 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Оборудование',
-							name: 'equipment', // с наймингов нужно определиться
+							name: 'equipmentId',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'Описание',
-							name: 'description', // с наймингов нужно определиться
+							name: 'description',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'Обнаружил',
-							name: 'staffDiscovered', // с наймингов нужно определиться
+							name: 'staffDetectId', // с наймингов нужно определиться
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -170,7 +170,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Плановый срок устранения',
-							name: 'plannedCorrectionPeriod', // с наймингов нужно определиться
+							name: 'dateEliminationPlan',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},

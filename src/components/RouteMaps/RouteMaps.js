@@ -26,8 +26,8 @@ export default function RouteMaps() {
 				rowRender: 'name',
 				expandDefaultAll: true,
 				dispatchPath: 'routeMaps.routeMapsPage.routeMapsSelect',
-				requestLoadRows: apiGetFlatDataByConfigName('routeMaps'),
-				requestLoadDefault: apiGetConfigByName('routeMaps'),
+				requestLoadRows: apiGetFlatDataByConfigName('routes'),
+				requestLoadDefault: apiGetConfigByName('routes'),
 			},
 		},
 	];
@@ -53,7 +53,7 @@ export default function RouteMaps() {
 					componentType: 'Item',
 					child: {
 						componentType: 'ServerTable',
-						defaultFilter: {controlPointsId: null},
+						defaultFilter: {routeId: null},
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -62,25 +62,25 @@ export default function RouteMaps() {
 								down: {},
 							},
 						},
-						// dispatchPath: 'routeMaps.routeMapsPage.routeMapsTable',
-						// subscribe: {
-						// 	name: 'routeMapsUploadTable',
-						// 	path:
-						// 		'rtd.routeMaps.routeMapsPage.routeMapsSelect.selected',
-						// 	onChange: ({value, setReloadTable}) =>
-						// 		value &&
-						// 		setReloadTable &&
-						// 		setReloadTable({
-						// 			filter: {
-						// 				controlPointsId: value.id,// тут нужно поменять
-						// 			},
-						// 		}),
-						// },
+						dispatchPath: 'routeMaps.routeMapsPage.routeMapsTable',
+						subscribe: {
+							name: 'routeMapsUploadTable',
+							path:
+								'rtd.routeMaps.routeMapsPage.routeMapsSelect.selected',
+							onChange: ({value, setReloadTable}) =>
+								value &&
+								setReloadTable &&
+								setReloadTable({
+									filter: {
+										routeId: value.id, // тут нужно поменять
+									},
+								}),
+						},
 						requestLoadConfig: apiGetConfigByName(
-							'controlPoints' // для макета, нужно поменять
+							'routeControlPoints' // для макета, нужно поменять
 						),
 						requestLoadRows: apiGetFlatDataByConfigName(
-							'controlPoints' // для макета, нужно поменять
+							'routeControlPoints' // для макета, нужно поменять
 						),
 					},
 				},
@@ -108,33 +108,29 @@ export default function RouteMaps() {
 					componentType: 'Item',
 					child: {
 						componentType: 'ServerTable',
-						// subscribe: {
-						// 	name: 'routeMapsUploadTable',
-						// 	path:
-						// 		'rtd.routeMaps.routeMapsPage.routeMapsSelect.selected',
-						// 	onChange: ({value, setReloadTable}) =>
-						// 		value &&
-						// 		setReloadTable &&
-						// 		setReloadTable({
-						// 			filter: {
-						// 				controlPointsId: value.id,// тут нужно поменять
-						// 			},
-						// 		}),
-						// },
+						defaultFilter: {routeId: null},
+						subscribe: {
+							name: 'routeMapsUploadTable',
+							path:
+								'rtd.routeMaps.routeMapsPage.routeMapsSelect.selected',
+							onChange: ({value, setReloadTable}) =>
+								value &&
+								setReloadTable &&
+								setReloadTable({
+									filter: {
+										routeId: value.id, // тут нужно поменять
+									},
+								}),
+						},
 
 						requestLoadConfig: apiGetConfigByName(
-							'controlPoints' // для макета, нужно поменять
+							'routeControlPoints' // для макета, нужно поменять
 						),
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName('controlPoints')({
-								data: {
-									...data,
-									isGroup: false,
-								},
-								params,
-							}), // для макета, нужно поменять
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'routeControlPoints'
+						), // для макета, нужно поменять
 						onRowClick: ({selected, rowData, rowIndex}) => {
-							setControlPointsRnd((state) => [...state, rowData]);
+							setControlPointsRnd((state) => [...state, rowData]); // когда будет окончательная настройка, нужно просмотреть что приходит в rowData
 						},
 						modals: [routeMapsControlPointViewModal()],
 					},
@@ -218,7 +214,7 @@ export default function RouteMaps() {
 									console.log('koor X', d.x, 'koor Y', d.y);
 								}}
 							>
-								<div>{controlPoints.code}</div>
+								<div>{controlPoints.id}</div>
 							</Rnd>
 						</>
 					))}

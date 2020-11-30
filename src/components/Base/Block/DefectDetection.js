@@ -10,7 +10,7 @@ export const defectDetection = {
 				{
 					componentType: 'Item',
 					label: 'Дата обнаружения',
-					name: 'dateDiscovery',
+					name: 'dateDetectDefect',
 					className: 'mb-8',
 					rules: [
 						{
@@ -26,7 +26,7 @@ export const defectDetection = {
 				{
 					componentType: 'Item',
 					label: 'Отклонение от КПЭ',
-					name: 'deviationKPE',
+					name: 'deviationKPE', // найминг тут неверный
 					className: 'mb-8',
 					child: {
 						componentType: 'SingleSelect',
@@ -43,7 +43,7 @@ export const defectDetection = {
 				{
 					componentType: 'Item',
 					label: 'Оборудование',
-					name: 'equipment',
+					name: 'equipmentId',
 					className: 'mb-8',
 					child: {
 						componentType: 'SingleSelect',
@@ -60,7 +60,7 @@ export const defectDetection = {
 				{
 					componentType: 'Item',
 					label: 'Обнаружил',
-					name: 'staffDiscovered',
+					name: 'staffDetectId',
 					className: 'mb-8',
 					rules: [
 						{
@@ -91,7 +91,7 @@ export const defectDetection = {
 				{
 					componentType: 'Item',
 					label: 'Причина возникновения',
-					name: 'occurrence',
+					name: 'note',
 
 					child: {
 						componentType: 'Input',
