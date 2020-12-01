@@ -3,11 +3,11 @@
 @import '~mobile-inspections-base-ui/dist/index';
 @import '~rt-design/lib/index';
 
-@import "./constants/variables";
-@import "./components/Base/PageForm";
+@import './constants/variables';
+@import './components/Base/PageForm';
 
-@import "./components/Catalog/Catalog.less";
-@import "./components/TechMaps/TechMaps.less";
+@import './components/Catalog/Catalog.less';
+@import './components/TechMaps/TechMaps.less';
 
 #root {
 	height: 100vh;
@@ -64,3 +64,10 @@
 	margin-right: 16px;
 }
 
+.ant-tabs-card .ant-tabs-content {
+	height: 100%;
+	.ant-tabs-tabpane {
+		height: 100%;
+		display: flex;
+	}
+}

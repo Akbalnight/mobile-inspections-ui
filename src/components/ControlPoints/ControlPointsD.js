@@ -12,6 +12,8 @@ import {
 	editGroupOnServer,
 } from '../Base/Modals/GroupOnServer';
 import {code} from '../Base/customColumnProps';
+import {routeMapsControlPointViewModal} from '../RouteMaps/Modals/routeMapsControlPointsInfo';
+import {controlPointsGroupInfo} from './Modals/modalControlPointsGroupInfo';
 
 const ControlPointsD = (props) => {
 	let history = useHistory();
@@ -40,6 +42,8 @@ const ControlPointsD = (props) => {
 							modals: [
 								addGroupOnServer('controlPoints'),
 								editGroupOnServer('controlPoints'),
+								routeMapsControlPointViewModal(), // info about controlPoint
+								controlPointsGroupInfo(),
 							],
 							history: history,
 							requestLoadRows: apiGetHierarchicalDataByConfigName(

@@ -1,7 +1,7 @@
 import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-	apiSaveBaseCatalogWithParentIdD
+	apiSaveBaseCatalogWithParentIdD,
 } from '../../../apis/catalog.api';
 import {codeInput} from '../Inputs/CodeInput';
 
@@ -12,7 +12,7 @@ const loadRowsHandler = (catalogName, sRow, {params, data}) => {
 	const newData = {...data, isGroup: true, owner: sRow && sRow.id};
 	return apiGetHierarchicalDataByConfigName(catalogName)({
 		params,
-		data: newData
+		data: newData,
 	});
 };
 
@@ -23,6 +23,9 @@ const GroupOnServer = (type, catalogName, code) => {
 		type: `${type}GroupOnServer`,
 		requestSaveRow: apiSaveBaseCatalogWithParentIdD(catalogName),
 		width: 500,
+		title: `${
+			type === 'edit' ? 'Редактировать' : 'Создать'
+		} группы контрольных точек`,
 		form: {
 			labelCol: {span: 8},
 			wrapperCol: {span: 16},
@@ -42,10 +45,10 @@ const GroupOnServer = (type, catalogName, code) => {
 					rules: [
 						{
 							message: 'Заполните наименование',
-							required: true
-						}
+							required: true,
+						},
 					],
-					child: {componentType: 'Input'}
+					child: {componentType: 'Input'},
 				},
 				{
 					componentType: 'Item',
@@ -61,20 +64,20 @@ const GroupOnServer = (type, catalogName, code) => {
 						expandDefaultAll: true,
 						// (info) аналогично ({params, data})
 						// Но поскольку тут раскрывать объект не нужно, мы можем просто передать его дальше
-						requestLoadRows: info =>
+						requestLoadRows: (info) =>
 							loadRowsHandler(catalogName, sRow, info),
 						requestLoadDefault: apiGetFlatDataByConfigName(
 							catalogName
-						)
-					}
-				}
-			]
-		}
+						),
+					},
+				},
+			],
+		},
 	};
 };
 
-export const addGroupOnServer = catalogName =>
+export const addGroupOnServer = (catalogName) =>
 	GroupOnServer('add', catalogName, {});
 
-export const editGroupOnServer = catalogName =>
+export const editGroupOnServer = (catalogName) =>
 	GroupOnServer('edit', catalogName, codeInput);

@@ -8,6 +8,13 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {catalogConfigs} from './catalogConfigs';
+import CatalogData from './CatalogData';
+
+const CATALOG_DATA_PATH = {
+	title: 'Справочник',
+	path: '/catalog/:name',
+	component: CatalogData,
+};
 
 const Catalog = () => {
 	let {pathname} = useLocation();
@@ -17,7 +24,7 @@ const Catalog = () => {
 	return (
 		<BasePage
 			path={
-				pathname.split('/').length > 2 ? paths.CATALOG_DATA.path : null
+				pathname.split('/').length > 2 ? CATALOG_DATA_PATH.path : null
 			}
 		>
 			<SplitPane
@@ -52,6 +59,7 @@ const Catalog = () => {
 				<div className={'CatalogData'}>
 					<Switch>
 						{catalogConfigs(paths).map((item, index) => {
+							const Component = CATALOG_DATA_PATH.component;
 							return (
 								<Route
 									exact
@@ -59,7 +67,7 @@ const Catalog = () => {
 									path={item.path}
 									name={item.name}
 									render={() => (
-										<paths.CATALOG_DATA.component
+										<Component
 											catalogName={item.name}
 											SaveForm={item.SaveForm}
 											SaveGroup={item.SaveGroup}

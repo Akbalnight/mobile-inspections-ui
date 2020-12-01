@@ -6,6 +6,7 @@ import {
 export const EquipmentSelectModal = {
 	type: 'select',
 	width: 800,
+	title: 'Оборудование',
 	form: {
 		loadInitData: (callBack, row) => callBack(row),
 		body: [

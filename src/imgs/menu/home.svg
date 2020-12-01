@@ -1,4 +1,6 @@
-<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15.3289 16.1111H2.76V8.55556H1L9.04444 1L17 8.55556H15.3289V16.1111Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M10.6713 9.02666H7.31128V16.1111H10.6713V9.02666Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<span role="img" aria-label="project" class="anticon">
+    <svg width="18" height="12" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.3289 16.1111H2.76V8.55556H1L9.04444 1L17 8.55556H15.3289V16.1111Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.6713 9.02666H7.31128V16.1111H10.6713V9.02666Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</span>
