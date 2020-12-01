@@ -38,7 +38,7 @@ export const defectCardInfoModal = (history) => {
 								{
 									componentType: 'Item',
 									label: '№ в Журнале Дефектов',
-									name: 'id',
+									name: 'code',
 									className: 'mb-0',
 									child: {componentType: 'Text'},
 								},
@@ -123,7 +123,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Дата обнаружения',
-							name: 'dateDiscovery', // с наймингов нужно определиться
+							name: 'dateDetectDefect',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -144,7 +144,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Обнаружил',
-							name: 'staffDetectId', // с наймингов нужно определиться
+							name: 'staffDetectId',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -184,21 +184,21 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Отклонение от КПЭ',
-							name: 'deviationOf', // с наймингов нужно определиться
+							name: 'kpi',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'Причина возникновения',
-							name: 'causeOfOccurrence', // с наймингов нужно определиться
+							name: 'descriptionCauses',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
 							label: 'План действий',
-							name: 'actionPlan', // с наймингов нужно определиться
+							name: 'actionPlan',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},

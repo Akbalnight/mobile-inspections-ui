@@ -19,7 +19,7 @@ export const defectCloseModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Выбрано дефектов',
-							name: 'defectCount',
+							name: 'defectCount', // после выбора в таблице появится данное значение
 							child: {
 								componentType: 'Text',
 							},
@@ -27,7 +27,7 @@ export const defectCloseModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Дата фактического устранения',
-							name: 'dateFactCorrect',
+							name: 'dateEliminationFact',
 							child: {
 								componentType: 'DatePicker',
 							},
@@ -35,7 +35,7 @@ export const defectCloseModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Примечание',
-							name: 'descriptionNote',
+							name: 'note',
 							child: {
 								componentType: 'TextArea',
 							},
@@ -69,6 +69,7 @@ export const defectCloseModal = () => {
 
 	return {
 		type: 'viewObject', // 'select' хотел попробовать, но в библиотеке он в файле formTable(modal events) закомментирован.
+		// viewObject  стоит для отладки модалки
 		title: `Закрыть с примечанием ${Row}`,
 		width: 600,
 		bodyStyle: {height: 320},

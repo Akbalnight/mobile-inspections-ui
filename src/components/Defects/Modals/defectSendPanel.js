@@ -11,7 +11,7 @@ export const defectSendPanel = () => {
 		{
 			componentType: 'Item',
 			label: 'Передать в SAP',
-			name: 'sendSAP',
+			name: 'sendedToSap', // не уверен что тут такое название
 			className: 'mb-0',
 			child: {
 				componentType: 'Checkbox',
@@ -42,6 +42,7 @@ export const defectSendPanel = () => {
 
 	return {
 		type: 'viewObject', // мое предположение данная модалка должна делать addOnServer в конфиг panelProblems
+		// viewObject  стоит для отладки модалки
 		title: `Передать в панель проблем ${Row}`,
 		width: 600,
 		bodyStyle: {height: 420},

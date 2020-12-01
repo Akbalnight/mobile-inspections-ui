@@ -51,13 +51,13 @@ const OperationOnServer = (catalogName, type, code) => {
 							name: 'sapMessageId',
 							className: 'mb-8',
 							child: {
-								componentType: 'Text', // 'Text' ведь номер в сап может и не будет меняться
+								componentType: 'Text',
 							},
 						},
 						{
 							componentType: 'Item',
 							label: 'План действий',
-							name: 'actionCorrect', // найминг тут неверный
+							name: 'actionPlan',
 							className: 'mb-8',
 							child: {
 								componentType: 'TextArea',
@@ -66,7 +66,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Что происходит',
-							name: 'whatsUp', // найминг тут неверный
+							name: 'actionDescription',
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -197,7 +197,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Мероприятия по устранению',
-							name: 'activityDescription', // найминг туту неверный
+							name: 'note',
 							className: 'mb-8',
 							child: {
 								componentType: 'TextArea',
@@ -213,9 +213,14 @@ const OperationOnServer = (catalogName, type, code) => {
 		title: 'Редактрование дефекта',
 		width: 600,
 		bodyStyle: {height: 860},
-		initialValues: (row) => {
-			return type === 'add' ? null : row;
-		}, // оставил вариант с Add на случай если придется делать форму создания дефекта через modal
+		initialValues: () => {
+			return null;
+		},
+		// initialValues: (row) => {
+		// 	return type === 'add' ? null : row;
+		// },
+		// оставил вариант с Add на случай если придется делать форму создания дефекта через modal
+		// уже не придется создавать дефект
 		form: {
 			name: `${type}ModalForm`,
 			loadInitData: loadData,

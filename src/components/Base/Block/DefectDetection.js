@@ -26,7 +26,7 @@ export const defectDetection = {
 				{
 					componentType: 'Item',
 					label: 'Отклонение от КПЭ',
-					name: 'deviationKPE', // найминг тут неверный
+					name: 'kpi',
 					className: 'mb-8',
 					child: {
 						componentType: 'SingleSelect',
