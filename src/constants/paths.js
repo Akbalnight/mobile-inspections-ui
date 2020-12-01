@@ -13,6 +13,10 @@ import Routes from '../components/Routes/Routes';
 import RoutesForm from '../components/Routes/RoutesForm';
 import DetourSchedules from '../components/Detours/DetourSchedules';
 import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
+import RouteMaps from '../components/RouteMaps/RouteMaps';
+import Defects from '../components/Defects/Defects';
+import DefectsForm from '../components/Defects/DefectsForm';
+import DebugMarsel from '../components/Debug/DebugMarsel/DebugMarsel';
 
 const pathPrefix = '/';
 
@@ -40,6 +44,11 @@ export const paths = {
 		title: 'Debug',
 		path: '/debug',
 		component: Debug,
+	},
+	DEBUG_MARSEL: {
+		title: 'DebugMarsel',
+		path: '/debugMarsel',
+		component: DebugMarsel,
 	},
 	CATALOG: {
 		title: 'НСИ',
@@ -89,7 +98,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
-		component: Home,
+		component: RouteMaps,
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',
@@ -132,12 +141,17 @@ export const paths = {
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
-		component: Home,
+		component: Defects,
+	},
+	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
+		title: 'Создание/редактирование дефекта',
+		path: '/control-defects/defects/:id',
+		component: DefectsForm,
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: Home,
+		component: Defects,
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {
 		title: 'Панель отклонений',

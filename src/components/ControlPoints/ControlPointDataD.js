@@ -12,6 +12,7 @@ import {useHistory, useParams} from 'react-router';
 import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
 import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
 import {paths} from '../../constants/paths';
+import {codeInput} from '../Base/Inputs/CodeInput';
 
 const ControlPointDataD = (props) => {
 	const pageParams = useParams();
@@ -80,6 +81,7 @@ const ControlPointDataD = (props) => {
 						// 		componentType: 'InputNumber',
 						// 	},
 						// },
+						pageParams.id === 'new' ? {} : codeInput,
 						{
 							componentType: 'Item',
 							label: 'Наименование',
@@ -269,7 +271,10 @@ const ControlPointDataD = (props) => {
 				componentType: 'Item',
 				child: {
 					componentType: 'Title',
-					label: 'Информация о контрольной точке',
+					label:
+						pageParams.id === 'new'
+							? `Создание контрольной точки`
+							: `Редактирование контрольной точки`,
 					className: 'mb-0',
 					level: 3,
 				},

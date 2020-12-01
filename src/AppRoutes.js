@@ -16,6 +16,11 @@ const AppRoutes = () => {
 				path={paths.DEBUG.path}
 				component={paths.DEBUG.component}
 			/>
+			<Route
+				exact
+				path={paths.DEBUG_MARSEL.path}
+				component={paths.DEBUG_MARSEL.component}
+			/>
 			{/** НСИ */}
 			<Route
 				path={paths.CATALOG.path}
@@ -100,6 +105,11 @@ const AppRoutes = () => {
 				exact
 				path={paths.CONTROL_DEFECTS_DEFECTS.path}
 				component={paths.CONTROL_DEFECTS_DEFECTS.component}
+			/>
+			<Route
+				exact
+				path={paths.CONTROL_DEFECTS_DEFECTS_DATA_FORM.path}
+				component={paths.CONTROL_DEFECTS_DEFECTS_DATA_FORM.component}
 			/>
 			<Route
 				exact

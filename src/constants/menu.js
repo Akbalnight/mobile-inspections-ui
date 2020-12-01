@@ -15,6 +15,9 @@ export const menu = [
 	// 	...paths.DEBUG
 	// },
 	{
+		...paths.DEBUG_MARSEL,
+	},
+	{
 		...paths.CATALOG,
 		icon: CATALOG,
 	},
