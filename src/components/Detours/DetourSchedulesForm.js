@@ -35,6 +35,16 @@ export default function DetourSchedulesForm() {
 					componentType: 'Col',
 					span: 16,
 					children: [
+						pageParams.id === 'new'
+							? {}
+							: {
+									componentType: 'Item',
+									label: 'Код',
+									name: 'code',
+									child: {
+										componentType: 'Text',
+									},
+							  },
 						{
 							componentType: 'Item',
 							label: 'Наименование обхода',
@@ -848,8 +858,13 @@ export default function DetourSchedulesForm() {
 		body: [
 			...headFields,
 			...executorFields,
-			...repeatTimeFields,
-			...footer,
+			//экспериментальная версия
+			...(pageParams.id === 'new'
+				? [...repeatTimeFields, ...footer]
+				: null),
+			//рабочая версия
+			// ...repeatTimeFields,
+			// ...footer,
 		],
 		footer: [
 			{
