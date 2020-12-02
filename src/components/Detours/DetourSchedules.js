@@ -11,6 +11,49 @@ import {useHistory} from 'react-router';
 
 export default function DetoursSchedules() {
 	let history = useHistory();
+	const configFilterPanel = [
+		{
+			componentType: 'SingleSelect',
+			name: 'routesName',
+			className: 'mr-16',
+			rowRender: 'name',
+			title: 'Маршрут',
+			widthControl: 150,
+			widthPopup: 150,
+			requestLoadRows: apiGetFlatDataByConfigName('routes'),
+			requestLoadConfig: apiGetConfigByName('routes'),
+		},
+		{
+			componentType: 'SingleSelect',
+			name: 'staffName',
+			className: 'mr-16',
+			rowRender: 'name',
+			title: 'Сотрудник',
+			widthControl: 150,
+			widthPopup: 150,
+			requestLoadRows: apiGetFlatDataByConfigName('staffPositions'), //временно //staff
+			requestLoadConfig: apiGetConfigByName('staffPositions'), //временно //staff
+		},
+		{
+			componentType: 'DateRange',
+			title: 'Период',
+			nameStart: 'dateBeginDetour',
+			nameEnd: 'dateEndDetour',
+			dateFormat: 'DD-MM-YYYY',
+			className: 'mr-16',
+		},
+		{
+			componentType: 'SingleSelect',
+			name: 'staffName',
+			className: 'mr-16',
+			rowRender: 'name',
+			title: 'Группировка',
+			widthControl: 150,
+			widthPopup: 150,
+			requestLoadRows: apiGetFlatDataByConfigName('techMapsStatuses'), //временно
+			requestLoadConfig: apiGetConfigByName('techMapsStatuses'), //временно
+		},
+	];
 
 	const formConfig = {
 		noPadding: true,
@@ -32,9 +75,12 @@ export default function DetoursSchedules() {
 							commandPanelProps: {
 								systemBtnProps: {
 									add: {actionType: 'page'},
-									// edit: {actionType: ['page', 'modal']},
-									// delete: {},
+									edit: {actionType: ['page', 'modal']},
+									delete: {},
 								},
+							},
+							filterPanelProps: {
+								configFilter: [...configFilterPanel],
 							},
 							requestLoadRows: apiGetFlatDataByConfigName(
 								'detours'
