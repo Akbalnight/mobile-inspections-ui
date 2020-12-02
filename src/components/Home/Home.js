@@ -16,7 +16,7 @@ const Home = () => {
 	return (
 		<BasePage>
 			<Result
-				style={{flex: '1 1 auto'}}
+				style={{margin: 'auto'}}
 				status='404'
 				title='Делаем'
 				subTitle={`Страница [${title()}] находится в другом измерении, мы заняты ее материализацией`}
