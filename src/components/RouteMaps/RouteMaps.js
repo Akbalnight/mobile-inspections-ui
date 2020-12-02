@@ -130,6 +130,7 @@ export default function RouteMaps() {
 							'routeControlPoints'
 						), // для макета, нужно поменять
 						onRowClick: ({selected, rowData, rowIndex}) => {
+							// console.log(rowData);
 							setControlPointsRnd((state) => [...state, rowData]); // когда будет окончательная настройка, нужно просмотреть что приходит в rowData
 						},
 						modals: [routeMapsControlPointViewModal()],
@@ -186,14 +187,16 @@ export default function RouteMaps() {
 	 *
 	 *
 	 */
-
+	/**
+	 * style={{display:'flex', flexDirection: 'row'}} поставил эти стили на BasePage  инлайново. возможно это не в лучших практиках
+	 */
 	return (
-		<BasePage>
+		<BasePage style={{display: 'flex', flexDirection: 'row'}}>
 			<div style={{width: '30%', height: '100%'}}>
 				<Form {...formConfig} />
 			</div>
 			<div
-				style={{width: '70%', height: '100%', background: 'yellow'}}
+				style={{width: '70%', height: '100%', background: '#f9dcc4'}}
 				className={'yellowDiv'}
 			>
 				{controlPointsRnd &&
@@ -206,7 +209,7 @@ export default function RouteMaps() {
 								style={{
 									display: 'inline-block!important',
 									margin: 20,
-									background: 'red',
+									background: '#b7e4c7',
 									borderRadius:
 										'69% 31% 100% 0% / 53% 55% 45% 47%',
 								}} //над стилем нужно подумать
@@ -214,7 +217,7 @@ export default function RouteMaps() {
 									console.log('koor X', d.x, 'koor Y', d.y);
 								}}
 							>
-								<div>{controlPoints.id}</div>
+								<div>{controlPoints.controlPointName}</div>
 							</Rnd>
 						</>
 					))}
