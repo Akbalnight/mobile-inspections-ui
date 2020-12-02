@@ -8,6 +8,7 @@ import {
 import {Rnd} from 'react-rnd';
 import {useHistory} from 'react-router';
 import {routeMapsControlPointViewModal} from './Modals/routeMapsControlPointsInfo';
+import {Col, Row} from 'antd';
 
 export default function RouteMaps() {
 	const [controlPointsRnd, setControlPointsRnd] = useState([]); // нужно подумать о найминге
@@ -189,39 +190,50 @@ export default function RouteMaps() {
 	 */
 	/**
 	 * style={{display:'flex', flexDirection: 'row'}} поставил эти стили на BasePage  инлайново. возможно это не в лучших практиках
+	 * style={{display: 'flex', flexDirection: 'row'}} width: 100%; flex: auto;
+	 * style={{width: '30%', height: '100%'}}
+	 * style={{width: '70%', height: '100%', background: '#f9dcc4'}}
 	 */
 	return (
-		<BasePage style={{display: 'flex', flexDirection: 'row'}}>
-			<div style={{width: '30%', height: '100%'}}>
-				<Form {...formConfig} />
-			</div>
-			<div
-				style={{width: '70%', height: '100%', background: '#f9dcc4'}}
-				className={'yellowDiv'}
-			>
-				{controlPointsRnd &&
-					controlPointsRnd.map((controlPoints) => (
-						<>
-							<Rnd
-								key={controlPoints.id}
-								size={{width: 32, height: 32}}
-								bounds={'.yellowDiv'}
-								style={{
-									display: 'inline-block!important',
-									margin: 20,
-									background: '#b7e4c7',
-									borderRadius:
-										'69% 31% 100% 0% / 53% 55% 45% 47%',
-								}} //над стилем нужно подумать
-								onDragStop={(e, d) => {
-									console.log('koor X', d.x, 'koor Y', d.y);
-								}}
-							>
-								<div>{controlPoints.controlPointName}</div>
-							</Rnd>
-						</>
-					))}
-			</div>
+		<BasePage>
+			<Row style={{width: '100%', flex: 'auto'}}>
+				<Col span={8}>
+					<Form {...formConfig} />
+				</Col>
+				<Col span={16} className={'col-route-map'}>
+					<div className={'route-map'}>
+						{controlPointsRnd &&
+							controlPointsRnd.map((controlPoints) => (
+								<>
+									<Rnd
+										key={controlPoints.id}
+										size={{width: 32, height: 32}}
+										bounds={'.route-map'}
+										style={{
+											display: 'inline-block!important',
+											margin: 20,
+											background: '#b7e4c7',
+											borderRadius:
+												'69% 31% 100% 0% / 53% 55% 45% 47%',
+										}} //над стилем нужно подумать
+										onDragStop={(e, d) => {
+											console.log(
+												'koor X',
+												d.x,
+												'koor Y',
+												d.y
+											);
+										}}
+									>
+										<div>
+											{controlPoints.controlPointName}
+										</div>
+									</Rnd>
+								</>
+							))}
+					</div>
+				</Col>
+			</Row>
 		</BasePage>
 	);
 }
