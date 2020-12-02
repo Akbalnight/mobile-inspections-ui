@@ -2,7 +2,6 @@ import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
-import {paths} from '../../../constants/paths';
 
 export const defectCardInfoModal = (history) => {
 	// let Row;
@@ -22,41 +21,43 @@ export const defectCardInfoModal = (history) => {
 	 * history нужен только для кнопки редактировать. Чтобы отправить нас в последующее редактирование
 	 */
 	const defectInfoField = [
+		// {
+		// 	componentType: 'Col',
+		// 	children: [
+		// 		{
+		// 			componentType: 'Item',
+		// 			label: '№ в Журнале Дефектов',
+		// 			name: 'code',
+		// 			className: 'mb-0',
+		// 			child: {componentType: 'Text'},
+		//
+		// 		},
+		// 		{
+		// 			componentType: 'Item',
+		// 			label: 'Статус',
+		// 			name: 'statusProcessId',
+		// 			className: 'mb-0',
+		// 			child: {componentType: 'Text'},
+		// 		},
+		// 	],
+		// },
+	];
+
+	const infoTabFields = [
 		{
 			componentType: 'Layout',
-			className: 'mb-0',
+			style: {padding: '24px'},
 			children: [
+				//стандартный вариант
 				{
 					componentType: 'Col',
-					style: {
-						marginLeft: 50,
-					},
 					children: [
 						{
-							componentType: 'Row',
-							children: [
-								{
-									componentType: 'Item',
-									label: '№ в Журнале Дефектов',
-									name: 'code',
-									className: 'mb-0',
-									child: {componentType: 'Text'},
-								},
-								{
-									componentType: 'Item',
-									child: {
-										componentType: 'Button',
-										label: 'Редактировать',
-										type: 'link',
-										style: {
-											marginLeft: 100,
-										},
-										onClick: () => {
-											history.push(`${paths.HOME.path}`);
-										}, // временно
-									},
-								},
-							],
+							componentType: 'Item',
+							label: '№ в Журнале Дефектов',
+							name: 'id',
+							className: 'mb-0',
+							child: {componentType: 'Text'},
 						},
 						{
 							componentType: 'Item',
@@ -68,57 +69,16 @@ export const defectCardInfoModal = (history) => {
 					],
 				},
 				{
-					componentType: 'Col',
-					children: [],
-				},
-			],
-		},
-	];
-
-	const infoTabFields = [
-		{
-			componentType: 'Layout',
-			children: [
-				//стандартный вариант
-				// {
-				// 	componentType: 'Col',
-				// 	style: {
-				// 		marginLeft: 50,
-				// 	},
-				// 	children: [
-				// 		{
-				// 			componentType: 'Item',
-				// 			label: '№ в Журнале Дефектов',
-				// 			name: 'id',
-				// 			className: 'mb-0',
-				// 			child: {componentType: 'Text'},
-				// 		},
-				// 		{
-				// 			componentType: 'Item',
-				// 			label: 'Статус',
-				// 			name: 'statusProcessId',
-				// 			className: 'mb-0',
-				// 			child: {componentType: 'Text'},
-				// 		},
-				// 	],
-				// },
-				{
 					componentType: 'Item',
 					child: {
 						componentType: 'Title',
 						label: 'Выявление дефекта',
 						level: 5,
-						style: {
-							marginTop: 20,
-						},
 					},
 				},
 
 				{
 					componentType: 'Col',
-					style: {
-						marginLeft: 50,
-					},
 					children: [
 						{
 							componentType: 'Item',
@@ -156,16 +116,10 @@ export const defectCardInfoModal = (history) => {
 						componentType: 'Title',
 						label: 'План устранения',
 						level: 5,
-						style: {
-							marginTop: 20,
-						},
 					},
 				},
 				{
 					componentType: 'Col',
-					style: {
-						marginLeft: 50,
-					},
 					children: [
 						{
 							componentType: 'Item',
@@ -249,6 +203,7 @@ export const defectCardInfoModal = (history) => {
 			componentType: 'Tabs',
 			type: 'card',
 			size: 'large',
+			style: {paddingTop: '24px'},
 			children: [
 				{
 					componentType: 'TabPane',
@@ -301,7 +256,9 @@ export const defectCardInfoModal = (history) => {
 		bodyStyle: {height: 650},
 		form: {
 			name: 'defectDataView',
-			noPadding: false,
+			noPadding: true,
+			labelCol: {span: 8},
+			wrapperCol: {span: 16},
 			loadInitData: loadData,
 			body: [...defectInfoField, ...tabsField],
 		},
