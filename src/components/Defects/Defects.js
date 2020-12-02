@@ -39,7 +39,7 @@ export default function Defects() {
 			name: 'defectStatuses', // временно
 			rowRender: 'name',
 			title: 'Статус обработки',
-			widthControl: 0,
+			widthControl: 120,
 			widthPopup: 250,
 			//эксперимент
 			requestLoadRows: apiGetFlatDataByConfigName(
