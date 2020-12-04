@@ -4,18 +4,64 @@ import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
 import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
-import {addDefectCard} from './Modals/defectEdit';
+import {editDefectCard} from './Modals/defectEdit';
 import {paths} from '../../constants/paths';
+import {Checkbox} from 'antd';
 // import { defectSendPanel } from './Modals/defectSendPanel';
 // import { defectCloseModal } from './Modals/defectCloseModal';
 
 export default function Defects() {
 	const history = useHistory();
+	const customColumnProps = [
+		// на данный момент оставлю так, если будет потребность в другом формате исправим
 
+		{
+			name: 'code',
+			cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0'),
+			// cellRenderer: ({rowData}) => console.log(rowData),
+		},
+		{
+			name: 'dateEliminationPlan',
+			cellRenderer: ({rowData}) =>
+				new Date(rowData.dateEliminationPlan).toLocaleTimeString(
+					'ru-RU',
+					{
+						hour12: false,
+						day: 'numeric',
+						month: 'numeric',
+						year: 'numeric',
+					}
+				),
+		},
+		{
+			name: 'dateEliminationFact',
+			cellRenderer: ({rowData}) =>
+				new Date(rowData.dateEliminationFact).toLocaleTimeString(
+					'ru-RU',
+					{
+						hour12: false,
+						day: 'numeric',
+						month: 'numeric',
+						year: 'numeric',
+					}
+				),
+		},
+		{
+			name: 'sendedToSap',
+			cellRenderer: ({cellData}) => (
+				<Checkbox checked={cellData} disabled />
+			),
+		},
+		{
+			name: 'viewOnPanel',
+			cellRenderer: ({cellData}) => (
+				<Checkbox checked={cellData} disabled />
+			),
+		},
+	];
 	const confirFilterPanel = [
 		// тут чуть-чуть деревянно получилось
 		{
@@ -53,12 +99,6 @@ export default function Defects() {
 					: 'panelProblemsStatuses'
 			),
 		},
-		// тут нужно спроектировать блок ПРИОРИТЕТ приятнее всего будет реализовать в комбинации RadioButtonю По нажаитю таблица должна будет фильтровать приоритет.
-		// {
-		// 	componentType: 'Custom',
-		// 	name: 'custom',
-		// 	title: 'Custom',
-		// },
 	];
 
 	const tableFields = [
@@ -70,6 +110,7 @@ export default function Defects() {
 					child: {
 						componentType: 'ServerTable', // 'InfinityTable' ?
 						// selectable: true,
+						// fixWidthColumn:true,
 						commandPanelProps: {
 							systemBtnProps: {
 								edit: {actionType: ['modal', 'modal']},
@@ -161,12 +202,11 @@ export default function Defects() {
 						filterPanelProps: {
 							configFilter: [...confirFilterPanel],
 						},
-						requestLoadRows: apiGetHierarchicalDataByConfigName(
-							'controlPoints'
-						), //defects
-						requestLoadConfig: apiGetConfigByName('controlPoints'), //defects
+						customColumnProps: customColumnProps,
+						requestLoadRows: apiGetFlatDataByConfigName('defects'),
+						requestLoadConfig: apiGetConfigByName('defects'),
 						modals: [
-							addDefectCard(),
+							editDefectCard('defects'),
 							defectCardInfoModal(history), // прокинул тут для кнопки Редактирвать, история тут ни к чему.
 							// defectSendPanel(),
 							// defectCloseModal()
