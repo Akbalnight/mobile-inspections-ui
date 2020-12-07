@@ -46,27 +46,6 @@ export const defectCloseModal = () => {
 		},
 	];
 
-	// const footerField =[
-	//     {
-	//         componentType: 'Item',
-	//         className: 'mr-16',
-	//         child: {
-	//             componentType: 'Button',
-	//             label: 'Отмена',
-
-	//         }
-	//     },
-	//     {
-	//         componentType: 'Item',
-	//         type: 'primary',
-	//         child: {
-	//             componentType: 'Button',
-	//             label: 'Передать',
-
-	//         }
-	//     },
-	// ]
-
 	return {
 		type: 'viewObject', // 'select' хотел попробовать, но в библиотеке он в файле formTable(modal events) закомментирован.
 		// viewObject  стоит для отладки модалки
@@ -78,7 +57,6 @@ export const defectCloseModal = () => {
 			noPadding: true,
 			loadInitData: loadData,
 			body: [...bodyFields],
-			// footer: [...footerField]
 		},
 	};
 };

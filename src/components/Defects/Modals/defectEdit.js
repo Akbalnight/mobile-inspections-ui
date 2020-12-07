@@ -1,4 +1,3 @@
-// import { apiSaveByConfigName } from '../../../apis/catalog.api';
 import {defectDetection} from '../../Base/Block/DefectDetection';
 
 export const editDefectCard = (catalogName) =>
@@ -66,6 +65,7 @@ const OperationOnServer = (catalogName, type, code) => {
 							// 	],
 							// },
 						},
+
 						{
 							componentType: 'Item',
 							child: {
