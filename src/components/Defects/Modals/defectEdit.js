@@ -7,10 +7,10 @@ export const editDefectCard = (catalogName) =>
  * Это модальное окно в зависимости от приходящего catalogName, может быть как в журнале дефектов, так и в панеле проблем
  */
 const OperationOnServer = (catalogName, type, code) => {
-	let Row = null;
 	const loadData = (callBack, row) => {
-		Row = row;
-		type === 'add' ? callBack(null) : callBack(Row);
+		console.log(row);
+		// type === 'add' ? callBack(null) : callBack(row);
+		callBack(row);
 	};
 
 	const defectDetectionField = [
@@ -257,12 +257,7 @@ const OperationOnServer = (catalogName, type, code) => {
 		title: 'Редактрование дефекта',
 		width: catalogName === 'defects' ? 600 : 500,
 		bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
-		initialValues: () => {
-			return null;
-		},
 		form: {
-			// requestSaveForm: apiSaveByConfigName('defects'),
-			// methodSaveForm: 'PUT',
 			name: `${type}ModalForm`,
 			loadInitData: loadData,
 			onFinish: (values) => {
@@ -278,6 +273,21 @@ const OperationOnServer = (catalogName, type, code) => {
 					: defectSapFields),
 				...(catalogName === 'defects' ? defectEliminationFields : []),
 			],
+			subscribe: {
+				name: 'tableInfo',
+				path: 'rtd.defects.defectTable.table.selected',
+				onChange: ({value, setModalData}) => {
+					console.log(value);
+					value &&
+						setModalData &&
+						setModalData({
+							row: value,
+						});
+					/**
+					 * костыль setModalData
+					 */
+				},
+			},
 		},
 	};
 };

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
 } from '../../apis/catalog.api';
 import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
@@ -12,10 +13,23 @@ import {paths} from '../../constants/paths';
 import {Checkbox} from 'antd';
 import {MessageOutlined, RollbackOutlined} from '@ant-design/icons';
 import {defectDetection} from '../Base/Block/DefectDetection';
-// import { defectSendPanel } from './Modals/defectSendPanel';
 
 export default function Defects() {
 	const history = useHistory();
+	const [tableRef, setTableRef] = useState({});
+	const _setTableRef = (ref) => setTableRef(ref);
+
+	const processBeforeSaveForm = (rawValues) => {
+		const values = {...rawValues};
+		const resultData = values.defectsWithNote.map((el) => {
+			return {
+				id: el.id,
+				dateEliminationFact: values.dateEliminationFact,
+				note: values.note,
+			};
+		});
+		return {defectsWithNote: resultData};
+	};
 	const customColumnProps = [
 		// на данный момент оставлю так, если будет потребность в другом формате исправим
 
@@ -63,31 +77,32 @@ export default function Defects() {
 			),
 		},
 	];
-	const confirFilterPanel = [
+	const configFilterPanel = [
 		// тут чуть-чуть деревянно получилось
 		{
 			componentType: 'DateRange',
 			title: 'Период обнаружения',
-			nameStart: 'dateBeginDetection',
-			nameEnd: 'dateEndDetection',
-			dateFormat: 'DD-MM-YYYY',
+			nameStart: 'dateDetectDefectStart',
+			nameEnd: 'dateDetectDefectEnd',
+			dateFormat: 'DD-MM-YYYY HH:mm',
 			className: 'mr-16',
 		},
 		{
 			componentType: 'DateRange',
 			title: 'Период устранения',
-			nameStart: 'dateBeginCorrect',
-			nameEnd: 'dateEndCorrect',
-			dateFormat: 'DD-MM-YYYY',
+			nameStart: 'dateEliminationPlan',
+			nameEnd: 'dateEliminationFact',
+			dateFormat: 'DD-MM-YYYY HH:mm',
 			className: 'mr-16',
 		},
 		{
 			componentType: 'SingleSelect',
-			name: 'defectStatuses', // временно
+			name: 'statusProcessId',
 			rowRender: 'name',
 			title: 'Статус обработки',
 			widthControl: 120,
 			widthPopup: 250,
+
 			//эксперимент
 			requestLoadRows: apiGetFlatDataByConfigName(
 				history.location.pathname === '/control-defects/defects'
@@ -100,7 +115,46 @@ export default function Defects() {
 					: 'panelProblemsStatuses'
 			),
 		},
+		// {
+		// 	componentType: 'Custom',
+		// 	name: 'input',
+		// 	title: 'Период устранения',
+
+		// 	render: ({onChange, defaultValue, value}) => {
+		// 		return (
+		// 			<div style={{width: 200}} className={'mr-0'}>
+		// 				<div style={{marginBottom: '17px'}}>Приоритет</div>
+		// 				{/* <Input
+		// 					onChange={(e) => onChange('input', e.target.value)}
+		// 					defaultValue={defaultValue}
+		// 					value={value}
+		// 					allowClear={true}
+		// 				/> */}
+		// 				<Radio.Group
+		// 					onChange={(e) => onChange('input', e.target.value)}
+		// 					defaultValue={defaultValue}
+		// 					value={value}
+		// 					optionType='button'
+		// 				>
+		// 					<Radio.Button value={1}>1</Radio.Button>
+		// 					<Radio.Button value={2}>2</Radio.Button>
+		// 					<Radio.Button value={3}>3</Radio.Button>
+		// 					<Radio.Button value={4}>4</Radio.Button>
+		// 				</Radio.Group>
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 	];
+
+	/**
+	 * в массиве buttonCloseWithNote, есть сущность Modal
+	 * она производит сохранение данных в выделенных в таблице дефектов.
+	 * Важные аспекты для правильно передачи информации воспользовались hidden -MultiSelect, в него мы поместили больную информацию о выделенных дефектах
+	 * послед этого в функции processBeforeSaveForm мы представили полученные данные в форме подходящей для нашего сервера.
+	 * получившийся объект мы переадали в requestSaveRow(свойство Modal), приэтом можем передать requestSaveForm (свойство Form).
+	 * Изменения на сервер произошли и мы обновили таблицу при мопомщи конструкции onFinish: (values) => tableRef && tableRef.reloadData({}),
+	 */
 	const buttonCloseWithNote = [
 		{
 			componentType: 'Item',
@@ -113,6 +167,7 @@ export default function Defects() {
 					style: {
 						marginLeft: 6,
 					},
+					// disabled: true
 				},
 				modalConfig: {
 					type: 'select',
@@ -120,15 +175,21 @@ export default function Defects() {
 					width: 600,
 					bodyStyle: {height: 320},
 					okText: 'Передать',
+					onFinish: (values) => tableRef && tableRef.reloadData({}),
+					requestSaveRow: apiSaveByConfigName('saveDefectsWithNote'),
 					form: {
 						name: 'defectCloseData',
 						noPadding: true,
 						labelCol: {span: 10},
 						wrapperCol: {span: 12},
 						loadInitData: (callBack, row) => {
-							console.log(row);
 							callBack(row);
 						},
+						// requestSaveForm: apiSaveByConfigName(
+						// 	'saveDefectsWithNote'
+						// ), //Один и вариантов сохранения данных
+						processBeforeSaveForm: processBeforeSaveForm,
+						methodSaveForm: 'PUT',
 						body: [
 							{
 								componentType: 'Col',
@@ -156,9 +217,17 @@ export default function Defects() {
 										label: `Примечание
 										по устранению`,
 										name: 'note',
-
 										child: {
 											componentType: 'TextArea',
+										},
+									},
+									{
+										componentType: 'Item',
+										hidden: true,
+										name: 'defectsWithNote',
+										child: {
+											componentType: 'MultiSelect',
+											rowRender: 'name',
 										},
 									},
 								],
@@ -175,22 +244,15 @@ export default function Defects() {
 						value &&
 							setModalData &&
 							setModalData({
-								...value[value.length - 1],
+								defectsWithNote: value,
 								length: value.length,
 							});
-						/**
-						 * Не уверен в конструкции объекта в setModalData. Логика была таковой
-						 * мы хотим получить количество выбранных девектов - есть length
-						 * мы хоти получить какую-то сущность дабы ее распарсить -есть теперь будет парсится последний объект в массиве.
-						 * но последнее утвержедение имеет проблемы даже если мы выберем 22 девекта распарсится последний который отметили в таблице.
-						 *
-						 * возможно нужно сравнивать по категории "фактическая дата утсранения"
-						 */
 					},
 				},
 			},
 		},
 	];
+
 	const buttonSendToPanel = [
 		{
 			componentType: 'Item',
@@ -207,17 +269,16 @@ export default function Defects() {
 					bodyStyle: {height: 420},
 					okText: 'Передать',
 					form: {
-						name: 'defectCloseData',
+						name: 'defectSendData',
 						noPadding: true,
 						labelCol: {span: 10},
 						wrapperCol: {span: 12},
 						style: {
 							paddingTop: 30,
 						},
-						loadInitData: (callBack, row) => {
-							console.log(row);
-							callBack(row);
-						},
+						// loadInitData: (callBack, row) => {
+						// 	callBack(row);
+						// },
 						body: [
 							{...defectDetection},
 							{
@@ -257,6 +318,7 @@ export default function Defects() {
 			},
 		},
 	];
+
 	const tableFields = [
 		{
 			componentType: 'Layout',
@@ -266,6 +328,7 @@ export default function Defects() {
 					child: {
 						componentType: 'ServerTable', // 'InfinityTable' ?
 						selectable: true,
+						ref: _setTableRef,
 						// fixWidthColumn:true,
 						dispatchPath: 'defects.defectTable.table',
 						commandPanelProps: {
@@ -318,9 +381,13 @@ export default function Defects() {
 							],
 						},
 						filterPanelProps: {
-							configFilter: [...confirFilterPanel],
+							configFilter: [...configFilterPanel],
+							defaultFilter: {statusProcessId: null},
+							// onApplyFilter: (value) => console.log(value),
+							onChangeFilter: (value) => console.log(value),
 						},
 						customColumnProps: customColumnProps,
+
 						requestLoadRows: apiGetFlatDataByConfigName('defects'),
 						requestLoadConfig: apiGetConfigByName('defects'),
 						modals: [
