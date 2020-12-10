@@ -55,7 +55,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: '№ в Журнале Дефектов',
-							name: 'id',
+							name: 'code',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -90,7 +90,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Оборудование',
-							name: 'equipmentId',
+							name: 'equipmentName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -131,7 +131,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Диспетчер',
-							name: 'dispatcher', // с наймингов нужно определиться
+							name: 'staffEliminationId', // с наймингов нужно определиться
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -140,8 +140,18 @@ export const defectCardInfoModal = (history) => {
 							label: 'Отклонение от КПЭ',
 							name: 'kpi',
 							className: 'mb-0',
-							child: {componentType: 'Text'},
+							valuePropName: 'checked',
+							rules: [
+								{
+									type: 'boolean',
+								},
+							],
+							child: {
+								componentType: 'Checkbox',
+								disabled: true,
+							},
 						},
+
 						{
 							componentType: 'Item',
 							label: 'Причина возникновения',

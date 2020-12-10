@@ -1,31 +1,84 @@
 import {defectDetection} from '../../Base/Block/DefectDetection';
 
-export const addDefectCard = () => OperationOnServer('catalogName', 'edit', {});
+export const editDefectCard = (catalogName) =>
+	OperationOnServer(catalogName, 'edit', {});
 
 /**
  * Это модальное окно в зависимости от приходящего catalogName, может быть как в журнале дефектов, так и в панеле проблем
  */
 const OperationOnServer = (catalogName, type, code) => {
-	let Row = null;
 	const loadData = (callBack, row) => {
-		Row = row;
-		type === 'add' ? callBack(null) : callBack(Row);
+		callBack(row);
 	};
 
 	const defectDetectionField = [
-		catalogName === 'catalogName' //поменять на нужный журнал или панель
+		catalogName === 'defects'
 			? {
-					componentType: 'Item',
-					child: {
-						componentType: 'Title',
-						label: 'Выявление дефекта',
-						level: 5,
-					},
+					componentType: 'Col',
+					children: [
+						{
+							componentType: 'Item',
+							name: 'statusProcessId',
+							label: 'Статус обработки',
+							child: {
+								componentType: 'Text',
+							},
+							// возможно мы тут все-таки поставим РАДИО группу.
+							// child: {
+							// 	componentType: 'RadioGroup',
+							// 	optionType: 'button',
+							// 	size: 'small',
+							// 	options: [
+							// 		{
+							// 			label: '1',
+							// 			value: '1',
+							// 			style: {
+							// 				color: 'white',
+							// 				backgroundColor: '#FF4040',
+							// 			},
+							// 		},
+							// 		{
+							// 			label: '2',
+							// 			value: '2',
+							// 			style: {
+							// 				color: 'white',
+							// 				backgroundColor: '#F2C94C',
+							// 			},
+							// 		},
+							// 		{
+							// 			label: '3',
+							// 			value: '3',
+							// 			style: {
+							// 				color: 'white',
+							// 				backgroundColor: '#9DCE5B',
+							// 			},
+							// 		},
+							// 		{
+							// 			label: '4',
+							// 			value: '4',
+							// 			style: {
+							// 				color: 'white',
+							// 				backgroundColor: '#98B8E3',
+							// 			},
+							// 		},
+							// 	],
+							// },
+						},
+
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Title',
+								label: 'Выявление дефекта',
+								level: 5,
+							},
+						},
+					],
 			  }
 			: {},
 		{
 			componentType: 'Item',
-			name: 'id',
+			name: 'code',
 			label: '№ в журнале',
 			className: 'mb-8',
 			child: {
@@ -42,13 +95,12 @@ const OperationOnServer = (catalogName, type, code) => {
 			children: [
 				{
 					componentType: 'Col',
-					span: 16,
-					style: {marginLeft: 50},
+					className: 'mt-0',
 					children: [
 						{
 							componentType: 'Item',
 							label: '№ из SAP',
-							name: 'sapMessageId',
+							name: 'sapMessageCode',
 							className: 'mb-8',
 							child: {
 								componentType: 'Text',
@@ -75,7 +127,7 @@ const OperationOnServer = (catalogName, type, code) => {
 						{
 							componentType: 'Item',
 							label: 'Статус из SAP',
-							name: 'statusSAP', // найминг тут неверный
+							name: 'sapMessageCode',
 							className: 'mb-8',
 							child: {
 								componentType: 'Input',
@@ -110,6 +162,7 @@ const OperationOnServer = (catalogName, type, code) => {
 	const correctionPlanFields = [
 		{
 			componentType: 'Item',
+			className: 'mt-16',
 			child: {
 				componentType: 'Title',
 				label: 'План устранения',
@@ -117,42 +170,36 @@ const OperationOnServer = (catalogName, type, code) => {
 			},
 		},
 		{
-			componentType: 'Layout',
-			className: 'mt-0',
+			componentType: 'Col',
+			className: 'mt-16',
 			children: [
 				{
-					componentType: 'Col',
-					style: {marginLeft: 50},
-					children: [
-						{
-							componentType: 'Item',
-							label: '№ из SAP',
-							name: 'sapMessageId',
-							className: 'mb-8',
-							child: {
-								componentType: 'Text',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Диспетчер',
-							name: 'dispatcher', // найминг туту неверный
-							className: 'mb-8',
-							child: {
-								componentType: 'Text',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Плановый срок устранения до',
-							name: 'dateEliminationPlan',
-							className: 'mb-8',
-							child: {
-								componentType: 'DatePicker',
-								showTime: true,
-							},
-						},
-					],
+					componentType: 'Item',
+					label: '№ из SAP',
+					name: 'sapMessageCode',
+					className: 'mb-8',
+					child: {
+						componentType: 'Text',
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Диспетчер',
+					name: 'staffEliminationId',
+					className: 'mb-8',
+					child: {
+						componentType: 'Text',
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Плановый срок устранения до',
+					name: 'dateEliminationPlan',
+					className: 'mb-8',
+					child: {
+						componentType: 'DatePicker',
+						showTime: true,
+					},
 				},
 			],
 		},
@@ -161,6 +208,7 @@ const OperationOnServer = (catalogName, type, code) => {
 	const defectEliminationFields = [
 		{
 			componentType: 'Item',
+			className: 'mt-16',
 			child: {
 				componentType: 'Title',
 				label: 'Устранение дефекта',
@@ -168,72 +216,61 @@ const OperationOnServer = (catalogName, type, code) => {
 			},
 		},
 		{
-			componentType: 'Layout',
-			className: 'mt-0',
+			componentType: 'Col',
+			className: 'mt-16',
 			children: [
 				{
-					componentType: 'Col',
-					style: {marginLeft: 50},
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Дата фактического устранения',
-							name: 'dateEliminationFact',
-							className: 'mb-8',
-							child: {
-								componentType: 'DatePicker',
-								showTime: true,
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Ответственный',
-							name: 'staffEliminationId',
-							className: 'mb-8',
-							child: {
-								componentType: 'Input',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Мероприятия по устранению',
-							name: 'note',
-							className: 'mb-8',
-							child: {
-								componentType: 'TextArea',
-							},
-						},
-					],
+					componentType: 'Item',
+					label: 'Дата фактического устранения',
+					name: 'dateEliminationFact',
+					className: 'mb-8',
+					child: {
+						componentType: 'DatePicker',
+						showTime: true,
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Ответственный',
+					name: 'staffEliminationId',
+					className: 'mb-8',
+					child: {
+						componentType: 'Input',
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Мероприятия по устранению',
+					name: 'note',
+					className: 'mb-8',
+					child: {
+						componentType: 'TextArea',
+					},
 				},
 			],
 		},
 	];
+
 	return {
 		type: `${type}OnServer`, //сохраняем на сервер потому что хотим увидеть изменения в таблице
 		title: 'Редактрование дефекта',
-		width: 600,
-		bodyStyle: {height: 860},
-		initialValues: () => {
-			return null;
-		},
-		// initialValues: (row) => {
-		// 	return type === 'add' ? null : row;
-		// },
-		// оставил вариант с Add на случай если придется делать форму создания дефекта через modal
-		// уже не придется создавать дефект
+		width: catalogName === 'defects' ? 600 : 500,
+		bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
 		form: {
 			name: `${type}ModalForm`,
 			loadInitData: loadData,
 			onFinish: (values) => {
 				console.log('values', values);
 			},
-			labelCol: {span: 12},
+			labelCol: {span: 10},
 			wrapperCol: {span: 12},
 			body: [
 				code,
 				...defectDetectionField,
-				...(catalogName ? correctionPlanFields : defectSapFields),
-				...(catalogName ? defectEliminationFields : []),
+				...(catalogName === 'defects'
+					? correctionPlanFields
+					: defectSapFields),
+				...(catalogName === 'defects' ? defectEliminationFields : []),
 			],
 		},
 	};
