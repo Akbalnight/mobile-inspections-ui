@@ -8,8 +8,6 @@ export const editDefectCard = (catalogName) =>
  */
 const OperationOnServer = (catalogName, type, code) => {
 	const loadData = (callBack, row) => {
-		console.log(row);
-		// type === 'add' ? callBack(null) : callBack(row);
 		callBack(row);
 	};
 
@@ -25,6 +23,7 @@ const OperationOnServer = (catalogName, type, code) => {
 							child: {
 								componentType: 'Text',
 							},
+							// возможно мы тут все-таки поставим РАДИО группу.
 							// child: {
 							// 	componentType: 'RadioGroup',
 							// 	optionType: 'button',
@@ -273,21 +272,6 @@ const OperationOnServer = (catalogName, type, code) => {
 					: defectSapFields),
 				...(catalogName === 'defects' ? defectEliminationFields : []),
 			],
-			subscribe: {
-				name: 'tableInfo',
-				path: 'rtd.defects.defectTable.table.selected',
-				onChange: ({value, setModalData}) => {
-					console.log(value);
-					value &&
-						setModalData &&
-						setModalData({
-							row: value,
-						});
-					/**
-					 * костыль setModalData
-					 */
-				},
-			},
 		},
 	};
 };

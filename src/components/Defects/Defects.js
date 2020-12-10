@@ -10,7 +10,7 @@ import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
 import {editDefectCard} from './Modals/defectEdit';
 import {paths} from '../../constants/paths';
-import {Checkbox} from 'antd';
+import {Checkbox, Radio} from 'antd';
 import {MessageOutlined, RollbackOutlined} from '@ant-design/icons';
 import {defectDetection} from '../Base/Block/DefectDetection';
 
@@ -18,6 +18,33 @@ export default function Defects() {
 	const history = useHistory();
 	const [tableRef, setTableRef] = useState({});
 	const _setTableRef = (ref) => setTableRef(ref);
+
+	const radioButtonConfig = [
+		{
+			value: 1,
+			color: 'white',
+			backgroundColor: '#FF4040',
+			code: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
+		},
+		{
+			value: 2,
+			color: 'white',
+			backgroundColor: '#F2C94C',
+			code: '985949ba-558f-4c14-836d-a609bcfa1ed7',
+		},
+		{
+			value: 3,
+			color: 'white',
+			backgroundColor: '#9DCE5B',
+			code: '10eb0af7-4551-44f2-9ef6-d038d7875d06',
+		},
+		{
+			value: 4,
+			color: 'white',
+			backgroundColor: '#98B8E3',
+			code: '1f06e13f-b300-4d9e-93db-0e54e2370d5c',
+		},
+	];
 
 	const processBeforeSaveForm = (rawValues) => {
 		const values = {...rawValues};
@@ -97,13 +124,15 @@ export default function Defects() {
 		},
 		{
 			componentType: 'SingleSelect',
-			name: 'statusProcessId',
+			name: `${
+				history.location.pathname === '/control-defects/defects'
+					? 'statusProcessId'
+					: 'statusPanelId'
+			}`,
 			rowRender: 'name',
 			title: 'Статус обработки',
 			widthControl: 120,
 			widthPopup: 250,
-
-			//эксперимент
 			requestLoadRows: apiGetFlatDataByConfigName(
 				history.location.pathname === '/control-defects/defects'
 					? 'defectStatusesProcess'
@@ -115,36 +144,41 @@ export default function Defects() {
 					: 'panelProblemsStatuses'
 			),
 		},
-		// {
-		// 	componentType: 'Custom',
-		// 	name: 'input',
-		// 	title: 'Период устранения',
-
-		// 	render: ({onChange, defaultValue, value}) => {
-		// 		return (
-		// 			<div style={{width: 200}} className={'mr-0'}>
-		// 				<div style={{marginBottom: '17px'}}>Приоритет</div>
-		// 				{/* <Input
-		// 					onChange={(e) => onChange('input', e.target.value)}
-		// 					defaultValue={defaultValue}
-		// 					value={value}
-		// 					allowClear={true}
-		// 				/> */}
-		// 				<Radio.Group
-		// 					onChange={(e) => onChange('input', e.target.value)}
-		// 					defaultValue={defaultValue}
-		// 					value={value}
-		// 					optionType='button'
-		// 				>
-		// 					<Radio.Button value={1}>1</Radio.Button>
-		// 					<Radio.Button value={2}>2</Radio.Button>
-		// 					<Radio.Button value={3}>3</Radio.Button>
-		// 					<Radio.Button value={4}>4</Radio.Button>
-		// 				</Radio.Group>
-		// 			</div>
-		// 		);
-		// 	},
-		// },
+		{
+			componentType: 'Custom',
+			name: 'code',
+			render: ({onChange, defaultValue, value}) => {
+				return (
+					<div
+						style={{width: 200, marginLeft: 16}}
+						className={'mr-0'}
+					>
+						<div style={{marginBottom: '5px'}}>Приоритет</div>
+						<Radio.Group
+							onChange={(e) => onChange('code', e.target.value)}
+							// defaultValue={defaultValue}
+							value={value}
+							size={'small'} //medium
+						>
+							{radioButtonConfig &&
+								radioButtonConfig.map((el) => (
+									<Radio.Button
+										key={el.code}
+										value={el.code}
+										style={{
+											color: el.color,
+											backgroundColor: el.backgroundColor,
+											margin: 3,
+										}}
+									>
+										{el.value}
+									</Radio.Button>
+								))}
+						</Radio.Group>
+					</div>
+				);
+			},
+		},
 	];
 
 	/**
@@ -152,7 +186,7 @@ export default function Defects() {
 	 * она производит сохранение данных в выделенных в таблице дефектов.
 	 * Важные аспекты для правильно передачи информации воспользовались hidden -MultiSelect, в него мы поместили больную информацию о выделенных дефектах
 	 * послед этого в функции processBeforeSaveForm мы представили полученные данные в форме подходящей для нашего сервера.
-	 * получившийся объект мы переадали в requestSaveRow(свойство Modal), приэтом можем передать requestSaveForm (свойство Form).
+	 * получившийся объект мы переадали в requestSaveRow(свойство Modal, важно type: 'editOnServer'), приэтом можем передать requestSaveForm (свойство Form).
 	 * Изменения на сервер произошли и мы обновили таблицу при мопомщи конструкции onFinish: (values) => tableRef && tableRef.reloadData({}),
 	 */
 	const buttonCloseWithNote = [
@@ -170,13 +204,13 @@ export default function Defects() {
 					// disabled: true
 				},
 				modalConfig: {
-					type: 'select',
+					type: 'editOnServer',
 					title: `Закрыть с примечанием`,
 					width: 600,
 					bodyStyle: {height: 320},
 					okText: 'Передать',
 					onFinish: (values) => tableRef && tableRef.reloadData({}),
-					requestSaveRow: apiSaveByConfigName('saveDefectsWithNote'),
+					requestSaveRow: apiSaveByConfigName('saveDefectsWithNote'), //Один и вариантов сохранения данных
 					form: {
 						name: 'defectCloseData',
 						noPadding: true,
@@ -238,7 +272,7 @@ export default function Defects() {
 
 				dispatchPath: 'defects.defectModalSendPanel.modal',
 				subscribe: {
-					name: 'tableRowsInfo',
+					name: 'tableCloseInfo',
 					path: 'rtd.defects.defectTable.table.selected',
 					onChange: ({value, setModalData}) => {
 						value &&
@@ -264,7 +298,7 @@ export default function Defects() {
 				},
 				modalConfig: {
 					type: 'select',
-					title: `Закрыть с примечанием`,
+					title: `Передать в панель проблем`,
 					width: 600,
 					bodyStyle: {height: 420},
 					okText: 'Передать',
@@ -276,9 +310,9 @@ export default function Defects() {
 						style: {
 							paddingTop: 30,
 						},
-						// loadInitData: (callBack, row) => {
-						// 	callBack(row);
-						// },
+						loadInitData: (callBack, row) => {
+							callBack(row);
+						},
 						body: [
 							{...defectDetection},
 							{
@@ -302,7 +336,7 @@ export default function Defects() {
 
 				dispatchPath: 'defects.defectModalSendPanel.modal',
 				subscribe: {
-					name: 'tableRowsInfo',
+					name: 'tableSend',
 					path: 'rtd.defects.defectTable.table.selected',
 					onChange: ({value, setModalData}) => {
 						value &&
@@ -311,7 +345,7 @@ export default function Defects() {
 								...value[value.length - 1],
 							});
 						/**
-						 * костыль setModalData
+						 * костыль в setModalData
 						 */
 					},
 				},
@@ -412,50 +446,3 @@ export default function Defects() {
 		</BasePage>
 	);
 }
-
-//эксперимент
-// {
-// 	componentType: 'Item',
-// 	label: 'Приоритет',
-// 	name: 'priorityField',
-// 	className: 'mb-0',
-// 	child: {
-// 		componentType: 'RadioGroup',
-// 		optionType: 'button',
-// 		size: 'small',
-// 		options: [
-// 			{
-// 				label: '1',
-// 				value: '1',
-// 				style: {
-// 					color: 'white',
-// 					backgroundColor: '#FF4040',
-// 				},
-// 			},
-// 			{
-// 				label: '2',
-// 				value: '2',
-// 				style: {
-// 					color: 'white',
-// 					backgroundColor: '#F2C94C',
-// 				},
-// 			},
-// 			{
-// 				label: '3',
-// 				value: '3',
-// 				style: {
-// 					color: 'white',
-// 					backgroundColor: '#9DCE5B',
-// 				},
-// 			},
-// 			{
-// 				label: '4',
-// 				value: '4',
-// 				style: {
-// 					color: 'white',
-// 					backgroundColor: '#98B8E3',
-// 				},
-// 			},
-// 		],
-// 	},
-// },
