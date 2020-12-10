@@ -14,44 +14,40 @@ export default function DetoursSchedules() {
 	const configFilterPanel = [
 		{
 			componentType: 'SingleSelect',
-			name: 'routesName',
+			name: 'routeIds',
 			className: 'mr-16',
 			rowRender: 'name',
 			title: 'Маршрут',
 			widthControl: 150,
-			widthPopup: 150,
+			widthPopup: 300,
+			heightPopup: 200,
 			requestLoadRows: apiGetFlatDataByConfigName('routes'),
 			requestLoadConfig: apiGetConfigByName('routes'),
 		},
 		{
 			componentType: 'SingleSelect',
-			name: 'staffName',
+			name: 'staffIds',
 			className: 'mr-16',
-			rowRender: 'name',
+			rowRender: ({rowData}) => (
+				<div>
+					<span>{rowData.userId}</span>{' '}
+					<span>[{rowData.positionName}]</span>
+				</div>
+			),
 			title: 'Сотрудник',
 			widthControl: 150,
-			widthPopup: 150,
-			requestLoadRows: apiGetFlatDataByConfigName('staffPositions'), //временно //staff
-			requestLoadConfig: apiGetConfigByName('staffPositions'), //временно //staff
+			widthPopup: 300,
+			heightPopup: 200,
+			requestLoadRows: apiGetFlatDataByConfigName('staff'), //временно //staff
+			requestLoadConfig: apiGetConfigByName('staff'), //временно //staff
 		},
 		{
 			componentType: 'DateRange',
 			title: 'Период',
-			nameStart: 'dateBeginDetour',
-			nameEnd: 'dateEndDetour',
+			nameStart: 'dateBegin',
+			nameEnd: 'dateEnd',
 			dateFormat: 'DD-MM-YYYY',
 			className: 'mr-16',
-		},
-		{
-			componentType: 'SingleSelect',
-			name: 'staffName',
-			className: 'mr-16',
-			rowRender: 'name',
-			title: 'Группировка',
-			widthControl: 150,
-			widthPopup: 150,
-			requestLoadRows: apiGetFlatDataByConfigName('techMapsStatuses'), //временно
-			requestLoadConfig: apiGetConfigByName('techMapsStatuses'), //временно
 		},
 	];
 
@@ -70,8 +66,9 @@ export default function DetoursSchedules() {
 					{
 						componentType: 'Item',
 						child: {
-							componentType: 'LocalTable',
+							componentType: 'ServerTable',
 							history,
+							fixWidthColumn: true,
 							commandPanelProps: {
 								systemBtnProps: {
 									add: {actionType: 'page'},

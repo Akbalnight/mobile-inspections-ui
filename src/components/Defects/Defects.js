@@ -197,11 +197,8 @@ export default function Defects() {
 				buttonProps: {
 					type: 'default',
 					icon: <MessageOutlined />,
-					className: 'mr-8',
-					style: {
-						marginLeft: 6,
-					},
-					// disabled: true
+					className: 'ml-4 mr-8',
+					disabled: true,
 				},
 				modalConfig: {
 					type: 'editOnServer',
@@ -274,13 +271,16 @@ export default function Defects() {
 				subscribe: {
 					name: 'tableCloseInfo',
 					path: 'rtd.defects.defectTable.table.selected',
-					onChange: ({value, setModalData}) => {
+					onChange: ({value, setModalData, setButtonProps}) => {
 						value &&
 							setModalData &&
 							setModalData({
 								defectsWithNote: value,
 								length: value.length,
 							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length > 0)});
 					},
 				},
 			},
@@ -295,6 +295,7 @@ export default function Defects() {
 				buttonProps: {
 					type: 'default',
 					icon: <RollbackOutlined rotate={90} />,
+					disabled: true,
 				},
 				modalConfig: {
 					type: 'select',
@@ -338,12 +339,16 @@ export default function Defects() {
 				subscribe: {
 					name: 'tableSend',
 					path: 'rtd.defects.defectTable.table.selected',
-					onChange: ({value, setModalData}) => {
+					onChange: ({value, setModalData, setButtonProps}) => {
 						value &&
 							setModalData &&
 							setModalData({
 								...value[value.length - 1],
 							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length === 1)});
+
 						/**
 						 * костыль в setModalData
 						 */
