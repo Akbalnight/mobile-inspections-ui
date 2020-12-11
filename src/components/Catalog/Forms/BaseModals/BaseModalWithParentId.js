@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, Input, InputNumber, notification, Spin, Form} from 'antd';
 import {LoadingOutlined} from '@ant-design/icons';
-import {Select} from 'rt-design';
+import {notificationError, Select} from 'rt-design';
 import {
 	apiSaveBaseCatalogWithParentId,
-	apiGetFlatDataByConfigName, apiGetDataByConfigName
+	apiGetFlatDataByConfigName,
+	apiGetDataByConfigName,
 } from '../../../../apis/catalog.api';
 
-const BaseModalWithParentId = props => {
+const BaseModalWithParentId = (props) => {
 	const {
 		title,
 		visible,
@@ -16,7 +17,7 @@ const BaseModalWithParentId = props => {
 		setVisibleSaveForm,
 		initFormObject,
 		catalogName,
-		setReloadTable
+		setReloadTable,
 	} = props;
 
 	const [mounted, setMounted] = useState(false);
@@ -44,7 +45,7 @@ const BaseModalWithParentId = props => {
 
 	const onSave = () => {
 		form.validateFields()
-			.then(values => {
+			.then((values) => {
 				const saveObject = {...initFormObject, ...values};
 				// console.log('onSave:', );
 				const method = typeOperation === 'create' ? 'POST' : 'PUT';
@@ -52,27 +53,24 @@ const BaseModalWithParentId = props => {
 				apiSaveBaseCatalogWithParentId({
 					catalogName,
 					method,
-					data: saveObject
+					data: saveObject,
 				})
-					.then(response => {
+					.then((response) => {
 						// setConfigData(response.data);
 						// if (!mounted) setMounted(true);
 						// console.log('response -> ', response);
 						notification.success({
-							message: 'Сохранение прошло успешно'
+							message: 'Сохранение прошло успешно',
 						});
 						setVisibleSaveForm(false);
 						setReloadTable({});
 						form.resetFields();
 					})
-					.catch(error => {
-						console.log('error -> ', error);
-						notification.error({
-							message: 'Произошла ошибка при хохранении'
-						});
-					});
+					.catch((error) =>
+						notificationError(error, 'Ошибка сохранения')
+					);
 			})
-			.catch(info => {
+			.catch((info) => {
 				console.log('Validate Failed:', info);
 			});
 	};
@@ -83,7 +81,7 @@ const BaseModalWithParentId = props => {
 
 	const layout = {
 		labelCol: {span: 8},
-		wrapperCol: {span: 16}
+		wrapperCol: {span: 16},
 	};
 
 	const parentIdHandler = (name, keys) => {
@@ -113,7 +111,7 @@ const BaseModalWithParentId = props => {
 					parentId:
 						initFormObject && initFormObject.parentId
 							? initFormObject.parentId
-							: null
+							: null,
 				}}
 			>
 				{!loading ? (
@@ -125,8 +123,8 @@ const BaseModalWithParentId = props => {
 								rules={[
 									{
 										required: true,
-										message: 'Пожалуйста введите код'
-									}
+										message: 'Пожалуйста введите код',
+									},
 								]}
 							>
 								<InputNumber
@@ -145,8 +143,8 @@ const BaseModalWithParentId = props => {
 							rules={[
 								{
 									required: true,
-									message: 'Пожалуйста введите наименование'
-								}
+									message: 'Пожалуйста введите наименование',
+								},
 							]}
 						>
 							<Input
@@ -161,7 +159,7 @@ const BaseModalWithParentId = props => {
 							getValueFromEvent={parentIdHandler}
 							trigger={'onChangeKeys'}
 							rules={[{required: false}]}
-							className={"NoRequiredField"}
+							className={'NoRequiredField'}
 						>
 							<Select
 								name={'parentId'}
@@ -187,8 +185,14 @@ const BaseModalWithParentId = props => {
 										configName: catalogName,
 										hierarchical: true,
 										lazyLoad: false,
-										data: {...data, isGroup: true, owner: initFormObject && initFormObject.id},
-										params
+										data: {
+											...data,
+											isGroup: true,
+											owner:
+												initFormObject &&
+												initFormObject.id,
+										},
+										params,
 									})
 								}
 								requestLoadDefault={apiGetFlatDataByConfigName(

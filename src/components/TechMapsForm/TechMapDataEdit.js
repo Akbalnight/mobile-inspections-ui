@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {Form, notificationError} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
 import {
 	apiGetConfigByName,
@@ -10,7 +10,6 @@ import {
 } from '../../apis/catalog.api';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {nameInput} from '../Base/Inputs/NameInput';
-import {notification} from 'antd';
 import {addTechOperation, editTechOperation} from './TechOperationsModal';
 import {paths} from '../../constants/paths';
 import {customColumnProps} from './TechMapColumnProps';
@@ -37,17 +36,9 @@ const TechMapDataEdit = () => {
 					// console.log("loadData => response ", response.data);
 					callBack(response.data[0]);
 				})
-				.catch((error) => {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-						notification.error({
-							message:
-								'Произошла ошибка при загрузки данных формы',
-						});
-					}
-				});
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
 		}
 	};
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {useHistory, useParams} from 'react-router';
-import {Form} from 'rt-design';
+import {Form, notificationError} from 'rt-design';
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
-// import {Input} from 'antd'
 
 export default function DetourSchedulesForm() {
 	//версия Ежедневно
@@ -16,6 +15,27 @@ export default function DetourSchedulesForm() {
 
 	const pageParams = useParams();
 	const history = useHistory();
+
+	const loadData = (callBack) => {
+		if (pageParams.id === 'new') {
+			callBack({
+				name: null,
+				duration: null,
+				repeatBy: '1',
+			});
+		} else {
+			apiGetFlatDataByConfigName('detours')({
+				data: {id: pageParams.id},
+			})
+				.then((response) => {
+					// console.log('loadData => response ', response.data);
+					callBack(response.data[0]);
+				})
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
+		}
+	};
 
 	// Описание
 	const headFields = [
@@ -72,6 +92,7 @@ export default function DetourSchedulesForm() {
 							],
 							child: {
 								componentType: 'DatePicker',
+								format: 'DD.MM.YYYY',
 							},
 						},
 						{
@@ -86,6 +107,7 @@ export default function DetourSchedulesForm() {
 							],
 							child: {
 								componentType: 'DatePicker',
+								format: 'DD.MM.YYYY',
 							},
 						},
 
@@ -156,7 +178,7 @@ export default function DetourSchedulesForm() {
 									systemBtnProps: {search: {}},
 								},
 								searchParamName: 'name',
-								rowRender: 'name',
+								rowRender: 'positionName',
 								requestLoadRows: apiGetFlatDataByConfigName(
 									'staff'
 								),
@@ -183,7 +205,7 @@ export default function DetourSchedulesForm() {
 		lineHeight: '56px',
 	};
 
-	// версия - Никогда
+	// Подвал
 	const footer = [
 		{
 			componentType: 'Row',
@@ -195,7 +217,7 @@ export default function DetourSchedulesForm() {
 						{
 							componentType: 'Item',
 							label: 'Учитывать порядок обхода',
-							name: 'bypassDetour',
+							name: 'saveOrderControlPoints',
 							valuePropName: 'checked',
 							...footerCheckboxLayout,
 							child: {
@@ -364,7 +386,7 @@ export default function DetourSchedulesForm() {
 						{
 							componentType: 'Item',
 							label: 'Интервал, дней',
-							name: 'inetrval',
+							name: 'interval',
 							rules: [
 								{
 									message: 'Заполните интервал',
@@ -838,6 +860,7 @@ export default function DetourSchedulesForm() {
 		name: 'DetoursConfiguratorDetourSchedulesForm',
 		labelCol: {span: 8},
 		wrapperCol: {span: 16},
+		loadInitData: loadData,
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		onFinish: (values) => {
 			console.log('Values', values);
@@ -859,12 +882,10 @@ export default function DetourSchedulesForm() {
 			...headFields,
 			...executorFields,
 			//экспериментальная версия
-			...(pageParams.id === 'new'
-				? [...repeatTimeFields, ...footer]
-				: null),
+			...(pageParams.id === 'new' ? repeatTimeFields : []),
 			//рабочая версия
 			// ...repeatTimeFields,
-			// ...footer,
+			...footer,
 		],
 		footer: [
 			{

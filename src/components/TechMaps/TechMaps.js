@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {AdvancedTable} from 'rt-design';
+import {AdvancedTable, notificationError} from 'rt-design';
 import {
 	apiGetConfigByObject,
 	apiGetDataByConfigName,
@@ -42,9 +42,9 @@ const TechMaps = () => {
 					setConfigData(response.data);
 					setMounted(true);
 				})
-				.catch((error) => {
-					console.log('error -> ', error);
-				});
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
 		}
 	}, [mounted]);
 

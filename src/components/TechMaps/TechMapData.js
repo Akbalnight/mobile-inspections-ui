@@ -19,7 +19,7 @@ import {
 	Modal,
 } from 'antd';
 import {ExclamationCircleOutlined} from '@ant-design/icons';
-import {AdvancedTable, Select} from 'rt-design';
+import {AdvancedTable, notificationError, Select} from 'rt-design';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {uuid} from '../../utils/baseUtils';
 import TechOperationsModal from './TechOperationsModal';
@@ -179,12 +179,9 @@ const TechMapData = () => {
 						history.push(paths.CONTROL_EQUIPMENTS_TECH_MAPS.path);
 						// form.resetFields();
 					})
-					.catch((error) => {
-						console.log('error -> ', error);
-						notification.error({
-							message: 'Произошла ошибка при хохранении',
-						});
-					});
+					.catch((error) =>
+						notificationError(error, 'Ошибка сохранения')
+					);
 			})
 			.catch((info) => {
 				console.log('Validate Failed:', info);

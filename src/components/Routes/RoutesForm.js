@@ -1,6 +1,5 @@
 import React from 'react';
-import {notification} from 'antd';
-import {Form} from 'rt-design';
+import {Form, notificationError} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {
@@ -34,17 +33,9 @@ export default function RoutesForm() {
 					// console.log('loadData => response ', response.data);
 					callBack(response.data[0]);
 				})
-				.catch((error) => {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-						notification.error({
-							message:
-								'Произошла ошибка при загрузки данных формы',
-						});
-					}
-				});
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
 		}
 	};
 

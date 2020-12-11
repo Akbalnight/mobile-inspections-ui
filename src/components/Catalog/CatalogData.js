@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {
 	apiGetConfigByObject,
-	apiGetDataByConfigName
+	apiGetDataByConfigName,
 } from '../../apis/catalog.api';
-import {AdvancedTable} from 'rt-design';
-import { FolderOutlined, ToolOutlined } from '@ant-design/icons';
+import {AdvancedTable, notificationError} from 'rt-design';
+import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
 
-const CatalogData = props => {
+const CatalogData = (props) => {
 	const [mounted, setMounted] = useState(false);
 	const [configData, setConfigData] = useState({});
 
-	const [titleSaveForm, setTitleSaveForm] = useState("");
-	const [typeOperationSaveForm, setTypeOperationSaveForm] = useState("");
+	const [titleSaveForm, setTitleSaveForm] = useState('');
+	const [typeOperationSaveForm, setTypeOperationSaveForm] = useState('');
 	const [visibleSaveForm, setVisibleSaveForm] = useState(false);
 
-	const [titleSaveGroup, setTitleSaveGroup] = useState("");
-	const [typeOperationSaveGroup, setTypeOperationSaveGroup] = useState("");
+	const [titleSaveGroup, setTitleSaveGroup] = useState('');
+	const [typeOperationSaveGroup, setTypeOperationSaveGroup] = useState('');
 	const [visibleSaveGroup, setVisibleSaveGroup] = useState(false);
 
 	const [selectObject, setSelectObject] = useState({});
@@ -34,22 +34,26 @@ const CatalogData = props => {
 
 	useEffect(() => {
 		apiGetConfigByObject({configName: catalogName})
-			.then(response => {
+			.then((response) => {
 				setConfigData(response.data);
 
-				const fieldWithSort = response.data.fields.find(item => !!item.defaultSort);
-				if(fieldWithSort)
+				const fieldWithSort = response.data.fields.find(
+					(item) => !!item.defaultSort
+				);
+				if (fieldWithSort)
 					setDefaultSort({
-						key: fieldWithSort.alias ? fieldWithSort.alias : fieldWithSort.name,
-						order: fieldWithSort.defaultSort.toLowerCase()
+						key: fieldWithSort.alias
+							? fieldWithSort.alias
+							: fieldWithSort.name,
+						order: fieldWithSort.defaultSort.toLowerCase(),
 					});
 
 				if (!mounted) setMounted(true);
 				// console.log('result -> ', result);
 			})
-			.catch(error => {
-				console.log('error -> ', error);
-			});
+			.catch((error) =>
+				notificationError(error, 'Ошибка загрузки данных справочника')
+			);
 	}, [catalogName, mounted]);
 
 	const onClickAddHandler = () => {
@@ -57,43 +61,55 @@ const CatalogData = props => {
 		setTitleSaveForm('Создать элемент справочника');
 		setTypeOperationSaveForm('create');
 		setSelectObject({});
-		setVisibleSaveForm(true)
+		setVisibleSaveForm(true);
 	};
 	const onClickAddGroupHandler = () => {
 		// console.log('onClickAddHandler');
 		setTitleSaveGroup('Создать группы');
 		setTypeOperationSaveGroup('create');
 		setSelectObject({});
-		setVisibleSaveGroup(true)
+		setVisibleSaveGroup(true);
 	};
 	const onClickEditHandler = (event, {rowData}) => {
 		// console.log('onClickEditHandler', rowData);
-		if(rowData.isGroup){
+		if (rowData.isGroup) {
 			setTitleSaveGroup('Изменить группу');
 			setTypeOperationSaveGroup('update');
 			setSelectObject({...rowData});
-			setVisibleSaveGroup(true)
+			setVisibleSaveGroup(true);
 		} else {
 			setTitleSaveForm('Изменить элемент справочника');
 			setTypeOperationSaveForm('update');
 			setSelectObject({...rowData});
-			setVisibleSaveForm(true)
+			setVisibleSaveForm(true);
 		}
 	};
 
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRender: ({ rowData }) => String(rowData.code).padStart(8,'0')
+			cellRender: ({rowData}) => String(rowData.code).padStart(8, '0'),
 		},
 		{
 			name: 'techPlacePath',
-			cellRender: ({ rowData }) => rowData.isGroup ? rowData.techPlacePath : String(rowData.techPlacePath).padStart(8,'0')
+			cellRender: ({rowData}) =>
+				rowData.isGroup
+					? rowData.techPlacePath
+					: String(rowData.techPlacePath).padStart(8, '0'),
 		},
 		{
 			name: 'is_group',
-			cellRender: ({ rowData }) => (<div style={{fontSize: '17px'}}> {rowData.isGroup ? <FolderOutlined /> : <ToolOutlined />} </div>)
-		}
+			cellRender: ({rowData}) => (
+				<div style={{fontSize: '17px'}}>
+					{' '}
+					{rowData.isGroup ? (
+						<FolderOutlined />
+					) : (
+						<ToolOutlined />
+					)}{' '}
+				</div>
+			),
+		},
 	];
 
 	return mounted ? (
@@ -114,26 +130,21 @@ const CatalogData = props => {
 						hierarchical: configData.hierarchical,
 						lazyLoad: configData.hierarchyLazyLoad,
 						data,
-						params
+						params,
 					})
 				}
-                defaultSortBy={defaultSort}
+				defaultSortBy={defaultSort}
 				// section={'BaseTableServerData'}
 				type={'serverSide'}
-
 				// centerCustomSideElement={<Button onClick={() => setReloadTable(true)}>Hard reload</Button>}
-                commandPanelProps={{
-                    onClickAdd: onClickAddHandler,
-                    onClickAddGroup: onClickAddGroupHandler,
-                    onClickEdit: onClickEditHandler,
-                    onClickDelete: (event, selectedRowKeys) => console.log('selectedRowKeys catalog', selectedRowKeys),
-                    showElements: [
-                            'add',
-                            'addGroup',
-                            'edit',
-                            'delete',
-                    ]
-                }}
+				commandPanelProps={{
+					onClickAdd: onClickAddHandler,
+					onClickAddGroup: onClickAddGroupHandler,
+					onClickEdit: onClickEditHandler,
+					onClickDelete: (event, selectedRowKeys) =>
+						console.log('selectedRowKeys catalog', selectedRowKeys),
+					showElements: ['add', 'addGroup', 'edit', 'delete'],
+				}}
 
 				// deleteConfirm={false}
 				// deleteConfirmTitle={'Удалить что-ли?'}
@@ -148,7 +159,7 @@ const CatalogData = props => {
 				setReloadTable={tableRef && tableRef.reloadData} // onClickUpHandler.bind(tableRef)
 			/>
 
-			{SaveGroup ?
+			{SaveGroup ? (
 				<SaveGroup
 					title={titleSaveGroup}
 					visible={visibleSaveGroup}
@@ -157,8 +168,7 @@ const CatalogData = props => {
 					initFormObject={selectObject}
 					setReloadTable={tableRef && tableRef.reloadData}
 				/>
-				: null
-			}
+			) : null}
 		</>
 	) : null;
 };

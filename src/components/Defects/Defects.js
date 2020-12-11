@@ -10,9 +10,10 @@ import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
 import {editDefectCard} from './Modals/defectEdit';
 import {paths} from '../../constants/paths';
-import {Checkbox, Radio} from 'antd';
+import {Radio} from 'antd';
 import {MessageOutlined, RollbackOutlined} from '@ant-design/icons';
 import {defectDetection} from '../Base/Block/DefectDetection';
+import {checkBox, code, dateTime} from '../Base/customColumnProps';
 
 export default function Defects() {
 	const history = useHistory();
@@ -59,50 +60,11 @@ export default function Defects() {
 	};
 	const customColumnProps = [
 		// на данный момент оставлю так, если будет потребность в другом формате исправим
-
-		{
-			name: 'code',
-			cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0'),
-			// cellRenderer: ({rowData}) => console.log(rowData),
-		},
-		{
-			name: 'dateEliminationPlan',
-			cellRenderer: ({rowData}) =>
-				new Date(rowData.dateEliminationPlan).toLocaleTimeString(
-					'ru-RU',
-					{
-						hour12: false,
-						day: 'numeric',
-						month: 'numeric',
-						year: 'numeric',
-					}
-				),
-		},
-		{
-			name: 'dateEliminationFact',
-			cellRenderer: ({rowData}) =>
-				new Date(rowData.dateEliminationFact).toLocaleTimeString(
-					'ru-RU',
-					{
-						hour12: false,
-						day: 'numeric',
-						month: 'numeric',
-						year: 'numeric',
-					}
-				),
-		},
-		{
-			name: 'sendedToSap',
-			cellRenderer: ({cellData}) => (
-				<Checkbox checked={cellData} disabled />
-			),
-		},
-		{
-			name: 'viewOnPanel',
-			cellRenderer: ({cellData}) => (
-				<Checkbox checked={cellData} disabled />
-			),
-		},
+		{...code},
+		{...dateTime('dateEliminationPlan')},
+		{...dateTime('dateEliminationFact')},
+		{...checkBox('sendedToSap')},
+		{...checkBox('viewOnPanel')},
 	];
 	const configFilterPanel = [
 		// тут чуть-чуть деревянно получилось
