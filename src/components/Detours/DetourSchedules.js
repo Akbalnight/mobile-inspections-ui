@@ -8,6 +8,7 @@ import {
 import {schedulesViewModal} from './Modals/SchedulesView';
 import {addChoiseExecutor} from './Modals/SelectEmploye';
 import {useHistory} from 'react-router';
+import {code, dateTime} from '../Base/customColumnProps';
 
 export default function DetoursSchedules() {
 	let history = useHistory();
@@ -51,6 +52,14 @@ export default function DetoursSchedules() {
 		},
 	];
 
+	const customColumnProps = [
+		{...code},
+		{...dateTime('dateStartPlan')},
+		{...dateTime('dateFinishPlan')},
+		{...dateTime('dateStartFact')},
+		{...dateTime('dateFinishFact')},
+	];
+
 	const formConfig = {
 		noPadding: true,
 		name: 'DetourSchedules',
@@ -69,6 +78,7 @@ export default function DetoursSchedules() {
 							componentType: 'ServerTable',
 							history,
 							fixWidthColumn: true,
+							customColumnProps: customColumnProps,
 							commandPanelProps: {
 								systemBtnProps: {
 									add: {actionType: 'page'},

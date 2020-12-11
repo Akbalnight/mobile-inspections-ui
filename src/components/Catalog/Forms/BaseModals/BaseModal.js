@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, Input, InputNumber, notification, Form} from 'antd';
-import { apiSaveBaseCatalog } from '../../../../apis/catalog.api';
+import {apiSaveBaseCatalog} from '../../../../apis/catalog.api';
+import {notificationError} from 'rt-design';
 
-const BaseModal = props => {
+const BaseModal = (props) => {
 	const {
 		title,
 		visible,
-        typeOperation,
+		typeOperation,
 		setVisibleSaveForm,
 		initFormObject,
 		catalogName,
-		setReloadTable
+		setReloadTable,
 	} = props;
 
 	const [mounted, setMounted] = useState(false);
@@ -28,13 +29,13 @@ const BaseModal = props => {
 		}
 	}, [visible, initFormObject, mounted, form]);
 
-	const onSave = values => {
+	const onSave = (values) => {
 		const saveObject = {...initFormObject, ...values};
 		// console.log('onSave:', );
 		const method = typeOperation === 'create' ? 'POST' : 'PUT';
 
 		apiSaveBaseCatalog({catalogName, method, data: saveObject})
-			.then(response => {
+			.then((response) => {
 				// setConfigData(response.data);
 				// if (!mounted) setMounted(true);
 				// console.log('response -> ', response);
@@ -44,12 +45,7 @@ const BaseModal = props => {
 				// console.log('setReloadTable', setReloadTable);
 				setReloadTable({});
 			})
-			.catch(error => {
-				console.log('error -> ', error);
-				notification.error({
-					message: 'Произошла ошибка при хохранении'
-				});
-			});
+			.catch((error) => notificationError(error, 'Ошибка сохранения'));
 	};
 
 	const handleCancel = () => {
@@ -58,7 +54,7 @@ const BaseModal = props => {
 
 	const layout = {
 		labelCol: {span: 8},
-		wrapperCol: {span: 16}
+		wrapperCol: {span: 16},
 	};
 
 	return (
@@ -71,10 +67,10 @@ const BaseModal = props => {
 			onCancel={handleCancel}
 			onOk={() => {
 				form.validateFields()
-					.then(values => {
+					.then((values) => {
 						onSave(values);
 					})
-					.catch(info => {
+					.catch((info) => {
 						console.log('Validate Failed:', info);
 					});
 			}}
@@ -95,10 +91,16 @@ const BaseModal = props => {
 						label='Код'
 						name='code'
 						rules={[
-							{required: true, message: 'Пожалуйста введите код'}
+							{required: true, message: 'Пожалуйста введите код'},
 						]}
 					>
-						<InputNumber style={{width: '100%'}} min={1} max={99999999} size={'small'} placeholder='Введите значение' />
+						<InputNumber
+							style={{width: '100%'}}
+							min={1}
+							max={99999999}
+							size={'small'}
+							placeholder='Введите значение'
+						/>
 					</Form.Item>
 				) : null}
 
@@ -108,8 +110,8 @@ const BaseModal = props => {
 					rules={[
 						{
 							required: true,
-							message: 'Пожалуйста введите наименование'
-						}
+							message: 'Пожалуйста введите наименование',
+						},
 					]}
 				>
 					<Input size={'small'} placeholder='Введите значение' />

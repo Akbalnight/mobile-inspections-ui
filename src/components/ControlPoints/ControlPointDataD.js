@@ -1,13 +1,12 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {Form, notificationError} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 	apiSaveControlPoints,
 } from '../../apis/catalog.api';
-import {notification} from 'antd';
 import {useHistory, useParams} from 'react-router';
 import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
 import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
@@ -36,17 +35,9 @@ const ControlPointDataD = (props) => {
 					// console.log("loadData => response ", response.data);
 					callBack(response.data[0]);
 				})
-				.catch((error) => {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-						notification.error({
-							message:
-								'Произошла ошибка при загрузки данных формы',
-						});
-					}
-				});
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
 		}
 	};
 
