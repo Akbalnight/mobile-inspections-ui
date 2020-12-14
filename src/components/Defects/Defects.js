@@ -67,13 +67,13 @@ export default function Defects() {
 		{...checkBox('viewOnPanel')},
 	];
 	const configFilterPanel = [
-		// тут чуть-чуть деревянно получилось
 		{
 			componentType: 'DateRange',
 			title: 'Период обнаружения',
 			nameStart: 'dateDetectDefectStart',
 			nameEnd: 'dateDetectDefectEnd',
-			dateFormat: 'DD-MM-YYYY HH:mm',
+			dateFormat: 'DD-MM-YYYY HH:mm:ss',
+			showTime: true,
 			className: 'mr-16',
 		},
 		{
@@ -81,7 +81,8 @@ export default function Defects() {
 			title: 'Период устранения',
 			nameStart: 'dateEliminationPlan',
 			nameEnd: 'dateEliminationFact',
-			dateFormat: 'DD-MM-YYYY HH:mm',
+			dateFormat: 'DD-MM-YYYY HH:mm:ss',
+			showTime: true,
 			className: 'mr-16',
 		},
 		{
@@ -331,18 +332,13 @@ export default function Defects() {
 						selectable: true,
 						ref: _setTableRef,
 						// fixWidthColumn:true,
+						history: history,
 						dispatchPath: 'defects.defectTable.table',
 						commandPanelProps: {
 							systemBtnProps: {
+								add: {actionType: 'page'},
 								edit: {actionType: ['modal', 'modal']},
 								delete: {},
-								//эксперимент
-								// up: {
-								// 	tooltip: 'Отправить в Панель проблем',
-								// 	render: ({disabled, onClick}) => (
-								// 		<Button icon={<MessageOutlined />} />
-								// 	),
-								// },
 							},
 							leftCustomSideElement: [
 								...buttonCloseWithNote,
