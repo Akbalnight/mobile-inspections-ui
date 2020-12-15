@@ -45,7 +45,7 @@ export const paths = {
 		title: 'Главная',
 		path: '/home',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DEBUG: {
 		title: 'Debug',
@@ -62,7 +62,7 @@ export const paths = {
 		title: 'НСИ',
 		path: '/catalog',
 		component: Catalog,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 
 	DETOURS_CONFIGURATOR: {
@@ -71,13 +71,13 @@ export const paths = {
 		component: Home,
 		isGroup: true,
 		redirect: '/detours-configurator/control-points',
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
 		component: ControlPointsD,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
 		title: 'Контрольная точка',
@@ -88,7 +88,7 @@ export const paths = {
 		title: 'Маршруты',
 		path: '/detours-configurator/routes',
 		component: Routes,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA: {
 		title: 'редакитрование маршрута',
@@ -99,7 +99,7 @@ export const paths = {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/detours-schedules',
 		component: DetourSchedules,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_DATA: {
 		title: 'Редактирование обхода',
@@ -116,7 +116,7 @@ export const paths = {
 		title: 'Управление обслуживанием оборудования',
 		path: '/controlEquipments',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
@@ -128,6 +128,7 @@ export const paths = {
 		title: 'Технологические карты и операции',
 		path: '/controlEquipments/techMaps',
 		component: TechMaps,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
 		title: 'Технологическая карта',
@@ -140,7 +141,7 @@ export const paths = {
 		title: 'Технологические карты и операции',
 		path: '/controlEquipments/formTechMaps',
 		component: TechMapsForm,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
 		title: 'Технологическая карта',
@@ -152,13 +153,13 @@ export const paths = {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
 		component: Defects,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',
