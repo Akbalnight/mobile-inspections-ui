@@ -31,8 +31,6 @@ export const defectDetection = {
 			rules: [
 				{
 					type: 'boolean',
-					required: true,
-					message: 'Заполните отклонение',
 				},
 			],
 			child: {
@@ -66,7 +64,7 @@ export const defectDetection = {
 		{
 			componentType: 'Item',
 			label: 'Обнаружил',
-			name: 'staffDetectName',
+			name: 'staffDetectId',
 			className: 'mb-8',
 			rules: [
 				{
@@ -77,12 +75,9 @@ export const defectDetection = {
 			child: {
 				componentType: 'SingleSelect',
 				widthControl: 0,
-				rowRender: 'name',
-				expandColumnKey: 'id',
-				requestLoadRows: apiGetFlatDataByConfigName('staffPositions'),
-				requestLoadDefault: apiGetFlatDataByConfigName(
-					'staffPositions'
-				),
+				rowRender: 'positionName',
+				requestLoadRows: apiGetFlatDataByConfigName('staff'),
+				requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 			},
 		},
 		{
