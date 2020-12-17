@@ -5,13 +5,14 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
-import {schedulesViewModal} from './Modals/SchedulesView';
-import {addChoiseExecutor} from './Modals/SelectEmploye';
+import {detourViewModal} from './Modals/detourViewModal';
 import {useHistory} from 'react-router';
-import {code, dateTime} from '../Base/customColumnProps';
+import {checkBox, code, dateTime} from '../Base/customColumnProps';
+import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 
 export default function DetoursSchedules() {
 	let history = useHistory();
+
 	const configFilterPanel = [
 		{
 			componentType: 'SingleSelect',
@@ -29,18 +30,19 @@ export default function DetoursSchedules() {
 			componentType: 'SingleSelect',
 			name: 'staffIds',
 			className: 'mr-16',
-			rowRender: ({rowData}) => (
-				<div>
-					<span>{rowData.userId}</span>{' '}
-					<span>[{rowData.positionName}]</span>
-				</div>
-			),
+			// rowRender: ({rowData}) => (
+			// 	<div>
+			// 		<span>{rowData.userId}</span>{' '}
+			// 		<span>{rowData.positionName}</span>
+			// 	</div>
+			// ),
+			rowRender: 'positionName',
 			title: 'Сотрудник',
 			widthControl: 150,
 			widthPopup: 300,
 			heightPopup: 200,
-			requestLoadRows: apiGetFlatDataByConfigName('staff'), //временно //staff
-			requestLoadConfig: apiGetConfigByName('staff'), //временно //staff
+			requestLoadRows: apiGetFlatDataByConfigName('staff'),
+			requestLoadConfig: apiGetConfigByName('staff'),
 		},
 		{
 			componentType: 'DateRange',
@@ -58,12 +60,32 @@ export default function DetoursSchedules() {
 		{...dateTime('dateFinishPlan')},
 		{...dateTime('dateStartFact')},
 		{...dateTime('dateFinishFact')},
+		{...checkBox('saveOrderControlPoints')},
+	];
+	const buttonChangeView = [
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Button',
+				icon: <CalendarOutlined />,
+				className: 'mr-8',
+				onClick: () => console.log('Calendar View'),
+			},
+		},
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Button',
+				icon: <TableOutlined />,
+				className: 'mr-8',
+				onClick: () => console.log('Table View'),
+			},
+		},
 	];
 
 	const formConfig = {
 		noPadding: true,
-		name: 'DetourSchedules',
-		// methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
+		name: 'DetourSchedulesForm',
 		onFinish: (values) => {
 			console.log('Values', values);
 		},
@@ -85,6 +107,7 @@ export default function DetoursSchedules() {
 									edit: {actionType: ['page', 'modal']},
 									delete: {},
 								},
+								rightCustomSideElement: [...buttonChangeView],
 							},
 							filterPanelProps: {
 								configFilter: [...configFilterPanel],
@@ -94,10 +117,7 @@ export default function DetoursSchedules() {
 							),
 							requestLoadConfig: apiGetConfigByName('detours'),
 
-							modals: [
-								addChoiseExecutor('staffPositions'),
-								schedulesViewModal(),
-							],
+							modals: [detourViewModal()],
 						},
 					},
 				],

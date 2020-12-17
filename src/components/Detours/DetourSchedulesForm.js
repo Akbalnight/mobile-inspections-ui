@@ -2,7 +2,12 @@ import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {useHistory, useParams} from 'react-router';
 import {Form, notificationError} from 'rt-design';
-import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
+} from '../../apis/catalog.api';
+import {ReactComponent as ExecutorIcon} from '../../imgs/detour/executor-btn.svg';
 
 export default function DetourSchedulesForm() {
 	//версия Ежедневно
@@ -36,6 +41,120 @@ export default function DetourSchedulesForm() {
 				);
 		}
 	};
+	const configFilterPanel = [
+		{
+			componentType: 'SingleSelect',
+			name: 'staffIds',
+			className: 'mr-16',
+			rowRender: 'positionName',
+			title: 'Сотрудник',
+			widthControl: 150,
+			widthPopup: 300,
+			heightPopup: 200,
+			requestLoadRows: apiGetFlatDataByConfigName('staff'),
+			requestLoadConfig: apiGetConfigByName('staff'),
+		},
+	];
+
+	const selectFields = [
+		{
+			componentType: 'Item',
+			name: 'structuralUnits', // ввел это понятие, прокинул по модалке дальше
+			label: 'Структурное подразделение',
+			rules: [
+				{
+					message: 'Заполните вариант подразделения',
+					required: true,
+				},
+			],
+			child: {
+				componentType: 'SingleSelect',
+				expandColumnKey: 'id',
+				rowRender: 'name',
+				widthControl: 0,
+				widthPopup: 300,
+				heightPopup: 200,
+				dispatchPath: 'schedules.selectEmployeModal.structuralUnits',
+				requestLoadRows: apiGetHierarchicalDataByConfigName(
+					'departments'
+				),
+				requestLoadDefault: apiGetFlatDataByConfigName('departments'),
+			},
+		},
+		{
+			componentType: 'Item',
+			name: 'workShift', // ввел это понятие, прокинул по модалке дальше
+			label: 'Рабочая смена',
+			rules: [
+				{
+					message: 'Заполните вариант смены',
+					required: true,
+				},
+			],
+			child: {
+				componentType: 'SingleSelect',
+				expandColumnKey: 'id',
+				rowRender: 'positionName',
+				widthControl: 0,
+				widthPopup: 300,
+				heightPopup: 200,
+				defaultFilter: {departmentName: null},
+				dispatchPath: 'schedules.selectEmployeModal.workShift',
+				subscribe: {
+					name: 'schedulesWorkShift',
+					path:
+						'rtd.schedules.selectEmployeModal.structuralUnits.selected',
+					onChange: ({value, setReloadTable}) =>
+						value &&
+						setReloadTable &&
+						setReloadTable({
+							filter: {departmentName: value.name}, // настроить фильтрацио по сменам
+						}),
+				},
+				requestLoadRows: apiGetFlatDataByConfigName('staff'), // поставить правильный запрос
+				requestLoadDefault: apiGetFlatDataByConfigName('staff'), // поставить правильный запрос
+			},
+		},
+	];
+
+	const executorTableFields = [
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Title',
+				label: 'Исполнитель:',
+				level: 5,
+			},
+		},
+		{
+			componentType: 'Layout',
+			children: [
+				{
+					componentType: 'Item',
+					name: 'executor',
+					child: {
+						componentType: 'ServerTable',
+						filterPanelProps: {
+							configFilter: [...configFilterPanel],
+						},
+						requestLoadRows: apiGetFlatDataByConfigName('staff'),
+						requestLoadConfig: apiGetConfigByName('staff'),
+						subscribe: {
+							name: 'executor',
+							path:
+								'rtd.schedules.selectEmployeModal.workShift.selected',
+							onChange: ({value, setReloadTable}) =>
+								value &&
+								setReloadTable &&
+								setReloadTable({
+									filter: {departmentName: value.name},
+								}),
+						},
+					},
+				},
+			],
+		},
+	];
 
 	// Описание
 	const headFields = [
@@ -47,146 +166,151 @@ export default function DetourSchedulesForm() {
 				level: 5,
 			},
 		},
+		pageParams.id === 'new'
+			? {}
+			: {
+					componentType: 'Item',
+					label: 'Код',
+					name: 'code',
+					child: {
+						componentType: 'Text',
+					},
+			  },
 		{
-			componentType: 'Row',
-			gutter: [0, 0],
-			children: [
+			componentType: 'Item',
+			label: 'Наименование обхода',
+			name: 'name',
+			rules: [
 				{
-					componentType: 'Col',
-					span: 16,
-					children: [
-						pageParams.id === 'new'
-							? {}
-							: {
-									componentType: 'Item',
-									label: 'Код',
-									name: 'code',
-									child: {
-										componentType: 'Text',
-									},
-							  },
-						{
-							componentType: 'Item',
-							label: 'Наименование обхода',
-							name: 'name',
-							rules: [
-								{
-									message: 'Заполните наименование',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'Input',
-								maxLength: 100,
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Дата начала',
-							name: 'dateStartPlan',
-							rules: [
-								{
-									message: 'Заполните дату начала обхода',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'DatePicker',
-								format: 'DD.MM.YYYY',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Дата окончания',
-							name: 'dateFinishPlan',
-							rules: [
-								{
-									message: 'Заполните дату окончания обхода',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'DatePicker',
-								format: 'DD.MM.YYYY',
-							},
-						},
-
-						{
-							componentType: 'Item',
-							label: 'Маршрут',
-							name: 'routeId',
-							rules: [
-								{
-									message: 'Заполните маршрут',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'SingleSelect',
-								widthControl: 0,
-								widthPopup: 350,
-								heightPopup: 350,
-								commandPanelProps: {
-									systemBtnProps: {search: {}},
-								},
-								searchParamName: 'name',
-								rowRender: 'name',
-								requestLoadRows: apiGetFlatDataByConfigName(
-									'routes'
-								),
-							},
-						},
-					],
+					message: 'Заполните наименование',
+					required: true,
 				},
 			],
+			child: {
+				componentType: 'Input',
+				maxLength: 100,
+			},
+		},
+		{
+			componentType: 'Item',
+			label: 'Дата начала',
+			name: 'dateStartPlan',
+			rules: [
+				{
+					message: 'Заполните дату начала обхода',
+					required: true,
+				},
+			],
+			child: {
+				componentType: 'DatePicker',
+				format: 'DD.MM.YYYY',
+			},
+		},
+		{
+			componentType: 'Item',
+			label: 'Дата окончания',
+			name: 'dateFinishPlan',
+			rules: [
+				{
+					message: 'Заполните дату окончания обхода',
+					required: true,
+				},
+			],
+			child: {
+				componentType: 'DatePicker',
+				format: 'DD.MM.YYYY',
+			},
+		},
+
+		{
+			componentType: 'Item',
+			label: 'Маршрут',
+			name: 'routeId',
+			rules: [
+				{
+					message: 'Заполните маршрут',
+					required: true,
+				},
+			],
+			child: {
+				componentType: 'SingleSelect',
+				widthControl: 0,
+				widthPopup: 350,
+				heightPopup: 350,
+				commandPanelProps: {
+					systemBtnProps: {search: {}},
+				},
+				searchParamName: 'name',
+				rowRender: 'name',
+				requestLoadRows: apiGetFlatDataByConfigName('routes'),
+			},
 		},
 	];
 
 	// Исполнитель
 	const executorFields = [
+		/**
+		 * тут сделал небольшую подписку на селектор внутри модалки, для красивого отображения исполнителся
+		 * обхода.
+		 * позже можно подписать на таблицу Исполнителей внутри модального окна
+		 */
 		{
 			componentType: 'Item',
 			child: {
 				componentType: 'Title',
 				label: 'Исполнитель',
 				level: 5,
+				subscribe: {
+					name: 'controlPointTechMap',
+					path: 'rtd.schedules.selectEmployeModal.workShift.selected',
+					onChange: ({value, setSubscribeProps}) =>
+						value &&
+						setSubscribeProps({
+							label: `Исполнитель обхода ${value.positionName}`,
+						}),
+				},
 			},
 		},
 		{
-			componentType: 'Row',
-			children: [
+			componentType: 'Item',
+			label: 'Доступные исполнители',
+			name: 'staffId',
+			rules: [
 				{
-					componentType: 'Col',
-					span: 16,
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Исполнитель',
-							name: 'staffId',
-							rules: [
-								{
-									message: 'Заполните исполнителя',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'SingleSelect',
-								widthControl: 0,
-								widthPopup: 350,
-								heightPopup: 350,
-								commandPanelProps: {
-									systemBtnProps: {search: {}},
-								},
-								searchParamName: 'name',
-								rowRender: 'positionName',
-								requestLoadRows: apiGetFlatDataByConfigName(
-									'staff'
-								),
-							},
-						},
-					],
+					message: 'Заполните исполнителя',
+					required: true,
 				},
 			],
+			child: {
+				componentType: 'Modal',
+				buttonProps: {
+					label: 'Выбрать',
+					icon: <ExecutorIcon />,
+					type: 'default',
+				},
+				modalConfig: {
+					type: `${pageParams.id === 'new' ? 'add' : 'edit'}OnLocal`,
+					title: 'Выбор исполнителя',
+					width: 576,
+					bodyStyle: {
+						height: 496,
+					},
+					okText: 'Выбрать',
+					form: {
+						name: `${
+							pageParams.id === 'new' ? 'add' : 'edit'
+						}ModalForm`,
+						labelCol: {span: 8},
+						wrapperCol: {span: 12},
+						loadInitData: (callBack, row) => {
+							pageParams.id === 'new'
+								? callBack(null)
+								: callBack(row);
+						},
+						body: [...selectFields, ...executorTableFields],
+					},
+				},
+			},
 		},
 	];
 
@@ -377,33 +501,37 @@ export default function DetourSchedulesForm() {
 	// //версия - Ежедневно
 	const everydayFields = [
 		{
-			componentType: 'Row',
-			children: [
+			componentType: 'Item',
+			label: 'Интервал, дней',
+			name: 'interval',
+			rules: [
 				{
-					componentType: 'Col',
-					span: 16,
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Интервал, дней',
-							name: 'interval',
-							rules: [
-								{
-									message: 'Заполните интервал',
-									required: true,
-								},
-							],
-
-							child: {
-								componentType: 'InputNumber',
-							},
-						},
-					],
+					message: 'Заполните интервал',
+					required: true,
 				},
 			],
+
+			// hidden: true,
+
+			subscribe: {
+				name: 'finishRepeatType',
+				path: 'rtd.schedules.selectRepeat.repeat.selected',
+				onChange: ({value, setSubscribeProps}) => {
+					console.log(value);
+					value &&
+						setSubscribeProps({
+							hidden: !(value.name === 'Ежедневно'),
+						});
+				},
+			},
+			child: {
+				componentType: 'InputNumber',
+			},
 		},
+
 		{
 			componentType: 'Row',
+			hidden: true,
 			children: [
 				{
 					componentType: 'Col',
@@ -534,13 +662,6 @@ export default function DetourSchedulesForm() {
 
 	// //версия - Еженедельно
 	// const everyweekFields = [
-	// 	 	{
-	// 		componentType: 'Row',
-	// 		children: [
-	// 			{
-	// 				componentType: 'Col',
-	// 				span: 12,
-	// 				children: [
 	// 					{
 	// 						componentType: 'Item',
 	// 						label: 'Интервал, месяцев',
@@ -556,10 +677,7 @@ export default function DetourSchedulesForm() {
 	// 							max: 12,
 	// 						},
 	// 					},
-	// 				],
-	// 			},
-	// 		],
-	// 	},
+
 	// 	{
 	// 		componentType: 'Row',
 	// 		children: [
@@ -665,13 +783,6 @@ export default function DetourSchedulesForm() {
 
 	// // версия Ежегодно
 	// const everyyearFields = [
-	// 		{
-	// 		componentType: 'Row',
-	// 		children: [
-	// 			{
-	// 				componentType: 'Col',
-	// 				span: 12,
-	// 				children: [
 	// 					{
 	// 						componentType: 'Item',
 	// 						label: 'Интервал',
@@ -686,10 +797,7 @@ export default function DetourSchedulesForm() {
 	// 							componentType: 'InputNumber',
 	// 						},
 	// 					},
-	// 				],
-	// 			},
-	// 		],
-	// 	},
+
 	// 	{
 	// 		componentType: 'Row',
 	// 		children: [
@@ -802,7 +910,7 @@ export default function DetourSchedulesForm() {
 		},
 		{
 			id: '2',
-			name: 'Ежеднемно',
+			name: 'Ежедневно',
 		},
 		{
 			id: '3',
@@ -823,34 +931,25 @@ export default function DetourSchedulesForm() {
 			},
 		},
 		{
-			componentType: 'Row',
-			children: [
+			componentType: 'Item',
+			label: 'Повторение:',
+			name: 'repeatBy',
+			rules: [
 				{
-					componentType: 'Col',
-					span: 16,
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Повторение:',
-							name: 'repeatBy',
-							rules: [
-								{
-									message: 'Заполните вариант повторения',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'SingleSelect',
-								rowRender: 'name',
-								widthControl: 0,
-								widthPopup: 280,
-								rows: rows,
-							},
-						},
-					],
+					message: 'Заполните вариант повторения',
+					required: true,
 				},
 			],
+			child: {
+				componentType: 'SingleSelect',
+				rowRender: 'name',
+				widthControl: 0,
+				widthPopup: 280,
+				rows: rows,
+				dispatchPath: 'schedules.selectRepeat.repeat',
+			},
 		},
+
 		...everydayFields,
 		// ...everyweekFields,
 		// ...everyyearFields,
@@ -858,8 +957,8 @@ export default function DetourSchedulesForm() {
 
 	const formConfig = {
 		name: 'DetoursConfiguratorDetourSchedulesForm',
-		labelCol: {span: 8},
-		wrapperCol: {span: 16},
+		labelCol: {span: 10},
+		wrapperCol: {span: 8},
 		loadInitData: loadData,
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		onFinish: (values) => {

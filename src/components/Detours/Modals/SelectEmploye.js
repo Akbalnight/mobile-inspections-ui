@@ -1,17 +1,33 @@
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 
 export const addChoiseExecutor = (catalogName) =>
 	choiseExecutor('add', catalogName, {});
 
+/**
+ * В данном модальном окне происходит выбор исполнителя из подразделения, смены и конкретного сотрудника. ннужно продумать конфиги для подачи в эту модалку
+ */
 const choiseExecutor = (type, catalogName, code) => {
-	let Row;
 	const loadData = (callBack, row) => {
-		Row = row;
-		type === 'add' ? callBack(null) : callBack(Row);
+		type === 'add' ? callBack(null) : callBack(row);
 	};
+	const configFilterPanel = [
+		{
+			componentType: 'SingleSelect',
+			name: 'staffIds',
+			className: 'mr-16',
+			rowRender: 'positionName',
+			title: 'Сотрудник',
+			widthControl: 150,
+			widthPopup: 300,
+			heightPopup: 200,
+			requestLoadRows: apiGetFlatDataByConfigName('staff'),
+			requestLoadConfig: apiGetConfigByName('staff'),
+		},
+	];
 
 	const selectFields = [
 		{
@@ -26,13 +42,16 @@ const choiseExecutor = (type, catalogName, code) => {
 			],
 			child: {
 				componentType: 'SingleSelect',
-				widthControl: 0,
 				expandColumnKey: 'id',
 				rowRender: 'name',
-				expandDefaultAll: true,
+				widthControl: 0,
+				widthPopup: 300,
+				heightPopup: 200,
 				dispatchPath: 'schedules.selectEmployeModal.structuralUnits',
-				requestLoadRows: apiGetFlatDataByConfigName('techMaps'), // поставить правильный запрос
-				requestLoadDefault: apiGetFlatDataByConfigName('techMaps'), // поставить правильный запрос
+				requestLoadRows: apiGetHierarchicalDataByConfigName(
+					'departments'
+				),
+				requestLoadDefault: apiGetFlatDataByConfigName('departments'),
 			},
 		},
 		{
@@ -47,10 +66,11 @@ const choiseExecutor = (type, catalogName, code) => {
 			],
 			child: {
 				componentType: 'SingleSelect',
-				widthControl: 0,
 				expandColumnKey: 'id',
-				rowRender: 'name',
-				expandDefaultAll: true,
+				rowRender: 'positionName',
+				widthControl: 0,
+				widthPopup: 300,
+				heightPopup: 200,
 				dispatchPath: 'schedules.selectEmployeModal.workShift',
 				subscribe: {
 					name: 'schedulesWorkShift',
@@ -60,11 +80,11 @@ const choiseExecutor = (type, catalogName, code) => {
 						value &&
 						setReloadTable &&
 						setReloadTable({
-							filter: {structuralUnitsId: value.id},
+							filter: {departmentName: value.name}, // настроить фильтрацио по сменам
 						}),
 				},
-				requestLoadRows: apiGetFlatDataByConfigName('techMaps'), // поставить правильный запрос
-				requestLoadDefault: apiGetFlatDataByConfigName('techMaps'), // поставить правильный запрос
+				requestLoadRows: apiGetFlatDataByConfigName('staff'), // поставить правильный запрос
+				requestLoadDefault: apiGetFlatDataByConfigName('staff'), // поставить правильный запрос
 			},
 		},
 	];
@@ -83,28 +103,25 @@ const choiseExecutor = (type, catalogName, code) => {
 			children: [
 				{
 					componentType: 'Item',
-					name: 'executorTable',
+					name: 'executor',
 					child: {
 						componentType: 'ServerTable',
-						defaultFilter: {controlPointsId: null},
+						filterPanelProps: {
+							configFilter: [...configFilterPanel],
+						},
+						requestLoadRows: apiGetFlatDataByConfigName('staff'),
+						requestLoadConfig: apiGetConfigByName('staff'),
 						subscribe: {
-							name: 'executorTable',
+							name: 'executor',
 							path:
 								'rtd.schedules.selectEmployeModal.workShift.selected',
 							onChange: ({value, setReloadTable}) =>
 								value &&
 								setReloadTable &&
 								setReloadTable({
-									filter: {workShiftId: value.id},
+									filter: {departmentName: value.name},
 								}),
 						},
-
-						// поставить правильный запрос
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'staffPositions'
-						),
-						// поставить правильный запрос
-						requestLoadConfig: apiGetConfigByName('staffPositions'),
 					},
 				},
 			],
@@ -112,7 +129,7 @@ const choiseExecutor = (type, catalogName, code) => {
 	];
 
 	return {
-		type: `${type}OnLocal`,
+		type: `${type}OnLocal`, // нужно подумать куда будет сохранять
 		title: 'Выбор исполнителя',
 		width: 576,
 		bodyStyle: {
@@ -124,14 +141,9 @@ const choiseExecutor = (type, catalogName, code) => {
 		},
 		form: {
 			name: `${type}ModalForm`,
-			labelCol: {span: 10},
-			wrapperCol: {span: 14},
-
+			labelCol: {span: 8},
+			wrapperCol: {span: 12},
 			loadInitData: loadData,
-			onFinish: (values) => {
-				console.log('values', values);
-			},
-
 			body: [code, ...selectFields, ...executorTableFields],
 		},
 	};
