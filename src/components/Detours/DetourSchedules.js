@@ -8,7 +8,11 @@ import {
 import {detourViewModal} from './Modals/detourViewModal';
 import {useHistory} from 'react-router';
 import {checkBox, code, dateTime} from '../Base/customColumnProps';
-import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
+import {
+	CalendarOutlined,
+	EyeInvisibleOutlined,
+	TableOutlined,
+} from '@ant-design/icons';
 
 export default function DetoursSchedules() {
 	let history = useHistory();
@@ -62,6 +66,33 @@ export default function DetoursSchedules() {
 		{...dateTime('dateFinishFact')},
 		{...checkBox('saveOrderControlPoints')},
 	];
+
+	const routesToDateFields = [
+		{
+			componentType: 'Layout',
+			children: [
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'ServerTable',
+						style: {height: '300px'},
+						commandPanelProps: {
+							systemBtnProps: {
+								add: {actionType: 'page'},
+								edit: {actionType: ['page', 'modal']},
+								delete: {},
+							},
+						},
+						fixWidthColumn: true,
+						customColumnProps: customColumnProps,
+						requestLoadRows: apiGetFlatDataByConfigName('detours'),
+						requestLoadConfig: apiGetConfigByName('detours'),
+					},
+				},
+			],
+		},
+	];
+
 	const buttonChangeView = [
 		{
 			componentType: 'Item',
@@ -69,6 +100,7 @@ export default function DetoursSchedules() {
 				componentType: 'Button',
 				icon: <CalendarOutlined />,
 				className: 'mr-8',
+				disabled: true,
 				onClick: () => console.log('Calendar View'),
 			},
 		},
@@ -78,7 +110,31 @@ export default function DetoursSchedules() {
 				componentType: 'Button',
 				icon: <TableOutlined />,
 				className: 'mr-8',
+				disabled: true,
 				onClick: () => console.log('Table View'),
+			},
+		},
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Modal',
+				buttonProps: {
+					icon: <EyeInvisibleOutlined />,
+					className: 'mr-8',
+				},
+				modalConfig: {
+					type: `addOnServer`,
+					title: `${Date(Date.now()).toString()}`,
+					width: 576,
+					bodyStyle: {
+						height: 400,
+					},
+					form: {
+						name: 'detourAddForm',
+						loadInitData: (callBack, row) => callBack(null),
+						body: [...routesToDateFields],
+					},
+				},
 			},
 		},
 	];
@@ -99,6 +155,7 @@ export default function DetoursSchedules() {
 						child: {
 							componentType: 'ServerTable',
 							history,
+							selectable: true,
 							fixWidthColumn: true,
 							customColumnProps: customColumnProps,
 							commandPanelProps: {
@@ -112,12 +169,40 @@ export default function DetoursSchedules() {
 							filterPanelProps: {
 								configFilter: [...configFilterPanel],
 							},
+							dispatchPath: 'detourSchedules.mainTable.detours',
 							requestLoadRows: apiGetFlatDataByConfigName(
 								'detours'
 							),
 							requestLoadConfig: apiGetConfigByName('detours'),
 
 							modals: [detourViewModal()],
+							footerProps: {
+								rightCustomSideElement: [
+									{
+										componentType: 'Item',
+										name: 'tableCount',
+										child: {
+											componentType: 'Text',
+											subscribe: {
+												name:
+													'tableCountDetourSchedules',
+												path:
+													'rtd.detourSchedules.mainTable.detours',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													value &&
+														value.selected &&
+														setSubscribeProps({
+															label: `Выделено: ${value.selected.length} Всего: ${value.rows.length}`,
+														});
+												},
+											},
+										},
+									},
+								],
+							},
 						},
 					},
 				],

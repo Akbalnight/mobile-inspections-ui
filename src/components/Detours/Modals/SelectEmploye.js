@@ -1,5 +1,6 @@
 import {
 	apiGetConfigByName,
+	apiGetDataByConfigName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
@@ -106,22 +107,27 @@ const choiseExecutor = (type, catalogName, code) => {
 					name: 'executor',
 					child: {
 						componentType: 'ServerTable',
+						style: {height: '200px'},
 						filterPanelProps: {
 							configFilter: [...configFilterPanel],
 						},
-						requestLoadRows: apiGetFlatDataByConfigName('staff'),
-						requestLoadConfig: apiGetConfigByName('staff'),
-						subscribe: {
-							name: 'executor',
-							path:
-								'rtd.schedules.selectEmployeModal.workShift.selected',
-							onChange: ({value, setReloadTable}) =>
-								value &&
-								setReloadTable &&
-								setReloadTable({
-									filter: {departmentName: value.name},
-								}),
-						},
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'controlPoints'
+						),
+						requestLoadConfig: apiGetDataByConfigName(
+							'controlPoints'
+						),
+						// subscribe: {
+						// 	name: 'executor',
+						// 	path:
+						// 		'rtd.schedules.selectEmployeModal.workShift.selected',
+						// 	onChange: ({value, setReloadTable}) =>
+						// 		value &&
+						// 		setReloadTable &&
+						// 		setReloadTable({
+						// 			filter: {departmentName: value.name},
+						// 		}),
+						// },
 					},
 				},
 			],
@@ -129,7 +135,7 @@ const choiseExecutor = (type, catalogName, code) => {
 	];
 
 	return {
-		type: `${type}OnLocal`, // нужно подумать куда будет сохранять
+		type: `viewObject`, // нужно подумать куда будет сохранять
 		title: 'Выбор исполнителя',
 		width: 576,
 		bodyStyle: {
