@@ -7,14 +7,14 @@ import {
 } from '../../apis/catalog.api';
 import {detourViewModal} from './Modals/detourViewModal';
 import {useHistory} from 'react-router';
-import {checkBox, code, dateTime} from '../Base/customColumnProps';
+import {checkBox, code, date} from '../Base/customColumnProps';
 import {
 	CalendarOutlined,
 	EyeInvisibleOutlined,
 	TableOutlined,
 } from '@ant-design/icons';
 
-export default function DetoursSchedules() {
+export default function Detours() {
 	let history = useHistory();
 
 	const configFilterPanel = [
@@ -34,12 +34,6 @@ export default function DetoursSchedules() {
 			componentType: 'SingleSelect',
 			name: 'staffIds',
 			className: 'mr-16',
-			// rowRender: ({rowData}) => (
-			// 	<div>
-			// 		<span>{rowData.userId}</span>{' '}
-			// 		<span>{rowData.positionName}</span>
-			// 	</div>
-			// ),
 			rowRender: 'positionName',
 			title: 'Сотрудник',
 			widthControl: 150,
@@ -60,10 +54,7 @@ export default function DetoursSchedules() {
 
 	const customColumnProps = [
 		{...code},
-		{...dateTime('dateStartPlan')},
-		{...dateTime('dateFinishPlan')},
-		{...dateTime('dateStartFact')},
-		{...dateTime('dateFinishFact')},
+		{...date('dateStartPlan')},
 		{...checkBox('saveOrderControlPoints')},
 	];
 
@@ -75,7 +66,11 @@ export default function DetoursSchedules() {
 					componentType: 'Item',
 					child: {
 						componentType: 'ServerTable',
-						style: {height: '300px'},
+						history,
+						selectable: true,
+						fixWidthColumn: true,
+						customColumnProps: customColumnProps,
+						style: {height: '350px'},
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'page'},
@@ -83,8 +78,6 @@ export default function DetoursSchedules() {
 								delete: {},
 							},
 						},
-						fixWidthColumn: true,
-						customColumnProps: customColumnProps,
 						requestLoadRows: apiGetFlatDataByConfigName('detours'),
 						requestLoadConfig: apiGetConfigByName('detours'),
 					},
@@ -124,10 +117,10 @@ export default function DetoursSchedules() {
 				},
 				modalConfig: {
 					type: `addOnServer`,
-					title: `${Date(Date.now()).toString()}`,
-					width: 576,
+					title: `Актуальная дата из календаря`, //${Date(Date.now()).toString()}
+					width: 760,
 					bodyStyle: {
-						height: 400,
+						height: 478,
 					},
 					form: {
 						name: 'detourAddForm',

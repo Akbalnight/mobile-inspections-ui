@@ -6,18 +6,12 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
+	apiSaveByConfigName,
 } from '../../apis/catalog.api';
 import {ReactComponent as ExecutorIcon} from '../../imgs/detour/executor-btn.svg';
+import {paths} from '../../constants/paths';
 
-export default function DetourSchedulesForm() {
-	//версия Ежедневно
-	// const [repeatTo, setRepeatTo] = useState(true);
-	// const [repeatCount, setRepeatCount] = useState(true);
-	//Версия Еженедельно
-	// const [repeatTo, setRepeatTo] = useState(true);
-	//Версия Ежемесячно
-	// const [repeatTo, setRepeatTo] = useState(true);
-
+export default function DetoursForm() {
 	const pageParams = useParams();
 	const history = useHistory();
 
@@ -33,7 +27,6 @@ export default function DetourSchedulesForm() {
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
-					// console.log('loadData => response ', response.data);
 					callBack(response.data[0]);
 				})
 				.catch((error) =>
@@ -132,7 +125,7 @@ export default function DetourSchedulesForm() {
 			children: [
 				{
 					componentType: 'Item',
-					name: 'executor',
+					name: 'executorTable',
 					child: {
 						componentType: 'ServerTable',
 						style: {height: '240px'},
@@ -171,6 +164,7 @@ export default function DetourSchedulesForm() {
 			child: {
 				componentType: 'Title',
 				label: 'Описание',
+				className: 'mt-16',
 				level: 5,
 			},
 		},
@@ -211,7 +205,8 @@ export default function DetourSchedulesForm() {
 			],
 			child: {
 				componentType: 'DatePicker',
-				format: 'DD.MM.YYYY',
+				format: 'DD.MM.YYYY HH:mm:ss',
+				showTime: true,
 			},
 		},
 		{
@@ -226,7 +221,8 @@ export default function DetourSchedulesForm() {
 			],
 			child: {
 				componentType: 'DatePicker',
-				format: 'DD.MM.YYYY',
+				format: 'DD.MM.YYYY HH:mm:ss',
+				showTime: true,
 			},
 		},
 
@@ -267,6 +263,7 @@ export default function DetourSchedulesForm() {
 			child: {
 				componentType: 'Title',
 				label: 'Исполнитель',
+				className: 'mt-16',
 				level: 5,
 				subscribe: {
 					name: 'controlPointTechMap',
@@ -283,22 +280,16 @@ export default function DetourSchedulesForm() {
 		{
 			componentType: 'Item',
 			label: 'Доступные исполнители',
-			name: 'staffId',
-			rules: [
-				{
-					message: 'Заполните исполнителя',
-					required: true,
-				},
-			],
 			child: {
 				componentType: 'Modal',
 				buttonProps: {
 					label: 'Выбрать',
 					icon: <ExecutorIcon />,
 					type: 'default',
+					// disabled: true
 				},
 				modalConfig: {
-					type: `${pageParams.id === 'new' ? 'add' : 'edit'}OnLocal`,
+					type: `select`,
 					title: 'Выбор исполнителя',
 					width: 576,
 					bodyStyle: {
@@ -321,6 +312,24 @@ export default function DetourSchedulesForm() {
 				},
 			},
 		},
+		{
+			componentType: 'Item',
+			hidden: true,
+			name: 'staffId',
+			child: {
+				componentType: 'Input',
+				subscribe: {
+					name: 'controlPointTechMap',
+					path:
+						'rtd.detourSchedules.executorTableChoise.executor.selected',
+					onChange: ({value, setSubscribeProps}) =>
+						value &&
+						setSubscribeProps({
+							value: value[0].id,
+						}),
+				},
+			},
+		},
 	];
 
 	const footerCheckboxLayout = {
@@ -332,14 +341,17 @@ export default function DetourSchedulesForm() {
 		wrapperCol: {span: 8},
 	};
 
-	const radioStyle = {
-		display: 'block',
-		height: '56px',
-		lineHeight: '56px',
-	};
-
 	// Подвал
 	const footer = [
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Title',
+				label: 'Допуски по обходу',
+				className: 'mt-16',
+				level: 5,
+			},
+		},
 		{
 			componentType: 'Row',
 			children: [
@@ -507,228 +519,16 @@ export default function DetourSchedulesForm() {
 		},
 	];
 
-	// //версия - Ежедневно
-	const everydayFields = [
-		{
-			componentType: 'Item',
-			label: 'Интервал, дней',
-			name: 'interval',
-			// rules: [
-			// 	{
-			// 		message: 'Заполните интервал',
-			// 		required: true,
-			// 	},
-			// ],
-			subscribe: {
-				name: 'interval',
-				path: 'rtd.detourSchedulesForm.selectRepeat.repeat.selected',
-				onChange: ({value, setSubscribeProps}) => {
-					console.log(value.id);
-					value &&
-						setSubscribeProps({
-							hidden: !(value.id === 2),
-						});
-				},
-			},
-			child: {
-				componentType: 'InputNumber',
-			},
-		},
-
-		{
-			componentType: 'Row',
-			hidden: true,
-			children: [
-				{
-					componentType: 'Col',
-					span: 16,
-					children: [
-						{
-							componentType: 'Row',
-							children: [
-								{
-									componentType: 'Col',
-									span: 8,
-									children: [
-										{
-											componentType: 'Item',
-											child: {
-												componentType: 'Text',
-												label: 'Завершить повторение:',
-											},
-										},
-									],
-								},
-								{
-									componentType: 'Col',
-									span: 4,
-									children: [
-										{
-											componentType: 'Item',
-											name: 'finishRepeatType',
-											child: {
-												componentType: 'RadioGroup',
-												dispatchPath:
-													'detourSchedulesForm.finishRepeatType',
-												options: [
-													{
-														label: 'Никогда',
-														value: 'never',
-														style: radioStyle,
-													},
-													{
-														label: 'Повторять до',
-														value: 'repeatDate',
-														style: radioStyle,
-													},
-													{
-														label: 'После',
-														value: 'repeatCount',
-														style: radioStyle,
-													},
-												],
-											},
-										},
-									],
-								},
-								{
-									componentType: 'Col',
-									style: {marginTop: '68px'},
-									span: 12,
-									children: [
-										{
-											componentType: 'Item',
-											name: 'finishRepeatDate',
-											label: 'Выберите дату',
-											...footerInputLayout,
-											child: {
-												componentType: 'DatePicker',
-												subscribe: {
-													name: 'finishRepeatType',
-													path:
-														'rtd.detourSchedulesForm.finishRepeatType',
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														if (
-															value !==
-															'repeatDate'
-														)
-															setSubscribeProps({
-																disabled: true,
-															});
-														else
-															setSubscribeProps({
-																disabled: false,
-															});
-													},
-												},
-											},
-										},
-										{
-											componentType: 'Item',
-											name: 'finishRepeatCount',
-											label: 'Количество',
-											...footerInputLayout,
-											child: {
-												componentType: 'InputNumber',
-												subscribe: {
-													name: 'finishRepeatType',
-													path:
-														'rtd.detourSchedulesForm.finishRepeatType',
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														if (
-															value !==
-															'repeatCount'
-														)
-															setSubscribeProps({
-																disabled: true,
-															});
-														else
-															setSubscribeProps({
-																disabled: false,
-															});
-													},
-												},
-											},
-										},
-									],
-								},
-							],
-						},
-					],
-				},
-			],
-		},
-	];
-
-	// итоговый вариант
-
-	const rows = [
-		{
-			id: '1',
-			name: 'Никогда',
-		},
-		{
-			id: 2,
-			name: 'Ежедневно',
-		},
-		{
-			id: '3',
-			name: 'Ежемесячно',
-		},
-		{
-			id: '4',
-			name: 'Ежегодно',
-		},
-	];
-	const repeatTimeFields = [
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Повторение',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Item',
-			label: 'Повторение:',
-			name: 'repeatBy',
-			rules: [
-				{
-					message: 'Заполните вариант повторения',
-					required: true,
-				},
-			],
-			child: {
-				componentType: 'SingleSelect',
-				rowRender: 'name',
-				widthControl: 0,
-				widthPopup: 280,
-				rows: rows,
-				dispatchPath: 'detourSchedulesForm.selectRepeat.repeat',
-			},
-		},
-
-		...everydayFields,
-		// ...everyweekFields,
-		// ...everyyearFields,
-	];
-
+	//
 	const formConfig = {
 		name: 'DetoursConfiguratorDetourSchedulesForm',
 		labelCol: {span: 10},
 		wrapperCol: {span: 8},
 		loadInitData: loadData,
+		requestSaveForm: apiSaveByConfigName('saveDetourForm'),
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
-		onFinish: (values) => {
-			console.log('Values', values);
-		},
+		onFinish: (values) =>
+			history.push(paths.DETOURS_CONFIGURATOR_DETOURS.path),
 		header: [
 			{
 				componentType: 'Item',
@@ -742,15 +542,7 @@ export default function DetourSchedulesForm() {
 				},
 			},
 		],
-		body: [
-			...headFields,
-			...executorFields,
-			//экспериментальная версия
-			...(pageParams.id === 'new' ? repeatTimeFields : []),
-			//рабочая версия
-			// ...repeatTimeFields,
-			...footer,
-		],
+		body: [...headFields, ...executorFields, ...footer],
 		footer: [
 			{
 				componentType: 'Item',
@@ -781,244 +573,3 @@ export default function DetourSchedulesForm() {
 		</BasePage>
 	);
 }
-
-// //версия - Еженедельно
-// const everyweekFields = [
-// 					{
-// 						componentType: 'Item',
-// 						label: 'Интервал, месяцев',
-// 						name: 'monthCount',
-// 						rules: [
-// 							{
-// 								message: 'Заполните вариант интервала',
-// 								required: true,
-// 							},
-// 						],
-// 						child: {
-// 							componentType: 'InputNumber',
-// 							max: 12,
-// 						},
-// 					},
-
-// 	{
-// 		componentType: 'Row',
-// 		children: [
-// 			{
-// 				componentType: 'Col',
-// 				span: 12,
-// 				children: [
-// 					{
-// 						componentType: 'Item',
-// 						label: 'День выполнения',
-// 						name: 'dayCount',
-// 						rules: [
-// 							{
-// 								message: 'Заполните вариант дня',
-// 								required: true,
-// 							},
-// 						],
-// 						child: {
-// 							componentType: 'InputNumber',
-// 							max: 31,
-// 						},
-// 					},
-// 				],
-// 			},
-// 		],
-// 	},
-// 	{
-// 		componentType: 'Row',
-// 		gutter: [8, 8],
-// 		children: [
-// 			{
-// 				componentType: 'Col',
-// 				span: 4,
-// 				children: [
-// 					{
-// 						componentType: 'Item',
-// 						child: {
-// 							style: {
-// 								marginLeft: 100,
-// 							},
-// 							componentType: 'Divider',
-// 							// componentType: 'Text',// раскомментировать как заработает
-// 							label: 'Завершить повторение:',
-// 						},
-// 					},
-// 				],
-// 			},
-// 			// сюда надо поставить RadioGroup
-// 						{
-// 							componentType: 'Col',
-// 							span: 12,
-// 							children: [
-// 								{
-// 									componentType: 'Row',
-// 									className: 'mb-16',
-// 									children: [
-// 										{
-// 											componentType: 'Item',
-
-// 											child: {
-// 												componentType: 'Radio',
-// 												label: 'Никогда',
-// 											},
-// 										},
-// 									],
-// 								},
-// 								{
-// 									componentType: 'Row',
-// 									className: 'mb-16',
-// 									children: [
-// 										{
-// 											componentType: 'Item',
-// 											child: {
-// 												componentType: 'Radio',
-// 												label: 'Повторять до',
-// 												checked: !repeatTo,//странно
-// 												onChange: () => {
-// 													setRepeatTo((state) => !state);
-// 												},
-// 												style: {
-// 													marginTop: 10,
-// 												},
-// 											},
-// 										},
-// 										{
-// 											componentType: 'Item',
-// 											name: 'repeatDate',
-
-// 											label: 'Выберите дату',
-// 											child: {
-// 												componentType: 'DatePicker',
-
-// 												disabled: repeatTo,
-// 											},
-// 										},
-// 									],
-// 								},
-// 							]
-// 						}
-// 		],
-// 	},
-// ];
-
-// // версия Ежегодно
-// const everyyearFields = [
-// 					{
-// 						componentType: 'Item',
-// 						label: 'Интервал',
-// 						name: 'monthCount',
-// 						rules: [
-// 							{
-// 								message: 'Заполните вариант интервала',
-// 								required: true,
-// 							},
-// 						],
-// 						child: {
-// 							componentType: 'InputNumber',
-// 						},
-// 					},
-
-// 	{
-// 		componentType: 'Row',
-// 		children: [
-// 			{
-// 				componentType: 'Col',
-// 				span: 12,
-// 				children: [
-// 					{
-// 						componentType: 'Item',
-// 						label: 'Дата выполнения',
-// 						name: 'dayCount',
-// 						rules: [
-// 							{
-// 								message: 'Заполните вариант дата',
-// 								required: true,
-// 							},
-// 						],
-// 						child: {
-// 							componentType: 'DatePicker',
-// 							// picker: 'date',
-// 						},
-// 					},
-// 				],
-// 			},
-// 		],
-// 	},
-// 		{
-// 			componentType: 'Row',
-// 			gutter: [8, 8],
-// 			children: [
-// 				{
-// 					componentType: 'Col',
-// 					span: 4,
-// 					children: [
-// 						{
-// 							componentType: 'Item',
-// 							child: {
-// 								style: {
-// 									marginLeft: 100,
-// 								},
-// 								componentType: 'Divider',
-// 								// componentType: 'Text',// раскомментировать как заработает
-// 								label: 'Завершить повторение:',
-// 							},
-// 						},
-// 					],
-// 				},
-// 				// сюда надо поставить RadioGroup
-// 							{
-// 								componentType: 'Col',
-// 								span: 12,
-// 								children: [
-// 									{
-// 										componentType: 'Row',
-// 										className: 'mb-16',
-// 										children: [
-// 											{
-// 												componentType: 'Item',
-
-// 												child: {
-// 													componentType: 'Radio',
-// 													label: 'Никогда',
-// 												},
-// 											},
-// 										],
-// 									},
-// 									{
-// 										componentType: 'Row',
-// 										className: 'mb-16',
-// 										children: [
-// 											{
-// 												componentType: 'Item',
-// 												child: {
-// 													componentType: 'Radio',
-// 													label: 'Повторять до',
-// 													checked: !repeatTo,//странно
-// 													onChange: () => {
-// 														setRepeatTo((state) => !state);
-// 													},
-// 													style: {
-// 														marginTop: 10,
-// 													},
-// 												},
-// 											},
-// 											{
-// 												componentType: 'Item',
-// 												name: 'repeatDate',
-
-// 												label: 'Выберите дату',
-// 												child: {
-// 													componentType: 'DatePicker',
-
-// 													disabled: repeatTo,
-// 												},
-// 											},
-// 										],
-// 									},
-// 								]
-// 							}
-// 			],
-// 		},
-// ];
