@@ -47,7 +47,7 @@ export default function Detours() {
 			title: 'Период',
 			nameStart: 'dateBegin',
 			nameEnd: 'dateEnd',
-			dateFormat: 'DD-MM-YYYY',
+			dateFormat: 'DD-MM-YYYY HH:mm:ss',
 			className: 'mr-16',
 		},
 	];
