@@ -22,6 +22,10 @@ import {checkBox, code, dateTime} from '../Base/customColumnProps';
 import {ReactComponent as SendToSap} from '../../imgs/defects/send-to-sap-btn.svg';
 import {ReactComponent as CloseWithNote} from '../../imgs/defects/close-with-note-btn.svg';
 import {ReactComponent as SendToPanel} from '../../imgs/defects/send-to-panel-btn.svg';
+import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
+import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
+import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
+import {ReactComponent as Four} from '../../imgs/defects/priority/four.svg';
 
 export default function Defects() {
 	const history = useHistory();
@@ -30,38 +34,37 @@ export default function Defects() {
 
 	const statusesConfig = [
 		{
-			value: 1,
-			color: 'white',
-			backgroundColor: '#FF4040',
-			code: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
+			priorityId: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
+			priorityIcon: <One />,
+			statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+			statusProcessIcon: <ThunderboltOutlined />,
+			statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+			color: '#FF4040',
 		},
 		{
-			value: 2,
-			color: 'white',
-			backgroundColor: '#F2C94C',
-			code: '985949ba-558f-4c14-836d-a609bcfa1ed7',
+			priorityId: '985949ba-558f-4c14-836d-a609bcfa1ed7',
+			priorityIcon: <Two />,
+			statusProcessId: '879f0adf-0d96-449e-bcee-800f81c4e58d',
+			statusProcessIcon: <SettingOutlined />,
+			statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+			color: '#F2C94C',
 		},
 		{
-			value: 3,
-			color: 'white',
-			backgroundColor: '#9DCE5B',
-			code: '10eb0af7-4551-44f2-9ef6-d038d7875d06',
+			priorityId: '10eb0af7-4551-44f2-9ef6-d038d7875d06',
+			priorityIcon: <Three />,
+			statusProcessId: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+			statusProcessIcon: <CheckOutlined />,
+			statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+			color: '#9DCE5B',
 		},
 		{
-			value: 4,
-			color: 'white',
-			backgroundColor: '#98B8E3',
-			code: '1f06e13f-b300-4d9e-93db-0e54e2370d5c',
+			priorityId: '1f06e13f-b300-4d9e-93db-0e54e2370d5c',
+			priorityIcon: <Four />,
+			statusProcessId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
+			statusProcessIcon: <MailOutlined />,
+			statusPanelId: 'e07a6417-840e-4743-a4f0-45da65707432', // сюда вставить ID четвертого статуса, как он появится
+			color: '#98B8E3',
 		},
-	];
-	const statusProcessId = [
-		{
-			id: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-			icon: <ThunderboltOutlined />,
-		},
-		{id: '879f0adf-0d96-449e-bcee-800f81c4e58d', icon: <SettingOutlined />},
-		{id: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0', icon: <CheckOutlined />},
-		{id: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa', icon: <MailOutlined />},
 	];
 
 	const processBeforeSaveForm = (rawValues) => {
@@ -92,17 +95,20 @@ export default function Defects() {
 					size={'small'}
 					disabled
 				>
-					{statusProcessId &&
-						statusProcessId.map((el) => (
-							<Radio.Button key={el.id} value={el.id}>
-								{el.icon}
+					{statusesConfig &&
+						statusesConfig.map((el) => (
+							<Radio.Button
+								key={el.statusProcessId}
+								value={el.statusProcessId}
+							>
+								{el.statusProcessIcon}
 							</Radio.Button>
 						))}
 				</Radio.Group>
 			),
 		},
 		{
-			name: 'priorityPanelId',
+			name: 'priorityPanelIdCode',
 			cellRenderer: ({cellData}) => (
 				<Rate
 					defaultValue={cellData}
@@ -120,14 +126,14 @@ export default function Defects() {
 			name: 'statusPanelId',
 			cellRenderer: ({cellData}) => {
 				let statusIndicator = statusesConfig.find(
-					(el) => el.value === Number(cellData)
+					(el) => el.statusPanelId === cellData
 				);
 				return statusIndicator ? (
 					<div
 						style={{
 							width: 10,
 							height: 10,
-							background: `${statusIndicator.backgroundColor}`,
+							background: `${statusIndicator.color}`,
 							borderRadius: '50%',
 						}}
 					></div>
@@ -194,26 +200,24 @@ export default function Defects() {
 									Приоритет
 								</div>
 								<Radio.Group
-									onChange={(e) =>
-										onChange('code', e.target.value)
-									}
-									// defaultValue={defaultValue}
+									onChange={(e) => {
+										console.log(e.target.value);
+										onChange('code', e.target.value);
+									}}
 									value={value}
-									size={'small'} //medium
+									size={'small'}
 								>
 									{statusesConfig &&
 										statusesConfig.map((el) => (
 											<Radio.Button
-												key={el.code}
-												value={el.code}
+												key={el.priorityId}
+												value={el.priorityId}
 												style={{
-													color: el.color,
-													backgroundColor:
-														el.backgroundColor,
-													margin: 3,
+													margin: 2,
+													paddingTop: 2,
 												}}
 											>
-												{el.value}
+												{el.priorityIcon}
 											</Radio.Button>
 										))}
 								</Radio.Group>
