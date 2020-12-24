@@ -13,6 +13,7 @@ import {
 	EyeInvisibleOutlined,
 	TableOutlined,
 } from '@ant-design/icons';
+import {paths} from '../../constants/paths';
 
 export default function Detours() {
 	let history = useHistory();
@@ -93,8 +94,10 @@ export default function Detours() {
 				componentType: 'Button',
 				icon: <CalendarOutlined />,
 				className: 'mr-8',
-				disabled: true,
-				onClick: () => console.log('Calendar View'),
+				onClick: () =>
+					history.push(
+						paths.DETOURS_CONFIGURATOR_DETOURS_CALENDAR.path
+					),
 			},
 		},
 		{
