@@ -1,11 +1,14 @@
-import {ControlOutlined} from '@ant-design/icons';
+import {CalendarOutlined, ControlOutlined} from '@ant-design/icons';
 import {BasePage} from 'mobile-inspections-base-ui';
 import React, {useState} from 'react';
+import {useHistory} from 'react-router';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
+import {paths} from '../../constants/paths';
+import {checkBox, code, date} from '../Base/customColumnProps';
 
 export default function DetoursSchedules() {
 	const [hidden, setHidden] = useState({
@@ -14,6 +17,13 @@ export default function DetoursSchedules() {
 		year: true,
 		radio: true,
 	});
+	const history = useHistory();
+
+	const customColumnProps = [
+		{...code},
+		{...date('dateStartPlan')},
+		{...checkBox('saveOrderControlPoints')},
+	];
 
 	const configFilterPanel = [
 		{
@@ -217,7 +227,6 @@ export default function DetoursSchedules() {
 				componentType: 'InputNumber',
 			},
 		},
-		// ...radioGroupFields,
 	];
 
 	const everyMonthFields = [
@@ -245,7 +254,6 @@ export default function DetoursSchedules() {
 				},
 			],
 		},
-		// ...radioGroupFields,
 	];
 	const everyYearFields = [
 		{
@@ -271,7 +279,6 @@ export default function DetoursSchedules() {
 				},
 			],
 		},
-		// ...radioGroupFields,
 	];
 
 	const detoursSchedulesFields = [
@@ -369,6 +376,19 @@ export default function DetoursSchedules() {
 				},
 			},
 		},
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Button',
+				type: 'default',
+				icon: <CalendarOutlined />,
+				className: 'ml-8',
+				onClick: () =>
+					history.push(
+						paths.DETOURS_CONFIGURATOR_DETOURS_CALENDAR.path
+					),
+			},
+		},
 	];
 	const formConfig = {
 		noPadding: true,
@@ -387,17 +407,47 @@ export default function DetoursSchedules() {
 						child: {
 							componentType: 'ServerTable',
 							selectable: true,
-							fixWidthColumn: true,
+							// fixWidthColumn: true,
+							customColumnProps: customColumnProps,
 							commandPanelProps: {
 								leftCustomSideElement: [...buttonRepeat],
 							},
 							filterPanelProps: {
 								configFilter: [...configFilterPanel],
 							},
+							dispatchPath:
+								'detourSchedules.mainTable.detoursSchedules',
 							requestLoadRows: apiGetFlatDataByConfigName(
 								'detours'
 							),
 							requestLoadConfig: apiGetConfigByName('detours'),
+							footerProps: {
+								rightCustomSideElement: [
+									{
+										componentType: 'Item',
+										name: 'tableCount',
+										child: {
+											componentType: 'Text',
+											subscribe: {
+												name:
+													'tableCountDetourSchedules',
+												path:
+													'rtd.detourSchedules.mainTable.detoursSchedules',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													value &&
+														value.selected &&
+														setSubscribeProps({
+															label: `Выделено: ${value.selected.length} Всего: ${value.rows.length}`,
+														});
+												},
+											},
+										},
+									},
+								],
+							},
 						},
 					},
 				],

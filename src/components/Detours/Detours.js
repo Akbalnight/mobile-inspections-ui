@@ -1,6 +1,6 @@
 import {BasePage} from 'mobile-inspections-base-ui';
-import React from 'react';
-import {Form} from 'rt-design';
+import React, {useEffect, useState} from 'react';
+import {Form, notificationError} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -8,16 +8,31 @@ import {
 import {detourViewModal} from './Modals/detourViewModal';
 import {useHistory} from 'react-router';
 import {checkBox, code, date} from '../Base/customColumnProps';
+import moment from 'moment';
 import {
 	CalendarOutlined,
-	EyeInvisibleOutlined,
+	PlusCircleOutlined,
 	TableOutlined,
 } from '@ant-design/icons';
-import {paths} from '../../constants/paths';
+import {Calendar, Popover, Checkbox} from 'antd';
 
 export default function Detours() {
+	const [calendarValues, setCalendarValues] = useState([]);
+	const [pageView, setPageView] = useState(true);
 	let history = useHistory();
 
+	useEffect(() => {
+		apiGetFlatDataByConfigName('detours')({
+			data: {},
+			params: {},
+		})
+			.then((response) => {
+				return setCalendarValues(response.data);
+			})
+			.catch((error) =>
+				notificationError(error, 'Ошибка загрузки данных формы')
+			);
+	}, []);
 	const configFilterPanel = [
 		{
 			componentType: 'SingleSelect',
@@ -59,6 +74,65 @@ export default function Detours() {
 		{...checkBox('saveOrderControlPoints')},
 	];
 
+	function dateCellRender(value) {
+		const listData = calendarValues;
+		return (
+			<>
+				{listData &&
+					listData.map((item) => {
+						const content = (
+							<div key={item.id} className='detours'>
+								<div>Название: {item.name}</div>
+								<div>Маршрут: {item.routeName}</div>
+								<div>Иcпольнитель: {item.staffName}</div>
+								<div>
+									Учитывать порядок:
+									<Checkbox
+										checked={item.saveOrderControlPoints}
+										disabled
+									></Checkbox>
+								</div>
+								<div>
+									Начало:
+									{moment(item.dateStartPlan).format(
+										'DD MMM YY HH:mm:ss'
+									)}
+								</div>
+								<div>
+									Окончание:
+									{moment(item.dateFinishPlan).format(
+										'DD MMM YY HH:mm:ss'
+									)}
+								</div>
+							</div>
+						);
+						if (
+							String(value._d).slice(0, 15) ===
+							String(moment(item.dateStartPlan)._d).slice(0, 15)
+						) {
+							// console.log(1);// тут проблема
+							return (
+								<Popover
+									title={value.format('DD MMMM YY')}
+									trigger={'hover'}
+									content={content}
+								>
+									<div
+										key={item.id}
+										className='detours-short'
+									>
+										{item.name}
+									</div>
+								</Popover>
+							);
+						} else {
+							return <div className={'special-hidden'}></div>;
+						}
+					})}
+			</>
+		);
+	}
+
 	const routesToDateFields = [
 		{
 			componentType: 'Layout',
@@ -89,121 +163,130 @@ export default function Detours() {
 
 	const buttonChangeView = [
 		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Button',
-				icon: <CalendarOutlined />,
-				className: 'mr-8',
-				onClick: () =>
-					history.push(
-						paths.DETOURS_CONFIGURATOR_DETOURS_CALENDAR.path
-					),
-			},
-		},
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Button',
-				icon: <TableOutlined />,
-				className: 'mr-8',
-				disabled: true,
-				onClick: () => console.log('Table View'),
-			},
-		},
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Modal',
-				buttonProps: {
-					icon: <EyeInvisibleOutlined />,
-					className: 'mr-8',
+			componentType: 'Row',
+			children: [
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'Button',
+						icon: <TableOutlined />,
+						className: 'mr-8',
+						disabled: pageView,
+						onClick: () => setPageView((state) => !state),
+					},
 				},
-				modalConfig: {
-					type: `addOnServer`,
-					title: `Актуальная дата из календаря`, //${Date(Date.now()).toString()}
-					width: 760,
-					bodyStyle: {
-						height: 478,
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'Button',
+						icon: <CalendarOutlined />,
+						className: 'mr-8',
+						disabled: !pageView,
+						onClick: () => setPageView((state) => !state),
 					},
-					form: {
-						name: 'detourAddForm',
-						loadInitData: (callBack, row) => callBack(null),
-						body: [...routesToDateFields],
+				},
+			],
+		},
+	];
+	const tableFormFields = [
+		{
+			componentType: 'Layout',
+			children: [
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'ServerTable',
+						history,
+						selectable: true,
+						fixWidthColumn: true,
+						customColumnProps: customColumnProps,
+						commandPanelProps: {
+							systemBtnProps: {
+								add: {actionType: 'page'},
+								edit: {actionType: ['page', 'modal']},
+								delete: {},
+							},
+						},
+						filterPanelProps: {
+							configFilter: [...configFilterPanel],
+						},
+						dispatchPath: 'detourSchedules.mainTable.detours',
+						requestLoadRows: apiGetFlatDataByConfigName('detours'),
+						requestLoadConfig: apiGetConfigByName('detours'),
+						modals: [detourViewModal()],
 					},
+				},
+			],
+		},
+	];
+
+	const calendarFields = [
+		{
+			componentType: 'Row',
+			className: 'calendar-title',
+			children: [
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'Title',
+						label: 'Календарь обходов',
+						level: 5,
+					},
+				},
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'Modal',
+						buttonProps: {
+							icon: <PlusCircleOutlined />,
+							className: 'mr-8',
+							type: 'default',
+							label: 'Добавить обход',
+							// size: 'small',
+						},
+						modalConfig: {
+							type: `addOnServer`,
+							title: `Актуальная дата из календаря`,
+							width: 760,
+							bodyStyle: {
+								height: 478,
+							},
+							form: {
+								name: 'detourAddForm',
+								loadInitData: (callBack, row) => callBack(null),
+								body: [...routesToDateFields],
+							},
+						},
+					},
+				},
+			],
+		},
+
+		{
+			componentType: 'Item',
+			name: 'calendarDetours',
+			child: {
+				componentType: 'Custom',
+				render: ({onChange, defaultValue, value}) => {
+					return (
+						<Calendar
+							headerRender={() => null}
+							dateCellRender={dateCellRender}
+						/>
+					);
 				},
 			},
 		},
 	];
 
 	const formConfig = {
-		noPadding: true,
+		noPadding: pageView,
 		name: 'DetourSchedulesForm',
 		onFinish: (values) => {
 			console.log('Values', values);
 		},
-
-		body: [
-			{
-				componentType: 'Layout',
-				children: [
-					{
-						componentType: 'Item',
-						child: {
-							componentType: 'ServerTable',
-							history,
-							selectable: true,
-							fixWidthColumn: true,
-							customColumnProps: customColumnProps,
-							commandPanelProps: {
-								systemBtnProps: {
-									add: {actionType: 'page'},
-									edit: {actionType: ['page', 'modal']},
-									delete: {},
-								},
-								rightCustomSideElement: [...buttonChangeView],
-							},
-							filterPanelProps: {
-								configFilter: [...configFilterPanel],
-							},
-							dispatchPath: 'detourSchedules.mainTable.detours',
-							requestLoadRows: apiGetFlatDataByConfigName(
-								'detours'
-							),
-							requestLoadConfig: apiGetConfigByName('detours'),
-
-							modals: [detourViewModal()],
-							footerProps: {
-								rightCustomSideElement: [
-									{
-										componentType: 'Item',
-										name: 'tableCount',
-										child: {
-											componentType: 'Text',
-											subscribe: {
-												name:
-													'tableCountDetourSchedules',
-												path:
-													'rtd.detourSchedules.mainTable.detours',
-												onChange: ({
-													value,
-													setSubscribeProps,
-												}) => {
-													value &&
-														value.selected &&
-														setSubscribeProps({
-															label: `Выделено: ${value.selected.length} Всего: ${value.rows.length}`,
-														});
-												},
-											},
-										},
-									},
-								],
-							},
-						},
-					},
-				],
-			},
-		],
+		body: [...(pageView ? tableFormFields : calendarFields)],
+		footer: [...buttonChangeView],
 	};
 
 	return (

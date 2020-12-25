@@ -107,7 +107,8 @@ export default function DetoursCalendar() {
 						type: 'link',
 						onClick: () =>
 							history.push(
-								paths.DETOURS_CONFIGURATOR_DETOURS.path
+								paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES
+									.path
 							),
 					},
 				},

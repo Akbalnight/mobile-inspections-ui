@@ -34,6 +34,7 @@ export default function DetoursForm() {
 				);
 		}
 	};
+
 	const configFilterPanel = [
 		{
 			componentType: 'SingleSelect',
