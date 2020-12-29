@@ -1,197 +1,205 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form, notificationError} from 'rt-design';
+import {Form} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
-import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
+
 import {defectDetection} from '../Base/Block/DefectDetection';
+import {
+	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
+} from '../../apis/catalog.api';
 /**
- * этот компонент необязателен он представлен для вариативности с модальными окнами
- * если в дальнейшем представится выборpage or modal. У нас есть оба рабочих решения
- * modal defectRdit.js
- * page  в этом файле
+ * этот компонент необязателен он представлен для вариативности
  */
 export default function DefectsForm() {
-	const pageParams = useParams();
 	const history = useHistory();
+	const pageParams = useParams();
 
-	const loadData = (callBack) => {
+	const loadData = (callBack, row) => {
 		if (pageParams.id === 'new') {
-			callBack({
-				name: null,
-				duration: null,
-			});
-		} else {
-			apiGetFlatDataByConfigName('defects')({
-				data: {id: pageParams.id},
-			})
-				.then((response) => {
-					// console.log('loadData => response ', response.data);
-					callBack(response.data[0]);
-				})
-				.catch((error) =>
-					notificationError(error, 'Ошибка загрузки данных формы')
-				);
+			console.log('new');
 		}
+		callBack(null);
 	};
 
 	const defectDetectionField = [
 		{
-			componentType: 'Row',
-			children: [
-				{
-					componentType: 'Col',
-					span: 24,
-					children: [
-						{
-							componentType: 'Item',
-							name: 'id',
-							label: '№ в журнале',
-							className: 'mb-8',
-							child: {
-								componentType: 'Text',
-							},
-						},
-					],
-				},
-			],
+			componentType: 'Item',
+			child: {
+				componentType: 'Title',
+				label: 'Информация о дефекте',
+				level: 5,
+			},
 		},
 		{...defectDetection},
 	];
 
-	const defectSapFields = [
+	const defectEliminationInfo = [
 		{
-			componentType: 'Layout',
-			style: {
-				marginTop: -70, // костыль, это решение неверное
+			componentType: 'Item',
+			child: {
+				componentType: 'Title',
+				label: 'Устранение дефекта',
+				level: 5,
 			},
+		},
+
+		{
+			componentType: 'Col',
 			children: [
 				{
 					componentType: 'Item',
+					label: 'Ответственный',
+					name: 'staffEliminationId',
+					className: 'mb-8',
+					rules: [
+						{
+							required: true,
+							message: 'Заполните оборудование',
+						},
+					],
 					child: {
-						componentType: 'Title',
-						label: 'Данные из SAP',
-						level: 5,
+						componentType: 'SingleSelect',
+						widthControl: 0,
+						rowRender: 'username',
+						requestLoadRows: apiGetFlatDataByConfigName('staff'),
+						requestLoadDefault: apiGetFlatDataByConfigName('staff'),
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Статус обработки',
+					name: 'statusProcessId',
+					className: 'mb-8',
+					rules: [
+						{
+							required: true,
+							message: 'Заполните оборудование',
+						},
+					],
+					child: {
+						componentType: 'SingleSelect',
+						widthControl: 0,
+						rowRender: 'name',
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'defectStatusesProcess'
+						),
+						requestLoadDefault: apiGetFlatDataByConfigName(
+							'defectStatusesProcess'
+						),
 					},
 				},
 
 				{
-					componentType: 'Col',
-					children: [
+					componentType: 'Item',
+					label: 'Приоритет панели проблем',
+					name: 'priorityPanelId',
+					className: 'mb-8',
+					rules: [
 						{
-							componentType: 'Item',
-							label: '№ из SAP',
-							name: 'sapMessageId',
-							className: 'mb-8',
-							child: {
-								componentType: 'Text', // 'Text' ведь номер в сап может и не будет меняться
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'План действий',
-							name: 'actionCorrect', // найминг тут неверный
-							className: 'mb-8',
-							child: {
-								componentType: 'TextArea',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Что происходит',
-							name: 'whatsUp', // найминг тут неверный
-							className: 'mb-8',
-							child: {
-								componentType: 'Input',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Статус из SAP',
-							name: 'statusSAP', // найминг тут неверный
-							className: 'mb-8',
-							child: {
-								componentType: 'Input',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Дата начала устранения',
-							name: 'dateEliminationPlan',
-							className: 'mb-8',
-							child: {
-								componentType: 'DatePicker',
-								showTime: true,
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Дата окончания устранения',
-							name: 'dateEliminationFact',
-							className: 'mb-8',
-							child: {
-								componentType: 'DatePicker',
-								showTime: true,
-							},
+							required: true,
+							message: 'Заполните оборудование',
 						},
 					],
+					child: {
+						componentType: 'SingleSelect',
+						widthControl: 0,
+						rowRender: 'name',
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'panelProblemsPriorities'
+						),
+						requestLoadDefault: apiGetFlatDataByConfigName(
+							'panelProblemsPriorities'
+						),
+					},
 				},
-			],
-		},
-	];
-
-	const exampleTableFields = [
-		{
-			componentType: 'Row',
-			className: 'mr-0',
-			children: [
 				{
-					componentType: 'Col',
-					children: [
+					componentType: 'Item',
+					name: 'viewOnPanel',
+					label: 'Показать в панели проблем',
+					className: 'mb-0',
+					valuePropName: 'checked',
+					child: {
+						componentType: 'Checkbox',
+					},
+				},
+
+				{
+					componentType: 'Item',
+					label: 'План действий',
+					name: 'actionPlan',
+					className: 'mb-8',
+					rules: [
 						{
-							componentType: 'Item',
-							label: 'Приоритет',
-							name: 'priorityField',
-							child: {
-								componentType: 'RadioGroup',
-								optionType: 'button',
-								size: 'small',
-								options: [
-									{
-										label: '1',
-										value: '1',
-										style: {
-											color: 'white',
-											backgroundColor: '#FF4040',
-										},
-									},
-									{
-										label: '2',
-										value: '2',
-										style: {
-											color: 'white',
-											backgroundColor: '#F2C94C',
-										},
-									},
-									{
-										label: '3',
-										value: '3',
-										style: {
-											color: 'white',
-											backgroundColor: '#9DCE5B',
-										},
-									},
-									{
-										label: '4',
-										value: '4',
-										style: {
-											color: 'white',
-											backgroundColor: '#98B8E3',
-										},
-									},
-								],
-							},
+							required: true,
+							message: 'Заполните оборудование',
 						},
 					],
+					child: {
+						componentType: 'TextArea',
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Дата начала устранения',
+					name: 'dateEliminationPlan',
+					className: 'mb-8',
+					rules: [
+						{
+							required: true,
+							message: 'Заполните оборудование',
+						},
+					],
+					child: {
+						componentType: 'DatePicker',
+						showTime: true,
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Дата окончания устранения',
+					name: 'dateEliminationFact',
+					className: 'mb-8',
+					rules: [
+						{
+							required: true,
+							message: 'Заполните оборудование',
+						},
+					],
+					child: {
+						componentType: 'DatePicker',
+						showTime: true,
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Стадия устранения',
+					name: 'actionDescription',
+					className: 'mb-8',
+					rules: [
+						{
+							required: true,
+							message: 'Заполните оборудование',
+						},
+					],
+					child: {
+						componentType: 'Input',
+					},
+				},
+				{
+					componentType: 'Item',
+					label: 'Примечание',
+					name: 'note',
+					className: 'mb-8',
+					rules: [
+						{
+							required: true,
+							message: 'Заполните оборудование',
+						},
+					],
+					child: {
+						componentType: 'TextArea',
+					},
 				},
 			],
 		},
@@ -201,10 +209,10 @@ export default function DefectsForm() {
 		noPadding: false,
 		name: 'DefectEditForm',
 		labelCol: {span: 8},
-		wrapperCol: {span: 10},
+		wrapperCol: {span: 8},
 		loadInitData: loadData,
-		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
-		// надо указать метот сохранения дефекта
+		methodSaveForm: 'POST',
+		requestSaveForm: apiSaveByConfigName('saveNewDefect'),
 		onFinish: (values) => {
 			console.log('Values', values);
 		},
@@ -215,17 +223,11 @@ export default function DefectsForm() {
 					componentType: 'Title',
 					className: 'mb-0',
 					level: 3,
-					label: `
-						${pageParams.id === 'new' ? 'Создание' : 'Редактирование'}
-							  дефекта`,
+					label: 'Создание дефекта',
 				},
 			},
 		],
-		body: [
-			...defectDetectionField,
-			...defectSapFields,
-			...exampleTableFields,
-		],
+		body: [...defectDetectionField, ...defectEliminationInfo],
 		footer: [
 			{
 				componentType: 'Item',

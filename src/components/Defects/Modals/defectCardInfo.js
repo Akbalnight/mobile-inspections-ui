@@ -1,6 +1,6 @@
 import {
 	apiGetConfigByName,
-	apiGetHierarchicalDataByConfigName,
+	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 
 export const defectCardInfoModal = (history) => {
@@ -9,39 +9,6 @@ export const defectCardInfoModal = (history) => {
 		// Row = row;
 		callBack(row);
 	};
-	//вариант возможный для использования
-	/**
-	 * Почему представил вариант который ниже.
-	 * Мы открваем карточку дефекта и имеем сразу номер и стату, в случае необходимости кнопку реадктирвать
-	 * второстепенная иснформация , а так же разного рода таблицы прячем в Tabs. Единственное при переключении у меня не коректное отображение. но это настраивается.
-	 *
-	 * в случае если оставляем как в макете фигма.
-	 * У нас в футер падает кнопка редактировать (логика та же что и в первом варинте), но тогда придется для кнопеи закрыть в футере писать логику вручную
-	 *
-	 * history нужен только для кнопки редактировать. Чтобы отправить нас в последующее редактирование
-	 */
-	const defectInfoField = [
-		// {
-		// 	componentType: 'Col',
-		// 	children: [
-		// 		{
-		// 			componentType: 'Item',
-		// 			label: '№ в Журнале Дефектов',
-		// 			name: 'code',
-		// 			className: 'mb-0',
-		// 			child: {componentType: 'Text'},
-		//
-		// 		},
-		// 		{
-		// 			componentType: 'Item',
-		// 			label: 'Статус',
-		// 			name: 'statusProcessId',
-		// 			className: 'mb-0',
-		// 			child: {componentType: 'Text'},
-		// 		},
-		// 	],
-		// },
-	];
 
 	const infoTabFields = [
 		{
@@ -62,9 +29,11 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Статус',
-							name: 'statusProcessId',
+							name: 'statusProcessName',
 							className: 'mb-0',
-							child: {componentType: 'Text'},
+							child: {
+								componentType: 'Text',
+							},
 						},
 					],
 				},
@@ -104,7 +73,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Обнаружил',
-							name: 'staffDetectId',
+							name: 'staffDetectName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -172,36 +141,27 @@ export const defectCardInfoModal = (history) => {
 		},
 	];
 
-	const exampleTableFields = [
+	const fileManagerFields = [
 		{
 			componentType: 'Layout',
 			children: [
 				{
 					componentType: 'Item',
+					name: 'note',
 					child: {
 						componentType: 'Title',
-						label: 'Тут будет компонент с медиа',
 						level: 5,
 					},
 				},
 				{
 					componentType: 'Item',
 					child: {
-						componentType: 'LocalTable',
-						commandPanelProps: {
-							systemBtnProps: {
-								add: {actionType: 'page'},
-								edit: {actionType: ['page', 'modal']},
-								up: {},
-								down: {},
-								delete: {},
-							},
-						},
-
-						requestLoadRows: apiGetHierarchicalDataByConfigName(
-							'controlPoints'
-						),
-						requestLoadConfig: apiGetConfigByName('controlPoints'),
+						componentType: 'FileManager',
+						rowKey: 'id',
+						isGroupKey: 'isGroup',
+						expandParentKey: 'parentId',
+						requestLoadRows: apiGetFlatDataByConfigName('defects'),
+						requestLoadConfig: apiGetConfigByName('defects'),
 					},
 				},
 			],
@@ -225,7 +185,7 @@ export const defectCardInfoModal = (history) => {
 					componentType: 'TabPane',
 					tab: 'Вложения',
 					key: 'filesTab',
-					children: [...exampleTableFields],
+					children: [...fileManagerFields],
 				},
 				{
 					componentType: 'TabPane',
@@ -270,7 +230,7 @@ export const defectCardInfoModal = (history) => {
 			labelCol: {span: 8},
 			wrapperCol: {span: 16},
 			loadInitData: loadData,
-			body: [...defectInfoField, ...tabsField],
+			body: [...tabsField],
 		},
 	};
 };

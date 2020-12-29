@@ -11,6 +11,12 @@ export const defectDetection = {
 			label: 'Дата обнаружения',
 			name: 'dateDetectDefect',
 			className: 'mb-8',
+			rules: [
+				{
+					required: true,
+					message: 'Заполните дату обнаружения',
+				},
+			],
 			child: {
 				componentType: 'DatePicker',
 				showTime: true,
@@ -36,6 +42,12 @@ export const defectDetection = {
 			label: 'Оборудование',
 			name: 'equipmentId',
 			className: 'mb-8',
+			rules: [
+				{
+					required: true,
+					message: 'Заполните оборудование',
+				},
+			],
 			child: {
 				componentType: 'SingleSelect',
 				widthControl: 0,
@@ -52,17 +64,20 @@ export const defectDetection = {
 		{
 			componentType: 'Item',
 			label: 'Обнаружил',
-			name: 'staffDetectName',
+			name: 'staffDetectId',
 			className: 'mb-8',
 			rules: [
 				{
-					// required: true,
+					required: true,
 					message: 'Заполните сотрудника',
-					pattern: /[a-zA-Z\s]+|[а-яА-Я\s]+/g,
 				},
 			],
 			child: {
-				componentType: 'Input',
+				componentType: 'SingleSelect',
+				widthControl: 0,
+				rowRender: 'positionName',
+				requestLoadRows: apiGetFlatDataByConfigName('staff'),
+				requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 			},
 		},
 		{
@@ -70,6 +85,12 @@ export const defectDetection = {
 			label: 'Описание',
 			name: 'description',
 			className: 'mb-8',
+			rules: [
+				{
+					required: true,
+					message: 'Заполните описание',
+				},
+			],
 			child: {
 				componentType: 'TextArea',
 			},
@@ -78,7 +99,12 @@ export const defectDetection = {
 			componentType: 'Item',
 			label: 'Причина возникновения',
 			name: 'descriptionCauses',
-
+			rules: [
+				{
+					required: true,
+					message: 'Заполните описание',
+				},
+			],
 			child: {
 				componentType: 'Input',
 			},
