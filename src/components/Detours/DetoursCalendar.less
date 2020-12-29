@@ -1,28 +1,32 @@
 tr > th {
-	background-color: #39839d;
+	// background-color: #39839d;
+	background-color: rgba(211, 211, 211, 0.479);
 }
 
-.detours {
-	color: black;
-}
-.detours-short {
-	background-color: #f0efeb;
-}
-
-.ant-popover-inner {
-	background-color: white;
-}
-
-.ant-popover-title {
-	background-color: #39839d;
+.calendar-title {
+	display: flex;
+	justify-content: space-between;
 }
 
 .special-hidden {
 	visibility: hidden;
 }
 
-.calendar-title {
-	display: flex;
-	justify-content: space-between;
+.calendar-popover-hover {
+	.ant-popover-title {
+		background-color: #39839d;
+		color: white;
+	}
+
+	.ant-popover-inner-content {
+		background-color: white;
+		color: grey;
+	}
+}
+
+.calendar-detours {
 	
+	.detours-short{
+		background-color: rgba(211, 211, 211, 0.479);
+	}
 }

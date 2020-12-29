@@ -15,6 +15,7 @@ import {
 	TableOutlined,
 } from '@ant-design/icons';
 import {Calendar, Popover, Checkbox} from 'antd';
+import {calendarPrefix} from '../../utils/baseUtils';
 
 export default function Detours() {
 	const [calendarValues, setCalendarValues] = useState([]);
@@ -81,7 +82,7 @@ export default function Detours() {
 				{listData &&
 					listData.map((item) => {
 						const content = (
-							<div key={item.id} className='detours'>
+							<div key={item.id} className='calendar'>
 								<div>Название: {item.name}</div>
 								<div>Маршрут: {item.routeName}</div>
 								<div>Иcпольнитель: {item.staffName}</div>
@@ -113,9 +114,10 @@ export default function Detours() {
 							// console.log(1);// тут проблема
 							return (
 								<Popover
-									title={value.format('DD MMMM YY')}
+									title={value.format('DD MMMM YYYY')}
 									trigger={'hover'}
 									content={content}
+									overlayClassName={`${calendarPrefix}-popover-hover`}
 								>
 									<div
 										key={item.id}
@@ -242,7 +244,6 @@ export default function Detours() {
 							className: 'mr-8',
 							type: 'default',
 							label: 'Добавить обход',
-							// size: 'small',
 						},
 						modalConfig: {
 							type: `addOnServer`,
@@ -272,6 +273,7 @@ export default function Detours() {
 						<Calendar
 							headerRender={() => null}
 							dateCellRender={dateCellRender}
+							className={'calendar-detours'}
 						/>
 					);
 				},
