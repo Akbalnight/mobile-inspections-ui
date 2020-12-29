@@ -10,40 +10,60 @@ import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
 import {editDefectCard} from './Modals/defectEdit';
 import {paths} from '../../constants/paths';
-import {Radio} from 'antd';
-import {MessageOutlined, RollbackOutlined} from '@ant-design/icons';
+import {Radio, Rate} from 'antd';
+import {
+	CheckOutlined,
+	MailOutlined,
+	SettingOutlined,
+	ThunderboltOutlined,
+} from '@ant-design/icons';
 import {defectDetection} from '../Base/Block/DefectDetection';
 import {checkBox, code, dateTime} from '../Base/customColumnProps';
+import {ReactComponent as SendToSap} from '../../imgs/defects/send-to-sap-btn.svg';
+import {ReactComponent as CloseWithNote} from '../../imgs/defects/close-with-note-btn.svg';
+import {ReactComponent as SendToPanel} from '../../imgs/defects/send-to-panel-btn.svg';
+import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
+import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
+import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
+import {ReactComponent as Four} from '../../imgs/defects/priority/four.svg';
 
 export default function Defects() {
 	const history = useHistory();
 	const [tableRef, setTableRef] = useState({});
 	const _setTableRef = (ref) => setTableRef(ref);
 
-	const radioButtonConfig = [
+	const statusesConfig = [
 		{
-			value: 1,
-			color: 'white',
-			backgroundColor: '#FF4040',
-			code: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
+			priorityId: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
+			priorityIcon: <One />,
+			statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+			statusProcessIcon: <ThunderboltOutlined />,
+			statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+			color: '#FF4040',
 		},
 		{
-			value: 2,
-			color: 'white',
-			backgroundColor: '#F2C94C',
-			code: '985949ba-558f-4c14-836d-a609bcfa1ed7',
+			priorityId: '985949ba-558f-4c14-836d-a609bcfa1ed7',
+			priorityIcon: <Two />,
+			statusProcessId: '879f0adf-0d96-449e-bcee-800f81c4e58d',
+			statusProcessIcon: <SettingOutlined />,
+			statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+			color: '#F2C94C',
 		},
 		{
-			value: 3,
-			color: 'white',
-			backgroundColor: '#9DCE5B',
-			code: '10eb0af7-4551-44f2-9ef6-d038d7875d06',
+			priorityId: '10eb0af7-4551-44f2-9ef6-d038d7875d06',
+			priorityIcon: <Three />,
+			statusProcessId: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+			statusProcessIcon: <CheckOutlined />,
+			statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+			color: '#9DCE5B',
 		},
 		{
-			value: 4,
-			color: 'white',
-			backgroundColor: '#98B8E3',
-			code: '1f06e13f-b300-4d9e-93db-0e54e2370d5c',
+			priorityId: '1f06e13f-b300-4d9e-93db-0e54e2370d5c',
+			priorityIcon: <Four />,
+			statusProcessId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
+			statusProcessIcon: <MailOutlined />,
+			statusPanelId: 'e07a6417-840e-4743-a4f0-45da65707432', // сюда вставить ID четвертого статуса, как он появится
+			color: '#98B8E3',
 		},
 	];
 
@@ -61,11 +81,69 @@ export default function Defects() {
 	const customColumnProps = [
 		// на данный момент оставлю так, если будет потребность в другом формате исправим
 		{...code},
+		{...dateTime('dateDetectDefect')},
 		{...dateTime('dateEliminationPlan')},
 		{...dateTime('dateEliminationFact')},
 		{...checkBox('sendedToSap')},
 		{...checkBox('viewOnPanel')},
+		{...checkBox('kpi')},
+		{
+			name: 'statusProcessName',
+			cellRenderer: ({rowData}) => (
+				<Radio.Group
+					defaultValue={rowData.statusProcessId}
+					size={'small'}
+					disabled
+				>
+					{statusesConfig &&
+						statusesConfig.map((el) => (
+							<Radio.Button
+								key={el.statusProcessId}
+								value={el.statusProcessId}
+							>
+								{el.statusProcessIcon}
+							</Radio.Button>
+						))}
+				</Radio.Group>
+			),
+		},
+		{
+			name: 'priorityPanelIdCode',
+			cellRenderer: ({cellData}) => (
+				<Rate
+					defaultValue={cellData}
+					count={4}
+					disabled
+					style={{
+						color: 'grey',
+						padding: '10px',
+						boxSizing: 'padding-box',
+					}}
+				/>
+			),
+		},
+		{
+			name: 'statusPanelId',
+			cellRenderer: ({cellData}) => {
+				let statusIndicator = statusesConfig.find(
+					(el) => el.statusPanelId === cellData
+				);
+				return statusIndicator ? (
+					<div
+						style={{
+							width: 10,
+							height: 10,
+							background: `${statusIndicator.color}`,
+							borderRadius: '50%',
+						}}
+					></div>
+				) : (
+					<div>Без статуса</div>
+				);
+			},
+		},
 	];
+
 	const configFilterPanel = [
 		{
 			componentType: 'DateRange',
@@ -107,41 +185,46 @@ export default function Defects() {
 					: 'panelProblemsStatuses'
 			),
 		},
-		{
-			componentType: 'Custom',
-			name: 'code',
-			render: ({onChange, defaultValue, value}) => {
-				return (
-					<div
-						style={{width: 200, marginLeft: 16}}
-						className={'mr-0'}
-					>
-						<div style={{marginBottom: '5px'}}>Приоритет</div>
-						<Radio.Group
-							onChange={(e) => onChange('code', e.target.value)}
-							// defaultValue={defaultValue}
-							value={value}
-							size={'small'} //medium
-						>
-							{radioButtonConfig &&
-								radioButtonConfig.map((el) => (
-									<Radio.Button
-										key={el.code}
-										value={el.code}
-										style={{
-											color: el.color,
-											backgroundColor: el.backgroundColor,
-											margin: 3,
-										}}
-									>
-										{el.value}
-									</Radio.Button>
-								))}
-						</Radio.Group>
-					</div>
-				);
-			},
-		},
+		history.location.pathname === '/control-defects/defects'
+			? {}
+			: {
+					componentType: 'Custom',
+					name: 'code',
+					render: ({onChange, defaultValue, value}) => {
+						return (
+							<div
+								style={{width: 200, marginLeft: 16}}
+								className={'mr-0'}
+							>
+								<div style={{marginBottom: '5px'}}>
+									Приоритет
+								</div>
+								<Radio.Group
+									onChange={(e) => {
+										console.log(e.target.value);
+										onChange('code', e.target.value);
+									}}
+									value={value}
+									size={'small'}
+								>
+									{statusesConfig &&
+										statusesConfig.map((el) => (
+											<Radio.Button
+												key={el.priorityId}
+												value={el.priorityId}
+												style={{
+													margin: 2,
+													paddingTop: 2,
+												}}
+											>
+												{el.priorityIcon}
+											</Radio.Button>
+										))}
+								</Radio.Group>
+							</div>
+						);
+					},
+			  },
 	];
 
 	/**
@@ -159,7 +242,7 @@ export default function Defects() {
 				componentType: 'Modal',
 				buttonProps: {
 					type: 'default',
-					icon: <MessageOutlined />,
+					icon: <CloseWithNote />,
 					className: 'ml-4 mr-8',
 					disabled: true,
 				},
@@ -257,7 +340,7 @@ export default function Defects() {
 				componentType: 'Modal',
 				buttonProps: {
 					type: 'default',
-					icon: <RollbackOutlined rotate={90} />,
+					icon: <SendToPanel />,
 					disabled: true,
 				},
 				modalConfig: {
@@ -311,16 +394,78 @@ export default function Defects() {
 						value &&
 							setButtonProps &&
 							setButtonProps({disabled: !(value.length === 1)});
-
-						/**
-						 * костыль в setModalData
-						 */
 					},
 				},
 			},
 		},
 	];
-
+	const buttonSendToSap = [
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Modal',
+				buttonProps: {
+					type: 'default',
+					icon: <SendToSap />,
+					disabled: true,
+				},
+				modalConfig: {
+					type: 'editOnServer',
+					title: `Передать в SAP`,
+					width: 350,
+					bodyStyle: {height: 200},
+					okText: 'Передать',
+					form: {
+						name: 'defectCloseData',
+						noPadding: false,
+						labelCol: {span: 12},
+						wrapperCol: {span: 6},
+						loadInitData: (callBack, row) => {
+							callBack(row);
+						},
+						body: [
+							{
+								componentType: 'Item',
+								child: {
+									componentType: 'Title',
+									className: 'mt-0',
+									label:
+										'Выдействительно хотите передать в SAP выбранные дефекты?',
+									level: 5,
+								},
+							},
+							{
+								componentType: 'Item',
+								label: 'Выбрано дефектов',
+								className: 'mb-0',
+								name: 'length',
+								child: {
+									componentType: 'Text',
+									strong: true,
+								},
+							},
+						],
+					},
+				},
+				dispatchPath: 'defects.defectModalSendToSap.modal',
+				subscribe: {
+					name: 'sendToSap',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								defectsSendToSap: value,
+								length: value.length,
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length > 0)});
+					},
+				},
+			},
+		},
+	];
 	const tableFields = [
 		{
 			componentType: 'Layout',
@@ -331,8 +476,9 @@ export default function Defects() {
 						componentType: 'ServerTable', // 'InfinityTable' ?
 						selectable: true,
 						ref: _setTableRef,
-						// fixWidthColumn:true,
+						fixWidthColumn: true,
 						history: history,
+						headerHeight: 35,
 						dispatchPath: 'defects.defectTable.table',
 						commandPanelProps: {
 							systemBtnProps: {
@@ -342,7 +488,10 @@ export default function Defects() {
 							},
 							leftCustomSideElement: [
 								...buttonCloseWithNote,
-								...buttonSendToPanel,
+								...(history.location.pathname ===
+								'/control-defects/defects'
+									? buttonSendToPanel
+									: buttonSendToSap),
 							],
 							rightCustomSideElement: [
 								history.location.pathname ===
@@ -380,17 +529,30 @@ export default function Defects() {
 						filterPanelProps: {
 							configFilter: [...configFilterPanel],
 							defaultFilter: {statusProcessId: null},
-							// onApplyFilter: (value) => console.log(value),
-							onChangeFilter: (value) => console.log(value),
+							// onChangeFilter: (value) => console.log(value),
 						},
 						customColumnProps: customColumnProps,
 
-						requestLoadRows: apiGetFlatDataByConfigName('defects'),
-						requestLoadConfig: apiGetConfigByName('defects'),
+						requestLoadRows: apiGetFlatDataByConfigName(
+							history.location.pathname ===
+								'/control-defects/defects'
+								? 'defects'
+								: 'panelProblems'
+						),
+						requestLoadConfig: apiGetConfigByName(
+							history.location.pathname ===
+								'/control-defects/defects'
+								? 'defects'
+								: 'panelProblems'
+						),
 						modals: [
-							editDefectCard('defects'),
-							defectCardInfoModal(history), // прокинул тут для кнопки Редактирвать, история тут ни к чему.
-							// defectSendPanel(),
+							editDefectCard(
+								history.location.pathname ===
+									'/control-defects/defects'
+									? 'defects'
+									: 'panelProblems'
+							),
+							defectCardInfoModal(history),
 						],
 					},
 				},

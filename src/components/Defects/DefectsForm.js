@@ -50,7 +50,7 @@ export default function DefectsForm() {
 				{
 					componentType: 'Item',
 					label: 'Ответственный',
-					name: 'staffEliminationName',
+					name: 'staffEliminationId',
 					className: 'mb-8',
 					rules: [
 						{
@@ -61,13 +61,9 @@ export default function DefectsForm() {
 					child: {
 						componentType: 'SingleSelect',
 						widthControl: 0,
-						rowRender: 'name',
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'departments'
-						),
-						requestLoadDefault: apiGetFlatDataByConfigName(
-							'departments'
-						),
+						rowRender: 'username',
+						requestLoadRows: apiGetFlatDataByConfigName('staff'),
+						requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 					},
 				},
 				{

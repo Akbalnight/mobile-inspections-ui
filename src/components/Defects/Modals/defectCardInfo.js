@@ -29,9 +29,11 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Статус',
-							name: 'statusProcessId',
+							name: 'statusProcessName',
 							className: 'mb-0',
-							child: {componentType: 'Text'},
+							child: {
+								componentType: 'Text',
+							},
 						},
 					],
 				},
@@ -71,7 +73,7 @@ export const defectCardInfoModal = (history) => {
 						{
 							componentType: 'Item',
 							label: 'Обнаружил',
-							name: 'staffDetectId',
+							name: 'staffDetectName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
