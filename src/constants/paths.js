@@ -81,7 +81,7 @@ export const paths = {
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
-		title: 'Контрольная точка',
+		title: 'Редактирование контрольной точки',
 		path: '/detours-configurator/control-points/:id',
 		component: ControlPointDataD,
 	},
@@ -92,7 +92,7 @@ export const paths = {
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA: {
-		title: 'редакитрование маршрута',
+		title: 'Редакитрование маршрута',
 		path: '/detours-configurator/routes/:id',
 		component: RoutesForm,
 	},
@@ -144,7 +144,7 @@ export const paths = {
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
-		title: 'Технологическая карта',
+		title: 'Редактирование технологической карты',
 		path: '/controlEquipments/techMaps/:id',
 		component: TechMapData,
 	},
@@ -157,7 +157,7 @@ export const paths = {
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
-		title: 'Технологическая карта',
+		title: 'Редактирование технологической карты',
 		path: '/controlEquipments/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
