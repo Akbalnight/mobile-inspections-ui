@@ -2,6 +2,10 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
+import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/infoTab.svg';
+import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
+import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
+import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
 
 export const defectCardInfoModal = (history) => {
 	// let Row;
@@ -177,19 +181,19 @@ export const defectCardInfoModal = (history) => {
 			children: [
 				{
 					componentType: 'TabPane',
-					tab: 'Информация о дефекте',
+					tab: <InfoTab />,
 					key: 'infoTab',
 					children: [...infoTabFields],
 				},
 				{
 					componentType: 'TabPane',
-					tab: 'Вложения',
+					tab: <FilesTab />,
 					key: 'filesTab',
 					children: [...fileManagerFields],
 				},
 				{
 					componentType: 'TabPane',
-					tab: 'Оборудование',
+					tab: <EquipmentsTab />,
 					key: 'equipmentsTab',
 					children: [
 						{
@@ -203,7 +207,7 @@ export const defectCardInfoModal = (history) => {
 				},
 				{
 					componentType: 'TabPane',
-					tab: 'Обход',
+					tab: <ScheduleTab />,
 					key: 'scheduleTab',
 					children: [
 						{

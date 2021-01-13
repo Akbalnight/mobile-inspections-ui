@@ -17,6 +17,7 @@ import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
 import DetoursCalendar from '../components/Detours/DetoursCalendar';
+import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -134,7 +135,7 @@ export const paths = {
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
 		path: '/controlEquipments/work-schedules',
-		component: Home,
+		component: WorkSchedules,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAPS: {

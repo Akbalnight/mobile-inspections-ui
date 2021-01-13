@@ -1,0 +1,17 @@
+<span role="img" aria-label="project" class="anticon pane" >
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5 5H0.5" stroke="currentColor" stroke-miterlimit="10"/>
+<path d="M4 0V4" stroke="currentColor" stroke-miterlimit="10"/>
+<path d="M9 0V4" stroke="currentColor" stroke-miterlimit="10"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1 3C1 2.72614 1.22614 2.5 1.5 2.5H11.5C11.7739 2.5 12 2.72614 12 3V7.02746C12.3467 7.06579 12.6816 7.14352 13 7.25606V3C13 2.17386 12.3261 1.5 11.5 1.5H1.5C0.673858 1.5 0 2.17386 0 3V11C0 11.8261 0.673858 12.5 1.5 12.5H7.11151C7.03853 12.1784 7 11.8437 7 11.5H1.5C1.22614 11.5 1 11.2739 1 11V3Z" fill="#525254"/>
+<circle cx="11.5" cy="11.5" r="4" stroke="currentColor"/>
+<mask id="path-6-inside-1" fill="white">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 9H11V11V12H12H13V11H12V9Z"/>
+</mask>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 9H11V11V12H12H13V11H12V9Z" fill="#1890FF"/>
+<path d="M11 9V8H10V9H11ZM12 9H13V8H12V9ZM11 12H10V13H11V12ZM13 12V13H14V12H13ZM13 11H14V10H13V11ZM12 11H11V12H12V11ZM11 10H12V8H11V10ZM12 11V9H10V11H12ZM12 12V11H10V12H12ZM12 11H11V13H12V11ZM13 11H12V13H13V11ZM12 11V12H14V11H12ZM12 12H13V10H12V12ZM11 9V11H13V9H11Z" fill="#525254" mask="url(#path-6-inside-1)"/>
+</svg>
+<p >Рабочие графики</p>
+
+
+</span>
