@@ -52,7 +52,7 @@ export const menu = [
 		children: [
 			paths.CONTROL_DEFECTS_DEFECTS,
 			paths.CONTROL_DEFECTS_PANEL_PROBLEMS,
-			paths.CONTROL_DEFECTS_PANEL_DEVIATIONS,
+			// paths.CONTROL_DEFECTS_PANEL_DEVIATIONS,
 		],
 	},
 	{
