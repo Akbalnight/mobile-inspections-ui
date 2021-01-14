@@ -11,12 +11,15 @@ import {ReactComponent as WorkShiftPane} from '../../imgs/tabPane/workSchedules/
 import {ReactComponent as WorkTemplatesPane} from '../../imgs/tabPane/workSchedules/workSchedulesTemplates.svg';
 import {ReactComponent as MoveSchedules} from '../../imgs/workSchedules/buttonMoveSchedule.svg';
 import {ReactComponent as CopySchedule} from '../../imgs/workSchedules/buttonCopySchedule.svg';
+import {useHistory} from 'react-router';
+import {addShiftModal, editShiftModal} from './Modals/modalShiftTab';
 
 const {RangePicker} = DatePicker;
 
 export default function WorkSchedules() {
+	const history = useHistory();
 	/**
-	 * модалку buttonMoveSchedule сделал прямо по макету, достаточно громоздко получилось
+	 * модалки во вкладке РАБОЧИЕ ГРАФИКИ, сделал разными намеренно. Надо обсудить
 	 */
 	const buttonMoveSchedule = [
 		{
@@ -27,34 +30,36 @@ export default function WorkSchedules() {
 					type: 'default',
 					className: 'ml-4 mr-8',
 					icon: <MoveSchedules />,
+					disabled: true,
 				},
 				modalConfig: {
 					type: 'editOnServer', //'editOnServer'
 					title: `Перемещение графиков`,
-					width: 580,
+					width: 480,
 					bodyStyle: {height: 300},
 					okText: 'Переместить',
 					form: {
 						noPadding: true,
 						name: 'moveScheduleForm',
 						labelCol: {span: 8},
-						wrapperCol: {span: 10},
+						wrapperCol: {span: 12},
 						loadInitData: (callBack, row) => {
+							console.log(row);
 							callBack(row);
 						},
 						body: [
 							{
 								componentType: 'Item',
 								label: 'Сотрудник',
-								className: 'mt-16',
+								className: 'mt-16 ml-16',
 								name: 'executor',
 								child: {
 									componentType: 'SingleSelect',
 									name: 'staffId',
 									rowRender: 'positionName',
 									widthControl: 0,
-									widthPopup: 300,
-									heightPopup: 100,
+									widthPopup: 250,
+									heightPopup: 150,
 									requestLoadRows: apiGetFlatDataByConfigName(
 										'staff'
 									),
@@ -65,8 +70,9 @@ export default function WorkSchedules() {
 							},
 							{
 								componentType: 'Item',
+								className: 'ml-16',
 								name: 'rangePeriod',
-								label: 'Перемещения',
+								label: 'Перемещение',
 								child: {
 									componentType: 'Custom',
 									render: ({
@@ -76,10 +82,14 @@ export default function WorkSchedules() {
 									}) => {
 										return (
 											<RangePicker
-												format={'DD.MM.YYYY'}
-												onChange={(dates) =>
-													console.log(dates)
-												}
+												// format={'DD.MM.YYYY'}
+												// value={defaultValue}
+												onChange={(
+													dates,
+													dateString
+												) => {
+													onChange(dates);
+												}}
 												placeholder={[
 													'с даты',
 													'на дату',
@@ -89,197 +99,54 @@ export default function WorkSchedules() {
 									},
 								},
 							},
-							// {
-							// 	componentType: 'Row',
-							// 	children: [
-							// 		{
-							// 			componentType: 'Col',
-							// 			span: 3,
-							// 			children: [
-							// 				{
-							// 					componentType: 'Item',
-							// 					hidden: true,
-							// 					child: {
-							// 						componentType: 'Text',
-							// 						label: 'hidden',
-							// 					},
-							// 				},
-							// 			],
-							// 		},
-							// 		{
-							// 			componentType: 'Col',
-							// 			span: 5,
-							// 			className: 'mr-8',
-							// 			children: [
-							// 				{
-							// 					componentType: 'Item',
-							// 					style: {
-							// 						textAlign: 'center',
-							// 					},
-							// 					child: {
-							// 						componentType: 'Text',
-							// 						label:
-							// 							'Даты перемещения c:',
-							// 						style: {
-							// 							lineHeight: '30px',
-							// 						},
-							// 					},
-							// 				},
-							// 			],
-							// 		},
-							// 		{
-							// 			componentType: 'Col',
-							// 			span: 4,
-							// 			className: 'ml-4',
-							// 			children: [
-							// 				{
-							// 					componentType: 'Item',
-							// 					noStyle: true,
-							// 					name: 'currentDate',
-							// 					child: {
-							// 						componentType: 'DatePicker',
-							// 						format: 'DD.MM.YYYY',
-							// 					},
-							// 				},
-							// 			],
-							// 		},
-							// 		{
-							// 			componentType: 'Col',
-							// 			span: 3,
-							// 			children: [
-							// 				{
-							// 					componentType: 'Item',
-							// 					style: {
-							// 						textAlign: 'center',
-							// 					},
-							// 					child: {
-							// 						componentType: 'Text',
-							// 						label: 'на:',
-							// 						level: 6,
-							// 						style: {
-							// 							lineHeight: '30px',
-							// 							marginLeft: '25px',
-							// 						},
-							// 					},
-							// 				},
-							// 			],
-							// 		},
-							// 		{
-							// 			componentType: 'Col',
-							// 			span: 4,
-							// 			children: [
-							// 				{
-							// 					componentType: 'Item',
-							// 					noStyle: true,
-							// 					name: 'newDate',
-							// 					child: {
-							// 						componentType: 'DatePicker',
-							// 						format: 'DD.MM.YYYY',
-							// 					},
-							// 				},
-							// 			],
-							// 		},
-							// 	],
-							// },
+
 							{
-								componentType: 'Row',
-								className: 'mt-16',
-								children: [
-									{
-										componentType: 'Col',
-										span: 9,
-										children: [
-											{
-												componentType: 'Item',
-												hidden: true,
-												child: {
-													componentType: 'Text',
-													label: 'hidden',
-												},
-											},
-										],
+								componentType: 'Item',
+								className: 'ml-16',
+								name: 'embedToMove',
+								valuePropName: 'checked',
+
+								child: {
+									componentType: 'Checkbox',
+									label: 'Вырезать для перемещения',
+									style: {
+										paddingLeft: 170,
 									},
-									{
-										componentType: 'Col',
-										span: 7,
-										children: [
-											{
-												componentType: 'Item',
-												child: {
-													componentType: 'Text',
-													label:
-														'Вырезать для перемещения:',
-													level: 6,
-												},
-											},
-										],
-									},
-									{
-										componentType: 'Col',
-										span: 2,
-										children: [
-											{
-												componentType: 'Item',
-												name: 'embedToMove',
-												valuePropName: 'checked',
-												child: {
-													componentType: 'Checkbox',
-												},
-											},
-										],
-									},
-								],
+								},
 							},
 							{
-								componentType: 'Row',
-								className: 'mt-16',
-								children: [
-									{
-										componentType: 'Col',
-										span: 6,
-										children: [
-											{
-												componentType: 'Item',
-												hidden: true,
-												child: {
-													componentType: 'Text',
-													label: 'hidden',
-												},
-											},
-										],
+								componentType: 'Item',
+								name: 'overwriteSchedule',
+								valuePropName: 'checked',
+								child: {
+									componentType: 'Checkbox',
+									className: 'mt-16',
+									label:
+										'Перезаписать график на выбранную дату',
+									style: {
+										paddingLeft: 162,
 									},
-									{
-										componentType: 'Col',
-										span: 10,
-										children: [
-											{
-												componentType: 'Item',
-												child: {
-													componentType: 'Text',
-													label:
-														'Перезаписать график на выбранную дату:',
-													level: 6,
-												},
-											},
-										],
-									},
-									{
-										componentType: 'Col',
-										span: 2,
-										children: [
-											{
-												componentType: 'Item',
-												name: 'overwriteSchedule',
-												valuePropName: 'checked',
-												child: {
-													componentType: 'Checkbox',
-												},
-											},
-										],
-									},
-								],
+								},
 							},
 						],
+					},
+				},
+				dispatchPath: 'workSchedules.workSchedulesTable.moveButton',
+				subscribe: {
+					name: 'moveScheduleModal',
+					path: 'rtd.workSchedules.workSchedulesTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								length: value.length,
+								/**
+								 * возможно нужны будут допДанные их лучше прокинуть тут
+								 */
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length > 0)});
 					},
 				},
 			},
@@ -294,18 +161,19 @@ export default function WorkSchedules() {
 				buttonProps: {
 					type: 'default',
 					icon: <CopySchedule />,
+					disabled: true,
 				},
 				modalConfig: {
 					type: 'editOnServer', //'editOnServer'
 					title: `Копирование графиков`,
 					width: 580,
 					bodyStyle: {height: 300},
-					okText: 'Переместить',
+					okText: 'Копировать',
 					form: {
 						noPadding: true,
-						name: 'moveScheduleForm',
-						labelCol: {span: 8},
-						wrapperCol: {span: 12},
+						name: 'copyScheduleForm',
+						labelCol: {span: 10},
+						wrapperCol: {span: 10},
 						loadInitData: (callBack, row) => {
 							callBack(row);
 						},
@@ -313,15 +181,16 @@ export default function WorkSchedules() {
 							{
 								componentType: 'Item',
 								label: 'Сотрудник',
-								className: 'mt-16',
+								className: 'mt-16 ml-16',
+
 								name: 'currentExecutor',
 								child: {
 									componentType: 'SingleSelect',
 									name: 'staffId',
 									rowRender: 'positionName',
 									widthControl: 0,
-									widthPopup: 300,
-									heightPopup: 100,
+									widthPopup: 250,
+									heightPopup: 150,
 									requestLoadRows: apiGetFlatDataByConfigName(
 										'staff'
 									),
@@ -334,6 +203,7 @@ export default function WorkSchedules() {
 							{
 								componentType: 'Item',
 								name: 'rangePeriod',
+								className: 'ml-16',
 								label: 'Период',
 								child: {
 									componentType: 'Custom',
@@ -344,10 +214,14 @@ export default function WorkSchedules() {
 									}) => {
 										return (
 											<RangePicker
-												format={'DD.MM.YYYY'}
-												onChange={(dates) =>
-													console.log(dates)
-												}
+												// format={'DD.MM.YYYY'}
+												// value={defaultValue}
+												onChange={(
+													dates,
+													dateString
+												) => {
+													onChange(dates);
+												}}
 											/>
 										);
 									},
@@ -356,15 +230,15 @@ export default function WorkSchedules() {
 							{
 								componentType: 'Item',
 								label: 'Назначить',
-
+								className: 'ml-16',
 								name: 'newExecutor',
 								child: {
 									componentType: 'SingleSelect',
 									name: 'staffId',
 									rowRender: 'positionName',
 									widthControl: 0,
-									widthPopup: 300,
-									heightPopup: 100,
+									widthPopup: 250,
+									heightPopup: 80, // надо обдумать
 									requestLoadRows: apiGetFlatDataByConfigName(
 										'staff'
 									),
@@ -374,58 +248,62 @@ export default function WorkSchedules() {
 								},
 							},
 							{
-								componentType: 'Row',
-								className: 'mt-16',
-								children: [
-									{
-										componentType: 'Col',
-										span: 9,
-										children: [
-											{
-												componentType: 'Item',
-												hidden: true,
-												child: {
-													componentType: 'Text',
-													label: 'hidden',
-												},
-											},
-										],
+								componentType: 'Item',
+								className: 'ml-16',
+								name: 'rewriteSchedule',
+								valuePropName: 'checked',
+								label: 'Перезаписывать существующие графики:',
+
+								child: {
+									componentType: 'Checkbox',
+									style: {
+										marginLeft: 5,
 									},
-									{
-										componentType: 'Col',
-										span: 10,
-										children: [
-											{
-												componentType: 'Item',
-												child: {
-													componentType: 'Text',
-													label:
-														'Перезаписывать существующие графики:',
-													level: 6,
-												},
-											},
-										],
-									},
-									{
-										componentType: 'Col',
-										span: 2,
-										children: [
-											{
-												componentType: 'Item',
-												name: 'rewriteSchedule',
-												valuePropName: 'checked',
-												child: {
-													componentType: 'Checkbox',
-												},
-											},
-										],
-									},
-								],
+								},
 							},
 						],
 					},
 				},
+				dispatchPath: 'workSchedules.workSchedulesTable.copyButton',
+				subscribe: {
+					name: 'moveScheduleModal',
+					path: 'rtd.workSchedules.workSchedulesTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								length: value.length,
+								/**
+								 * возможно нужны будут допДанные их лучше прокинуть тут
+								 */
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length > 0)});
+					},
+				},
 			},
+		},
+	];
+	const configFilterPanel = [
+		{
+			componentType: 'SingleSelect',
+			name: '1',
+			className: 'mr-16',
+			rowRender: 'positionName',
+			title: 'Сотрудники',
+			widthControl: 120,
+			widthPopup: 250,
+			requestLoadRows: apiGetFlatDataByConfigName('staff'),
+			requestLoadConfig: apiGetConfigByName('staff'),
+		},
+		{
+			componentType: 'DateRange',
+			title: 'Период',
+			nameStart: 'dateStart',
+			nameEnd: 'dateFinish',
+			dateFormat: 'DD-MM-YYYY',
+			className: 'ml-16',
 		},
 	];
 	const workSchedulesFields = [
@@ -436,6 +314,7 @@ export default function WorkSchedules() {
 					componentType: 'Item',
 					child: {
 						componentType: 'ServerTable',
+						selectable: true,
 						commandPanelProps: {
 							systemBtnProps: {
 								edit: {actionType: ['modal', 'modal']},
@@ -446,12 +325,16 @@ export default function WorkSchedules() {
 								...buttonCopySchedule,
 							],
 						},
+						filterPanelProps: {
+							configFilter: [...configFilterPanel],
+						},
 						requestLoadRows: apiGetFlatDataByConfigName(
 							'defects' //'workSchedules'
 						),
 						requestLoadConfig: apiGetConfigByName(
 							'defects' //'workSchedules'
 						),
+						dispatchPath: 'workSchedules.workSchedulesTable.table',
 					},
 				},
 			],
@@ -459,12 +342,32 @@ export default function WorkSchedules() {
 	];
 	const workShiftsFields = [
 		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Title',
-				level: 5,
-			},
+			componentType: 'Layout',
+			children: [
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'ServerTable',
+						dispatchPath: 'workSchedules.workShiftTable.table',
+						// selectable: true,
+						history,
+						commandPanelProps: {
+							systemBtnProps: {
+								add: {actionType: 'modal'},
+								edit: {actionType: ['modal', 'modal']},
+								delete: {},
+							},
+						},
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'defects' //'workSchedules'
+						),
+						requestLoadConfig: apiGetConfigByName(
+							'defects' //'workSchedules'
+						),
+						modals: [addShiftModal(), editShiftModal()],
+					},
+				},
+			],
 		},
 	];
 	const workSchedulesTemplatesFields = [

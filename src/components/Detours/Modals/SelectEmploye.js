@@ -57,7 +57,7 @@ const choiseExecutor = (type, catalogName, code) => {
 		},
 		{
 			componentType: 'Item',
-			name: 'workShift', // ввел это понятие, прокинул по модалке дальше
+			name: 'workShift',
 			label: 'Рабочая смена',
 			rules: [
 				{
@@ -135,7 +135,7 @@ const choiseExecutor = (type, catalogName, code) => {
 	];
 
 	return {
-		type: `viewObject`, // нужно подумать куда будет сохранять
+		type: `viewObject`,
 		title: 'Выбор исполнителя',
 		width: 576,
 		bodyStyle: {
