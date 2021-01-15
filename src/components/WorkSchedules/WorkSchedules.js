@@ -13,6 +13,7 @@ import {ReactComponent as MoveSchedules} from '../../imgs/workSchedules/buttonMo
 import {ReactComponent as CopySchedule} from '../../imgs/workSchedules/buttonCopySchedule.svg';
 import {useHistory} from 'react-router';
 import {addShiftModal, editShiftModal} from './Modals/modalShiftTab';
+import {addTemplateModal, editTemplateModal} from './Modals/modalTemplatesTab';
 
 const {RangePicker} = DatePicker;
 
@@ -372,12 +373,32 @@ export default function WorkSchedules() {
 	];
 	const workSchedulesTemplatesFields = [
 		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Title',
-				level: 5,
-			},
+			componentType: 'Layout',
+			children: [
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'ServerTable',
+						dispatchPath: 'workSchedules.workShiftTable.table',
+						// selectable: true,
+						history,
+						commandPanelProps: {
+							systemBtnProps: {
+								add: {actionType: 'modal'},
+								edit: {actionType: ['modal', 'modal']},
+								delete: {},
+							},
+						},
+						requestLoadRows: apiGetFlatDataByConfigName(
+							'defects' //'workSchedules'
+						),
+						requestLoadConfig: apiGetConfigByName(
+							'defects' //'workSchedules'
+						),
+						modals: [addTemplateModal(), editTemplateModal()],
+					},
+				},
+			],
 		},
 	];
 	const mainPageConfig = [

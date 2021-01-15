@@ -1,4 +1,4 @@
-import {TimePicker} from 'antd';
+import {Button, Popover, TimePicker} from 'antd';
 
 const {RangePicker} = TimePicker;
 export const addShiftModal = () => operationOnServer('add', {});
@@ -10,6 +10,9 @@ const operationOnServer = (type, code) => {
 		callBack(type === 'add' ? null : row);
 	};
 
+	const popoverContent = (
+		<button style={{backgroundColor: '#BAE187', border: 'none'}}>1</button>
+	);
 	const mainFields = [
 		{
 			componentType: 'Item',
@@ -35,7 +38,9 @@ const operationOnServer = (type, code) => {
 					name: 'subscribe',
 					path: 'rtd.workSchedules.workShiftModal.checkbox',
 					onChange: ({value, setSubscribeProps}) => {
-						setSubscribeProps({disabled: value ? true : false});
+						console.log(value);
+						value &&
+							setSubscribeProps({disabled: value ? true : false});
 					},
 				},
 			},
@@ -91,28 +96,38 @@ const operationOnServer = (type, code) => {
 								onChange(dates);
 							}}
 							placeholder={['с', 'до']}
-							disabled={true}
+							// disabled={true}
 						/>
 					);
 				},
-				// subscribe: {
-				//     name: 'noSubscribe',
-				//     path: 'rtd.workSchedules.workShiftModal.checkbox',
-				//     onChange: ({value, setSubscribeProps}) => {
-				//         console.log(value);
-				//         setSubscribeProps({disabled: value ? true : false});
-				//     },
-				// },
+				subscribe: {
+					name: 'noSubscribe',
+					path: 'rtd.workSchedules.workShiftModal.checkbox',
+					onChange: ({value, setSubscribeProps}) => {
+						console.log(value);
+						setSubscribeProps({disabled: value ? true : false});
+					},
+				},
 			},
 		},
 		{
 			componentType: 'Item',
-			name: 'rangeShift',
-			label: 'Время смены',
+			name: 'color',
+			label: 'Цвет',
 			child: {
 				componentType: 'Custom',
 				render: ({onChange, defaultValue, value}) => {
-					return <div>1</div>;
+					return (
+						<Popover
+							className={'no-bg'}
+							content={popoverContent}
+							trigger={'click'}
+							placement='right'
+							// visible={visiblePopover}
+						>
+							<Button>1</Button>
+						</Popover>
+					);
 				},
 			},
 		},
@@ -120,11 +135,11 @@ const operationOnServer = (type, code) => {
 
 	return {
 		type: `${type}OnServer`,
-		title: `${type === 'add' ? 'Создание' : 'Редактироание'} смены`,
+		title: `${type === 'add' ? 'Создание' : 'Редактирование'} смены`,
 		width: 445,
 		bodyStyle: {height: 445},
 		form: {
-			name: `${type}ModalForm`,
+			name: `${type}ShiftModalForm`,
 			loadInitData: loadData,
 			labelCol: {span: 10},
 			wrapperCol: {span: 12},
