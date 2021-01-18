@@ -1,9 +1,7 @@
-import {
-	CloseOutlined,
-	CopyOutlined,
-	DeleteOutlined,
-	PlusOutlined,
-} from '@ant-design/icons';
+import {CopyOutlined, DeleteOutlined, PlusOutlined} from '@ant-design/icons';
+import {TimePicker} from 'antd';
+
+const {RangePicker} = TimePicker;
 
 export const addTemplateModal = () => operationOnServer('add', {});
 
@@ -13,6 +11,21 @@ const operationOnServer = (type, code) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
+
+	const exampleFields = [
+		{
+			name: 'Дневная',
+			color: '#FFCC80',
+		},
+		{
+			name: 'Вечерная',
+			color: '#b7b7a4',
+		},
+		{
+			name: 'Выходной',
+			color: '#DFDFDF',
+		},
+	];
 	const mainFields = [
 		{
 			componentType: 'ListItems',
@@ -64,11 +77,9 @@ const operationOnServer = (type, code) => {
 										label: 'Добавить шаблон',
 										type: 'primary',
 										icon: <PlusOutlined />,
-										onClick: (e, {operation}) => {
-											console.log(
-												'Add ',
-												operation.add()
-											);
+										onClick: (e, {fields, operation}) => {
+											operation.add();
+											console.log(fields);
 										},
 									},
 								},
@@ -180,21 +191,81 @@ const operationOnServer = (type, code) => {
 					children: [
 						{
 							componentType: 'Row',
+							dispatchPath: 'workSchedules.templates.listItem',
+							className: 'mt-8',
 							children: [
 								{
 									componentType: 'Col',
+									span: 2,
 									children: [
 										{
 											componentType: 'Item',
 											child: {
-												componentType: 'Button',
-
-												icon: <CloseOutlined />,
-												onClick: (
-													e,
-													{field, operation}
-												) => {
-													operation.add(field.name);
+												name: `field.name`, // чтобы автоматичеки получать длинну массива сюда, но пока не получилость
+												componentType: 'Text',
+											},
+										},
+									],
+								},
+								{
+									componentType: 'Col',
+									span: 6,
+									className: 'mr-8',
+									children: [
+										{
+											componentType: 'Item',
+											name: 'shiftTemplate',
+											child: {
+												componentType: 'SingleSelect',
+												widthControl: 0,
+												heightPopup: 250,
+												widthPopup: 200,
+												placeholder: 'Выберите смену',
+												rows: exampleFields,
+												// onChangeKeys:(value, option)=> option,
+												rowRender: ({rowData}) => (
+													<div
+														style={{
+															color:
+																rowData.color,
+														}}
+													>
+														{rowData.name}
+													</div>
+												),
+											},
+										},
+									],
+								},
+								{
+									componentType: 'Col',
+									span: 3,
+									className: 'mr-8',
+									children: [
+										{
+											componentType: 'Item',
+											name: 'timeStart',
+											child: {
+												componentType: 'Custom',
+												render: ({
+													onChange,
+													defaultValue,
+													value,
+												}) => {
+													return (
+														<TimePicker
+															format={'HH:mm'}
+															placeholder={
+																'Начало'
+															}
+															onChange={(
+																time,
+																timeString
+															) => {
+																onChange(time);
+															}}
+														/>
+													);
 												},
 											},
 										},
@@ -202,6 +273,100 @@ const operationOnServer = (type, code) => {
 								},
 								{
 									componentType: 'Col',
+									span: 3,
+									className: 'mr-8',
+									children: [
+										{
+											componentType: 'Item',
+											name: 'timeFinish',
+											child: {
+												componentType: 'Custom',
+												render: ({
+													onChange,
+													defaultValue,
+													value,
+												}) => {
+													return (
+														<TimePicker
+															format={'HH:mm'}
+															placeholder={
+																'Завершение'
+															}
+															onChange={(
+																time,
+																timeString
+															) => {
+																onChange(time);
+															}}
+														/>
+													);
+												},
+											},
+										},
+									],
+								},
+								{
+									componentType: 'Col',
+									span: 5,
+									className: 'mr-8',
+									children: [
+										{
+											componentType: 'Item',
+											name: 'breakTime',
+											child: {
+												componentType: 'Custom',
+												render: ({
+													onChange,
+													defaultValue,
+													value,
+												}) => {
+													return (
+														<RangePicker
+															format={'HH:mm'}
+															onChange={(
+																dates,
+																dateString
+															) => {
+																onChange(dates);
+															}}
+															placeholder={[
+																'с',
+																'до',
+															]}
+														/>
+													);
+												},
+											},
+										},
+									],
+								},
+								/**
+								 * кнопка ниже без полноценной функиции, активные кнопки удалени(remove) и копирования(move). Только возможно копирование полей в одном
+								 * ListItem не имеет смысла.
+								 * у ListItems ({add, move, remove}), исходные функции
+								 */
+								// {
+								// 	componentType: 'Col',
+								// 	className: 'mr-8',
+								// 	children: [
+								// 		{
+								// 			componentType: 'Item',
+								// 			child: {
+								// 				componentType: 'Button',
+								// 				icon: <CloseOutlined />,
+								// 				onClick: (
+								// 					e,
+								// 					{field, operation}
+								// 				) => {
+								// 					operation.remove(field.name);
+								// 				},
+								// 			},
+								// 		},
+								// 	],
+								// },
+								{
+									componentType: 'Col',
+									className: 'mr-8',
 									children: [
 										{
 											componentType: 'Item',
@@ -213,7 +378,7 @@ const operationOnServer = (type, code) => {
 													e,
 													{field, operation}
 												) => {
-													operation.copy(field.name);
+													operation.move(field.name);
 												},
 											},
 										},
@@ -221,6 +386,7 @@ const operationOnServer = (type, code) => {
 								},
 								{
 									componentType: 'Col',
+									className: 'mr-8',
 									children: [
 										{
 											componentType: 'Item',
@@ -246,11 +412,6 @@ const operationOnServer = (type, code) => {
 				},
 			],
 		},
-		// {
-		// 	componentType: 'Layout',
-		// 	children: [
-		// 	],
-		// },
 	];
 	return {
 		type: `${type}OnServer`,

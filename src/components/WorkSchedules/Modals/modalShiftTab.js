@@ -1,4 +1,5 @@
-import {Button, Popover, TimePicker} from 'antd';
+import {TimePicker} from 'antd';
+import {GithubPicker} from 'react-color';
 
 const {RangePicker} = TimePicker;
 export const addShiftModal = () => operationOnServer('add', {});
@@ -10,9 +11,6 @@ const operationOnServer = (type, code) => {
 		callBack(type === 'add' ? null : row);
 	};
 
-	const popoverContent = (
-		<button style={{backgroundColor: '#BAE187', border: 'none'}}>1</button>
-	);
 	const mainFields = [
 		{
 			componentType: 'Item',
@@ -36,11 +34,10 @@ const operationOnServer = (type, code) => {
 				componentType: 'Input',
 				subscribe: {
 					name: 'subscribe',
-					path: 'rtd.workSchedules.workShiftModal.checkbox',
+					path: 'rtd.workSchedules.workShiftModal',
 					onChange: ({value, setSubscribeProps}) => {
 						console.log(value);
-						value &&
-							setSubscribeProps({disabled: value ? true : false});
+						value && setSubscribeProps({disabled: value});
 					},
 				},
 			},
@@ -78,7 +75,7 @@ const operationOnServer = (type, code) => {
 			],
 			child: {
 				componentType: 'Checkbox',
-				dispatchPath: 'workSchedules.workShiftModal.checkbox',
+				dispatchPath: 'workSchedules.workShiftModal',
 			},
 		},
 		{
@@ -91,21 +88,19 @@ const operationOnServer = (type, code) => {
 					return (
 						<RangePicker
 							format={'HH:mm'}
-							// value={defaultValue}
 							onChange={(dates, dateString) => {
 								onChange(dates);
 							}}
 							placeholder={['с', 'до']}
-							// disabled={true}
 						/>
 					);
 				},
 				subscribe: {
-					name: 'noSubscribe',
-					path: 'rtd.workSchedules.workShiftModal.checkbox',
+					name: 'rangeShift',
+					path: 'rtd.workSchedules.workShiftModal',
 					onChange: ({value, setSubscribeProps}) => {
 						console.log(value);
-						setSubscribeProps({disabled: value ? true : false});
+						value && setSubscribeProps({disabled: value});
 					},
 				},
 			},
@@ -118,15 +113,21 @@ const operationOnServer = (type, code) => {
 				componentType: 'Custom',
 				render: ({onChange, defaultValue, value}) => {
 					return (
-						<Popover
-							className={'no-bg'}
-							content={popoverContent}
-							trigger={'click'}
-							placement='right'
-							// visible={visiblePopover}
-						>
-							<Button>1</Button>
-						</Popover>
+						<GithubPicker
+							colors={[
+								'#BAE187',
+								'#CBE4F7',
+								'#FFCC80',
+								'#C5A4F3',
+								'#FFA399',
+								'#FFFF83',
+								'#FFC0FB',
+								'#A5F2F2',
+							]}
+							triangle={'hide'}
+							width={'112px'}
+							onChange={(value) => onChange(value.hex)}
+						/>
 					);
 				},
 			},
