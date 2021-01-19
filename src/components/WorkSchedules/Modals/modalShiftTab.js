@@ -1,14 +1,35 @@
+import React, {useState} from 'react';
 import {TimePicker} from 'antd';
 import {GithubPicker} from 'react-color';
 
 const {RangePicker} = TimePicker;
-export const addShiftModal = () => operationOnServer('add', {});
+export const addShiftModal = () => OperationOnServer('add', {});
 
-export const editShiftModal = () => operationOnServer('edit', {});
+export const editShiftModal = () => OperationOnServer('edit', {});
 
-const operationOnServer = (type, code) => {
+const OperationOnServer = (type, code) => {
+	const [colorPicker, setColorPicker] = useState({
+		open: false,
+		color: {
+			r: '0',
+			g: '0',
+			b: '0',
+			a: '0',
+		},
+	});
+	const handleClick = () => {
+		setColorPicker((state) => ({...state, open: !state.open}));
+	};
+
+	const handleClose = () => {
+		setColorPicker((state) => ({...state, open: false}));
+	};
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
+	};
+	const handleChange = (color) => {
+		console.log(color);
+		setColorPicker((state) => ({open: !state.open, color: color.rgb}));
 	};
 
 	const mainFields = [
@@ -32,14 +53,18 @@ const operationOnServer = (type, code) => {
 			name: 'code',
 			child: {
 				componentType: 'Input',
-				subscribe: {
-					name: 'subscribe',
-					path: 'rtd.workSchedules.workShiftModal',
-					onChange: ({value, setSubscribeProps}) => {
-						console.log(value);
-						value && setSubscribeProps({disabled: value});
-					},
-				},
+				// subscribe: {
+				// 	name: 'code',
+				// 	path: 'rtd.workSchedules.workShiftModal.checkbox',
+				// 	onChange: ({value, setSubscribeProps}) => {
+				// 		// console.log(value);
+				// 		if (value === true) {
+				// 			setSubscribeProps({disabled: false});
+				// 		} else {
+				// 			setSubscribeProps({disabled: true});
+				// 		}
+				// 	},
+				// },
 			},
 		},
 		{
@@ -75,7 +100,7 @@ const operationOnServer = (type, code) => {
 			],
 			child: {
 				componentType: 'Checkbox',
-				dispatchPath: 'workSchedules.workShiftModal',
+				dispatchPath: 'workSchedules.workShiftModal.checkbox',
 			},
 		},
 		{
@@ -92,15 +117,20 @@ const operationOnServer = (type, code) => {
 								onChange(dates);
 							}}
 							placeholder={['с', 'до']}
+							// name={'rangeShift'}
 						/>
 					);
 				},
 				subscribe: {
 					name: 'rangeShift',
-					path: 'rtd.workSchedules.workShiftModal',
+					path: 'rtd.workSchedules.workShiftModal.checkbox',
 					onChange: ({value, setSubscribeProps}) => {
 						console.log(value);
-						value && setSubscribeProps({disabled: value});
+						if (value !== true) {
+							setSubscribeProps({disabled: true});
+						} else {
+							setSubscribeProps({disabled: false});
+						}
 					},
 				},
 			},
@@ -113,21 +143,63 @@ const operationOnServer = (type, code) => {
 				componentType: 'Custom',
 				render: ({onChange, defaultValue, value}) => {
 					return (
-						<GithubPicker
-							colors={[
-								'#BAE187',
-								'#CBE4F7',
-								'#FFCC80',
-								'#C5A4F3',
-								'#FFA399',
-								'#FFFF83',
-								'#FFC0FB',
-								'#A5F2F2',
-							]}
-							triangle={'hide'}
-							width={'112px'}
-							onChange={(value) => onChange(value.hex)}
-						/>
+						<>
+							<div
+								style={{
+									padding: '2px',
+									background: '#fff',
+									borderRadius: '2px',
+									boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+									display: 'inline-block',
+									cursor: 'pointer',
+								}}
+								onClick={handleClick}
+							>
+								<div
+									style={{
+										width: '50px',
+										height: '20px',
+										borderRadius: '2px',
+										background: `rgba(${colorPicker.color.r}, ${colorPicker.color.g}, ${colorPicker.color.b}, ${colorPicker.color.a})`,
+									}}
+								/>
+							</div>
+							{colorPicker.open ? (
+								<div
+									style={{position: 'absolute', zIndex: '2'}}
+								>
+									<div
+										style={{
+											position: 'fixed',
+											top: '0px',
+											right: '0px',
+											bottom: '0px',
+											left: '0px',
+										}}
+										onClick={handleClose}
+									/>
+
+									<GithubPicker
+										colors={[
+											'#BAE187',
+											'#CBE4F7',
+											'#FFCC80',
+											'#C5A4F3',
+											'#FFA399',
+											'#FFFF83',
+											'#FFC0FB',
+											'#A5F2F2',
+										]}
+										// triangle={'hide'}
+										width={'112px'}
+										onChange={(value) => {
+											onChange(value.hex); //временное решение. Нужно изменить когда выберем входные данные с сервера
+											handleChange(value);
+										}}
+									/>
+								</div>
+							) : null}
+						</>
 					);
 				},
 			},
@@ -138,7 +210,7 @@ const operationOnServer = (type, code) => {
 		type: `${type}OnServer`,
 		title: `${type === 'add' ? 'Создание' : 'Редактирование'} смены`,
 		width: 445,
-		bodyStyle: {height: 445},
+		bodyStyle: {height: 480},
 		form: {
 			name: `${type}ShiftModalForm`,
 			loadInitData: loadData,
