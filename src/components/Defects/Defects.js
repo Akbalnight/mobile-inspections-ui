@@ -201,7 +201,6 @@ export default function Defects() {
 								</div>
 								<Radio.Group
 									onChange={(e) => {
-										console.log(e.target.value);
 										onChange('code', e.target.value);
 									}}
 									value={value}
@@ -529,7 +528,6 @@ export default function Defects() {
 						filterPanelProps: {
 							configFilter: [...configFilterPanel],
 							defaultFilter: {statusProcessId: null},
-							// onChangeFilter: (value) => console.log(value),
 						},
 						customColumnProps: customColumnProps,
 
