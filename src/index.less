@@ -10,6 +10,7 @@
 @import './components/TechMaps/TechMaps.less';
 @import './components/RouteMaps/RouteMaps.less';
 @import './components/Detours/DetoursCalendar.less';
+@import 'react-calendar-timeline/lib/Timeline.css';
 
 #root {
 	height: 100vh;
@@ -78,7 +79,7 @@
 
 /*Tabs header*/
 
-.anticon.pane p{
+.anticon.pane p {
 	font-size: 13px;
 	margin-left: 4px;
 	padding-top: 5px;
@@ -89,4 +90,21 @@
 .anticon.pane {
 	display: flex;
 	flex-direction: row;
+}
+/* react-calendar-timeline package style*/
+
+.react-calendar-timeline {
+	width: 1650px;
+	margin: 8px;
+	
+	.rct-dateHeader {
+		border-bottom: 0px;
+		border-left: 0px;
+	}
+	.rct-dateHeader-primary {
+		color: black;
+	}
+	.rct-header-root {
+		background: #eff6f9;
+	}
 }
