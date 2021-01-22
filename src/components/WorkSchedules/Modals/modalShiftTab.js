@@ -24,12 +24,12 @@ const OperationOnServer = (type, code) => {
 	const handleClose = () => {
 		setColorPicker((state) => ({...state, open: false}));
 	};
-	const loadData = (callBack, row) => {
-		callBack(type === 'add' ? null : row);
-	};
 	const handleChange = (color) => {
 		console.log(color);
 		setColorPicker((state) => ({open: !state.open, color: color.rgb}));
+	};
+	const loadData = (callBack, row) => {
+		callBack(type === 'add' ? null : row);
 	};
 
 	const mainFields = [
