@@ -14,6 +14,7 @@ import {ReactComponent as CopySchedule} from '../../imgs/workSchedules/buttonCop
 import {useHistory} from 'react-router';
 import {addShiftModal, editShiftModal} from './Modals/modalShiftTab';
 import {addTemplateModal, editTemplateModal} from './Modals/modalTemplatesTab';
+import TimelineScheduler from './TimelineScheduler';
 
 const {RangePicker} = DatePicker;
 
@@ -29,7 +30,7 @@ export default function WorkSchedules() {
 				componentType: 'Modal',
 				buttonProps: {
 					type: 'default',
-					className: 'ml-4 mr-8',
+					className: 'ml-8 mr-8',
 					icon: <MoveSchedules />,
 					disabled: true,
 				},
@@ -286,56 +287,98 @@ export default function WorkSchedules() {
 			},
 		},
 	];
-	const configFilterPanel = [
-		{
-			componentType: 'SingleSelect',
-			name: '1',
-			className: 'mr-16',
-			rowRender: 'positionName',
-			title: 'Сотрудники',
-			widthControl: 120,
-			widthPopup: 250,
-			requestLoadRows: apiGetFlatDataByConfigName('staff'),
-			requestLoadConfig: apiGetConfigByName('staff'),
-		},
-		{
-			componentType: 'DateRange',
-			title: 'Период',
-			nameStart: 'dateStart',
-			nameEnd: 'dateFinish',
-			dateFormat: 'DD-MM-YYYY',
-			className: 'ml-16',
-		},
-	];
+	// const configFilterPanel = [
+	// 	{
+	// 		componentType: 'SingleSelect',
+	// 		name: '1',
+	// 		className: 'mr-16',
+	// 		rowRender: 'positionName',
+	// 		title: 'Сотрудники',
+	// 		widthControl: 120,
+	// 		widthPopup: 250,
+	// 		requestLoadRows: apiGetFlatDataByConfigName('staff'),
+	// 		requestLoadConfig: apiGetConfigByName('staff'),
+	// 	},
+	// 	{
+	// 		componentType: 'DateRange',
+	// 		title: 'Период',
+	// 		nameStart: 'dateStart',
+	// 		nameEnd: 'dateFinish',
+	// 		dateFormat: 'DD-MM-YYYY',
+	// 		className: 'ml-16',
+	// 	},
+	// ];
+
 	const workSchedulesFields = [
 		{
-			componentType: 'Layout',
+			componentType: 'Row',
+			// style: {
+			// 	display: 'flex',
+			// 	flexDirection: 'row',
+			// 	flexWrap: 'wrap',
+			// },
+			className: 'mb-0',
 			children: [
+				{
+					componentType: 'Col',
+					children: [...buttonMoveSchedule, ...buttonCopySchedule],
+				},
+				{
+					componentType: 'Col',
+					style: {
+						display: 'flex',
+						flexDirection: 'row',
+					},
+					children: [
+						{
+							componentType: 'Item',
+							label: 'Сотрудники',
+							className: 'ml-8 mb-0',
+							child: {
+								componentType: 'SingleSelect',
+								name: 'executorId',
+								className: 'ml-0 mr-16',
+								rowRender: 'positionName',
+								widthControl: 120,
+								widthPopup: 250,
+								requestLoadRows: apiGetFlatDataByConfigName(
+									'staff'
+								),
+								requestLoadConfig: apiGetConfigByName('staff'),
+							},
+						},
+						{
+							componentType: 'Item',
+							label: 'Период',
+							className: 'ml-8 mb-0',
+							child: {
+								componentType: 'Custom',
+								render: ({onChange, defaultValue, value}) => {
+									return <RangePicker />;
+								},
+							},
+						},
+					],
+				},
 				{
 					componentType: 'Item',
 					child: {
-						componentType: 'ServerTable',
-						selectable: true,
-						commandPanelProps: {
-							systemBtnProps: {
-								edit: {actionType: ['modal', 'modal']},
-								delete: {},
-							},
-							leftCustomSideElement: [
-								...buttonMoveSchedule,
-								...buttonCopySchedule,
-							],
+						componentType: 'Custom',
+
+						className: 'mr-16',
+						render: ({onChange, defaultValue, value}) => {
+							return (
+								<div
+									style={{
+										width: 'auto',
+										margin: '8px',
+										display: 'flex',
+									}}
+								>
+									<TimelineScheduler />
+								</div>
+							);
 						},
-						filterPanelProps: {
-							configFilter: [...configFilterPanel],
-						},
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'defects' //'workSchedules'
-						),
-						requestLoadConfig: apiGetConfigByName(
-							'defects' //'workSchedules'
-						),
-						dispatchPath: 'workSchedules.workSchedulesTable.table',
 					},
 				},
 			],
@@ -412,18 +455,24 @@ export default function WorkSchedules() {
 					componentType: 'TabPane',
 					tab: <WorkSchedulesPane />,
 					key: 'workSchedules',
+					className: 'workSchedules',
+					// style: {
+					// 	height: '200px',
+					// },
 					children: [...workSchedulesFields],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <WorkShiftPane />,
 					key: 'workShifts',
+					className: 'workShifts',
 					children: [...workShiftsFields],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <WorkTemplatesPane />,
 					key: 'workSchedulesTemplates',
+					className: 'workSchedulesTemplates',
 					children: [...workSchedulesTemplatesFields],
 				},
 			],

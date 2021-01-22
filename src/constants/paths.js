@@ -57,7 +57,7 @@ export const paths = {
 	// DEBUG_MARSEL: {
 	// 	title: 'DebugMarsel',
 	// 	path: '/debugMarsel',
-	// 	component: DebugMarsel,
+	// 	component: Home,
 	// },
 	CATALOG: {
 		exact: false,

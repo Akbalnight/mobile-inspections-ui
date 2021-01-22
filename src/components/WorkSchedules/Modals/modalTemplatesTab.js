@@ -1,13 +1,14 @@
+import React from 'react';
 import {CopyOutlined, DeleteOutlined, PlusOutlined} from '@ant-design/icons';
 import {TimePicker} from 'antd';
 
 const {RangePicker} = TimePicker;
 
-export const addTemplateModal = () => operationOnServer('add', {});
+export const addTemplateModal = () => OperationOnServer('add', {});
 
-export const editTemplateModal = () => operationOnServer('edit', {});
+export const editTemplateModal = () => OperationOnServer('edit', {});
 
-const operationOnServer = (type, code) => {
+const OperationOnServer = (type, code) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
@@ -30,6 +31,7 @@ const operationOnServer = (type, code) => {
 		{
 			componentType: 'ListItems',
 			name: 'templatesForm',
+
 			children: [
 				{
 					componentType: 'Row',
@@ -79,7 +81,7 @@ const operationOnServer = (type, code) => {
 										icon: <PlusOutlined />,
 										onClick: (e, {fields, operation}) => {
 											operation.add();
-											console.log(fields);
+											// console.log(fields);
 										},
 									},
 								},
@@ -191,7 +193,6 @@ const operationOnServer = (type, code) => {
 					children: [
 						{
 							componentType: 'Row',
-							dispatchPath: 'workSchedules.templates.listItem',
 							className: 'mt-8',
 							children: [
 								{
@@ -200,9 +201,22 @@ const operationOnServer = (type, code) => {
 									children: [
 										{
 											componentType: 'Item',
+											name: `count`, // чтобы автоматичеки получать длинну массива сюда, но пока не получилость
 											child: {
-												name: `field.name`, // чтобы автоматичеки получать длинну массива сюда, но пока не получилость
 												componentType: 'Text',
+												dispatchPath:
+													'workSchedules.templates.listItem',
+												// subscribe: {
+												// 	name: 'count',
+												// 	path:
+												// 		'rtd.workSchedules.templates.listItem',
+												// 	onChange: ({
+												// 		value,
+												// 		setSubscribeProps,
+												// 	}) => {
+												// 		// console.log(value);
+												// 	},
+												// },
 											},
 										},
 									],
