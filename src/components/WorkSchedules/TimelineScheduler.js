@@ -21,6 +21,15 @@ export default function TimelineScheduler() {
 		{id: 11, title: 'Сидоров'},
 		{id: 12, title: 'Сидоров'},
 		{id: 13, title: 'Сидоров'},
+		{id: 14, title: 'Сидоров'},
+		{id: 15, title: 'Сидоров'},
+		{id: 16, title: 'Сидоров'},
+		{id: 17, title: 'Сидоров'},
+		{id: 18, title: 'Сидоров'},
+		{id: 19, title: 'Сидоров'},
+		{id: 20, title: 'Сидоров'},
+		{id: 21, title: 'Сидоров'},
+		{id: 22, title: 'Сидоров'},
 	];
 
 	const items = [

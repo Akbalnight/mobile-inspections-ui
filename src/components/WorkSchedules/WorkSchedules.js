@@ -312,11 +312,11 @@ export default function WorkSchedules() {
 	const workSchedulesFields = [
 		{
 			componentType: 'Row',
-			style: {
-				display: 'flex',
-				flexDirection: 'row',
-				flexWrap: 'wrap',
-			},
+			// style: {
+			// 	display: 'flex',
+			// 	flexDirection: 'row',
+			// 	flexWrap: 'wrap',
+			// },
 			className: 'mb-0',
 			children: [
 				{
@@ -368,7 +368,13 @@ export default function WorkSchedules() {
 						className: 'mr-16',
 						render: ({onChange, defaultValue, value}) => {
 							return (
-								<div style={{display: 'flex'}}>
+								<div
+									style={{
+										width: 'auto',
+										margin: '8px',
+										display: 'flex',
+									}}
+								>
 									<TimelineScheduler />
 								</div>
 							);
@@ -449,6 +455,7 @@ export default function WorkSchedules() {
 					componentType: 'TabPane',
 					tab: <WorkSchedulesPane />,
 					key: 'workSchedules',
+					className: 'workSchedules',
 					// style: {
 					// 	height: '200px',
 					// },
@@ -458,12 +465,14 @@ export default function WorkSchedules() {
 					componentType: 'TabPane',
 					tab: <WorkShiftPane />,
 					key: 'workShifts',
+					className: 'workShifts',
 					children: [...workShiftsFields],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <WorkTemplatesPane />,
 					key: 'workSchedulesTemplates',
+					className: 'workSchedulesTemplates',
 					children: [...workSchedulesTemplatesFields],
 				},
 			],
