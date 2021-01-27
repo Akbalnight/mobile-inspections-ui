@@ -1,116 +1,115 @@
-// import React, {useEffect, useState} from 'react';
-// import {BasePage} from 'mobile-inspections-base-ui';
-// import {Form, notificationError} from 'rt-design';
-// import moment from 'moment';
-// import {Calendar} from 'antd';
-// import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
-// import Popover from 'antd/es/popover';
-// import Checkbox from 'antd/es/checkbox/Checkbox';
-
-// export default function DebugMarsel() {
-// 	const [calendarValues, setCalendarValues] = useState([]);
-
-// 	useEffect(() => {
-// 		apiGetFlatDataByConfigName('detours')({
-// 			data: {},
-// 			params: {},
-// 		})
-// 			.then((response) => setCalendarValues(response.data))
-// 			.catch((error) =>
-// 				notificationError(error, 'Ошибка загрузки данных формы')
-// 			);
-// 	}, []);
-
-// 	function dateCellRender(value) {
-// 		const listData = calendarValues;
-// 		return (
-// 			<>
-// 				{listData && listData.map((item) => {
-// 					if (
-// 						String(value._d).slice(0, 15) ===
-// 						String(moment(item.dateStartPlan)._d).slice(0, 15)
-// 					) {
-// 						// console.log(1);// тут проблема
-// 						const content = (
-// 							<div key={item.id} className='detours'>
-// 								<div>Название: {item.name}</div>
-// 								<div>Маршрут: {item.routeName}</div>
-// 								<div>Иcпольнитель: {item.staffName}</div>
-// 								<div>
-// 									Учитывать порядок:
-// 									<Checkbox
-// 										checked={item.saveOrderControlPoints}
-// 										disabled
-// 									></Checkbox>
-// 								</div>
-// 								<div>
-// 									Начало:
-// 									{moment(item.dateStartPlan).format(
-// 										'DD MMM YY HH:mm:ss'
-// 									)}
-// 								</div>
-// 								<div>
-// 									Окончание:
-// 									{moment(item.dateFinishPlan).format(
-// 										'DD MMM YY HH:mm:ss'
-// 									)}
-// 								</div>
-// 							</div>
-// 						);
-// 						return (
-// 							<Popover
-// 								title={value.format('DD MMMM YY')}
-// 								trigger={'hover'}
-// 								content={content}
-// 							>
-// 								<div key={item.id} className='detours-short'>
-// 									{item.name}
-// 								</div>
-// 							</Popover>
-// 						);
-// 					}
-
-// 				})}
-// 			</>
-// 		);
-// 	}
-
-// 	const calendarFields = [
-// 		{
-// 			componentType: 'Item',
-// 			child: {
-// 				componentType: 'Title',
-// 				label: 'Календарь обходов',
-// 				level: 5,
+/**
+ * Заметил, что state обновляется периодически.
+ * работает в штатном режиме 80% случаев использования модального окна(закрытие с примечанием).
+ * в остальных случаях не обновляется таблица.
+ * В ситуацияхкогда выделений больше одного стабильность выше.
+ *
+ */
+// 	const processBeforeSaveForm = (rawValues) => {
+// 		const values = {...rawValues};
+// 		const resultData = values.defectsWithNote.map((el) => {
+// 			return {
+// 				id: el.id,
+// 				dateEliminationFact: values.dateEliminationFact,
+// 				note: values.note,
+// 			};
+// 		});
+// 		return {defectsWithNote: resultData};
+// 	};
+// const buttonCloseWithNote = [
+// 	{
+// 		componentType: 'Item',
+// 		child: {
+// 			componentType: 'Modal',
+// 			buttonProps: {
+// 				type: 'default',
+// 				icon: <CloseWithNote />,
+// 				className: 'ml-4 mr-8',
+// 				disabled: true,
 // 			},
-// 		},
+// 			modalConfig: {
+// 				type: 'editOnServer',
+// 				title: `Закрыть с примечанием`,
+// 				width: 600,
+// 				bodyStyle: {height: 320},
+// 				okText: 'Передать',
+// 				onFinish: (values) => tableRef && tableRef.reloadData({}),
+// 				requestSaveRow: apiSaveByConfigName('saveDefectsWithNote'), //Один и вариантов сохранения данных
+// 				form: {
+// 					name: 'defectCloseData',
+// 					noPadding: true,
+// 					labelCol: {span: 10},
+// 					wrapperCol: {span: 12},
+// 					loadInitData: (callBack, row) => {
+// 						callBack(row);
+// 					},
+// 					// requestSaveForm: apiSaveByConfigName(
+// 					// 	'saveDefectsWithNote'
+// 					// ), //Один и вариантов сохранения данных
+// 					processBeforeSaveForm: processBeforeSaveForm,
+// 					methodSaveForm: 'PUT',
+// 					body: [
+// 						{
+// 							componentType: 'Col',
+// 							className: 'mt-16',
+// 							children: [
+// 								{
+// 									componentType: 'Item',
+// 									label: 'Выбрано дефектов',
+// 									name: 'length',
+// 									child: {
+// 										componentType: 'Text',
+// 									},
+// 								},
+// 								{
+// 									componentType: 'Item',
+// 									label: 'Дата фактического устранения',
+// 									name: 'dateEliminationFact',
+// 									child: {
+// 										componentType: 'DatePicker',
+// 										showTime: true,
+// 									},
+// 								},
+// 								{
+// 									componentType: 'Item',
+// 									label: `Примечание
+// 									по устранению`,
+// 									name: 'note',
+// 									child: {
+// 										componentType: 'TextArea',
+// 									},
+// 								},
+// 								{
+// 									componentType: 'Item',
+// 									hidden: true,
+// 									name: 'defectsWithNote',
+// 									child: {
+// 										componentType: 'MultiSelect',
+// 										rowRender: 'name',
+// 									},
+// 								},
+// 							],
+// 						},
+// 					],
+// 				},
+// 			},
 
-// 		{
-// 			componentType: 'Item',
-// 			name: 'calendarDetours',
-// 			child: {
-// 				componentType: 'Custom',
-// 				render: ({onChange, defaultValue, value}) => {
-// 					return (
-// 						<Calendar
-// 							headerRender={() => null}
-// 							dateCellRender={dateCellRender}
-// 						/>
-// 					);
+// 			dispatchPath: 'defects.defectModalSendPanel.modal',
+// 			subscribe: {
+// 				name: 'tableCloseInfo',
+// 				path: 'rtd.defects.defectTable.table.selected',
+// 				onChange: ({value, setModalData, setButtonProps}) => {
+// 					value &&
+// 						setModalData &&
+// 						setModalData({
+// 							defectsWithNote: value,
+// 							length: value.length,
+// 						});
+// 					value &&
+// 						setButtonProps &&
+// 						setButtonProps({disabled: !(value.length > 0)});
 // 				},
 // 			},
 // 		},
-// 	];
-
-// 	const formConfig = {
-// 		noPadding: false,
-// 		name: 'exampleWithModalForm',
-// 		body: [...calendarFields],
-// 	};
-
-// 	return (
-// 		<BasePage>
-// 			<Form {...formConfig} />
-// 		</BasePage>
-// 	);
-// }
+// 	},
+// ];

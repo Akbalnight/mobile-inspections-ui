@@ -3,13 +3,12 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {useHistory, useParams} from 'react-router';
 import {Form, notificationError} from 'rt-design';
 import {
-	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
-import {ReactComponent as ExecutorIcon} from '../../imgs/detour/executor-btn.svg';
+
 import {paths} from '../../constants/paths';
+import {buttonExecutorDetour} from './Modals/modalButtonDetours';
 
 export default function DetoursForm() {
 	const pageParams = useParams();
@@ -34,129 +33,6 @@ export default function DetoursForm() {
 				);
 		}
 	};
-
-	const configFilterPanel = [
-		{
-			componentType: 'SingleSelect',
-			name: 'id',
-			className: 'mr-16',
-			rowRender: 'positionName',
-			title: 'Сотрудник',
-			widthControl: 150,
-			widthPopup: 300,
-			heightPopup: 200,
-			requestLoadRows: apiGetFlatDataByConfigName('staff'),
-			requestLoadConfig: apiGetConfigByName('staff'),
-		},
-	];
-
-	const selectFields = [
-		{
-			componentType: 'Item',
-			name: 'structuralUnits', // ввел это понятие, прокинул по модалке дальше
-			label: 'Структурное подразделение',
-			rules: [
-				{
-					message: 'Заполните вариант подразделения',
-					required: true,
-				},
-			],
-			child: {
-				componentType: 'SingleSelect',
-				expandColumnKey: 'id',
-				rowRender: 'name',
-				widthControl: 0,
-				widthPopup: 300,
-				heightPopup: 200,
-				dispatchPath:
-					'detourSchedules.selectEmployeModal.structuralUnits',
-				requestLoadRows: apiGetHierarchicalDataByConfigName(
-					'departments'
-				),
-				requestLoadDefault: apiGetFlatDataByConfigName('departments'),
-			},
-		},
-		{
-			componentType: 'Item',
-			name: 'workShift', // ввел это понятие, прокинул по модалке дальше
-			label: 'Рабочая смена',
-			rules: [
-				{
-					message: 'Заполните вариант смены',
-					required: true,
-				},
-			],
-			child: {
-				componentType: 'SingleSelect',
-				expandColumnKey: 'id',
-				rowRender: 'positionName',
-				widthControl: 0,
-				widthPopup: 300,
-				heightPopup: 200,
-				defaultFilter: {departmentName: null},
-				dispatchPath: 'detourSchedules.selectEmployeModal.workShift',
-				subscribe: {
-					name: 'schedulesWorkShift',
-					path:
-						'rtd.detourSchedules.selectEmployeModal.structuralUnits.selected',
-					onChange: ({value, setReloadTable}) =>
-						value &&
-						setReloadTable &&
-						setReloadTable({
-							filter: {departmentName: value.name}, // настроить фильтрацио по сменам
-						}),
-				},
-				requestLoadRows: apiGetFlatDataByConfigName('staff'), // поставить правильный запрос
-				requestLoadDefault: apiGetFlatDataByConfigName('staff'), // поставить правильный запрос
-			},
-		},
-	];
-
-	const executorTableFields = [
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Исполнитель:',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Layout',
-			children: [
-				{
-					componentType: 'Item',
-					name: 'executorTable',
-					child: {
-						componentType: 'ServerTable',
-						style: {height: '240px'},
-						defaultFilter: {positionId: null},
-						selectable: true,
-						filterPanelProps: {
-							configFilter: [...configFilterPanel],
-						},
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'staffAuto'
-						),
-						requestLoadConfig: apiGetConfigByName('staffAuto'),
-						dispatchPath:
-							'detourSchedules.executorTableChoise.executor',
-						subscribe: {
-							name: 'executor',
-							path:
-								'rtd.detourSchedules.selectEmployeModal.workShift.selected',
-							onChange: ({value, setReloadTable}) =>
-								value &&
-								setReloadTable &&
-								setReloadTable({
-									filter: {positionId: value.positionId},
-								}),
-						},
-					},
-				},
-			],
-		},
-	];
 
 	// Описание
 	const headFields = [
@@ -278,41 +154,7 @@ export default function DetoursForm() {
 				},
 			},
 		},
-		{
-			componentType: 'Item',
-			label: 'Доступные исполнители',
-			child: {
-				componentType: 'Modal',
-				buttonProps: {
-					label: 'Выбрать',
-					icon: <ExecutorIcon />,
-					type: 'default',
-					// disabled: true
-				},
-				modalConfig: {
-					type: `select`,
-					title: 'Выбор исполнителя',
-					width: 576,
-					bodyStyle: {
-						height: 496,
-					},
-					okText: 'Выбрать',
-					form: {
-						name: `${
-							pageParams.id === 'new' ? 'add' : 'edit'
-						}ModalForm`,
-						labelCol: {span: 8},
-						wrapperCol: {span: 12},
-						loadInitData: (callBack, row) => {
-							pageParams.id === 'new'
-								? callBack(null)
-								: callBack(row);
-						},
-						body: [...selectFields, ...executorTableFields],
-					},
-				},
-			},
-		},
+		buttonExecutorDetour(pageParams),
 		{
 			componentType: 'Item',
 			hidden: true,
@@ -520,7 +362,6 @@ export default function DetoursForm() {
 		},
 	];
 
-	//
 	const formConfig = {
 		name: 'DetoursConfiguratorDetourSchedulesForm',
 		labelCol: {span: 10},
