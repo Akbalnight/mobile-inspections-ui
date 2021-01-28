@@ -12,6 +12,9 @@ import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 import {configFilterPanel, customColumnProps} from './tableProps';
 import DetoursCalendar from './DetoursCalendar';
 
+/**
+ * Основной компонент раздела, вынесены настройки таблицы в tableProps, модальные окна вынесены в отдельную папку
+ */
 export default function Detours() {
 	const [pageView, setPageView] = useState(true);
 	let history = useHistory();

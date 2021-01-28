@@ -10,6 +10,9 @@ import {
 import {paths} from '../../constants/paths';
 import {buttonExecutorDetour} from './Modals/modalButtonDetours';
 
+/**
+ * Данная форма может быть представлена виде страницы или модального окна
+ */
 export default function DetoursForm() {
 	const pageParams = useParams();
 	const history = useHistory();
@@ -34,7 +37,9 @@ export default function DetoursForm() {
 		}
 	};
 
-	// Описание
+	/**
+	 * Основные поля формы создания/редактирования дефекта
+	 */
 	const headFields = [
 		{
 			componentType: 'Item',
@@ -131,7 +136,7 @@ export default function DetoursForm() {
 	// Исполнитель
 	const executorFields = [
 		/**
-		 * тут сделал небольшую подписку на селектор внутри модалки, для красивого отображения исполнителся
+		 * тут сделал небольшую подписку на селектор внутри модалки, для отображения исполнителся
 		 * обхода.
 		 * позже можно подписать на таблицу Исполнителей внутри модального окна
 		 */

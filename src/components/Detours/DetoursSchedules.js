@@ -8,6 +8,11 @@ import {
 } from '../../apis/catalog.api';
 import {configFilterPanel, customColumnProps} from './tableProps';
 
+/**
+ * Данный компонет был создан для реализации концепции повторения Обходов с определенной периодичностью.
+ * В дальнейшем возможна переработка в формате Microsoft Outlock, но этовопрос будет задан аналитику для уточнения
+ * необходимости
+ */
 export default function DetoursSchedules() {
 	const [hidden, setHidden] = useState({
 		day: true,
@@ -297,7 +302,10 @@ export default function DetoursSchedules() {
 		...everyYearFields,
 		...radioGroupFields,
 	];
-
+	/**
+	 * не вынес данное модально окно, на него завязан весь файл, фактически без нее тут останется только таблица.
+	 * Уже имеется опыт привращения в функцию, таких модальных окон. Надо будет обсудить когда вернемся к этому вопросу.
+	 */
 	const buttonRepeat = [
 		{
 			componentType: 'Item',
