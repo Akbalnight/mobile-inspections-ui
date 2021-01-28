@@ -5,6 +5,10 @@ import {
 import {paths} from '../../../constants/paths';
 import {duration} from '../../Base/customColumnProps';
 
+/**
+ *
+ * Информационное модальное окно
+ */
 export const routeViewModal = (history) => {
 	let Row;
 
@@ -20,6 +24,11 @@ export const routeViewModal = (history) => {
 			params,
 		});
 	};
+
+	/**
+	 *
+	 * нужно поменять loadControlPointsTechMapsHandler, в данный момент это лишь временное решение
+	 */
 	const loadControlPointsTechMapsHandler = ({data, params}) => {
 		const newData = {...data, routeId: Row.id};
 		return apiGetFlatDataByConfigName('routeMaps')({
@@ -28,7 +37,7 @@ export const routeViewModal = (history) => {
 		});
 	};
 
-	const allFields = [
+	const infoFields = [
 		{
 			componentType: 'Row',
 			justify: 'space-between',
@@ -60,31 +69,10 @@ export const routeViewModal = (history) => {
 		},
 		{
 			componentType: 'Row',
-			gutter: [16, 16],
 			children: [
 				{
 					componentType: 'Col',
-					span: 8, // в этом столбце по фигме мало инфы
-					children: [
-						{
-							componentType: 'Item',
-							label: 'Код',
-							name: 'code',
-							className: 'mb-0',
-							child: {componentType: 'Text'},
-						},
-						{
-							componentType: 'Item',
-							label: 'Продолжительность',
-							name: 'duration',
-							className: 'mb-0',
-							child: {componentType: 'Text'},
-						},
-					],
-				},
-				{
-					componentType: 'Col',
-					span: 12, // возможно Наименование будет длинным
+					span: 8,
 					children: [
 						{
 							componentType: 'Item',
@@ -94,8 +82,37 @@ export const routeViewModal = (history) => {
 						},
 					],
 				},
+				{
+					componentType: 'Col',
+					span: 6,
+					children: [
+						{
+							componentType: 'Item',
+							label: 'Код',
+							name: 'code',
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+					],
+				},
+				{
+					componentType: 'Col',
+					span: 8,
+					children: [
+						{
+							componentType: 'Item',
+							label: 'Продолжительность',
+							name: 'duration',
+							className: 'mb-0',
+							child: {componentType: 'Text'},
+						},
+					],
+				},
 			],
 		},
+	];
+
+	const tableFields = [
 		{
 			componentType: 'Item',
 			child: {
@@ -112,12 +129,13 @@ export const routeViewModal = (history) => {
 					componentType: 'Item',
 					name: 'controlPointsTable',
 					child: {
-						componentType: 'LocalTable', // всего одна загрузка инфы с сервера
+						componentType: 'LocalTable',
 						customColumnProps: [{...duration}],
+						style: {height: '180px'},
 						requestLoadRows: loadControlPointsHandler,
 						requestLoadConfig: apiGetConfigByName(
 							'routeControlPoints'
-						), // нужно поставить конфиг
+						),
 					},
 				},
 			],
@@ -131,6 +149,9 @@ export const routeViewModal = (history) => {
 				level: 5,
 			},
 		},
+		/**
+		 * тут вероятнее всего будет custom  решение
+		 */
 		{
 			componentType: 'Layout',
 			children: [
@@ -138,7 +159,8 @@ export const routeViewModal = (history) => {
 					componentType: 'Item',
 					name: 'controlPointsTable',
 					child: {
-						componentType: 'LocalTable', // всего одна загрузка инфы с сервера
+						componentType: 'LocalTable',
+						style: {height: '180px'},
 						requestLoadRows: loadControlPointsTechMapsHandler,
 						requestLoadConfig: apiGetConfigByName('routeMaps'),
 					},
@@ -155,7 +177,7 @@ export const routeViewModal = (history) => {
 		form: {
 			name: 'routeDataView',
 			loadInitData: loadData,
-			body: [...allFields],
+			body: [...infoFields, ...tableFields],
 		},
 	};
 };

@@ -8,7 +8,7 @@ import {
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
 import {paths} from '../../constants/paths';
-import {controlPointViewModal} from './Modals/routeControlPointView';
+import {routeControlPointViewModal} from './Modals/routeControlPointView';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
@@ -142,7 +142,7 @@ export default function RoutesForm() {
 						modals: [
 							addControlPointToRoute('controlPoints'),
 							editControlPointToRoute('controlPoints'),
-							controlPointViewModal(),
+							routeControlPointViewModal(),
 						],
 					},
 				},

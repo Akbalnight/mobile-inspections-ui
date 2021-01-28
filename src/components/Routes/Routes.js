@@ -13,7 +13,6 @@ import {
 } from './Modals/routeControlPointEdit';
 import {routeViewModal} from './Modals/routeView';
 import {code} from '../Base/customColumnProps';
-// import {controlPointViewModal} from './Modals/routeControlPointView';
 
 export default function Routes() {
 	let history = useHistory();
@@ -46,7 +45,6 @@ export default function Routes() {
 								addControlPointToRoute(),
 								editControlPointToRoute(),
 								routeViewModal(history), //info about Route
-								// controlPointViewModal(), // info about ControlPoint
 							],
 						},
 					},

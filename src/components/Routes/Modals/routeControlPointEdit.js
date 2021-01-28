@@ -14,7 +14,6 @@ const OperationOnLocal = (type, code) => {
 	const loadData = (callBack, row) => {
 		Row = {...row};
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
-		// console.log(row);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};
 
@@ -123,6 +122,7 @@ const OperationOnLocal = (type, code) => {
 							showElements: ['selected'],
 						},
 						defaultFilter: {controlPointsId: null},
+						style: {height: '180px'},
 						subscribe:
 							type === 'add'
 								? {
