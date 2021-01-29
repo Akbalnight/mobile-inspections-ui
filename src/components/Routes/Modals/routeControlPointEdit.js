@@ -5,6 +5,11 @@ import {
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
 
+/**
+ * в данном модальном окне сохранение идет в формате "...OnLocal", причиною тому
+ * перенос данных в форму из которой вызывается это окно.
+ * В свою очередь в компоненте RoutesForm.js происходит серверное сохранение
+ */
 export const addControlPointToRoute = () => OperationOnLocal('add', {});
 
 export const editControlPointToRoute = () => OperationOnLocal('edit', {});
@@ -142,9 +147,7 @@ const OperationOnLocal = (type, code) => {
 										},
 								  }
 								: {},
-						// не отображает в онлайн режиме, необходимо праdильно выстоить
 						requestLoadRows: loadControlPointsEquipments,
-						// правльно разметить столбцы в конфиге,
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsEquipments'
 						),
@@ -231,8 +234,6 @@ const OperationOnLocal = (type, code) => {
 	];
 
 	return {
-		//change ...OnServer нужно не забыть поставить requestSaveRow
-		// НЕ нужно должно быть OnLocal
 		type: `${type}OnLocal`,
 		title:
 			type === 'add'

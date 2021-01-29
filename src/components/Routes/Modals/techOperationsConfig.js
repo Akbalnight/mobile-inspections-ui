@@ -1,6 +1,12 @@
 import {customColumnProps} from '../../TechMapsForm/TechMapColumnProps';
 import {apiGetConfigByName} from '../../../apis/catalog.api';
 
+/**
+ *
+ * общий блок присутствующий в нескольких модальных окнах.
+ * Пример, custom footer
+ */
+
 export const techOperations = (loadControlPointsTechOperations) => [
 	{
 		componentType: 'Item',
@@ -39,7 +45,6 @@ export const techOperations = (loadControlPointsTechOperations) => [
 								name: 'duration',
 								child: {
 									componentType: 'Text',
-									// label: 'Summary',
 									subscribe: {
 										name:
 											'controlPointTechMapTechOperation',

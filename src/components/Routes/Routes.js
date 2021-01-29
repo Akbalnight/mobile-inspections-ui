@@ -14,6 +14,9 @@ import {
 import {routeViewModal} from './Modals/routeView';
 import {code} from '../Base/customColumnProps';
 
+/**
+ * Основной компонент, отсюда выходят все станицы и модальные окна
+ */
 export default function Routes() {
 	let history = useHistory();
 
@@ -44,7 +47,7 @@ export default function Routes() {
 							modals: [
 								addControlPointToRoute(),
 								editControlPointToRoute(),
-								routeViewModal(history), //info about Route
+								routeViewModal(history),
 							],
 						},
 					},

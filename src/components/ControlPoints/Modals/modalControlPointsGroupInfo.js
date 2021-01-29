@@ -1,3 +1,8 @@
+/**
+ * Модальное окно информации о группе КТ, если группа наивысшего порядка, то родителя не будет
+ * Надо обдумать как вырулить данную ситуацию
+ */
+
 export const controlPointsGroupInfo = () => {
 	const loadData = (callBack, row) => {
 		callBack(row);

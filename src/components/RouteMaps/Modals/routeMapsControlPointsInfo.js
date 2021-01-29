@@ -3,35 +3,55 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 
-export const routeMapsControlPointViewModal = () => {
-	let Row;
+/**
+ *
+ * historyChange - временное решение нужно определиться какие данные будут приходить из конфигов получения
+ * controlPoints  и routeControlPoints. После этого можно убрать.
+ *
+ * объединил функции загрузки данных
+ */
+/**
+ *
+ * Получение данных по определенной КТ
+ */
+// const loadControlPointEquipmentsHandler = ({data, params}) => {
+// 	const newData = {...data, controlPointsId: Row.controlPointId};
+// 	return apiGetFlatDataByConfigName('controlPointsEquipments')({
+// 		data: newData,
+// 		params,
+// 	});
+// };
 
+/**
+ *
+ * Получение данных по определенной КТ
+ */
+// const loadControlPointTechMapsHandler = ({data, params}) => {
+// 	const newData = {...data, controlPointsId: Row.controlPointId};
+// 	return apiGetFlatDataByConfigName('controlPointsTechMaps')({
+// 		data: newData,
+// 		params,
+// 	});
+// };
+
+export const routeMapsControlPointViewModal = (history) => {
+	let Row;
+	let historyChange =
+		history.location.pathname === '/detours-configurator/control-points';
 	const loadData = (callBack, row) => {
 		Row = row;
 		console.log(Row);
-
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		callBack(row);
 	};
-	/**
-	 *
-	 * Получение данных по определенной КТ
-	 */
-	const loadControlPointEquipmentsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.controlPointId};
-		return apiGetFlatDataByConfigName('controlPointsEquipments')({
-			data: newData,
-			params,
-		});
-	};
 
 	/**
-	 *
-	 * Получение данных по определенной КТ
+ 	*  предлагаю рассмотреть  такой вариант для обоих случаев 	
+	это из документации
 	 */
-	const loadControlPointTechMapsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.controlPointId};
-		return apiGetFlatDataByConfigName('controlPointsTechMaps')({
+	const loadRowsHandler = (catalogName, sRow, {params, data}) => {
+		const newData = {...data, controlPointsId: sRow.controlPointId};
+		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,
 		});
@@ -56,7 +76,7 @@ export const routeMapsControlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Код',
-							name: 'controlPointCode',
+							name: historyChange ? 'code' : 'controlPointCode',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -69,7 +89,7 @@ export const routeMapsControlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Наименование',
-							name: 'controlPointName',
+							name: historyChange ? 'name' : 'controlPointName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -82,7 +102,7 @@ export const routeMapsControlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Группа',
-							name: 'controlPointParent', //нужно понять что конкретно тут хотят видеть
+							name: 'parentName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -210,7 +230,12 @@ export const routeMapsControlPointViewModal = () => {
 					child: {
 						componentType: 'LocalTable',
 						style: {height: '180px'},
-						requestLoadRows: loadControlPointEquipmentsHandler,
+						requestLoadRows: (info) =>
+							loadRowsHandler(
+								'controlPointsEquipments',
+								Row,
+								info
+							),
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsEquipments'
 						),
@@ -240,7 +265,8 @@ export const routeMapsControlPointViewModal = () => {
 					child: {
 						componentType: 'LocalTable',
 						style: {height: '180px'},
-						requestLoadRows: loadControlPointTechMapsHandler,
+						requestLoadRows: (info) =>
+							loadRowsHandler('controlPointsTechMaps', Row, info),
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsTechMaps'
 						),
