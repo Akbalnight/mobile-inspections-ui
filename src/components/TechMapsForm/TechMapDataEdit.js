@@ -10,9 +10,12 @@ import {
 } from '../../apis/catalog.api';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {nameInput} from '../Base/Inputs/NameInput';
-import {addTechOperation, editTechOperation} from './TechOperationsModal';
+import {
+	addTechOperation,
+	editTechOperation,
+} from './Modals/techOperationsModal.js';
 import {paths} from '../../constants/paths';
-import {customColumnProps} from './TechMapColumnProps';
+import {customColumnProps, customFields} from './tableProps';
 
 const TechMapDataEdit = () => {
 	const pageParams = useParams();
@@ -60,29 +63,6 @@ const TechMapDataEdit = () => {
 			params,
 		});
 	};
-
-	// Дополнительная обработка объекта строки после закрытия модалки
-	const customFields = [
-		{
-			name: 'duration',
-			value: (row) => parseInt(row.hours * 60) + parseInt(row.minutes),
-		},
-		{
-			name: 'code',
-			value: (row, rows) =>
-				parseInt(
-					rows.reduce(
-						(max, current) =>
-							parseInt(current.code) > max ? current.code : max,
-						0
-					)
-				) + 1,
-		},
-		{
-			name: 'position',
-			value: (row, rows) => rows.length + 1,
-		},
-	];
 
 	const headFields = [
 		{
@@ -173,7 +153,6 @@ const TechMapDataEdit = () => {
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
-								// addAsCopy: {},
 								edit: {actionType: ['modal', 'modal']},
 								delete: {},
 								up: {},

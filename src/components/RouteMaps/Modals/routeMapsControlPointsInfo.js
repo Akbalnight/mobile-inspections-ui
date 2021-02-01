@@ -6,7 +6,8 @@ import {
 /**
  *
  * historyChange - временное решение нужно определиться какие данные будут приходить из конфигов получения
- * controlPoints  и routeControlPoints. После этого можно убрать.
+ * controlPoints  и routeControlPoints. В конфигурацию controlPoints, добавил недостающие данные.
+ * Возможен пересмотр данного модального откна
  *
  * объединил функции загрузки данных
  */
@@ -136,7 +137,7 @@ export const routeMapsControlPointViewModal = (history) => {
 										{
 											componentType: 'Item',
 											label: 'Тип',
-											name: 'controlPointRfidName', // найминг нужно подумать для метки
+											name: 'controlPointRfidName',
 											className: 'mb-0',
 											child: {componentType: 'Text'},
 										},
@@ -149,7 +150,7 @@ export const routeMapsControlPointViewModal = (history) => {
 										{
 											componentType: 'Item',
 											label: 'Код метки',
-											name: 'controlPointRfidCode', // найминг нужно подумать для метки
+											name: 'controlPointRfidCode',
 											className: 'mb-0',
 											child: {componentType: 'Text'},
 										},
@@ -159,53 +160,42 @@ export const routeMapsControlPointViewModal = (history) => {
 						},
 					],
 				},
-				{
-					componentType: 'Col',
-					span: 12,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Местоположение',
-								level: 5,
-							},
-						},
-						{
-							componentType: 'Row',
+				historyChange // убрал раздел Местоположение для КТ, пока нет ясности в необходимости данной информации
+					? {}
+					: {
+							componentType: 'Col',
+							span: 12,
 							children: [
 								{
 									componentType: 'Item',
-									label: 'Координаты по горизонтали',
-									name: 'xLocation',
-									className: 'mb-0',
-									child: {componentType: 'Text'},
+									child: {
+										componentType: 'Title',
+										label: 'Местоположение',
+										level: 5,
+									},
 								},
 								{
-									componentType: 'Item',
-									label: 'по вертикали',
-									name: 'yLocation',
-									className: 'mb-0 ml-8',
-									child: {componentType: 'Text'},
+									componentType: 'Row',
+									children: [
+										{
+											componentType: 'Col',
+											span: 10,
+											children: [
+												{
+													componentType: 'Item',
+													label: 'Координаты',
+													name: 'coordinates',
+													className: 'mb-0 ml-8',
+													child: {
+														componentType: 'Text',
+													},
+												},
+											],
+										},
+									],
 								},
-								// после генерации новой сущности в конфигураторе получения данных изменить верстку
-								// {
-								// 	componentType: 'Col',
-								// 	span: 10,
-								// 	children: [
-								// {
-								// 	componentType: 'Item',
-								// 	label: 'Координаты',
-								// 	name: 'coordinates',
-								// 	className: 'mb-0 ml-8',
-								// 	child: {componentType: 'Text'},
-								// },
-								// 	],
-								// },
 							],
-						},
-					],
-				},
+					  },
 			],
 		},
 	];

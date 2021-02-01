@@ -126,10 +126,9 @@ export default function RouteMaps() {
 							'routeControlPoints'
 						),
 						onRowClick: ({selected, rowData, rowIndex}) => {
-							// console.log(rowData);
 							setControlPointsRnd((state) => [...state, rowData]);
 						},
-						modals: [routeMapsControlPointViewModal()],
+						modals: [routeMapsControlPointViewModal(history)],
 					},
 				},
 			],

@@ -1,4 +1,4 @@
-import {customColumnProps} from '../../TechMapsForm/TechMapColumnProps';
+import {customColumnProps} from '../../TechMapsForm/tableProps';
 import {apiGetConfigByName} from '../../../apis/catalog.api';
 
 /**
