@@ -184,7 +184,7 @@ export const routeMapsControlPointViewModal = (history) => {
 												{
 													componentType: 'Item',
 													label: 'Координаты',
-													name: 'coordinates',
+													name: 'fileName',
 													className: 'mb-0 ml-8',
 													child: {
 														componentType: 'Text',
