@@ -124,7 +124,10 @@ export const customColumnProps = [
 		},
 	},
 ];
-
+/**
+ * configFilterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
+ *
+ */
 export const configFilterPanel = (history) => {
 	return [
 		{

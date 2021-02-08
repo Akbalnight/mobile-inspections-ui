@@ -3,6 +3,10 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 
+/**
+ * нужно будет переделать и получать данные по определенному дефекту
+ * связть public.files и  public.defects
+ */
 export const fileManagerFields = [
 	{
 		componentType: 'Layout',

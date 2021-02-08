@@ -1,7 +1,11 @@
+/**
+ * информационная вкладка, переделать после обновления
+ */
+
 export const infoTabFields = [
 	{
 		componentType: 'Layout',
-		style: {padding: '24px'},
+		style: {padding: '24px'}, // исправить после обновления
 		children: [
 			{
 				componentType: 'Col',

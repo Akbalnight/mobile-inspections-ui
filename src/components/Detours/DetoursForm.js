@@ -22,7 +22,7 @@ export default function DetoursForm() {
 			callBack({
 				name: null,
 				duration: null,
-				repeatBy: '1',
+				// repeatBy: '1',//нет необходимости в данный момент. вынесен элемент обрабатывающий параметр
 			});
 		} else {
 			apiGetFlatDataByConfigName('detours')({

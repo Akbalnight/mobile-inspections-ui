@@ -18,7 +18,10 @@ import {configFilterPanel, customColumnProps} from './tableProps';
 
 /**
  * Общий компонет для двух разделов Жернал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
- * элементов настраивается при помощи  history
+ * элементов настраивается при помощи  history.
+ *
+ * в случае, выбора конфигурации 'defects' - таблица будет расширенной с допольнительной информацией. В обратном случае, таблица будет представлять собой
+ * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
 export default function Defects() {
 	const history = useHistory();
@@ -37,7 +40,7 @@ export default function Defects() {
 				{
 					componentType: 'Item',
 					child: {
-						componentType: 'ServerTable', // 'InfinityTable' // в дальнейшем нужно будет поменять на нужно
+						componentType: 'ServerTable', // в дальнейшем нужно будет поменять на нужно 'InfinityTable'
 						selectable: true,
 						ref: _setTableRef,
 						fixWidthColumn: true,

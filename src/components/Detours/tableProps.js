@@ -4,6 +4,10 @@ import {
 } from '../../apis/catalog.api';
 import {checkBox, code, date} from '../Base/customColumnProps';
 
+/**
+ * configFilterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
+ *
+ */
 export const configFilterPanel = [
 	{
 		componentType: 'SingleSelect',

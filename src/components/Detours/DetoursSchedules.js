@@ -12,6 +12,9 @@ import {configFilterPanel, customColumnProps} from './tableProps';
  * Данный компонет был создан для реализации концепции повторения Обходов с определенной периодичностью.
  * В дальнейшем возможна переработка в формате Microsoft Outlock, но этовопрос будет задан аналитику для уточнения
  * необходимости
+ *
+ *
+ * посмотреть размещение, вероятнее всего необходимо будет исправить.
  */
 export default function DetoursSchedules() {
 	const [hidden, setHidden] = useState({

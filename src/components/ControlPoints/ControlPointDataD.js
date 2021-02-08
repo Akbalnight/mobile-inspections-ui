@@ -83,20 +83,6 @@ const ControlPointDataD = (props) => {
 					componentType: 'Col',
 					span: 12,
 					children: [
-						// {
-						// 	componentType: 'Item',
-						// 	label: 'Код',
-						// 	name: 'code',
-						// 	rules: [
-						// 		{
-						// 			message: 'Заполните код',
-						// 			required: true,
-						// 		},
-						// 	],
-						// 	child: {
-						// 		componentType: 'InputNumber',
-						// 	},
-						// },
 						pageParams.id === 'new' ? {} : codeInput,
 						{
 							componentType: 'Item',

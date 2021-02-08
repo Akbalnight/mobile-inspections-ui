@@ -8,6 +8,13 @@ import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {calendarPrefix} from '../../utils/baseUtils';
 import {buttonCreateDetour} from './Modals/modalButtonDetours';
 
+/**
+ * В последнем варианте, передаю календарь в custom.Item отображение не изменилось.
+ * Появился порядок в файлах
+ *
+ * При необходимости можно измениеть концепцию Popover сущности, все зависит от
+ * требований заказчика
+ */
 export default function DetoursCalendar() {
 	const [calendarValues, setCalendarValues] = useState([]);
 
@@ -60,7 +67,7 @@ export default function DetoursCalendar() {
 							String(value._d).slice(0, 15) ===
 							String(moment(item.dateStartPlan)._d).slice(0, 15)
 						) {
-							// console.log(1);// тут проблема
+							// console.log(1);// тут проблема, замедлялся рендеринг.
 							return (
 								<Popover
 									title={value.format('DD MMMM YYYY')}
