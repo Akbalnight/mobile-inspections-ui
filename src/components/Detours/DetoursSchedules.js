@@ -1,15 +1,21 @@
-import {CalendarOutlined, ControlOutlined} from '@ant-design/icons';
+import {ControlOutlined} from '@ant-design/icons';
 import {BasePage} from 'mobile-inspections-base-ui';
 import React, {useState} from 'react';
-import {useHistory} from 'react-router';
 import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
-import {paths} from '../../constants/paths';
-import {checkBox, code, date} from '../Base/customColumnProps';
+import {configFilterPanel, customColumnProps} from './tableProps';
 
+/**
+ * Данный компонет был создан для реализации концепции повторения Обходов с определенной периодичностью.
+ * В дальнейшем возможна переработка в формате Microsoft Outlock, но этовопрос будет задан аналитику для уточнения
+ * необходимости
+ *
+ *
+ * посмотреть размещение, вероятнее всего необходимо будет исправить.
+ */
 export default function DetoursSchedules() {
 	const [hidden, setHidden] = useState({
 		day: true,
@@ -17,48 +23,7 @@ export default function DetoursSchedules() {
 		year: true,
 		radio: true,
 	});
-	const history = useHistory();
 
-	const customColumnProps = [
-		{...code},
-		{...date('dateStartPlan')},
-		{...checkBox('saveOrderControlPoints')},
-	];
-
-	const configFilterPanel = [
-		{
-			componentType: 'SingleSelect',
-			name: 'routeIds',
-			className: 'mr-16',
-			rowRender: 'name',
-			title: 'Маршрут',
-			widthControl: 150,
-			widthPopup: 300,
-			heightPopup: 200,
-			requestLoadRows: apiGetFlatDataByConfigName('routes'),
-			requestLoadConfig: apiGetConfigByName('routes'),
-		},
-		{
-			componentType: 'SingleSelect',
-			name: 'staffIds',
-			className: 'mr-16',
-			rowRender: 'positionName',
-			title: 'Сотрудник',
-			widthControl: 150,
-			widthPopup: 300,
-			heightPopup: 200,
-			requestLoadRows: apiGetFlatDataByConfigName('staff'),
-			requestLoadConfig: apiGetConfigByName('staff'),
-		},
-		{
-			componentType: 'DateRange',
-			title: 'Период',
-			nameStart: 'dateBegin',
-			nameEnd: 'dateEnd',
-			dateFormat: 'DD-MM-YYYY HH:mm:ss',
-			className: 'mr-16',
-		},
-	];
 	const rows = [
 		{
 			id: 'day',
@@ -340,7 +305,10 @@ export default function DetoursSchedules() {
 		...everyYearFields,
 		...radioGroupFields,
 	];
-
+	/**
+	 * не вынес данное модально окно, на него завязан весь файл, фактически без нее тут останется только таблица.
+	 * Уже имеется опыт привращения в функцию, таких модальных окон. Надо будет обсудить когда вернемся к этому вопросу.
+	 */
 	const buttonRepeat = [
 		{
 			componentType: 'Item',
@@ -374,19 +342,6 @@ export default function DetoursSchedules() {
 						body: [...detoursSchedulesFields],
 					},
 				},
-			},
-		},
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Button',
-				type: 'default',
-				icon: <CalendarOutlined />,
-				className: 'ml-8',
-				onClick: () =>
-					history.push(
-						paths.DETOURS_CONFIGURATOR_DETOURS_CALENDAR.path
-					),
 			},
 		},
 	];

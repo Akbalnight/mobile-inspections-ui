@@ -19,3 +19,26 @@ export const customColumnProps = [
 		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
 	},
 ];
+
+// Дополнительная обработка объекта строки после закрытия модалки
+export const customFields = [
+	{
+		name: 'duration',
+		value: (row) => parseInt(row.hours * 60) + parseInt(row.minutes),
+	},
+	{
+		name: 'code',
+		value: (row, rows) =>
+			parseInt(
+				rows.reduce(
+					(max, current) =>
+						parseInt(current.code) > max ? current.code : max,
+					0
+				)
+			) + 1,
+	},
+	{
+		name: 'position',
+		value: (row, rows) => rows.length + 1,
+	},
+];

@@ -3,25 +3,56 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 
-export const routeMapsControlPointViewModal = () => {
-	let Row;
+/**
+ *
+ * historyChange - временное решение нужно определиться какие данные будут приходить из конфигов получения
+ * controlPoints  и routeControlPoints. В конфигурацию controlPoints, добавил недостающие данные.
+ * Возможен пересмотр данного модального откна
+ *
+ * объединил функции загрузки данных
+ */
+/**
+ *
+ * Получение данных по определенной КТ
+ */
+// const loadControlPointEquipmentsHandler = ({data, params}) => {
+// 	const newData = {...data, controlPointsId: Row.controlPointId};
+// 	return apiGetFlatDataByConfigName('controlPointsEquipments')({
+// 		data: newData,
+// 		params,
+// 	});
+// };
 
+/**
+ *
+ * Получение данных по определенной КТ
+ */
+// const loadControlPointTechMapsHandler = ({data, params}) => {
+// 	const newData = {...data, controlPointsId: Row.controlPointId};
+// 	return apiGetFlatDataByConfigName('controlPointsTechMaps')({
+// 		data: newData,
+// 		params,
+// 	});
+// };
+
+export const routeMapsControlPointViewModal = (history) => {
+	let Row;
+	let historyChange =
+		history.location.pathname === '/detours-configurator/control-points';
 	const loadData = (callBack, row) => {
 		Row = row;
+		console.log(Row);
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		callBack(row);
 	};
 
-	const loadControlPointEquipmentsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.id};
-		return apiGetFlatDataByConfigName('controlPointsEquipments')({
-			data: newData,
-			params,
-		});
-	};
-	const loadControlPointTechMapsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.id};
-		return apiGetFlatDataByConfigName('controlPointsTechMaps')({
+	/**
+ 	*  предлагаю рассмотреть  такой вариант для обоих случаев 	
+	это из документации
+	 */
+	const loadRowsHandler = (catalogName, sRow, {params, data}) => {
+		const newData = {...data, controlPointsId: sRow.controlPointId};
+		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,
 		});
@@ -46,7 +77,7 @@ export const routeMapsControlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Код',
-							name: 'code', // 'controlPointCode' не реагирует
+							name: historyChange ? 'code' : 'controlPointCode',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -59,7 +90,7 @@ export const routeMapsControlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Наименование',
-							name: 'name', // 'controlPointName' не реагирует
+							name: historyChange ? 'name' : 'controlPointName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -72,7 +103,7 @@ export const routeMapsControlPointViewModal = () => {
 						{
 							componentType: 'Item',
 							label: 'Группа',
-							name: 'parentName', //'controlPointGroup'
+							name: 'parentName',
 							className: 'mb-0',
 							child: {componentType: 'Text'},
 						},
@@ -82,9 +113,7 @@ export const routeMapsControlPointViewModal = () => {
 		},
 		{
 			componentType: 'Row',
-			style: {
-				marginTop: 15,
-			},
+			сlassName: 'mt-16',
 			children: [
 				{
 					componentType: 'Col',
@@ -108,7 +137,7 @@ export const routeMapsControlPointViewModal = () => {
 										{
 											componentType: 'Item',
 											label: 'Тип',
-											name: 'markType', // найминг нужно подумать для метки
+											name: 'controlPointRfidName',
 											className: 'mb-0',
 											child: {componentType: 'Text'},
 										},
@@ -121,7 +150,7 @@ export const routeMapsControlPointViewModal = () => {
 										{
 											componentType: 'Item',
 											label: 'Код метки',
-											name: 'markCode', // найминг нужно подумать для метки
+											name: 'controlPointRfidCode',
 											className: 'mb-0',
 											child: {componentType: 'Text'},
 										},
@@ -131,38 +160,42 @@ export const routeMapsControlPointViewModal = () => {
 						},
 					],
 				},
-				{
-					componentType: 'Col',
-					span: 12,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Местоположение',
-								level: 5,
-							},
-						},
-						{
-							componentType: 'Row',
+				historyChange // убрал раздел Местоположение для КТ, пока нет ясности в необходимости данной информации
+					? {}
+					: {
+							componentType: 'Col',
+							span: 12,
 							children: [
 								{
-									componentType: 'Col',
-									span: 10,
+									componentType: 'Item',
+									child: {
+										componentType: 'Title',
+										label: 'Местоположение',
+										level: 5,
+									},
+								},
+								{
+									componentType: 'Row',
 									children: [
 										{
-											componentType: 'Item',
-											label: 'Координаты',
-											name: 'coordinates', // найминг нужно подумать
-											className: 'mb-0',
-											child: {componentType: 'Text'},
+											componentType: 'Col',
+											span: 10,
+											children: [
+												{
+													componentType: 'Item',
+													label: 'Координаты',
+													name: 'fileName',
+													className: 'mb-0 ml-8',
+													child: {
+														componentType: 'Text',
+													},
+												},
+											],
 										},
 									],
 								},
 							],
-						},
-					],
-				},
+					  },
 			],
 		},
 	];
@@ -174,22 +207,25 @@ export const routeMapsControlPointViewModal = () => {
 				componentType: 'Title',
 				label: 'Оборудование',
 				level: 5,
-				style: {
-					marginTop: 15,
-				},
+				className: 'mt-8',
 			},
 		},
 		{
 			componentType: 'Layout',
-
-			className: 'mb-16',
+			className: 'mb-8',
 			children: [
 				{
 					componentType: 'Item',
 					name: 'equipments',
 					child: {
 						componentType: 'LocalTable',
-						requestLoadRows: loadControlPointEquipmentsHandler,
+						style: {height: '180px'},
+						requestLoadRows: (info) =>
+							loadRowsHandler(
+								'controlPointsEquipments',
+								Row,
+								info
+							),
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsEquipments'
 						),
@@ -206,22 +242,21 @@ export const routeMapsControlPointViewModal = () => {
 				componentType: 'Title',
 				label: 'Технологические карты',
 				level: 5,
-				style: {
-					marginTop: 15,
-				},
+				className: 'mt-16',
 			},
 		},
 		{
 			componentType: 'Layout',
-
-			className: 'mb-16',
+			className: 'mb-8',
 			children: [
 				{
 					componentType: 'Item',
-					name: 'equipments',
+					name: 'techMaps',
 					child: {
 						componentType: 'LocalTable',
-						requestLoadRows: loadControlPointTechMapsHandler,
+						style: {height: '180px'},
+						requestLoadRows: (info) =>
+							loadRowsHandler('controlPointsTechMaps', Row, info),
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsTechMaps'
 						),

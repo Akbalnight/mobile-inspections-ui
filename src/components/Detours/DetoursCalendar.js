@@ -1,17 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {BasePage} from 'mobile-inspections-base-ui';
 import {Form, notificationError} from 'rt-design';
 import moment from 'moment';
 import {Calendar} from 'antd';
 import Popover from 'antd/es/popover';
 import Checkbox from 'antd/es/checkbox/Checkbox';
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
-import {useHistory} from 'react-router';
-import {paths} from '../../constants/paths';
+import {calendarPrefix} from '../../utils/baseUtils';
+import {buttonCreateDetour} from './Modals/modalButtonDetours';
 
+/**
+ * В последнем варианте, передаю календарь в custom.Item отображение не изменилось.
+ * Появился порядок в файлах
+ *
+ * При необходимости можно измениеть концепцию Popover сущности, все зависит от
+ * требований заказчика
+ */
 export default function DetoursCalendar() {
 	const [calendarValues, setCalendarValues] = useState([]);
-	const history = useHistory();
 
 	useEffect(() => {
 		apiGetFlatDataByConfigName('detours')({
@@ -33,7 +38,7 @@ export default function DetoursCalendar() {
 				{listData &&
 					listData.map((item) => {
 						const content = (
-							<div key={item.id} className='detours'>
+							<div key={item.id} className='calendar'>
 								<div>Название: {item.name}</div>
 								<div>Маршрут: {item.routeName}</div>
 								<div>Иcпольнитель: {item.staffName}</div>
@@ -62,12 +67,13 @@ export default function DetoursCalendar() {
 							String(value._d).slice(0, 15) ===
 							String(moment(item.dateStartPlan)._d).slice(0, 15)
 						) {
-							// console.log(1);// тут проблема
+							// console.log(1);// тут проблема, замедлялся рендеринг.
 							return (
 								<Popover
-									title={value.format('DD MMMM YY')}
+									title={value.format('DD MMMM YYYY')}
 									trigger={'hover'}
 									content={content}
+									overlayClassName={`${calendarPrefix}-popover-hover`}
 								>
 									<div
 										key={item.id}
@@ -88,6 +94,7 @@ export default function DetoursCalendar() {
 	const calendarFields = [
 		{
 			componentType: 'Row',
+			className: 'calendar-title',
 			children: [
 				{
 					componentType: 'Item',
@@ -97,21 +104,8 @@ export default function DetoursCalendar() {
 						level: 5,
 					},
 				},
-				{
-					componentType: 'Item',
-					child: {
-						componentType: 'Button',
-						label: 'Обратно в таблицу',
-						className: 'ml-8',
-						size: 'small',
-						type: 'link',
-						onClick: () =>
-							history.push(
-								paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES
-									.path
-							),
-					},
-				},
+				...buttonCreateDetour,
+				// при необходимости в модальное окно можно передать history
 			],
 		},
 
@@ -125,6 +119,7 @@ export default function DetoursCalendar() {
 						<Calendar
 							headerRender={() => null}
 							dateCellRender={dateCellRender}
+							className={'calendar-detours'}
 						/>
 					);
 				},
@@ -133,14 +128,10 @@ export default function DetoursCalendar() {
 	];
 
 	const formConfig = {
-		noPadding: false,
+		noPadding: true,
 		name: 'exampleWithModalForm',
 		body: [...calendarFields],
 	};
 
-	return (
-		<BasePage>
-			<Form {...formConfig} />
-		</BasePage>
-	);
+	return <Form {...formConfig} />;
 }

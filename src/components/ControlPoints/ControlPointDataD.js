@@ -12,6 +12,24 @@ import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
 import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
 import {paths} from '../../constants/paths';
 import {codeInput} from '../Base/Inputs/CodeInput';
+import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
+
+/** 
+ *  объединил и вынес функции
+	/** заменил эти функции loadRowsHandler
+	 * requestLoadRows: ({data, params}) =>
+		apiGetFlatDataByConfigName('controlPointsEquipments')
+				({
+			data: {...data,	controlPointsId: pageParams.id,},
+			params,
+				}),
+	 * requestLoadRows: ({data, params}) =>
+		apiGetFlatDataByConfigName('controlPointsTechMaps')
+				({
+			data: {...data,	controlPointsId: pageParams.id,},
+			params,
+				}),
+	 */
 
 const ControlPointDataD = (props) => {
 	const pageParams = useParams();
@@ -32,13 +50,20 @@ const ControlPointDataD = (props) => {
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
-					// console.log("loadData => response ", response.data);
 					callBack(response.data[0]);
 				})
 				.catch((error) =>
 					notificationError(error, 'Ошибка загрузки данных формы')
 				);
 		}
+	};
+
+	const loadRowsHandler = (catalogName, {params, data}) => {
+		const newData = {...data, controlPointsId: pageParams.id};
+		return apiGetFlatDataByConfigName(catalogName)({
+			data: newData,
+			params,
+		});
 	};
 
 	const headFields = [
@@ -58,20 +83,6 @@ const ControlPointDataD = (props) => {
 					componentType: 'Col',
 					span: 12,
 					children: [
-						// {
-						// 	componentType: 'Item',
-						// 	label: 'Код',
-						// 	name: 'code',
-						// 	rules: [
-						// 		{
-						// 			message: 'Заполните код',
-						// 			required: true,
-						// 		},
-						// 	],
-						// 	child: {
-						// 		componentType: 'InputNumber',
-						// 	},
-						// },
 						pageParams.id === 'new' ? {} : codeInput,
 						{
 							componentType: 'Item',
@@ -123,7 +134,6 @@ const ControlPointDataD = (props) => {
 			child: {
 				componentType: 'Title',
 				label: 'Оборудование',
-				// type: 'secondary',
 				level: 5,
 			},
 		},
@@ -135,8 +145,7 @@ const ControlPointDataD = (props) => {
 					componentType: 'Item',
 					name: 'equipments',
 					child: {
-						componentType: 'LocalTable', //'LocalTable', // 'ServerTable', 'InfinityTAble'
-						// rowKey: 'equipmentId',
+						componentType: 'LocalTable',
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -144,39 +153,12 @@ const ControlPointDataD = (props) => {
 							},
 						},
 						modals: [{...EquipmentSelectModal}],
-						customFields: [
-							{
-								name: 'controlPointId',
-								value: () => pageParams.id,
-							},
-							{
-								name: 'equipmentId',
-								value: (row) => row.id,
-								validate: (row, rows) => {
-									// console.log("validate => ", rows.map(row => row.equipmentId));
-									// console.log("validate => ", row.id);
-									// console.log("validate => ", !rows.map(row => row.equipmentId).includes(row.id));
-									return !rows
-										.map((row) => row.equipmentId)
-										.includes(row.id);
-								},
-							},
-							// {
-							// 	name: 'isGroup',
-							// 	validate: (row, rows) => !row.isGroup,
-							// },
-						],
-						// selectable: true,
-						// showSelection: true,
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName(
-								'controlPointsEquipments'
-							)({
-								data: {...data, controlPointsId: pageParams.id},
-								params,
-							}),
-						requestLoadConfig: () =>
-							apiGetConfigByName('controlPointsEquipments')(),
+						customFields: [...equipmentTableCustom(pageParams)],
+						requestLoadRows: (info) =>
+							loadRowsHandler('controlPointsEquipments', info),
+						requestLoadConfig: apiGetConfigByName(
+							'controlPointsEquipments'
+						),
 					},
 				},
 			],
@@ -199,7 +181,7 @@ const ControlPointDataD = (props) => {
 					componentType: 'Item',
 					name: 'techMaps',
 					child: {
-						componentType: 'LocalTable', //'LocalTable', // 'ServerTable', 'InfinityTAble'
+						componentType: 'LocalTable',
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -207,42 +189,19 @@ const ControlPointDataD = (props) => {
 							},
 						},
 						modals: [{...TechMapSelectModal}],
-						customFields: [
-							{
-								name: 'controlPointId',
-								value: () => pageParams.id,
-							},
-							{
-								name: 'techMapId',
-								value: (row) => row.id,
-							},
-							{
-								name: 'isGroup',
-								validate: (row, rows) => !row.isGroup,
-							},
-						],
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName('controlPointsTechMaps')(
-								{
-									data: {
-										...data,
-										controlPointsId: pageParams.id,
-									},
-									params,
-								}
-							),
-						requestLoadConfig: () =>
-							apiGetConfigByName('controlPointsTechMaps')(),
+						customFields: [...techMapsTableCustom(pageParams)],
+						requestLoadRows: (info) =>
+							loadRowsHandler('controlPointsTechMaps', info),
+						requestLoadConfig: apiGetConfigByName(
+							'controlPointsTechMaps'
+						),
 					},
 				},
 			],
 		},
 	];
 	const onFinish = (values) => {
-		// console.log('Success:', values);
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
-
-		// history.goBack();
 	};
 	//
 	// const onFinishFailed = errorInfo => {

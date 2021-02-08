@@ -1,5 +1,11 @@
-import {customColumnProps} from '../../TechMapsForm/TechMapColumnProps';
+import {customColumnProps} from '../../TechMapsForm/tableProps';
 import {apiGetConfigByName} from '../../../apis/catalog.api';
+
+/**
+ *
+ * общий блок присутствующий в нескольких модальных окнах.
+ * Пример, custom footer
+ */
 
 export const techOperations = (loadControlPointsTechOperations) => [
 	{
@@ -19,6 +25,7 @@ export const techOperations = (loadControlPointsTechOperations) => [
 				child: {
 					componentType: 'ServerTable',
 					customColumnProps: customColumnProps,
+					style: {height: '200px'},
 					// defaultFilter: (type === 'add' ? {techMapId: null} : { techMapId: Row.techMapId } ),
 					dispatchPath: 'routes.controlPointModal.techOperations',
 					subscribe: {
@@ -38,7 +45,6 @@ export const techOperations = (loadControlPointsTechOperations) => [
 								name: 'duration',
 								child: {
 									componentType: 'Text',
-									// label: 'Summary',
 									subscribe: {
 										name:
 											'controlPointTechMapTechOperation',
