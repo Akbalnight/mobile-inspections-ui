@@ -53,6 +53,7 @@ export const paths = {
 		title: 'Debug',
 		path: '/debug',
 		component: Debug,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	// DEBUG_MARSEL: {
 	// 	title: 'DebugMarsel',
@@ -81,9 +82,14 @@ export const paths = {
 		component: ControlPointsD,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_EDIT: {
 		title: 'Редактирование контрольной точки',
 		path: '/detours-configurator/control-points/:id',
+		component: ControlPointDataD,
+	},
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
+		title: 'Создание контрольной точки',
+		path: '/detours-configurator/control-points/new',
 		component: ControlPointDataD,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {

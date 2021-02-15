@@ -11,12 +11,12 @@ export const menu = [
 		...paths.HOME,
 		icon: HOME,
 	},
-	// {
-	// 	...paths.DEBUG
-	// },
 	{
-		...paths.DEBUG_MARSEL,
+		...paths.DEBUG,
 	},
+	// {
+	// 	...paths.DEBUG_MARSEL,
+	// },
 	{
 		...paths.CATALOG,
 		icon: CATALOG,

@@ -1,5 +1,6 @@
 //@import '~antd/lib/style/themes/default.less';
 @import '~antd/dist/antd';
+@import '~react-calendar-timeline/lib/Timeline.css';
 @import '~mobile-inspections-base-ui/dist/index';
 @import '~rt-design/lib/index';
 
@@ -10,7 +11,6 @@
 @import './components/TechMaps/TechMaps.less';
 @import './components/RouteMaps/RouteMaps.less';
 @import './components/Detours/DetoursCalendar.less';
-@import 'react-calendar-timeline/lib/Timeline.css';
 
 #root {
 	height: 100vh;
@@ -77,6 +77,27 @@
 	margin-left: 16px;
 }
 
+/** Paddings */
+.p-0 {
+	padding: 0;
+}
+.p-8 {
+	padding: 8px;
+}
+
+.px-8 {
+	padding-left: 8px;
+	padding-right: 8px;
+}
+.py-8 {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.pb-8 {
+	padding-bottom: 8px;
+}
+
 /*Tabs header*/
 
 .anticon.pane p {
@@ -96,7 +117,7 @@
 .react-calendar-timeline {
 	// width: 50%;
 	// margin: 8px;
-	
+
 	.rct-dateHeader {
 		border-bottom: 0px;
 		border-left: 0px;
@@ -119,5 +140,5 @@
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
-	height: 50%;
+	//height: 50%;
 }

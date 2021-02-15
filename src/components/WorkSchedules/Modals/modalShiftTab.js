@@ -109,11 +109,18 @@ const OperationOnServer = (type, code) => {
 			label: 'Время перерыва',
 			child: {
 				componentType: 'Custom',
-				render: ({onChange, defaultValue, value}) => {
+				render: (props) => {
+					// Ant From Item props для верной работы элемента
+					const {onChange} = props; // defaultValue, value
+
+					// Subscribe Props
+					const {disabled} = props;
+
 					return (
 						<RangePicker
+							disabled={disabled}
 							format={'HH:mm'}
-							onChange={(dates, dateString) => {
+							onChange={(dates) => {
 								onChange(dates);
 							}}
 							placeholder={['с', 'до']}
