@@ -4,6 +4,10 @@ import {
 } from '../../../apis/catalog.api';
 import {defectDetection} from '../../Base/Block/DefectDetection';
 
+/**
+ *
+ * Форма изменение дефекта, все поля и правила по макетам
+ */
 export const editDefectCard = (catalogName) =>
 	OperationOnServer(catalogName, 'edit', {});
 

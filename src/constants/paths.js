@@ -16,7 +16,6 @@ import RouteMaps from '../components/RouteMaps/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
-import DetoursCalendar from '../components/Detours/DetoursCalendar';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
@@ -107,12 +106,6 @@ export const paths = {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
 		component: Detours,
-		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_CALENDAR: {
-		title: 'Календарь',
-		path: '/detours-configurator/detours-calendar',
-		component: DetoursCalendar,
 		roles: ['ROLE_ADMIN'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_DATA: {

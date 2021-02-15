@@ -1,3 +1,7 @@
+/**
+ * модальное окно просмотра обхода. Форма была собрана из макета интерфейса
+ */
+
 export const detourViewModal = () => {
 	const loadData = (callBack, row) => {
 		callBack(row);

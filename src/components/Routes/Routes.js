@@ -13,8 +13,10 @@ import {
 } from './Modals/routeControlPointEdit';
 import {routeViewModal} from './Modals/routeView';
 import {code} from '../Base/customColumnProps';
-// import {controlPointViewModal} from './Modals/routeControlPointView';
 
+/**
+ * Основной компонент, отсюда выходят все станицы и модальные окна
+ */
 export default function Routes() {
 	let history = useHistory();
 
@@ -45,8 +47,7 @@ export default function Routes() {
 							modals: [
 								addControlPointToRoute(),
 								editControlPointToRoute(),
-								routeViewModal(history), //info about Route
-								// controlPointViewModal(), // info about ControlPoint
+								routeViewModal(history),
 							],
 						},
 					},

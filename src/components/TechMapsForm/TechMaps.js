@@ -10,7 +10,7 @@ import {
 	editGroupOnServer,
 } from '../Base/Modals/GroupOnServer';
 import {useHistory} from 'react-router';
-import {techMapDataView} from '../TechMapsForm/TechMapDataView';
+import {techMapDataView} from './Modals/techMapDataView';
 import {groupView} from '../Base/Modals/GroupView';
 import {code} from '../Base/customColumnProps';
 

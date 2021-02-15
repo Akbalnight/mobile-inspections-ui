@@ -4,7 +4,7 @@ import {
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
 
-export const controlPointViewModal = () => {
+export const routeControlPointViewModal = () => {
 	let Row;
 
 	const loadData = (callBack, row) => {
@@ -12,7 +12,10 @@ export const controlPointViewModal = () => {
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		callBack(row);
 	};
-
+	/**
+	 *
+	 * надо продумать, как настроить корректное отоборажени информации в таблице
+	 */
 	const loadControlPointEquipmentsHandler = ({data, params}) => {
 		const newData = {...data, routesDataId: Row.id};
 		return apiGetFlatDataByConfigName('routeEquipments')({
@@ -70,9 +73,10 @@ export const controlPointViewModal = () => {
 					name: 'equipments',
 					child: {
 						componentType: 'LocalTable',
+						style: {height: '180px'},
 						requestLoadRows: loadControlPointEquipmentsHandler,
 						requestLoadConfig: apiGetConfigByName(
-							'controlPointsEquipments'
+							'routeEquipments'
 						),
 					},
 				},
