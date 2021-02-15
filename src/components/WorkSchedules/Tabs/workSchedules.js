@@ -62,25 +62,22 @@ export const workSchedulesFields = [
 				],
 			},
 			{
-				componentType: 'Item',
-				child: {
-					componentType: 'Custom',
-
-					className: 'mr-16',
-					render: ({onChange, defaultValue, value}) => {
-						return (
-							<div
-								style={{
-									width: 'auto',
-									margin: '8px',
-									display: 'flex',
-								}}
-							>
-								<TimelineScheduler />
-							</div>
-						);
-					},
+				componentType: 'Layout',
+				className: 'mr-16 ml-4',
+				style: {
+					width: '100%',
 				},
+				children: [
+					{
+						componentType: 'Item',
+						child: {
+							componentType: 'Custom',
+							render: ({onChange, defaultValue, value}) => {
+								return <TimelineScheduler />;
+							},
+						},
+					},
+				],
 			},
 		],
 	},
