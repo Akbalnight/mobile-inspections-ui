@@ -254,7 +254,13 @@ const ControlPointDataD = (props) => {
 	};
 
 	return (
-		<BasePage>
+		<BasePage
+			path={
+				pageParams.id === 'new'
+					? '/detours-configurator/control-points/new'
+					: undefined
+			}
+		>
 			<Form {...formConfig} />
 		</BasePage>
 	);
