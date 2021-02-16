@@ -66,7 +66,7 @@ export default function WorkSchedules() {
 					tab: <WorkShiftPane />,
 					key: 'workShifts',
 					className: 'workShifts',
-					children: [...workShiftsFields],
+					children: [...workShiftsFields()],
 				},
 				{
 					componentType: 'TabPane',
