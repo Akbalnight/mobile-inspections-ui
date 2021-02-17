@@ -1,52 +1,15 @@
 import {BasePage} from 'mobile-inspections-base-ui';
 import React from 'react';
 import {components} from 'rt-design';
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
 import {ReactComponent as WorkSchedulesPane} from '../../imgs/tabPane/workSchedules/workSchedules.svg';
 import {ReactComponent as WorkShiftPane} from '../../imgs/tabPane/workSchedules/workShift.svg';
 import {ReactComponent as WorkTemplatesPane} from '../../imgs/tabPane/workSchedules/workSchedulesTemplates.svg';
-import {useHistory} from 'react-router';
-import {addTemplateModal, editTemplateModal} from './Modals/modalTemplatesTab';
 import {workSchedulesFields} from './Tabs/workSchedules';
 import {workShiftsFields} from './Tabs/workShifts';
+import {workTemplatesFields} from './Tabs/workTemplates';
 
 const {Form} = components;
 export default function WorkSchedules() {
-	const history = useHistory();
-
-	const workSchedulesTemplatesFields = [
-		{
-			componentType: 'Layout',
-			children: [
-				{
-					componentType: 'Item',
-					child: {
-						componentType: 'ServerTable',
-						dispatchPath: 'workSchedules.workShiftTable.table',
-						// selectable: true,
-						history,
-						commandPanelProps: {
-							systemBtnProps: {
-								add: {actionType: 'modal'},
-								edit: {actionType: ['modal', 'modal']},
-								delete: {},
-							},
-						},
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'defects' //'workSchedules'
-						),
-						requestLoadConfig: apiGetConfigByName(
-							'defects' //'workSchedules'
-						),
-						modals: [addTemplateModal(), editTemplateModal()],
-					},
-				},
-			],
-		},
-	];
 	const mainPageConfig = [
 		{
 			componentType: 'Tabs',
@@ -59,7 +22,7 @@ export default function WorkSchedules() {
 					tab: <WorkSchedulesPane />,
 					key: 'workSchedules',
 					className: 'workSchedules',
-					children: [...workSchedulesFields],
+					children: [...workSchedulesFields()],
 				},
 				{
 					componentType: 'TabPane',
@@ -73,7 +36,7 @@ export default function WorkSchedules() {
 					tab: <WorkTemplatesPane />,
 					key: 'workSchedulesTemplates',
 					className: 'workSchedulesTemplates',
-					children: [...workSchedulesTemplatesFields],
+					children: [...workTemplatesFields()],
 				},
 			],
 		},

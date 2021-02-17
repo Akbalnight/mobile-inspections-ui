@@ -4,9 +4,9 @@ import {
 } from '../../../apis/catalog.api';
 import {btnFilterSettings} from '../../Base/Block/btnFilterSettings';
 import {deleteButton} from '../Modals/modalButtonDelete';
-import {addShiftModal, editShiftModal} from '../Modals/modalShiftTab';
+import {addTemplateModal, editTemplateModal} from '../Modals/modalTemplatesTab';
 
-export const workShiftsFields = () => {
+export const workTemplatesFields = () => {
 	return [
 		{
 			componentType: 'Layout',
@@ -21,9 +21,9 @@ export const workShiftsFields = () => {
 						{
 							componentType: 'Space',
 							children: [
-								addShiftModal(),
-								editShiftModal(),
-								deleteButton('shift'),
+								addTemplateModal(),
+								editTemplateModal(),
+								deleteButton('template'),
 							],
 						},
 						{
@@ -37,7 +37,7 @@ export const workShiftsFields = () => {
 										placeholder: 'Введите наименование',
 										dispatch: {
 											path:
-												'workSchedules.workShiftTab.modal.events.onSearch',
+												'workSchedules.workTemplatesTab.modal.events.onSearch',
 											type: 'event',
 										},
 									},
@@ -51,7 +51,7 @@ export const workShiftsFields = () => {
 					componentType: 'Item',
 					child: {
 						componentType: 'Table',
-						dispatchPath: 'workSchedules.workShiftTab.table',
+						dispatchPath: 'workSchedules.workTemplateTab.table',
 						searchParamName: 'name',
 						requestLoadRows: apiGetFlatDataByConfigName(
 							'routes' //'workSchedules'
@@ -64,7 +64,7 @@ export const workShiftsFields = () => {
 							{
 								name: 'onAddModal',
 								path:
-									'rtd.workSchedules.workShiftTab.modal.events.onAddModal',
+									'rtd.workSchedules.workTemplateTab.modal.events.onAddModal',
 								onChange: ({value, addRow}) => {
 									addRow(value.value);
 								},
@@ -73,7 +73,7 @@ export const workShiftsFields = () => {
 							{
 								name: 'onEditModal',
 								path:
-									'rtd.workSchedules.workShiftTab.modal.events.onEditModal',
+									'rtd.workSchedules.workTemplateTab.modal.events.onEditModal',
 								onChange: ({value, editRow}) => {
 									editRow(value.value);
 								},
@@ -82,17 +82,16 @@ export const workShiftsFields = () => {
 							{
 								name: 'onDeleteModal',
 								path:
-									'rtd.workSchedules.workShiftTab.modal.events.onDeleteModal',
+									'rtd.workSchedules.workTemplatesTab.modal.events.onDeleteModal',
 								onChange: ({value, removeRow}) => {
 									removeRow();
 								},
 							},
-
 							/** Событие поиска в таблице по знацению name */
 							{
 								name: 'onSearch',
 								path:
-									'rtd.workSchedules.workShiftTab.modal.events.onSearch',
+									'rtd.workSchedules.workTemplatesTab.modal.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
 									reloadTable({
 										searchValue: value.value,

@@ -20,7 +20,7 @@ export const buttonMoveSchedule = [
 			componentType: 'Modal',
 			buttonProps: {
 				type: 'default',
-				className: 'ml-8 mr-8',
+				className: 'mb-8',
 				icon: <MoveSchedules />,
 				disabled: true,
 			},
@@ -139,6 +139,7 @@ export const buttonCopySchedule = [
 			componentType: 'Modal',
 			buttonProps: {
 				type: 'default',
+				className: 'mb-8',
 				icon: <CopySchedule />,
 				disabled: true,
 			},
@@ -161,7 +162,6 @@ export const buttonCopySchedule = [
 							componentType: 'Item',
 							label: 'Сотрудник',
 							className: 'mt-16 ml-16',
-
 							name: 'currentExecutor',
 							child: {
 								componentType: 'SingleSelect',

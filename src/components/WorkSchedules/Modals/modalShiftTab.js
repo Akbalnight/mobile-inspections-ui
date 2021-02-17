@@ -4,17 +4,18 @@ import {GithubPicker} from 'react-color';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 
 const {RangePicker} = TimePicker;
-export const addShiftModal = () => OperationOnServer('add', {});
+export const addShiftModal = () => OperationOnServer('add', 'shift');
 
-export const editShiftModal = () => OperationOnServer('edit', {});
+export const editShiftModal = () => OperationOnServer('edit', 'shift');
 
 /**
  *
  * @param {string} type - all modal operations TYPE
- * @param {object} code - extra code
+ * @param {object} info - extra code
  * @returns {object}
  */
-const OperationOnServer = (type, code) => {
+const OperationOnServer = (type, info) => {
+	const toCapitalize = info[0].toUpperCase() + info.substring(1);
 	const [colorPicker, setColorPicker] = useState({
 		open: false,
 		color: {
@@ -42,7 +43,6 @@ const OperationOnServer = (type, code) => {
 							source: <string>}
 	 */
 	const handleChange = (color) => {
-		console.log(color);
 		setColorPicker((state) => ({open: !state.open, color: color.rgb}));
 	};
 	const loadData = (callBack, row) => {
@@ -235,7 +235,7 @@ const OperationOnServer = (type, code) => {
 				 * Дополнить конфигом сохранения
 				 */
 				form: {
-					name: `${type}ShiftModalForm`,
+					name: `${type + toCapitalize}ModalForm`,
 					loadInitData: loadData,
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
@@ -243,14 +243,14 @@ const OperationOnServer = (type, code) => {
 				},
 			},
 			dispatch: {
-				path: `workSchedules.workShiftTab.modal.events.on${
+				path: `workSchedules.work${toCapitalize}Tab.modal.events.on${
 					type[0].toUpperCase() + type.substring(1)
 				}Modal`,
 				type: 'event',
 			},
 			subscribe: {
-				name: 'workShiftTabTableInfo',
-				path: 'rtd.workSchedules.workShiftTab.table.selected',
+				name: `work${toCapitalize}TabTableInfo`,
+				path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
 				onChange: ({value, setModalData, setButtonProps}) => {
 					value && setModalData && setModalData(value);
 					type !== 'add' &&

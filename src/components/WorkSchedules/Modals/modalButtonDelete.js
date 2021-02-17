@@ -5,6 +5,7 @@ import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
  * @param {string} info - request adress word
  */
 export const deleteButton = (info) => {
+	const toCapitalize = info[0].toUpperCase() + info.substring(1);
 	const mainFields = [
 		{
 			componentType: 'Item',
@@ -47,14 +48,12 @@ export const deleteButton = (info) => {
 				},
 			},
 			dispatch: {
-				path: `workSchedules.work${
-					info[0].toUpperCase() + info.substring(1)
-				}Tab.modal.events.onDeleteModal`,
+				path: `workSchedules.work${toCapitalize}Tab.modal.events.onDeleteModal`,
 				type: 'event',
 			},
 			subscribe: {
 				name: 'workShiftTabTableInfo',
-				path: 'rtd.workSchedules.workShiftTab.table.selected',
+				path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
 				onChange: ({value, setModalData, setButtonProps}) => {
 					value && setModalData && setModalData(value);
 					setButtonProps && setButtonProps({disabled: !value});
