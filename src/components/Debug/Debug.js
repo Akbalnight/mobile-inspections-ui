@@ -439,7 +439,7 @@ const Debug = () => {
 				],
 				children: [
 					{...TableCus('staffQualifications')},
-					{...TableCus('defects')},
+					{...TableCus('routes')},
 				],
 			},
 		],
