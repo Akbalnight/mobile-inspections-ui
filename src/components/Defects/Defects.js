@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {components} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -23,6 +23,8 @@ import {configFilterPanel, customColumnProps} from './tableProps';
  * в случае, выбора конфигурации 'defects' - таблица будет расширенной с допольнительной информацией. В обратном случае, таблица будет представлять собой
  * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
+
+const {Form} = components;
 export default function Defects() {
 	const history = useHistory();
 	const [tableRef, setTableRef] = useState({});
@@ -38,31 +40,24 @@ export default function Defects() {
 			componentType: 'Layout',
 			children: [
 				{
-					componentType: 'Item',
-					child: {
-						componentType: 'ServerTable', // в дальнейшем нужно будет поменять на нужно 'InfinityTable'
-						selectable: true,
-						ref: _setTableRef,
-						fixWidthColumn: true,
-						history: history,
-						headerHeight: 35,
-						dispatchPath: 'defects.defectTable.table',
-						commandPanelProps: {
-							systemBtnProps: {
-								add: {actionType: 'page'},
-								edit: {actionType: ['modal', 'modal']},
-								delete: {},
-							},
-							leftCustomSideElement: [
+					componentType: 'Space',
+					style: {
+						justifyContent: 'space-between',
+					},
+					className: 'p-8',
+					children: [
+						{
+							componentType: 'Space',
+							children: [
 								buttonCloseWithNote(tableRef),
 								...(historyChange
 									? buttonSendToPanel
 									: buttonSendToSap),
 							],
-							rightCustomSideElement: [
-								/**
-								 * кнопка переход между разделами Журнал дефектов и Панель проблем
-								 */
+						},
+						{
+							componentType: 'Space',
+							children: [
 								historyChange
 									? {
 											componentType: 'Item',
@@ -94,6 +89,21 @@ export default function Defects() {
 									  },
 							],
 						},
+					],
+				},
+
+				{
+					componentType: 'Item',
+					child: {
+						componentType: 'Table',
+						selectable: true,
+
+						ref: _setTableRef,
+						fixWidthColumn: true,
+						history,
+						headerHeight: 35,
+						dispatchPath: 'defects.defectTable.table',
+
 						filterPanelProps: {
 							configFilter: [...configFilterPanel(history)],
 							defaultFilter: {statusProcessId: null},

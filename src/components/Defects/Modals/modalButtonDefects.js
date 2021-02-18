@@ -40,7 +40,7 @@ export const buttonCloseWithNote = (ref) => {
 			buttonProps: {
 				type: 'default',
 				icon: <CloseWithNote />,
-				className: 'ml-4 mr-8',
+				// className: 'ml-4 mr-8',
 				disabled: true,
 			},
 			modalConfig: {
