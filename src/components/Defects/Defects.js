@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {components} from 'rt-design';
 import {
@@ -8,13 +8,7 @@ import {
 import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {useHistory} from 'react-router';
 import {editDefectCard} from './Modals/defectEdit';
-import {paths} from '../../constants/paths';
-import {
-	buttonCloseWithNote,
-	buttonSendToPanel,
-	buttonSendToSap,
-} from './Modals/modalButtonDefects';
-import {configFilterPanel, customColumnProps} from './tableProps';
+import {customColumnProps, headerTable} from './tableProps';
 
 /**
  * Общий компонет для двух разделов Жернал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -27,8 +21,8 @@ import {configFilterPanel, customColumnProps} from './tableProps';
 const {Form} = components;
 export default function Defects() {
 	const history = useHistory();
-	const [tableRef, setTableRef] = useState({});
-	const _setTableRef = (ref) => setTableRef(ref);
+	// const [tableRef, setTableRef] = useState({});
+	// const _setTableRef = (ref) => setTableRef(ref);
 	/**
 	 * historyChange не уверен в корректоности такой замены по файлу
 	 */
@@ -39,73 +33,21 @@ export default function Defects() {
 		{
 			componentType: 'Layout',
 			children: [
-				{
-					componentType: 'Space',
-					style: {
-						justifyContent: 'space-between',
-					},
-					className: 'p-8',
-					children: [
-						{
-							componentType: 'Space',
-							children: [
-								buttonCloseWithNote(tableRef),
-								...(historyChange
-									? buttonSendToPanel
-									: buttonSendToSap),
-							],
-						},
-						{
-							componentType: 'Space',
-							children: [
-								historyChange
-									? {
-											componentType: 'Item',
-											child: {
-												componentType: 'Button',
-												label:
-													'Перейти в панель проблем',
-												type: 'primary',
-												onClick: () => {
-													history.push(
-														`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
-													);
-												},
-											},
-									  }
-									: {
-											componentType: 'Item',
-											child: {
-												componentType: 'Button',
-												label:
-													'Перейти в журнал дефектов',
-												type: 'primary',
-												onClick: () => {
-													history.push(
-														`${paths.CONTROL_DEFECTS_DEFECTS.path}`
-													);
-												},
-											},
-									  },
-							],
-						},
-					],
-				},
-
+				...headerTable(history),
 				{
 					componentType: 'Item',
 					child: {
 						componentType: 'Table',
 						selectable: true,
-
-						ref: _setTableRef,
+						searchParamName: 'name',
+						// ref: _setTableRef,
 						fixWidthColumn: true,
 						history,
 						headerHeight: 35,
 						dispatchPath: 'defects.defectTable.table',
 
 						filterPanelProps: {
-							configFilter: [...configFilterPanel(history)],
+							configFilter: [],
 							defaultFilter: {statusProcessId: null},
 						},
 						customColumnProps: customColumnProps,
@@ -121,6 +63,19 @@ export default function Defects() {
 								historyChange ? 'defects' : 'panelProblems'
 							),
 							defectCardInfoModal(history),
+						],
+						subscribe: [
+							/** Событие поиска в таблице по знацению name */
+							{
+								name: 'onSearch',
+								path: 'rtd.defects.mainTable.events.onSearch',
+								onChange: ({value, extraData, reloadTable}) => {
+									console.log(value);
+									reloadTable({
+										searchValue: value.value,
+									});
+								},
+							},
 						],
 					},
 				},

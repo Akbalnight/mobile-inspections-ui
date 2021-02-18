@@ -1,4 +1,4 @@
-import {Rate, Radio} from 'antd';
+import {Rate, Radio, DatePicker} from 'antd';
 import {
 	CheckOutlined,
 	MailOutlined,
@@ -14,6 +14,13 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
+import {btnFilterSettings} from '../Base/Block/btnFilterSettings';
+import {paths} from '../../constants/paths';
+import {
+	buttonCloseWithNote,
+	buttonSendToPanel,
+	buttonSendToSap,
+} from './Modals/modalButtonDefects';
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
@@ -24,6 +31,8 @@ import {
  *
  * configFilterPanel общий вид панели для двух разделов, отображение меняется при помощи history
  */
+
+const {RangePicker} = DatePicker;
 const statusesConfig = [
 	{
 		priorityId: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
@@ -125,89 +134,275 @@ export const customColumnProps = [
 	},
 ];
 /**
- * configFilterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
+ * filterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
  *
  */
-export const configFilterPanel = (history) => {
+export const headerTable = (history) => {
+	let historyChange =
+		history.location.pathname === '/control-defects/defects';
 	return [
+		// {
+		// 	componentType: 'DateRange',
+		// 	title: 'Период обнаружения',
+		// 	nameStart: 'dateDetectDefectStart',
+		// 	nameEnd: 'dateDetectDefectEnd',
+		// 	dateFormat: 'DD-MM-YYYY HH:mm:ss',
+		// 	showTime: true,
+		// 	className: 'mr-16',
+		// },
+		// {
+		// 	componentType: 'DateRange',
+		// 	title: 'Период устранения',
+		// 	nameStart: 'dateEliminationPlan',
+		// 	nameEnd: 'dateEliminationFact',
+		// 	dateFormat: 'DD-MM-YYYY HH:mm:ss',
+		// 	showTime: true,
+		// 	className: 'mr-16',
+		// },
 		{
-			componentType: 'DateRange',
-			title: 'Период обнаружения',
-			nameStart: 'dateDetectDefectStart',
-			nameEnd: 'dateDetectDefectEnd',
-			dateFormat: 'DD-MM-YYYY HH:mm:ss',
-			showTime: true,
-			className: 'mr-16',
+			componentType: 'Space',
+			className: 'px-8 pt-8',
+			style: {
+				justifyContent: 'space-between',
+			},
+			children: [
+				{
+					componentType: 'Space',
+					children: [
+						buttonCloseWithNote(),
+						...(historyChange
+							? buttonSendToPanel
+							: buttonSendToSap),
+					],
+				},
+				{
+					componentType: 'Space',
+					children: [
+						historyChange
+							? {
+									componentType: 'Item',
+									child: {
+										componentType: 'Button',
+										label: 'Перейти в панель проблем',
+										type: 'primary',
+										onClick: () => {
+											history.push(
+												`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
+											);
+										},
+									},
+							  }
+							: {
+									componentType: 'Item',
+									child: {
+										componentType: 'Button',
+										label: 'Перейти в журнал дефектов',
+										type: 'primary',
+										onClick: () => {
+											history.push(
+												`${paths.CONTROL_DEFECTS_DEFECTS.path}`
+											);
+										},
+									},
+							  },
+						{
+							componentType: 'Item',
+							name: 'searchInput',
+							child: {
+								componentType: 'Search',
+								placeholder: 'Введите наименование',
+								dispatch: {
+									path: 'defects.mainTable.events.onSearch',
+									type: 'event',
+								},
+							},
+						},
+						...btnFilterSettings,
+					],
+				},
+			],
 		},
 		{
-			componentType: 'DateRange',
-			title: 'Период устранения',
-			nameStart: 'dateEliminationPlan',
-			nameEnd: 'dateEliminationFact',
-			dateFormat: 'DD-MM-YYYY HH:mm:ss',
-			showTime: true,
-			className: 'mr-16',
+			componentType: 'Item',
+			child: {
+				className: 'mt-8 mb-0',
+				componentType: 'Divider',
+			},
 		},
 		{
-			componentType: 'SingleSelect',
-			name: `${
+			componentType: 'Space',
+			className: 'p-8',
+			children: [
+				{
+					componentType: 'Space',
+					direction: 'vertical',
+					children: [
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Text',
+								label: 'Период обнаружения',
+							},
+						},
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Custom',
+								name: 'detect',
+								render: ({onChange, defaultValue, value}) => {
+									return <RangePicker />;
+								},
+							},
+						},
+					],
+				},
+				{
+					componentType: 'Space',
+					direction: 'vertical',
+					children: [
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Text',
+								label: 'Период устранения',
+							},
+						},
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Custom',
+								name: 'detect',
+								render: ({onChange, defaultValue, value}) => {
+									return <RangePicker />;
+								},
+							},
+						},
+					],
+				},
+				{
+					componentType: 'Space',
+					direction: 'vertical',
+					children: [
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Text',
+								label: 'Статус обработки',
+							},
+						},
+						{
+							componentType: 'Item',
+							child: {
+								componentType: 'Select',
+								autoClearSearchValue: true,
+								showSearch: true,
+								searchParamName: 'name',
+								showArrow: true,
+								filterOption: false,
+								widthControl: 230,
+								dropdownMatchSelectWidth: 200,
+								mode: 'single',
+								allowClear: true,
+								infinityMode: true,
+								name: `${
+									history.location.pathname ===
+									'/control-defects/defects'
+										? 'statusProcessId'
+										: 'statusPanelId'
+								}`,
+								requestLoadRows: apiGetFlatDataByConfigName(
+									history.location.pathname ===
+										'/control-defects/defects'
+										? 'defectStatusesProcess'
+										: 'panelProblemsStatuses'
+								),
+								optionConverter: (option) => ({
+									label: <span>{option.name}</span>,
+									value: option.id,
+									className: '',
+									disabled: undefined,
+								}),
+
+								requestLoadConfig: apiGetConfigByName(
+									history.location.pathname ===
+										'/control-defects/defects'
+										? 'defectStatusesProcess'
+										: 'panelProblemsStatuses'
+								),
+							},
+						},
+					],
+				},
 				history.location.pathname === '/control-defects/defects'
-					? 'statusProcessId'
-					: 'statusPanelId'
-			}`,
-			rowRender: 'name',
-			title: 'Статус обработки',
-			widthControl: 120,
-			widthPopup: 250,
-			requestLoadRows: apiGetFlatDataByConfigName(
-				history.location.pathname === '/control-defects/defects'
-					? 'defectStatusesProcess'
-					: 'panelProblemsStatuses'
-			),
-			requestLoadConfig: apiGetConfigByName(
-				history.location.pathname === '/control-defects/defects'
-					? 'defectStatusesProcess'
-					: 'panelProblemsStatuses'
-			),
+					? {}
+					: {
+							componentType: 'Space',
+							direction: 'vertical',
+							children: [
+								{
+									componentType: 'Item',
+									child: {
+										componentType: 'Text',
+										label: 'Приоритет',
+									},
+								},
+								{
+									componentType: 'Item',
+									child: {
+										componentType: 'Custom',
+										name: 'code',
+										render: ({
+											onChange,
+											defaultValue,
+											value,
+										}) => {
+											return (
+												<Radio.Group
+													onChange={(e) => {
+														onChange(
+															'code',
+															e.target.value
+														);
+													}}
+													value={value}
+													size={'small'}
+												>
+													{statusesConfig &&
+														statusesConfig.map(
+															(el) => (
+																<Radio.Button
+																	key={
+																		el.priorityId
+																	}
+																	value={
+																		el.priorityId
+																	}
+																	style={{
+																		margin: 2,
+																		paddingTop: 2,
+																	}}
+																>
+																	{
+																		el.priorityIcon
+																	}
+																</Radio.Button>
+															)
+														)}
+												</Radio.Group>
+											);
+										},
+									},
+								},
+							],
+					  },
+			],
 		},
-		history.location.pathname === '/control-defects/defects'
-			? {}
-			: {
-					componentType: 'Custom',
-					name: 'code',
-					render: ({onChange, defaultValue, value}) => {
-						return (
-							<div
-								style={{width: 200, marginLeft: 16}}
-								className={'mr-0'}
-							>
-								<div style={{marginBottom: '5px'}}>
-									Приоритет
-								</div>
-								<Radio.Group
-									onChange={(e) => {
-										onChange('code', e.target.value);
-									}}
-									value={value}
-									size={'small'}
-								>
-									{statusesConfig &&
-										statusesConfig.map((el) => (
-											<Radio.Button
-												key={el.priorityId}
-												value={el.priorityId}
-												style={{
-													margin: 2,
-													paddingTop: 2,
-												}}
-											>
-												{el.priorityIcon}
-											</Radio.Button>
-										))}
-								</Radio.Group>
-							</div>
-						);
-					},
-			  },
+		{
+			componentType: 'Item',
+			child: {
+				className: 'mt-0 mb-8',
+				componentType: 'Divider',
+			},
+		},
 	];
 };
