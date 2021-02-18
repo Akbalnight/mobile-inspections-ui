@@ -1,10 +1,7 @@
 import {ReactComponent as MoveSchedules} from '../../../imgs/workSchedules/buttonMoveSchedule.svg';
 import {ReactComponent as CopySchedule} from '../../../imgs/workSchedules/buttonCopySchedule.svg';
 import {DatePicker} from 'antd';
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 
 const {RangePicker} = DatePicker;
 
@@ -20,9 +17,8 @@ export const buttonMoveSchedule = [
 			componentType: 'Modal',
 			buttonProps: {
 				type: 'default',
-				className: 'mb-8',
 				icon: <MoveSchedules />,
-				disabled: true,
+				// disabled: true,
 			},
 			modalConfig: {
 				type: 'editOnServer', //'editOnServer'
@@ -36,7 +32,6 @@ export const buttonMoveSchedule = [
 					labelCol: {span: 8},
 					wrapperCol: {span: 12},
 					loadInitData: (callBack, row) => {
-						console.log(row);
 						callBack(row);
 					},
 					body: [
@@ -46,16 +41,26 @@ export const buttonMoveSchedule = [
 							className: 'mt-16 ml-16',
 							name: 'executor',
 							child: {
-								componentType: 'SingleSelect',
-								name: 'staffId',
-								rowRender: 'positionName',
-								widthControl: 0,
-								widthPopup: 250,
-								heightPopup: 150,
+								componentType: 'Select',
+								autoClearSearchValue: true,
+								showSearch: true,
+								searchParamName: 'positionName',
+								showArrow: true,
+								filterOption: false,
+								widthControl: 230,
+								dropdownMatchSelectWidth: 200,
+								mode: 'multiple',
+								allowClear: true,
+								infinityMode: true,
 								requestLoadRows: apiGetFlatDataByConfigName(
 									'staff'
 								),
-								requestLoadConfig: apiGetConfigByName('staff'),
+								optionConverter: (option) => ({
+									label: <span>{option.positionName}</span>,
+									value: option.id,
+									className: '',
+									disabled: undefined,
+								}),
 							},
 						},
 						{
@@ -79,41 +84,54 @@ export const buttonMoveSchedule = [
 								},
 							},
 						},
-
 						{
-							componentType: 'Item',
-							className: 'ml-16',
-							name: 'embedToMove',
-							valuePropName: 'checked',
-
-							child: {
-								componentType: 'Checkbox',
-								label: 'Вырезать для перемещения',
-								style: {
-									paddingLeft: 170,
-								},
+							componentType: 'Space',
+							className: 'p-8',
+							style: {
+								paddingLeft: 170,
 							},
+							children: [
+								{
+									componentType: 'Item',
+									className: 'ml-16',
+									name: 'embedToMove',
+									valuePropName: 'checked',
+
+									child: {
+										componentType: 'Checkbox',
+										label: 'Вырезать для перемещения',
+									},
+								},
+							],
 						},
 						{
-							componentType: 'Item',
-							name: 'overwriteSchedule',
-							valuePropName: 'checked',
-							child: {
-								componentType: 'Checkbox',
-								className: 'mt-16',
-								label: 'Перезаписать график на выбранную дату',
-								style: {
-									paddingLeft: 162,
-								},
+							componentType: 'Space',
+							className: 'p-8',
+							style: {
+								paddingLeft: 170,
 							},
+							children: [
+								{
+									componentType: 'Item',
+									name: 'overwriteSchedule',
+									valuePropName: 'checked',
+									child: {
+										componentType: 'Checkbox',
+										className: 'mt-16',
+										label:
+											'Перезаписать график на выбранную дату',
+									},
+								},
+							],
 						},
 					],
 				},
 			},
-			dispatchPath: 'workSchedules.workSchedulesTable.moveButton',
+			dispatch: {path: 'workSchedules.workScheduleTable.moveButton'},
 			subscribe: {
 				name: 'moveScheduleModal',
-				path: 'rtd.workSchedules.workSchedulesTable.table.selected',
+				path:
+					'rtd.workSchedules.workScheduleTab.page.timelineScheduler.selected',
 				onChange: ({value, setModalData, setButtonProps}) => {
 					value &&
 						setModalData &&
@@ -139,9 +157,8 @@ export const buttonCopySchedule = [
 			componentType: 'Modal',
 			buttonProps: {
 				type: 'default',
-				className: 'mb-8',
 				icon: <CopySchedule />,
-				disabled: true,
+				// disabled: true,
 			},
 			modalConfig: {
 				type: 'editOnServer', //'editOnServer'
@@ -164,16 +181,26 @@ export const buttonCopySchedule = [
 							className: 'mt-16 ml-16',
 							name: 'currentExecutor',
 							child: {
-								componentType: 'SingleSelect',
-								name: 'staffId',
-								rowRender: 'positionName',
-								widthControl: 0,
-								widthPopup: 250,
-								heightPopup: 150,
+								componentType: 'Select',
+								autoClearSearchValue: true,
+								showSearch: true,
+								searchParamName: 'positionName',
+								showArrow: true,
+								filterOption: false,
+								widthControl: 235,
+								dropdownMatchSelectWidth: 200,
+								mode: 'multiple',
+								allowClear: true,
+								infinityMode: true,
 								requestLoadRows: apiGetFlatDataByConfigName(
 									'staff'
 								),
-								requestLoadConfig: apiGetConfigByName('staff'),
+								optionConverter: (option) => ({
+									label: <span>{option.positionName}</span>,
+									value: option.id,
+									className: '',
+									disabled: undefined,
+								}),
 							},
 						},
 
@@ -187,8 +214,6 @@ export const buttonCopySchedule = [
 								render: ({onChange, defaultValue, value}) => {
 									return (
 										<RangePicker
-											// format={'DD.MM.YYYY'}
-											// value={defaultValue}
 											onChange={(dates, dateString) => {
 												onChange(dates);
 											}}
@@ -203,39 +228,55 @@ export const buttonCopySchedule = [
 							className: 'ml-16',
 							name: 'newExecutor',
 							child: {
-								componentType: 'SingleSelect',
-								name: 'staffId',
-								rowRender: 'positionName',
-								widthControl: 0,
-								widthPopup: 250,
-								heightPopup: 80, // надо обдумать
+								componentType: 'Select',
+								autoClearSearchValue: true,
+								showSearch: true,
+								searchParamName: 'positionName',
+								showArrow: true,
+								filterOption: false,
+								widthControl: 235,
+								dropdownMatchSelectWidth: 200,
+								mode: 'multiple',
+								allowClear: true,
+								infinityMode: true,
 								requestLoadRows: apiGetFlatDataByConfigName(
 									'staff'
 								),
-								requestLoadConfig: apiGetConfigByName('staff'),
+								optionConverter: (option) => ({
+									label: <span>{option.positionName}</span>,
+									value: option.id,
+									className: '',
+									disabled: undefined,
+								}),
 							},
 						},
 						{
-							componentType: 'Item',
-							className: 'ml-16',
-							name: 'rewriteSchedule',
-							valuePropName: 'checked',
-							label: 'Перезаписывать существующие графики:',
-
-							child: {
-								componentType: 'Checkbox',
-								style: {
-									marginLeft: 5,
-								},
+							componentType: 'Space',
+							className: 'p-8',
+							style: {
+								paddingLeft: 190,
 							},
+							children: [
+								{
+									componentType: 'Item',
+									className: 'ml-16',
+									name: 'rewriteSchedule',
+									valuePropName: 'checked',
+									child: {
+										componentType: 'Checkbox',
+										label:
+											'Перезаписывать существующие графики',
+									},
+								},
+							],
 						},
 					],
 				},
 			},
-			dispatchPath: 'workSchedules.workSchedulesTable.copyButton',
+			dispatch: {path: 'workSchedules.workScheduleTable.copyButton'},
 			subscribe: {
 				name: 'moveScheduleModal',
-				path: 'rtd.workSchedules.workSchedulesTable.table.selected',
+				path: 'rtd.workSchedules.workScheduleTable.table.selected',
 				onChange: ({value, setModalData, setButtonProps}) => {
 					value &&
 						setModalData &&

@@ -30,7 +30,7 @@ export const deleteButton = (info) => {
 						<Warning />{' '}
 						<div style={{padding: '0px 10px 0px'}}>
 							Удалить{' '}
-							{info === 'schedules'
+							{info === 'schedule'
 								? 'график'
 								: info === 'shift'
 								? 'смену'

@@ -4,9 +4,9 @@ import {
 } from '../../../apis/catalog.api';
 import {btnFilterSettings} from '../../Base/Block/btnFilterSettings';
 import {deleteButton} from '../Modals/modalButtonDelete';
-import {addTemplateModal, editTemplateModal} from '../Modals/modalTemplatesTab';
+import {addTemplateModal, editTemplateModal} from '../Modals/modalTemplateTab';
 
-export const workTemplatesFields = () => {
+export const workTemplateFields = () => {
 	return [
 		{
 			componentType: 'Layout',
@@ -37,7 +37,7 @@ export const workTemplatesFields = () => {
 										placeholder: 'Введите наименование',
 										dispatch: {
 											path:
-												'workSchedules.workTemplatesTab.modal.events.onSearch',
+												'workSchedules.workTemplateTab.modal.events.onSearch',
 											type: 'event',
 										},
 									},
@@ -82,7 +82,7 @@ export const workTemplatesFields = () => {
 							{
 								name: 'onDeleteModal',
 								path:
-									'rtd.workSchedules.workTemplatesTab.modal.events.onDeleteModal',
+									'rtd.workSchedules.workTemplateTab.modal.events.onDeleteModal',
 								onChange: ({value, removeRow}) => {
 									removeRow();
 								},
@@ -91,7 +91,7 @@ export const workTemplatesFields = () => {
 							{
 								name: 'onSearch',
 								path:
-									'rtd.workSchedules.workTemplatesTab.modal.events.onSearch',
+									'rtd.workSchedules.workTemplateTab.modal.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
 									reloadTable({
 										searchValue: value.value,

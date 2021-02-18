@@ -4,9 +4,9 @@ import {components} from 'rt-design';
 import {ReactComponent as WorkSchedulesPane} from '../../imgs/tabPane/workSchedules/workSchedules.svg';
 import {ReactComponent as WorkShiftPane} from '../../imgs/tabPane/workSchedules/workShift.svg';
 import {ReactComponent as WorkTemplatesPane} from '../../imgs/tabPane/workSchedules/workSchedulesTemplates.svg';
-import {workSchedulesFields} from './Tabs/workSchedules';
-import {workShiftsFields} from './Tabs/workShifts';
-import {workTemplatesFields} from './Tabs/workTemplates';
+import {workScheduleFields} from './Tabs/workSchedule';
+import {workShiftsFields} from './Tabs/workShift';
+import {workTemplateFields} from './Tabs/workTemplate';
 
 const {Form} = components;
 export default function WorkSchedules() {
@@ -22,7 +22,7 @@ export default function WorkSchedules() {
 					tab: <WorkSchedulesPane />,
 					key: 'workSchedules',
 					className: 'workSchedules',
-					children: [...workSchedulesFields()],
+					children: [...workScheduleFields()],
 				},
 				{
 					componentType: 'TabPane',
@@ -36,7 +36,7 @@ export default function WorkSchedules() {
 					tab: <WorkTemplatesPane />,
 					key: 'workSchedulesTemplates',
 					className: 'workSchedulesTemplates',
-					children: [...workTemplatesFields()],
+					children: [...workTemplateFields()],
 				},
 			],
 		},
