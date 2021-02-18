@@ -16,6 +16,7 @@ export default function RouteMaps() {
 	const headFields = [
 		{
 			componentType: 'Item',
+			name: 'routesSelect',
 			child: {
 				componentType: 'SingleSelect',
 				commandPanelProps: {
@@ -32,6 +33,11 @@ export default function RouteMaps() {
 			},
 		},
 	];
+
+	/**
+	 * правильно разметить конфиги, дабы увидеть подгружаемые файлы из системы
+	 * надо связать данные из public.route_maps  и public.files данных, запустить тестовые данные
+	 */
 	const routeMapTableFields = [
 		{
 			componentType: 'Item',
@@ -39,30 +45,18 @@ export default function RouteMaps() {
 				componentType: 'Title',
 				label: 'Маршрутные карты',
 				level: 5,
-				style: {
-					marginTop: 30,
-					marginBottom: 15,
-				},
+				className: 'mt-16',
 			},
 		},
 		{
 			componentType: 'Layout',
-			className: 'mb-16',
+			className: 'mt-16 mb-8',
 			children: [
-				//тут будет стоять новый эелемент для прогрузки файлов систему
 				{
 					componentType: 'Item',
 					child: {
-						componentType: 'ServerTable',
+						componentType: 'FileManager',
 						defaultFilter: {routeId: null},
-						commandPanelProps: {
-							systemBtnProps: {
-								add: {actionType: 'modal'},
-								delete: {},
-								up: {},
-								down: {},
-							},
-						},
 						dispatchPath: 'routeMaps.routeMapsPage.routeMapsTable',
 						subscribe: {
 							name: 'routeMapsUploadTable',
@@ -89,6 +83,9 @@ export default function RouteMaps() {
 		},
 	];
 
+	/**
+	 *  конфигурация получения данных routeControlPoints, от корректирована для реализации модального окна
+	 */
 	const controlPointsFields = [
 		{
 			componentType: 'Item',
@@ -96,14 +93,12 @@ export default function RouteMaps() {
 				componentType: 'Title',
 				label: 'Контрольные точки',
 				level: 5,
-				style: {
-					marginTop: 30,
-					marginBottom: 15,
-				},
+				className: 'mt-16',
 			},
 		},
 		{
 			componentType: 'Layout',
+			className: 'mt-16 mb-8',
 			children: [
 				{
 					componentType: 'Item',
@@ -119,22 +114,21 @@ export default function RouteMaps() {
 								setReloadTable &&
 								setReloadTable({
 									filter: {
-										routeId: value.id, // тут нужно поменять
+										routeId: value.id,
 									},
 								}),
 						},
 
 						requestLoadConfig: apiGetConfigByName(
-							'routeControlPoints' // для макета, нужно поменять
+							'routeControlPoints'
 						),
 						requestLoadRows: apiGetFlatDataByConfigName(
 							'routeControlPoints'
-						), // для макета, нужно поменять
+						),
 						onRowClick: ({selected, rowData, rowIndex}) => {
-							// console.log(rowData);
-							setControlPointsRnd((state) => [...state, rowData]); // когда будет окончательная настройка, нужно просмотреть что приходит в rowData
+							setControlPointsRnd((state) => [...state, rowData]);
 						},
-						modals: [routeMapsControlPointViewModal()],
+						modals: [routeMapsControlPointViewModal(history)],
 					},
 				},
 			],

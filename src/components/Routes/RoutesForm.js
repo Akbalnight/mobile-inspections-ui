@@ -1,6 +1,5 @@
 import React from 'react';
-import {notification} from 'antd';
-import {Form} from 'rt-design';
+import {Form, notificationError} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {
@@ -9,13 +8,23 @@ import {
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
 import {paths} from '../../constants/paths';
-import {controlPointViewModal} from './Modals/routeControlPointView';
+import {routeControlPointViewModal} from './Modals/routeControlPointView';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
 } from './Modals/routeControlPointEdit';
 import {duration, position} from '../Base/customColumnProps';
+import {codeInput} from '../Base/Inputs/CodeInput';
 
+/**
+ * компонент создания/редактирования маршрута.
+ * loadData - позволяет получать данные о конкретном маршруте и обрабатывать их в файле
+ *
+ *  paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path+'/'+`${pageParams.id==='new'? '': pageParams.id}`
+ *  как один из возможных вариантов переадресации в конструктор маршрутных карт
+ *
+ * routeMapsControlPointViewModal(history) - временное решение пока не обсудили входные данные с сервера
+ */
 export default function RoutesForm() {
 	const history = useHistory();
 	const pageParams = useParams();
@@ -31,20 +40,11 @@ export default function RoutesForm() {
 				data: {id: pageParams.id},
 			})
 				.then((response) => {
-					// console.log('loadData => response ', response.data);
 					callBack(response.data[0]);
 				})
-				.catch((error) => {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-						notification.error({
-							message:
-								'Произошла ошибка при загрузки данных формы',
-						});
-					}
-				});
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
 		}
 	};
 
@@ -68,8 +68,7 @@ export default function RoutesForm() {
 					componentType: 'Col',
 					span: 16,
 					children: [
-						// pageParams.id === 'new' ? {} : codeInput,
-						//nameInput,// количество символов не ограниченно
+						pageParams.id === 'new' ? {} : codeInput,
 						{
 							componentType: 'Item',
 							label: 'Наименование:',
@@ -82,7 +81,7 @@ export default function RoutesForm() {
 							],
 							child: {
 								componentType: 'Input',
-								maxLength: 100, //в документации для чего-то ограничение 100 символов
+								maxLength: 100, //в документации, ограничение 100 символов
 							},
 						},
 						{
@@ -107,7 +106,6 @@ export default function RoutesForm() {
 		{
 			name: 'position',
 			value: (row, rows) => {
-				// console.log(row);
 				return rows.length + 1;
 			},
 		},
@@ -132,7 +130,7 @@ export default function RoutesForm() {
 					name: 'controlPoints',
 					child: {
 						componentType: 'LocalTable',
-						history, // необходимо проверить проавльные двнные приходят
+						history,
 						customFields: customFields,
 						customColumnProps: [{...position}, {...duration}],
 						commandPanelProps: {
@@ -151,7 +149,7 @@ export default function RoutesForm() {
 						modals: [
 							addControlPointToRoute('controlPoints'),
 							editControlPointToRoute('controlPoints'),
-							controlPointViewModal(),
+							routeControlPointViewModal(history),
 						],
 					},
 				},
@@ -217,7 +215,6 @@ export default function RoutesForm() {
 
 	const formConfig = {
 		name: 'DetoursConfiguratorRoutes',
-		// noPadding: true,
 		labelCol: {span: 8},
 		wrapperCol: {span: 16},
 		loadInitData: loadData,
@@ -225,7 +222,6 @@ export default function RoutesForm() {
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		processBeforeSaveForm: processBeforeSaveForm,
 		onFinish: (values) => {
-			// console.log('Values', values);
 			history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 		},
 		header: [

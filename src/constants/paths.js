@@ -10,12 +10,13 @@ import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
 import RoutesForm from '../components/Routes/RoutesForm';
-import DetourSchedules from '../components/Detours/DetourSchedules';
-import DetourSchedulesForm from '../components/Detours/DetourSchedulesForm';
+import Detours from '../components/Detours/Detours';
+import DetoursForm from '../components/Detours/DetoursForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
-import DebugMarsel from '../components/Debug/DebugMarsel/DebugMarsel';
+import DetoursSchedules from '../components/Detours/DetoursSchedules';
+import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -45,24 +46,25 @@ export const paths = {
 		title: 'Главная',
 		path: '/home',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DEBUG: {
 		title: 'Debug',
 		path: '/debug',
 		component: Debug,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DEBUG_MARSEL: {
-		title: 'DebugMarsel',
-		path: '/debugMarsel',
-		component: DebugMarsel,
-	},
+	// DEBUG_MARSEL: {
+	// 	title: 'DebugMarsel',
+	// 	path: '/debugMarsel',
+	// 	component: Home,
+	// },
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',
 		path: '/catalog',
 		component: Catalog,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 
 	DETOURS_CONFIGURATOR: {
@@ -71,40 +73,51 @@ export const paths = {
 		component: Home,
 		isGroup: true,
 		redirect: '/detours-configurator/control-points',
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
 		component: ControlPointsD,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_CONTROL_POINTS_DATA: {
-		title: 'Контрольная точка',
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_EDIT: {
+		title: 'Редактирование контрольной точки',
 		path: '/detours-configurator/control-points/:id',
+		component: ControlPointDataD,
+	},
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
+		title: 'Создание контрольной точки',
+		path: '/detours-configurator/control-points/new',
 		component: ControlPointDataD,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',
 		path: '/detours-configurator/routes',
 		component: Routes,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA: {
-		title: 'редакитрование маршрута',
+		title: 'Редакитрование маршрута',
 		path: '/detours-configurator/routes/:id',
 		component: RoutesForm,
+	},
+	DETOURS_CONFIGURATOR_DETOURS: {
+		title: 'Обходы',
+		path: '/detours-configurator/detours',
+		component: Detours,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_DETOURS_DATA: {
+		title: 'Редактирование обхода',
+		path: '/detours-configurator/detours/:id',
+		component: DetoursForm,
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/detours-schedules',
-		component: DetourSchedules,
-		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_DATA: {
-		title: 'Редактирование обхода',
-		path: '/detours-configurator/detours-schedules/:id',
-		component: DetourSchedulesForm,
+		component: DetoursSchedules,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
@@ -116,21 +129,22 @@ export const paths = {
 		title: 'Управление обслуживанием оборудования',
 		path: '/controlEquipments',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
 		path: '/controlEquipments/work-schedules',
-		component: Home,
+		component: WorkSchedules,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAPS: {
 		title: 'Технологические карты и операции',
 		path: '/controlEquipments/techMaps',
 		component: TechMaps,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
-		title: 'Технологическая карта',
+		title: 'Редактирование технологической карты',
 		path: '/controlEquipments/techMaps/:id',
 		component: TechMapData,
 	},
@@ -140,10 +154,10 @@ export const paths = {
 		title: 'Технологические карты и операции',
 		path: '/controlEquipments/formTechMaps',
 		component: TechMapsForm,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
-		title: 'Технологическая карта',
+		title: 'Редактирование технологической карты',
 		path: '/controlEquipments/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
@@ -152,13 +166,13 @@ export const paths = {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
 		component: Defects,
-		roles: ['ROLE_ADMIN'],
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',

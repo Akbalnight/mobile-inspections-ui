@@ -47,6 +47,7 @@ ReactDOM.render(
 								LogoBig: LogoBig,
 								ToggleBtnLeft: ToggleBtnLeft,
 							}}
+							titleSuffix={' - Mobile inspections'}
 						/>
 					</ConfigProvider>
 				</Route>

@@ -2,21 +2,21 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, Input, notification, Spin, Form} from 'antd';
 import {LoadingOutlined} from '@ant-design/icons';
-import {Select} from 'rt-design';
+import {notificationError, Select} from 'rt-design';
 import {
 	apiGetDataByConfigName,
 	apiSaveEquipment,
-	apiGetFlatDataByConfigName
+	apiGetFlatDataByConfigName,
 } from '../../../../apis/catalog.api';
 
-const EquipmentsGroupModal = props => {
+const EquipmentsGroupModal = (props) => {
 	const {
 		title,
 		visible,
 		typeOperation,
 		setVisibleSaveForm,
 		initFormObject,
-		setReloadTable
+		setReloadTable,
 	} = props;
 
 	const [loading, setLoading] = useState(false);
@@ -36,32 +36,29 @@ const EquipmentsGroupModal = props => {
 
 	const onSave = () => {
 		form.validateFields()
-			.then(values => {
+			.then((values) => {
 				const saveObject = {...initFormObject, ...values};
 				saveObject.isGroup = true;
 				// console.log('onSave:', );
 				const method = typeOperation === 'create' ? 'POST' : 'PUT';
 
 				apiSaveEquipment({method, data: saveObject})
-					.then(response => {
+					.then((response) => {
 						// setConfigData(response.data);
 						// if (!mounted) setMounted(true);
 						// console.log('response -> ', response);
 						notification.success({
-							message: 'Сохранение прошло успешно'
+							message: 'Сохранение прошло успешно',
 						});
 						setVisibleSaveForm(false);
 						setReloadTable({});
 						form.resetFields();
 					})
-					.catch(error => {
-						console.log('error -> ', error);
-						notification.error({
-							message: 'Произошла ошибка при хохранении'
-						});
-					});
+					.catch((error) =>
+						notificationError(error, 'Ошибка сохранения')
+					);
 			})
-			.catch(info => {
+			.catch((info) => {
 				console.log('Validate Failed:', info);
 			});
 	};
@@ -73,7 +70,7 @@ const EquipmentsGroupModal = props => {
 
 	const layout = {
 		labelCol: {span: 8},
-		wrapperCol: {span: 16}
+		wrapperCol: {span: 16},
 	};
 
 	const parentIdHandler = (name, keys) => {
@@ -105,7 +102,7 @@ const EquipmentsGroupModal = props => {
 					parentId:
 						initFormObject && initFormObject.parentId
 							? initFormObject.parentId
-							: null
+							: null,
 				}}
 			>
 				{!loading ? (
@@ -116,8 +113,8 @@ const EquipmentsGroupModal = props => {
 							rules={[
 								{
 									required: true,
-									message: 'Пожалуйста введите тех. место'
-								}
+									message: 'Пожалуйста введите тех. место',
+								},
 							]}
 						>
 							<Input
@@ -132,8 +129,8 @@ const EquipmentsGroupModal = props => {
 							rules={[
 								{
 									required: true,
-									message: 'Пожалуйста введите наименование'
-								}
+									message: 'Пожалуйста введите наименование',
+								},
 							]}
 						>
 							<Input
@@ -175,9 +172,9 @@ const EquipmentsGroupModal = props => {
 											isGroup: true,
 											owner:
 												initFormObject &&
-												initFormObject.id
+												initFormObject.id,
 										},
-										params
+										params,
 									})
 								}
 								requestLoadDefault={apiGetFlatDataByConfigName(
@@ -206,7 +203,7 @@ EquipmentsGroupModal.propTypes = {
 	typeOperation: PropTypes.string,
 	setVisibleSaveForm: PropTypes.func,
 	initFormObject: PropTypes.object,
-	setReloadTable: PropTypes.func
+	setReloadTable: PropTypes.func,
 };
 
 export default EquipmentsGroupModal;

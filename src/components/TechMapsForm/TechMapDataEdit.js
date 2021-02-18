@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {Form, notificationError} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
 import {
 	apiGetConfigByName,
@@ -10,10 +10,12 @@ import {
 } from '../../apis/catalog.api';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {nameInput} from '../Base/Inputs/NameInput';
-import {notification} from 'antd';
-import {addTechOperation, editTechOperation} from './TechOperationsModal';
+import {
+	addTechOperation,
+	editTechOperation,
+} from './Modals/techOperationsModal.js';
 import {paths} from '../../constants/paths';
-import {customColumnProps} from './TechMapColumnProps';
+import {customColumnProps, customFields} from './tableProps';
 
 const TechMapDataEdit = () => {
 	const pageParams = useParams();
@@ -37,17 +39,9 @@ const TechMapDataEdit = () => {
 					// console.log("loadData => response ", response.data);
 					callBack(response.data[0]);
 				})
-				.catch((error) => {
-					if (error.response) {
-						console.log(error.response.data);
-						console.log(error.response.status);
-						console.log(error.response.headers);
-						notification.error({
-							message:
-								'Произошла ошибка при загрузки данных формы',
-						});
-					}
-				});
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
 		}
 	};
 
@@ -69,29 +63,6 @@ const TechMapDataEdit = () => {
 			params,
 		});
 	};
-
-	// Дополнительная обработка объекта строки после закрытия модалки
-	const customFields = [
-		{
-			name: 'duration',
-			value: (row) => parseInt(row.hours * 60) + parseInt(row.minutes),
-		},
-		{
-			name: 'code',
-			value: (row, rows) =>
-				parseInt(
-					rows.reduce(
-						(max, current) =>
-							parseInt(current.code) > max ? current.code : max,
-						0
-					)
-				) + 1,
-		},
-		{
-			name: 'position',
-			value: (row, rows) => rows.length + 1,
-		},
-	];
 
 	const headFields = [
 		{
@@ -182,7 +153,6 @@ const TechMapDataEdit = () => {
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
-								// addAsCopy: {},
 								edit: {actionType: ['modal', 'modal']},
 								delete: {},
 								up: {},

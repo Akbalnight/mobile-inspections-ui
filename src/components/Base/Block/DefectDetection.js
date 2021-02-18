@@ -75,12 +75,9 @@ export const defectDetection = {
 			child: {
 				componentType: 'SingleSelect',
 				widthControl: 0,
-				rowRender: 'name',
-				expandColumnKey: 'id',
-				requestLoadRows: apiGetFlatDataByConfigName('staffPositions'),
-				requestLoadDefault: apiGetFlatDataByConfigName(
-					'staffPositions'
-				),
+				rowRender: 'positionName',
+				requestLoadRows: apiGetFlatDataByConfigName('staff'),
+				requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 			},
 		},
 		{
@@ -91,7 +88,7 @@ export const defectDetection = {
 			rules: [
 				{
 					required: true,
-					message: 'Заполните оборудование',
+					message: 'Заполните описание',
 				},
 			],
 			child: {
@@ -105,7 +102,7 @@ export const defectDetection = {
 			rules: [
 				{
 					required: true,
-					message: 'Заполните оборудование',
+					message: 'Заполните описание',
 				},
 			],
 			child: {

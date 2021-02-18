@@ -1,14 +1,25 @@
+import {
+	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
 import {defectDetection} from '../../Base/Block/DefectDetection';
 
+/**
+ *
+ * Форма изменение дефекта, все поля и правила по макетам
+ */
 export const editDefectCard = (catalogName) =>
 	OperationOnServer(catalogName, 'edit', {});
 
-/**
- * Это модальное окно в зависимости от приходящего catalogName, может быть как в журнале дефектов, так и в панеле проблем
- */
 const OperationOnServer = (catalogName, type, code) => {
 	const loadData = (callBack, row) => {
 		callBack(row);
+	};
+
+	const processBeforeSaveForm = (rawValues) => {
+		const values = {...rawValues};
+
+		return values;
 	};
 
 	const defectDetectionField = [
@@ -21,48 +32,16 @@ const OperationOnServer = (catalogName, type, code) => {
 							name: 'statusProcessId',
 							label: 'Статус обработки',
 							child: {
-								componentType: 'Text',
+								componentType: 'SingleSelect',
+								rowRender: 'name',
+								widthControl: 0,
+								requestLoadRows: apiGetFlatDataByConfigName(
+									'defectStatusesProcess'
+								),
+								requestLoadDefault: apiGetFlatDataByConfigName(
+									'defectStatusesProcess'
+								),
 							},
-							// возможно мы тут все-таки поставим РАДИО группу.
-							// child: {
-							// 	componentType: 'RadioGroup',
-							// 	optionType: 'button',
-							// 	size: 'small',
-							// 	options: [
-							// 		{
-							// 			label: '1',
-							// 			value: '1',
-							// 			style: {
-							// 				color: 'white',
-							// 				backgroundColor: '#FF4040',
-							// 			},
-							// 		},
-							// 		{
-							// 			label: '2',
-							// 			value: '2',
-							// 			style: {
-							// 				color: 'white',
-							// 				backgroundColor: '#F2C94C',
-							// 			},
-							// 		},
-							// 		{
-							// 			label: '3',
-							// 			value: '3',
-							// 			style: {
-							// 				color: 'white',
-							// 				backgroundColor: '#9DCE5B',
-							// 			},
-							// 		},
-							// 		{
-							// 			label: '4',
-							// 			value: '4',
-							// 			style: {
-							// 				color: 'white',
-							// 				backgroundColor: '#98B8E3',
-							// 			},
-							// 		},
-							// 	],
-							// },
 						},
 
 						{
@@ -185,7 +164,7 @@ const OperationOnServer = (catalogName, type, code) => {
 				{
 					componentType: 'Item',
 					label: 'Диспетчер',
-					name: 'staffEliminationId',
+					name: 'staffEliminationName',
 					className: 'mb-8',
 					child: {
 						componentType: 'Text',
@@ -235,7 +214,11 @@ const OperationOnServer = (catalogName, type, code) => {
 					name: 'staffEliminationId',
 					className: 'mb-8',
 					child: {
-						componentType: 'Input',
+						componentType: 'SingleSelect',
+						widthControl: 0,
+						rowRender: 'positionName',
+						requestLoadRows: apiGetFlatDataByConfigName('staff'),
+						requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 					},
 				},
 				{
@@ -244,7 +227,7 @@ const OperationOnServer = (catalogName, type, code) => {
 					name: 'note',
 					className: 'mb-8',
 					child: {
-						componentType: 'TextArea',
+						componentType: 'Input',
 					},
 				},
 			],
@@ -252,13 +235,20 @@ const OperationOnServer = (catalogName, type, code) => {
 	];
 
 	return {
-		type: `${type}OnServer`, //сохраняем на сервер потому что хотим увидеть изменения в таблице
+		type: `${type}OnServer`,
 		title: 'Редактрование дефекта',
 		width: catalogName === 'defects' ? 600 : 500,
 		bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
+		requestSaveRow: apiSaveByConfigName(
+			catalogName === 'defects'
+				? 'saveEditModalDefect'
+				: 'saveEditModalPanelProblem'
+		),
 		form: {
 			name: `${type}ModalForm`,
 			loadInitData: loadData,
+			methodSaveForm: 'PUT',
+			processBeforeSaveForm: processBeforeSaveForm,
 			onFinish: (values) => {
 				console.log('values', values);
 			},

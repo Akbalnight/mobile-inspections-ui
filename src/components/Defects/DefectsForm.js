@@ -1,7 +1,7 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Form} from 'rt-design';
-import {useHistory} from 'react-router';
+import {useHistory, useParams} from 'react-router';
 
 import {defectDetection} from '../Base/Block/DefectDetection';
 import {
@@ -9,12 +9,18 @@ import {
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
 /**
- * этот компонент необязателен он представлен для вариативности
+ * этот компонент необязателен он представлен для вариативности. В данном контексте дефекты будут создаваться в мобильном приложении,
+ * но данный путь нужно было пройти в web варианте
+ *
  */
 export default function DefectsForm() {
 	const history = useHistory();
+	const pageParams = useParams();
 
 	const loadData = (callBack, row) => {
+		if (pageParams.id === 'new') {
+			console.log('new');
+		}
 		callBack(null);
 	};
 
@@ -46,7 +52,7 @@ export default function DefectsForm() {
 				{
 					componentType: 'Item',
 					label: 'Ответственный',
-					name: 'staffEliminationName',
+					name: 'staffEliminationId',
 					className: 'mb-8',
 					rules: [
 						{
@@ -57,13 +63,9 @@ export default function DefectsForm() {
 					child: {
 						componentType: 'SingleSelect',
 						widthControl: 0,
-						rowRender: 'name',
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'departments'
-						),
-						requestLoadDefault: apiGetFlatDataByConfigName(
-							'departments'
-						),
+						rowRender: 'username',
+						requestLoadRows: apiGetFlatDataByConfigName('staff'),
+						requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 					},
 				},
 				{
@@ -223,7 +225,7 @@ export default function DefectsForm() {
 					componentType: 'Title',
 					className: 'mb-0',
 					level: 3,
-					label: 'Создание',
+					label: 'Создание дефекта',
 				},
 			},
 		],

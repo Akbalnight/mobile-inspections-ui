@@ -1,4 +1,4 @@
-import {codeInput} from '../Base/Inputs/CodeInput';
+import {codeInput} from '../../Base/Inputs/CodeInput';
 
 const loadData = (callBack, row, type) => {
 	const newData = {

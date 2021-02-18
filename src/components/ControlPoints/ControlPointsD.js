@@ -15,10 +15,16 @@ import {code} from '../Base/customColumnProps';
 import {routeMapsControlPointViewModal} from '../RouteMaps/Modals/routeMapsControlPointsInfo';
 import {controlPointsGroupInfo} from './Modals/modalControlPointsGroupInfo';
 
+/** Главный компонент раздела
+ * Возможно важный комментарий
+ * /api/catalog/baseCatalogWithParent/controlPoints
+ * {"name":"2","parentId":"3244445c-9df8-4a5c-a123-106c1cdb4023"}
+ *
+ *
+ * routeMapsControlPointViewModal(history) - временное решение пока не обсудили входные данные с сервера
+ */
 const ControlPointsD = (props) => {
 	let history = useHistory();
-	// /api/catalog/baseCatalogWithParent/controlPoints
-	// {"name":"2","parentId":"3244445c-9df8-4a5c-a123-106c1cdb4023"}
 
 	const formConfig = {
 		noPadding: true,
@@ -29,8 +35,9 @@ const ControlPointsD = (props) => {
 					{
 						componentType: 'Item',
 						child: {
-							componentType: 'ServerTable', //'LocalTable', // 'ServerTable', 'InfinityTable'
+							componentType: 'ServerTable',
 							customColumnProps: [{...code}],
+							history,
 							commandPanelProps: {
 								systemBtnProps: {
 									add: {actionType: 'page'},
@@ -42,10 +49,9 @@ const ControlPointsD = (props) => {
 							modals: [
 								addGroupOnServer('controlPoints'),
 								editGroupOnServer('controlPoints'),
-								routeMapsControlPointViewModal(), // info about controlPoint
+								routeMapsControlPointViewModal(history),
 								controlPointsGroupInfo(),
 							],
-							history: history,
 							requestLoadRows: apiGetHierarchicalDataByConfigName(
 								'controlPoints'
 							),

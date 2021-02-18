@@ -1,8 +1,8 @@
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
-import {customColumnProps} from './TechMapColumnProps';
+} from '../../../apis/catalog.api';
+import {customColumnProps} from '../tableProps';
 
 export const techMapDataView = () => {
 	let Row;
