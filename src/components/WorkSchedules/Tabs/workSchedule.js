@@ -1,12 +1,7 @@
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
-import {
-	buttonCopySchedule,
-	buttonMoveSchedule,
-} from '../Modals/modalButtonWorkSchedule';
 import {TimePicker} from 'antd';
 import TimelineScheduler from '../TimelineScheduler';
-import {deleteButton} from '../Modals/modalButtonDelete';
-import {btnFilterSettings} from '../../Base/Block/btnFilterSettings';
+import {tableTabHeader} from './tableProps';
 
 const {RangePicker} = TimePicker;
 
@@ -21,43 +16,7 @@ export const workScheduleFields = () => {
 			componentType: 'Space',
 			direction: 'vertical',
 			children: [
-				{
-					componentType: 'Space',
-					className: 'px-8',
-					style: {
-						width: '100%',
-						justifyContent: 'space-between',
-					},
-					children: [
-						{
-							componentType: 'Space',
-							children: [
-								...buttonMoveSchedule,
-								...buttonCopySchedule,
-								deleteButton('schedule'),
-							],
-						},
-						{
-							componentType: 'Space',
-							children: [
-								{
-									componentType: 'Item',
-									name: 'searchInput',
-									child: {
-										componentType: 'Search',
-										placeholder: 'Введите наименование',
-										dispatch: {
-											path:
-												'workSchedules.workShiftTab.modal.events.onSearch',
-											type: 'event',
-										},
-									},
-								},
-								...btnFilterSettings,
-							],
-						},
-					],
-				},
+				...tableTabHeader('schedule'),
 				{
 					componentType: 'Space',
 					wrap: true,
@@ -124,10 +83,20 @@ export const workScheduleFields = () => {
 								},
 							],
 						},
+						{
+							componentType: 'Item',
 
+							child: {
+								componentType: 'Divider',
+								className: 'mt-0 mb-0',
+							},
+						},
+						/**
+						 * надо продумать взаимодействие входных данных в Timeline с фильтрами на данной странице
+						 */
 						{
 							componentType: 'Layout',
-							className: 'p-8 mt-0',
+							className: 'px-8 mt-0',
 							children: [
 								{
 									componentType: 'Item',
@@ -182,10 +151,6 @@ export const workScheduleFields = () => {
 						},
 					],
 				},
-
-				/**
-				 * надо продумать взаимодействие входных данных в Timeline с фильтрами на данной странице
-				 */
 			],
 		},
 	];

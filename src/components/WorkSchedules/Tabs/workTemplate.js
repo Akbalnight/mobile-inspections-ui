@@ -2,51 +2,14 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {btnFilterSettings} from '../../Base/Block/btnFilterSettings';
-import {deleteButton} from '../Modals/modalButtonDelete';
-import {addTemplateModal, editTemplateModal} from '../Modals/modalTemplateTab';
+import {tableTabHeader} from './tableProps';
 
 export const workTemplateFields = () => {
 	return [
 		{
 			componentType: 'Layout',
 			children: [
-				{
-					componentType: 'Space',
-					className: 'p-8',
-					style: {
-						justifyContent: 'space-between',
-					},
-					children: [
-						{
-							componentType: 'Space',
-							children: [
-								addTemplateModal(),
-								editTemplateModal(),
-								deleteButton('template'),
-							],
-						},
-						{
-							componentType: 'Space',
-							children: [
-								{
-									componentType: 'Item',
-									name: 'searchInput',
-									child: {
-										componentType: 'Search',
-										placeholder: 'Введите наименование',
-										dispatch: {
-											path:
-												'workSchedules.workTemplateTab.modal.events.onSearch',
-											type: 'event',
-										},
-									},
-								},
-								...btnFilterSettings,
-							],
-						},
-					],
-				},
+				...tableTabHeader('template'),
 				{
 					componentType: 'Item',
 					child: {

@@ -2,51 +2,14 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {btnFilterSettings} from '../../Base/Block/btnFilterSettings';
-import {deleteButton} from '../Modals/modalButtonDelete';
-import {addShiftModal, editShiftModal} from '../Modals/modalShiftTab';
+import {tableTabHeader} from './tableProps';
 
 export const workShiftsFields = () => {
 	return [
 		{
 			componentType: 'Layout',
 			children: [
-				{
-					componentType: 'Space',
-					className: 'p-8',
-					style: {
-						justifyContent: 'space-between',
-					},
-					children: [
-						{
-							componentType: 'Space',
-							children: [
-								addShiftModal(),
-								editShiftModal(),
-								deleteButton('shift'),
-							],
-						},
-						{
-							componentType: 'Space',
-							children: [
-								{
-									componentType: 'Item',
-									name: 'searchInput',
-									child: {
-										componentType: 'Search',
-										placeholder: 'Введите наименование',
-										dispatch: {
-											path:
-												'workSchedules.workShiftTab.modal.events.onSearch',
-											type: 'event',
-										},
-									},
-								},
-								...btnFilterSettings,
-							],
-						},
-					],
-				},
+				...tableTabHeader('shift'),
 				{
 					componentType: 'Item',
 					child: {

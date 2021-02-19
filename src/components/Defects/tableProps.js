@@ -1,4 +1,4 @@
-import {Rate, Radio, DatePicker} from 'antd';
+import {Rate, Radio} from 'antd';
 import {
 	CheckOutlined,
 	MailOutlined,
@@ -21,6 +21,7 @@ import {
 	buttonSendToPanel,
 	buttonSendToSap,
 } from './Modals/modalButtonDefects';
+import {editDefectCard} from './Modals/defectEdit';
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
@@ -32,7 +33,6 @@ import {
  * configFilterPanel общий вид панели для двух разделов, отображение меняется при помощи history
  */
 
-const {RangePicker} = DatePicker;
 const statusesConfig = [
 	{
 		priorityId: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
@@ -169,10 +169,16 @@ export const headerTable = (history) => {
 				{
 					componentType: 'Space',
 					children: [
+						/**
+						 * изменить все модалки на функции
+						 */
 						buttonCloseWithNote(),
 						...(historyChange
 							? buttonSendToPanel
 							: buttonSendToSap),
+						editDefectCard(
+							historyChange ? 'defects' : 'panelProblems'
+						),
 					],
 				},
 				{
@@ -245,14 +251,36 @@ export const headerTable = (history) => {
 							},
 						},
 						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Custom',
-								name: 'detect',
-								render: ({onChange, defaultValue, value}) => {
-									return <RangePicker />;
+							componentType: 'Space',
+							className: 'mb-0',
+							children: [
+								{
+									componentType: 'Item',
+									name: 'dateDetectDefectStart',
+									label: 'c',
+									className: 'mb-0',
+									child: {
+										componentType: 'DatePicker',
+										// name: 'detect',
+										// render: ({onChange, defaultValue, value}) => {
+										// 	return <RangePicker />;
+										// },
+									},
 								},
-							},
+								{
+									componentType: 'Item',
+									name: 'dateDetectDefectEnd',
+									label: 'по',
+									className: 'mb-0',
+									child: {
+										componentType: 'DatePicker',
+										// name: 'detect',
+										// render: ({onChange, defaultValue, value}) => {
+										// 	return <RangePicker />;
+										// },
+									},
+								},
+							],
 						},
 					],
 				},
@@ -268,14 +296,34 @@ export const headerTable = (history) => {
 							},
 						},
 						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Custom',
-								name: 'detect',
-								render: ({onChange, defaultValue, value}) => {
-									return <RangePicker />;
+							componentType: 'Space',
+							className: 'mb-0',
+							children: [
+								{
+									componentType: 'Item',
+									label: 'c',
+									className: 'mb-0',
+									child: {
+										componentType: 'DatePicker',
+										// name: 'detect',
+										// render: ({onChange, defaultValue, value}) => {
+										// 	return <RangePicker />;
+										// },
+									},
 								},
-							},
+								{
+									componentType: 'Item',
+									label: 'по',
+									className: 'mb-0',
+									child: {
+										componentType: 'DatePicker',
+										// name: 'detect',
+										// render: ({onChange, defaultValue, value}) => {
+										// 	return <RangePicker />;
+										// },
+									},
+								},
+							],
 						},
 					],
 				},

@@ -9,7 +9,8 @@ import {fileManagerFields} from '../Tabs/fileManagerTab';
  *
  * Карточка информации дефекта
  */
-export const defectCardInfoModal = (history) => {
+export const defectCardInfoModal = () => {
+	console.log(1);
 	const loadData = (callBack, row) => {
 		callBack(row);
 	};
@@ -66,17 +67,23 @@ export const defectCardInfoModal = (history) => {
 	];
 
 	return {
-		type: 'viewObject',
-		title: `Карточка дефекта`,
-		width: 800,
-		bodyStyle: {height: 650},
-		form: {
-			name: 'defectDataView',
-			noPadding: true,
-			labelCol: {span: 8},
-			wrapperCol: {span: 16},
-			loadInitData: loadData,
-			body: [...tabsField],
+		componentType: 'Item',
+		child: {
+			componentType: 'Modal',
+			modalConfig: {
+				type: 'viewObject',
+				title: `Карточка дефекта`,
+				width: 800,
+				bodyStyle: {height: 650},
+				form: {
+					name: 'defectDataView',
+					noPadding: true,
+					labelCol: {span: 8},
+					wrapperCol: {span: 16},
+					loadInitData: loadData,
+					body: [...tabsField],
+				},
+			},
 		},
 	};
 };
