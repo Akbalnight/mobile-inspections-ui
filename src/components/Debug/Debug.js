@@ -29,8 +29,14 @@ const TableCus = (config) => ({
 				requestLoadRows: apiGetFlatDataByConfigName(config),
 				requestLoadConfig: apiGetConfigByName(config),
 				fixWidthColumn: true,
-				// selectable: true,
-				dispatchPath: 'debug.form.table.data',
+				selectable: true,
+				onRowClick: () => {
+					console.log('onRowClick => ');
+				},
+				onRowDoubleClick: () => {
+					console.log('onRowDoubleClick => ');
+				},
+				dispatchPath: 'debug.form.table',
 				subscribe: [
 					{
 						/** Обработчик события изменения статуса
@@ -362,7 +368,7 @@ const Debug = () => {
 								disabled: undefined,
 							}),
 							dispatch: {
-								path: 'debug.form.table.event.onSelectRoute',
+								path: 'debug.form.table.events.onSelectRoute',
 								type: 'event',
 							},
 						},
@@ -402,7 +408,7 @@ const Debug = () => {
 								{
 									name: 'onSelectRoute',
 									path:
-										'rtd.debug.form.table.event.onSelectRoute',
+										'rtd.debug.form.table.events.onSelectRoute',
 									onChange: ({
 										value,
 										extraData,

@@ -94,6 +94,17 @@ export const selectModalDebug = [
 					],
 				},
 			},
+
+			subscribe: [
+				{
+					name: 'tableCloseInfo',
+					path: 'rtd.debug.form.table.events.onRowDoubleClick',
+					onChange: ({value, openModal}) => {
+						// console.log('buttonCloseWithNote value => ', value);
+						openModal();
+					},
+				},
+			],
 		},
 	},
 ];

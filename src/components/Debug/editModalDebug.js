@@ -53,16 +53,18 @@ export const editModalDebug = [
 				path: 'debug.form.table.events.onEditModal',
 				type: 'event',
 			},
-			subscribe: {
-				name: 'tableCloseInfo',
-				path: 'rtd.debug.form.table.data.selected',
-				onChange: ({value, setModalData, setButtonProps}) => {
-					// console.log('buttonCloseWithNote value => ', value);
-					value && setModalData && setModalData(value);
+			subscribe: [
+				{
+					name: 'tableCloseInfo',
+					path: 'rtd.debug.form.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						// console.log('buttonCloseWithNote value => ', value);
+						value && setModalData && setModalData(value);
 
-					setButtonProps && setButtonProps({disabled: !value});
+						setButtonProps && setButtonProps({disabled: !value});
+					},
 				},
-			},
+			],
 		},
 	},
 ];
