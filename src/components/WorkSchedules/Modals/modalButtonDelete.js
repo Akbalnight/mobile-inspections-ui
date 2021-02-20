@@ -22,6 +22,7 @@ export const deleteButton = (info) => {
 			buttonProps: {
 				type: 'default',
 				icon: <DeleteOutlined />,
+				disabled: true,
 			},
 			modalConfig: {
 				type: 'editOnServer',
@@ -51,14 +52,17 @@ export const deleteButton = (info) => {
 				path: `workSchedules.work${toCapitalize}Tab.modal.events.onDeleteModal`,
 				type: 'event',
 			},
-			subscribe: {
-				name: 'workShiftTabTableInfo',
-				path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
-				onChange: ({value, setModalData, setButtonProps}) => {
-					value && setModalData && setModalData(value);
-					setButtonProps && setButtonProps({disabled: !value});
+			subscribe: [
+				{
+					name: 'workShiftTabTableInfo',
+					path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value && setModalData && setModalData(value);
+
+						setButtonProps && setButtonProps({disabled: !value});
+					},
 				},
-			},
+			],
 		},
 	};
 };

@@ -17,7 +17,7 @@ export const buttonMoveSchedule = () => ({
 		buttonProps: {
 			type: 'default',
 			icon: <MoveSchedules />,
-			// disabled: true,
+			disabled: true,
 		},
 		modalConfig: {
 			type: 'editOnServer', //'editOnServer'
@@ -127,24 +127,26 @@ export const buttonMoveSchedule = () => ({
 			},
 		},
 		dispatch: {path: 'workSchedules.workScheduleTable.moveButton'},
-		subscribe: {
-			name: 'moveScheduleModal',
-			path:
-				'rtd.workSchedules.workScheduleTab.page.timelineScheduler.selected',
-			onChange: ({value, setModalData, setButtonProps}) => {
-				value &&
-					setModalData &&
-					setModalData({
-						length: value.length,
-						/**
-						 * возможно нужны будут допДанные их лучше прокинуть тут
-						 */
-					});
-				value &&
-					setButtonProps &&
-					setButtonProps({disabled: !(value.length > 0)});
+		subscribe: [
+			{
+				name: 'moveScheduleModal',
+				path:
+					'rtd.workSchedules.workScheduleTab.page.timelineScheduler.selected',
+				onChange: ({value, setModalData, setButtonProps}) => {
+					value &&
+						setModalData &&
+						setModalData({
+							length: value.length,
+							/**
+							 * возможно нужны будут допДанные их лучше прокинуть тут
+							 */
+						});
+					value &&
+						setButtonProps &&
+						setButtonProps({disabled: !(value.length > 0)});
+				},
 			},
-		},
+		],
 	},
 });
 
@@ -155,7 +157,7 @@ export const buttonCopySchedule = () => ({
 		buttonProps: {
 			type: 'default',
 			icon: <CopySchedule />,
-			// disabled: true,
+			disabled: true,
 		},
 		modalConfig: {
 			type: 'editOnServer', //'editOnServer'
@@ -271,22 +273,24 @@ export const buttonCopySchedule = () => ({
 			},
 		},
 		dispatch: {path: 'workSchedules.workScheduleTable.copyButton'},
-		subscribe: {
-			name: 'moveScheduleModal',
-			path: 'rtd.workSchedules.workScheduleTable.table.selected',
-			onChange: ({value, setModalData, setButtonProps}) => {
-				value &&
-					setModalData &&
-					setModalData({
-						length: value.length,
-						/**
-						 * возможно нужны будут допДанные их лучше прокинуть тут
-						 */
-					});
-				value &&
-					setButtonProps &&
-					setButtonProps({disabled: !(value.length > 0)});
+		subscribe: [
+			{
+				name: 'moveScheduleModal',
+				path: 'rtd.workSchedules.workScheduleTable.table.selected',
+				onChange: ({value, setModalData, setButtonProps}) => {
+					value &&
+						setModalData &&
+						setModalData({
+							length: value.length,
+							/**
+							 * возможно нужны будут допДанные их лучше прокинуть тут
+							 */
+						});
+					value &&
+						setButtonProps &&
+						setButtonProps({disabled: !(value.length > 0)});
+				},
 			},
-		},
+		],
 	},
 });
