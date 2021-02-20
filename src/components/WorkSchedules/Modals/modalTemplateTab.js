@@ -1,14 +1,26 @@
 import React from 'react';
-import {CopyOutlined, DeleteOutlined, PlusOutlined} from '@ant-design/icons';
+import {
+	CopyOutlined,
+	DeleteOutlined,
+	EditOutlined,
+	PlusOutlined,
+} from '@ant-design/icons';
 import {TimePicker} from 'antd';
 
 const {RangePicker} = TimePicker;
 
-export const addTemplateModal = () => OperationOnServer('add', {});
+export const addTemplateModal = () => OperationOnServer('add', 'template');
 
-export const editTemplateModal = () => OperationOnServer('edit', {});
+export const editTemplateModal = () => OperationOnServer('edit', 'template');
 
-const OperationOnServer = (type, code) => {
+/**
+ *
+ * @param {string} type - all modal operations TYPE
+ * @param {object} info - extra code
+ * @returns {object}
+ */
+const OperationOnServer = (type, info) => {
+	const toCapitalize = info[0].toUpperCase() + info.substring(1);
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
@@ -30,8 +42,7 @@ const OperationOnServer = (type, code) => {
 	const mainFields = [
 		{
 			componentType: 'ListItems',
-			name: 'templatesForm',
-
+			name: 'templateForm',
 			children: [
 				{
 					componentType: 'Row',
@@ -79,8 +90,9 @@ const OperationOnServer = (type, code) => {
 										label: 'Добавить шаблон',
 										type: 'primary',
 										icon: <PlusOutlined />,
-										onClick: (e, {fields, operation}) => {
-											operation.add();
+										onClick: (y) => {
+											console.log(y);
+											// operation.add();
 											// console.log(fields);
 										},
 									},
@@ -355,7 +367,7 @@ const OperationOnServer = (type, code) => {
 									],
 								},
 								/**
-								 * кнопка ниже без полноценной функиции, активные кнопки удалени(remove) и копирования(move). Только возможно копирование полей в одном
+								 * кнопка ниже без полноценной функции, активные кнопки удалени(remove) и копирования(move). Только возможно копирование полей в одном
 								 * ListItem не имеет смысла.
 								 * у ListItems ({add, move, remove}), исходные функции
 								 */
@@ -428,14 +440,42 @@ const OperationOnServer = (type, code) => {
 		},
 	];
 	return {
-		type: `${type}OnServer`,
-		title: `${type === 'add' ? 'Создание' : 'Редактирование'} шаблона`,
-		width: 850,
-		bodyStyle: {height: 700},
-		form: {
-			name: `${type}TemplateModalForm`,
-			loadInitData: loadData,
-			body: [...mainFields],
+		componentType: 'Item',
+		child: {
+			componentType: 'Modal',
+			buttonProps: {
+				type: 'default',
+				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
+			},
+			modalConfig: {
+				type: `${type}OnServer`,
+				title: `${
+					type === 'add' ? 'Создание' : 'Редактирование'
+				} шаблона`,
+				width: 850,
+				bodyStyle: {height: 700},
+				form: {
+					name: `${type + toCapitalize}ModalForm`,
+					loadInitData: loadData,
+					body: [...mainFields],
+				},
+			},
+			dispatch: {
+				path: `workSchedules.work${toCapitalize}Tab.modal.events.on${
+					type[0].toUpperCase() + type.substring(1)
+				}Modal`,
+				type: 'event',
+			},
+			subscribe: {
+				name: `work${toCapitalize}TabTableInfo`,
+				path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
+				onChange: ({value, setModalData, setButtonProps}) => {
+					value && setModalData && setModalData(value);
+					type !== 'add' &&
+						setButtonProps &&
+						setButtonProps({disabled: !value});
+				},
+			},
 		},
 	};
 };

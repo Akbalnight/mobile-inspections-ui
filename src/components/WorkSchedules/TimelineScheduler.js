@@ -164,6 +164,9 @@ export default function TimelineScheduler() {
 			defaultTimeEnd={moment().add(12, 'hour')}
 			style={{border: '1px solid #bbb'}}
 			itemRenderer={itemRenderer}
+			// onItemClick={(e)=>console.log(e)}
+			// onCanvasClick={e=> console.log(e)}
+			// onItemSelect={e=> console.log(e)}
 		>
 			<TimelineHeaders className='sticky' style={{textAlign: 'center'}}>
 				<SidebarHeader>

@@ -1,13 +1,21 @@
 import React, {useState} from 'react';
 import {TimePicker} from 'antd';
 import {GithubPicker} from 'react-color';
+import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 
 const {RangePicker} = TimePicker;
-export const addShiftModal = () => OperationOnServer('add', {});
+export const addShiftModal = () => OperationOnServer('add', 'shift');
 
-export const editShiftModal = () => OperationOnServer('edit', {});
+export const editShiftModal = () => OperationOnServer('edit', 'shift');
 
-const OperationOnServer = (type, code) => {
+/**
+ *
+ * @param {string} type - all modal operations TYPE
+ * @param {object} info - extra code
+ * @returns {object}
+ */
+const OperationOnServer = (type, info) => {
+	const toCapitalize = info[0].toUpperCase() + info.substring(1);
 	const [colorPicker, setColorPicker] = useState({
 		open: false,
 		color: {
@@ -24,8 +32,17 @@ const OperationOnServer = (type, code) => {
 	const handleClose = () => {
 		setColorPicker((state) => ({...state, open: false}));
 	};
+
+	/**
+	 * 
+	 * @param {object} color {hex: <string>,
+							hsl: {h: <number>, s: 1, l: <number>, a: <number>}
+							hsv: {h: <number>, s: <number>, v: 1, a: <number>}
+							oldHue: <number>
+							rgb: {r: <number>, g: <number>, b: <number>, a: <number>	}
+							source: <string>}
+	 */
 	const handleChange = (color) => {
-		console.log(color);
 		setColorPicker((state) => ({open: !state.open, color: color.rgb}));
 	};
 	const loadData = (callBack, row) => {
@@ -53,18 +70,6 @@ const OperationOnServer = (type, code) => {
 			name: 'code',
 			child: {
 				componentType: 'Input',
-				// subscribe: {
-				// 	name: 'code',
-				// 	path: 'rtd.workSchedules.workShiftModal.checkbox',
-				// 	onChange: ({value, setSubscribeProps}) => {
-				// 		// console.log(value);
-				// 		if (value === true) {
-				// 			setSubscribeProps({disabled: false});
-				// 		} else {
-				// 			setSubscribeProps({disabled: true});
-				// 		}
-				// 	},
-				// },
 			},
 		},
 		{
@@ -100,7 +105,7 @@ const OperationOnServer = (type, code) => {
 			],
 			child: {
 				componentType: 'Checkbox',
-				dispatchPath: 'workSchedules.workShiftModal.checkbox',
+				dispatch: {path: 'workSchedules.workShiftTab.modal.checkbox'},
 			},
 		},
 		{
@@ -114,8 +119,7 @@ const OperationOnServer = (type, code) => {
 					const {onChange} = props; // defaultValue, value
 
 					// Subscribe Props
-					const {disabled} = props;
-
+					let {disabled = true} = props;
 					return (
 						<RangePicker
 							disabled={disabled}
@@ -128,18 +132,19 @@ const OperationOnServer = (type, code) => {
 						/>
 					);
 				},
-				subscribe: {
-					name: 'rangeShift',
-					path: 'rtd.workSchedules.workShiftModal.checkbox',
-					onChange: ({value, setSubscribeProps}) => {
-						console.log(value);
-						if (value !== true) {
-							setSubscribeProps({disabled: true});
-						} else {
-							setSubscribeProps({disabled: false});
-						}
+				subscribe: [
+					{
+						name: 'rangeShift',
+						path: 'rtd.workSchedules.workShiftTab.modal.checkbox',
+						onChange: ({value, setSubscribeProps}) => {
+							if (value !== true) {
+								setSubscribeProps({disabled: true});
+							} else {
+								setSubscribeProps({disabled: false});
+							}
+						},
 					},
-				},
+				],
 			},
 		},
 		{
@@ -197,7 +202,6 @@ const OperationOnServer = (type, code) => {
 											'#FFC0FB',
 											'#A5F2F2',
 										]}
-										// triangle={'hide'}
 										width={'112px'}
 										onChange={(value) => {
 											onChange(value.hex); //временное решение. Нужно изменить когда выберем входные данные с сервера
@@ -212,18 +216,48 @@ const OperationOnServer = (type, code) => {
 			},
 		},
 	];
-
 	return {
-		type: `${type}OnServer`,
-		title: `${type === 'add' ? 'Создание' : 'Редактирование'} смены`,
-		width: 445,
-		bodyStyle: {height: 480},
-		form: {
-			name: `${type}ShiftModalForm`,
-			loadInitData: loadData,
-			labelCol: {span: 10},
-			wrapperCol: {span: 12},
-			body: [...mainFields],
+		componentType: 'Item',
+		child: {
+			componentType: 'Modal',
+			buttonProps: {
+				type: 'default',
+				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
+			},
+			modalConfig: {
+				type: `${type}OnServer`,
+				title: `${
+					type === 'add' ? 'Создание' : 'Редактирование'
+				} смены`,
+				width: 445,
+				bodyStyle: {height: 480},
+				/**
+				 * Дополнить конфигом сохранения
+				 */
+				form: {
+					name: `${type + toCapitalize}ModalForm`,
+					loadInitData: loadData,
+					labelCol: {span: 10},
+					wrapperCol: {span: 12},
+					body: [...mainFields],
+				},
+			},
+			dispatch: {
+				path: `workSchedules.work${toCapitalize}Tab.modal.events.on${
+					type[0].toUpperCase() + type.substring(1)
+				}Modal`,
+				type: 'event',
+			},
+			subscribe: {
+				name: `work${toCapitalize}TabTableInfo`,
+				path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
+				onChange: ({value, setModalData, setButtonProps}) => {
+					value && setModalData && setModalData(value);
+					type !== 'add' &&
+						setButtonProps &&
+						setButtonProps({disabled: !value});
+				},
+			},
 		},
 	};
 };
