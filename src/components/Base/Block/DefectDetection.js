@@ -82,7 +82,7 @@ export const defectDetection = {
 		},
 		{
 			componentType: 'Item',
-			label: 'Описание',
+			label: 'Описание дефекта',
 			name: 'description',
 			className: 'mb-8',
 			rules: [

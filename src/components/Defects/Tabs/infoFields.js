@@ -2,10 +2,10 @@
  * информационная вкладка, переделать после обновления
  */
 
-export const infoTabFields = [
-	{
+export const infoTabFields = () => {
+	return {
 		componentType: 'Layout',
-		style: {padding: '24px'}, // исправить после обновления
+		className: 'ml-16',
 		children: [
 			{
 				componentType: 'Col',
@@ -129,5 +129,5 @@ export const infoTabFields = [
 				],
 			},
 		],
-	},
-];
+	};
+};

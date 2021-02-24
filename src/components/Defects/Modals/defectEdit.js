@@ -1,3 +1,4 @@
+import {EditOutlined} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
@@ -235,32 +236,65 @@ const OperationOnServer = (catalogName, type, code) => {
 	];
 
 	return {
-		type: `${type}OnServer`,
-		title: 'Редактрование дефекта',
-		width: catalogName === 'defects' ? 600 : 500,
-		bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
-		requestSaveRow: apiSaveByConfigName(
-			catalogName === 'defects'
-				? 'saveEditModalDefect'
-				: 'saveEditModalPanelProblem'
-		),
-		form: {
-			name: `${type}ModalForm`,
-			loadInitData: loadData,
-			methodSaveForm: 'PUT',
-			processBeforeSaveForm: processBeforeSaveForm,
-			onFinish: (values) => {
-				console.log('values', values);
+		componentType: 'Item',
+		child: {
+			componentType: 'Modal',
+			buttonProps: {
+				type: 'default',
+				icon: <EditOutlined />,
 			},
-			labelCol: {span: 10},
-			wrapperCol: {span: 12},
-			body: [
-				code,
-				...defectDetectionField,
-				...(catalogName === 'defects'
-					? correctionPlanFields
-					: defectSapFields),
-				...(catalogName === 'defects' ? defectEliminationFields : []),
+
+			modalConfig: {
+				type: `${type}OnServer`,
+				title: 'Редактрование дефекта',
+				width: catalogName === 'defects' ? 600 : 500,
+				bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
+				requestSaveRow: apiSaveByConfigName(
+					catalogName === 'defects'
+						? 'saveEditModalDefect'
+						: 'saveEditModalPanelProblem'
+				),
+				form: {
+					name: `${type}ModalForm`,
+					loadInitData: loadData,
+					methodSaveForm: 'PUT',
+					processBeforeSaveForm: processBeforeSaveForm,
+					onFinish: (values) => {
+						console.log('values', values);
+					},
+					labelCol: {span: 10},
+					wrapperCol: {span: 12},
+					body: [
+						code,
+						...defectDetectionField,
+						...(catalogName === 'defects'
+							? correctionPlanFields
+							: defectSapFields),
+						...(catalogName === 'defects'
+							? defectEliminationFields
+							: []),
+					],
+				},
+			},
+			disoatch: {
+				path: 'defects.defectTable.modal.events.onEditModal',
+				type: 'event',
+			},
+			subscribe: [
+				{
+					name: 'editForm',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								...value[value.length - 1],
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length === 1)});
+					},
+				},
 			],
 		},
 	};

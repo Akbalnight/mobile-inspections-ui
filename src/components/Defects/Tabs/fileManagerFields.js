@@ -7,13 +7,14 @@ import {
  * нужно будет переделать и получать данные по определенному дефекту
  * связть public.files и  public.defects
  */
-export const fileManagerFields = [
-	{
+export const fileManagerFields = () => {
+	return {
 		componentType: 'Layout',
+		className: 'ml-16',
 		children: [
 			{
 				componentType: 'Item',
-				name: 'note',
+				name: 'name',
 				child: {
 					componentType: 'Title',
 					level: 5,
@@ -21,15 +22,17 @@ export const fileManagerFields = [
 			},
 			{
 				componentType: 'Item',
+				className: 'p-8',
 				child: {
 					componentType: 'FileManager',
-					rowKey: 'id',
-					isGroupKey: 'isGroup',
-					expandParentKey: 'parentId',
-					requestLoadRows: apiGetFlatDataByConfigName('defects'),
-					requestLoadConfig: apiGetConfigByName('defects'),
+					requestLoadConfig: apiGetConfigByName(
+						'routeControlPoints' // для макета, нужно поменять
+					),
+					requestLoadRows: apiGetFlatDataByConfigName(
+						'routeControlPoints' // для макета, нужно поменять
+					),
 				},
 			},
 		],
-	},
-];
+	};
+};
