@@ -20,6 +20,7 @@ export const fileManagerFields = () => {
 					level: 5,
 				},
 			},
+
 			{
 				componentType: 'Item',
 				className: 'p-8',

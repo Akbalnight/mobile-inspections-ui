@@ -6,9 +6,7 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {useHistory} from 'react-router';
-
 import {customColumnProps, headerTable} from './tableProps';
-import {defectCardInfoModal} from './Modals/defectCardInfo';
 
 /**
  * Общий компонет для двух разделов Журнал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -34,9 +32,9 @@ export default function Defects() {
 			componentType: 'Layout',
 			children: [
 				...headerTable(history),
-				defectCardInfoModal(),
 				{
 					componentType: 'Item',
+					classname: 'mt-0',
 					child: {
 						componentType: 'Table',
 						selectable: true,
