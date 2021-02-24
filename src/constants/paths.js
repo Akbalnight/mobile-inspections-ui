@@ -12,7 +12,7 @@ import {
 } from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
-import RoutesForm from '../components/Routes/RoutesForm';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
 import Detours from '../components/Detours/Detours';
 import DetoursForm from '../components/Detours/DetoursForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
@@ -100,10 +100,15 @@ export const paths = {
 		component: Routes,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_ROUTES_DATA: {
-		title: 'Редакитрование маршрута',
+	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
+		title: 'Создание маршрута',
+		path: '/detours-configurator/routes/new',
+		component: RoutesAdd,
+	},
+	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT: {
+		title: 'Редактирование маршрута',
 		path: '/detours-configurator/routes/:id',
-		component: RoutesForm,
+		component: RoutesEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
