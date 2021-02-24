@@ -8,6 +8,7 @@ import {
 import {useHistory} from 'react-router';
 
 import {customColumnProps, headerTable} from './tableProps';
+import {defectCardInfoModal} from './Modals/defectCardInfo';
 
 /**
  * Общий компонет для двух разделов Журнал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -33,6 +34,7 @@ export default function Defects() {
 			componentType: 'Layout',
 			children: [
 				...headerTable(history),
+				defectCardInfoModal(),
 				{
 					componentType: 'Item',
 					child: {
@@ -50,19 +52,12 @@ export default function Defects() {
 						requestLoadConfig: apiGetConfigByName(
 							historyChange ? 'defects' : 'panelProblems'
 						),
-						onRowDoubleClick: ({rowData, rowIndex, rowKey}) => {
-							console.log('1', rowData);
-							// defectCardInfoModal();
-						},
-						onRowClick: ({rowData, rowIndex, rowKey}) => {
-							console.log('2', rowData);
-							// defectCardInfoModal();
-						},
+
 						subscribe: [
 							/** Событие поиска в таблице по знацению name */
 							{
 								name: 'onSearch',
-								path: 'rtd.defects.mainTable.events.onSearch',
+								path: 'rtd.defects.defectTable.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
 									console.log(value);
 									reloadTable({

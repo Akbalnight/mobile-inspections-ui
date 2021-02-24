@@ -2,15 +2,17 @@ import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/in
 import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
 import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
 import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
-import {infoTabFields} from '../Tabs/infoTab';
-import {fileManagerFields} from '../Tabs/fileManagerTab';
+import {infoTabFields} from '../Tabs/infoFields';
+import {fileManagerFields} from '../Tabs/fileManagerFields';
+import {equipmentFields} from '../Tabs/equipmentFields';
+import {scheduleFields} from '../Tabs/scheduleFields';
 
 /**
  *
  * Карточка информации дефекта
  */
 export const defectCardInfoModal = () => {
-	console.log(1);
+	console.log(33);
 	const loadData = (callBack, row) => {
 		callBack(row);
 	};
@@ -26,41 +28,25 @@ export const defectCardInfoModal = () => {
 					componentType: 'TabPane',
 					tab: <InfoTab />,
 					key: 'infoTab',
-					children: [...infoTabFields],
+					children: [infoTabFields()],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <FilesTab />,
-					key: 'filesTab',
-					children: [...fileManagerFields],
+					key: 'fileTab',
+					children: [fileManagerFields()],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <EquipmentsTab />,
-					key: 'equipmentsTab',
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Оборудование',
-							},
-						},
-					],
+					key: 'equipmentTab',
+					children: [equipmentFields()],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <ScheduleTab />,
 					key: 'scheduleTab',
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Обход',
-							},
-						},
-					],
+					children: [scheduleFields()],
 				},
 			],
 		},
@@ -84,6 +70,21 @@ export const defectCardInfoModal = () => {
 					body: [...tabsField],
 				},
 			},
+			subscribe: [
+				{
+					name: 'infoForm',
+					path:
+						'rtd.defects.defectTable.table.events.onRowDoubleClick',
+					onChange: ({value, setModalData, openModal}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								...value.value,
+							});
+						openModal();
+					},
+				},
+			],
 		},
 	};
 };

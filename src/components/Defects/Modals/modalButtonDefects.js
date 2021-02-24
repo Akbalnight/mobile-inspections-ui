@@ -107,22 +107,27 @@ export const buttonCloseWithNote = (ref) => {
 				},
 			},
 
-			dispatchPath: 'defects.defectModalSendPanel.modal',
-			subscribe: {
-				name: 'tableCloseInfo',
-				path: 'rtd.defects.defectTable.table.selected',
-				onChange: ({value, setModalData, setButtonProps}) => {
-					value &&
-						setModalData &&
-						setModalData({
-							defectsWithNote: value,
-							length: value.length,
-						});
-					value &&
-						setButtonProps &&
-						setButtonProps({disabled: !(value.length > 0)});
-				},
+			dispatch: {
+				path: 'defects.defectTable.modal.events.onWithNoteModal',
+				type: 'event',
 			},
+			subscribe: [
+				{
+					name: 'tableCloseInfo',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								defectsWithNote: value,
+								length: value.length,
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length > 0)});
+					},
+				},
+			],
 		},
 	};
 };
@@ -175,21 +180,26 @@ export const buttonSendToPanel = [
 				},
 			},
 
-			dispatchPath: 'defects.defectModalSendPanel.modal',
-			subscribe: {
-				name: 'tableSend',
-				path: 'rtd.defects.defectTable.table.selected',
-				onChange: ({value, setModalData, setButtonProps}) => {
-					value &&
-						setModalData &&
-						setModalData({
-							...value[value.length - 1],
-						});
-					value &&
-						setButtonProps &&
-						setButtonProps({disabled: !(value.length === 1)});
-				},
+			dispatch: {
+				path: 'defects.defectTable.modal.events.onSendPanelModal',
+				type: 'event',
 			},
+			subscribe: [
+				{
+					name: 'tableSend',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								...value[value.length - 1],
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length === 1)});
+					},
+				},
+			],
 		},
 	},
 ];
@@ -241,22 +251,28 @@ export const buttonSendToSap = [
 					],
 				},
 			},
-			dispatchPath: 'defects.defectModalSendToSap.modal',
-			subscribe: {
-				name: 'sendToSap',
-				path: 'rtd.defects.defectTable.table.selected',
-				onChange: ({value, setModalData, setButtonProps}) => {
-					value &&
-						setModalData &&
-						setModalData({
-							defectsSendToSap: value,
-							length: value.length,
-						});
-					value &&
-						setButtonProps &&
-						setButtonProps({disabled: !(value.length > 0)});
-				},
+
+			dispatch: {
+				path: 'defects.defectTable.modal.events.onSendToSapModal',
+				type: 'event',
 			},
+			subscribe: [
+				{
+					name: 'sendToSap',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								defectsSendToSap: value,
+								length: value.length,
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length > 0)});
+					},
+				},
+			],
 		},
 	},
 ];

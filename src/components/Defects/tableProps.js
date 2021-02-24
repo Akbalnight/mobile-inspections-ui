@@ -141,24 +141,6 @@ export const headerTable = (history) => {
 	let historyChange =
 		history.location.pathname === '/control-defects/defects';
 	return [
-		// {
-		// 	componentType: 'DateRange',
-		// 	title: 'Период обнаружения',
-		// 	nameStart: 'dateDetectDefectStart',
-		// 	nameEnd: 'dateDetectDefectEnd',
-		// 	dateFormat: 'DD-MM-YYYY HH:mm:ss',
-		// 	showTime: true,
-		// 	className: 'mr-16',
-		// },
-		// {
-		// 	componentType: 'DateRange',
-		// 	title: 'Период устранения',
-		// 	nameStart: 'dateEliminationPlan',
-		// 	nameEnd: 'dateEliminationFact',
-		// 	dateFormat: 'DD-MM-YYYY HH:mm:ss',
-		// 	showTime: true,
-		// 	className: 'mr-16',
-		// },
 		{
 			componentType: 'Space',
 			className: 'px-8 pt-8',
@@ -172,13 +154,13 @@ export const headerTable = (history) => {
 						/**
 						 * изменить все модалки на функции
 						 */
+						editDefectCard(
+							historyChange ? 'defects' : 'panelProblems'
+						),
 						buttonCloseWithNote(),
 						...(historyChange
 							? buttonSendToPanel
 							: buttonSendToSap),
-						editDefectCard(
-							historyChange ? 'defects' : 'panelProblems'
-						),
 					],
 				},
 				{
@@ -261,10 +243,6 @@ export const headerTable = (history) => {
 									className: 'mb-0',
 									child: {
 										componentType: 'DatePicker',
-										// name: 'detect',
-										// render: ({onChange, defaultValue, value}) => {
-										// 	return <RangePicker />;
-										// },
 									},
 								},
 								{
@@ -274,10 +252,6 @@ export const headerTable = (history) => {
 									className: 'mb-0',
 									child: {
 										componentType: 'DatePicker',
-										// name: 'detect',
-										// render: ({onChange, defaultValue, value}) => {
-										// 	return <RangePicker />;
-										// },
 									},
 								},
 							],
@@ -305,10 +279,6 @@ export const headerTable = (history) => {
 									className: 'mb-0',
 									child: {
 										componentType: 'DatePicker',
-										// name: 'detect',
-										// render: ({onChange, defaultValue, value}) => {
-										// 	return <RangePicker />;
-										// },
 									},
 								},
 								{
@@ -317,10 +287,6 @@ export const headerTable = (history) => {
 									className: 'mb-0',
 									child: {
 										componentType: 'DatePicker',
-										// name: 'detect',
-										// render: ({onChange, defaultValue, value}) => {
-										// 	return <RangePicker />;
-										// },
 									},
 								},
 							],
@@ -454,3 +420,21 @@ export const headerTable = (history) => {
 		},
 	];
 };
+// {
+// 	componentType: 'DateRange',
+// 	title: 'Период обнаружения',
+// 	nameStart: 'dateDetectDefectStart',
+// 	nameEnd: 'dateDetectDefectEnd',
+// 	dateFormat: 'DD-MM-YYYY HH:mm:ss',
+// 	showTime: true,
+// 	className: 'mr-16',
+// },
+// {
+// 	componentType: 'DateRange',
+// 	title: 'Период устранения',
+// 	nameStart: 'dateEliminationPlan',
+// 	nameEnd: 'dateEliminationFact',
+// 	dateFormat: 'DD-MM-YYYY HH:mm:ss',
+// 	showTime: true,
+// 	className: 'mr-16',
+// },

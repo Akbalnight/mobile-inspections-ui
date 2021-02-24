@@ -276,6 +276,26 @@ const OperationOnServer = (catalogName, type, code) => {
 					],
 				},
 			},
+			disoatch: {
+				path: 'defects.defectTable.modal.events.onEditModal',
+				type: 'event',
+			},
+			subscribe: [
+				{
+					name: 'editForm',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								...value[value.length - 1],
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length === 1)});
+					},
+				},
+			],
 		},
 	};
 };
