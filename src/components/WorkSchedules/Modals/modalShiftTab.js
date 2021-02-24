@@ -223,6 +223,7 @@ const OperationOnServer = (type, info) => {
 			buttonProps: {
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
+				disabled: type === 'add' ? false : true,
 			},
 			modalConfig: {
 				type: `${type}OnServer`,
@@ -248,16 +249,18 @@ const OperationOnServer = (type, info) => {
 				}Modal`,
 				type: 'event',
 			},
-			subscribe: {
-				name: `work${toCapitalize}TabTableInfo`,
-				path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
-				onChange: ({value, setModalData, setButtonProps}) => {
-					value && setModalData && setModalData(value);
-					type !== 'add' &&
-						setButtonProps &&
-						setButtonProps({disabled: !value});
+			subscribe: [
+				{
+					name: `work${toCapitalize}TabTableInfo`,
+					path: `rtd.workSchedules.work${toCapitalize}Tab.table.selected`,
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value && setModalData && setModalData(value);
+						type !== 'add' &&
+							setButtonProps &&
+							setButtonProps({disabled: !value});
+					},
 				},
-			},
+			],
 		},
 	};
 };
