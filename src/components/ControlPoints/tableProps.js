@@ -2,11 +2,15 @@
  *
  * файл со всеми customFields, поля и валидация в объекты таблицы
  */
-export const equipmentTableCustom = (params) => {
+export const equipmentTableCustom = (controlPointId) => {
 	return [
 		{
 			name: 'controlPointId',
-			value: () => params.id,
+			value: () => controlPointId,
+		},
+		{
+			name: 'equipmentName',
+			value: (row) => row.name,
 		},
 		{
 			name: 'equipmentId',
@@ -20,11 +24,11 @@ export const equipmentTableCustom = (params) => {
 		},
 	];
 };
-export const techMapsTableCustom = (params) => {
+export const techMapsTableCustom = (controlPointId) => {
 	return [
 		{
 			name: 'controlPointId',
-			value: () => params.id,
+			value: () => controlPointId,
 		},
 		{
 			name: 'techMapId',

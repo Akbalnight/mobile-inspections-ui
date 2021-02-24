@@ -47,11 +47,14 @@ export const routeMapsControlPointViewModal = (history) => {
 	};
 
 	/**
- 	*  предлагаю рассмотреть  такой вариант для обоих случаев 	
+ 	*  предлагаю рассмотреть  такой вариант для обоих случаев
 	это из документации
 	 */
 	const loadRowsHandler = (catalogName, sRow, {params, data}) => {
-		const newData = {...data, controlPointsId: sRow.controlPointId};
+		// console.log("routeMapsControlPointViewModal sRow", sRow);
+		let newData = {...data};
+		if (sRow.controlPointId) newData.controlPointsId = sRow.controlPointId;
+		else newData.controlPointsId = sRow.id;
 		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,
