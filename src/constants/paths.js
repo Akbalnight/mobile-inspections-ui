@@ -6,7 +6,10 @@ import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
 import ControlPointsD from '../components/ControlPoints/ControlPointsD';
-import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
+import {
+	ControlPointAdd,
+	ControlPointEdit,
+} from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
 import RoutesForm from '../components/Routes/RoutesForm';
@@ -81,15 +84,15 @@ export const paths = {
 		component: ControlPointsD,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_CONTROL_POINTS_EDIT: {
-		title: 'Редактирование контрольной точки',
-		path: '/detours-configurator/control-points/:id',
-		component: ControlPointDataD,
-	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
 		title: 'Создание контрольной точки',
 		path: '/detours-configurator/control-points/new',
-		component: ControlPointDataD,
+		component: ControlPointAdd,
+	},
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_EDIT: {
+		title: 'Редактирование контрольной точки',
+		path: '/detours-configurator/control-points/:id',
+		component: ControlPointEdit,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',
