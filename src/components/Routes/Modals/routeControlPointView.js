@@ -73,7 +73,6 @@ export const routeControlPointViewModal = () => {
 					name: 'equipments',
 					child: {
 						componentType: 'LocalTable',
-						style: {height: '180px'},
 						requestLoadRows: loadControlPointEquipmentsHandler,
 						requestLoadConfig: apiGetConfigByName(
 							'routeEquipments'

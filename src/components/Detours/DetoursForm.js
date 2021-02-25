@@ -8,25 +8,35 @@ import {
 } from '../../apis/catalog.api';
 
 import {paths} from '../../constants/paths';
-import {buttonExecutorDetour} from './Modals/modalButtonDetours';
+// import {buttonExecutorDetour} from './Modals/modalButtonDetours';
 
+export const DetoursAdd = () => {
+	return (
+		<BasePage>
+			<DetoursForm />
+		</BasePage>
+	);
+};
+export const DetoursEdit = () => {
+	const pageParams = useParams();
+
+	return (
+		<BasePage>
+			<DetoursForm detourId={pageParams.id} />
+		</BasePage>
+	);
+};
 /**
  * Данная форма может быть представлена виде страницы или модального окна
  */
-export default function DetoursForm() {
-	const pageParams = useParams();
+const DetoursForm = (props) => {
+	const {detourId} = props;
 	const history = useHistory();
 
 	const loadData = (callBack) => {
-		if (pageParams.id === 'new') {
-			callBack({
-				name: null,
-				duration: null,
-				// repeatBy: '1',//нет необходимости в данный момент. вынесен элемент обрабатывающий параметр
-			});
-		} else {
+		if (detourId) {
 			apiGetFlatDataByConfigName('detours')({
-				data: {id: pageParams.id},
+				data: {id: detourId},
 			})
 				.then((response) => {
 					callBack(response.data[0]);
@@ -34,7 +44,32 @@ export default function DetoursForm() {
 				.catch((error) =>
 					notificationError(error, 'Ошибка загрузки данных формы')
 				);
+		} else {
+			callBack({
+				name: null,
+				duration: null,
+				// repeatBy: '1',//нет необходимости в данный момент. вынесен элемент обрабатывающий параметр
+			});
 		}
+	};
+	/**
+	 * Ограничиваем StartDate piker
+	 */
+	const disabledStartDate = (startValue, endValue) => {
+		if (!startValue || !endValue) {
+			return false;
+		}
+		return startValue.valueOf() > endValue.valueOf();
+	};
+
+	/**
+	 * Ограничиваем EndDate piker
+	 */
+	const disabledEndDate = (startValue, endValue) => {
+		if (!endValue || !startValue) {
+			return false;
+		}
+		return endValue.valueOf() <= startValue.valueOf();
 	};
 
 	/**
@@ -50,16 +85,16 @@ export default function DetoursForm() {
 				level: 5,
 			},
 		},
-		pageParams.id === 'new'
-			? {}
-			: {
+		detourId
+			? {
 					componentType: 'Item',
 					label: 'Код',
 					name: 'code',
 					child: {
 						componentType: 'Text',
 					},
-			  },
+			  }
+			: {},
 		{
 			componentType: 'Item',
 			label: 'Наименование обхода',
@@ -89,6 +124,17 @@ export default function DetoursForm() {
 				componentType: 'DatePicker',
 				format: 'DD.MM.YYYY HH:mm:ss',
 				showTime: true,
+				dispatchPath: 'detourSchedules.form.startDate',
+				subscribe: {
+					name: 'endDate',
+					path: 'rtd.detourSchedules.form.endDate',
+					onChange: ({value, setSubscribeProps}) => {
+						setSubscribeProps({
+							disabledDate: (startValue) =>
+								disabledStartDate(startValue, value),
+						});
+					},
+				},
 			},
 		},
 		{
@@ -105,6 +151,17 @@ export default function DetoursForm() {
 				componentType: 'DatePicker',
 				format: 'DD.MM.YYYY HH:mm:ss',
 				showTime: true,
+				dispatchPath: 'detourSchedules.form.endDate',
+				subscribe: {
+					name: 'endDate',
+					path: 'rtd.detourSchedules.form.startDate',
+					onChange: ({value, setSubscribeProps}) => {
+						setSubscribeProps({
+							disabledDate: (endValue) =>
+								disabledEndDate(value, endValue),
+						});
+					},
+				},
 			},
 		},
 
@@ -159,25 +216,40 @@ export default function DetoursForm() {
 				},
 			},
 		},
-		buttonExecutorDetour(pageParams),
 		{
 			componentType: 'Item',
-			hidden: true,
+			label: 'Доступные испольнители',
 			name: 'staffId',
 			child: {
-				componentType: 'Input',
-				subscribe: {
-					name: 'controlPointTechMap',
-					path:
-						'rtd.detourSchedules.executorTableChoise.executor.selected',
-					onChange: ({value, setSubscribeProps}) =>
-						value &&
-						setSubscribeProps({
-							value: value[0].id,
-						}),
-				},
+				componentType: 'SingleSelect',
+				widthControl: 0,
+				rowRender: 'username',
+				expandColumnKey: 'id',
+				heightPopup: 300,
+				widthPopup: 450,
+				requestLoadRows: apiGetFlatDataByConfigName('staff'),
+				requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 			},
 		},
+		// buttonExecutorDetour(detourId),
+		// {
+		// 	componentType: 'Item',
+		// 	hidden: true,
+		// 	name: 'staffId',
+		// 	child: {
+		// 		componentType: 'Input',
+		// 		subscribe: {
+		// 			name: 'controlPointTechMap',
+		// 			path:
+		// 				'rtd.detourSchedules.executorTableChoise.executor.selected',
+		// 			onChange: ({value, setSubscribeProps}) =>
+		// 				value &&
+		// 				setSubscribeProps({
+		// 					value: value[0].id,
+		// 				}),
+		// 		},
+		// 	},
+		// },
 	];
 
 	const footerCheckboxLayout = {
@@ -253,6 +325,7 @@ export default function DetoursForm() {
 							...footerInputLayout,
 							child: {
 								componentType: 'InputNumber',
+								min: 0,
 								subscribe: {
 									name: 'takeIntoAccountTimeLocation',
 									path:
@@ -286,6 +359,16 @@ export default function DetoursForm() {
 								componentType: 'Checkbox',
 								dispatchPath:
 									'detourSchedulesForm.takeIntoAccountDateStart',
+								// subscribe: {
+								// 	name: 'takeIntoAccountTimeLocation',
+								// 	path:
+								// 		'rtd.detourSchedulesForm.takeIntoAccountTimeLocation',
+								// 	onChange: ({value, setSubscribeProps}) => {
+								// 		setSubscribeProps({
+								// 			disabled: !value,
+								// 		});
+								// 	},
+								// },
 							},
 						},
 					],
@@ -301,6 +384,7 @@ export default function DetoursForm() {
 							...footerInputLayout,
 							child: {
 								componentType: 'InputNumber',
+								min: 0,
 								subscribe: {
 									name: 'takeIntoAccountDateStart',
 									path:
@@ -334,6 +418,16 @@ export default function DetoursForm() {
 								componentType: 'Checkbox',
 								dispatchPath:
 									'detourSchedulesForm.takeIntoAccountDateFinish',
+								// subscribe: {
+								// 	name: 'takeIntoAccountDateStart',
+								// 	path:
+								// 		'rtd.detourSchedulesForm.takeIntoAccountDateStart',
+								// 	onChange: ({value, setSubscribeProps}) => {
+								// 		setSubscribeProps({
+								// 			disabled: !value,
+								// 		});
+								// 	},
+								// },
 							},
 						},
 					],
@@ -349,6 +443,7 @@ export default function DetoursForm() {
 							...footerInputLayout,
 							child: {
 								componentType: 'InputNumber',
+								min: 0,
 								subscribe: {
 									name: 'takeIntoAccountDateFinish',
 									path:
@@ -370,10 +465,10 @@ export default function DetoursForm() {
 	const formConfig = {
 		name: 'DetoursConfiguratorDetourSchedulesForm',
 		labelCol: {span: 10},
-		wrapperCol: {span: 8},
+		wrapperCol: {span: 6},
 		loadInitData: loadData,
 		requestSaveForm: apiSaveByConfigName('saveDetourForm'),
-		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
+		methodSaveForm: detourId ? 'PUT' : 'POST',
 		onFinish: (values) =>
 			history.push(paths.DETOURS_CONFIGURATOR_DETOURS.path),
 		header: [
@@ -382,10 +477,9 @@ export default function DetoursForm() {
 				child: {
 					componentType: 'Title',
 					level: 4,
-					label:
-						pageParams.id === 'new'
-							? 'Создание обхода'
-							: 'Редактирование обхода',
+					label: detourId
+						? 'Редактирование обхода'
+						: 'Создание обхода',
 				},
 			},
 		],
@@ -414,9 +508,5 @@ export default function DetoursForm() {
 		],
 	};
 
-	return (
-		<BasePage>
-			<Form {...formConfig} />
-		</BasePage>
-	);
-}
+	return <Form {...formConfig} />;
+};

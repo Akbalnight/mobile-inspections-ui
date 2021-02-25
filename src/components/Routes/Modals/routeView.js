@@ -131,7 +131,6 @@ export const routeViewModal = (history) => {
 					child: {
 						componentType: 'LocalTable',
 						customColumnProps: [{...duration}],
-						style: {height: '180px'},
 						requestLoadRows: loadControlPointsHandler,
 						requestLoadConfig: apiGetConfigByName(
 							'routeControlPoints'
@@ -160,7 +159,6 @@ export const routeViewModal = (history) => {
 					name: 'controlPointsTable',
 					child: {
 						componentType: 'LocalTable',
-						style: {height: '180px'},
 						requestLoadRows: loadControlPointsTechMapsHandler,
 						requestLoadConfig: apiGetConfigByName('routeMaps'),
 					},

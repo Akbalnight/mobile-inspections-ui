@@ -4,8 +4,9 @@ import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
-import {customColumnProps} from '../tableProps';
+// import {customColumnProps} from '../tableProps';
 import {ReactComponent as ExecutorIcon} from '../../../imgs/detour/executor-btn.svg';
+import {addDetourForm} from './detourEdit';
 
 // при необходимости в модальное окно можно передать history
 export const buttonCreateDetour = [
@@ -19,53 +20,54 @@ export const buttonCreateDetour = [
 				type: 'default',
 				label: 'Добавить обход',
 			},
-			modalConfig: {
-				type: `addOnServer`,
-				title: `Актуальная дата из календаря`,
-				width: 760,
-				bodyStyle: {
-					height: 478,
-				},
-				form: {
-					name: 'detourAddForm',
-					loadInitData: (callBack, row) => callBack(null),
-					body: [
-						{
-							componentType: 'Layout',
-							children: [
-								{
-									componentType: 'Item',
-									child: {
-										componentType: 'ServerTable',
-										selectable: true,
-										fixWidthColumn: true,
-										customColumnProps: customColumnProps,
-										style: {height: '350px'},
-										commandPanelProps: {
-											systemBtnProps: {
-												add: {actionType: 'page'},
-												edit: {
-													actionType: [
-														'page',
-														'modal',
-													],
-												},
-												delete: {},
-											},
-										},
-										requestLoadRows: apiGetFlatDataByConfigName(
-											'detours'
-										),
-										requestLoadConfig: apiGetConfigByName(
-											'detours'
-										),
-									},
-								},
-							],
-						},
-					],
-				},
-			},
+			modalConfig: addDetourForm(),
+			//{
+			// 			type: `addOnServer`,
+			// 			title: `Актуальная дата из календаря`,
+			// 			width: 760,
+			// 			bodyStyle: {
+			// 				height: 478,
+			// 			},
+			// 			form: {
+			// 				name: 'detourAddForm',
+			// 				loadInitData: (callBack, row) => callBack(null),
+			// 				body: [
+			// 					{
+			// 						componentType: 'Layout',
+			// 						children: [
+			// 							{
+			// 								componentType: 'Item',
+			// 								child: {
+			// 									componentType: 'ServerTable',
+			// 									selectable: true,
+			// 									fixWidthColumn: true,
+			// 									customColumnProps: customColumnProps,
+			// 									style: {height: '350px'},
+			// 									commandPanelProps: {
+			// 										systemBtnProps: {
+			// 											add: {actionType: 'page'},
+			// 											edit: {
+			// 												actionType: [
+			// 													'page',
+			// 													'modal',
+			// 												],
+			// 											},
+			// 											delete: {},
+			// 										},
+			// 									},
+			// 									requestLoadRows: apiGetFlatDataByConfigName(
+			// 										'detours'
+			// 									),
+			// 									requestLoadConfig: apiGetConfigByName(
+			// 										'detours'
+			// 									),
+			// 								},
+			// 							},
+			// 						],
+			// 					},
+			// 				],
+			// 			},
+			// 		},
 		},
 	},
 ];
@@ -91,11 +93,11 @@ export const buttonExecutorDetour = (params) => {
 				},
 				okText: 'Выбрать',
 				form: {
-					name: `${params.id === 'new' ? 'add' : 'edit'}ModalForm`,
+					name: `${params ? 'edit' : 'add'}ModalForm`,
 					labelCol: {span: 8},
 					wrapperCol: {span: 12},
 					loadInitData: (callBack, row) => {
-						params.id === 'new' ? callBack(null) : callBack(row);
+						params ? callBack(row) : callBack(null);
 					},
 					body: [
 						{

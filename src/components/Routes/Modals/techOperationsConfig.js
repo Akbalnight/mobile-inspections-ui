@@ -25,7 +25,6 @@ export const techOperations = (loadControlPointsTechOperations) => [
 				child: {
 					componentType: 'ServerTable',
 					customColumnProps: customColumnProps,
-					style: {height: '200px'},
 					// defaultFilter: (type === 'add' ? {techMapId: null} : { techMapId: Row.techMapId } ),
 					dispatchPath: 'routes.controlPointModal.techOperations',
 					subscribe: {

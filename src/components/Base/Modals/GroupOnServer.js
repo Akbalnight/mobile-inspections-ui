@@ -1,28 +1,29 @@
 import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-	apiSaveBaseCatalogWithParentIdD,
+	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import {codeInput} from '../Inputs/CodeInput';
 
-const loadRowsHandler = (catalogName, sRow, {params, data}) => {
+const loadRowsHandler = (getCatalogName, sRow, {params, data}) => {
 	// Формрование нового объекта
 	// isGroup: true - получить только группы
 	// owner - исключает собственный id и всю ветку под собой из выдачи сервером
 	const newData = {...data, isGroup: true, owner: sRow && sRow.id};
-	return apiGetHierarchicalDataByConfigName(catalogName)({
+	return apiGetHierarchicalDataByConfigName(getCatalogName)({
 		params,
 		data: newData,
 	});
 };
 
-const GroupOnServer = (type, catalogName, code) => {
+const GroupOnServer = (type, getCatalogName, saveCatalogName, code) => {
 	// sRow хранить ту строку с данными которая открывается на редактирование
 	let sRow;
 	return {
 		type: `${type}GroupOnServer`,
-		requestSaveRow: apiSaveBaseCatalogWithParentIdD(catalogName),
+		requestSaveRow: apiSaveByConfigName(saveCatalogName),
 		width: 500,
+		// bodyStyle: {height: 400},
 		title: `${
 			type === 'edit' ? 'Редактировать' : 'Создать'
 		} группы контрольных точек`,
@@ -36,6 +37,8 @@ const GroupOnServer = (type, catalogName, code) => {
 				// Возвращение объекта или null в зависимоти от типа операции
 				callBack(type === 'edit' ? row : null);
 			},
+			// methodSaveForm: type==='add'? 'POST': 'PUT',
+			// requestSaveForm: apiSaveByConfigName(saveCatalogName),
 			body: [
 				code,
 				{
@@ -65,9 +68,9 @@ const GroupOnServer = (type, catalogName, code) => {
 						// (info) аналогично ({params, data})
 						// Но поскольку тут раскрывать объект не нужно, мы можем просто передать его дальше
 						requestLoadRows: (info) =>
-							loadRowsHandler(catalogName, sRow, info),
+							loadRowsHandler(getCatalogName, sRow, info),
 						requestLoadDefault: apiGetFlatDataByConfigName(
-							catalogName
+							getCatalogName
 						),
 					},
 				},
@@ -76,8 +79,8 @@ const GroupOnServer = (type, catalogName, code) => {
 	};
 };
 
-export const addGroupOnServer = (catalogName) =>
-	GroupOnServer('add', catalogName, {});
+export const addGroupOnServer = (getCatalogName, saveCatalogName) =>
+	GroupOnServer('add', getCatalogName, saveCatalogName, {});
 
-export const editGroupOnServer = (catalogName) =>
-	GroupOnServer('edit', catalogName, codeInput);
+export const editGroupOnServer = (getCatalogName, saveCatalogName) =>
+	GroupOnServer('edit', getCatalogName, saveCatalogName, codeInput);

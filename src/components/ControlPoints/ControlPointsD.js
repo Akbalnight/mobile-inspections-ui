@@ -47,8 +47,14 @@ const ControlPointsD = (props) => {
 								},
 							},
 							modals: [
-								addGroupOnServer('controlPoints'),
-								editGroupOnServer('controlPoints'),
+								addGroupOnServer(
+									'controlPoints',
+									'saveControlPointGroup'
+								),
+								editGroupOnServer(
+									'controlPoints',
+									'saveControlPointGroup'
+								),
 								routeMapsControlPointViewModal(history),
 								controlPointsGroupInfo(),
 							],

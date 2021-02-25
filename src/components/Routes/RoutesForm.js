@@ -25,19 +25,30 @@ import {codeInput} from '../Base/Inputs/CodeInput';
  *
  * routeMapsControlPointViewModal(history) - временное решение пока не обсудили входные данные с сервера
  */
-export default function RoutesForm() {
-	const history = useHistory();
+export const RoutesAdd = () => {
+	return (
+		<BasePage>
+			<RoutesForm />
+		</BasePage>
+	);
+};
+export const RoutesEdit = () => {
 	const pageParams = useParams();
+	return (
+		<BasePage>
+			<RoutesForm routesId={pageParams.id} />
+		</BasePage>
+	);
+};
+
+const RoutesForm = (props) => {
+	const {routesId} = props;
+	const history = useHistory();
 
 	const loadData = (callBack) => {
-		if (pageParams.id === 'new') {
-			callBack({
-				name: null,
-				duration: null,
-			});
-		} else {
+		if (routesId) {
 			apiGetFlatDataByConfigName('routes')({
-				data: {id: pageParams.id},
+				data: {id: routesId},
 			})
 				.then((response) => {
 					callBack(response.data[0]);
@@ -45,13 +56,18 @@ export default function RoutesForm() {
 				.catch((error) =>
 					notificationError(error, 'Ошибка загрузки данных формы')
 				);
+		} else {
+			callBack({
+				name: null,
+				duration: null,
+			});
 		}
 	};
 
 	const loadControlPointsForRoute = ({params, data}) => {
 		const newData = {
 			...data,
-			routeId: pageParams.id === 'new' ? null : pageParams.id,
+			routeId: routesId ? routesId : null,
 		};
 		return apiGetFlatDataByConfigName('routeControlPoints')({
 			data: newData,
@@ -68,7 +84,7 @@ export default function RoutesForm() {
 					componentType: 'Col',
 					span: 16,
 					children: [
-						pageParams.id === 'new' ? {} : codeInput,
+						routesId ? codeInput : {},
 						{
 							componentType: 'Item',
 							label: 'Наименование:',
@@ -215,11 +231,11 @@ export default function RoutesForm() {
 
 	const formConfig = {
 		name: 'DetoursConfiguratorRoutes',
-		labelCol: {span: 8},
-		wrapperCol: {span: 16},
+		labelCol: {span: 14},
+		wrapperCol: {span: 8},
 		loadInitData: loadData,
 		requestSaveForm: apiSaveByConfigName('routes'),
-		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
+		methodSaveForm: routesId ? 'PUT' : 'POST',
 		processBeforeSaveForm: processBeforeSaveForm,
 		onFinish: (values) => {
 			history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
@@ -231,10 +247,9 @@ export default function RoutesForm() {
 					componentType: 'Title',
 					className: 'mb-0',
 					level: 3,
-					label:
-						pageParams.id === 'new'
-							? 'Создание маршрута'
-							: 'Редактирование маршрута',
+					label: routesId
+						? 'Редактирование маршрута'
+						: 'Создание маршрута',
 				},
 			},
 		],
@@ -263,9 +278,5 @@ export default function RoutesForm() {
 		],
 	};
 
-	return (
-		<BasePage>
-			<Form {...formConfig} />
-		</BasePage>
-	);
-}
+	return <Form {...formConfig} />;
+};
