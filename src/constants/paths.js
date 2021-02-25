@@ -14,7 +14,7 @@ import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
 import Detours from '../components/Detours/Detours';
-import DetoursForm from '../components/Detours/DetoursForm';
+import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
@@ -116,10 +116,15 @@ export const paths = {
 		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
-	DETOURS_CONFIGURATOR_DETOURS_DATA: {
+	DETOURS_CONFIGURATOR_DETOURS_DATA_ADD: {
+		title: 'Создание обхода',
+		path: '/detours-configurator/detours/new',
+		component: DetoursAdd,
+	},
+	DETOURS_CONFIGURATOR_DETOURS_DATA_EDIT: {
 		title: 'Редактирование обхода',
 		path: '/detours-configurator/detours/:id',
-		component: DetoursForm,
+		component: DetoursEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов',

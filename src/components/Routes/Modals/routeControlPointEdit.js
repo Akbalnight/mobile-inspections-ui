@@ -127,7 +127,6 @@ const OperationOnLocal = (type, code) => {
 							showElements: ['selected'],
 						},
 						defaultFilter: {controlPointsId: null},
-						style: {height: '180px'},
 						subscribe:
 							type === 'add'
 								? {

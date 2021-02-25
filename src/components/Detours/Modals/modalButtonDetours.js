@@ -91,11 +91,11 @@ export const buttonExecutorDetour = (params) => {
 				},
 				okText: 'Выбрать',
 				form: {
-					name: `${params.id === 'new' ? 'add' : 'edit'}ModalForm`,
+					name: `${params ? 'edit' : 'add'}ModalForm`,
 					labelCol: {span: 8},
 					wrapperCol: {span: 12},
 					loadInitData: (callBack, row) => {
-						params.id === 'new' ? callBack(null) : callBack(row);
+						params ? callBack(row) : callBack(null);
 					},
 					body: [
 						{
