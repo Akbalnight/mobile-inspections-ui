@@ -11,6 +11,7 @@ import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 
 import {configFilterPanel, customColumnProps} from './tableProps';
 import DetoursCalendar from './DetoursCalendar';
+import {addDetourForm, editDetourForm} from './Modals/detourEdit';
 
 /**
  * Основной компонент раздела, вынесены настройки таблицы в tableProps, модальные окна вынесены в отдельную папку
@@ -60,8 +61,8 @@ export default function Detours() {
 						customColumnProps: customColumnProps,
 						commandPanelProps: {
 							systemBtnProps: {
-								add: {actionType: 'page'},
-								edit: {actionType: ['page', 'modal']},
+								add: {actionType: 'modal'},
+								edit: {actionType: ['modal', 'modal']},
 								delete: {},
 							},
 						},
@@ -71,7 +72,11 @@ export default function Detours() {
 						dispatchPath: 'detourSchedules.mainTable.detours',
 						requestLoadRows: apiGetFlatDataByConfigName('detours'),
 						requestLoadConfig: apiGetConfigByName('detours'),
-						modals: [detourViewModal()],
+						modals: [
+							detourViewModal(),
+							addDetourForm(),
+							editDetourForm(),
+						],
 					},
 				},
 			],
