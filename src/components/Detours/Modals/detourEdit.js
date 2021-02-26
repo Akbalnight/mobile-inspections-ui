@@ -397,7 +397,7 @@ const operationOnServer = (type, code) => {
 		type: `${type}OnServer`,
 		title: type === 'add' ? 'Создание обхода' : 'Редактирование обхода',
 		width: 700,
-		bodyStyle: {height: type === 'add' ? 780 : 800},
+		bodyStyle: {height: type === 'add' ? 780 : 820},
 		requestSaveRow: apiSaveByConfigName('saveDetourForm'),
 		form: {
 			name: `${type}DetourForm`,

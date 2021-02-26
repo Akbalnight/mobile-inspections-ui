@@ -8,19 +8,23 @@ export const routeControlPointViewModal = () => {
 	let Row;
 
 	const loadData = (callBack, row) => {
-		Row = row;
+		Row = {...row};
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
-		callBack(row);
+		// console.log('loadData => Row', Row);
+		callBack(Row);
 	};
 	/**
 	 *
 	 * надо продумать, как настроить корректное отоборажени информации в таблице
 	 */
 	const loadControlPointEquipmentsHandler = ({data, params}) => {
-		const newData = {...data, controlPointsId: Row.controlPointId};
-		return apiGetFlatDataByConfigName('controlPointsEquipments')({
-			data: newData,
-			params,
+		// const newData = {...data, controlPointsId: Row.controlPointId};
+		// return apiGetFlatDataByConfigName('controlPointsEquipments')({
+		// 	data: newData,
+		// 	params,
+		// });
+		return new Promise((resolve, reject) => {
+			resolve({data: Row.equipments});
 		});
 	};
 
