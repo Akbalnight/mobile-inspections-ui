@@ -39,6 +39,7 @@ const GroupOnServer = (type, getCatalogName, saveCatalogName, code) => {
 			},
 			// methodSaveForm: type==='add'? 'POST': 'PUT',
 			// requestSaveForm: apiSaveByConfigName(saveCatalogName),
+			className: 'lastSelectModal',
 			body: [
 				code,
 				{
@@ -61,6 +62,7 @@ const GroupOnServer = (type, getCatalogName, saveCatalogName, code) => {
 						componentType: 'SingleSelect',
 						widthControl: 0,
 						heightPopup: 300,
+						widthPopup: 300,
 						expandColumnKey: 'id',
 						rowRender: 'name',
 						nodeAssociated: false,
