@@ -17,8 +17,8 @@ export const routeControlPointViewModal = () => {
 	 * надо продумать, как настроить корректное отоборажени информации в таблице
 	 */
 	const loadControlPointEquipmentsHandler = ({data, params}) => {
-		const newData = {...data, routesDataId: Row.id};
-		return apiGetFlatDataByConfigName('routeEquipments')({
+		const newData = {...data, controlPointsId: Row.controlPointId};
+		return apiGetFlatDataByConfigName('controlPointsEquipments')({
 			data: newData,
 			params,
 		});
@@ -75,7 +75,7 @@ export const routeControlPointViewModal = () => {
 						componentType: 'LocalTable',
 						requestLoadRows: loadControlPointEquipmentsHandler,
 						requestLoadConfig: apiGetConfigByName(
-							'routeEquipments'
+							'controlPointsEquipments' //'routeEquipments'
 						),
 					},
 				},
