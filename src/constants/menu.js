@@ -11,9 +11,9 @@ export const menu = [
 		...paths.HOME,
 		icon: HOME,
 	},
-	{
-		...paths.DEBUG,
-	},
+	// {
+	// 	...paths.DEBUG,
+	// },
 	// {
 	// 	...paths.DEBUG_MARSEL,
 	// },
@@ -29,8 +29,8 @@ export const menu = [
 			paths.DETOURS_CONFIGURATOR_CONTROL_POINTS,
 			paths.DETOURS_CONFIGURATOR_ROUTES,
 			paths.DETOURS_CONFIGURATOR_DETOURS,
-			paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
-			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
+			// paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
+			// paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
 		],
 	},
 	{
