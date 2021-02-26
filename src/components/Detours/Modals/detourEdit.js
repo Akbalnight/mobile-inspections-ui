@@ -155,8 +155,8 @@ const operationOnServer = (type, code) => {
 				componentType: 'SingleSelect',
 				widthControl: 0,
 				rowRender: 'name',
-				expandColumnKey: 'id',
-				heightPopup: 300,
+				// expandColumnKey: 'id',
+				heightPopup: 200,
 				widthPopup: 320,
 				requestLoadRows: apiGetFlatDataByConfigName('detoursStatuses'),
 				requestLoadDefault: apiGetFlatDataByConfigName(
@@ -200,7 +200,7 @@ const operationOnServer = (type, code) => {
 				componentType: 'SingleSelect',
 				widthControl: 0,
 				rowRender: 'username',
-				expandColumnKey: 'id',
+				// expandColumnKey: 'id',
 				heightPopup: 300,
 				widthPopup: 320,
 				requestLoadRows: apiGetFlatDataByConfigName('staff'),
@@ -407,6 +407,7 @@ const operationOnServer = (type, code) => {
 				callBack(type === 'add' ? null : row);
 			},
 			methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+			className: 'lastSelectModal',
 			body: [...headFields, ...executorFields, ...footer],
 		},
 	};
