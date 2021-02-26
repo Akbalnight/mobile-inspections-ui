@@ -232,6 +232,7 @@ const operationOnServer = (type, code) => {
 
 		{
 			componentType: 'Row',
+			className: 'mt-16',
 			children: [
 				{
 					componentType: 'Row',
@@ -397,7 +398,7 @@ const operationOnServer = (type, code) => {
 		type: `${type}OnServer`,
 		title: type === 'add' ? 'Создание обхода' : 'Редактирование обхода',
 		width: 700,
-		bodyStyle: {height: type === 'add' ? 780 : 820},
+		bodyStyle: {height: type === 'add' ? 830 : 870},
 		requestSaveRow: apiSaveByConfigName('saveDetourForm'),
 		form: {
 			name: `${type}DetourForm`,
