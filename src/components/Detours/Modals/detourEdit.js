@@ -131,7 +131,7 @@ const operationOnServer = (type, code) => {
 			child: {
 				componentType: 'SingleSelect',
 				widthControl: 0,
-				widthPopup: 350,
+				widthPopup: 320,
 				heightPopup: 350,
 				commandPanelProps: {
 					systemBtnProps: {search: {}},
@@ -139,6 +139,29 @@ const operationOnServer = (type, code) => {
 				searchParamName: 'name',
 				rowRender: 'name',
 				requestLoadRows: apiGetFlatDataByConfigName('routes'),
+			},
+		},
+		{
+			componentType: 'Item',
+			label: 'Статус',
+			name: 'statusId',
+			rules: [
+				{
+					message: 'Заполните статус',
+					required: true,
+				},
+			],
+			child: {
+				componentType: 'SingleSelect',
+				widthControl: 0,
+				rowRender: 'name',
+				expandColumnKey: 'id',
+				heightPopup: 300,
+				widthPopup: 320,
+				requestLoadRows: apiGetFlatDataByConfigName('detoursStatuses'),
+				requestLoadDefault: apiGetFlatDataByConfigName(
+					'detoursStatuses'
+				),
 			},
 		},
 	];
@@ -179,7 +202,7 @@ const operationOnServer = (type, code) => {
 				rowRender: 'username',
 				expandColumnKey: 'id',
 				heightPopup: 300,
-				widthPopup: 280,
+				widthPopup: 320,
 				requestLoadRows: apiGetFlatDataByConfigName('staff'),
 				requestLoadDefault: apiGetFlatDataByConfigName('staff'),
 			},
@@ -292,6 +315,7 @@ const operationOnServer = (type, code) => {
 						},
 						{
 							componentType: 'Col',
+							className: 'mr-0',
 							children: [
 								{
 									componentType: 'Item',
@@ -372,8 +396,8 @@ const operationOnServer = (type, code) => {
 	return {
 		type: `${type}OnServer`,
 		title: type === 'add' ? 'Создание обхода' : 'Редактирование обхода',
-		width: 600,
-		bodyStyle: {height: type === 'add' ? 750 : 780},
+		width: 700,
+		bodyStyle: {height: type === 'add' ? 780 : 800},
 		requestSaveRow: apiSaveByConfigName('saveDetourForm'),
 		form: {
 			name: `${type}DetourForm`,

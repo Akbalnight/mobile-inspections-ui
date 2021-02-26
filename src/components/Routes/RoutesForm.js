@@ -106,6 +106,7 @@ const RoutesForm = (props) => {
 							name: 'duration',
 							child: {
 								componentType: 'InputNumber',
+								min: 0,
 							},
 						},
 					],
@@ -152,7 +153,7 @@ const RoutesForm = (props) => {
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
-								edit: {actionType: ['modal', 'page']},
+								// edit: {actionType: ['modal', 'page']},
 								delete: {},
 								up: {},
 								down: {},
@@ -165,7 +166,7 @@ const RoutesForm = (props) => {
 						modals: [
 							addControlPointToRoute('controlPoints'),
 							editControlPointToRoute('controlPoints'),
-							routeControlPointViewModal(history),
+							routeControlPointViewModal(),
 						],
 					},
 				},
