@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {components} from 'rt-design';
 import {useHistory, useParams} from 'react-router';
 
 import {defectDetection} from '../Base/Block/DefectDetection';
@@ -8,11 +8,16 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
+import {disabledEndDate, disabledStartDate} from '../Base/baseFunctions';
 /**
  * этот компонент необязателен он представлен для вариативности. В данном контексте дефекты будут создаваться в мобильном приложении,
  * но данный путь нужно было пройти в web варианте
  *
+ *
+ * Можно в короткие сроки переделать на редактирование
  */
+
+const {Form} = components;
 export default function DefectsForm() {
 	const history = useHistory();
 	const pageParams = useParams();
@@ -61,11 +66,24 @@ export default function DefectsForm() {
 						},
 					],
 					child: {
-						componentType: 'SingleSelect',
-						widthControl: 0,
-						rowRender: 'username',
+						componentType: 'Select',
+						autoClearSearchValue: true,
+						showSearch: true,
+						searchParamName: 'userName',
+						showArrow: true,
+						filterOption: false,
+						// widthControl: 0,
+						dropdownMatchSelectWidth: 200,
+						mode: 'single',
+						allowClear: true,
+						infinityMode: true,
 						requestLoadRows: apiGetFlatDataByConfigName('staff'),
-						requestLoadDefault: apiGetFlatDataByConfigName('staff'),
+						optionConverter: (option) => ({
+							label: <span>{option.username}</span>,
+							value: option.id,
+							className: '',
+							disabled: undefined,
+						}),
 					},
 				},
 				{
@@ -80,15 +98,26 @@ export default function DefectsForm() {
 						},
 					],
 					child: {
-						componentType: 'SingleSelect',
-						widthControl: 0,
-						rowRender: 'name',
+						componentType: 'Select',
+						autoClearSearchValue: true,
+						showSearch: true,
+						searchParamName: 'name',
+						showArrow: true,
+						filterOption: false,
+						// widthControl: 0,
+						dropdownMatchSelectWidth: 200,
+						mode: 'single',
+						allowClear: true,
+						infinityMode: true,
 						requestLoadRows: apiGetFlatDataByConfigName(
 							'defectStatusesProcess'
 						),
-						requestLoadDefault: apiGetFlatDataByConfigName(
-							'defectStatusesProcess'
-						),
+						optionConverter: (option) => ({
+							label: <span>{option.name}</span>,
+							value: option.id,
+							className: '',
+							disabled: undefined,
+						}),
 					},
 				},
 
@@ -104,15 +133,26 @@ export default function DefectsForm() {
 						},
 					],
 					child: {
-						componentType: 'SingleSelect',
-						widthControl: 0,
-						rowRender: 'name',
+						componentType: 'Select',
+						autoClearSearchValue: true,
+						showSearch: true,
+						searchParamName: 'name',
+						showArrow: true,
+						filterOption: false,
+						// widthControl: 0,
+						dropdownMatchSelectWidth: 200,
+						mode: 'single',
+						allowClear: true,
+						infinityMode: true,
 						requestLoadRows: apiGetFlatDataByConfigName(
 							'panelProblemsPriorities'
 						),
-						requestLoadDefault: apiGetFlatDataByConfigName(
-							'panelProblemsPriorities'
-						),
+						optionConverter: (option) => ({
+							label: <span>{option.name}</span>,
+							value: option.id,
+							className: '',
+							disabled: undefined,
+						}),
 					},
 				},
 				{
@@ -155,6 +195,25 @@ export default function DefectsForm() {
 					child: {
 						componentType: 'DatePicker',
 						showTime: true,
+						dispatch: {
+							path: 'defects.defectsForm.eliminateStartDate',
+						},
+						subscribe: [
+							{
+								name: 'endDate',
+								path:
+									'rtd.defects.defectsForm.eliminateEndDate',
+								onChange: ({value, setSubscribeProps}) => {
+									setSubscribeProps({
+										disabledDate: (startValue) =>
+											disabledStartDate(
+												startValue,
+												value
+											),
+									});
+								},
+							},
+						],
 					},
 				},
 				{
@@ -171,6 +230,22 @@ export default function DefectsForm() {
 					child: {
 						componentType: 'DatePicker',
 						showTime: true,
+						dispatch: {
+							path: 'defects.defectsForm.eliminateEndDate',
+						},
+						subscribe: [
+							{
+								name: 'endDate',
+								path:
+									'rtd.defects.defectsForm.eliminateStartDate',
+								onChange: ({value, setSubscribeProps}) => {
+									setSubscribeProps({
+										disabledDate: (endValue) =>
+											disabledEndDate(value, endValue),
+									});
+								},
+							},
+						],
 					},
 				},
 				{
@@ -211,7 +286,7 @@ export default function DefectsForm() {
 		noPadding: false,
 		name: 'DefectEditForm',
 		labelCol: {span: 8},
-		wrapperCol: {span: 8},
+		wrapperCol: {span: 6},
 		loadInitData: loadData,
 		methodSaveForm: 'POST',
 		requestSaveForm: apiSaveByConfigName('saveNewDefect'),

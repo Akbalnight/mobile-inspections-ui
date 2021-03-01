@@ -12,7 +12,6 @@ import {scheduleFields} from '../Tabs/scheduleFields';
  * Карточка информации дефекта
  */
 export const defectCardInfoModal = () => {
-	console.log(33);
 	const loadData = (callBack, row) => {
 		callBack(row);
 	};

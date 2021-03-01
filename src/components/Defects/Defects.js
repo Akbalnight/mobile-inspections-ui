@@ -52,15 +52,36 @@ export default function Defects() {
 						),
 
 						subscribe: [
-							/** Событие поиска в таблице по знацению name */
+							/** Событие поиска в таблице по значению name */
 							{
 								name: 'onSearch',
 								path: 'rtd.defects.defectTable.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
-									console.log(value);
 									reloadTable({
 										searchValue: value.value,
 									});
+								},
+							},
+							/** Событие фильтрации в таблице по параметрам */
+							{
+								name: 'onApplyFilter',
+								path:
+									'rtd.defects.defectTable.events.onApplyFilter',
+								extraData: 'rtd.defects.defectTable.filter',
+								onChange: ({extraData, reloadTable}) => {
+									console.log(
+										'Table onApplyFilter',
+										extraData
+									);
+									reloadTable({filter: extraData});
+								},
+							},
+							{
+								/** Обработчик события на кнопку Reload */
+								name: 'onReload',
+								path: 'rtd.defects.defectTable.events.onReload',
+								onChange: ({reloadTable}) => {
+									reloadTable({filter: {}});
 								},
 							},
 						],
