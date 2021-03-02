@@ -8,12 +8,13 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {catalogConfigs} from './catalogConfigs';
-import CatalogData from './CatalogData';
+import {CatalogForm} from './CatalogForm';
+// import CatalogData from './CatalogData';
 
 const CATALOG_DATA_PATH = {
 	title: 'Справочник',
 	path: '/catalog/:name',
-	component: CatalogData,
+	component: CatalogForm,
 };
 
 const Catalog = () => {
@@ -69,8 +70,10 @@ const Catalog = () => {
 									render={() => (
 										<Component
 											catalogName={item.name}
-											SaveForm={item.SaveForm}
-											SaveGroup={item.SaveGroup}
+											// SaveForm={item.SaveForm}
+											// SaveGroup={item.SaveGroup}
+											hierarchical={item.hierarchical}
+											unique={item.unique}
 										/>
 									)}
 								/>
