@@ -6,9 +6,7 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {useHistory} from 'react-router';
-
 import {customColumnProps, headerTable} from './tableProps';
-import {defectCardInfoModal} from './Modals/defectCardInfo';
 
 /**
  * Общий компонет для двух разделов Журнал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -34,9 +32,9 @@ export default function Defects() {
 			componentType: 'Layout',
 			children: [
 				...headerTable(history),
-				defectCardInfoModal(),
 				{
 					componentType: 'Item',
+					classname: 'mt-0',
 					child: {
 						componentType: 'Table',
 						selectable: true,
@@ -44,6 +42,7 @@ export default function Defects() {
 						fixWidthColumn: true,
 						history,
 						headerHeight: 35,
+						infinityMode: true,
 						dispatchPath: 'defects.defectTable.table',
 						customColumnProps: customColumnProps,
 						requestLoadRows: apiGetFlatDataByConfigName(
@@ -54,15 +53,36 @@ export default function Defects() {
 						),
 
 						subscribe: [
-							/** Событие поиска в таблице по знацению name */
+							/** Событие поиска в таблице по значению name */
 							{
 								name: 'onSearch',
 								path: 'rtd.defects.defectTable.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
-									console.log(value);
 									reloadTable({
 										searchValue: value.value,
 									});
+								},
+							},
+							/** Событие фильтрации в таблице по параметрам */
+							{
+								name: 'onApplyFilter',
+								path:
+									'rtd.defects.defectTable.events.onApplyFilter',
+								extraData: 'rtd.defects.defectTable.filter',
+								onChange: ({extraData, reloadTable}) => {
+									console.log(
+										'Table onApplyFilter',
+										extraData
+									);
+									reloadTable({filter: extraData});
+								},
+							},
+							{
+								/** Обработчик события на кнопку Reload */
+								name: 'onReload',
+								path: 'rtd.defects.defectTable.events.onReload',
+								onChange: ({reloadTable}) => {
+									reloadTable({filter: {}});
 								},
 							},
 						],
