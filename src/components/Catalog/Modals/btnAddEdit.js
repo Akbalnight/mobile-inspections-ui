@@ -1,5 +1,8 @@
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
+import {
+	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
 
 export const addButton = (catalogName, unique) =>
 	operationOnServer('add', catalogName, unique);
@@ -30,11 +33,8 @@ const operationOnServer = (type, catalogName, unique) => {
 							componentType: 'Select',
 							autoClearSearchValue: true,
 							showSearch: true,
-							// searchParamName: 'name',
 							showArrow: true,
 							filterOption: false,
-							// widthControl: '250px',
-							// dropdownMatchSelectWidth: 400,
 							mode: 'single',
 							allowClear: true,
 							infinityMode: true,
@@ -42,10 +42,8 @@ const operationOnServer = (type, catalogName, unique) => {
 								catalogName
 							),
 							optionConverter: (option) => ({
-								label: <span>{option.name}</span>,
+								label: option.name,
 								value: option.id,
-								className: '',
-								disabled: undefined,
 							}),
 						},
 					},
@@ -79,11 +77,12 @@ const operationOnServer = (type, catalogName, unique) => {
 				} ${unique}`,
 				width: 450,
 				bodyStyle: {height: catalogName === 'departments' ? 200 : 150},
-				// requestSaveRow: funcSave, //не забыть поставить
+				requestSaveRow: apiSaveByConfigName(
+					`${catalogName}CatalogSave`
+				), //не забыть поставить
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					// methodSaveForm: 'PUT',
 					onFinish: (values) => {
 						console.log('values', values);
 					},
@@ -96,26 +95,19 @@ const operationOnServer = (type, catalogName, unique) => {
 				path: `catalog.${catalogName}Table.modal.events.on${
 					type[0].toUpperCase() + type.substring(1)
 				}Modal`,
+				type: 'event',
 			},
 			subscribe: [
 				{
 					name: `${catalogName}TableInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.selected`,
-					onChange: ({
-						value,
-						setModalData,
-						setButtonProps,
-						setSubscribeProps,
-					}) => {
-						// console.log(value.children.length);
+					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&
 							setButtonProps &&
 							setButtonProps({
-								disabled: !value, //временно (value.children.length === 0)
+								disabled: !value,
 							});
-						// type ==='add' && value.children.length>=1 &&
-						// setSubscribeProps && setSubscribeProps({title:'12'})
 					},
 				},
 			],

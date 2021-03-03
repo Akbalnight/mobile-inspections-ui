@@ -38,7 +38,7 @@ export const deleteButton = (catalogName, unique) => {
 				// bodyStyle: {height: 200},
 				okText: 'Удалить',
 				form: {
-					name: `deleteShiftModalForm`,
+					name: `${catalogName}ModalForm`,
 					loadInitData: (callBack, row) => callBack(row),
 					body: [...mainFields],
 				},

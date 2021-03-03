@@ -35,17 +35,18 @@ export const CatalogForm = (props) => {
 							: apiGetFlatDataByConfigName(catalogName),
 						requestLoadConfig: apiGetConfigByName(catalogName),
 						subscribe: [
+							/** Событие создания */
 							{
 								name: 'onAddModal',
-								path: `rtd.${catalogName}Table.modal.events.onAddModal`,
+								path: `rtd.catalog.${catalogName}Table.modal.events.onAddModal`,
 								onChange: ({value, addRow}) => {
 									addRow(value.value);
 								},
 							},
-							/** Событие редактирвания */
+							/** Событие редактирования */
 							{
 								name: 'onEditModal',
-								path: `rtd.${catalogName}Table.modal.events.onEditModal`,
+								path: `rtd.catalog.${catalogName}Table.modal.events.onEditModal`,
 								onChange: ({value, editRow}) => {
 									editRow(value.value);
 								},
@@ -53,8 +54,9 @@ export const CatalogForm = (props) => {
 							/** Событие удаления */
 							{
 								name: 'onDeleteModal',
-								path: `rtd.${catalogName}Table.modal.events.onDeleteModal`,
+								path: `rtd.catalog.${catalogName}Table.modal.events.onDeleteModal`,
 								onChange: ({value, removeRow}) => {
+									console.log(value.value);
 									removeRow();
 								},
 							},
