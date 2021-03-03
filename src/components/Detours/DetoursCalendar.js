@@ -29,7 +29,7 @@ export default function DetoursCalendar() {
 			.catch((error) =>
 				notificationError(error, 'Ошибка загрузки данных формы')
 			);
-	}, []);
+	}, [calendarValues]);
 
 	function dateCellRender(value) {
 		const listData = calendarValues;

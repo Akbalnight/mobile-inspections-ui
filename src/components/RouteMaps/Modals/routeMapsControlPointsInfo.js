@@ -47,11 +47,14 @@ export const routeMapsControlPointViewModal = (history) => {
 	};
 
 	/**
- 	*  предлагаю рассмотреть  такой вариант для обоих случаев 	
+ 	*  предлагаю рассмотреть  такой вариант для обоих случаев
 	это из документации
 	 */
 	const loadRowsHandler = (catalogName, sRow, {params, data}) => {
-		const newData = {...data, controlPointsId: sRow.controlPointId};
+		// console.log("routeMapsControlPointViewModal sRow", sRow);
+		let newData = {...data};
+		if (sRow.controlPointId) newData.controlPointsId = sRow.controlPointId;
+		else newData.controlPointsId = sRow.id;
 		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,
@@ -111,93 +114,93 @@ export const routeMapsControlPointViewModal = (history) => {
 				},
 			],
 		},
-		{
-			componentType: 'Row',
-			сlassName: 'mt-16',
-			children: [
-				{
-					componentType: 'Col',
-					span: 12,
-					children: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Метка',
-								level: 5,
-							},
-						},
-						{
-							componentType: 'Row',
-							children: [
-								{
-									componentType: 'Col',
-									span: 10,
-									children: [
-										{
-											componentType: 'Item',
-											label: 'Тип',
-											name: 'controlPointRfidName',
-											className: 'mb-0',
-											child: {componentType: 'Text'},
-										},
-									],
-								},
-								{
-									componentType: 'Col',
-									span: 8,
-									children: [
-										{
-											componentType: 'Item',
-											label: 'Код метки',
-											name: 'controlPointRfidCode',
-											className: 'mb-0',
-											child: {componentType: 'Text'},
-										},
-									],
-								},
-							],
-						},
-					],
-				},
-				historyChange // убрал раздел Местоположение для КТ, пока нет ясности в необходимости данной информации
-					? {}
-					: {
-							componentType: 'Col',
-							span: 12,
-							children: [
-								{
-									componentType: 'Item',
-									child: {
-										componentType: 'Title',
-										label: 'Местоположение',
-										level: 5,
-									},
-								},
-								{
-									componentType: 'Row',
-									children: [
-										{
-											componentType: 'Col',
-											span: 10,
-											children: [
-												{
-													componentType: 'Item',
-													label: 'Координаты',
-													name: 'fileName',
-													className: 'mb-0 ml-8',
-													child: {
-														componentType: 'Text',
-													},
-												},
-											],
-										},
-									],
-								},
-							],
-					  },
-			],
-		},
+		// {
+		// 	componentType: 'Row',
+		// 	сlassName: 'mt-16',
+		// 	children: [
+		// 		{
+		// 			componentType: 'Col',
+		// 			span: 12,
+		// 			children: [
+		// 				{
+		// 					componentType: 'Item',
+		// 					child: {
+		// 						componentType: 'Title',
+		// 						label: 'Метка',
+		// 						level: 5,
+		// 					},
+		// 				},
+		// 				{
+		// 					componentType: 'Row',
+		// 					children: [
+		// 						{
+		// 							componentType: 'Col',
+		// 							span: 10,
+		// 							children: [
+		// 								{
+		// 									componentType: 'Item',
+		// 									label: 'Тип',
+		// 									name: 'controlPointRfidName',
+		// 									className: 'mb-0',
+		// 									child: {componentType: 'Text'},
+		// 								},
+		// 							],
+		// 						},
+		// 						{
+		// 							componentType: 'Col',
+		// 							span: 8,
+		// 							children: [
+		// 								{
+		// 									componentType: 'Item',
+		// 									label: 'Код метки',
+		// 									name: 'controlPointRfidCode',
+		// 									className: 'mb-0',
+		// 									child: {componentType: 'Text'},
+		// 								},
+		// 							],
+		// 						},
+		// 					],
+		// 				},
+		// 			],
+		// 		},
+		// 		historyChange // убрал раздел Местоположение для КТ, пока нет ясности в необходимости данной информации
+		// 			? {}
+		// 			: {
+		// 					componentType: 'Col',
+		// 					span: 12,
+		// 					children: [
+		// 						{
+		// 							componentType: 'Item',
+		// 							child: {
+		// 								componentType: 'Title',
+		// 								label: 'Местоположение',
+		// 								level: 5,
+		// 							},
+		// 						},
+		// 						{
+		// 							componentType: 'Row',
+		// 							children: [
+		// 								{
+		// 									componentType: 'Col',
+		// 									span: 10,
+		// 									children: [
+		// 										{
+		// 											componentType: 'Item',
+		// 											label: 'Координаты',
+		// 											name: 'fileName',
+		// 											className: 'mb-0 ml-8',
+		// 											child: {
+		// 												componentType: 'Text',
+		// 											},
+		// 										},
+		// 									],
+		// 								},
+		// 							],
+		// 						},
+		// 					],
+		// 			  },
+		// 	],
+		// },
 	];
 
 	const equipmentFields = [

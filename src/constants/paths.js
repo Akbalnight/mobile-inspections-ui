@@ -6,12 +6,15 @@ import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
 import ControlPointsD from '../components/ControlPoints/ControlPointsD';
-import ControlPointDataD from '../components/ControlPoints/ControlPointDataD';
+import {
+	ControlPointAdd,
+	ControlPointEdit,
+} from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Routes';
-import RoutesForm from '../components/Routes/RoutesForm';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
 import Detours from '../components/Detours/Detours';
-import DetoursForm from '../components/Detours/DetoursForm';
+import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
 import RouteMaps from '../components/RouteMaps/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
@@ -81,15 +84,15 @@ export const paths = {
 		component: ControlPointsD,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_CONTROL_POINTS_EDIT: {
-		title: 'Редактирование контрольной точки',
-		path: '/detours-configurator/control-points/:id',
-		component: ControlPointDataD,
-	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
 		title: 'Создание контрольной точки',
 		path: '/detours-configurator/control-points/new',
-		component: ControlPointDataD,
+		component: ControlPointAdd,
+	},
+	DETOURS_CONFIGURATOR_CONTROL_POINTS_EDIT: {
+		title: 'Редактирование контрольной точки',
+		path: '/detours-configurator/control-points/:id',
+		component: ControlPointEdit,
 	},
 	DETOURS_CONFIGURATOR_ROUTES: {
 		title: 'Маршруты',
@@ -97,10 +100,15 @@ export const paths = {
 		component: Routes,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_ROUTES_DATA: {
-		title: 'Редакитрование маршрута',
+	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
+		title: 'Создание маршрута',
+		path: '/detours-configurator/routes/new',
+		component: RoutesAdd,
+	},
+	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT: {
+		title: 'Редактирование маршрута',
 		path: '/detours-configurator/routes/:id',
-		component: RoutesForm,
+		component: RoutesEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
@@ -108,10 +116,15 @@ export const paths = {
 		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
-	DETOURS_CONFIGURATOR_DETOURS_DATA: {
+	DETOURS_CONFIGURATOR_DETOURS_DATA_ADD: {
+		title: 'Создание обхода',
+		path: '/detours-configurator/detours/new',
+		component: DetoursAdd,
+	},
+	DETOURS_CONFIGURATOR_DETOURS_DATA_EDIT: {
 		title: 'Редактирование обхода',
 		path: '/detours-configurator/detours/:id',
-		component: DetoursForm,
+		component: DetoursEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
 		title: 'Расписание обходов',

@@ -14,29 +14,40 @@ import {paths} from '../../constants/paths';
 import {codeInput} from '../Base/Inputs/CodeInput';
 import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
 
-/** 
- *  объединил и вынес функции
-	/** заменил эти функции loadRowsHandler
-	 * requestLoadRows: ({data, params}) =>
-		apiGetFlatDataByConfigName('controlPointsEquipments')
-				({
-			data: {...data,	controlPointsId: pageParams.id,},
-			params,
-				}),
-	 * requestLoadRows: ({data, params}) =>
-		apiGetFlatDataByConfigName('controlPointsTechMaps')
-				({
-			data: {...data,	controlPointsId: pageParams.id,},
-			params,
-				}),
-	 */
+export const ControlPointAdd = () => {
+	return (
+		<BasePage>
+			<ControlPointDataD />
+		</BasePage>
+	);
+};
+
+export const ControlPointEdit = () => {
+	const pageParams = useParams();
+	return (
+		<BasePage>
+			<ControlPointDataD controlPointId={pageParams.id} />
+		</BasePage>
+	);
+};
 
 const ControlPointDataD = (props) => {
-	const pageParams = useParams();
+	const {controlPointId} = props;
+	// const pageParams = useParams();
 	const history = useHistory();
 
 	const loadData = (callBack) => {
-		if (pageParams.id === 'new') {
+		if (controlPointId) {
+			apiGetFlatDataByConfigName('controlPoints')({
+				data: {id: controlPointId},
+			})
+				.then((response) => {
+					callBack(response.data[0]);
+				})
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
+		} else {
 			callBack({
 				code: null,
 				name: null,
@@ -45,25 +56,17 @@ const ControlPointDataD = (props) => {
 				techMaps: [],
 				isGroup: false,
 			});
-		} else {
-			apiGetFlatDataByConfigName('controlPoints')({
-				data: {id: pageParams.id},
-			})
-				.then((response) => {
-					callBack(response.data[0]);
-				})
-				.catch((error) =>
-					notificationError(error, 'Ошибка загрузки данных формы')
-				);
 		}
 	};
 
 	const loadRowsHandler = (catalogName, {params, data}) => {
-		const newData = {...data, controlPointsId: pageParams.id};
-		return apiGetFlatDataByConfigName(catalogName)({
-			data: newData,
-			params,
-		});
+		if (controlPointId) {
+			const newData = {...data, controlPointsId: controlPointId};
+			return apiGetFlatDataByConfigName(catalogName)({
+				data: newData,
+				params,
+			});
+		} else return new Promise((resolve) => resolve({data: []}));
 	};
 
 	const headFields = [
@@ -83,7 +86,8 @@ const ControlPointDataD = (props) => {
 					componentType: 'Col',
 					span: 12,
 					children: [
-						pageParams.id === 'new' ? {} : codeInput,
+						// pageParams.id === 'new' ? {} : codeInput,
+						controlPointId ? codeInput : {},
 						{
 							componentType: 'Item',
 							label: 'Наименование',
@@ -153,7 +157,7 @@ const ControlPointDataD = (props) => {
 							},
 						},
 						modals: [{...EquipmentSelectModal}],
-						customFields: [...equipmentTableCustom(pageParams)],
+						customFields: [...equipmentTableCustom(controlPointId)],
 						requestLoadRows: (info) =>
 							loadRowsHandler('controlPointsEquipments', info),
 						requestLoadConfig: apiGetConfigByName(
@@ -189,7 +193,7 @@ const ControlPointDataD = (props) => {
 							},
 						},
 						modals: [{...TechMapSelectModal}],
-						customFields: [...techMapsTableCustom(pageParams)],
+						customFields: [...techMapsTableCustom(controlPointId)],
 						requestLoadRows: (info) =>
 							loadRowsHandler('controlPointsTechMaps', info),
 						requestLoadConfig: apiGetConfigByName(
@@ -214,17 +218,16 @@ const ControlPointDataD = (props) => {
 		wrapperCol: {span: 16},
 		loadInitData: loadData,
 		requestSaveForm: apiSaveControlPoints,
-		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
+		methodSaveForm: controlPointId ? 'PUT' : 'POST',
 		onFinish: onFinish,
 		header: [
 			{
 				componentType: 'Item',
 				child: {
 					componentType: 'Title',
-					label:
-						pageParams.id === 'new'
-							? `Создание контрольной точки`
-							: `Редактирование контрольной точки`,
+					label: controlPointId
+						? `Редактирование контрольной точки`
+						: `Создание контрольной точки`,
 					className: 'mb-0',
 					level: 3,
 				},
@@ -253,19 +256,16 @@ const ControlPointDataD = (props) => {
 		],
 	};
 
-	return (
-		<BasePage
-			path={
-				pageParams.id === 'new'
-					? '/detours-configurator/control-points/new'
-					: undefined
-			}
-		>
-			<Form {...formConfig} />
-		</BasePage>
-	);
+	// return (
+	// 	<BasePage
+	// 		path={
+	// 			pageParams.id === 'new'
+	// 				? '/detours-configurator/control-points/new'
+	// 				: undefined
+	// 		}
+	// 	>
+	// 		<Form {...formConfig} />
+	// 	</BasePage>
+	// );
+	return <Form {...formConfig} />;
 };
-
-ControlPointDataD.propTypes = {};
-
-export default ControlPointDataD;

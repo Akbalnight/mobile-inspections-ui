@@ -25,7 +25,7 @@ export const configFilterPanel = [
 		componentType: 'SingleSelect',
 		name: 'staffIds',
 		className: 'mr-16',
-		rowRender: 'positionName',
+		rowRender: 'username',
 		title: 'Сотрудник',
 		widthControl: 150,
 		widthPopup: 300,

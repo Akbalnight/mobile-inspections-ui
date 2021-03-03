@@ -127,7 +127,6 @@ const OperationOnLocal = (type, code) => {
 							showElements: ['selected'],
 						},
 						defaultFilter: {controlPointsId: null},
-						style: {height: '180px'},
 						subscribe:
 							type === 'add'
 								? {
@@ -251,6 +250,7 @@ const OperationOnLocal = (type, code) => {
 			onFinish: (values) => {
 				console.log('values', values);
 			},
+			className: 'lastSelectModal',
 			body: [
 				code,
 				type === 'add' ? {...addControlPoint} : {...editControlPoint},

@@ -42,6 +42,7 @@ export default function Defects() {
 						fixWidthColumn: true,
 						history,
 						headerHeight: 35,
+						infinityMode: true,
 						dispatchPath: 'defects.defectTable.table',
 						customColumnProps: customColumnProps,
 						requestLoadRows: apiGetFlatDataByConfigName(
