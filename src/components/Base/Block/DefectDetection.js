@@ -1,7 +1,4 @@
-import {
-	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 
 export const defectDetection = {
 	componentType: 'Col',
@@ -49,16 +46,28 @@ export const defectDetection = {
 				},
 			],
 			child: {
-				componentType: 'SingleSelect',
-				widthControl: 0,
+				componentType: 'Select',
+				// widthControl: 300,
 				rowRender: 'name',
 				expandColumnKey: 'id',
-				requestLoadRows: apiGetHierarchicalDataByConfigName(
+				autoClearSearchValue: true,
+				showSearch: true,
+				searchParamName: 'name',
+				showArrow: true,
+				filterOption: false,
+				dropdownMatchSelectWidth: 200,
+				mode: 'single',
+				allowClear: true,
+				infinityMode: true,
+				requestLoadRows: apiGetFlatDataByConfigName(
 					'equipmentsAutoQuery'
-				),
-				requestLoadDefault: apiGetFlatDataByConfigName(
-					'equipmentsAutoQuery'
-				),
+				), //apiGetHierarchicalDataByConfigName
+				optionConverter: (option) => ({
+					label: <span>{option.name}</span>,
+					value: option.id,
+					className: '',
+					disabled: undefined,
+				}),
 			},
 		},
 		{
@@ -73,11 +82,24 @@ export const defectDetection = {
 				},
 			],
 			child: {
-				componentType: 'SingleSelect',
-				widthControl: 0,
-				rowRender: 'positionName',
+				componentType: 'Select',
+				autoClearSearchValue: true,
+				showSearch: true,
+				searchParamName: 'username',
+				showArrow: true,
+				filterOption: false,
+				// widthControl: 0,
+				dropdownMatchSelectWidth: 200,
+				mode: 'single',
+				allowClear: true,
+				infinityMode: true,
 				requestLoadRows: apiGetFlatDataByConfigName('staff'),
-				requestLoadDefault: apiGetFlatDataByConfigName('staff'),
+				optionConverter: (option) => ({
+					label: <span>{option.username}</span>,
+					value: option.id,
+					className: '',
+					disabled: undefined,
+				}),
 			},
 		},
 		{
