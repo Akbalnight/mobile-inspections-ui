@@ -22,6 +22,7 @@ import {
 	buttonSendToSap,
 } from './Modals/modalButtonDefects';
 import {editDefectCard} from './Modals/defectEdit';
+import {defectCardInfoModal} from './Modals/defectCardInfo';
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
@@ -161,6 +162,7 @@ export const headerTable = (history) => {
 						...(historyChange
 							? buttonSendToPanel
 							: buttonSendToSap),
+						defectCardInfoModal(),
 					],
 				},
 				{
