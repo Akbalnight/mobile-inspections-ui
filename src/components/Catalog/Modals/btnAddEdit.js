@@ -1,4 +1,5 @@
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 
 export const addButton = (catalogName, unique) =>
 	operationOnServer('add', catalogName, unique);
@@ -9,7 +10,59 @@ const operationOnServer = (type, catalogName, unique) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
-
+	const mainFields = (catalogName) => {
+		switch (catalogName) {
+			case 'departments':
+				return [
+					{
+						componentType: 'Item',
+						name: 'name',
+						label: 'Наименование',
+						child: {
+							componentType: 'Input',
+						},
+					},
+					{
+						componentType: 'Item',
+						name: 'parentId',
+						label: 'Родитель',
+						child: {
+							componentType: 'Select',
+							autoClearSearchValue: true,
+							showSearch: true,
+							// searchParamName: 'name',
+							showArrow: true,
+							filterOption: false,
+							// widthControl: '250px',
+							// dropdownMatchSelectWidth: 400,
+							mode: 'single',
+							allowClear: true,
+							infinityMode: true,
+							requestLoadRows: apiGetFlatDataByConfigName(
+								catalogName
+							),
+							optionConverter: (option) => ({
+								label: <span>{option.name}</span>,
+								value: option.id,
+								className: '',
+								disabled: undefined,
+							}),
+						},
+					},
+				];
+			default:
+				return [
+					{
+						componentType: 'Item',
+						name: 'name',
+						label: 'Наименование',
+						child: {
+							componentType: 'Input',
+						},
+					},
+				];
+		}
+	};
 	return {
 		componentType: 'Item',
 		child: {
@@ -20,13 +73,12 @@ const operationOnServer = (type, catalogName, unique) => {
 				disabled: type === 'add' ? false : true,
 			},
 			modalConfig: {
-				// ...choiseModalConfig(type,catalogName)
 				type: `${type}OnServer`,
 				title: `${
 					type === 'add' ? 'Создать' : 'Редактировать'
 				} ${unique}`,
-				width: 350,
-				bodyStyle: {height: 200},
+				width: 450,
+				bodyStyle: {height: catalogName === 'departments' ? 200 : 150},
 				// requestSaveRow: funcSave, //не забыть поставить
 				form: {
 					name: `${type}ModalForm`,
@@ -37,15 +89,7 @@ const operationOnServer = (type, catalogName, unique) => {
 					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
-					body: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: '3',
-							},
-						},
-					],
+					body: [...mainFields(catalogName)],
 				},
 			},
 			dispatch: {
@@ -57,14 +101,21 @@ const operationOnServer = (type, catalogName, unique) => {
 				{
 					name: `${catalogName}TableInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.selected`,
-					onChange: ({value, setModalData, setButtonProps}) => {
+					onChange: ({
+						value,
+						setModalData,
+						setButtonProps,
+						setSubscribeProps,
+					}) => {
 						// console.log(value.children.length);
 						value && setModalData && setModalData(value);
 						type !== 'add' &&
 							setButtonProps &&
 							setButtonProps({
-								disabled: !(value.children.length === 0),
+								disabled: !value, //временно (value.children.length === 0)
 							});
+						// type ==='add' && value.children.length>=1 &&
+						// setSubscribeProps && setSubscribeProps({title:'12'})
 					},
 				},
 			],

@@ -1,5 +1,6 @@
 import {addButton, editButton} from './Modals/btnAddEdit';
 import {deleteButton} from './Modals/btnDelete';
+import {modalInfo} from './Modals/modalInfo';
 
 export const headerTable = (catalogName, unique) => {
 	return {
@@ -9,6 +10,7 @@ export const headerTable = (catalogName, unique) => {
 			addButton(catalogName, unique),
 			editButton(catalogName, unique),
 			deleteButton(catalogName, unique),
+			modalInfo(catalogName, unique),
 		],
 	};
 };
