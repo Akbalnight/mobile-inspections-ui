@@ -34,6 +34,15 @@ export const catalogConfigs = (paths) => [
 		unique: 'должность',
 		// SaveForm: BaseModal,
 	},
+	{
+		name: 'equipments',
+		path: `${paths.CATALOG.path}/equipments`,
+		title: 'Оборудование',
+		hierarchical: true,
+		unique: 'оборудование',
+		// SaveForm: EquipmentsModal,
+		// SaveGroup: EquipmentsGroupModal
+	},
 	// {
 	//     name: 'staffQualifications',
 	//     path: `${paths.CATALOG.path}/staffQualifications`,
@@ -112,13 +121,6 @@ export const catalogConfigs = (paths) => [
 	//     title: 'Метки RFID',
 	//     SaveForm: BaseModal
 	// },
-	// {
-	//     name: 'equipments',
-	//     path: `${paths.CATALOG.path}/equipments`,
-	//     title: 'Оборудование',
-	//     SaveForm: EquipmentsModal,
-	//     SaveGroup: EquipmentsGroupModal
-	// }
 ];
 
 // // Метки RFID

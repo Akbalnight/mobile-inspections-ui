@@ -1,4 +1,4 @@
-export const modalInfo = (catalogName, unique) => {
+export const modalDefaultInfo = (catalogName) => {
 	const mainFields = (catalogName) => {
 		switch (catalogName) {
 			case 'departments':

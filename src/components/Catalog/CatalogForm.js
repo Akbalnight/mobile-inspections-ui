@@ -19,7 +19,7 @@ const {Form} = components;
 export const CatalogForm = (props) => {
 	const {catalogName, hierarchical, unique} = props;
 
-	const tableFields = [
+	const defaultTableFields = [
 		{
 			componentType: 'Layout',
 			children: [
@@ -30,6 +30,12 @@ export const CatalogForm = (props) => {
 						componentType: 'Table',
 						fixWidthColumn: true,
 						dispatchPath: `catalog.${catalogName}Table.table`,
+						/**сделал сортировку в конфиге, не корректно отображалось */
+						// sortBy:{
+						// 	key:'code',
+						// 	order:'asc'
+						// },
+
 						requestLoadRows: hierarchical
 							? apiGetHierarchicalDataByConfigName(catalogName)
 							: apiGetFlatDataByConfigName(catalogName),
@@ -66,10 +72,11 @@ export const CatalogForm = (props) => {
 			],
 		},
 	];
+
 	const formConfig = {
 		noPadding: true,
 		name: 'catalogSideForm',
-		body: [...tableFields],
+		body: [...defaultTableFields],
 	};
 	return (
 		<>

@@ -4,9 +4,9 @@ import {
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 
-export const addButton = (catalogName, unique) =>
+export const addDefaultButton = (catalogName, unique) =>
 	operationOnServer('add', catalogName, unique);
-export const editButton = (catalogName, unique) =>
+export const editDefaultButton = (catalogName, unique) =>
 	operationOnServer('edit', catalogName, unique);
 
 const operationOnServer = (type, catalogName, unique) => {

@@ -1,16 +1,25 @@
-import {addButton, editButton} from './Modals/btnAddEdit';
+import {addCustomButton, editCustomButton} from './Modals/btnCustomAddEdit';
+import {addDefaultButton, editDefaultButton} from './Modals/btnDefaultAddEdit';
 import {deleteButton} from './Modals/btnDelete';
-import {modalInfo} from './Modals/modalInfo';
+import {modalDefaultInfo} from './Modals/modalDefaultInfo';
 
 export const headerTable = (catalogName, unique) => {
+	const defaultModals = [
+		addDefaultButton(catalogName, unique),
+		editDefaultButton(catalogName, unique),
+		deleteButton(catalogName, unique),
+		modalDefaultInfo(catalogName),
+	];
+	const customModals = [
+		addCustomButton(catalogName, unique),
+		editCustomButton(catalogName, unique),
+		deleteButton(catalogName, unique),
+	];
 	return {
 		componentType: 'Space',
 		className: 'p-8',
 		children: [
-			addButton(catalogName, unique),
-			editButton(catalogName, unique),
-			deleteButton(catalogName, unique),
-			modalInfo(catalogName, unique),
+			...(catalogName !== 'equipments' ? defaultModals : customModals),
 		],
 	};
 };
