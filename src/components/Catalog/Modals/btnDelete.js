@@ -23,6 +23,7 @@ export const deleteButton = (catalogName, unique) => {
 				type: 'default',
 				icon: <DeleteOutlined />,
 				disabled: true,
+				className: 'mr-8',
 			},
 			modalConfig: {
 				type: 'editOnServer',

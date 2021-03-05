@@ -1,4 +1,5 @@
-import {EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {EditOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
+import {Upload, Button} from 'antd';
 import {
 	apiGetFlatDataByConfigName,
 	// apiSaveByConfigName,
@@ -54,7 +55,7 @@ const operationOnServer = (type, catalogName, unique) => {
 				subscribe: [
 					{
 						name: `${catalogName}TextArea`,
-						path: `rtd.catalog.${catalogName}Table.modal.addModalSelect`,
+						path: `rtd.catalog.${catalogName}Table.modal.${type}ModalSelect`,
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
@@ -80,10 +81,10 @@ const operationOnServer = (type, catalogName, unique) => {
 				mode: 'single',
 				allowClear: true,
 				infinityMode: true,
-				requestLoadRows: apiGetFlatDataByConfigName('equipmentMarks'),
+				requestLoadRows: apiGetFlatDataByConfigName('equipments'),
 				optionConverter: (option) => ({
-					label: option.name,
-					value: option.name, //change
+					label: option.techPlace,
+					value: option.techPlace, //change
 				}),
 				dispatch: {
 					path: `catalog.${catalogName}Table.modal.${type}ModalSelect`,
@@ -229,6 +230,46 @@ const operationOnServer = (type, catalogName, unique) => {
 				],
 			},
 		},
+		{
+			componentType: 'Item',
+			name: 'exampleFile',
+			label: 'Образец гарантии',
+			className: 'mt-8',
+			child: {
+				componentType: 'Custom',
+				render: (value, defaultValue, onChange) => (
+					<Upload maxCount={1}>
+						<Button type={'link'}>
+							<UploadOutlined /> Загрузить гарантию
+						</Button>
+					</Upload>
+				),
+			},
+		},
+		{
+			componentType: 'Item',
+			child: {
+				componentType: 'Title',
+				label: 'Документы',
+				level: 5,
+			},
+		},
+		{
+			componentType: 'Item',
+			name: 'exampleDoc',
+			label: 'Вложенные документы',
+			className: 'mt-0',
+			child: {
+				componentType: 'Custom',
+				render: (value, defaultValue, onChange) => (
+					<Upload maxCount={4}>
+						<Button type={'link'}>
+							<UploadOutlined /> Загрузить документы
+						</Button>
+					</Upload>
+				),
+			},
+		},
 	];
 
 	return {
@@ -239,6 +280,8 @@ const operationOnServer = (type, catalogName, unique) => {
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
 				disabled: type === 'add' ? false : true,
+				hidden: type === 'add' ? false : true,
+				className: 'mr-8',
 			},
 			modalConfig: {
 				type: `${type}OnServer`,
@@ -276,7 +319,8 @@ const operationOnServer = (type, catalogName, unique) => {
 						type !== 'add' &&
 							setButtonProps &&
 							setButtonProps({
-								disabled: !value,
+								disabled: value.isGroup,
+								hidden: value.isGroup,
 							});
 					},
 				},

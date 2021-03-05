@@ -69,6 +69,7 @@ const operationOnServer = (type, catalogName, unique) => {
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
 				disabled: type === 'add' ? false : true,
+				className: 'mr-8',
 			},
 			modalConfig: {
 				type: `${type}OnServer`,
