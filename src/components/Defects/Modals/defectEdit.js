@@ -243,6 +243,9 @@ const OperationOnServer = (catalogName, type, code) => {
 				type: 'default',
 				icon: <EditOutlined />,
 			},
+			toolTipProps: {
+				title: 'Редактровать дефект',
+			},
 
 			modalConfig: {
 				type: `${type}OnServer`,

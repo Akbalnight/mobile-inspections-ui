@@ -1,4 +1,4 @@
-import {genericRequest} from './network';
+import {genericRequest, genericUploadRequest} from './network';
 //
 export const apiGetConfigByName = (configName) => () =>
 	genericRequest({
@@ -170,3 +170,6 @@ export const apiSaveByConfigName = (catalogName) => ({method, data, params}) =>
 		data,
 		params,
 	});
+
+export const apiSaveFileByConfigName = (catalogName) => (data) =>
+	genericUploadRequest(`/api/dynamicdq/data/save/file/${catalogName}`, data);

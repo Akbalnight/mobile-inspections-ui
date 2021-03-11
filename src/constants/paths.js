@@ -20,6 +20,7 @@ import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
+import DeclarativeDebug from '../components/Debug/DeclarativeDebug';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -55,6 +56,14 @@ export const paths = {
 		title: 'Debug',
 		path: '/debug',
 		component: Debug,
+		// component: Debug,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	DEBUG_2: {
+		title: 'Debug 2',
+		path: '/2debug',
+		component: DeclarativeDebug,
+		// component: Debug,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	// DEBUG_MARSEL: {
