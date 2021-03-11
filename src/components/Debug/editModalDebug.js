@@ -26,6 +26,7 @@ export const editModalDebug = [
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
 					loadInitData: (callBack, row) => {
+						console.log('editModalDebug => ', row);
 						callBack(row);
 					},
 					body: [

@@ -9,7 +9,7 @@
     "cookie": "^0.4.1",
     "interactjs": "^1.10.2",
     "js-sha256": "^0.9.0",
-    "mobile-inspections-base-ui": "git+https://robot:qhp-8Yy-9z6-hv3@atlassian.dias-dev.ru/bitbucket/scm/mobinspect/mobile-inspections-base-ui.git#semver:^0.0.19",
+    "mobile-inspections-base-ui": "git+https://robot:qhp-8Yy-9z6-hv3@atlassian.dias-dev.ru/bitbucket/scm/mobinspect/mobile-inspections-base-ui.git#semver:^0.0.20",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
@@ -23,7 +23,7 @@
     "react-split-pane": "^0.1.92",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.57"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.58"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^2.34.0",
@@ -42,7 +42,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf ./node_modules ./package-lock.json",
     "reinstall": "npm run clean && npm install",
     "rebuild": "npm run clean && npm install && npm run build",
     "test": "react-app-rewired test",

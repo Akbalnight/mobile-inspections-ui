@@ -10,7 +10,7 @@ import {editModalDebug} from './editModalDebug';
 import {selectModalDebug} from './selectModalDebug';
 
 // Импорт новой формы
-import {components} from 'rt-design';
+import {classic, components} from 'rt-design';
 const {Form} = components;
 
 /** 1. Компоненты InfinityTable, ServerTable, LocalTable заменены на просто Table
@@ -29,7 +29,7 @@ const TableCus = (config) => ({
 				requestLoadRows: apiGetFlatDataByConfigName(config),
 				requestLoadConfig: apiGetConfigByName(config),
 				fixWidthColumn: true,
-				selectable: true,
+				// selectable: true,
 				onRowClick: () => {
 					console.log('onRowClick => ');
 				},
@@ -124,6 +124,8 @@ const disabledEndDate = (startValue, endValue) => {
 };
 
 const Debug = () => {
+	console.log(classic);
+
 	const formConfig = {
 		noPadding: true,
 		/** scrollable - НЕЖЕН ЧТОБЫ УБРАТЬ ДЕРГАНЬЕ
