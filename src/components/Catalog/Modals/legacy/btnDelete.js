@@ -1,8 +1,8 @@
 import {DeleteOutlined} from '@ant-design/icons';
-import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
+import {ReactComponent as Warning} from '../../../../imgs/warning-mdl-big.svg';
 /**
  *
- * @param {string} info - request adress word
+ * @param {string} info - request address word
  */
 export const deleteButton = (catalogName, unique) => {
 	// const toCapitalize = info[0].toUpperCase() + info.substring(1);

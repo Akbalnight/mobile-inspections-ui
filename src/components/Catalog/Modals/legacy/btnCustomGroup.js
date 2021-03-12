@@ -1,5 +1,5 @@
 import {EditOutlined, FolderAddOutlined} from '@ant-design/icons';
-import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../../apis/catalog.api';
 
 export const addGroupButton = (catalogName, unique) =>
 	operationOnServer('add', catalogName, unique);

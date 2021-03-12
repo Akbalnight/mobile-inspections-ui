@@ -3,8 +3,8 @@ import {Upload, Button} from 'antd';
 import {
 	apiGetFlatDataByConfigName,
 	// apiSaveByConfigName,
-} from '../../../apis/catalog.api';
-import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
+} from '../../../../apis/catalog.api';
+import {disabledEndDate, disabledStartDate} from '../../../Base/baseFunctions';
 
 export const addCustomButton = (catalogName, unique) =>
 	operationOnServer('add', catalogName, unique);
@@ -23,7 +23,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Тип',
 			className: 'mb-0',
 			child: {
-				componentType: 'Input',
+				componentType: 'Input+',
 			},
 		},
 		{
@@ -32,7 +32,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'SAP код',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'InputNumber',
+				componentType: 'InputNumber+',
 				min: 0,
 			},
 		},
@@ -42,7 +42,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Наименование',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Input',
+				componentType: 'Input+',
 			},
 		},
 		{
@@ -51,7 +51,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Код технического места',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Text',
+				componentType: 'Text+',
 				subscribe: [
 					{
 						name: `${catalogName}TextArea`,
@@ -72,7 +72,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Техническое место',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Select',
+				componentType: 'Select+Tree',
 				autoClearSearchValue: true,
 				showSearch: true,
 				searchParamName: 'name',
@@ -97,7 +97,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Тип конструкции',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Input',
+				componentType: 'Input+',
 			},
 		},
 		{
@@ -106,7 +106,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Материал',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Input',
+				componentType: 'Input+',
 			},
 		},
 		{
@@ -115,7 +115,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Величина/размер',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Input', //'TextArea' возмоно описание будет большим
+				componentType: 'Input+', //'TextArea' возмоно описание будет большим
 			},
 		},
 		{
@@ -124,10 +124,10 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Вес',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'InputNumber', //'Input'
+				componentType: 'Input+', //'Input'
 				min: 0,
 				// defaultValue: 1,
-				step: 0.1,
+				step: '1+',
 				formatter: (value) => `${value} кг.`,
 			},
 		},
@@ -137,7 +137,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Изготовитель',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Input',
+				componentType: 'Input+',
 			},
 		},
 		{
@@ -146,7 +146,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Метка удаления',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'Checkbox',
+				componentType: 'Checkbox+',
 			},
 		},
 		{
@@ -155,7 +155,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Действителен до',
 			className: 'mt-8',
 			child: {
-				componentType: 'DatePicker',
+				componentType: 'DatePicker+',
 			},
 		},
 		{
@@ -171,7 +171,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			name: 'producted', //change
 			label: 'Изготовитель',
 			child: {
-				componentType: 'Input',
+				componentType: 'Input+',
 			},
 		},
 		{
@@ -188,7 +188,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Начало гарантии',
 			className: 'mb-0',
 			child: {
-				componentType: 'DatePicker',
+				componentType: 'DatePicker+',
 				dispatch: {
 					path: `catalog.${catalogName}Table.modal.${type}ModalStartDate`,
 				},
@@ -212,7 +212,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			label: 'Окончание гарантии',
 			className: 'mt-8 mb-0',
 			child: {
-				componentType: 'DatePicker',
+				componentType: 'DatePicker+',
 				dispatch: {
 					path: `catalog.${catalogName}Table.modal.${type}ModalEndDate`,
 				},
@@ -233,7 +233,7 @@ const operationOnServer = (type, catalogName, unique) => {
 		{
 			componentType: 'Item',
 			name: 'exampleFile',
-			label: 'Образец гарантии',
+			label: 'Образец гарантии+',
 			className: 'mt-8',
 			child: {
 				componentType: 'Custom',

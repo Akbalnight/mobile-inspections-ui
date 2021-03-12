@@ -10,30 +10,30 @@ export const catalogConfigs = (paths) => [
 	//     title: 'Физическая структура предприятия',
 	//     SaveForm: BaseModalWithParentId
 	// },
-	{
-		name: 'departments',
-		path: `${paths.CATALOG.path}/departments`,
-		title: 'Организационная структура предприятия',
-		hierarchical: true,
-		unique: 'департамент',
-		// SaveForm: BaseModalWithParentId,
-	},
-	{
-		name: 'techMapsStatuses',
-		path: `${paths.CATALOG.path}/techMapsStatuses`,
-		title: 'Статусы технологических карт',
-		hierarchical: false,
-		unique: 'статус',
-		// SaveForm: BaseModal,
-	},
-	{
-		name: 'staffPositions',
-		path: `${paths.CATALOG.path}/staffPositions`,
-		title: 'Должности',
-		hierarchical: false,
-		unique: 'должность',
-		// SaveForm: BaseModal,
-	},
+	// {
+	// 	name: 'departments',
+	// 	path: `${paths.CATALOG.path}/departments`,
+	// 	title: 'Организационная структура предприятия',
+	// 	hierarchical: true,
+	// 	unique: 'департамент',
+
+	// },
+	// {
+	// 	name: 'techMapsStatuses',
+	// 	path: `${paths.CATALOG.path}/techMapsStatuses`,
+	// 	title: 'Статусы технологических карт',
+	// 	hierarchical: false,
+	// 	unique: 'статус',
+
+	// },
+	// {
+	// 	name: 'staffPositions',
+	// 	path: `${paths.CATALOG.path}/staffPositions`,
+	// 	title: 'Должности',
+	// 	hierarchical: false,
+	// 	unique: 'должность',
+
+	// },
 	{
 		name: 'equipments',
 		path: `${paths.CATALOG.path}/equipments`,

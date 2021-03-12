@@ -2,7 +2,7 @@ import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../../apis/catalog.api';
 
 export const addDefaultButton = (catalogName, unique) =>
 	operationOnServer('add', catalogName, unique);

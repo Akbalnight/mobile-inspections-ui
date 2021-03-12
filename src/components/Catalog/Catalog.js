@@ -8,13 +8,15 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {catalogConfigs} from './catalogConfigs';
-import {CatalogForm} from './CatalogForm';
+import {CatalogDecForm} from './CatalogDecForm';
+// import {CatalogForm} from './CatalogForm';
 // import CatalogData from './CatalogData';
 
 const CATALOG_DATA_PATH = {
 	title: 'Справочник',
 	path: '/catalog/:name',
-	component: CatalogForm,
+	// component: CatalogForm,
+	component: CatalogDecForm,
 };
 
 const Catalog = () => {
