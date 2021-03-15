@@ -67,7 +67,7 @@ const operationOnServer = (type, catalogName, unique) => {
 					path: `rtd.catalog.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
-						console.log(value);
+						// console.log(value);
 						type === 'edit' &&
 							setButtonProps &&
 							setButtonProps({

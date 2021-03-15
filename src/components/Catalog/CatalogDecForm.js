@@ -8,7 +8,8 @@ import {
 import {AddObjectButton, EditObjectButton} from './Modals/btnDecCustomObject';
 import {AddGroupButton, EditGroupButton} from './Modals/btnDecCustomGroup';
 import {DeleteButton} from './Modals/btnDecDelete';
-import {ModalView} from './Modals/modalView';
+import {ModalObjectView} from './Modals/modalObjectView';
+import {ModalGroupView} from './Modals/modalGroupView';
 
 const {Form, FormBody, Table, Row} = classic;
 export const CatalogDecForm = (props) => {
@@ -31,7 +32,8 @@ export const CatalogDecForm = (props) => {
 						unique={unique}
 					/>
 					<DeleteButton catalogName={catalogName} unique={unique} />
-					<ModalView catalogName={catalogName} />
+					<ModalObjectView catalogName={catalogName} />
+					<ModalGroupView catalogName={catalogName} />
 				</Row>
 
 				<Table

@@ -5,79 +5,79 @@ export const itemsInfo = {
 	typeEquipment: {
 		name: 'typeEquipment',
 		label: 'Тип единицы оборудования',
-		className: 'mb-0',
+		className: 'mb-8',
 	},
 	sapId: {
 		name: 'sapId',
 		label: 'SAP_ID',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	name: {
 		name: 'name',
 		label: 'Наименование',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	techPlacePath: {
 		name: 'techPlacePath',
 		label: 'Код технического места',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	parentId: {
 		name: 'parentId',
 		label: 'Техническое место',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	constructionType: {
 		name: 'constructionType',
 		label: 'Тип конструкции',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	material: {
 		name: 'material',
 		label: 'Материал',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	size: {
 		name: 'size',
 		label: 'Величина/размер',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	weight: {
 		name: 'weight',
 		label: 'Вес',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	manufacturer: {
 		name: 'manufacturer',
 		label: 'Изготовитель',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	deleted: {
 		name: 'deleted',
 		label: 'Метка удаления',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	dateFinish: {
 		name: 'dateFinish',
 		label: 'Действителен до',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 	measuringPoints: {
 		name: 'measuringPoints',
 		label: 'Точки измерений',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 
 	dateWarrantyStart: {
 		name: 'dateWarrantyStart',
 		label: 'Начало гарантии',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 
 	dateWarrantyFinish: {
 		name: 'dateWarrantyFinish',
 		label: 'Окончание гарантии',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 
 	/*
@@ -86,7 +86,7 @@ export const itemsInfo = {
 	techPlace: {
 		name: 'techPlace',
 		label: 'Техническое место',
-		className: 'mt-8 mb-0',
+		className: 'mb-8',
 	},
 };
 
