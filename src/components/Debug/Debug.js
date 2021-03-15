@@ -10,7 +10,7 @@ import {editModalDebug} from './editModalDebug';
 import {selectModalDebug} from './selectModalDebug';
 
 // Импорт новой формы
-import {classic, components} from 'rt-design';
+import {components, classic} from 'rt-design';
 const {Form} = components;
 
 /** 1. Компоненты InfinityTable, ServerTable, LocalTable заменены на просто Table
