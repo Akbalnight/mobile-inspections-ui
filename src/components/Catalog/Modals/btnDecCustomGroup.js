@@ -56,9 +56,7 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 				},
 			}}
 			dispatch={{
-				path: `catalog.${catalogName}Table.modal.events.on${
-					type[0].toUpperCase() + type.substring(1)
-				}GroupModal`,
+				path: `catalog.${catalogName}Table.modal.events.${type}OnGroupModal`,
 				type: 'event',
 			}}
 			subscribe={[

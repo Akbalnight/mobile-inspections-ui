@@ -40,8 +40,8 @@ export const CatalogDecForm = (props) => {
 				</Row>
 
 				<Table
-					// ref={_setTableRef}
 					itemProps={{name: 'table'}}
+					// filter={{deleted: true}}
 					fixWidthColumn={true}
 					dispatchPath={`catalog.${catalogName}Table.table`}
 					requestLoadRows={
@@ -51,30 +51,45 @@ export const CatalogDecForm = (props) => {
 					}
 					requestLoadConfig={apiGetConfigByName(catalogName)}
 					subscribe={[
-						/** Событие создания */
+						/** Событие создания оборудования*/
 						{
 							name: 'onAddModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.addOnModal`,
-							onChange: ({value, addRow}) => {
-								console.log('add');
-								addRow(value.value);
+							onChange: ({value, reloadTable}) => {
+								reloadTable({});
 							},
 						},
-						/** Событие редактирования */
+						/** Событие редактирования оборудования*/
 						{
 							name: 'onEditModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.editOnModal`,
-							onChange: ({value, editRow}) => {
-								editRow(value.value);
+							onChange: ({value, reloadTable}) => {
+								reloadTable({});
 							},
 						},
-						/** Событие удаления */
+						/** Событие создания Группы оборудования*/
+						{
+							name: 'onAddGroupModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.addOnGroupModal`,
+							onChange: ({value, reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Событие редактирования Группы оборудования*/
+						{
+							name: 'onEditGroupModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.editOnGroupModal`,
+							onChange: ({value, reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Событие удаления оборудования*/
 						{
 							name: 'onDeleteModal',
-							path: `rtd.catalog.${catalogName}Table.modal.events.onDeleteModal`,
-							onChange: ({value, removeRow}) => {
-								console.log(value.value);
-								removeRow();
+							path: `rtd.catalog.${catalogName}Table.modal.events.deleteOnModal`,
+							onChange: ({value, reloadTable}) => {
+								console.log(value);
+								reloadTable({});
 							},
 						},
 					]}

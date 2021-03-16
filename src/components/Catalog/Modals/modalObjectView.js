@@ -28,6 +28,9 @@ const {
 } = classic;
 
 export const ModalObjectView = ({catalogName}) => {
+	// let extraData
+	// console.log(extraData)
+
 	return (
 		<Modal
 			modalConfig={{
@@ -37,7 +40,26 @@ export const ModalObjectView = ({catalogName}) => {
 				bodyStyle: {height: 650},
 				form: {
 					name: `${catalogName}ModalObjectInfoForm`,
-					loadInitData: (callBack, row) => callBack(row),
+					// loadInitData: (callBack, row) => callBack(row),
+					loadInitData: (callBack, row) => {
+						const dataObjectWarranty = {
+							equipmentFiles: {
+								equipmentId: row.id,
+								type: 'warranty',
+							},
+						};
+						const dataObjectAttachment = {
+							equipmentFiles: {
+								equipmentId: row.id,
+								type: 'attachment',
+							},
+						};
+						callBack({
+							...row,
+							warrantyUploadObject: dataObjectWarranty,
+							attachmentUploadObject: dataObjectAttachment,
+						});
+					},
 					labelCol: {span: 12},
 					wrapperCol: {span: 6},
 				},
@@ -145,10 +167,7 @@ export const ModalObjectView = ({catalogName}) => {
 					</TabPane>
 					<TabPane tab={<WarrantyTab />} key={'warranty'}>
 						<Layout>
-							<Space
-								// className={'ml-16'}
-								style={{justifyContent: 'space-between'}}
-							>
+							<Space style={{justifyContent: 'space-between'}}>
 								<DateText
 									itemProps={{
 										...itemsInfo.dateWarrantyStart,
@@ -169,57 +188,23 @@ export const ModalObjectView = ({catalogName}) => {
 								/>
 
 								<UploadFile
-									itemProps={{name: 'uploadWarranty'}}
+									itemProps={{
+										name: 'warrantyUploadObject',
+										valuePropName: 'dataObject',
+									}}
 									requestUploadFile={apiSaveFileByConfigName(
 										`${catalogName}FilesCatalogSave`
 									)}
-									// dataObject={{
-									//     equipmentFiles: {
-									//         // id: null,
-									//         equipmentId:
-									//             '8935c92d-67a9-4df5-9f8b-d43ea013190e',
-									//         // fileId: null,
-									//         type:'warranty'
-									//
-									//     },
-									// }}
 									dispatch={{
 										path: `catalog.${catalogName}Table.modal.warrantyUpload`,
+										type: 'event',
 									}}
-									subscribe={[
-										{
-											name: `${catalogName}ModalInfoUpload`,
-											path: `rtd.catalog.${catalogName}Table.modal.warrantyUpload`,
-											// path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
-											onChange: ({
-												value,
-												setSubscribeProps,
-											}) => {
-												console.log('upload', value);
-												// 	value &&
-												// 		setSubscribeProps &&
-												// 		setSubscribeProps({
-												// 			dataObject: {
-												// 				equipmentFiles: {
-												// 					// id: null,
-												// 					equipmentId:
-												// 						value.value
-												// 							.id,
-												// 					// fileId: null,
-												// 					type:
-												// 						'warranty',
-												// 				},
-												// 			},
-												// 		});
-											},
-										},
-									]}
 								/>
 							</Space>
 							<Divider className={'mt-8 mb-0'} />
 							<Table
 								itemProps={{name: 'warrantyTableFiles'}}
-								// filter={{type: 'warranty'}}
+								defaultFilter={{type: 'warranty'}}
 								infinityMode={true}
 								requestLoadRows={apiGetFlatDataByConfigName(
 									'equipmentFiles'
@@ -232,7 +217,11 @@ export const ModalObjectView = ({catalogName}) => {
 										name: 'warrantyUploadFile',
 										path: `rtd.catalog.${catalogName}Table.modal.warrantyUpload`,
 										onChange: ({reloadTable}) => {
-											reloadTable({});
+											reloadTable({
+												filter: {
+													type: 'warranty',
+												},
+											});
 										},
 									},
 								]}
@@ -246,60 +235,31 @@ export const ModalObjectView = ({catalogName}) => {
 								style={{justifyContent: 'space-between'}}
 							>
 								<UploadFile
-									itemProps={{name: 'uploadAttachments'}}
+									itemProps={{
+										name: 'attachmentUploadObject',
+										valuePropName: 'dataObject',
+									}}
 									requestUploadFile={apiSaveFileByConfigName(
 										`${catalogName}FilesCatalogSave`
 									)}
-									// dataObject={{
-									//     routeMap: {
-									//         id: null,
-									//         routeId:
-									//             'ad524bdf-d42d-4dea-82ca-dee022dbcaeb',
-									//         fileId: null,
-									//         position: 3,
-									//     },
-									// }}
 									dispatch={{
-										path: `catalog.${catalogName}Table.modal.attachmentsUpload`,
+										path: `catalog.${catalogName}Table.modal.attachmentUpload`,
+										type: 'event',
 									}}
-									subscribe={[
-										{
-											name: `${catalogName}ModalInfo`,
-											path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
-											onChange: ({
-												value,
-												setSubscribeProps,
-											}) => {
-												console.log(value.value);
-												// value &&
-												// setSubscribeProps &&
-												setSubscribeProps({
-													dataObject: {
-														equipmentFiles: {
-															// id: null,
-															equipmentId:
-																value.value.id,
-															// fileId: null,
-															type: 'attachment',
-														},
-													},
-												});
-												// setSubscribeProps({ dataObject: {...value.value} })
-											},
-										},
-									]}
 								/>
 								<Search
 									itemProps={{name: 'searchAttachments'}}
 									dispatch={{
-										path: `catalog.${catalogName}Table.modal.attachmentsSearch`,
+										path: `catalog.${catalogName}Table.modal.attachmentSearch`,
 									}}
 								/>
 							</Space>
 							<Divider className={'mt-0 mb-8'} />
 							<Table
-								itemProps={{name: 'warrantyTableFiles'}}
+								itemProps={{name: 'attachmentTableFiles'}}
+								defaultFilter={{type: 'attachment'}}
 								searchParamName={'name'}
+								infinityMode={true}
 								requestLoadRows={apiGetFlatDataByConfigName(
 									'equipmentFiles'
 								)}
@@ -308,16 +268,20 @@ export const ModalObjectView = ({catalogName}) => {
 								)} //
 								subscribe={[
 									{
-										name: 'warrantyUploadFile',
-										path: `rtd.catalog.${catalogName}Table.modal.attachmentsUpload`,
+										name: 'attachmentUploadFile',
+										path: `rtd.catalog.${catalogName}Table.modal.attachmentUpload`,
 										onChange: ({reloadTable}) => {
-											reloadTable({});
+											reloadTable({
+												filter: {
+													type: 'attachment',
+												},
+											});
 										},
 									},
 									/** Поиск по таблице*/
 									{
 										name: 'warrantyUploadFile',
-										path: `rtd.catalog.${catalogName}Table.modal.attachmentsSearch`,
+										path: `rtd.catalog.${catalogName}Table.modal.attachmentSearch`,
 										onChange: ({value, reloadTable}) => {
 											console.log(value);
 											reloadTable({searchValue: value});
