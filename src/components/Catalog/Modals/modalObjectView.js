@@ -36,7 +36,7 @@ export const ModalObjectView = ({catalogName}) => {
 				width: 750,
 				bodyStyle: {height: 650},
 				form: {
-					name: `${catalogName}ModalInfoForm`,
+					name: `${catalogName}ModalObjectInfoForm`,
 					loadInitData: (callBack, row) => callBack(row),
 					labelCol: {span: 12},
 					wrapperCol: {span: 6},
@@ -47,7 +47,7 @@ export const ModalObjectView = ({catalogName}) => {
 					name: `${catalogName}ModalInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
-						console.log(value.value);
+						// console.log(value.value);
 						value &&
 							setModalData &&
 							setModalData({
@@ -88,7 +88,7 @@ export const ModalObjectView = ({catalogName}) => {
 							/>
 							<Text
 								itemProps={{
-									...itemsInfo.techPlace,
+									...itemsInfo.parentId,
 								}}
 							/>
 							<Text
@@ -119,6 +119,7 @@ export const ModalObjectView = ({catalogName}) => {
 							<Checkbox
 								itemProps={{
 									...itemsInfo.deleted,
+									valuePropName: 'checked',
 								}}
 								disabled={true}
 							/>
@@ -126,6 +127,7 @@ export const ModalObjectView = ({catalogName}) => {
 								itemProps={{
 									...itemsInfo.dateFinish,
 								}}
+								format={'DD MMM YYYY'}
 							/>
 						</Layout>
 					</TabPane>
@@ -150,18 +152,20 @@ export const ModalObjectView = ({catalogName}) => {
 								<DateText
 									itemProps={{
 										...itemsInfo.dateWarrantyStart,
-										className: 'mt-0 mb-0 mr-0',
-										labelCol: {span: 22},
-										// wrapperCol: {span: 2},
+										className: 'mt-0 mb-0',
+										labelCol: {span: 14},
+										wrapperCol: {span: 10},
 									}}
+									format={'DD MMM YYYY'}
 								/>
 								<DateText
 									itemProps={{
 										...itemsInfo.dateWarrantyFinish,
 										className: 'mt-0 mb-0',
-										labelCol: {span: 22},
-										// wrapperCol: {span: 2},
+										labelCol: {span: 15},
+										wrapperCol: {span: 9},
 									}}
+									format={'DD MMM YYYY'}
 								/>
 
 								<UploadFile
@@ -184,38 +188,39 @@ export const ModalObjectView = ({catalogName}) => {
 									}}
 									subscribe={[
 										{
-											name: `${catalogName}ModalInfo`,
-											path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
+											name: `${catalogName}ModalInfoUpload`,
+											path: `rtd.catalog.${catalogName}Table.modal.warrantyUpload`,
+											// path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
 											onChange: ({
 												value,
 												setSubscribeProps,
 											}) => {
-												console.log(value.value);
-												value &&
-													setSubscribeProps &&
-													setSubscribeProps({
-														dataObject: {
-															equipmentFiles: {
-																// id: null,
-																equipmentId:
-																	value.value
-																		.id,
-																// fileId: null,
-																type:
-																	'warranty',
-															},
-														},
-													});
+												console.log('upload', value);
+												// 	value &&
+												// 		setSubscribeProps &&
+												// 		setSubscribeProps({
+												// 			dataObject: {
+												// 				equipmentFiles: {
+												// 					// id: null,
+												// 					equipmentId:
+												// 						value.value
+												// 							.id,
+												// 					// fileId: null,
+												// 					type:
+												// 						'warranty',
+												// 				},
+												// 			},
+												// 		});
 											},
 										},
 									]}
 								/>
 							</Space>
 							<Divider className={'mt-8 mb-0'} />
-
 							<Table
 								itemProps={{name: 'warrantyTableFiles'}}
 								// filter={{type: 'warranty'}}
+								infinityMode={true}
 								requestLoadRows={apiGetFlatDataByConfigName(
 									'equipmentFiles'
 								)}

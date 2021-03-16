@@ -14,6 +14,9 @@ import {ModalGroupView} from './Modals/modalGroupView';
 const {Form, FormBody, Table, Row} = classic;
 export const CatalogDecForm = (props) => {
 	const {catalogName, hierarchical, unique} = props;
+	// const [tableRef, setTableRef] = useState({});
+	// const _setTableRef = (ref) => setTableRef(ref);
+
 	return (
 		<Form>
 			<FormBody noPadding={true} name={'catalogSideFormDec'}>
@@ -37,6 +40,7 @@ export const CatalogDecForm = (props) => {
 				</Row>
 
 				<Table
+					// ref={_setTableRef}
 					itemProps={{name: 'table'}}
 					fixWidthColumn={true}
 					dispatchPath={`catalog.${catalogName}Table.table`}
@@ -52,6 +56,7 @@ export const CatalogDecForm = (props) => {
 							name: 'onAddModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.addOnModal`,
 							onChange: ({value, addRow}) => {
+								console.log('add');
 								addRow(value.value);
 							},
 						},

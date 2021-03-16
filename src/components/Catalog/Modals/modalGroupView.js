@@ -9,14 +9,14 @@ export const ModalGroupView = ({catalogName}) => {
 		<Modal
 			modalConfig={{
 				type: 'viewObject',
-				title: `Карточка оборудования`,
+				title: `Карточка группы оборудования`,
 				width: 450,
-				bodyStyle: {height: 350},
+				bodyStyle: {height: 250},
 				form: {
-					name: `${catalogName}ModalInfoForm`,
+					name: `${catalogName}ModalGroupInfoForm`,
 					loadInitData: (callBack, row) => callBack(row),
 					labelCol: {span: 12},
-					wrapperCol: {span: 6},
+					wrapperCol: {span: 12},
 				},
 			}}
 			subscribe={[
@@ -24,7 +24,7 @@ export const ModalGroupView = ({catalogName}) => {
 					name: `${catalogName}ModalInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
-						console.log(value.value);
+						// console.log(value.value);
 						value &&
 							setModalData &&
 							setModalData({
@@ -49,6 +49,7 @@ export const ModalGroupView = ({catalogName}) => {
 				<Text
 					itemProps={{
 						...itemsInfo.parentId,
+						label: 'Родитель',
 					}}
 				/>
 			</FormBody>

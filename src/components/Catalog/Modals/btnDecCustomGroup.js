@@ -1,17 +1,20 @@
 import {classic} from 'rt-design';
 import {EditOutlined, FolderAddOutlined} from '@ant-design/icons';
-import {apiGetHierarchicalDataByConfigName} from '../../../apis/catalog.api';
+import {
+	apiGetHierarchicalDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
 import React from 'react';
 import {itemsInfo} from '../tableProps';
 
-export const AddGroupButton = ({catalogName, unique}) =>
-	operationOnServer('add', catalogName, unique);
-export const EditGroupButton = ({catalogName, unique}) =>
-	operationOnServer('edit', catalogName, unique);
+export const AddGroupButton = ({catalogName, unique, tableRef}) =>
+	operationOnServer('add', catalogName, unique, tableRef);
+export const EditGroupButton = ({catalogName, unique, tableRef}) =>
+	operationOnServer('edit', catalogName, unique, tableRef);
 
 const {Modal, FormBody, Input, TreeSelect} = classic;
 
-const operationOnServer = (type, catalogName, unique) => {
+const operationOnServer = (type, catalogName, unique, tableRef) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
@@ -36,11 +39,14 @@ const operationOnServer = (type, catalogName, unique) => {
 				} ${unique}`,
 				width: 550,
 				bodyStyle: {height: 250},
-				// requestSaveRow: apiSaveByConfigName(
-				// 	`${catalogName}CatalogSave`
-				// ), //не забыть поставить
+				requestSaveRow: ({method, data, params}) =>
+					apiSaveByConfigName(`${catalogName}CatalogSave`)({
+						method: type === 'add' ? 'POST' : 'PUT',
+						data: {...data, isGroup: true},
+						params,
+					}), //не забыть поставить
 				form: {
-					name: `${type}ModalForm`,
+					name: `${type}GroupModalForm`,
 					loadInitData: loadData,
 					onFinish: (values) => {
 						console.log('values', values);
@@ -85,7 +91,7 @@ const operationOnServer = (type, catalogName, unique) => {
 						})
 					}
 					optionConverter={(option) => ({
-						value: option.techPlacePath, //change
+						value: option.id, //change
 						label: option.name,
 						children: option.children,
 						// checkable: !option.isGroup,

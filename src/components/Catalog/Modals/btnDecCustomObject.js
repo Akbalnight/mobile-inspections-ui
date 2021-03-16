@@ -1,7 +1,10 @@
 import React from 'react';
 import {classic} from 'rt-design';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {apiGetHierarchicalDataByConfigName} from '../../../apis/catalog.api';
+import {
+	apiGetHierarchicalDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
 import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
 import {itemsInfo} from '../tableProps';
 
@@ -43,9 +46,9 @@ const operationOnServer = (type, catalogName, unique) => {
 				} ${unique}`,
 				width: 550,
 				bodyStyle: {height: 750},
-				// requestSaveRow: apiSaveByConfigName(
-				// 	`${catalogName}CatalogSave`
-				// ), //не забыть поставить
+				requestSaveRow: apiSaveByConfigName(
+					`${catalogName}CatalogSave`
+				), //не забыть поставить
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
@@ -54,7 +57,6 @@ const operationOnServer = (type, catalogName, unique) => {
 					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
-					// body: [...mainFields],
 				},
 			}}
 			dispatch={{
@@ -109,7 +111,7 @@ const operationOnServer = (type, catalogName, unique) => {
 						})
 					}
 					optionConverter={(option) => ({
-						value: option.techPlacePath, //change
+						value: option.id, //change
 						label: option.name,
 						children: option.children,
 						// checkable: !option.isGroup,
@@ -127,7 +129,13 @@ const operationOnServer = (type, catalogName, unique) => {
 				<Checkbox
 					itemProps={{...itemsInfo.deleted, valuePropName: 'checked'}}
 				/>
-				<DatePicker itemProps={{...itemsInfo.dateFinish}} />
+
+				<DatePicker
+					itemProps={{...itemsInfo.dateFinish}}
+					onChange={(date, dateString) => {
+						return dateString;
+					}}
+				/>
 				<Title label={'Гарантии'} level={5} />
 				<DatePicker
 					itemProps={{...itemsInfo.dateWarrantyStart}}
@@ -157,6 +165,7 @@ const operationOnServer = (type, catalogName, unique) => {
 							name: 'endDate',
 							path: `rtd.catalog.${catalogName}Table.modal.${type}ModalStartDate`,
 							onChange: ({value, setSubscribeProps}) => {
+								// console.log(value)
 								setSubscribeProps({
 									disabledDate: (endValue) =>
 										disabledEndDate(value, endValue),
