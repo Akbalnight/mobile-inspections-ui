@@ -28,8 +28,7 @@ const {
 } = classic;
 
 export const ModalObjectView = ({catalogName}) => {
-	// let extraData
-	// console.log(extraData)
+	let sRow;
 
 	return (
 		<Modal
@@ -42,6 +41,7 @@ export const ModalObjectView = ({catalogName}) => {
 					name: `${catalogName}ModalObjectInfoForm`,
 					// loadInitData: (callBack, row) => callBack(row),
 					loadInitData: (callBack, row) => {
+						sRow = row;
 						const dataObjectWarranty = {
 							equipmentFiles: {
 								equipmentId: row.id,
@@ -204,11 +204,18 @@ export const ModalObjectView = ({catalogName}) => {
 							<Divider className={'mt-8 mb-0'} />
 							<Table
 								itemProps={{name: 'warrantyTableFiles'}}
-								defaultFilter={{type: 'warranty'}}
+								defaultFilter={{
+									type: 'warranty',
+								}}
 								infinityMode={true}
-								requestLoadRows={apiGetFlatDataByConfigName(
-									'equipmentFiles'
-								)}
+								requestLoadRows={({data, params}) =>
+									apiGetFlatDataByConfigName(
+										'equipmentFiles'
+									)({
+										data: {...data, equipmentId: sRow.id},
+										params,
+									})
+								}
 								requestLoadConfig={apiGetConfigByName(
 									'equipmentFiles'
 								)} //
@@ -260,9 +267,14 @@ export const ModalObjectView = ({catalogName}) => {
 								defaultFilter={{type: 'attachment'}}
 								searchParamName={'name'}
 								infinityMode={true}
-								requestLoadRows={apiGetFlatDataByConfigName(
-									'equipmentFiles'
-								)}
+								requestLoadRows={({data, params}) =>
+									apiGetFlatDataByConfigName(
+										'equipmentFiles'
+									)({
+										data: {...data, equipmentId: sRow.id},
+										params,
+									})
+								}
 								requestLoadConfig={apiGetConfigByName(
 									'equipmentFiles'
 								)} //

@@ -14,9 +14,8 @@ import {ModalGroupView} from './Modals/modalGroupView';
 const {Form, FormBody, Table, Row} = classic;
 export const CatalogDecForm = (props) => {
 	const {catalogName, hierarchical, unique} = props;
-	// const [tableRef, setTableRef] = useState({});
-	// const _setTableRef = (ref) => setTableRef(ref);
 
+	//({data,params})=>apiGetHierarchicalDataByConfigName(catalogName)({data:{...data,deleted:true},params})
 	return (
 		<Form>
 			<FormBody noPadding={true} name={'catalogSideFormDec'}>
@@ -41,7 +40,7 @@ export const CatalogDecForm = (props) => {
 
 				<Table
 					itemProps={{name: 'table'}}
-					// filter={{deleted: true}}
+					// defaultFilter={{deleted: true}}
 					fixWidthColumn={true}
 					dispatchPath={`catalog.${catalogName}Table.table`}
 					requestLoadRows={
@@ -55,7 +54,7 @@ export const CatalogDecForm = (props) => {
 						{
 							name: 'onAddModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.addOnModal`,
-							onChange: ({value, reloadTable}) => {
+							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
 						},
@@ -63,7 +62,7 @@ export const CatalogDecForm = (props) => {
 						{
 							name: 'onEditModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.editOnModal`,
-							onChange: ({value, reloadTable}) => {
+							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
 						},
@@ -71,7 +70,7 @@ export const CatalogDecForm = (props) => {
 						{
 							name: 'onAddGroupModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.addOnGroupModal`,
-							onChange: ({value, reloadTable}) => {
+							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
 						},
@@ -79,7 +78,7 @@ export const CatalogDecForm = (props) => {
 						{
 							name: 'onEditGroupModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.editOnGroupModal`,
-							onChange: ({value, reloadTable}) => {
+							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
 						},
@@ -87,8 +86,7 @@ export const CatalogDecForm = (props) => {
 						{
 							name: 'onDeleteModal',
 							path: `rtd.catalog.${catalogName}Table.modal.events.deleteOnModal`,
-							onChange: ({value, reloadTable}) => {
-								console.log(value);
+							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
 						},
