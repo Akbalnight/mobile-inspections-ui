@@ -1,6 +1,11 @@
 import React from 'react';
 import {classic} from 'rt-design';
-import {EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {
+	EditOutlined,
+	FolderOutlined,
+	PlusOutlined,
+	ToolOutlined,
+} from '@ant-design/icons';
 import {
 	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
@@ -112,7 +117,16 @@ const operationOnServer = (type, catalogName, unique) => {
 					}
 					optionConverter={(option) => ({
 						value: option.id, //change
-						label: option.name,
+						label: (
+							<span>
+								{option.isGroup ? (
+									<FolderOutlined />
+								) : (
+									<ToolOutlined />
+								)}{' '}
+								{option.name}
+							</span>
+						),
 						children: option.children,
 						// checkable: !option.isGroup,
 						// selectable: !option.isGroup,
@@ -135,6 +149,7 @@ const operationOnServer = (type, catalogName, unique) => {
 					onChange={(date, dateString) => {
 						return dateString;
 					}}
+					format={'DD.MM.YYYY'}
 				/>
 				<Title label={'Гарантии'} level={5} />
 				<DatePicker
@@ -154,6 +169,7 @@ const operationOnServer = (type, catalogName, unique) => {
 							},
 						},
 					]}
+					format={'DD.MM.YYYY'}
 				/>
 				<DatePicker
 					itemProps={{...itemsInfo.dateWarrantyFinish}}
@@ -173,6 +189,7 @@ const operationOnServer = (type, catalogName, unique) => {
 							},
 						},
 					]}
+					format={'DD.MM.YYYY'}
 				/>
 			</FormBody>
 		</Modal>

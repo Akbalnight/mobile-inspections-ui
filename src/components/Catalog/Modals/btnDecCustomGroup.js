@@ -36,7 +36,7 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 				type: `${type}GroupOnServer`,
 				title: `${
 					type === 'add' ? 'Создать' : 'Редактировать'
-				} ${unique}`,
+				} группу ${unique}`,
 				width: 550,
 				bodyStyle: {height: 250},
 				requestSaveRow: ({method, data, params}) =>

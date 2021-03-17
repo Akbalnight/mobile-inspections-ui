@@ -48,8 +48,8 @@ export const ModalGroupView = ({catalogName}) => {
 				/>
 				<Text
 					itemProps={{
-						...itemsInfo.parentId,
-						label: 'Родитель',
+						...itemsInfo.techPlace,
+						// label: 'Родитель',
 					}}
 				/>
 			</FormBody>

@@ -24,7 +24,6 @@ const {
 	UploadFile,
 	Table,
 	Divider,
-	Search,
 } = classic;
 
 export const ModalObjectView = ({catalogName}) => {
@@ -69,7 +68,7 @@ export const ModalObjectView = ({catalogName}) => {
 					name: `${catalogName}ModalInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
-						// console.log(value.value);
+						console.log(value.value);
 						value &&
 							setModalData &&
 							setModalData({
@@ -110,7 +109,7 @@ export const ModalObjectView = ({catalogName}) => {
 							/>
 							<Text
 								itemProps={{
-									...itemsInfo.parentId,
+									...itemsInfo.parentName,
 								}}
 							/>
 							<Text
@@ -149,7 +148,7 @@ export const ModalObjectView = ({catalogName}) => {
 								itemProps={{
 									...itemsInfo.dateFinish,
 								}}
-								format={'DD MMM YYYY'}
+								format={'DD.MM.YYYY'}
 							/>
 						</Layout>
 					</TabPane>
@@ -175,7 +174,7 @@ export const ModalObjectView = ({catalogName}) => {
 										labelCol: {span: 14},
 										wrapperCol: {span: 10},
 									}}
-									format={'DD MMM YYYY'}
+									format={'DD.MM.YYYY'}
 								/>
 								<DateText
 									itemProps={{
@@ -184,7 +183,7 @@ export const ModalObjectView = ({catalogName}) => {
 										labelCol: {span: 15},
 										wrapperCol: {span: 9},
 									}}
-									format={'DD MMM YYYY'}
+									format={'DD.MM.YYYY'}
 								/>
 
 								<UploadFile
@@ -239,7 +238,7 @@ export const ModalObjectView = ({catalogName}) => {
 						<Layout>
 							<Space
 								className={'p-8'}
-								style={{justifyContent: 'space-between'}}
+								style={{justifyContent: 'flex-end'}}
 							>
 								<UploadFile
 									itemProps={{
@@ -254,14 +253,7 @@ export const ModalObjectView = ({catalogName}) => {
 										type: 'event',
 									}}
 								/>
-								<Search
-									itemProps={{name: 'searchAttachments'}}
-									dispatch={{
-										path: `catalog.${catalogName}Table.modal.attachmentSearch`,
-									}}
-								/>
 							</Space>
-							<Divider className={'mt-0 mb-8'} />
 							<Table
 								itemProps={{name: 'attachmentTableFiles'}}
 								defaultFilter={{type: 'attachment'}}

@@ -1,3 +1,18 @@
+import {classic} from 'rt-design';
+import {DeleteButton} from './Modals/btnDecDelete';
+import {AddObjectButton, EditObjectButton} from './Modals/btnDecCustomObject';
+import {AddGroupButton, EditGroupButton} from './Modals/btnDecCustomGroup';
+import {ModalObjectView} from './Modals/modalObjectView';
+import {ModalGroupView} from './Modals/modalGroupView';
+import React from 'react';
+import {
+	AddDefaultButton,
+	EditDefaultButton,
+} from './Modals/btnDecDefaultObject';
+import {ModalDefaultObjectView} from './Modals/modalDefaultObjectView';
+import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
+
+const {Row, Checkbox} = classic;
 export const itemsInfo = {
 	/*
 	 * btnDecCustomObject.js
@@ -79,52 +94,86 @@ export const itemsInfo = {
 		label: 'Окончание гарантии',
 		className: 'mb-8',
 	},
+	parentName: {
+		name: 'parentName',
+		label: 'Техническое место',
+		className: 'mb-8',
+	},
 
-	/*
+	/**
 	 * btnDecCustomGroup.js
-	 * */
+	 */
 	techPlace: {
 		name: 'techPlace',
 		label: 'Техническое место',
 		className: 'mb-8',
 	},
+	/**
+	 * modalDefaultObjectView.js
+	 */
+	code: {
+		name: 'code',
+		label: 'Код',
+		className: 'mb-8',
+	},
 };
 
-// import {addCustomButton, editCustomButton} from './Modals/legacy/btnCustomObject';
-// import {addGroupButton, editGroupButton} from './Modals/legacy/btnCustomGroup';
-// import {addDefaultButton, editDefaultButton} from './Modals/legacy/btnDefaultObject';
-// import {deleteButton} from './Modals/legacy/btnDelete';
-// import {modalDefaultInfo} from './Modals/legacy/modalDefaultInfo';
-//
-// export const headerTable = (catalogName, unique) => {
-// 	const defaultModals = [
-// 		addDefaultButton(catalogName, unique),
-// 		editDefaultButton(catalogName, unique),
-// 		deleteButton(catalogName, unique),
-// 		modalDefaultInfo(catalogName),
-// 	];
-// 	const customModals = [
-// 		addCustomButton(catalogName, unique),
-// 		addGroupButton(catalogName, unique),
-// 		editCustomButton(catalogName, unique),
-// 		editGroupButton(catalogName, unique),
-// 		deleteButton(catalogName, unique),
-// 	];
-// 	return {
-// 		componentType: 'Row', // комментарий ниже
-// 		className: 'p-8',
-// 		children: [
-// 			...(catalogName !== 'equipments' ? defaultModals : customModals),
-// 		],
-// 	};
-// };
+export const CatalogTableHeader = ({catalogName, unique}) => {
+	return (
+		<Row className={'p-8'}>
+			{catalogName !== 'equipments' ? (
+				<>
+					<AddDefaultButton
+						catalogName={catalogName}
+						unique={unique}
+					/>
+					<EditDefaultButton
+						catalogName={catalogName}
+						unique={unique}
+					/>
+					<DeleteButton catalogName={catalogName} unique={unique} />
+					<ModalDefaultObjectView catalogName={catalogName} />
+				</>
+			) : (
+				<>
+					<AddObjectButton
+						catalogName={catalogName}
+						unique={unique}
+					/>
+					<AddGroupButton catalogName={catalogName} unique={unique} />
+					<EditObjectButton
+						catalogName={catalogName}
+						unique={unique}
+					/>
+					<EditGroupButton
+						catalogName={catalogName}
+						unique={unique}
+					/>
+					<DeleteButton catalogName={catalogName} unique={unique} />
+					<ModalObjectView catalogName={catalogName} />
+					<ModalGroupView catalogName={catalogName} />
+				</>
+			)}
+		</Row>
+	);
+};
 
-/** Если возвращаемый компонент Space используем данную конструкцию
- * {
-			componentType: 'Row',
-			children: [
-				editCustomButton(catalogName, unique),
-				editGroupButton(catalogName, unique),
-			],
+export const customColumnPropsEquipments = [
+	{
+		name: 'deleted',
+		cellRenderer: ({cellData}) => {
+			return <Checkbox checked={cellData} disabled />;
 		},
- */
+	},
+	{
+		name: 'techPlacePath',
+		cellRenderer: ({rowData, cellData}) => {
+			return (
+				<span>
+					{rowData.isGroup ? <FolderOutlined /> : <ToolOutlined />}{' '}
+					{cellData}
+				</span>
+			);
+		},
+	},
+];

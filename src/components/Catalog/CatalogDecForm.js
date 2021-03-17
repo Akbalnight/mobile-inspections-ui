@@ -10,15 +10,22 @@ import {AddGroupButton, EditGroupButton} from './Modals/btnDecCustomGroup';
 import {DeleteButton} from './Modals/btnDecDelete';
 import {ModalObjectView} from './Modals/modalObjectView';
 import {ModalGroupView} from './Modals/modalGroupView';
+import {customColumnPropsEquipments} from './tableProps';
+// import {CatalogTableHeader} from "./tableProps";
 
 const {Form, FormBody, Table, Row} = classic;
 export const CatalogDecForm = (props) => {
 	const {catalogName, hierarchical, unique} = props;
 
 	//({data,params})=>apiGetHierarchicalDataByConfigName(catalogName)({data:{...data,deleted:true},params})
+	/**
+	 * CatalogTableHeader - done, uncomment and catalogConfigs.js change
+	 */
 	return (
 		<Form>
 			<FormBody noPadding={true} name={'catalogSideFormDec'}>
+				{/*<CatalogTableHeader catalogName={catalogName} unique={unique}/>*/}
+
 				<Row className={'p-8'}>
 					<AddObjectButton
 						catalogName={catalogName}
@@ -49,6 +56,7 @@ export const CatalogDecForm = (props) => {
 							: apiGetFlatDataByConfigName(catalogName)
 					}
 					requestLoadConfig={apiGetConfigByName(catalogName)}
+					customColumnProps={customColumnPropsEquipments}
 					subscribe={[
 						/** Событие создания оборудования*/
 						{
