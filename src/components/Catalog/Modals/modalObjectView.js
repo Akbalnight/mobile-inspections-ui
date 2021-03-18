@@ -24,6 +24,7 @@ const {
 	UploadFile,
 	Table,
 	Divider,
+	List,
 } = classic;
 
 export const ModalObjectView = ({catalogName}) => {
@@ -38,7 +39,6 @@ export const ModalObjectView = ({catalogName}) => {
 				bodyStyle: {height: 650},
 				form: {
 					name: `${catalogName}ModalObjectInfoForm`,
-					// loadInitData: (callBack, row) => callBack(row),
 					loadInitData: (callBack, row) => {
 						sRow = row;
 						const dataObjectWarranty = {
@@ -68,7 +68,7 @@ export const ModalObjectView = ({catalogName}) => {
 					name: `${catalogName}ModalInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
-						console.log(value.value);
+						// console.log(value.value);
 						value &&
 							setModalData &&
 							setModalData({
@@ -84,7 +84,7 @@ export const ModalObjectView = ({catalogName}) => {
 					<TabPane
 						tab={<InfoTab />}
 						key={'infoTab'}
-						style={{overflow: 'auto'}}
+						scrollable={true}
 					>
 						<Layout>
 							<Text
@@ -157,10 +157,24 @@ export const ModalObjectView = ({catalogName}) => {
 						key={'measuringPoints'}
 					>
 						<Layout>
-							<Text
+							<List
 								itemProps={{
-									...itemsInfo.measuringPoints,
+									valuePropName: 'dataSource',
+									name: 'measuringPoints',
 								}}
+								renderItem={(item) => (
+									<Text
+										value={item}
+										itemProps={{
+											label: 'Точки измерений',
+											labelCol: {span: 10},
+											wrapperCol: {span: 12},
+											className: 'mb-8',
+										}}
+									/>
+								)}
+								itemLayout={'vertical'}
+								className={'mt-16'}
 							/>
 						</Layout>
 					</TabPane>

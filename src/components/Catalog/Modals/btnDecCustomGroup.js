@@ -66,6 +66,7 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&
+							value &&
 							setButtonProps &&
 							setButtonProps({
 								disabled: !value.isGroup,

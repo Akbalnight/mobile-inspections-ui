@@ -5,12 +5,16 @@ import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
-import {AddObjectButton, EditObjectButton} from './Modals/btnDecCustomObject';
+// import {AddObjectButton, EditObjectButton} from './Modals/btnDecCustomObject';
 import {AddGroupButton, EditGroupButton} from './Modals/btnDecCustomGroup';
 import {DeleteButton} from './Modals/btnDecDelete';
 import {ModalObjectView} from './Modals/modalObjectView';
 import {ModalGroupView} from './Modals/modalGroupView';
 import {customColumnPropsEquipments} from './tableProps';
+import {
+	AddCustomObjectButton,
+	EditCustomObjectButton,
+} from './Modals/btnCustomObject';
 // import {CatalogTableHeader} from "./tableProps";
 
 const {Form, FormBody, Table, Row} = classic;
@@ -27,15 +31,23 @@ export const CatalogDecForm = (props) => {
 				{/*<CatalogTableHeader catalogName={catalogName} unique={unique}/>*/}
 
 				<Row className={'p-8'}>
-					<AddObjectButton
+					<AddCustomObjectButton
 						catalogName={catalogName}
 						unique={unique}
 					/>
+					{/*<AddObjectButton*/}
+					{/*	catalogName={catalogName}*/}
+					{/*	unique={unique}*/}
+					{/*/>*/}
 					<AddGroupButton catalogName={catalogName} unique={unique} />
-					<EditObjectButton
+					<EditCustomObjectButton
 						catalogName={catalogName}
 						unique={unique}
 					/>
+					{/*<EditObjectButton*/}
+					{/*	catalogName={catalogName}*/}
+					{/*	unique={unique}*/}
+					{/*/>*/}
 					<EditGroupButton
 						catalogName={catalogName}
 						unique={unique}
