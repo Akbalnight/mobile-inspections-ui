@@ -28,15 +28,13 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 				className: 'mr-8',
 			}}
 			toolTipProps={{
-				title: `${
-					type === 'add' ? 'Добавить' : 'Редактировать'
-				} группу`,
+				title: `${type === 'add' ? 'Создать' : 'Редактировать'} группу`,
 			}}
 			modalConfig={{
 				type: `${type}GroupOnServer`,
 				title: `${
-					type === 'add' ? 'Создать' : 'Редактировать'
-				} группу ${unique}`,
+					type === 'add' ? 'Создание' : 'Редактирование'
+				} группы ${unique}`,
 				width: 550,
 				bodyStyle: {height: 250},
 				requestSaveRow: ({method, data, params}) =>

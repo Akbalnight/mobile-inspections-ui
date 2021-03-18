@@ -1,16 +1,16 @@
 import {classic} from 'rt-design';
 import {DeleteButton} from './Modals/btnDecDelete';
-import {AddObjectButton, EditObjectButton} from './Modals/btnDecCustomObject';
-import {AddGroupButton, EditGroupButton} from './Modals/btnDecCustomGroup';
+import {AddGroupButton, EditGroupButton} from './Modals/btnCustomGroup';
 import {ModalObjectView} from './Modals/modalObjectView';
 import {ModalGroupView} from './Modals/modalGroupView';
 import React from 'react';
-import {
-	AddDefaultButton,
-	EditDefaultButton,
-} from './Modals/btnDecDefaultObject';
+import {AddDefaultButton, EditDefaultButton} from './Modals/btnDefaultObject';
 import {ModalDefaultObjectView} from './Modals/modalDefaultObjectView';
 import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
+import {
+	AddCustomObjectButton,
+	EditCustomObjectButton,
+} from './Modals/btnCustomObject';
 
 const {Row, Checkbox} = classic;
 export const itemsInfo = {
@@ -101,7 +101,7 @@ export const itemsInfo = {
 	},
 
 	/**
-	 * btnDecCustomGroup.js
+	 * btnCustomGroup.js
 	 */
 	techPlace: {
 		name: 'techPlace',
@@ -136,12 +136,12 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 				</>
 			) : (
 				<>
-					<AddObjectButton
+					<AddCustomObjectButton
 						catalogName={catalogName}
 						unique={unique}
 					/>
 					<AddGroupButton catalogName={catalogName} unique={unique} />
-					<EditObjectButton
+					<EditCustomObjectButton
 						catalogName={catalogName}
 						unique={unique}
 					/>

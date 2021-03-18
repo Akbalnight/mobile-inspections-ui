@@ -4,33 +4,27 @@
 // import EquipmentsGroupModal from "./Forms/Equipments/EquipmentsGroupModal";
 
 export const catalogConfigs = (paths) => [
-	// {
-	//     name: 'physicalHierarchy',
-	//     path: `${paths.CATALOG.path}/physicalHierarchy`,
-	//     title: 'Физическая структура предприятия',
-	//     SaveForm: BaseModalWithParentId
-	// },
-	// {
-	// 	name: 'departments',
-	// 	path: `${paths.CATALOG.path}/departments`,
-	// 	title: 'Организационная структура предприятия',
-	// 	hierarchical: true,
-	// 	unique: 'департамент',
-	// },
-	// {
-	// 	name: 'techMapsStatuses',
-	// 	path: `${paths.CATALOG.path}/techMapsStatuses`,
-	// 	title: 'Статусы технологических карт',
-	// 	hierarchical: false,
-	// 	unique: 'статус',
-	// },
-	// {
-	// 	name: 'staffPositions',
-	// 	path: `${paths.CATALOG.path}/staffPositions`,
-	// 	title: 'Должности',
-	// 	hierarchical: false,
-	// 	unique: 'должность',
-	// },
+	{
+		name: 'departments',
+		path: `${paths.CATALOG.path}/departments`,
+		title: 'Организационная структура предприятия',
+		hierarchical: true,
+		unique: 'департамент',
+	},
+	{
+		name: 'techMapsStatuses',
+		path: `${paths.CATALOG.path}/techMapsStatuses`,
+		title: 'Статусы технологических карт',
+		hierarchical: false,
+		unique: 'статус',
+	},
+	{
+		name: 'staffPositions',
+		path: `${paths.CATALOG.path}/staffPositions`,
+		title: 'Должности',
+		hierarchical: false,
+		unique: 'должность',
+	},
 	{
 		name: 'equipments',
 		path: `${paths.CATALOG.path}/equipments`,
@@ -38,42 +32,20 @@ export const catalogConfigs = (paths) => [
 		hierarchical: true,
 		unique: 'оборудование',
 	},
-	// {
-	//     name: 'staffQualifications',
-	//     path: `${paths.CATALOG.path}/staffQualifications`,
-	//     title: 'Квалификации',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'staffResolves',
-	//     path: `${paths.CATALOG.path}/staffResolves`,
-	//     title: 'Допуски',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'equipmentMarks',
-	//     path: `${paths.CATALOG.path}/equipmentMarks`,
-	//     title: 'Марка оборудования',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'equipmentModels',
-	//     path: `${paths.CATALOG.path}/equipmentModels`,
-	//     title: 'Модель оборудования',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'defectCriticality',
-	//     path: `${paths.CATALOG.path}/defectCriticality`,
-	//     title: 'Критичность дефектов',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'defectStatusesProcess',
-	//     path: `${paths.CATALOG.path}/defectStatusesProcess`,
-	//     title: 'Статусы обработки дефектов',
-	//     SaveForm: BaseModal
-	// },
+	{
+		name: 'staffQualifications',
+		path: `${paths.CATALOG.path}/staffQualifications`,
+		title: 'Квалификации',
+		hierarchical: false,
+		unique: 'квалификации',
+	},
+	{
+		name: 'defectStatusesProcess',
+		path: `${paths.CATALOG.path}/defectStatusesProcess`,
+		title: 'Статусы обработки дефектов',
+		hierarchical: false,
+		unique: 'статус обрадотки дефекта',
+	},
 	// {
 	//     name: 'defectTypicalGroups',
 	//     path: `${paths.CATALOG.path}/defectTypicalGroups`,

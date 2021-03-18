@@ -25,12 +25,12 @@ const operationOnServer = (type, catalogName, unique) => {
 				className: 'mr-8',
 			}}
 			toolTipProps={{
-				title: type === 'add' ? 'Добавить' : 'Редактировать',
+				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
 				type: `${type}OnServer`,
 				title: `${
-					type === 'add' ? 'Создать' : 'Редактировать'
+					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
 				width: 450,
 				bodyStyle: {height: catalogName === 'departments' ? 200 : 150},
