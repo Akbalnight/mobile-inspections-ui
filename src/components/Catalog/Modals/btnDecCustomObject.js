@@ -1,7 +1,15 @@
 import React from 'react';
 import {classic} from 'rt-design';
-import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {apiGetHierarchicalDataByConfigName} from '../../../apis/catalog.api';
+import {
+	EditOutlined,
+	FolderOutlined,
+	PlusOutlined,
+	ToolOutlined,
+} from '@ant-design/icons';
+import {
+	apiGetHierarchicalDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
 import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
 import {itemsInfo} from '../tableProps';
 
@@ -43,9 +51,9 @@ const operationOnServer = (type, catalogName, unique) => {
 				} ${unique}`,
 				width: 550,
 				bodyStyle: {height: 750},
-				// requestSaveRow: apiSaveByConfigName(
-				// 	`${catalogName}CatalogSave`
-				// ), //не забыть поставить
+				requestSaveRow: apiSaveByConfigName(
+					`${catalogName}CatalogSave`
+				), //не забыть поставить
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
@@ -54,7 +62,6 @@ const operationOnServer = (type, catalogName, unique) => {
 					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
-					// body: [...mainFields],
 				},
 			}}
 			dispatch={{
@@ -67,7 +74,7 @@ const operationOnServer = (type, catalogName, unique) => {
 					path: `rtd.catalog.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
-						console.log(value);
+						// console.log(value);
 						type === 'edit' &&
 							setButtonProps &&
 							setButtonProps({
@@ -109,8 +116,17 @@ const operationOnServer = (type, catalogName, unique) => {
 						})
 					}
 					optionConverter={(option) => ({
-						value: option.techPlacePath, //change
-						label: option.name,
+						value: option.id, //change
+						label: (
+							<span>
+								{option.isGroup ? (
+									<FolderOutlined />
+								) : (
+									<ToolOutlined />
+								)}{' '}
+								{option.name}
+							</span>
+						),
 						children: option.children,
 						// checkable: !option.isGroup,
 						// selectable: !option.isGroup,
@@ -127,7 +143,14 @@ const operationOnServer = (type, catalogName, unique) => {
 				<Checkbox
 					itemProps={{...itemsInfo.deleted, valuePropName: 'checked'}}
 				/>
-				<DatePicker itemProps={{...itemsInfo.dateFinish}} />
+
+				<DatePicker
+					itemProps={{...itemsInfo.dateFinish}}
+					onChange={(date, dateString) => {
+						return dateString;
+					}}
+					format={'DD.MM.YYYY'}
+				/>
 				<Title label={'Гарантии'} level={5} />
 				<DatePicker
 					itemProps={{...itemsInfo.dateWarrantyStart}}
@@ -146,6 +169,7 @@ const operationOnServer = (type, catalogName, unique) => {
 							},
 						},
 					]}
+					format={'DD.MM.YYYY'}
 				/>
 				<DatePicker
 					itemProps={{...itemsInfo.dateWarrantyFinish}}
@@ -157,6 +181,7 @@ const operationOnServer = (type, catalogName, unique) => {
 							name: 'endDate',
 							path: `rtd.catalog.${catalogName}Table.modal.${type}ModalStartDate`,
 							onChange: ({value, setSubscribeProps}) => {
+								// console.log(value)
 								setSubscribeProps({
 									disabledDate: (endValue) =>
 										disabledEndDate(value, endValue),
@@ -164,6 +189,7 @@ const operationOnServer = (type, catalogName, unique) => {
 							},
 						},
 					]}
+					format={'DD.MM.YYYY'}
 				/>
 			</FormBody>
 		</Modal>

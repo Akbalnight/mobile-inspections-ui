@@ -16,7 +16,6 @@ export const catalogConfigs = (paths) => [
 	// 	title: 'Организационная структура предприятия',
 	// 	hierarchical: true,
 	// 	unique: 'департамент',
-
 	// },
 	// {
 	// 	name: 'techMapsStatuses',
@@ -24,7 +23,6 @@ export const catalogConfigs = (paths) => [
 	// 	title: 'Статусы технологических карт',
 	// 	hierarchical: false,
 	// 	unique: 'статус',
-
 	// },
 	// {
 	// 	name: 'staffPositions',
@@ -32,7 +30,6 @@ export const catalogConfigs = (paths) => [
 	// 	title: 'Должности',
 	// 	hierarchical: false,
 	// 	unique: 'должность',
-
 	// },
 	{
 		name: 'equipments',
@@ -40,8 +37,6 @@ export const catalogConfigs = (paths) => [
 		title: 'Оборудование',
 		hierarchical: true,
 		unique: 'оборудование',
-		// SaveForm: EquipmentsModal,
-		// SaveGroup: EquipmentsGroupModal
 	},
 	// {
 	//     name: 'staffQualifications',

@@ -2,9 +2,16 @@ import {classic} from 'rt-design';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
 import React from 'react';
+import {apiSaveByConfigName} from '../../../apis/catalog.api';
 
 const {Modal, Text, FormBody} = classic;
 export const DeleteButton = ({catalogName, unique}) => {
+	let sRow;
+	const loadData = (callBack, row) => {
+		sRow = row;
+		console.log(sRow);
+		return callBack(sRow);
+	};
 	return (
 		<Modal
 			buttonProps={{
@@ -29,13 +36,19 @@ export const DeleteButton = ({catalogName, unique}) => {
 				width: 420,
 				// bodyStyle: {height: 200},
 				okText: 'Удалить',
+				requestSaveRow: ({method, data, params}) =>
+					apiSaveByConfigName(`${catalogName}CatalogSave`)({
+						method: 'PUT',
+						data: {...data, id: sRow.id, deleted: true},
+						params,
+					}), //не забыть поставить
 				form: {
 					name: `${catalogName}ModalForm`,
-					loadInitData: (callBack, row) => callBack(row),
+					loadInitData: loadData,
 				},
 			}}
 			dispatch={{
-				path: `catalog.${catalogName}Table.modal.events.onDeleteModal`,
+				path: `catalog.${catalogName}Table.modal.events.deleteOnModal`,
 				type: 'event',
 			}}
 			subscribe={[
@@ -44,7 +57,6 @@ export const DeleteButton = ({catalogName, unique}) => {
 					path: `rtd.catalog.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
-
 						setButtonProps && setButtonProps({disabled: !value});
 					},
 				},
