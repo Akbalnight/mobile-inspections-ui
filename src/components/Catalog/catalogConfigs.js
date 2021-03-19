@@ -68,11 +68,46 @@ export const catalogConfigs = (paths) => [
 		unique: 'статуса SAP',
 	},
 	{
+		name: 'routeStatuses',
+		path: `${paths.CATALOG.path}/routeStatuses`,
+		title: 'Статусы обработки маршрутов',
+		hierarchical: false,
+		unique: 'статуса маршрута',
+	},
+	{
+		name: 'repeaterStatuses',
+		path: `${paths.CATALOG.path}/repeaterStatuses`,
+		title: 'Статусы обработки расписания обходов',
+		hierarchical: false,
+		unique: 'статуса расписания обхода',
+	},
+	{
 		name: 'detoursStatuses',
 		path: `${paths.CATALOG.path}/detoursStatuses`,
-		title: 'Статусы обработки обходов',
+		title: 'Статусы обработки обходов !?!?!?!',
 		hierarchical: false,
 		unique: 'статуса обхода',
+	},
+	{
+		name: 'staff',
+		path: `${paths.CATALOG.path}/staff`,
+		title: 'Сотрудник !?!?!?!',
+		hierarchical: false,
+		unique: 'карточки сотрудника',
+	},
+	{
+		name: 'staffWorkSchedules',
+		path: `${paths.CATALOG.path}/staffWorkSchedules`,
+		title: 'Рабочие графики !?!?!?!',
+		hierarchical: false,
+		unique: 'рабочего графика',
+	},
+	{
+		name: 'defectTypical',
+		path: `${paths.CATALOG.path}/defectTypical`,
+		title: 'Типовые дефекты !?!?!?!',
+		hierarchical: true,
+		unique: 'типового дефекта',
 	},
 ];
 
