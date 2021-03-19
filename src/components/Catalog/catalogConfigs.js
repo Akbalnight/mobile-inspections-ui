@@ -9,28 +9,28 @@ export const catalogConfigs = (paths) => [
 		path: `${paths.CATALOG.path}/departments`,
 		title: 'Организационная структура предприятия',
 		hierarchical: true,
-		unique: 'департамент',
+		unique: 'департамента',
 	},
 	{
 		name: 'techMapsStatuses',
 		path: `${paths.CATALOG.path}/techMapsStatuses`,
 		title: 'Статусы технологических карт',
 		hierarchical: false,
-		unique: 'статус',
+		unique: 'статуса технологических карт',
 	},
 	{
 		name: 'staffPositions',
 		path: `${paths.CATALOG.path}/staffPositions`,
 		title: 'Должности',
 		hierarchical: false,
-		unique: 'должность',
+		unique: 'должности',
 	},
 	{
 		name: 'equipments',
 		path: `${paths.CATALOG.path}/equipments`,
 		title: 'Оборудование',
 		hierarchical: true,
-		unique: 'оборудование',
+		unique: 'оборудования',
 	},
 	{
 		name: 'staffQualifications',
@@ -44,50 +44,36 @@ export const catalogConfigs = (paths) => [
 		path: `${paths.CATALOG.path}/defectStatusesProcess`,
 		title: 'Статусы обработки дефектов',
 		hierarchical: false,
-		unique: 'статус обрадотки дефекта',
+		unique: 'статуса обработки дефекта',
 	},
-	// {
-	//     name: 'defectTypicalGroups',
-	//     path: `${paths.CATALOG.path}/defectTypicalGroups`,
-	//     title: 'Группы типовых дефектов',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'panelProblemsPriorities',
-	//     path: `${paths.CATALOG.path}/panelProblemsPriorities`,
-	//     title: 'Приоритеты панели проблем',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'panelProblemsStatuses',
-	//     path: `${paths.CATALOG.path}/panelProblemsStatuses`,
-	//     title: 'Статусы панели проблем',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'sapMessagesToro',
-	//     path: `${paths.CATALOG.path}/sapMessagesToro`,
-	//     title: 'Сообщения САП',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'sapStatusesToro',
-	//     path: `${paths.CATALOG.path}/sapStatusesToro`,
-	//     title: 'Статусы САП',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'filesTypes',
-	//     path: `${paths.CATALOG.path}/filesTypes`,
-	//     title: 'Типы файлов',
-	//     SaveForm: BaseModal
-	// },
-	// {
-	//     name: 'symbolRfid',
-	//     path: `${paths.CATALOG.path}/symbolRfid`,
-	//     title: 'Метки RFID',
-	//     SaveForm: BaseModal
-	// },
+	{
+		name: 'panelProblemsPriorities',
+		path: `${paths.CATALOG.path}/panelProblemsPriorities`,
+		title: 'Приоритеты панели проблем',
+		hierarchical: false,
+		unique: 'приоритета панели проблем',
+	},
+	{
+		name: 'panelProblemsStatuses',
+		path: `${paths.CATALOG.path}/panelProblemsStatuses`,
+		title: 'Статусы панели проблем',
+		hierarchical: false,
+		unique: 'статуса панели проблем',
+	},
+	{
+		name: 'sapStatuses',
+		path: `${paths.CATALOG.path}/sapStatuses`,
+		title: 'Статусы SAP',
+		hierarchical: false,
+		unique: 'статуса SAP',
+	},
+	{
+		name: 'detoursStatuses',
+		path: `${paths.CATALOG.path}/detoursStatuses`,
+		title: 'Статусы обработки обходов',
+		hierarchical: false,
+		unique: 'статуса обхода',
+	},
 ];
 
 // // Метки RFID

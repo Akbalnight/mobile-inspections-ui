@@ -11,10 +11,49 @@ export const AddDefaultButton = ({catalogName, unique}) =>
 export const EditDefaultButton = ({catalogName, unique}) =>
 	operationOnServer('edit', catalogName, unique);
 
-const {Modal, FormBody, Input, Select} = classic;
+const {Modal, FormBody, Input, Select, InputNumber} = classic;
 const operationOnServer = (type, catalogName, unique) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
+	};
+
+	const catalogOption = (catalogName) => {
+		switch (catalogName) {
+			case 'departments':
+				return (
+					<Select
+						itemProps={{...itemsInfo.parentId, label: 'Родитель'}}
+						autoClearSearchValue={true}
+						showSearch={true}
+						mode={'single'}
+						searchValueName={'name'}
+						infinityMode={true}
+						requestLoadRows={apiGetFlatDataByConfigName(
+							catalogName
+						)}
+						optionConverter={(option) => ({
+							label: option.name,
+							value: option.id,
+						})}
+					/>
+				);
+			case 'panelProblemsPriorities':
+				return (
+					<>
+						<Input itemProps={{...itemsInfo.direction}} />
+						<InputNumber
+							itemProps={{...itemsInfo.priority}}
+							min={1}
+							max={4}
+							style={{
+								width: '100%',
+							}}
+						/>
+					</>
+				);
+			default:
+				return null;
+		}
 	};
 	return (
 		<Modal
@@ -33,7 +72,14 @@ const operationOnServer = (type, catalogName, unique) => {
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
 				width: 450,
-				bodyStyle: {height: catalogName === 'departments' ? 200 : 150},
+				bodyStyle: {
+					height:
+						catalogName === 'panelProblemsPriorities'
+							? 250
+							: catalogName === 'departments'
+							? 200
+							: 150,
+				},
 				requestSaveRow: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				), //не забыть поставить
@@ -68,23 +114,7 @@ const operationOnServer = (type, catalogName, unique) => {
 		>
 			<FormBody>
 				<Input itemProps={{...itemsInfo.name}} />
-				{catalogName === 'departments' ? (
-					<Select
-						itemProps={{...itemsInfo.parentId, label: 'Родитель'}}
-						autoClearSearchValue={true}
-						showSearch={true}
-						mode={'single'}
-						searchValueName={'name'}
-						infinityMode={true}
-						requestLoadRows={apiGetFlatDataByConfigName(
-							catalogName
-						)}
-						optionConverter={(option) => ({
-							label: option.name,
-							value: option.id,
-						})}
-					/>
-				) : null}
+				{catalogOption(catalogName)}
 			</FormBody>
 		</Modal>
 	);

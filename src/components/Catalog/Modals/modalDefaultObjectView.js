@@ -1,9 +1,30 @@
 import {classic} from 'rt-design';
 import {itemsInfo} from '../tableProps';
+
 const {Modal, FormBody, Text} = classic;
 export const ModalDefaultObjectView = ({catalogName}) => {
 	const loadData = (callBack, row) => {
 		callBack(row);
+	};
+
+	const catalogOption = (catalogName) => {
+		switch (catalogName) {
+			case 'departments':
+				return (
+					<Text
+						itemProps={{...itemsInfo.parentId, label: 'Родитель'}}
+					/>
+				);
+			case 'panelProblemsPriorities':
+				return (
+					<>
+						<Text itemProps={{...itemsInfo.direction}} />
+						<Text itemProps={{...itemsInfo.priority}} />
+					</>
+				);
+			default:
+				return null;
+		}
 	};
 	return (
 		<Modal
@@ -11,7 +32,14 @@ export const ModalDefaultObjectView = ({catalogName}) => {
 				type: 'viewObject',
 				title: `Подробная информация`,
 				width: 400,
-				bodyStyle: {height: catalogName === 'departments' ? 230 : 180},
+				bodyStyle: {
+					height:
+						catalogName === 'panelProblemsPriorities'
+							? 280
+							: catalogName === 'departments'
+							? 230
+							: 190,
+				},
 				form: {
 					name: `${catalogName}ModalInfoForm`,
 					loadInitData: loadData,
@@ -37,11 +65,7 @@ export const ModalDefaultObjectView = ({catalogName}) => {
 			<FormBody>
 				<Text itemProps={{...itemsInfo.code}} />
 				<Text itemProps={{...itemsInfo.name}} />
-				{catalogName === 'departments' ? (
-					<Text
-						itemProps={{...itemsInfo.parentId, label: 'Родитель'}}
-					/>
-				) : null}
+				{catalogOption(catalogName)}
 			</FormBody>
 		</Modal>
 	);

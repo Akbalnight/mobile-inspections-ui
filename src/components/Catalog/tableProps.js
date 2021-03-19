@@ -116,6 +116,16 @@ export const itemsInfo = {
 		label: 'Код',
 		className: 'mb-8',
 	},
+	direction: {
+		name: 'direction',
+		label: 'Направление',
+		className: 'mb-8',
+	},
+	priority: {
+		name: 'priority',
+		label: 'Приоритет',
+		className: 'mb-8',
+	},
 };
 
 export const CatalogTableHeader = ({catalogName, unique}) => {

@@ -29,7 +29,7 @@ export const DeleteButton = ({catalogName, unique}) => {
 					<span style={{display: 'flex', flexDirection: 'row'}}>
 						<Warning />{' '}
 						<div style={{padding: '0px 10px 0px'}}>
-							Удалить {unique}
+							Удаление {unique}
 						</div>
 					</span>
 				),
