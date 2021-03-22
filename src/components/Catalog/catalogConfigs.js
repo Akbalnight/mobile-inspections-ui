@@ -82,6 +82,20 @@ export const catalogConfigs = (paths) => [
 		unique: 'статуса расписания обхода',
 	},
 	{
+		name: 'staffWorkSchedules',
+		path: `${paths.CATALOG.path}/staffWorkSchedules`,
+		title: 'Рабочие графики',
+		hierarchical: false,
+		unique: 'рабочего графика',
+	},
+	{
+		name: 'defectTypical',
+		path: `${paths.CATALOG.path}/defectTypical`,
+		title: 'Типовые дефекты',
+		hierarchical: true,
+		unique: 'типового дефекта',
+	},
+	{
 		name: 'detoursStatuses',
 		path: `${paths.CATALOG.path}/detoursStatuses`,
 		title: 'Статусы обработки обходов !?!?!?!',
@@ -94,20 +108,6 @@ export const catalogConfigs = (paths) => [
 		title: 'Сотрудник !?!?!?!',
 		hierarchical: false,
 		unique: 'карточки сотрудника',
-	},
-	{
-		name: 'staffWorkSchedules',
-		path: `${paths.CATALOG.path}/staffWorkSchedules`,
-		title: 'Рабочие графики !?!?!?!',
-		hierarchical: false,
-		unique: 'рабочего графика',
-	},
-	{
-		name: 'defectTypical',
-		path: `${paths.CATALOG.path}/defectTypical`,
-		title: 'Типовые дефекты !?!?!?!',
-		hierarchical: true,
-		unique: 'типового дефекта',
 	},
 ];
 

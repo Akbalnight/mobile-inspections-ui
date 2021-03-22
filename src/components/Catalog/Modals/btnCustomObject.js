@@ -16,6 +16,7 @@ import {
 	PlusOutlined,
 	ToolOutlined,
 } from '@ant-design/icons';
+import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
 
 const {
 	FormBody,
@@ -193,12 +194,54 @@ const operationOnServer = (type, catalogName, unique) => {
 									...itemsInfo.dateWarrantyStart,
 								}}
 								format={'DD.MM.YYYY'}
+								dispatch={{
+									path: `catalog.${catalogName}Table.modal.dateWarrantyStart`,
+								}}
+								subscribe={[
+									{
+										name: `${catalogName}ModalStartDatePicker`,
+										path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyFinish`,
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
+								]}
 							/>
 							<DatePicker
 								itemProps={{
 									...itemsInfo.dateWarrantyFinish,
 								}}
 								format={'DD.MM.YYYY'}
+								dispatch={{
+									path: `catalog.${catalogName}Table.modal.dateWarrantyFinish`,
+								}}
+								subscribe={[
+									{
+										name: `${catalogName}ModalFinishDatePicker`,
+										path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyStart`,
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
+								]}
 							/>
 						</Layout>
 					</TabPane>
@@ -207,8 +250,8 @@ const operationOnServer = (type, catalogName, unique) => {
 						key={'measuringPoints'}
 					>
 						<Layout>
-							<FormList name='measuringPoints'>
-								{(fields, {add, remove}, {errors}) => (
+							<FormList name={'measuringPoints'}>
+								{(fields, {add, remove}) => (
 									<>
 										<Space className={'mb-0'}>
 											<Button

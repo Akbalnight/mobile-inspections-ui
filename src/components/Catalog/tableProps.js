@@ -11,6 +11,7 @@ import {
 	AddCustomObjectButton,
 	EditCustomObjectButton,
 } from './Modals/btnCustomObject';
+import {dateTime} from '../Base/customColumnProps';
 
 const {Row, Checkbox} = classic;
 export const itemsInfo = {
@@ -126,6 +127,51 @@ export const itemsInfo = {
 		label: 'Приоритет',
 		className: 'mb-8',
 	},
+	dateStartSchedule: {
+		name: 'dateStart',
+		label: 'Начало работы',
+		className: 'mb-8',
+	},
+	dateFinishSchedule: {
+		name: 'dateFinish',
+		label: 'Окончание работы',
+		className: 'mb-8',
+	},
+	isGroupTypical: {
+		name: 'isGroup',
+		label: 'Группа',
+		className: 'mb-8',
+	},
+	positionId: {
+		name: 'positionId',
+		label: 'Должность',
+		className: 'mb-8',
+	},
+	departmentId: {
+		name: 'departmentId',
+		label: 'Департамент',
+		className: 'mb-8',
+	},
+	userName: {
+		name: 'username',
+		label: 'Имя пользователя',
+		className: 'mb-8',
+	},
+	workSchedules: {
+		name: 'workSchedules',
+		label: 'Рабочие графики',
+		className: 'mb-8',
+	},
+	sickLeaves: {
+		name: 'sickLeaves',
+		label: 'Больничные',
+		className: 'mb-8',
+	},
+	vacation: {
+		name: 'vacation',
+		label: 'Отпуска',
+		className: 'mb-8',
+	},
 };
 
 export const CatalogTableHeader = ({catalogName, unique}) => {
@@ -186,4 +232,6 @@ export const customColumnPropsEquipments = [
 			);
 		},
 	},
+	{...dateTime('dateStart')},
+	{...dateTime('dateFinish')},
 ];

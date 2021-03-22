@@ -1,41 +1,79 @@
 import {classic} from 'rt-design';
 import {itemsInfo} from '../tableProps';
-import {EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
+import React from 'react';
+import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
 
 export const AddDefaultButton = ({catalogName, unique}) =>
 	operationOnServer('add', catalogName, unique);
 export const EditDefaultButton = ({catalogName, unique}) =>
 	operationOnServer('edit', catalogName, unique);
 
-const {Modal, FormBody, Input, Select, InputNumber} = classic;
+const {
+	Modal,
+	FormBody,
+	Input,
+	InputNumber,
+	DatePicker,
+	Checkbox,
+	Select,
+	Tabs,
+	TabPane,
+	Layout,
+	TreeSelect,
+	FormList,
+	Divider,
+	Space,
+	Button,
+} = classic;
 const operationOnServer = (type, catalogName, unique) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
+	};
+	const modalHieght = (catalogName) => {
+		switch (catalogName) {
+			case 'staff':
+				return 450;
+			case 'departments':
+				return 250;
+			case 'panelProblemsPriorities':
+			case 'staffWorkSchedules':
+			case 'defectTypical':
+				return 210;
+			default:
+				return 150;
+		}
 	};
 
 	const catalogOption = (catalogName) => {
 		switch (catalogName) {
 			case 'departments':
 				return (
-					<Select
-						itemProps={{...itemsInfo.parentId, label: 'Родитель'}}
-						autoClearSearchValue={true}
-						showSearch={true}
-						mode={'single'}
-						searchValueName={'name'}
-						infinityMode={true}
-						requestLoadRows={apiGetFlatDataByConfigName(
-							catalogName
-						)}
-						optionConverter={(option) => ({
-							label: option.name,
-							value: option.id,
-						})}
-					/>
+					<>
+						<Select
+							itemProps={{
+								...itemsInfo.parentId,
+								label: 'Родитель',
+							}}
+							autoClearSearchValue={true}
+							showSearch={true}
+							mode={'single'}
+							searchValueName={'name'}
+							infinityMode={true}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								catalogName
+							)}
+							optionConverter={(option) => ({
+								label: option.name,
+								value: option.id,
+							})}
+						/>
+					</>
 				);
 			case 'panelProblemsPriorities':
 				return (
@@ -49,6 +87,557 @@ const operationOnServer = (type, catalogName, unique) => {
 								width: '100%',
 							}}
 						/>
+					</>
+				);
+			case 'staffWorkSchedules':
+				return (
+					<>
+						<DatePicker
+							itemProps={{
+								...itemsInfo.dateStartSchedule,
+							}}
+							showTime={true}
+							format={'DD.MM.YYYY HH:mm'}
+							dispatch={{
+								path: `catalog.${catalogName}Table.modal.dateScheduleStart`,
+							}}
+							subscribe={[
+								{
+									name: `${catalogName}ModalStartDatePicker`,
+									path: `rtd.catalog.${catalogName}Table.modal.dateScheduleFinish`,
+									onChange: ({value, setSubscribeProps}) => {
+										setSubscribeProps({
+											disabledDate: (startValue) =>
+												disabledStartDate(
+													startValue,
+													value
+												),
+										});
+									},
+								},
+							]}
+						/>
+						<DatePicker
+							itemProps={{
+								...itemsInfo.dateFinishSchedule,
+							}}
+							showTime={true}
+							format={'DD.MM.YYYY HH:mm'}
+							dispatch={{
+								path: `catalog.${catalogName}Table.modal.dateScheduleFinish`,
+							}}
+							subscribe={[
+								{
+									name: `${catalogName}ModalFinishDatePicker`,
+									path: `rtd.catalog.${catalogName}Table.modal.dateScheduleStart`,
+									onChange: ({value, setSubscribeProps}) => {
+										setSubscribeProps({
+											disabledDate: (endValue) =>
+												disabledEndDate(
+													value,
+													endValue
+												),
+										});
+									},
+								},
+							]}
+						/>
+					</>
+				);
+			case 'defectTypical':
+				return (
+					<>
+						<Select
+							itemProps={{
+								...itemsInfo.parentId,
+								label: 'Родитель',
+							}}
+							mode={'single'}
+							requestLoadRows={apiGetHierarchicalDataByConfigName(
+								catalogName
+							)}
+							optionConverter={(option) => ({
+								label: option.name,
+								value: option.id,
+							})}
+						/>
+						<Checkbox itemProps={{...itemsInfo.isGroupTypical}} />
+					</>
+				);
+			case 'staff':
+				return (
+					<>
+						<Tabs type={'card'} size={'large'} className={'p-0'}>
+							<TabPane
+								key={'infoTab'}
+								tab={'INFO'}
+								scrollable={true}
+							>
+								<Layout>
+									<Input
+										itemProps={{...itemsInfo.userName}}
+									/>
+									<Select
+										itemProps={{...itemsInfo.positionId}}
+										mode={'single'}
+										requestLoadRows={apiGetFlatDataByConfigName(
+											'staffPositions'
+										)}
+										optionConverter={(option) => ({
+											label: option.name,
+											value: option.id,
+										})}
+									/>
+									<TreeSelect
+										itemProps={{...itemsInfo.departmentId}}
+										mode={'single'}
+										treeDefaultExpandAll={true}
+										requestLoadRows={apiGetHierarchicalDataByConfigName(
+											'departments'
+										)}
+										optionConverter={(option) => ({
+											label: option.name,
+											value: option.id,
+											children: option.children,
+										})}
+									/>
+								</Layout>
+							</TabPane>
+							<TabPane
+								key={'schedulesTab'}
+								tab={'Schedules'}
+								scrollable={true}
+							>
+								<Layout>
+									<FormList name={'workSchedules'}>
+										{(fields, {add, remove}) => (
+											<>
+												<Space className={'mb-0'}>
+													<Button
+														icon={<PlusOutlined />}
+														onClick={() => add()}
+													/>
+												</Space>
+												<Divider
+													itemProps={{
+														className: 'mb-0',
+													}}
+													className={'mb-8 mt-8'}
+												/>
+												{fields.map((field, index) => (
+													<Space
+														className={'p-8'}
+														key={field.key}
+														style={{width: '100%'}}
+													>
+														<Space>
+															<DatePicker
+																itemProps={{
+																	className:
+																		'mb-0',
+																	name: [
+																		field.name,
+																		`${index}-StartWorkSchedules`,
+																	],
+																	fieldKey: [
+																		field.fieldKey,
+																		`${index}-StartWorkSchedules`,
+																	],
+																	label: 'с',
+																	labelCol: {
+																		span: 4,
+																	},
+																	wrapperCol: {
+																		span: 18,
+																	},
+																}}
+																dispatch={{
+																	path: `catalog.${catalogName}Table.modal.dateScheduleStart`,
+																}}
+																subscribe={[
+																	{
+																		name: `${catalogName}ModalStartDatePicker`,
+																		path: `rtd.catalog.${catalogName}Table.modal.dateScheduleFinish`,
+																		onChange: ({
+																			value,
+																			setSubscribeProps,
+																		}) => {
+																			setSubscribeProps(
+																				{
+																					disabledDate: (
+																						startValue
+																					) =>
+																						disabledStartDate(
+																							startValue,
+																							value
+																						),
+																				}
+																			);
+																		},
+																	},
+																]}
+															/>
+															<DatePicker
+																itemProps={{
+																	className:
+																		'mb-0',
+																	name: [
+																		field.name,
+																		`${index}-FinishWorkSchedules`,
+																	],
+																	fieldKey: [
+																		field.fieldKey,
+																		`${index}-FinishWorkSchedules`,
+																	],
+																	// name: `${index}FinishWorkSchedules`,
+																	label: 'по',
+																	labelCol: {
+																		span: 4,
+																	},
+																	wrapperCol: {
+																		span: 18,
+																	},
+																}}
+																dispatch={{
+																	path: `catalog.${catalogName}Table.modal.dateScheduleFinish`,
+																}}
+																subscribe={[
+																	{
+																		name: `${catalogName}ModalFinishDatePicker`,
+																		path: `rtd.catalog.${catalogName}Table.modal.dateScheduleStart`,
+																		onChange: ({
+																			value,
+																			setSubscribeProps,
+																		}) => {
+																			setSubscribeProps(
+																				{
+																					disabledDate: (
+																						endValue
+																					) =>
+																						disabledEndDate(
+																							value,
+																							endValue
+																						),
+																				}
+																			);
+																		},
+																	},
+																]}
+															/>
+															{fields.length ? (
+																<Button
+																	icon={
+																		<DeleteOutlined />
+																	}
+																	onClick={() =>
+																		remove(
+																			field.name
+																		)
+																	}
+																	type={
+																		'text'
+																	}
+																/>
+															) : null}
+														</Space>
+													</Space>
+												))}
+											</>
+										)}
+									</FormList>
+								</Layout>
+							</TabPane>{' '}
+							<TabPane
+								key={'sickLeavesTab'}
+								tab={'Sick leaves'}
+								scrollable={true}
+							>
+								<Layout>
+									<FormList name={'sickLeaves'}>
+										{(fields, {add, remove}) => (
+											<>
+												<Space className={'mb-0'}>
+													<Button
+														icon={<PlusOutlined />}
+														onClick={() => add()}
+													/>
+												</Space>
+												<Divider
+													itemProps={{
+														className: 'mb-0',
+													}}
+													className={'mb-8 mt-8'}
+												/>
+												{fields.map((field, index) => (
+													<Space
+														className={'p-8'}
+														key={field.key}
+														style={{width: '100%'}}
+													>
+														<Space>
+															<DatePicker
+																itemProps={{
+																	className:
+																		'mb-0',
+																	name: [
+																		field.name,
+																		`${index}-StartSickLeaves`,
+																	],
+																	fieldKey: [
+																		field.fieldKey,
+																		`${index}-StartSickLeaves`,
+																	],
+																	// name: `${index}StartSickLeaves`,
+																	label: 'с',
+																	labelCol: {
+																		span: 4,
+																	},
+																	wrapperCol: {
+																		span: 18,
+																	},
+																}}
+																dispatch={{
+																	path: `catalog.${catalogName}Table.modal.dateStartSickLeaves`,
+																}}
+																subscribe={[
+																	{
+																		name: `${catalogName}ModalStartDatePicker`,
+																		path: `rtd.catalog.${catalogName}Table.modal.dateFinishSickLeaves`,
+																		onChange: ({
+																			value,
+																			setSubscribeProps,
+																		}) => {
+																			setSubscribeProps(
+																				{
+																					disabledDate: (
+																						startValue
+																					) =>
+																						disabledStartDate(
+																							startValue,
+																							value
+																						),
+																				}
+																			);
+																		},
+																	},
+																]}
+															/>
+															<DatePicker
+																itemProps={{
+																	className:
+																		'mb-0',
+																	name: [
+																		field.name,
+																		`${index}-FinishSickLeaves`,
+																	],
+																	fieldKey: [
+																		field.fieldKey,
+																		`${index}-FinishSickLeaves`,
+																	],
+																	// name: `${index}FinishSickLeaves`,
+																	label: 'по',
+																	labelCol: {
+																		span: 4,
+																	},
+																	wrapperCol: {
+																		span: 18,
+																	},
+																}}
+																dispatch={{
+																	path: `catalog.${catalogName}Table.modal.dateFinishSickLeaves`,
+																}}
+																subscribe={[
+																	{
+																		name: `${catalogName}ModalFinishDatePicker`,
+																		path: `rtd.catalog.${catalogName}Table.modal.dateStartSickLeaves`,
+																		onChange: ({
+																			value,
+																			setSubscribeProps,
+																		}) => {
+																			setSubscribeProps(
+																				{
+																					disabledDate: (
+																						endValue
+																					) =>
+																						disabledEndDate(
+																							value,
+																							endValue
+																						),
+																				}
+																			);
+																		},
+																	},
+																]}
+															/>
+															{fields.length ? (
+																<Button
+																	icon={
+																		<DeleteOutlined />
+																	}
+																	onClick={() =>
+																		remove(
+																			field.name
+																		)
+																	}
+																	type={
+																		'text'
+																	}
+																/>
+															) : null}
+														</Space>
+													</Space>
+												))}
+											</>
+										)}
+									</FormList>
+								</Layout>
+							</TabPane>
+							<TabPane
+								key={'vacationTab'}
+								tab={'Vacation'}
+								scrollable={true}
+							>
+								<Layout>
+									<FormList name={'vacation'}>
+										{(fields, {add, remove}) => (
+											<>
+												<Space className={'mb-0'}>
+													<Button
+														icon={<PlusOutlined />}
+														onClick={() => add()}
+													/>
+												</Space>
+												<Divider
+													itemProps={{
+														className: 'mb-0',
+													}}
+													className={'mb-8 mt-8'}
+												/>
+												{fields.map((field, index) => (
+													<Space
+														className={'p-8'}
+														key={field.key}
+														style={{width: '100%'}}
+													>
+														<Space>
+															<DatePicker
+																itemProps={{
+																	className:
+																		'mb-0',
+																	name: [
+																		field.name,
+																		`${index}-StartVacation`,
+																	],
+																	fieldKey: [
+																		field.fieldKey,
+																		`${index}-StartVacation`,
+																	],
+																	// name: `${index}StartSickLeaves`,
+																	label: 'с',
+																	labelCol: {
+																		span: 4,
+																	},
+																	wrapperCol: {
+																		span: 18,
+																	},
+																}}
+																dispatch={{
+																	path: `catalog.${catalogName}Table.modal.dateStartVacation`,
+																}}
+																subscribe={[
+																	{
+																		name: `${catalogName}ModalStartDatePicker`,
+																		path: `rtd.catalog.${catalogName}Table.modal.dateFinishVacation`,
+																		onChange: ({
+																			value,
+																			setSubscribeProps,
+																		}) => {
+																			setSubscribeProps(
+																				{
+																					disabledDate: (
+																						startValue
+																					) =>
+																						disabledStartDate(
+																							startValue,
+																							value
+																						),
+																				}
+																			);
+																		},
+																	},
+																]}
+															/>
+															<DatePicker
+																itemProps={{
+																	className:
+																		'mb-0',
+																	name: [
+																		field.name,
+																		`${index}-FinishVacation`,
+																	],
+																	fieldKey: [
+																		field.fieldKey,
+																		`${index}-FinishVacation`,
+																	],
+																	// name: `${index}FinishSickLeaves`,
+																	label: 'по',
+																	labelCol: {
+																		span: 4,
+																	},
+																	wrapperCol: {
+																		span: 18,
+																	},
+																}}
+																dispatch={{
+																	path: `catalog.${catalogName}Table.modal.dateFinishVacation`,
+																}}
+																subscribe={[
+																	{
+																		name: `${catalogName}ModalFinishDatePicker`,
+																		path: `rtd.catalog.${catalogName}Table.modal.dateStartVacation`,
+																		onChange: ({
+																			value,
+																			setSubscribeProps,
+																		}) => {
+																			setSubscribeProps(
+																				{
+																					disabledDate: (
+																						endValue
+																					) =>
+																						disabledEndDate(
+																							value,
+																							endValue
+																						),
+																				}
+																			);
+																		},
+																	},
+																]}
+															/>
+															{fields.length ? (
+																<Button
+																	icon={
+																		<DeleteOutlined />
+																	}
+																	onClick={() =>
+																		remove(
+																			field.name
+																		)
+																	}
+																	type={
+																		'text'
+																	}
+																/>
+															) : null}
+														</Space>
+													</Space>
+												))}
+											</>
+										)}
+									</FormList>
+								</Layout>
+							</TabPane>
+						</Tabs>
 					</>
 				);
 			default:
@@ -73,18 +662,14 @@ const operationOnServer = (type, catalogName, unique) => {
 				} ${unique}`,
 				width: 450,
 				bodyStyle: {
-					height:
-						catalogName === 'panelProblemsPriorities'
-							? 250
-							: catalogName === 'departments'
-							? 200
-							: 150,
+					height: modalHieght(catalogName),
 				},
 				requestSaveRow: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				), //не забыть поставить
 				form: {
 					name: `${type}ModalForm`,
+
 					loadInitData: loadData,
 					onFinish: (values) => {
 						console.log('values', values);
@@ -113,7 +698,9 @@ const operationOnServer = (type, catalogName, unique) => {
 			]}
 		>
 			<FormBody>
-				<Input itemProps={{...itemsInfo.name}} />
+				{catalogName !== 'staff' ? (
+					<Input itemProps={{...itemsInfo.name}} />
+				) : null}
 				{catalogOption(catalogName)}
 			</FormBody>
 		</Modal>
