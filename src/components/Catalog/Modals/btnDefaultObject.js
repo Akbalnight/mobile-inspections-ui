@@ -294,12 +294,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.DDDD HH:mm'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.dateScheduleStart`,
+																	path: `catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalStartDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.dateScheduleFinish`,
+																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -345,12 +345,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.DDDD HH:mm'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.dateScheduleFinish`,
+																	path: `catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalFinishDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.dateScheduleStart`,
+																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
