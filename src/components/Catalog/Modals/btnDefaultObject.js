@@ -44,6 +44,14 @@ const operationOnServer = (type, catalogName, unique) => {
 		console.log('row>>>', row);
 		callBack(type === 'add' ? null : row);
 	};
+	const processBeforeSaveForm = (rawValues) => {
+		const values = {...rawValues};
+		// console.log(values)
+		return {
+			...values,
+			id: values.userId,
+		};
+	};
 	const modalHieght = (catalogName) => {
 		switch (catalogName) {
 			case 'staff':
@@ -156,18 +164,24 @@ const operationOnServer = (type, catalogName, unique) => {
 			case 'defectTypical':
 				return (
 					<>
-						<Select
+						<TreeSelect
 							itemProps={{
 								...itemsInfo.parentId,
 								label: 'Родитель',
 							}}
 							mode={'single'}
-							requestLoadRows={apiGetHierarchicalDataByConfigName(
-								catalogName
-							)}
+							requestLoadRows={({data, params}) =>
+								apiGetHierarchicalDataByConfigName(catalogName)(
+									{
+										data: {...data, isGroup: true},
+										params,
+									}
+								)
+							}
 							optionConverter={(option) => ({
 								label: option.name,
 								value: option.id,
+								children: option.children,
 							})}
 						/>
 						<Checkbox itemProps={{...itemsInfo.isGroupTypical}} />
@@ -332,7 +346,6 @@ const operationOnServer = (type, catalogName, unique) => {
 																				field.fieldKey,
 																				`${index}-FinishWorkSchedules`,
 																			],
-																			// name: `${index}FinishWorkSchedules`,
 																			label:
 																				'по',
 																			labelCol: {
@@ -447,7 +460,6 @@ const operationOnServer = (type, catalogName, unique) => {
 																		field.fieldKey,
 																		`${index}-StartSickLeaves`,
 																	],
-																	// name: `${index}StartSickLeaves`,
 																	label: 'с',
 																	labelCol: {
 																		span: 4,
@@ -497,7 +509,6 @@ const operationOnServer = (type, catalogName, unique) => {
 																		field.fieldKey,
 																		`${index}-FinishSickLeaves`,
 																	],
-																	// name: `${index}FinishSickLeaves`,
 																	label: 'по',
 																	labelCol: {
 																		span: 4,
@@ -607,7 +618,6 @@ const operationOnServer = (type, catalogName, unique) => {
 																		field.fieldKey,
 																		`${index}-StartVacation`,
 																	],
-																	// name: `${index}StartSickLeaves`,
 																	label: 'с',
 																	labelCol: {
 																		span: 4,
@@ -657,7 +667,6 @@ const operationOnServer = (type, catalogName, unique) => {
 																		field.fieldKey,
 																		`${index}-FinishVacation`,
 																	],
-																	// name: `${index}FinishSickLeaves`,
 																	label: 'по',
 																	labelCol: {
 																		span: 4,
@@ -751,6 +760,8 @@ const operationOnServer = (type, catalogName, unique) => {
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
+					processBeforeSaveForm: processBeforeSaveForm,
+					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 					onFinish: (values) => {
 						console.log('values', values);
 					},

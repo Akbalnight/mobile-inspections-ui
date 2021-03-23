@@ -263,43 +263,49 @@ const operationOnServer = (type, catalogName, unique) => {
 											itemProps={{className: 'mb-0'}}
 											className={'mb-8 mt-8'}
 										/>
-										{fields.map((field, index) => (
-											<Space
-												className={'p-8'}
-												key={field.key}
-												style={{width: '100%'}}
-											>
+										{fields &&
+											fields.map((field, index) => (
 												<Space
-													style={{display: 'flex'}}
+													className={'p-8'}
+													key={field.key}
+													style={{width: '100%'}}
 												>
-													<Input
-														itemProps={{
-															className: 'mb-0',
-															name: `${index}`,
-															style: {
-																alignSelf:
-																	'stretch',
-															},
+													<Space
+														style={{
+															display: 'flex',
 														}}
-														placeholder='Данные точки измерения'
-														style={{width: '550px'}}
-													/>
-													{fields.length ? (
-														<Button
-															icon={
-																<DeleteOutlined />
-															}
-															onClick={() =>
-																remove(
-																	field.name
-																)
-															}
-															type={'text'}
+													>
+														<Input
+															itemProps={{
+																className:
+																	'mb-0',
+																name: `${index}`,
+																style: {
+																	alignSelf:
+																		'stretch',
+																},
+															}}
+															placeholder='Данные точки измерения'
+															style={{
+																width: '550px',
+															}}
 														/>
-													) : null}
+														{fields.length ? (
+															<Button
+																icon={
+																	<DeleteOutlined />
+																}
+																onClick={() =>
+																	remove(
+																		field.name
+																	)
+																}
+																type={'text'}
+															/>
+														) : null}
+													</Space>
 												</Space>
-											</Space>
-										))}
+											))}
 									</>
 								)}
 							</FormList>

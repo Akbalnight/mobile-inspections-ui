@@ -175,48 +175,90 @@ export const itemsInfo = {
 };
 
 export const CatalogTableHeader = ({catalogName, unique}) => {
-	return (
-		<Row className={'p-8'}>
-			{catalogName !== 'equipments' ? (
-				<>
-					<AddDefaultButton
-						catalogName={catalogName}
-						unique={unique}
-					/>
-					<EditDefaultButton
-						catalogName={catalogName}
-						unique={unique}
-					/>
-					{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
-					<ModalDefaultObjectView catalogName={catalogName} />
-				</>
-			) : (
-				<>
-					<AddCustomObjectButton
-						catalogName={catalogName}
-						unique={unique}
-					/>
-					<AddGroupButton catalogName={catalogName} unique={unique} />
-					<EditCustomObjectButton
-						catalogName={catalogName}
-						unique={unique}
-					/>
-					<EditGroupButton
-						catalogName={catalogName}
-						unique={unique}
-					/>
-					<DeleteButton catalogName={catalogName} unique={unique} />
-					<ModalObjectView catalogName={catalogName} />
-					<ModalGroupView catalogName={catalogName} />
-				</>
-			)}
-		</Row>
-	);
+	const configCatalogName = (catalogName) => {
+		switch (catalogName) {
+			case 'equipments':
+				return (
+					<>
+						<AddCustomObjectButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<AddGroupButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<EditCustomObjectButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<EditGroupButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<DeleteButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<ModalObjectView catalogName={catalogName} />
+						<ModalGroupView catalogName={catalogName} />
+					</>
+				);
+			case 'defectTypical':
+				return (
+					<>
+						<AddDefaultButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+
+						<AddGroupButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<EditDefaultButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+
+						<EditGroupButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						{/*<DeleteButton catalogName={catalogName} unique={unique}/>*/}
+						<ModalObjectView catalogName={catalogName} />
+						<ModalGroupView catalogName={catalogName} />
+					</>
+				);
+			default:
+				return (
+					<>
+						<AddDefaultButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						<EditDefaultButton
+							catalogName={catalogName}
+							unique={unique}
+						/>
+						{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
+						<ModalDefaultObjectView catalogName={catalogName} />
+					</>
+				);
+		}
+	};
+	return <Row className={'p-8'}>{configCatalogName(catalogName)}</Row>;
 };
 
 export const customColumnPropsEquipments = [
 	{
 		name: 'deleted',
+		cellRenderer: ({cellData}) => {
+			return <Checkbox checked={cellData} disabled />;
+		},
+	},
+	{
+		name: 'isGroup',
 		cellRenderer: ({cellData}) => {
 			return <Checkbox checked={cellData} disabled />;
 		},
@@ -236,56 +278,75 @@ export const customColumnPropsEquipments = [
 	{...dateTime('dateFinish')},
 	{
 		name: 'workSchedules',
-		cellRenderer: ({cellData}) =>
-			cellData &&
-			cellData.map((cell, index) => (
-				<span key={index}>
-					<DateText
-						value={cell[`${index}-StartWorkSchedules`]}
-						format={'DD.MM.YYYY HH:mm'}
-					/>{' '}
-					-{' '}
-					<DateText
-						value={cell[`${index}-FinishWorkSchedules`]}
-						format={'DD.MM.YYYY HH:mm'}
-					/>
-				</span>
-			)),
+		cellRenderer: ({cellData}) => (
+			<span style={{display: 'flex', flexDirection: 'column'}}>
+				{cellData &&
+					cellData.map((cell, index) => (
+						<span
+							key={index}
+							style={{display: 'flex', flexDirection: 'row'}}
+						>
+							<DateText
+								value={cell[`${index}-StartWorkSchedules`]}
+								format={'DD.MM.YYYY HH:mm'}
+							/>
+							{'  '}
+							-&gt;{'  '}
+							<DateText
+								value={cell[`${index}-FinishWorkSchedules`]}
+								format={'DD.MM.YYYY HH:mm'}
+							/>
+						</span>
+					))}
+			</span>
+		),
 	},
 	{
 		name: 'sickLeaves',
-		cellRenderer: ({cellData}) =>
-			cellData &&
-			cellData.map((cell, index) => (
-				<span key={index}>
-					<DateText
-						value={cell[`${index}-StartSickLeaves`]}
-						format={'DD.MM.YYYY'}
-					/>{' '}
-					-{' '}
-					<DateText
-						value={cell[`${index}-FinishSickLeaves`]}
-						format={'DD.MM.YYYY'}
-					/>
-				</span>
-			)),
+		cellRenderer: ({cellData}) => (
+			<span style={{display: 'flex', flexDirection: 'column'}}>
+				{cellData &&
+					cellData.map((cell, index) => (
+						<span
+							key={index}
+							style={{display: 'flex', flexDirection: 'row'}}
+						>
+							<DateText
+								value={cell[`${index}-StartSickLeaves`]}
+								format={'DD.MM.YYYY'}
+							/>{' '}
+							-{' '}
+							<DateText
+								value={cell[`${index}-FinishSickLeaves`]}
+								format={'DD.MM.YYYY'}
+							/>
+						</span>
+					))}
+			</span>
+		),
 	},
 	{
 		name: 'vacation',
-		cellRenderer: ({cellData}) =>
-			cellData &&
-			cellData.map((cell, index) => (
-				<span key={index}>
-					<DateText
-						value={cell[`${index}-StartVacation`]}
-						format={'DD.MM.YYYY'}
-					/>{' '}
-					-{' '}
-					<DateText
-						value={cell[`${index}-FinishVacation`]}
-						format={'DD.MM.YYYY'}
-					/>
-				</span>
-			)),
+		cellRenderer: ({cellData}) => (
+			<span style={{display: 'flex', flexDirection: 'column'}}>
+				{cellData &&
+					cellData.map((cell, index) => (
+						<span
+							key={index}
+							style={{display: 'flex', flexDirection: 'row'}}
+						>
+							<DateText
+								value={cell[`${index}-StartVacation`]}
+								format={'DD.MM.YYYY'}
+							/>{' '}
+							-{' '}
+							<DateText
+								value={cell[`${index}-FinishVacation`]}
+								format={'DD.MM.YYYY'}
+							/>
+						</span>
+					))}
+			</span>
+		),
 	},
 ];

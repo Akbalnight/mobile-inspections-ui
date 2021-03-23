@@ -18,6 +18,7 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
+
 	return (
 		<Modal
 			buttonProps={{
@@ -76,13 +77,15 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 		>
 			<FormBody>
 				<Input itemProps={{...itemsInfo.name}} />
-				<Input itemProps={{...itemsInfo.techPlace}} />
+				{catalogName === 'equipments' ? (
+					<Input itemProps={{...itemsInfo.techPlace}} />
+				) : null}
 				<TreeSelect
 					itemProps={{...itemsInfo.parentId, label: 'Родитель'}}
 					treeCheckStrictly={false}
 					treeDefaultExpandAll={true}
 					requestLoadRows={({data, params}) =>
-						apiGetHierarchicalDataByConfigName('equipments')({
+						apiGetHierarchicalDataByConfigName(catalogName)({
 							data: {...data, isGroup: true},
 							params,
 						})
