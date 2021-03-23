@@ -1,8 +1,8 @@
 import {classic} from 'rt-design';
-import {ReactComponent as InfoTab} from '../../../imgs/tabPane/equipmentsViewModal/infoTab.svg';
-import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/equipmentsViewModal/measuringPointsTab.svg';
-import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/equipmentsViewModal/warrantyTab.svg';
-import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/equipmentsViewModal/attachmentsTab.svg';
+import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
+import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
+import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
+import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/attachmentsTab.svg';
 import {itemsInfo} from '../tableProps';
 import {
 	apiGetConfigByName,

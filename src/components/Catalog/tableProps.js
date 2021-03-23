@@ -152,8 +152,8 @@ export const itemsInfo = {
 		label: 'Департамент',
 		className: 'mb-8',
 	},
-	userName: {
-		name: 'username',
+	userId: {
+		name: 'userId',
 		label: 'Имя пользователя',
 		className: 'mb-8',
 	},

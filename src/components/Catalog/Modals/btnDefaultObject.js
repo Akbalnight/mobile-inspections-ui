@@ -1,6 +1,14 @@
 import {classic} from 'rt-design';
 import {itemsInfo} from '../tableProps';
-import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {
+	CalendarOutlined,
+	CompassOutlined,
+	ContactsOutlined,
+	DeleteOutlined,
+	EditOutlined,
+	MedicineBoxOutlined,
+	PlusOutlined,
+} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
@@ -32,13 +40,21 @@ const {
 	Button,
 } = classic;
 const operationOnServer = (type, catalogName, unique) => {
+	// workSchedules: row.workSchedules.stringify()
 	const loadData = (callBack, row) => {
-		callBack(type === 'add' ? null : row);
+		const newData = {
+			...row,
+			workSchedules: JSON.parse(row.workSchedules),
+			sickLeaves: JSON.parse(row.sickLeaves),
+			vacation: JSON.parse(row.vacation),
+		};
+		console.log(newData);
+		callBack(type === 'add' ? null : newData);
 	};
 	const modalHieght = (catalogName) => {
 		switch (catalogName) {
 			case 'staff':
-				return 450;
+				return 350;
 			case 'departments':
 				return 250;
 			case 'panelProblemsPriorities':
@@ -167,15 +183,28 @@ const operationOnServer = (type, catalogName, unique) => {
 			case 'staff':
 				return (
 					<>
-						<Tabs type={'card'} size={'large'} className={'p-0'}>
+						<Tabs type={'card'} size={'medium'} className={'p-0'}>
 							<TabPane
 								key={'infoTab'}
-								tab={'INFO'}
+								tab={
+									<span>
+										<ContactsOutlined />
+										Общие сведения
+									</span>
+								}
 								scrollable={true}
 							>
 								<Layout>
-									<Input
-										itemProps={{...itemsInfo.userName}}
+									<Select
+										itemProps={{...itemsInfo.userId}}
+										mode={'single'}
+										requestLoadRows={apiGetFlatDataByConfigName(
+											'staff'
+										)}
+										optionConverter={(option) => ({
+											label: option.username,
+											value: option.id,
+										})}
 									/>
 									<Select
 										itemProps={{...itemsInfo.positionId}}
@@ -205,7 +234,12 @@ const operationOnServer = (type, catalogName, unique) => {
 							</TabPane>
 							<TabPane
 								key={'schedulesTab'}
-								tab={'Schedules'}
+								tab={
+									<span>
+										<CalendarOutlined />
+										Рабочие графики
+									</span>
+								}
 								scrollable={true}
 							>
 								<Layout>
@@ -228,7 +262,11 @@ const operationOnServer = (type, catalogName, unique) => {
 													<Space
 														className={'p-8'}
 														key={field.key}
-														style={{width: '100%'}}
+														style={{
+															width: '100%',
+															justifyContent:
+																'center',
+														}}
 													>
 														<Space>
 															<DatePicker
@@ -240,7 +278,7 @@ const operationOnServer = (type, catalogName, unique) => {
 																		`${index}-StartWorkSchedules`,
 																	],
 																	fieldKey: [
-																		field.fieldKey,
+																		field.name,
 																		`${index}-StartWorkSchedules`,
 																	],
 																	label: 'с',
@@ -251,6 +289,10 @@ const operationOnServer = (type, catalogName, unique) => {
 																		span: 18,
 																	},
 																}}
+																showTime={true}
+																format={
+																	'DD.MM.DDDD HH:mm'
+																}
 																dispatch={{
 																	path: `catalog.${catalogName}Table.modal.dateScheduleStart`,
 																}}
@@ -286,7 +328,7 @@ const operationOnServer = (type, catalogName, unique) => {
 																		`${index}-FinishWorkSchedules`,
 																	],
 																	fieldKey: [
-																		field.fieldKey,
+																		field.name,
 																		`${index}-FinishWorkSchedules`,
 																	],
 																	// name: `${index}FinishWorkSchedules`,
@@ -298,6 +340,10 @@ const operationOnServer = (type, catalogName, unique) => {
 																		span: 18,
 																	},
 																}}
+																showTime={true}
+																format={
+																	'DD.MM.DDDD HH:mm'
+																}
 																dispatch={{
 																	path: `catalog.${catalogName}Table.modal.dateScheduleFinish`,
 																}}
@@ -349,7 +395,12 @@ const operationOnServer = (type, catalogName, unique) => {
 							</TabPane>{' '}
 							<TabPane
 								key={'sickLeavesTab'}
-								tab={'Sick leaves'}
+								tab={
+									<span>
+										<MedicineBoxOutlined />
+										Больничные
+									</span>
+								}
 								scrollable={true}
 							>
 								<Layout>
@@ -372,7 +423,11 @@ const operationOnServer = (type, catalogName, unique) => {
 													<Space
 														className={'p-8'}
 														key={field.key}
-														style={{width: '100%'}}
+														style={{
+															width: '100%',
+															justifyContent:
+																'center',
+														}}
 													>
 														<Space>
 															<DatePicker
@@ -396,6 +451,9 @@ const operationOnServer = (type, catalogName, unique) => {
 																		span: 18,
 																	},
 																}}
+																format={
+																	'DD.MM.YYYY'
+																}
 																dispatch={{
 																	path: `catalog.${catalogName}Table.modal.dateStartSickLeaves`,
 																}}
@@ -443,6 +501,9 @@ const operationOnServer = (type, catalogName, unique) => {
 																		span: 18,
 																	},
 																}}
+																format={
+																	'DD.MM.YYYY'
+																}
 																dispatch={{
 																	path: `catalog.${catalogName}Table.modal.dateFinishSickLeaves`,
 																}}
@@ -494,7 +555,12 @@ const operationOnServer = (type, catalogName, unique) => {
 							</TabPane>
 							<TabPane
 								key={'vacationTab'}
-								tab={'Vacation'}
+								tab={
+									<span>
+										<CompassOutlined />
+										Отпуска
+									</span>
+								}
 								scrollable={true}
 							>
 								<Layout>
@@ -517,7 +583,11 @@ const operationOnServer = (type, catalogName, unique) => {
 													<Space
 														className={'p-8'}
 														key={field.key}
-														style={{width: '100%'}}
+														style={{
+															width: '100%',
+															justifyContent:
+																'center',
+														}}
 													>
 														<Space>
 															<DatePicker
@@ -541,6 +611,9 @@ const operationOnServer = (type, catalogName, unique) => {
 																		span: 18,
 																	},
 																}}
+																format={
+																	'DD.MM.YYYY'
+																}
 																dispatch={{
 																	path: `catalog.${catalogName}Table.modal.dateStartVacation`,
 																}}
@@ -588,6 +661,9 @@ const operationOnServer = (type, catalogName, unique) => {
 																		span: 18,
 																	},
 																}}
+																format={
+																	'DD.MM.YYYY'
+																}
 																dispatch={{
 																	path: `catalog.${catalogName}Table.modal.dateFinishVacation`,
 																}}
@@ -660,7 +736,7 @@ const operationOnServer = (type, catalogName, unique) => {
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
-				width: 450,
+				width: catalogName !== 'staff' ? 450 : 650,
 				bodyStyle: {
 					height: modalHieght(catalogName),
 				},

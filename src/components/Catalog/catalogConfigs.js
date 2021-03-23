@@ -89,18 +89,18 @@ export const catalogConfigs = (paths) => [
 		unique: 'рабочего графика',
 	},
 	{
-		name: 'defectTypical',
-		path: `${paths.CATALOG.path}/defectTypical`,
-		title: 'Типовые дефекты',
-		hierarchical: true,
-		unique: 'типового дефекта',
-	},
-	{
 		name: 'detoursStatuses',
 		path: `${paths.CATALOG.path}/detoursStatuses`,
-		title: 'Статусы обработки обходов !?!?!?!',
+		title: 'Статусы обработки обходов',
 		hierarchical: false,
 		unique: 'статуса обхода',
+	},
+	{
+		name: 'defectTypical',
+		path: `${paths.CATALOG.path}/defectTypical`,
+		title: 'Типовые дефекты !?!?!?',
+		hierarchical: true,
+		unique: 'типового дефекта',
 	},
 	{
 		name: 'staff',
