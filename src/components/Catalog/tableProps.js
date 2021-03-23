@@ -13,7 +13,7 @@ import {
 } from './Modals/btnCustomObject';
 import {dateTime} from '../Base/customColumnProps';
 
-const {Row, Checkbox} = classic;
+const {Row, Checkbox, DateText} = classic;
 export const itemsInfo = {
 	/*
 	 * btnDecCustomObject.js
@@ -187,7 +187,7 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 						catalogName={catalogName}
 						unique={unique}
 					/>
-					<DeleteButton catalogName={catalogName} unique={unique} />
+					{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
 					<ModalDefaultObjectView catalogName={catalogName} />
 				</>
 			) : (
@@ -234,4 +234,58 @@ export const customColumnPropsEquipments = [
 	},
 	{...dateTime('dateStart')},
 	{...dateTime('dateFinish')},
+	{
+		name: 'workSchedules',
+		cellRenderer: ({cellData}) =>
+			cellData &&
+			cellData.map((cell, index) => (
+				<span key={index}>
+					<DateText
+						value={cell[`${index}-StartWorkSchedules`]}
+						format={'DD.MM.YYYY HH:mm'}
+					/>{' '}
+					-{' '}
+					<DateText
+						value={cell[`${index}-FinishWorkSchedules`]}
+						format={'DD.MM.YYYY HH:mm'}
+					/>
+				</span>
+			)),
+	},
+	{
+		name: 'sickLeaves',
+		cellRenderer: ({cellData}) =>
+			cellData &&
+			cellData.map((cell, index) => (
+				<span key={index}>
+					<DateText
+						value={cell[`${index}-StartSickLeaves`]}
+						format={'DD.MM.YYYY'}
+					/>{' '}
+					-{' '}
+					<DateText
+						value={cell[`${index}-FinishSickLeaves`]}
+						format={'DD.MM.YYYY'}
+					/>
+				</span>
+			)),
+	},
+	{
+		name: 'vacation',
+		cellRenderer: ({cellData}) =>
+			cellData &&
+			cellData.map((cell, index) => (
+				<span key={index}>
+					<DateText
+						value={cell[`${index}-StartVacation`]}
+						format={'DD.MM.YYYY'}
+					/>{' '}
+					-{' '}
+					<DateText
+						value={cell[`${index}-FinishVacation`]}
+						format={'DD.MM.YYYY'}
+					/>
+				</span>
+			)),
+	},
 ];

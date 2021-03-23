@@ -40,16 +40,9 @@ const {
 	Button,
 } = classic;
 const operationOnServer = (type, catalogName, unique) => {
-	// workSchedules: row.workSchedules.stringify()
 	const loadData = (callBack, row) => {
-		const newData = {
-			...row,
-			workSchedules: JSON.parse(row.workSchedules),
-			sickLeaves: JSON.parse(row.sickLeaves),
-			vacation: JSON.parse(row.vacation),
-		};
-		console.log(newData);
-		callBack(type === 'add' ? null : newData);
+		console.log('row>>>', row);
+		callBack(type === 'add' ? null : row);
 	};
 	const modalHieght = (catalogName) => {
 		switch (catalogName) {
@@ -258,136 +251,148 @@ const operationOnServer = (type, catalogName, unique) => {
 													}}
 													className={'mb-8 mt-8'}
 												/>
-												{fields.map((field, index) => (
-													<Space
-														className={'p-8'}
-														key={field.key}
-														style={{
-															width: '100%',
-															justifyContent:
-																'center',
-														}}
-													>
-														<Space>
-															<DatePicker
-																itemProps={{
-																	className:
-																		'mb-0',
-																	name: [
-																		field.name,
-																		`${index}-StartWorkSchedules`,
-																	],
-																	fieldKey: [
-																		field.name,
-																		`${index}-StartWorkSchedules`,
-																	],
-																	label: 'с',
-																	labelCol: {
-																		span: 4,
-																	},
-																	wrapperCol: {
-																		span: 18,
-																	},
-																}}
-																showTime={true}
-																format={
-																	'DD.MM.DDDD HH:mm'
+												{fields &&
+													fields.map(
+														(field, index) => (
+															<Space
+																className={
+																	'p-8'
 																}
-																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
+																key={index}
+																style={{
+																	width:
+																		'100%',
+																	justifyContent:
+																		'center',
 																}}
-																subscribe={[
-																	{
-																		name: `${catalogName}ModalStartDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
-																		onChange: ({
-																			value,
-																			setSubscribeProps,
-																		}) => {
-																			setSubscribeProps(
-																				{
-																					disabledDate: (
-																						startValue
-																					) =>
-																						disabledStartDate(
-																							startValue,
-																							value
-																						),
-																				}
-																			);
-																		},
-																	},
-																]}
-															/>
-															<DatePicker
-																itemProps={{
-																	className:
-																		'mb-0',
-																	name: [
-																		field.name,
-																		`${index}-FinishWorkSchedules`,
-																	],
-																	fieldKey: [
-																		field.name,
-																		`${index}-FinishWorkSchedules`,
-																	],
-																	// name: `${index}FinishWorkSchedules`,
-																	label: 'по',
-																	labelCol: {
-																		span: 4,
-																	},
-																	wrapperCol: {
-																		span: 18,
-																	},
-																}}
-																showTime={true}
-																format={
-																	'DD.MM.DDDD HH:mm'
-																}
-																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
-																}}
-																subscribe={[
-																	{
-																		name: `${catalogName}ModalFinishDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
-																		onChange: ({
-																			value,
-																			setSubscribeProps,
-																		}) => {
-																			setSubscribeProps(
-																				{
-																					disabledDate: (
-																						endValue
-																					) =>
-																						disabledEndDate(
-																							value,
-																							endValue
-																						),
-																				}
-																			);
-																		},
-																	},
-																]}
-															/>
-															{fields.length ? (
-																<Button
-																	icon={
-																		<DeleteOutlined />
-																	}
-																	onClick={() =>
-																		remove(
-																			field.name
-																		)
-																	}
-																	type={
-																		'text'
-																	}
-																/>
-															) : null}
-														</Space>
-													</Space>
-												))}
+															>
+																<Space>
+																	<DatePicker
+																		itemProps={{
+																			className:
+																				'mb-0',
+																			name: [
+																				field.name,
+																				`${index}-StartWorkSchedules`,
+																			],
+																			fieldKey: [
+																				field.fieldKey,
+																				`${index}-StartWorkSchedules`,
+																			],
+																			label:
+																				'с',
+																			labelCol: {
+																				span: 4,
+																			},
+																			wrapperCol: {
+																				span: 18,
+																			},
+																		}}
+																		showTime={
+																			true
+																		}
+																		format={
+																			'DD.MM.YYYY HH:mm'
+																		}
+																		dispatch={{
+																			path: `catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
+																		}}
+																		subscribe={[
+																			{
+																				name: `${catalogName}ModalStartDatePicker`,
+																				path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
+																				onChange: ({
+																					value,
+																					setSubscribeProps,
+																				}) => {
+																					setSubscribeProps(
+																						{
+																							disabledDate: (
+																								startValue
+																							) =>
+																								disabledStartDate(
+																									startValue,
+																									value
+																								),
+																						}
+																					);
+																				},
+																			},
+																		]}
+																	/>
+																	<DatePicker
+																		itemProps={{
+																			className:
+																				'mb-0',
+																			name: [
+																				field.name,
+																				`${index}-FinishWorkSchedules`,
+																			],
+																			fieldKey: [
+																				field.fieldKey,
+																				`${index}-FinishWorkSchedules`,
+																			],
+																			// name: `${index}FinishWorkSchedules`,
+																			label:
+																				'по',
+																			labelCol: {
+																				span: 4,
+																			},
+																			wrapperCol: {
+																				span: 18,
+																			},
+																		}}
+																		showTime={
+																			true
+																		}
+																		format={
+																			'DD.MM.YYYY HH:mm'
+																		}
+																		dispatch={{
+																			path: `catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
+																		}}
+																		subscribe={[
+																			{
+																				name: `${catalogName}ModalFinishDatePicker`,
+																				path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
+																				onChange: ({
+																					value,
+																					setSubscribeProps,
+																				}) => {
+																					setSubscribeProps(
+																						{
+																							disabledDate: (
+																								endValue
+																							) =>
+																								disabledEndDate(
+																									value,
+																									endValue
+																								),
+																						}
+																					);
+																				},
+																			},
+																		]}
+																	/>
+																	{fields.length ? (
+																		<Button
+																			icon={
+																				<DeleteOutlined />
+																			}
+																			onClick={() =>
+																				remove(
+																					field.name
+																				)
+																			}
+																			type={
+																				'text'
+																			}
+																		/>
+																	) : null}
+																</Space>
+															</Space>
+														)
+													)}
 											</>
 										)}
 									</FormList>
@@ -455,12 +460,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.dateStartSickLeaves`,
+																	path: `catalog.${catalogName}Table.modal.${index}-dateStartSickLeaves`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalStartDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.dateFinishSickLeaves`,
+																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateFinishSickLeaves`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -505,12 +510,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.dateFinishSickLeaves`,
+																	path: `catalog.${catalogName}Table.modal.${index}-dateFinishSickLeaves`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalFinishDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.dateStartSickLeaves`,
+																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateStartSickLeaves`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -615,12 +620,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.dateStartVacation`,
+																	path: `catalog.${catalogName}Table.modal.${index}-dateStartVacation`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalStartDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.dateFinishVacation`,
+																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateFinishVacation`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -665,12 +670,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.dateFinishVacation`,
+																	path: `catalog.${catalogName}Table.modal.${index}-dateFinishVacation`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalFinishDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.dateStartVacation`,
+																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateStartVacation`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -745,7 +750,6 @@ const operationOnServer = (type, catalogName, unique) => {
 				), //не забыть поставить
 				form: {
 					name: `${type}ModalForm`,
-
 					loadInitData: loadData,
 					onFinish: (values) => {
 						console.log('values', values);
