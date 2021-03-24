@@ -12,6 +12,7 @@ import {
 import {
 	apiGetDataFlatConfigManagement,
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
@@ -43,6 +44,7 @@ const {
 	Divider,
 	Space,
 	Button,
+	Text,
 } = classic;
 
 /**
@@ -69,11 +71,13 @@ const operationOnServer = (type, catalogName, unique) => {
 	 * @desc Function return few changes in save object
 	 */
 	const processBeforeSaveForm = (rawValues) => {
-		const values = {...rawValues};
-		return {
-			...values,
-			id: values.userId,
-		};
+		if (catalogName === 'staff') {
+			const values = {...rawValues};
+			return {
+				...values,
+				id: values.userId,
+			};
+		} else return rawValues;
 	};
 
 	/**
@@ -214,8 +218,11 @@ const operationOnServer = (type, catalogName, unique) => {
 									<Select
 										itemProps={{...itemsInfo.userId}}
 										mode={'single'}
-										requestLoadRows={apiGetFlatDataByConfigName(
-											'staff'
+										dispatch={{
+											path: `catalog.${catalogName}Table.modal.userId`,
+										}}
+										requestLoadRows={apiGetDataFlatConfigManagement(
+											'users'
 										)}
 										optionConverter={(option) => ({
 											label: option.username,
@@ -237,12 +244,45 @@ const operationOnServer = (type, catalogName, unique) => {
 										itemProps={{...itemsInfo.departmentId}}
 										mode={'single'}
 										treeDefaultExpandAll={true}
-										requestLoadRows={apiGetDataFlatConfigManagement()}
+										requestLoadRows={apiGetHierarchicalDataByConfigName(
+											'departments'
+										)}
 										optionConverter={(option) => ({
 											label: option.name,
 											value: option.id,
 											children: option.children,
 										})}
+									/>
+									<Text
+										itemProps={{
+											...itemsInfo.username,
+											hidden: true,
+										}}
+										subscribe={[
+											{
+												name: 'userId',
+												path: `rtd.catalog.${catalogName}Table.modal.userId`,
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													// console.log('username')
+													apiGetDataFlatConfigManagement(
+														'users'
+													)({data: {id: value}})
+														.then((res) =>
+															setSubscribeProps({
+																value:
+																	res.data[0]
+																		.username,
+															})
+														)
+														.catch((err) =>
+															console.log(err)
+														);
+												},
+											},
+										]}
 									/>
 								</Layout>
 							</TabPane>
