@@ -34,17 +34,39 @@ const {
 	FormList,
 	Title,
 } = classic;
+
+/**
+ *
+ * @param catalogName name of server configuration<string>
+ * @param unique phrase on Russian<string>
+ * @returns {JSX.object}
+ *
+ */
 export const AddCustomObjectButton = ({catalogName, unique}) =>
 	operationOnServer('add', catalogName, unique);
 export const EditCustomObjectButton = ({catalogName, unique}) =>
 	operationOnServer('edit', catalogName, unique);
 
+/**
+ *
+ * @param type modal type<string>
+ * @param catalogName name of server configuration<string>
+ * @param unique phrase on Russian<string>
+ * @returns {JSX.object}
+ * @desc Modal work only object in row
+ */
 const operationOnServer = (type, catalogName, unique) => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
 		callBack(type === 'add' ? null : sRow);
 	};
+
+	/**
+	 *
+	 * @param catalogName name of server configuration<string>
+	 * @returns {null|JSX.object}
+	 */
 	const catalogConfig = (catalogName) => {
 		switch (catalogName) {
 			case 'equipments':

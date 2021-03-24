@@ -10,13 +10,19 @@ import {
 	PlusOutlined,
 } from '@ant-design/icons';
 import {
+	apiGetDataFlatConfigManagement,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
 import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
 
+/**
+ *
+ * @param catalogName name of server configuration
+ * @param unique phrase on Russian
+ * @returns {JSX.object}
+ */
 export const AddDefaultButton = ({catalogName, unique}) =>
 	operationOnServer('add', catalogName, unique);
 export const EditDefaultButton = ({catalogName, unique}) =>
@@ -38,20 +44,45 @@ const {
 	Space,
 	Button,
 } = classic;
+
+/**
+ *
+ * @param type modal type<string>
+ * @param catalogName name of server configuration<string>
+ * @param unique phrase on Russian<string>
+ * @returns {JSX.object}
+ * @desc Modal work only object in row
+ */
 const operationOnServer = (type, catalogName, unique) => {
+	/**
+	 *
+	 * @param callBack function change state (row)
+	 * @param row info object from table
+	 */
 	const loadData = (callBack, row) => {
-		console.log('row>>>', row);
 		callBack(type === 'add' ? null : row);
 	};
+
+	/**
+	 *
+	 * @param rawValues
+	 * @desc Function return few changes in save object
+	 */
 	const processBeforeSaveForm = (rawValues) => {
 		const values = {...rawValues};
-		// console.log(values)
 		return {
 			...values,
 			id: values.userId,
 		};
 	};
-	const modalHieght = (catalogName) => {
+
+	/**
+	 *
+	 * @param catalogName name of server configuration<string>
+	 * @returns {number}
+	 * @desc Func choice height number by catalogName
+	 */
+	const modalHeight = (catalogName) => {
 		switch (catalogName) {
 			case 'staff':
 				return 350;
@@ -66,6 +97,11 @@ const operationOnServer = (type, catalogName, unique) => {
 		}
 	};
 
+	/**
+	 *
+	 * @param catalogName name of server configuration<string>
+	 * @returns {null|JSX.object}
+	 */
 	const catalogOption = (catalogName) => {
 		switch (catalogName) {
 			case 'departments':
@@ -201,9 +237,7 @@ const operationOnServer = (type, catalogName, unique) => {
 										itemProps={{...itemsInfo.departmentId}}
 										mode={'single'}
 										treeDefaultExpandAll={true}
-										requestLoadRows={apiGetHierarchicalDataByConfigName(
-											'departments'
-										)}
+										requestLoadRows={apiGetDataFlatConfigManagement()}
 										optionConverter={(option) => ({
 											label: option.name,
 											value: option.id,
@@ -725,11 +759,11 @@ const operationOnServer = (type, catalogName, unique) => {
 				} ${unique}`,
 				width: catalogName !== 'staff' ? 450 : 650,
 				bodyStyle: {
-					height: modalHieght(catalogName),
+					height: modalHeight(catalogName),
 				},
 				requestSaveRow: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
-				), //не забыть поставить
+				),
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,

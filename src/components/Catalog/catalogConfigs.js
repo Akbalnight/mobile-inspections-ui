@@ -2,7 +2,11 @@
 // import BaseModal from "./Forms/BaseModals/BaseModal";
 // import EquipmentsModal from "./Forms/Equipments/EquipmentsModal";
 // import EquipmentsGroupModal from "./Forms/Equipments/EquipmentsGroupModal";
-
+/**
+ *
+ * @param paths Obeject<path,title, component,roles<array>>
+ * @returns {({path: string, hierarchical: boolean, unique: string, name: string, title: string}|{path: string, hierarchical: boolean, unique: string, name: string, title: string}|{path: string, hierarchical: boolean, unique: string, name: string, title: string}|{path: string, hierarchical: boolean, unique: string, name: string, title: string}|{path: string, hierarchical: boolean, unique: string, name: string, title: string})[]}
+ */
 export const catalogConfigs = (paths) => [
 	{
 		name: 'departments',
@@ -105,50 +109,8 @@ export const catalogConfigs = (paths) => [
 	{
 		name: 'staff',
 		path: `${paths.CATALOG.path}/staff`,
-		title: 'Сотрудник !?!?!?!',
+		title: 'Сотрудник',
 		hierarchical: false,
 		unique: 'карточки сотрудника',
 	},
 ];
-
-// // Метки RFID
-//      symbolRfid("public.symbol_rfid"),
-//
-//     // Критичность дефектов
-//     ++defectCriticality("public.defect_criticality"),
-//
-//     // Статусы обработки дефектов
-//     ++defectStatusesProcess("public.defect_statuses_process"),
-//
-//     // Группа типовых дефектов (картины повреждений)
-//     ++defectTypicalGroups("public.defect_typical_groups"),
-//
-//     // Марка оборудования
-//     ++equipmentMarks("public.equipment_marks"),
-//
-//     // Модель оборудования
-//     ++equipmentModels("public.equipment_models"),
-//
-//     // Типы файлов (фото, видео, документ)
-//     +filesTypes("public.files_types"),
-//
-//     // Приоритеты панели проблем
-//     +panelProblemsPriorities("public.panel_problems_priorities"),
-//
-//     // Статусы панели проблем
-//     +panelProblemsStatuses("public.panel_problems_statuses"),
-//
-//     // Сообщения САП
-//     +sapMessagesToro("public.sap_messages_toro"),
-//
-//     // Статусы САП
-//     +sapStatusesToro("public.sap_statuses_toro"),
-//
-//     // Должности
-//     ++staffPositions("public.staff_positions"),
-//
-//     // :
-//     ++staffQualifications("public.staff_qualifications"),
-//
-//     // Допуски сотрудников
-//     ++staffResolves("public.staff_resolves"),

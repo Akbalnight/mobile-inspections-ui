@@ -5,12 +5,19 @@ import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 
 const {Modal, Text, FormBody} = classic;
+
+/**
+ *
+ * @param catalogName name of server configuration<string>
+ * @param unique phrase on Russian<string>
+ * @returns {JSX.object}
+ * @desc Delete modal(button)
+ */
 export const DeleteButton = ({catalogName, unique}) => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
-		console.log(sRow);
-		return callBack(sRow);
+		callBack(sRow);
 	};
 	return (
 		<Modal

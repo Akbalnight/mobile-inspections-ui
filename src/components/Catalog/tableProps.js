@@ -14,6 +14,10 @@ import {
 import {dateTime} from '../Base/customColumnProps';
 
 const {Row, Checkbox, DateText} = classic;
+/**
+ * @desc Object with Item props in this section
+ * @type {{measuringPoints: {name: string, className: string, label: string}, constructionType: {name: string, className: string, label: string}, dateWarrantyFinish: {name: string, className: string, label: string}, typeEquipment: {name: string, className: string, label: string}, code: {name: string, className: string, label: string}, departmentId: {name: string, className: string, label: string}, dateFinish: {name: string, className: string, label: string}, dateWarrantyStart: {name: string, className: string, label: string}, dateFinishSchedule: {name: string, className: string, label: string}, manufacturer: {name: string, className: string, label: string}, vacation: {name: string, className: string, label: string}, sapId: {name: string, className: string, label: string}, direction: {name: string, className: string, label: string}, techPlace: {name: string, className: string, label: string}, isGroupTypical: {name: string, className: string, label: string}, techPlacePath: {name: string, className: string, label: string}, weight: {name: string, className: string, label: string}, priority: {name: string, className: string, label: string}, userId: {name: string, className: string, label: string}, parentId: {name: string, className: string, label: string}, dateStartSchedule: {name: string, className: string, label: string}, sickLeaves: {name: string, className: string, label: string}, parentName: {name: string, className: string, label: string}, deleted: {name: string, className: string, label: string}, material: {name: string, className: string, label: string}, size: {name: string, className: string, label: string}, positionId: {name: string, className: string, label: string}, name: {name: string, className: string, label: string}, workSchedules: {name: string, className: string, label: string}}}
+ */
 export const itemsInfo = {
 	/*
 	 * btnDecCustomObject.js
@@ -172,8 +176,30 @@ export const itemsInfo = {
 		label: 'Отпуска',
 		className: 'mb-8',
 	},
+	username: {
+		name: 'username',
+		label: 'Имя сотрудника',
+		className: 'mb-8',
+	},
+	positionName: {
+		name: 'positionName',
+		label: 'Должность',
+		className: 'mb-8',
+	},
+	departmentName: {
+		name: 'departmentName',
+		label: 'Департамент',
+		className: 'mb-8',
+	},
 };
 
+/**
+ *
+ * @param catalogName name of server configuration
+ * @param unique phrase on Russian
+ * @returns {JSX.object}
+ * @desc Function choice table header buttons(action modals) and view modals
+ */
 export const CatalogTableHeader = ({catalogName, unique}) => {
 	const configCatalogName = (catalogName) => {
 		switch (catalogName) {
@@ -201,7 +227,10 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<ModalObjectView catalogName={catalogName} />
+						<ModalObjectView
+							catalogName={catalogName}
+							unique={unique}
+						/>
 						<ModalGroupView catalogName={catalogName} />
 					</>
 				);
@@ -217,7 +246,10 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 							unique={unique}
 						/>
 						{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
-						<ModalDefaultObjectView catalogName={catalogName} />
+						<ModalDefaultObjectView
+							catalogName={catalogName}
+							unique={unique}
+						/>
 					</>
 				);
 		}
@@ -225,6 +257,10 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 	return <Row className={'p-8'}>{configCatalogName(catalogName)}</Row>;
 };
 
+/**
+ * @desc Array of table column configuration
+ * @type {({cellRenderer: (function({cellData: *}): *), name: string}|{cellRenderer: (function({cellData: *}): *), name: string}|{cellRenderer: (function({rowData: *, cellData: *}): *), name: string}|{cellRenderer: function({cellData?: *}): *, name: *})[]}
+ */
 export const customColumnPropsEquipments = [
 	{
 		name: 'deleted',

@@ -7,14 +7,29 @@ import {
 import React from 'react';
 import {itemsInfo} from '../tableProps';
 
-export const AddGroupButton = ({catalogName, unique, tableRef}) =>
-	operationOnServer('add', catalogName, unique, tableRef);
-export const EditGroupButton = ({catalogName, unique, tableRef}) =>
-	operationOnServer('edit', catalogName, unique, tableRef);
+/**
+ *
+ * @param catalogName name of server configuration<string>
+ * @param unique phrase on Russian<string>
+ * @returns {JSX.object}
+ *
+ */
+export const AddGroupButton = ({catalogName, unique}) =>
+	operationOnServer('add', catalogName, unique);
+export const EditGroupButton = ({catalogName, unique}) =>
+	operationOnServer('edit', catalogName, unique);
 
 const {Modal, FormBody, Input, TreeSelect} = classic;
 
-const operationOnServer = (type, catalogName, unique, tableRef) => {
+/**
+ *
+ * @param type modal type<string>
+ * @param catalogName name of server configuration<string>
+ * @param unique phrase on Russian<string>
+ * @returns {JSX.object}
+ * @desc Modal work if table have is_group props in row
+ */
+const operationOnServer = (type, catalogName, unique) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
@@ -24,8 +39,8 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 			buttonProps={{
 				type: 'default',
 				icon: type === 'add' ? <FolderAddOutlined /> : <EditOutlined />,
-				disabled: type === 'add' ? false : true,
-				hidden: type === 'add' ? false : true,
+				disabled: type !== 'add',
+				hidden: type !== 'add',
 				className: 'mr-8',
 			}}
 			toolTipProps={{
@@ -38,7 +53,7 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 				} группы ${unique}`,
 				width: 500,
 				bodyStyle: {height: catalogName === 'equipments' ? 250 : 200},
-				requestSaveRow: ({method, data, params}) =>
+				requestSaveRow: ({data, params}) =>
 					apiSaveByConfigName(`${catalogName}CatalogSave`)({
 						method: type === 'add' ? 'POST' : 'PUT',
 						data: {...data, isGroup: true},
@@ -91,11 +106,9 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 						})
 					}
 					optionConverter={(option) => ({
-						value: option.id, //change
+						value: option.id,
 						label: option.name,
 						children: option.children,
-						// checkable: !option.isGroup,
-						// selectable: !option.isGroup,
 					})}
 				/>
 			</FormBody>
