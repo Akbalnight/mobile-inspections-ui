@@ -28,7 +28,6 @@ const {
 	Input,
 	InputNumber,
 	DatePicker,
-	Checkbox,
 	Select,
 	Tabs,
 	TabPane,
@@ -116,12 +115,12 @@ const operationOnServer = (type, catalogName, unique) => {
 							showTime={true}
 							format={'DD.MM.YYYY HH:mm'}
 							dispatch={{
-								path: `catalog.${catalogName}Table.modal.dateScheduleStart`,
+								path: `catalog.${catalogName}Table.modal.datePicker.dateScheduleStart`,
 							}}
 							subscribe={[
 								{
 									name: `${catalogName}ModalStartDatePicker`,
-									path: `rtd.catalog.${catalogName}Table.modal.dateScheduleFinish`,
+									path: `rtd.catalog.${catalogName}Table.modal.datePicker.dateScheduleFinish`,
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabledDate: (startValue) =>
@@ -141,12 +140,12 @@ const operationOnServer = (type, catalogName, unique) => {
 							showTime={true}
 							format={'DD.MM.YYYY HH:mm'}
 							dispatch={{
-								path: `catalog.${catalogName}Table.modal.dateScheduleFinish`,
+								path: `catalog.${catalogName}Table.modal.datePicker.dateScheduleFinish`,
 							}}
 							subscribe={[
 								{
 									name: `${catalogName}ModalFinishDatePicker`,
-									path: `rtd.catalog.${catalogName}Table.modal.dateScheduleStart`,
+									path: `rtd.catalog.${catalogName}Table.modal.datePicker.dateScheduleStart`,
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabledDate: (endValue) =>
@@ -159,32 +158,6 @@ const operationOnServer = (type, catalogName, unique) => {
 								},
 							]}
 						/>
-					</>
-				);
-			case 'defectTypical':
-				return (
-					<>
-						<TreeSelect
-							itemProps={{
-								...itemsInfo.parentId,
-								label: 'Родитель',
-							}}
-							mode={'single'}
-							requestLoadRows={({data, params}) =>
-								apiGetHierarchicalDataByConfigName(catalogName)(
-									{
-										data: {...data, isGroup: true},
-										params,
-									}
-								)
-							}
-							optionConverter={(option) => ({
-								label: option.name,
-								value: option.id,
-								children: option.children,
-							})}
-						/>
-						<Checkbox itemProps={{...itemsInfo.isGroupTypical}} />
 					</>
 				);
 			case 'staff':
@@ -309,12 +282,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																			'DD.MM.YYYY HH:mm'
 																		}
 																		dispatch={{
-																			path: `catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
+																			path: `catalog.${catalogName}Table.modal.datePicker.${index}-dateScheduleStart`,
 																		}}
 																		subscribe={[
 																			{
 																				name: `${catalogName}ModalStartDatePicker`,
-																				path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
+																				path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateScheduleFinish`,
 																				onChange: ({
 																					value,
 																					setSubscribeProps,
@@ -362,12 +335,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																			'DD.MM.YYYY HH:mm'
 																		}
 																		dispatch={{
-																			path: `catalog.${catalogName}Table.modal.${index}-dateScheduleFinish`,
+																			path: `catalog.${catalogName}Table.modal.datePicker.${index}-dateScheduleFinish`,
 																		}}
 																		subscribe={[
 																			{
 																				name: `${catalogName}ModalFinishDatePicker`,
-																				path: `rtd.catalog.${catalogName}Table.modal.${index}-dateScheduleStart`,
+																				path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateScheduleStart`,
 																				onChange: ({
 																					value,
 																					setSubscribeProps,
@@ -472,12 +445,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.${index}-dateStartSickLeaves`,
+																	path: `catalog.${catalogName}Table.modal.datePicker.${index}-dateStartSickLeaves`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalStartDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateFinishSickLeaves`,
+																		path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateFinishSickLeaves`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -521,12 +494,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.${index}-dateFinishSickLeaves`,
+																	path: `catalog.${catalogName}Table.modal.datePicker.${index}-dateFinishSickLeaves`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalFinishDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateStartSickLeaves`,
+																		path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateStartSickLeaves`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -630,12 +603,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.${index}-dateStartVacation`,
+																	path: `catalog.${catalogName}Table.modal.datePicker.${index}-dateStartVacation`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalStartDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateFinishVacation`,
+																		path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateFinishVacation`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -679,12 +652,12 @@ const operationOnServer = (type, catalogName, unique) => {
 																	'DD.MM.YYYY'
 																}
 																dispatch={{
-																	path: `catalog.${catalogName}Table.modal.${index}-dateFinishVacation`,
+																	path: `catalog.${catalogName}Table.modal.datePicker.${index}-dateFinishVacation`,
 																}}
 																subscribe={[
 																	{
 																		name: `${catalogName}ModalFinishDatePicker`,
-																		path: `rtd.catalog.${catalogName}Table.modal.${index}-dateStartVacation`,
+																		path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateStartVacation`,
 																		onChange: ({
 																			value,
 																			setSubscribeProps,
@@ -739,7 +712,7 @@ const operationOnServer = (type, catalogName, unique) => {
 			buttonProps={{
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
-				disabled: type === 'add' ? false : true,
+				disabled: type !== 'add',
 				className: 'mr-8',
 			}}
 			toolTipProps={{

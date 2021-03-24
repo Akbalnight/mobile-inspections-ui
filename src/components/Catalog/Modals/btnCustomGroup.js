@@ -36,8 +36,8 @@ const operationOnServer = (type, catalogName, unique, tableRef) => {
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} группы ${unique}`,
-				width: 550,
-				bodyStyle: {height: 250},
+				width: 500,
+				bodyStyle: {height: catalogName === 'equipments' ? 250 : 200},
 				requestSaveRow: ({method, data, params}) =>
 					apiSaveByConfigName(`${catalogName}CatalogSave`)({
 						method: type === 'add' ? 'POST' : 'PUT',

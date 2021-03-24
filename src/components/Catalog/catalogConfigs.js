@@ -98,7 +98,7 @@ export const catalogConfigs = (paths) => [
 	{
 		name: 'defectTypical',
 		path: `${paths.CATALOG.path}/defectTypical`,
-		title: 'Типовые дефекты !?!?!?',
+		title: 'Типовые дефекты',
 		hierarchical: true,
 		unique: 'типового дефекта',
 	},

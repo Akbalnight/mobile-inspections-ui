@@ -178,6 +178,7 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 	const configCatalogName = (catalogName) => {
 		switch (catalogName) {
 			case 'equipments':
+			case 'defectTypical':
 				return (
 					<>
 						<AddCustomObjectButton
@@ -200,32 +201,6 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<ModalObjectView catalogName={catalogName} />
-						<ModalGroupView catalogName={catalogName} />
-					</>
-				);
-			case 'defectTypical':
-				return (
-					<>
-						<AddDefaultButton
-							catalogName={catalogName}
-							unique={unique}
-						/>
-
-						<AddGroupButton
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<EditDefaultButton
-							catalogName={catalogName}
-							unique={unique}
-						/>
-
-						<EditGroupButton
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						{/*<DeleteButton catalogName={catalogName} unique={unique}/>*/}
 						<ModalObjectView catalogName={catalogName} />
 						<ModalGroupView catalogName={catalogName} />
 					</>
@@ -348,5 +323,15 @@ export const customColumnPropsEquipments = [
 					))}
 			</span>
 		),
+	},
+	{
+		name: 'code', //'codeHierarchical'
+		cellRenderer: ({rowData, cellData}) => {
+			return (
+				<span>
+					{rowData.isGroup ? <FolderOutlined /> : null} {cellData}
+				</span>
+			);
+		},
 	},
 ];

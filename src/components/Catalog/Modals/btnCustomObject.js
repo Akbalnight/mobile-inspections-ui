@@ -45,13 +45,294 @@ const operationOnServer = (type, catalogName, unique) => {
 		sRow = row;
 		callBack(type === 'add' ? null : sRow);
 	};
+	const catalogConfig = (catalogName) => {
+		switch (catalogName) {
+			case 'equipments':
+				return (
+					<>
+						<Tabs type={'card'} size={'large'}>
+							<TabPane
+								tab={<InfoTab />}
+								key={'infoTab'}
+								style={{overflow: 'auto'}}
+								scrollable={true}
+							>
+								<Layout>
+									<Input
+										itemProps={{
+											...itemsInfo.typeEquipment,
+										}}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.sapId,
+										}}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.name,
+										}}
+									/>
+
+									<TreeSelect
+										itemProps={{...itemsInfo.parentId}}
+										treeCheckStrictly={false}
+										treeDefaultExpandAll={true}
+										requestLoadRows={({data, params}) =>
+											apiGetHierarchicalDataByConfigName(
+												'equipments'
+											)({
+												data: {...data, isGroup: true},
+												params,
+											})
+										}
+										optionConverter={(option) => ({
+											value: option.id, //change
+											label: (
+												<span>
+													{option.isGroup ? (
+														<FolderOutlined />
+													) : (
+														<ToolOutlined />
+													)}{' '}
+													{option.techPlacePath}
+												</span>
+											),
+											children: option.children,
+										})}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.constructionType,
+										}}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.material,
+										}}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.size,
+										}}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.weight,
+										}}
+									/>
+									<Input
+										itemProps={{
+											...itemsInfo.manufacturer,
+										}}
+									/>
+									<Checkbox
+										itemProps={{
+											...itemsInfo.deleted,
+											valuePropName: 'checked',
+										}}
+										disabled={true}
+									/>
+									<DatePicker
+										itemProps={{
+											...itemsInfo.dateFinish,
+										}}
+										format={'DD.MM.YYYY'}
+									/>
+									<Title label={'Гарантии'} level={5} />
+									<DatePicker
+										itemProps={{
+											...itemsInfo.dateWarrantyStart,
+										}}
+										format={'DD.MM.YYYY'}
+										dispatch={{
+											path: `catalog.${catalogName}Table.modal.dateWarrantyStart`,
+										}}
+										subscribe={[
+											{
+												name: `${catalogName}ModalStartDatePicker`,
+												path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyFinish`,
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													setSubscribeProps({
+														disabledDate: (
+															startValue
+														) =>
+															disabledStartDate(
+																startValue,
+																value
+															),
+													});
+												},
+											},
+										]}
+									/>
+									<DatePicker
+										itemProps={{
+											...itemsInfo.dateWarrantyFinish,
+										}}
+										format={'DD.MM.YYYY'}
+										dispatch={{
+											path: `catalog.${catalogName}Table.modal.dateWarrantyFinish`,
+										}}
+										subscribe={[
+											{
+												name: `${catalogName}ModalFinishDatePicker`,
+												path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyStart`,
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													setSubscribeProps({
+														disabledDate: (
+															endValue
+														) =>
+															disabledEndDate(
+																value,
+																endValue
+															),
+													});
+												},
+											},
+										]}
+									/>
+								</Layout>
+							</TabPane>
+							<TabPane
+								tab={<MeasuringPointsTab />}
+								key={'measuringPoints'}
+							>
+								<Layout>
+									<FormList name={'measuringPoints'}>
+										{(fields, {add, remove}) => (
+											<>
+												<Space className={'mb-0'}>
+													<Button
+														icon={<PlusOutlined />}
+														onClick={() => add()}
+													/>
+												</Space>
+												<Divider
+													itemProps={{
+														className: 'mb-0',
+													}}
+													className={'mb-8 mt-8'}
+												/>
+												{fields &&
+													fields.map(
+														(field, index) => (
+															<Space
+																className={
+																	'p-8'
+																}
+																key={field.key}
+																style={{
+																	width:
+																		'100%',
+																}}
+															>
+																<Space
+																	style={{
+																		display:
+																			'flex',
+																	}}
+																>
+																	<Input
+																		itemProps={{
+																			className:
+																				'mb-0',
+																			name: `${index}`,
+																			style: {
+																				alignSelf:
+																					'stretch',
+																			},
+																		}}
+																		placeholder='Данные точки измерения'
+																		style={{
+																			width:
+																				'550px',
+																		}}
+																	/>
+																	{fields.length ? (
+																		<Button
+																			icon={
+																				<DeleteOutlined />
+																			}
+																			onClick={() =>
+																				remove(
+																					field.name
+																				)
+																			}
+																			type={
+																				'text'
+																			}
+																		/>
+																	) : null}
+																</Space>
+															</Space>
+														)
+													)}
+											</>
+										)}
+									</FormList>
+								</Layout>
+							</TabPane>
+						</Tabs>
+					</>
+				);
+			default:
+				return (
+					<>
+						<Input
+							itemProps={{
+								...itemsInfo.name,
+								wrapperCol: {span: 12},
+							}}
+						/>
+
+						<TreeSelect
+							itemProps={{
+								...itemsInfo.parentId,
+								label: 'Родитель',
+								wrapperCol: {span: 12},
+							}}
+							treeCheckStrictly={false}
+							treeDefaultExpandAll={true}
+							requestLoadRows={({data, params}) =>
+								apiGetHierarchicalDataByConfigName(
+									'defectTypical'
+								)({
+									data: {...data, isGroup: true},
+									params,
+								})
+							}
+							optionConverter={(option) => ({
+								value: option.id, //change
+								label: (
+									<span>
+										{option.isGroup ? (
+											<FolderOutlined />
+										) : (
+											<ToolOutlined />
+										)}{' '}
+										{option.name}
+									</span>
+								),
+								children: option.children,
+							})}
+						/>
+					</>
+				);
+		}
+	};
 	return (
 		<Modal
 			buttonProps={{
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
 				disabled: type === 'add' ? false : true,
-				// hidden: type === 'add' ? false : true,
 				className: type === 'add' ? 'mr-8' : 'mr-0',
 			}}
 			toolTipProps={{
@@ -62,8 +343,8 @@ const operationOnServer = (type, catalogName, unique) => {
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
-				width: 650,
-				bodyStyle: {height: 700},
+				width: catalogName === 'equipments' ? 650 : 500,
+				bodyStyle: {height: catalogName === 'equipments' ? 700 : 200},
 				requestSaveRow: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				), //не забыть поставить
@@ -98,221 +379,7 @@ const operationOnServer = (type, catalogName, unique) => {
 				},
 			]}
 		>
-			<FormBody>
-				<Tabs type={'card'} size={'large'}>
-					<TabPane
-						tab={<InfoTab />}
-						key={'infoTab'}
-						style={{overflow: 'auto'}}
-						scrollable={true}
-					>
-						<Layout>
-							<Input
-								itemProps={{
-									...itemsInfo.typeEquipment,
-								}}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.sapId,
-								}}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.name,
-								}}
-							/>
-
-							<TreeSelect
-								itemProps={{...itemsInfo.parentId}}
-								treeCheckStrictly={false}
-								treeDefaultExpandAll={true}
-								requestLoadRows={({data, params}) =>
-									apiGetHierarchicalDataByConfigName(
-										'equipments'
-									)({
-										data: {...data, isGroup: true},
-										params,
-									})
-								}
-								optionConverter={(option) => ({
-									value: option.id, //change
-									label: (
-										<span>
-											{option.isGroup ? (
-												<FolderOutlined />
-											) : (
-												<ToolOutlined />
-											)}{' '}
-											{option.techPlacePath}
-										</span>
-									),
-									children: option.children,
-								})}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.constructionType,
-								}}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.material,
-								}}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.size,
-								}}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.weight,
-								}}
-							/>
-							<Input
-								itemProps={{
-									...itemsInfo.manufacturer,
-								}}
-							/>
-							<Checkbox
-								itemProps={{
-									...itemsInfo.deleted,
-									valuePropName: 'checked',
-								}}
-								disabled={true}
-							/>
-							<DatePicker
-								itemProps={{
-									...itemsInfo.dateFinish,
-								}}
-								format={'DD.MM.YYYY'}
-							/>
-							<Title label={'Гарантии'} level={5} />
-							<DatePicker
-								itemProps={{
-									...itemsInfo.dateWarrantyStart,
-								}}
-								format={'DD.MM.YYYY'}
-								dispatch={{
-									path: `catalog.${catalogName}Table.modal.dateWarrantyStart`,
-								}}
-								subscribe={[
-									{
-										name: `${catalogName}ModalStartDatePicker`,
-										path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyFinish`,
-										onChange: ({
-											value,
-											setSubscribeProps,
-										}) => {
-											setSubscribeProps({
-												disabledDate: (startValue) =>
-													disabledStartDate(
-														startValue,
-														value
-													),
-											});
-										},
-									},
-								]}
-							/>
-							<DatePicker
-								itemProps={{
-									...itemsInfo.dateWarrantyFinish,
-								}}
-								format={'DD.MM.YYYY'}
-								dispatch={{
-									path: `catalog.${catalogName}Table.modal.dateWarrantyFinish`,
-								}}
-								subscribe={[
-									{
-										name: `${catalogName}ModalFinishDatePicker`,
-										path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyStart`,
-										onChange: ({
-											value,
-											setSubscribeProps,
-										}) => {
-											setSubscribeProps({
-												disabledDate: (endValue) =>
-													disabledEndDate(
-														value,
-														endValue
-													),
-											});
-										},
-									},
-								]}
-							/>
-						</Layout>
-					</TabPane>
-					<TabPane
-						tab={<MeasuringPointsTab />}
-						key={'measuringPoints'}
-					>
-						<Layout>
-							<FormList name={'measuringPoints'}>
-								{(fields, {add, remove}) => (
-									<>
-										<Space className={'mb-0'}>
-											<Button
-												icon={<PlusOutlined />}
-												onClick={() => add()}
-											/>
-										</Space>
-										<Divider
-											itemProps={{className: 'mb-0'}}
-											className={'mb-8 mt-8'}
-										/>
-										{fields &&
-											fields.map((field, index) => (
-												<Space
-													className={'p-8'}
-													key={field.key}
-													style={{width: '100%'}}
-												>
-													<Space
-														style={{
-															display: 'flex',
-														}}
-													>
-														<Input
-															itemProps={{
-																className:
-																	'mb-0',
-																name: `${index}`,
-																style: {
-																	alignSelf:
-																		'stretch',
-																},
-															}}
-															placeholder='Данные точки измерения'
-															style={{
-																width: '550px',
-															}}
-														/>
-														{fields.length ? (
-															<Button
-																icon={
-																	<DeleteOutlined />
-																}
-																onClick={() =>
-																	remove(
-																		field.name
-																	)
-																}
-																type={'text'}
-															/>
-														) : null}
-													</Space>
-												</Space>
-											))}
-									</>
-								)}
-							</FormList>
-						</Layout>
-					</TabPane>
-				</Tabs>
-			</FormBody>
+			<FormBody>{catalogConfig(catalogName)}</FormBody>
 		</Modal>
 	);
 };
