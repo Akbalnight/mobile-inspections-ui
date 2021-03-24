@@ -87,6 +87,18 @@ export const paths = {
 		redirect: '/detours-configurator/control-points',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	/** Тех. карты на формах */
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM: {
+		title: 'Технологические карты и операции',
+		path: '/detours-configurator/formTechMaps',
+		component: TechMapsForm,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	DETOURS_CONFIGURATOR_TECH_MAP_DATA_FORM: {
+		title: 'Редактирование технологической карты',
+		path: '/detours-configurator/formTechMaps/:id',
+		component: TechMapDataForm,
+	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
@@ -169,19 +181,6 @@ export const paths = {
 		title: 'Редактирование технологической карты',
 		path: '/controlEquipments/techMaps/:id',
 		component: TechMapData,
-	},
-
-	/** Тех. карты на формах */
-	CONTROL_EQUIPMENTS_TECH_MAPS_FORM: {
-		title: 'Технологические карты и операции',
-		path: '/controlEquipments/formTechMaps',
-		component: TechMapsForm,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	CONTROL_EQUIPMENTS_TECH_MAP_DATA_FORM: {
-		title: 'Редактирование технологической карты',
-		path: '/controlEquipments/formTechMaps/:id',
-		component: TechMapDataForm,
 	},
 
 	CONTROL_DEFECTS: {

@@ -4,6 +4,12 @@ import {itemsInfo} from '../tableProps';
 
 const {Modal, FormBody, Text} = classic;
 
+/**
+ *
+ * @param catalogName name of server configuration<string>
+ * @returns {JSX.object}
+ * @desc Modal view table info about row(onRowDoubleClick) , only object
+ */
 export const ModalGroupView = ({catalogName}) => {
 	return (
 		<Modal
@@ -11,7 +17,7 @@ export const ModalGroupView = ({catalogName}) => {
 				type: 'viewObject',
 				title: `Карточка группы оборудования`,
 				width: 450,
-				bodyStyle: {height: 250},
+				bodyStyle: {height: catalogName === 'equipments' ? 250 : 200},
 				form: {
 					name: `${catalogName}ModalGroupInfoForm`,
 					loadInitData: (callBack, row) => callBack(row),
@@ -41,17 +47,23 @@ export const ModalGroupView = ({catalogName}) => {
 						...itemsInfo.name,
 					}}
 				/>
-				<Text
-					itemProps={{
-						...itemsInfo.techPlacePath,
-					}}
-				/>
-				<Text
-					itemProps={{
-						...itemsInfo.techPlace,
-						// label: 'Родитель',
-					}}
-				/>
+				{catalogName === 'equipments' ? (
+					<>
+						<Text
+							itemProps={{
+								...itemsInfo.techPlacePath,
+							}}
+						/>
+						<Text
+							itemProps={{
+								...itemsInfo.techPlace,
+								label: 'Родитель',
+							}}
+						/>
+					</>
+				) : (
+					<Text itemProps={{...itemsInfo.parentName}} />
+				)}
 			</FormBody>
 		</Modal>
 	);
