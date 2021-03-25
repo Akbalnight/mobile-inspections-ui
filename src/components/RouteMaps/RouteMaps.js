@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {classic} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -8,31 +8,29 @@ import {
 import {Rnd} from 'react-rnd';
 import {useHistory} from 'react-router';
 import {routeMapsControlPointViewModal} from './Modals/routeMapsControlPointsInfo';
-import {Col, Row} from 'antd';
+import SplitPane from 'react-split-pane';
+import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 
+const {
+	Form,
+	FormBody,
+	FormFooter,
+	Button,
+	Select,
+	UploadFile,
+	Title,
+	Layout,
+	Table,
+	Space,
+} = classic;
+/**
+ *
+ * @returns {JSX.object}
+ * @desc RoteMaps component where you select choice connect with Drag'n'Drop field(package RnD)
+ */
 export default function RouteMaps() {
 	const [controlPointsRnd, setControlPointsRnd] = useState([]); // нужно подумать о найминге
 	const history = useHistory();
-	const headFields = [
-		{
-			componentType: 'Item',
-			name: 'routesSelect',
-			child: {
-				componentType: 'SingleSelect',
-				commandPanelProps: {
-					systemBtnProps: {search: {}},
-				},
-				searchParamName: 'name',
-				widthControl: 0,
-				expandColumnKey: 'id',
-				rowRender: 'name',
-				expandDefaultAll: true,
-				dispatchPath: 'routeMaps.routeMapsPage.routeMapsSelect',
-				requestLoadRows: apiGetFlatDataByConfigName('routes'),
-				requestLoadDefault: apiGetConfigByName('routes'),
-			},
-		},
-	];
 
 	/**
 	 * правильно разметить конфиги, дабы увидеть подгружаемые файлы из системы
@@ -135,32 +133,9 @@ export default function RouteMaps() {
 		},
 	];
 	const formConfig = {
-		noPadding: false,
-		name: 'routeMaps',
-		body: [...headFields, ...routeMapTableFields, ...controlPointsFields],
-		footer: [
-			{
-				componentType: 'Item',
-				child: {
-					componentType: 'Button',
-					label: 'Закрыть',
-					className: 'mr-8',
-					onClick: () => {
-						history.goBack();
-					},
-				},
-			},
-			{
-				componentType: 'Item',
-				child: {
-					componentType: 'Button',
-					label: 'Сохранить',
-					type: 'primary',
-					htmlType: 'submit',
-				},
-			},
-		],
+		body: [...routeMapTableFields, ...controlPointsFields],
 	};
+	console.log(formConfig);
 
 	/**
 	 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
@@ -188,46 +163,156 @@ export default function RouteMaps() {
 	 * style={{width: '30%', height: '100%'}}
 	 * style={{width: '70%', height: '100%', background: '#f9dcc4'}}
 	 */
+
 	return (
 		<BasePage>
-			<Row style={{width: '100%', flex: 'auto'}}>
-				<Col span={8}>
-					<Form {...formConfig} />
-				</Col>
-				<Col span={16} className={'col-route-map'}>
-					<div className={'route-map'}>
-						{controlPointsRnd &&
-							controlPointsRnd.map((controlPoints) => (
-								<>
-									<Rnd
-										key={controlPoints.id}
-										size={{width: 32, height: 32}}
-										bounds={'.route-map'}
+			<SplitPane
+				className={'routeMaps'}
+				split='vertical'
+				minSize={400}
+				maxSize={600}
+				defaultSize={500}
+			>
+				<div className={'routeMapsConfig'}>
+					<Form itemProps={{name: 'routeMapsForm'}}>
+						<FormBody noPadding={false} scrollable={false}>
+							<Title level={4}>Маршрут</Title>
+							<Select
+								itemProps={{name: 'routeSelect'}}
+								autoClearSearchValue={true}
+								filterOption={false}
+								showArrow={true}
+								showSearch={true}
+								searchParamName={'name'}
+								mode={'single'}
+								infinityMode={true}
+								requestLoadRows={apiGetFlatDataByConfigName(
+									'routes'
+								)}
+								optionConverter={(option) => ({
+									label: option.name,
+									value: option.id,
+								})}
+								dispatch={{
+									path:
+										'routeMaps.mainForm.events.onSelectRoute',
+									type: 'event',
+								}}
+							/>
+							<Title
+								itemProps={{hidden: false}}
+								level={2}
+								label={
+									<span
 										style={{
-											display: 'inline-block!important',
-											margin: 20,
-											background: '#b7e4c7',
-											borderRadius:
-												'69% 31% 100% 0% / 53% 55% 45% 47%',
-										}} //над стилем нужно подумать
-										onDragStop={(e, d) => {
-											console.log(
-												'koor X',
-												d.x,
-												'koor Y',
-												d.y
-											);
+											display: 'flex',
+											flexDirection: 'column',
+											justifyContent: 'center',
+											textAlign: 'center',
+											height: '600px',
 										}}
 									>
-										<div>
-											{controlPoints.controlPointName}
-										</div>
-									</Rnd>
-								</>
-							))}
-					</div>
-				</Col>
-			</Row>
+										<ArrowUpOutlined />
+										Выберите маршрут
+										<ExclamationCircleTwoTone />
+									</span>
+								}
+								subscribe={[
+									{
+										name: 'makeHidden',
+										path:
+											'rtd.routeMaps.mainForm.events.onSelectRoute',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											value &&
+												setSubscribeProps &&
+												setSubscribeProps({
+													hidden: value.value,
+												});
+										},
+									},
+								]}
+							/>
+							<Layout>
+								<Space className={'p-8'}>
+									<UploadFile />
+								</Space>
+								<Table
+									itemProps={{name: 'routeMapsTAble'}}
+									infinityMode={true}
+									requestLoadRows={apiGetFlatDataByConfigName(
+										'routeMaps'
+									)}
+									requestLoadConfig={apiGetConfigByName(
+										'routeMaps'
+									)} //
+									dispatchPath={
+										'routeMaps.mainForm.routeMapsTable'
+									}
+									subscribe={
+										[
+											// {
+											//     name: '1Hidden',
+											//     path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+											//     onChange: ({value, setSubscribeProps}) => {
+											//         value && setSubscribeProps &&
+											//         setSubscribeProps({
+											//             disabled: value.value
+											//         })
+											//     }
+											// }
+										]
+									}
+								/>
+							</Layout>
+						</FormBody>
+						<FormFooter>
+							<Button className={'mr-8'} onClick={console.log()}>
+								Закрыть
+							</Button>
+							<Button
+								className={'mr-8'}
+								type={'primary'}
+								htmlType={'submit'}
+							>
+								Сохранить
+							</Button>
+						</FormFooter>
+					</Form>
+				</div>
+				<div className={'routeMapsContainer'}>
+					{controlPointsRnd &&
+						controlPointsRnd.map((controlPoints) => (
+							<>
+								<Rnd
+									key={controlPoints.id}
+									size={{width: 32, height: 32}}
+									bounds={'.routeMapsContainer'}
+									style={{
+										display: 'inline-block!important',
+										margin: 20,
+										background: '#b7e4c7',
+										borderRadius:
+											'69% 31% 100% 0% / 53% 55% 45% 47%',
+									}} //над стилем нужно подумать
+									onDragStop={(e, d) => {
+										console.log(
+											'koor X',
+											d.x,
+											'koor Y',
+											d.y
+										);
+									}}
+								>
+									<div>{controlPoints.controlPointName}</div>
+								</Rnd>
+							</>
+						))}
+					<div className={'route-map'}></div>
+				</div>
+			</SplitPane>
 		</BasePage>
 	);
 }

@@ -1,8 +1,23 @@
 .col-route-map{
   display: flex;
-  .route-map{
-    flex: auto;
-    background: #f9dcc4;
-  }
 }
 
+
+.routeMaps {
+  .routeMapsConfig,
+  .routeMapsContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; //center
+    .ant-result .anticon.anticon-arrow-left {
+      font-size: 40px;
+
+      .route-map {
+        flex: auto;
+        background: #f9dcc4;
+      }
+    }
+  }
+}
