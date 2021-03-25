@@ -156,7 +156,7 @@ export const paths = {
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов(таблица)',
-		path: '/detours-configurator/detours-schedules-table',
+		path: '/detours-configurator/qwerty',
 		component: DetoureSchedulesTable,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
