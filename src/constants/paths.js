@@ -21,6 +21,7 @@ import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 import DeclarativeDebug from '../components/Debug/DeclarativeDebug';
+import DetoureSchedulesTable from '../components/Detours/DetoureSchedulesTable';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -139,6 +140,12 @@ export const paths = {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/detours-schedules',
 		component: DetoursSchedules,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
+		title: 'Расписание обходов(таблица)',
+		path: '/detours-configurator/detours-schedules-table',
+		component: DetoureSchedulesTable,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
