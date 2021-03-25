@@ -29,4 +29,11 @@ module.exports = function (app) {
 			secure: false,
 		})
 	);
+	app.use(
+		'/api/management',
+		createProxyMiddleware({
+			target: `${API_URL}:8807/management`,
+			pathRewrite: {'^/api/management': ''},
+		})
+	);
 };

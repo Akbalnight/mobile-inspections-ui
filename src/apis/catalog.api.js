@@ -173,3 +173,14 @@ export const apiSaveByConfigName = (catalogName) => ({method, data, params}) =>
 
 export const apiSaveFileByConfigName = (catalogName) => (data) =>
 	genericUploadRequest(`/api/dynamicdq/data/save/file/${catalogName}`, data);
+
+export const apiGetDataFlatConfigManagement = (configName) => ({
+	data,
+	params,
+}) =>
+	genericRequest({
+		url: `/api/management/data/flat/${configName}`,
+		method: 'POST',
+		data,
+		params,
+	});

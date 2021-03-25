@@ -1,6 +1,6 @@
 import React from 'react';
 import SplitPane from 'react-split-pane';
-import {List} from 'rt-design';
+import {classic} from 'rt-design';
 import {Link, useLocation} from 'react-router-dom';
 import {paths} from '../../constants/paths';
 import {Route, Switch} from 'react-router';
@@ -9,13 +9,11 @@ import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {catalogConfigs} from './catalogConfigs';
 import {CatalogDecForm} from './CatalogDecForm';
-// import {CatalogForm} from './CatalogForm';
-// import CatalogData from './CatalogData';
 
+const {List, Button} = classic;
 const CATALOG_DATA_PATH = {
 	title: 'Справочник',
 	path: '/catalog/:name',
-	// component: CatalogForm,
 	component: CatalogDecForm,
 };
 
@@ -39,24 +37,22 @@ const Catalog = () => {
 			>
 				<div className={'CatalogList'}>
 					<List
-						autoLoadRows={false}
-						rows={catalogConfigs(paths)}
-						selectedRowKeys={[pathname]}
-						type={'localSide'}
-						showElements={['search']}
-						// rowRender={"title"}
-						rowRender={({rowData}) => (
-							<Link
-								style={{
-									flex: '1 1 auto',
-									color: 'rgba(0, 0, 0, 0.65)',
-								}}
-								to={rowData.path}
-							>
-								{rowData.title}
+						dataSource={catalogConfigs(paths)}
+						itemLayout={'vertical'}
+						renderItem={(item) => (
+							<Link to={item.path}>
+								<Button
+									style={{
+										color: 'rgba(0, 0, 0, 0.65)',
+										width: '100%',
+										textAlign: 'left',
+									}}
+									type={'text'}
+								>
+									{item.title}
+								</Button>
 							</Link>
 						)}
-						rowKey={'path'}
 					/>
 				</div>
 				<div className={'CatalogData'}>
@@ -72,8 +68,6 @@ const Catalog = () => {
 									render={() => (
 										<Component
 											catalogName={item.name}
-											// SaveForm={item.SaveForm}
-											// SaveGroup={item.SaveGroup}
 											hierarchical={item.hierarchical}
 											unique={item.unique}
 										/>
@@ -100,3 +94,28 @@ Catalog.propTypes = {};
 Catalog.defaultProps = {};
 
 export default Catalog;
+
+/**
+ * Старый лист
+ *
+ *  <List
+ autoLoadRows={false}
+ rows={catalogConfigs(paths)}
+ selectedRowKeys={[pathname]}
+ type={'localSide'}
+ showElements={['search']}
+ // rowRender={"title"}
+ rowRender={({rowData}) => (
+                            <Link
+                                style={{
+                                    flex: '1 1 auto',
+                                    color: 'rgba(0, 0, 0, 0.65)',
+                                }}
+                                to={rowData.path}
+                            >
+                                {rowData.title}
+                            </Link>
+                        )}
+ rowKey={'path'}
+ />
+ * */
