@@ -15,7 +15,7 @@ import Routes from '../components/Routes/Routes';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
 import Detours from '../components/Detours/Detours';
 import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
-import RouteMaps from '../components/RouteMaps/RouteMaps';
+import RouteMaps from '../components/RouteMaps/Registry/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
