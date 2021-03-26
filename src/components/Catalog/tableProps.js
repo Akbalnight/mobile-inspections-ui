@@ -203,6 +203,7 @@ export const itemsInfo = {
 export const CatalogTableHeader = ({catalogName, unique}) => {
 	const configCatalogName = (catalogName) => {
 		switch (catalogName) {
+			case 'controlPoint':
 			case 'equipments':
 			case 'defectTypical':
 				return (
