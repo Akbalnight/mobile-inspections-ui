@@ -1,10 +1,15 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
+
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
+import {CatalogTableHeader} from './tableProps';
+
+const {Form, FormBody, Table} = classic;
+
 // import {
 //     addGroupOnServer,
 //     editGroupOnServer,
@@ -13,57 +18,58 @@ import {
 // import {modalObjectView} from './Modals/modalObjectView';
 // import {headerControlPointsTable} from './tableProps';
 // import {logoutUrl} from "mobile-inspections-base-ui/lib/constants/auth.constants";
-import {CatalogTableHeader} from '../Catalog/tableProps';
 
-const {Form, FormBody, Divider, FormHeader, Table} = classic;
-
-const ControlPointsBase = (props) => {
-	const {catalogName, unique} = props;
-
+/**
+ * нейминг подписки некорректный, сейчас использована подписка на catalog
+ * нужно пееделать в подписку по разделам
+ * */
+const ControlPointsBase = () => {
 	return (
 		<BasePage>
 			<Form>
-				<FormHeader>
-					<CatalogTableHeader
-						catalogName={catalogName}
-						unique={unique}
-					/>
-				</FormHeader>
+				<CatalogTableHeader
+					catalogName={'controlPoints'}
+					unique={'контрольных точек'}
+				/>
 				<FormBody noPadding={true}>
-					<Divider />
 					<Table
 						footerShow={true}
 						requestLoadRows={apiGetHierarchicalDataByConfigName(
 							'controlPoints'
 						)}
 						requestLoadConfig={apiGetConfigByName('controlPoints')}
-						dispatchPath={'controlPoints.mainTable.table'}
+						dispatchPath={'catalog.controlPointsTable.table'}
 						subscribe={[
 							/**Событие добавления КТ*/
 							{
 								name: 'addOnModal',
-								path: `rtd.controlPoints.mainTable.modal.events.addOnModal`,
-								onChange: ({value, addRow}) => {
-									addRow(value.value);
+								path: `rtd.catalog.controlPointsTable.modal.events.addOnModal`,
+								onChange: ({reloadTable}) => {
+									// addRow(value.value);
+									reloadTable({});
 								},
 							},
 
 							/**Событие изменение КТ*/
 							{
 								name: 'editOnModal',
-								path: `rtd.controlPoints.mainTable.modal.events.editOnModal`,
-								onChange: ({value, editRow}) => {
-									editRow(value.value);
+								path: `rtd.catalog.controlPointsTable.modal.events.editOnModal`,
+								onChange: ({reloadTable}) => {
+									// editRow(value.value);
+									reloadTable({});
 								},
 							},
 
 							/**Событие удаления КТ*/
 							{
 								name: 'deleteOnModal',
-								path: `rtd.controlPoints.mainTable.modal.events.deleteOnModal`,
-								onChange: ({value, removeRow}) => {
-									console.log(value.value);
-									removeRow();
+								path: `rtd.catalog.controlPointsTable.modal.events.deleteOnModal`,
+								// onChange: ({value, removeRow}) => {
+								//     // console.log(value.value);
+								//     removeRow();
+								// },
+								onChange: ({reloadTable}) => {
+									reloadTable({});
 								},
 							},
 						]}

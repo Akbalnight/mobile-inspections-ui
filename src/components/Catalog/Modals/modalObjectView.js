@@ -30,7 +30,7 @@ const {
  *
  * @param catalogName name of server configuration
  * @param unique phrase on Russian
- * @returns {JSX.object}
+ * @returns {JSX.Element}
  * @desc This is view modal by server information there we have is_group props
  *
  */
@@ -66,7 +66,7 @@ export const ModalObjectView = ({catalogName, unique}) => {
 	/**
 	 *
 	 * @param catalogName name of server configuration
-	 * @returns {JSX.object}
+	 * @returns {JSX.Element}
 	 * @desc Choice function.
 	 */
 	const configCatalog = (catalogName) => {
@@ -326,6 +326,9 @@ export const ModalObjectView = ({catalogName, unique}) => {
 						</Tabs>
 					</>
 				);
+			case 'controlPoints':
+				return <>Информация о контрольной точке</>;
+
 			default:
 				return (
 					<>
@@ -345,6 +348,7 @@ export const ModalObjectView = ({catalogName, unique}) => {
 				);
 		}
 	};
+
 	return (
 		<Modal
 			modalConfig={{
