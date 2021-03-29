@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
+import {Result} from 'antd';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -9,7 +10,11 @@ import {Rnd} from 'react-rnd';
 
 // import {routeMapsControlPointViewModal} from '../Modals/routeMapsControlPointsInfo';
 import SplitPane from 'react-split-pane';
-import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
+import {
+	ArrowLeftOutlined,
+	ArrowUpOutlined,
+	ExclamationCircleTwoTone,
+} from '@ant-design/icons';
 
 const {
 	Form,
@@ -29,34 +34,26 @@ const {
  *
  * @returns {JSX.object}
  * @desc RoteMaps component where you select choice connect with Drag'n'Drop field(package RnD)
- * public.route_maps.id.route_map_id/public.files.id.file_id
+ *
  */
 export default function RouteMaps() {
 	/**
-	 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
-	 *
-	 * Что нам интересно(свойства)
-	 *
-	 *  position?: { x: number, y: number }-  тут мы сожем задавать начальные координаты на рисунке
-	 *
-	 * size?: { width: (number | string), height: (number | string) }
-	 *
-	 *  disableDragging?: boolean; - оно отключает перетаскивание, вдруг точка является ключевой и ее нельзя перетаскивать
-	 *
-	 *  bounds?: string; - ограничение по передвижению элемента, можно задать 'parent'  или className  в формате '.className'. Возможно сюда
-	 * мы будем задавать взяимосвязь с загружаемыми данными в объекте выше.
-	 *
-	 * Сallback
-	 *
-	 *   onDragStop - пригодиться для получения новых координат
-	 *
-	 *
+	 * разъединить логику карты и Drag'n'Drop
 	 */
+	const [rndObject, setRndObject] = useState({
+		image: '',
+		controlPointsSelected: [],
+		controlPointInRouteMaps: [],
+		// controlPointsAll:[],
+	});
+	const {image, controlPointsSelected, controlPointInRouteMaps} = rndObject;
+	console.log(controlPointInRouteMaps);
 	/**
-	 * style={{display:'flex', flexDirection: 'row'}} поставил эти стили на BasePage  инлайново. возможно это не в лучших практиках
-	 * style={{display: 'flex', flexDirection: 'row'}} width: 100%; flex: auto;
-	 * style={{width: '30%', height: '100%'}}
-	 * style={{width: '70%', height: '100%', background: '#f9dcc4'}}
+	 * СИТУАЦИИ:
+	 * 1. Человек заходит на карту и на ней есть уже несколько КТ(не кликая на таблицу контрольных точек)
+	 * 2. Человек заходит на карту и выбирает КТ(происходит ререндер- не приемлимо)
+	 * 3. Человек выбирает иную карту, автоматически сохраняются предыдущие КТ и новые.
+	 * 4. Человек хочет убрать КТ с карты
 	 */
 
 	return (
@@ -66,7 +63,7 @@ export default function RouteMaps() {
 				split='vertical'
 				minSize={400}
 				maxSize={600}
-				defaultSize={500}
+				defaultSize={400}
 			>
 				<div className={'routeMapsConfig'}>
 					<Form itemProps={{name: 'routeMapsForm'}}>
@@ -232,78 +229,82 @@ export default function RouteMaps() {
 				</div>
 				<div className={'routeMapsContainer'}>
 					<Custom
-						itemProps={{name: 'imageField'}}
+						itemProps={{name: 'rndField'}}
 						render={({
 							value,
 							defaultValue,
 							onChange,
 							koordinate,
 						}) => {
-							console.log(
-								'1',
-								defaultValue,
-								'2',
-								value,
-								'3',
-								koordinate
-							);
 							return (
 								<>
-									{defaultValue === undefined ? (
-										<ExclamationCircleTwoTone />
-									) : (
+									{image ? (
 										<>
 											<img
-												src={`${
-													defaultValue &&
-													defaultValue.fileUrl
-												}`}
-												alt={`${
-													defaultValue &&
-													defaultValue.name
-												}`}
+												src={`${image}`}
+												alt={`${image}`}
 												width={'100%'}
 												height={'100%'}
 											/>
 										</>
+									) : (
+										<Result
+											title='Выберите маршрутную карту'
+											extra={<ArrowLeftOutlined />}
+										/>
 									)}
-									<Rnd
-										key={
-											defaultValue &&
-											defaultValue.xLocation
-										}
-										// size={{width: 32, height: 32}}
-										bounds={'.routeMapsContainer'}
-										style={{
-											display: 'inline-block!important',
-											margin: 20,
-											background: '#b7e4c7',
-											borderRadius:
-												'69% 31% 100% 0% / 53% 55% 45% 47%',
-										}}
-										onDragStop={(e, d) => {
-											console.log(
-												'koor X',
-												d.x,
-												'koor Y',
-												d.y
-											);
-										}}
-										default={{
-											x:
-												koordinate &&
-												koordinate.xLocation,
-											y:
-												koordinate &&
-												koordinate.yLocation,
-											width: 15,
-											height: 15,
-										}}
-									>
-										<div>
-											{koordinate && koordinate.xLocation}
-										</div>
-									</Rnd>
+									{controlPointsSelected &&
+										controlPointsSelected.map(
+											(cpElement, index) => (
+												<>
+													<Rnd
+														key={`${index}-${cpElement.id}`}
+														bounds={
+															'.routeMapsContainer'
+														}
+														size={{
+															width: 32,
+															height: 32,
+														}}
+														style={{
+															display:
+																'inline-block!important',
+															margin: 20,
+															background:
+																'#b7e4c7',
+															borderRadius:
+																'0% 31% 100% 62% ',
+															textAlign: 'center',
+														}}
+														onDragStop={(e, d) => {
+															// сохранение новых координат
+															// setRndObject(state => {
+															//     return {...state,controlPointInRouteMaps:[...state.controlPointInRouteMaps,{...cpElement, xLocation:d.x, yLocation:d.y}]}
+															// })
+															console.log(
+																cpElement.controlPointName,
+																'koor X',
+																d.x,
+																'koor Y',
+																d.y
+															);
+														}}
+														default={{
+															x:
+																cpElement.xLocation,
+															y:
+																cpElement.yLocation,
+														}}
+													>
+														<div>
+															{
+																cpElement.controlPointName
+															}
+														</div>
+													</Rnd>
+												</>
+											)
+										)}
 								</>
 							);
 						}}
@@ -313,11 +314,20 @@ export default function RouteMaps() {
 								path:
 									'rtd.routeMaps.mainForm.routeMapsTable.selected',
 								onChange: ({value, setSubscribeProps}) => {
-									console.log(value);
+									// console.log(value);
 									value &&
 										setSubscribeProps &&
 										setSubscribeProps({
 											defaultValue: value,
+										});
+									value &&
+										setRndObject((state) => {
+											return {
+												...state,
+												image: value.fileUrl,
+												controlPointsAll: [],
+												controlPointsSelected: [],
+											};
 										});
 								},
 							},
@@ -326,46 +336,160 @@ export default function RouteMaps() {
 								path:
 									'rtd.routeMaps.mainForm.controlPointsTable.selected',
 								onChange: ({value, setSubscribeProps}) => {
-									console.log(value);
+									// console.log(value);
+									// value &&
+									// setSubscribeProps &&
+									// setSubscribeProps({
+									//     koordinate:value,
+									// });
 									value &&
-										setSubscribeProps &&
-										setSubscribeProps({
-											koordinate: value,
+										setRndObject((state) => {
+											return {
+												...state,
+												controlPointsSelected: [
+													...state.controlPointsSelected,
+													value,
+												],
+											};
 										});
 								},
 							},
+							// {
+							//     name: 'getArrayControlPoint',
+							//     path:
+							//         'rtd.routeMaps.mainForm.controlPointsTable.rows',
+							//     onChange: ({value, setSubscribeProps}) => {
+							//         // console.log(value);
+							//         // value &&
+							//         // setSubscribeProps &&
+							//         // setSubscribeProps({
+							//         //     koordinate:value,
+							//         // });
+							//         value && setRndObject(state=>{
+							//             return{...state,
+							//                 controlPointsAll:[...value]
+							//             }})
+							//     },
+							// },
 						]}
 					/>
-
-					{/*{controlPointsRnd &&*/}
-					{/*controlPointsRnd.map((controlPoints) => (*/}
-					{/*    <>*/}
-					{/*        <Rnd*/}
-					{/*            key={controlPoints.id}*/}
-					{/*            size={{width: 32, height: 32}}*/}
-					{/*            bounds={'.routeMapsContainer'}*/}
-					{/*            style={{*/}
-					{/*                display: 'inline-block!important',*/}
-					{/*                margin: 20,*/}
-					{/*                background: '#b7e4c7',*/}
-					{/*                borderRadius:*/}
-					{/*                    '69% 31% 100% 0% / 53% 55% 45% 47%',*/}
-					{/*            }} //над стилем нужно подумать*/}
-					{/*            onDragStop={(e, d) => {*/}
-					{/*                console.log(*/}
-					{/*                    'koor X',*/}
-					{/*                    d.x,*/}
-					{/*                    'koor Y',*/}
-					{/*                    d.y*/}
-					{/*                );*/}
-					{/*            }}*/}
-					{/*        >*/}
-					{/*            /!*<div>{value && value.controlPointName}</div>*!/*/}
-					{/*        </Rnd>*/}
-					{/*    </>*/}
-					{/*))}*/}
 				</div>
 			</SplitPane>
 		</BasePage>
 	);
 }
+
+/**
+ *  НЕ УДАЛЯТЬ!!!!
+ *  public.route_maps.id.route_map_id/public.files.id.file_id
+ */
+/**
+ * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+ *
+ * Что нам интересно(свойства)
+ *
+ *  position?: { x: number, y: number }-  тут мы сожем задавать начальные координаты на рисунке
+ *
+ * size?: { width: (number | string), height: (number | string) }
+ *
+ *  disableDragging?: boolean; - оно отключает перетаскивание, вдруг точка является ключевой и ее нельзя перетаскивать
+ *
+ *  bounds?: string; - ограничение по передвижению элемента, можно задать 'parent'  или className  в формате '.className'. Возможно сюда
+ * мы будем задавать взяимосвязь с загружаемыми данными в объекте выше.
+ *
+ * Сallback
+ *
+ *   onDragStop - пригодиться для получения новых координат
+ *
+ *
+ */
+/**
+ * style={{display:'flex', flexDirection: 'row'}} поставил эти стили на BasePage  инлайново. возможно это не в лучших практиках
+ * style={{display: 'flex', flexDirection: 'row'}} width: 100%; flex: auto;
+ * style={{width: '30%', height: '100%'}}
+ * style={{width: '70%', height: '100%', background: '#f9dcc4'}}
+ */
+
+/**
+ *  НЕ УДАЛЯТЬ!!!!
+ */
+/**
+ *  <Custom
+ itemProps={{name: 'imageField'}}
+ render={({
+                                     value,
+                                     defaultValue,
+                                     onChange,
+                                     koordinate,
+                                 }) => {
+                            // console.log(
+                            //     '1',
+                            //     defaultValue,
+                            //
+                            //     '2',
+                            //     koordinate
+                            // );
+                            return (
+                                <>
+                                    {defaultValue === undefined ? (
+                                        <ExclamationCircleTwoTone/>
+                                    ) : (
+                                        <>
+                                            <img
+                                                src={`${
+                                                    defaultValue &&
+                                                    defaultValue.fileUrl
+                                                }`}
+                                                alt={`${
+                                                    defaultValue &&
+                                                    defaultValue.name
+                                                }`}
+                                                width={'100%'}
+                                                height={'100%'}
+                                            />
+                                        </>
+                                    )}
+                                    <Rnd
+                                        key={
+                                            koordinate &&
+                                            koordinate.controlPointId
+                                        }
+                                        // size={{width: 32, height: 32}}
+                                        bounds={'.routeMapsContainer'}
+                                        style={{
+                                            display: 'inline-block!important',
+                                            margin: 20,
+                                            background: '#b7e4c7',
+                                            borderRadius:
+                                                '0% 31% 100% 62% ',
+                                            textAlign: 'center',
+                                            verticalAlign: 'middle'
+
+                                        }}
+                                        onDragStop={(e, d) => {
+                                            console.log(
+                                                'koor X',
+                                                d.x,
+                                                'koor Y',
+                                                d.y
+                                            );
+                                        }}
+                                        default={{
+                                            x:
+                                                koordinate &&
+                                                koordinate.xLocation,
+                                            y:
+                                                koordinate &&
+                                                koordinate.yLocation,
+                                            width: koordinate && 32, height: koordinate && 32
+
+                                        }}
+                                    >
+                                        <div>
+                                            {koordinate && koordinate.controlPointName}
+                                        </div>
+                                    </Rnd>
+                                </>
+                            );
+                        }}
+ */
