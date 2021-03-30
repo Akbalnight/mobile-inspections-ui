@@ -1,6 +1,8 @@
 import React from 'react';
 import {classic} from 'rt-design';
 import {Rnd} from 'react-rnd';
+import {Result} from 'antd';
+import {ArrowLeftOutlined} from '@ant-design/icons';
 
 const {Custom} = classic;
 
@@ -10,7 +12,7 @@ const PointsOnMap = (props) => {
 		return existPoints.map((point, index) => (
 			<Rnd
 				key={`${index}-${point.id}`}
-				bounds={'.routeMap'}
+				bounds={'.routeMapImage'}
 				size={{width: 32, height: 32}}
 				style={{
 					display: 'inline-block!important',
@@ -50,11 +52,20 @@ const RouteMap = () => {
 					},
 				]}
 				render={({src}) => (
-					<img
-						className={'routeMap'}
-						src={src}
-						alt={`Маршрутная карта`}
-					/>
+					<>
+						{src ? (
+							<img
+								className={'routeMapImage'}
+								src={src}
+								alt={`Маршрутная карта`}
+							/>
+						) : (
+							<Result
+								title='Выберите маршрутную карту'
+								extra={<ArrowLeftOutlined />}
+							/>
+						)}
+					</>
 				)}
 			/>
 			<Custom

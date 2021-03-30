@@ -1,20 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
-import {Result} from 'antd';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {Rnd} from 'react-rnd';
 
 // import {routeMapsControlPointViewModal} from '../Modals/routeMapsControlPointsInfo';
 import SplitPane from 'react-split-pane';
-import {
-	ArrowLeftOutlined,
-	ArrowUpOutlined,
-	ExclamationCircleTwoTone,
-} from '@ant-design/icons';
+import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import RouteMap from './RouteMap';
 
 const {
@@ -28,27 +22,15 @@ const {
 	Layout,
 	Table,
 	Space,
-	Custom,
 } = classic;
 
 /**
  *
  * @returns {JSX.object}
- * @desc RoteMaps component where you select choice connect with Drag'n'Drop field(package RnD)
+ * @desc RouteMaps component where you select choice connect with Drag'n'Drop field(package RnD)
  *
  */
 export default function RouteMaps() {
-	/**
-	 * разъединить логику карты и Drag'n'Drop
-	 */
-	const [rndObject, setRndObject] = useState({
-		image: '',
-		controlPointsSelected: [],
-		controlPointInRouteMaps: [],
-		// controlPointsAll:[],
-	});
-	const {image, controlPointsSelected, controlPointInRouteMaps} = rndObject;
-	console.log(controlPointInRouteMaps);
 	/**
 	 * СИТУАЦИИ:
 	 * 1. Человек заходит на карту и на ней есть уже несколько КТ(не кликая на таблицу контрольных точек)
@@ -56,19 +38,28 @@ export default function RouteMaps() {
 	 * 3. Человек выбирает иную карту, автоматически сохраняются предыдущие КТ и новые.
 	 * 4. Человек хочет убрать КТ с карты
 	 */
-
+	// const processBeforeSaveForm = (rawValues) => {
+	//     const values = {...rawValues};
+	//     return {
+	//         ...values,
+	//         id: values.routeSelect,
+	//     };
+	//
+	// };
 	return (
 		<BasePage>
+			{/*<Form>*/}
+
 			<SplitPane
 				className={'routeMaps'}
 				split='vertical'
-				minSize={400}
-				maxSize={600}
-				defaultSize={400}
+				minSize={500}
+				maxSize={700}
+				defaultSize={500}
 			>
 				<div className={'routeMapsConfig'}>
-					<Form name={'routeMapsForm'}>
-						<FormBody noPadding={false} scrollable={false}>
+					<Form name={'configForm'}>
+						<FormBody scrollable={false} noPadding={false}>
 							<Title level={4}>Маршрут</Title>
 							<Select
 								itemProps={{name: 'routeSelect'}}
@@ -95,7 +86,6 @@ export default function RouteMaps() {
 
 							<Title
 								itemProps={{hidden: false}}
-								style={{}}
 								level={2}
 								subscribe={[
 									{
@@ -121,7 +111,8 @@ export default function RouteMaps() {
 											flexDirection: 'column',
 											justifyContent: 'center',
 											textAlign: 'center',
-											height: '1000px', //костыль
+											height: '1600px', //костыль
+											zIndex: '100',
 										}}
 									>
 										<ArrowUpOutlined />
@@ -130,20 +121,28 @@ export default function RouteMaps() {
 									</span>
 								}
 							/>
+
 							<Layout>
 								<Title level={5} className={'pt-8'}>
 									Маршрутные карты
 								</Title>
 								<Space className={'p-8'}>
-									<UploadFile />
+									<UploadFile
+										itemProps={{
+											name: 'uploadRouteMaps',
+											valuePropName: 'dataObject',
+										}}
+										dispatch={{
+											path: `routeMaps.mainForm.routeMapsTable.routeMapUpload`,
+											type: 'event',
+										}}
+									/>
 								</Space>
 								<Table
 									itemProps={{name: 'routeMapsTable'}}
 									infinityMode={true}
+									style={{width: '100%', height: '100%'}}
 									defaultFilter={{routeId: null}}
-									// onRowClick={({rowData}) => {
-									//     console.log(rowData.fileName)
-									// }}
 									requestLoadRows={apiGetFlatDataByConfigName(
 										'routeMaps'
 									)}
@@ -154,6 +153,13 @@ export default function RouteMaps() {
 										'routeMaps.mainForm.routeMapsTable'
 									}
 									subscribe={[
+										{
+											name: 'routeMapUpload',
+											path: `rtd.routeMaps.mainForm.routeMapsTable.routeMapUpload`,
+											onChange: ({reloadTable}) => {
+												reloadTable({});
+											},
+										},
 										{
 											name: 'routeChoiceFilter',
 											path:
@@ -178,10 +184,11 @@ export default function RouteMaps() {
 								<Title level={5} className={'p-8'}>
 									Контрольные точки
 								</Title>
+
 								<Table
 									itemProps={{name: 'controlPointsTable'}}
 									infinityMode={true}
-									// editMode={true}
+									editMode={true}
 									defaultFilter={{routeId: null}}
 									requestLoadRows={apiGetFlatDataByConfigName(
 										'routeControlPointsDebug'
@@ -287,157 +294,24 @@ export default function RouteMaps() {
 					</Form>
 				</div>
 				<div className={'routeMapsContainer'}>
-					<Form name={'routeMapsFormImage'}>
+					<Form>
 						<RouteMap />
 					</Form>
-
-					{/*<Custom*/}
-					{/*	itemProps={{name: 'rndField'}}*/}
-					{/*	render={({*/}
-					{/*		value,*/}
-					{/*		defaultValue,*/}
-					{/*		onChange,*/}
-					{/*		koordinate,*/}
-					{/*	}) => {*/}
-					{/*		return (*/}
-					{/*			<>*/}
-					{/*				{image ? (*/}
-					{/*					<>*/}
-					{/*						<img*/}
-					{/*							src={`${image}`}*/}
-					{/*							alt={`${image}`}*/}
-					{/*							// width={'100%'}*/}
-					{/*							// height={'100%'}*/}
-					{/*						/>*/}
-					{/*					</>*/}
-					{/*				) : (*/}
-					{/*					<Result*/}
-					{/*						title='Выберите маршрутную карту'*/}
-					{/*						extra={<ArrowLeftOutlined />}*/}
-					{/*					/>*/}
-					{/*				)}*/}
-					{/*				{controlPointsSelected &&*/}
-					{/*					controlPointsSelected.map(*/}
-					{/*						(cpElement, index) => (*/}
-					{/*							<>*/}
-					{/*								<Rnd*/}
-					{/*									key={`${index}-${cpElement.id}`}*/}
-					{/*									bounds={*/}
-					{/*										'.routeMapsContainer'*/}
-					{/*									}*/}
-					{/*									size={{*/}
-					{/*										width: 32,*/}
-					{/*										height: 32,*/}
-					{/*									}}*/}
-					{/*									style={{*/}
-					{/*										display:*/}
-					{/*											'inline-block!important',*/}
-					{/*										margin: 20,*/}
-					{/*										background:*/}
-					{/*											'#b7e4c7',*/}
-					{/*										borderRadius:*/}
-					{/*											'0% 31% 100% 62% ',*/}
-					{/*										textAlign: 'center',*/}
-					{/*									}}*/}
-					{/*									onDragStop={(e, d) => {*/}
-					{/*										// сохранение новых координат*/}
-					{/*										// setRndObject(state => {*/}
-					{/*										//     return {...state,controlPointInRouteMaps:[...state.controlPointInRouteMaps,{...cpElement, xLocation:d.x, yLocation:d.y}]}*/}
-					{/*										// })*/}
-					{/*										console.log(*/}
-					{/*											cpElement.controlPointName,*/}
-					{/*											'koor X',*/}
-					{/*											d.x,*/}
-					{/*											'koor Y',*/}
-					{/*											d.y*/}
-					{/*										);*/}
-					{/*									}}*/}
-					{/*									default={{*/}
-					{/*										x:*/}
-					{/*											cpElement.xLocation,*/}
-					{/*										y:*/}
-					{/*											cpElement.yLocation,*/}
-					{/*									}}*/}
-					{/*								>*/}
-					{/*									<div>*/}
-					{/*										{*/}
-					{/*											cpElement.controlPointName*/}
-					{/*										}*/}
-					{/*									</div>*/}
-					{/*								</Rnd>*/}
-					{/*							</>*/}
-					{/*						)*/}
-					{/*					)}*/}
-					{/*			</>*/}
-					{/*		);*/}
-					{/*	}}*/}
-					{/*	subscribe={[*/}
-					{/*		{*/}
-					{/*			name: 'getPicture',*/}
-					{/*			path:*/}
-					{/*				'rtd.routeMaps.mainForm.routeMapsTable.selected',*/}
-					{/*			onChange: ({value, setSubscribeProps}) => {*/}
-					{/*				// console.log(value);*/}
-					{/*				value &&*/}
-					{/*					setSubscribeProps &&*/}
-					{/*					setSubscribeProps({*/}
-					{/*						defaultValue: value,*/}
-					{/*					});*/}
-					{/*				value &&*/}
-					{/*					setRndObject((state) => {*/}
-					{/*						return {*/}
-					{/*							...state,*/}
-					{/*							image: value.fileUrl,*/}
-					{/*							controlPointsAll: [],*/}
-					{/*							controlPointsSelected: [],*/}
-					{/*						};*/}
-					{/*					});*/}
-					{/*			},*/}
-					{/*		},*/}
-					{/*		{*/}
-					{/*			name: 'getControlPoint',*/}
-					{/*			path:*/}
-					{/*				'rtd.routeMaps.mainForm.controlPointsTable.selected',*/}
-					{/*			onChange: ({value, setSubscribeProps}) => {*/}
-					{/*				// console.log(value);*/}
-					{/*				// value &&*/}
-					{/*				// setSubscribeProps &&*/}
-					{/*				// setSubscribeProps({*/}
-					{/*				//     koordinate:value,*/}
-					{/*				// });*/}
-					{/*				value &&*/}
-					{/*					setRndObject((state) => {*/}
-					{/*						return {*/}
-					{/*							...state,*/}
-					{/*							controlPointsSelected: [*/}
-					{/*								...state.controlPointsSelected,*/}
-					{/*								value,*/}
-					{/*							],*/}
-					{/*						};*/}
-					{/*					});*/}
-					{/*			},*/}
-					{/*		},*/}
-					{/*		// {*/}
-					{/*		//     name: 'getArrayControlPoint',*/}
-					{/*		//     path:*/}
-					{/*		//         'rtd.routeMaps.mainForm.controlPointsTable.rows',*/}
-					{/*		//     onChange: ({value, setSubscribeProps}) => {*/}
-					{/*		//         // console.log(value);*/}
-					{/*		//         // value &&*/}
-					{/*		//         // setSubscribeProps &&*/}
-					{/*		//         // setSubscribeProps({*/}
-					{/*		//         //     koordinate:value,*/}
-					{/*		//         // });*/}
-					{/*		//         value && setRndObject(state=>{*/}
-					{/*		//             return{...state,*/}
-					{/*		//                 controlPointsAll:[...value]*/}
-					{/*		//             }})*/}
-					{/*		//     },*/}
-					{/*		// },*/}
-					{/*	]}*/}
-					{/*/>*/}
 				</div>
 			</SplitPane>
+			{/*    <FormFooter>*/}
+			{/*        <Button className={'mr-8'} onClick={console.log()}>*/}
+			{/*            Закрыть*/}
+			{/*        </Button>*/}
+			{/*        <Button*/}
+			{/*            className={'mr-8'}*/}
+			{/*            type={'primary'}*/}
+			{/*            htmlType={'submit'}*/}
+			{/*        >*/}
+			{/*            Сохранить*/}
+			{/*        </Button>*/}
+			{/*    </FormFooter>*/}
+			{/*</Form>*/}
 		</BasePage>
 	);
 }
