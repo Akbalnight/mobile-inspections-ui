@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {classic} from 'rt-design';
-import {EditCustomObjectButton} from '../Catalog/Modals/btnCustomObject';
+// import {EditCustomObjectButton} from '../Catalog/Modals/btnCustomObject';
 import {
 	AddGroupButton,
 	EditGroupButton,
@@ -23,11 +23,12 @@ import {useHistory} from 'react-router';
 
 import {
 	// DeleteOutlined,
-	EditOutlined,
+	// EditOutlined,
 	// FolderOutlined,
 	PlusOutlined,
-	// ToolOutlined,
+	ToolOutlined,
 } from '@ant-design/icons';
+import {paths} from '../../constants/paths';
 
 const {Button, Row} = classic;
 
@@ -46,7 +47,9 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 			<Button
 				className={['ant-btn-icon-only', 'mr-8']}
 				onClick={() => {
-					history.push('/detours-configurator/control-points/new');
+					history.push(
+						paths.DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW.path
+					);
 				}}
 			>
 				<PlusOutlined />
@@ -54,29 +57,41 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 		);
 	};
 	const EditObjectButton = () => {
+		let sValueId = null;
 		return (
 			<Button
-				className={['ant-btn-icon-only', 'mr-8']}
+				className={['ant-btn-icon-only']}
 				dispatch={{
 					path: 'catalog.controlPointsTable.events.onClickEdit',
 				}}
 				subscribe={[
 					{
 						name: 'selected',
-						path:
-							'rtd.catalog.controlPointsTable.events.onClickEdit',
-						extraData:
-							'rtd.catalog.controlPointsTable.table.selected',
-						onChange: ({extraData}) => {
-							console.log(extraData);
+						path: 'rtd.catalog.controlPointsTable.table.selected',
+						onChange: ({value, setSubscribeProps}) => {
+							console.log('v', value);
+							if (value && !value.isGroup) {
+								sValueId = value.id;
+								setSubscribeProps({
+									hidden: false,
+									disabled: false,
+								});
+							} else {
+								setSubscribeProps({hidden: true});
+								sValueId = null;
+							}
 						},
 					},
 				]}
-				// onClick={() => {
-				//     history.push('/detours-configurator/control-points/new')
-				// }}
+				onClick={() => {
+					history.push(
+						paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path +
+							'/' +
+							sValueId
+					);
+				}}
 			>
-				<EditOutlined />
+				<ToolOutlined />
 			</Button>
 		);
 	};
@@ -92,10 +107,10 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 							unique={unique}
 						/>
 						<EditObjectButton />
-						<EditCustomObjectButton
-							catalogName={catalogName}
-							unique={unique}
-						/>
+						{/*<EditCustomObjectButton*/}
+						{/*    catalogName={catalogName}*/}
+						{/*    unique={unique}*/}
+						{/*/>*/}
 						<EditGroupButton
 							catalogName={catalogName}
 							unique={unique}

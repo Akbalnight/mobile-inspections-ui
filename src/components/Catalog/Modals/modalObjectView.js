@@ -7,6 +7,7 @@ import {itemsInfo} from '../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
@@ -327,7 +328,20 @@ export const ModalObjectView = ({catalogName, unique}) => {
 					</>
 				);
 			case 'controlPoints':
-				return <>Информация о контрольной точке</>;
+				console.log('sRow', sRow);
+				return (
+					<>
+						<Text>Оборудование контрольных точек</Text>
+						<Table
+							requestLoadRows={apiGetHierarchicalDataByConfigName(
+								'controlPointsEquipmentsExtended'
+							)}
+							requestLoadConfig={apiGetConfigByName(
+								'controlPointsEquipments'
+							)}
+						/>
+					</>
+				);
 
 			default:
 				return (

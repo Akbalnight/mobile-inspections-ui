@@ -61,12 +61,17 @@ const ControlPointDataD = (props) => {
 
 	const loadRowsHandler = (catalogName, {params, data}) => {
 		if (controlPointId) {
+			console.log('controlPointId', controlPointId);
 			const newData = {...data, controlPointsId: controlPointId};
+			// return apiGetHierarchicalDataByConfigName (catalogName)({
 			return apiGetFlatDataByConfigName(catalogName)({
 				data: newData,
 				params,
 			});
-		} else return new Promise((resolve) => resolve({data: []}));
+		} else {
+			console.log('controlPointId not transferred');
+			return new Promise((resolve) => resolve({data: []}));
+		}
 	};
 
 	const headFields = [
@@ -158,10 +163,17 @@ const ControlPointDataD = (props) => {
 						},
 						modals: [{...EquipmentSelectModal}],
 						customFields: [...equipmentTableCustom(controlPointId)],
-						requestLoadRows: (info) =>
-							loadRowsHandler('controlPointsEquipments', info),
+						// requestLoadRows: (info) =>
+						// 	loadRowsHandler('controlPointsEquipmentsExtended', info),
+						requestLoadRows: ({data, params}) =>
+							apiGetFlatDataByConfigName(
+								'controlPointsEquipmentsExtended'
+							)({
+								data: {...data, controlPointId: controlPointId},
+								params,
+							}),
 						requestLoadConfig: apiGetConfigByName(
-							'controlPointsEquipments'
+							'controlPointsEquipmentsExtended'
 						),
 					},
 				},
