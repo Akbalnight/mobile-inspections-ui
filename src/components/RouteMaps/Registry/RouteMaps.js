@@ -15,6 +15,7 @@ import {
 	ArrowUpOutlined,
 	ExclamationCircleTwoTone,
 } from '@ant-design/icons';
+import RouteMap from './RouteMap';
 
 const {
 	Form,
@@ -66,7 +67,7 @@ export default function RouteMaps() {
 				defaultSize={400}
 			>
 				<div className={'routeMapsConfig'}>
-					<Form itemProps={{name: 'routeMapsForm'}}>
+					<Form name={'routeMapsForm'}>
 						<FormBody noPadding={false} scrollable={false}>
 							<Title level={4}>Маршрут</Title>
 							<Select
@@ -180,12 +181,13 @@ export default function RouteMaps() {
 								<Table
 									itemProps={{name: 'controlPointsTable'}}
 									infinityMode={true}
+									// editMode={true}
 									defaultFilter={{routeId: null}}
 									requestLoadRows={apiGetFlatDataByConfigName(
-										'routeControlPoints'
+										'routeControlPointsDebug'
 									)}
 									requestLoadConfig={apiGetConfigByName(
-										'routeControlPoints'
+										'routeControlPointsDebug'
 									)}
 									dispatchPath={
 										'routeMaps.mainForm.controlPointsTable'
@@ -209,6 +211,63 @@ export default function RouteMaps() {
 													});
 											},
 										},
+										{
+											// Изменить таблицу с точками по клику на таблицу с точками
+											name: 'onSelectedControlPoint',
+											path:
+												'rtd.routeMaps.mainForm.controlPointsTable.events.onRowClick',
+											extraData:
+												'rtd.routeMaps.mainForm.routeMapsTable.selected',
+											onChange: ({
+												value,
+												extraData,
+												editRow,
+											}) => {
+												const row = value.value; //.value.rowData;
+												if (
+													row &&
+													extraData &&
+													row.routeMapId === null
+												) {
+													// Add new point
+													// console.log('controlPointsTable - onSelectedControlPoint => Add new point')
+													const _row = {
+														...row,
+														routeMapId:
+															extraData.id,
+														routeMapName:
+															extraData.name,
+													};
+													editRow(_row);
+												} else if (
+													row &&
+													extraData &&
+													row.routeMapId !==
+														extraData.id
+												) {
+													// move point
+													// console.log('controlPointsTable - onSelectedControlPoint => move point from', row.routeMapId)
+													const _row = {
+														...row,
+														routeMapId:
+															extraData.id,
+														routeMapName:
+															extraData.name,
+													};
+													editRow(_row);
+												}
+											},
+										},
+										{
+											// Изменить таблицу с точками по изменению на карте (картинке)
+											name: 'onChangeRouteMapPoints',
+											path:
+												'rtd.routeMaps.mainForm.routeMapPoints.onChange',
+											onChange: ({value, editRow}) => {
+												// console.log('onChangeRouteMapPoints', value)
+												value && editRow(value);
+											},
+										},
 									]}
 								/>
 							</Layout>
@@ -228,151 +287,155 @@ export default function RouteMaps() {
 					</Form>
 				</div>
 				<div className={'routeMapsContainer'}>
-					<Custom
-						itemProps={{name: 'rndField'}}
-						render={({
-							value,
-							defaultValue,
-							onChange,
-							koordinate,
-						}) => {
-							return (
-								<>
-									{image ? (
-										<>
-											<img
-												src={`${image}`}
-												alt={`${image}`}
-												width={'100%'}
-												height={'100%'}
-											/>
-										</>
-									) : (
-										<Result
-											title='Выберите маршрутную карту'
-											extra={<ArrowLeftOutlined />}
-										/>
-									)}
-									{controlPointsSelected &&
-										controlPointsSelected.map(
-											(cpElement, index) => (
-												<>
-													<Rnd
-														key={`${index}-${cpElement.id}`}
-														bounds={
-															'.routeMapsContainer'
-														}
-														size={{
-															width: 32,
-															height: 32,
-														}}
-														style={{
-															display:
-																'inline-block!important',
-															margin: 20,
-															background:
-																'#b7e4c7',
-															borderRadius:
-																'0% 31% 100% 62% ',
-															textAlign: 'center',
-														}}
-														onDragStop={(e, d) => {
-															// сохранение новых координат
-															// setRndObject(state => {
-															//     return {...state,controlPointInRouteMaps:[...state.controlPointInRouteMaps,{...cpElement, xLocation:d.x, yLocation:d.y}]}
-															// })
-															console.log(
-																cpElement.controlPointName,
-																'koor X',
-																d.x,
-																'koor Y',
-																d.y
-															);
-														}}
-														default={{
-															x:
-																cpElement.xLocation,
-															y:
-																cpElement.yLocation,
-														}}
-													>
-														<div>
-															{
-																cpElement.controlPointName
-															}
-														</div>
-													</Rnd>
-												</>
-											)
-										)}
-								</>
-							);
-						}}
-						subscribe={[
-							{
-								name: 'getPicture',
-								path:
-									'rtd.routeMaps.mainForm.routeMapsTable.selected',
-								onChange: ({value, setSubscribeProps}) => {
-									// console.log(value);
-									value &&
-										setSubscribeProps &&
-										setSubscribeProps({
-											defaultValue: value,
-										});
-									value &&
-										setRndObject((state) => {
-											return {
-												...state,
-												image: value.fileUrl,
-												controlPointsAll: [],
-												controlPointsSelected: [],
-											};
-										});
-								},
-							},
-							{
-								name: 'getControlPoint',
-								path:
-									'rtd.routeMaps.mainForm.controlPointsTable.selected',
-								onChange: ({value, setSubscribeProps}) => {
-									// console.log(value);
-									// value &&
-									// setSubscribeProps &&
-									// setSubscribeProps({
-									//     koordinate:value,
-									// });
-									value &&
-										setRndObject((state) => {
-											return {
-												...state,
-												controlPointsSelected: [
-													...state.controlPointsSelected,
-													value,
-												],
-											};
-										});
-								},
-							},
-							// {
-							//     name: 'getArrayControlPoint',
-							//     path:
-							//         'rtd.routeMaps.mainForm.controlPointsTable.rows',
-							//     onChange: ({value, setSubscribeProps}) => {
-							//         // console.log(value);
-							//         // value &&
-							//         // setSubscribeProps &&
-							//         // setSubscribeProps({
-							//         //     koordinate:value,
-							//         // });
-							//         value && setRndObject(state=>{
-							//             return{...state,
-							//                 controlPointsAll:[...value]
-							//             }})
-							//     },
-							// },
-						]}
-					/>
+					<Form name={'routeMapsFormImage'}>
+						<RouteMap />
+					</Form>
+
+					{/*<Custom*/}
+					{/*	itemProps={{name: 'rndField'}}*/}
+					{/*	render={({*/}
+					{/*		value,*/}
+					{/*		defaultValue,*/}
+					{/*		onChange,*/}
+					{/*		koordinate,*/}
+					{/*	}) => {*/}
+					{/*		return (*/}
+					{/*			<>*/}
+					{/*				{image ? (*/}
+					{/*					<>*/}
+					{/*						<img*/}
+					{/*							src={`${image}`}*/}
+					{/*							alt={`${image}`}*/}
+					{/*							// width={'100%'}*/}
+					{/*							// height={'100%'}*/}
+					{/*						/>*/}
+					{/*					</>*/}
+					{/*				) : (*/}
+					{/*					<Result*/}
+					{/*						title='Выберите маршрутную карту'*/}
+					{/*						extra={<ArrowLeftOutlined />}*/}
+					{/*					/>*/}
+					{/*				)}*/}
+					{/*				{controlPointsSelected &&*/}
+					{/*					controlPointsSelected.map(*/}
+					{/*						(cpElement, index) => (*/}
+					{/*							<>*/}
+					{/*								<Rnd*/}
+					{/*									key={`${index}-${cpElement.id}`}*/}
+					{/*									bounds={*/}
+					{/*										'.routeMapsContainer'*/}
+					{/*									}*/}
+					{/*									size={{*/}
+					{/*										width: 32,*/}
+					{/*										height: 32,*/}
+					{/*									}}*/}
+					{/*									style={{*/}
+					{/*										display:*/}
+					{/*											'inline-block!important',*/}
+					{/*										margin: 20,*/}
+					{/*										background:*/}
+					{/*											'#b7e4c7',*/}
+					{/*										borderRadius:*/}
+					{/*											'0% 31% 100% 62% ',*/}
+					{/*										textAlign: 'center',*/}
+					{/*									}}*/}
+					{/*									onDragStop={(e, d) => {*/}
+					{/*										// сохранение новых координат*/}
+					{/*										// setRndObject(state => {*/}
+					{/*										//     return {...state,controlPointInRouteMaps:[...state.controlPointInRouteMaps,{...cpElement, xLocation:d.x, yLocation:d.y}]}*/}
+					{/*										// })*/}
+					{/*										console.log(*/}
+					{/*											cpElement.controlPointName,*/}
+					{/*											'koor X',*/}
+					{/*											d.x,*/}
+					{/*											'koor Y',*/}
+					{/*											d.y*/}
+					{/*										);*/}
+					{/*									}}*/}
+					{/*									default={{*/}
+					{/*										x:*/}
+					{/*											cpElement.xLocation,*/}
+					{/*										y:*/}
+					{/*											cpElement.yLocation,*/}
+					{/*									}}*/}
+					{/*								>*/}
+					{/*									<div>*/}
+					{/*										{*/}
+					{/*											cpElement.controlPointName*/}
+					{/*										}*/}
+					{/*									</div>*/}
+					{/*								</Rnd>*/}
+					{/*							</>*/}
+					{/*						)*/}
+					{/*					)}*/}
+					{/*			</>*/}
+					{/*		);*/}
+					{/*	}}*/}
+					{/*	subscribe={[*/}
+					{/*		{*/}
+					{/*			name: 'getPicture',*/}
+					{/*			path:*/}
+					{/*				'rtd.routeMaps.mainForm.routeMapsTable.selected',*/}
+					{/*			onChange: ({value, setSubscribeProps}) => {*/}
+					{/*				// console.log(value);*/}
+					{/*				value &&*/}
+					{/*					setSubscribeProps &&*/}
+					{/*					setSubscribeProps({*/}
+					{/*						defaultValue: value,*/}
+					{/*					});*/}
+					{/*				value &&*/}
+					{/*					setRndObject((state) => {*/}
+					{/*						return {*/}
+					{/*							...state,*/}
+					{/*							image: value.fileUrl,*/}
+					{/*							controlPointsAll: [],*/}
+					{/*							controlPointsSelected: [],*/}
+					{/*						};*/}
+					{/*					});*/}
+					{/*			},*/}
+					{/*		},*/}
+					{/*		{*/}
+					{/*			name: 'getControlPoint',*/}
+					{/*			path:*/}
+					{/*				'rtd.routeMaps.mainForm.controlPointsTable.selected',*/}
+					{/*			onChange: ({value, setSubscribeProps}) => {*/}
+					{/*				// console.log(value);*/}
+					{/*				// value &&*/}
+					{/*				// setSubscribeProps &&*/}
+					{/*				// setSubscribeProps({*/}
+					{/*				//     koordinate:value,*/}
+					{/*				// });*/}
+					{/*				value &&*/}
+					{/*					setRndObject((state) => {*/}
+					{/*						return {*/}
+					{/*							...state,*/}
+					{/*							controlPointsSelected: [*/}
+					{/*								...state.controlPointsSelected,*/}
+					{/*								value,*/}
+					{/*							],*/}
+					{/*						};*/}
+					{/*					});*/}
+					{/*			},*/}
+					{/*		},*/}
+					{/*		// {*/}
+					{/*		//     name: 'getArrayControlPoint',*/}
+					{/*		//     path:*/}
+					{/*		//         'rtd.routeMaps.mainForm.controlPointsTable.rows',*/}
+					{/*		//     onChange: ({value, setSubscribeProps}) => {*/}
+					{/*		//         // console.log(value);*/}
+					{/*		//         // value &&*/}
+					{/*		//         // setSubscribeProps &&*/}
+					{/*		//         // setSubscribeProps({*/}
+					{/*		//         //     koordinate:value,*/}
+					{/*		//         // });*/}
+					{/*		//         value && setRndObject(state=>{*/}
+					{/*		//             return{...state,*/}
+					{/*		//                 controlPointsAll:[...value]*/}
+					{/*		//             }})*/}
+					{/*		//     },*/}
+					{/*		// },*/}
+					{/*	]}*/}
+					{/*/>*/}
 				</div>
 			</SplitPane>
 		</BasePage>
