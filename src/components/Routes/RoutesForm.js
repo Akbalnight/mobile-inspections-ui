@@ -197,7 +197,7 @@ const RoutesForm = (props) => {
 						type: 'link',
 						onClick: () => {
 							history.push(
-								paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path
+								`${paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path}/${routesId}`
 							);
 						},
 					},
