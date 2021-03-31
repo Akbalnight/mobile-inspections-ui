@@ -17,6 +17,7 @@ import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
 export const ControlPointAdd = () => {
 	return (
 		<BasePage>
+			{/*<ControlPointDataJSX />*/}
 			<ControlPointDataD />
 		</BasePage>
 	);
@@ -31,6 +32,12 @@ export const ControlPointEdit = () => {
 	);
 };
 
+// const ControlPointDataJSX = (props) =>{
+// 	const {controlPointId} = props;
+// 	// const pageParams = useParams();
+// 	const history = useHistory();
+//
+// }
 const ControlPointDataD = (props) => {
 	const {controlPointId} = props;
 	// const pageParams = useParams();
@@ -64,6 +71,7 @@ const ControlPointDataD = (props) => {
 			console.log('controlPointId', controlPointId);
 			const newData = {...data, controlPointsId: controlPointId};
 			// return apiGetHierarchicalDataByConfigName (catalogName)({
+			console.log('catalogName', catalogName);
 			return apiGetFlatDataByConfigName(catalogName)({
 				data: newData,
 				params,

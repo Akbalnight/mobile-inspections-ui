@@ -23,10 +23,10 @@ import {useHistory} from 'react-router';
 
 import {
 	// DeleteOutlined,
-	// EditOutlined,
+	EditOutlined,
 	// FolderOutlined,
 	PlusOutlined,
-	ToolOutlined,
+	// ToolOutlined,
 } from '@ant-design/icons';
 import {paths} from '../../constants/paths';
 
@@ -69,7 +69,7 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 						name: 'selected',
 						path: 'rtd.catalog.controlPointsTable.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
-							console.log('v', value);
+							// console.log('v', value);
 							if (value && !value.isGroup) {
 								sValueId = value.id;
 								setSubscribeProps({
@@ -91,7 +91,7 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 					);
 				}}
 			>
-				<ToolOutlined />
+				<EditOutlined />
 			</Button>
 		);
 	};
@@ -122,7 +122,6 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 						<ModalObjectView
 							catalogName={catalogName}
 							unique={unique}
-							onClick={console.log('test')}
 						/>
 						<ModalGroupView catalogName={catalogName} />
 					</>
