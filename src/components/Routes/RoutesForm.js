@@ -239,7 +239,7 @@ const RoutesForm = (props) => {
 		methodSaveForm: routesId ? 'PUT' : 'POST',
 		processBeforeSaveForm: processBeforeSaveForm,
 		onFinish: (values) => {
-			history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
+			history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path, [routesId]);
 		},
 		header: [
 			{

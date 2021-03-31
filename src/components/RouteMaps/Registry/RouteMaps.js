@@ -1,20 +1,25 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {classic, executeRequest} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
+	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
 
 // import {routeMapsControlPointViewModal} from '../Modals/routeMapsControlPointsInfo';
 import SplitPane from 'react-split-pane';
-import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
+import {
+	ArrowDownOutlined,
+	ArrowUpOutlined,
+	ExclamationCircleTwoTone,
+} from '@ant-design/icons';
 import RouteMap from './RouteMap';
 
 const {
 	Form,
 	FormBody,
-	FormFooter,
 	Button,
 	Select,
 	UploadFile,
@@ -22,6 +27,7 @@ const {
 	Layout,
 	Table,
 	Space,
+	Divider,
 } = classic;
 
 /**
@@ -38,18 +44,13 @@ export default function RouteMaps() {
 	 * 3. Человек выбирает иную карту, автоматически сохраняются предыдущие КТ и новые.
 	 * 4. Человек хочет убрать КТ с карты
 	 */
-	// const processBeforeSaveForm = (rawValues) => {
-	//     const values = {...rawValues};
-	//     return {
-	//         ...values,
-	//         id: values.routeSelect,
-	//     };
-	//
-	// };
+	const processBeforeSaveForm = (rawValues) => {
+		return {
+			controlPointsCoordinate: rawValues.controlPointsTable,
+		};
+	};
 	return (
 		<BasePage>
-			{/*<Form>*/}
-
 			<SplitPane
 				className={'routeMaps'}
 				split='vertical'
@@ -58,7 +59,17 @@ export default function RouteMaps() {
 				defaultSize={500}
 			>
 				<div className={'routeMapsConfig'}>
-					<Form name={'configForm'}>
+					<Form
+						name={'configForm'}
+						processBeforeSaveForm={processBeforeSaveForm}
+						requestSaveForm={({method, data, params}) =>
+							apiSaveByConfigName('controlPointsCoordinateSave')({
+								method: 'POST',
+								data,
+								params,
+							})
+						}
+					>
 						<FormBody scrollable={false} noPadding={false}>
 							<Title level={4}>Маршрут</Title>
 							<Select
@@ -126,6 +137,8 @@ export default function RouteMaps() {
 								<Title level={5} className={'pt-8'}>
 									Маршрутные карты
 								</Title>
+								<Divider className={'mb-0 mt-0'} />
+
 								<Space className={'p-8'}>
 									<UploadFile
 										itemProps={{
@@ -136,8 +149,94 @@ export default function RouteMaps() {
 											path: `routeMaps.mainForm.routeMapsTable.routeMapUpload`,
 											type: 'event',
 										}}
+										dataObject={{
+											routeMap: {
+												id: null,
+												position: null,
+												fileId: null,
+											},
+										}}
+										requestUploadFile={apiSaveFileByConfigName(
+											'routeMapFileSave'
+										)}
+										subscribe={[
+											{
+												name: 'makeHidden',
+												path:
+													'rtd.routeMaps.mainForm.events.onSelectRoute',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													value &&
+														setSubscribeProps &&
+														setSubscribeProps({
+															dataObject: {
+																routeMap: {
+																	id: null,
+																	position: null,
+																	fileId: null,
+																	routeId:
+																		value.value,
+																},
+															},
+														});
+												},
+											},
+										]}
+									/>
+									<Button
+										icon={<ArrowUpOutlined />}
+										disabled={true}
+										dispatch={{
+											path:
+												'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+											type: 'event',
+										}}
+										subscribe={[
+											{
+												name: 'btnUp',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.selected',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													value &&
+														setSubscribeProps({
+															disabled: !value,
+														});
+												},
+											},
+										]}
+									/>
+									<Button
+										icon={<ArrowDownOutlined />}
+										disabled={true}
+										dispatch={{
+											path:
+												'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+											type: 'event',
+										}}
+										subscribe={[
+											{
+												name: 'btnUp',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.selected',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													value &&
+														setSubscribeProps({
+															disabled: !value,
+														});
+												},
+											},
+										]}
 									/>
 								</Space>
+								<Divider className={'mb-8 mt-0'} />
 								<Table
 									itemProps={{name: 'routeMapsTable'}}
 									infinityMode={true}
@@ -153,13 +252,7 @@ export default function RouteMaps() {
 										'routeMaps.mainForm.routeMapsTable'
 									}
 									subscribe={[
-										{
-											name: 'routeMapUpload',
-											path: `rtd.routeMaps.mainForm.routeMapsTable.routeMapUpload`,
-											onChange: ({reloadTable}) => {
-												reloadTable({});
-											},
-										},
+										/** Action reload table after select Route in Select*/
 										{
 											name: 'routeChoiceFilter',
 											path:
@@ -177,6 +270,77 @@ export default function RouteMaps() {
 														},
 													});
 											},
+										},
+										/** Action reload table after upload file */
+										{
+											name: 'routeMapUpload',
+											path: `rtd.routeMaps.mainForm.routeMapsTable.routeMapUpload`,
+											extraData:
+												'rtd.routeMaps.mainForm.events.onSelectRoute',
+											onChange: ({
+												reloadTable,
+												extraData,
+											}) => {
+												extraData &&
+													reloadTable &&
+													reloadTable({
+														filter: {
+															routeId:
+																extraData.value,
+														},
+													});
+											},
+										},
+										/** Action change state after push on Button */
+										{
+											name: 'onClickMoveUp',
+											path:
+												'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+											onChange: ({moveUpRow}) =>
+												moveUpRow(),
+										},
+										/** Action change state after push on Button */
+										{
+											name: 'onClickMoveDown',
+											path:
+												'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+											onChange: ({moveDownRow}) =>
+												moveDownRow(),
+										},
+
+										/** Action change row position in table */
+										{
+											name: 'onMoveUpRow',
+											path:
+												'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveUpRow',
+											onChange: ({value}) =>
+												executeRequest(
+													apiSaveByConfigName(
+														'routeMapPositionSave'
+													)
+												)({
+													data: {
+														routeMaps: value.value,
+													},
+													method: 'POST',
+												}),
+										},
+										/** Action change row position in table */
+										{
+											name: 'onMoveDownRow',
+											path:
+												'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveDownRow',
+											onChange: ({value}) =>
+												executeRequest(
+													apiSaveByConfigName(
+														'routeMapPositionSave'
+													)
+												)({
+													data: {
+														routeMaps: value.value,
+													},
+													method: 'POST',
+												}),
 										},
 									]}
 								/>
@@ -200,6 +364,7 @@ export default function RouteMaps() {
 										'routeMaps.mainForm.controlPointsTable'
 									}
 									subscribe={[
+										/** Action reload table after select Route in Select*/
 										{
 											name: 'controlPointTable',
 											path:
@@ -218,6 +383,7 @@ export default function RouteMaps() {
 													});
 											},
 										},
+										/** Action change table state by click on table*/
 										{
 											// Изменить таблицу с точками по клику на таблицу с точками
 											name: 'onSelectedControlPoint',
@@ -265,32 +431,40 @@ export default function RouteMaps() {
 												}
 											},
 										},
+										/** Action change table rows value*/
 										{
 											// Изменить таблицу с точками по изменению на карте (картинке)
 											name: 'onChangeRouteMapPoints',
 											path:
 												'rtd.routeMaps.mainForm.routeMapPoints.onChange',
 											onChange: ({value, editRow}) => {
-												// console.log('onChangeRouteMapPoints', value)
 												value && editRow(value);
 											},
 										},
 									]}
+									footerProps={{
+										height: 50,
+										rightCustomSideElement: () => (
+											<>
+												<Button
+													className={'mr-8'}
+													onClick={console.log()}
+												>
+													Закрыть
+												</Button>
+												<Button
+													className={'mr-8'}
+													type={'primary'}
+													htmlType={'submit'}
+												>
+													Сохранить
+												</Button>
+											</>
+										),
+									}}
 								/>
 							</Layout>
 						</FormBody>
-						<FormFooter>
-							<Button className={'mr-8'} onClick={console.log()}>
-								Закрыть
-							</Button>
-							<Button
-								className={'mr-8'}
-								type={'primary'}
-								htmlType={'submit'}
-							>
-								Сохранить
-							</Button>
-						</FormFooter>
 					</Form>
 				</div>
 				<div className={'routeMapsContainer'}>
@@ -299,19 +473,6 @@ export default function RouteMaps() {
 					</Form>
 				</div>
 			</SplitPane>
-			{/*    <FormFooter>*/}
-			{/*        <Button className={'mr-8'} onClick={console.log()}>*/}
-			{/*            Закрыть*/}
-			{/*        </Button>*/}
-			{/*        <Button*/}
-			{/*            className={'mr-8'}*/}
-			{/*            type={'primary'}*/}
-			{/*            htmlType={'submit'}*/}
-			{/*        >*/}
-			{/*            Сохранить*/}
-			{/*        </Button>*/}
-			{/*    </FormFooter>*/}
-			{/*</Form>*/}
 		</BasePage>
 	);
 }
