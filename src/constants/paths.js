@@ -162,14 +162,8 @@ export const paths = {
 		component: AddRouteMaps,
 		roles: ['ROLE_ADMIN'],
 	},
-	DETOURS_CONFIGURATOR_ROUTE_MAPS_ADD: {
-		title: 'Маршрутные карты',
-		path: '/detours-configurator/route-maps/new',
-		component: AddRouteMaps,
-		roles: ['ROLE_ADMIN'],
-	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS_EDIT: {
-		title: 'Маршрутные карты',
+		title: 'Редактирование маршрутной карты',
 		path: '/detours-configurator/route-maps/:id',
 		component: EditRouteMaps,
 		roles: ['ROLE_ADMIN'],
