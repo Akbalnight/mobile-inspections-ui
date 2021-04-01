@@ -5,7 +5,7 @@ import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
-import ControlPointsD from '../components/ControlPoints/ControlPointsD';
+// import ControlPointsD from '../components/ControlPoints/ControlPointsD';
 import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
 import {
 	ControlPointAdd,
@@ -100,15 +100,15 @@ export const paths = {
 		path: '/detours-configurator/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
+	// DETOURS_CONFIGURATOR_CONTROL_POINTS: {
+	// 	title: 'Контрольные точки',
+	// 	path: '/detours-configurator/control-points',
+	// 	component: ControlPointsD,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPointsD,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	DEBUG_CP_ANTON: {
-		title: 'Отладка Контрольные точки JSX',
-		path: '/debugCpAnton',
 		component: ControlPointsBase,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
