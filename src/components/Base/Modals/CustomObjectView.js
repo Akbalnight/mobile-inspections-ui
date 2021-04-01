@@ -3,7 +3,7 @@ import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equip
 import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
 import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
 import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/attachmentsTab.svg';
-import {itemsInfo} from '../tableProps';
+import {itemsInfo} from '../../../constants/dictionary';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -34,7 +34,7 @@ const {
  * @desc This is view modal by server information there we have is_group props
  *
  */
-export const ModalObjectView = ({catalogName, unique}) => {
+export const CustomObjectView = ({catalogName, unique}) => {
 	let sRow;
 	/**
 	 *

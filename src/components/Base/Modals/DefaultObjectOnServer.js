@@ -1,5 +1,5 @@
 import {classic} from 'rt-design';
-import {itemsInfo} from '../tableProps';
+import {itemsInfo} from '../../../constants/dictionary';
 import {
 	CalendarOutlined,
 	CompassOutlined,
@@ -16,7 +16,7 @@ import {
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
-import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
+import {disabledEndDate, disabledStartDate} from '../Functions/DateLimits';
 
 /**
  *
@@ -24,9 +24,9 @@ import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
  * @param unique phrase on Russian
  * @returns {JSX.object}
  */
-export const AddDefaultButton = ({catalogName, unique}) =>
+export const AddDefaultObjectOnServer = ({catalogName, unique}) =>
 	operationOnServer('add', catalogName, unique);
-export const EditDefaultButton = ({catalogName, unique}) =>
+export const EditDefaultObjectOnServer = ({catalogName, unique}) =>
 	operationOnServer('edit', catalogName, unique);
 
 const {

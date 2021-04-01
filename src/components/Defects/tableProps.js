@@ -24,7 +24,7 @@ import {
 	disabledEndDate,
 	disabledStartDate,
 	reloadFilterFields,
-} from '../Base/baseFunctions';
+} from '../Base/Functions/DateLimits';
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
