@@ -22,7 +22,7 @@ import {
 	AddCustomGroupOnServer,
 	EditCustomGroupOnServer,
 } from '../Base/Modals/CustomGroupOnServer';
-import {DeleteOnServer} from '../Base/Modals/DeleteOnServer';
+// import {DeleteOnServer} from '../Base/Modals/DeleteOnServer';
 import {CustomObjectView} from '../Base/Modals/CustomObjectView';
 import {CustomGroupView} from '../Base/Modals/CustomGroupView';
 import {

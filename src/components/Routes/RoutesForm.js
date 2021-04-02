@@ -81,17 +81,6 @@ const RoutesForm = (props) => {
 		}
 	};
 
-	const loadControlPointsForRoute = ({params, data}) => {
-		const newData = {
-			...data,
-			routeId: routeId ? routeId : null,
-		};
-		return apiGetFlatDataByConfigName('routeControlPoints')({
-			data: newData,
-			params,
-		});
-	};
-
 	const headFields = [
 		{
 			componentType: 'Row',
