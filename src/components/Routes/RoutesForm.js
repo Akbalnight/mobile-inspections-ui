@@ -174,7 +174,7 @@ const RoutesForm = (props) => {
 		},
 	];
 
-	const techMapsFields = [
+	const routeMapsFields = [
 		{
 			componentType: 'Row',
 			justify: 'space-between',
@@ -187,21 +187,26 @@ const RoutesForm = (props) => {
 						level: 5,
 					},
 				},
-
-				{
-					componentType: 'Item',
-					child: {
-						componentType: 'Button',
-						label: 'В конструктор',
-						size: 'small',
-						type: 'link',
-						onClick: () => {
-							history.push(
-								paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path
-							);
-						},
-					},
-				},
+				routesId
+					? {
+							componentType: 'Item',
+							child: {
+								componentType: 'Button',
+								label: 'В конструктор',
+								size: 'small',
+								type: 'link',
+								onClick: () => {
+									history.push(
+										`${
+											paths
+												.DETOURS_CONFIGURATOR_ROUTE_MAPS
+												.path
+										}/${routesId ? routesId : ''}`
+									);
+								},
+							},
+					  }
+					: {},
 			],
 		},
 		{
@@ -212,9 +217,11 @@ const RoutesForm = (props) => {
 					child: {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'routeMaps'
-						),
+						requestLoadRows: ({data, params}) =>
+							apiGetFlatDataByConfigName('routeMaps')({
+								data: {...data, routeId: routesId},
+								params,
+							}),
 						requestLoadConfig: apiGetConfigByName('routeMaps'),
 					},
 				},
@@ -254,7 +261,7 @@ const RoutesForm = (props) => {
 				},
 			},
 		],
-		body: [...headFields, ...controlPointsFields, ...techMapsFields],
+		body: [...headFields, ...controlPointsFields, ...routeMapsFields],
 		footer: [
 			{
 				componentType: 'Item',

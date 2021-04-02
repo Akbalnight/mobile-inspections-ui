@@ -15,7 +15,10 @@ import Routes from '../components/Routes/Routes';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
 import Detours from '../components/Detours/Detours';
 import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
-import RouteMaps from '../components/RouteMaps/RouteMaps';
+import {
+	AddRouteMaps,
+	EditRouteMaps,
+} from '../components/RouteMaps/Registry/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
@@ -156,7 +159,13 @@ export const paths = {
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
-		component: RouteMaps,
+		component: AddRouteMaps,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_ROUTE_MAPS_EDIT: {
+		title: 'Редактирование маршрутной карты',
+		path: '/detours-configurator/route-maps/:id',
+		component: EditRouteMaps,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_EQUIPMENTS: {
