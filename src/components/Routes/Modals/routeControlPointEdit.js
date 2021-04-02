@@ -83,7 +83,7 @@ const OperationOnLocal = (type, code) => {
 		let newData = {...data};
 		// console.log('loadControlPointsEquipments Row => ', Row);
 		if (type === 'edit')
-			newData.controlPointsId = Row ? Row.controlPointId : null;
+			newData.controlPointId = Row ? Row.controlPointId : null;
 		return apiGetFlatDataByConfigName('controlPointsEquipments')({
 			params,
 			data: newData,
@@ -126,7 +126,7 @@ const OperationOnLocal = (type, code) => {
 						footerProps: {
 							showElements: ['selected'],
 						},
-						defaultFilter: {controlPointsId: null},
+						defaultFilter: {controlPointId: null},
 						subscribe:
 							type === 'add'
 								? {
@@ -138,7 +138,7 @@ const OperationOnLocal = (type, code) => {
 												setReloadTable &&
 												setReloadTable({
 													filter: {
-														controlPointsId: value.id
+														controlPointId: value.id
 															? value.id
 															: value,
 													},

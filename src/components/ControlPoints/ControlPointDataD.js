@@ -95,7 +95,7 @@ const ControlPointDataD = (props) => {
 	const loadRowsHandler = (catalogName) => ({params, data}) => {
 		if (controlPointId) {
 			// console.log('controlPointId', controlPointId);
-			const newData = {...data, controlPointsId: controlPointId};
+			const newData = {...data, controlPointId: controlPointId};
 			// return apiGetHierarchicalDataByConfigName (catalogName)({
 			// console.log('catalogName', catalogName);
 			return apiGetFlatDataByConfigName(catalogName)({
