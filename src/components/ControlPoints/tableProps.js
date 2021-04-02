@@ -5,18 +5,7 @@
 import React from 'react';
 import {classic} from 'rt-design';
 // import {EditCustomObjectButton} from '../Catalog/Modals/btnCustomObject';
-import {
-	AddGroupButton,
-	EditGroupButton,
-} from '../Catalog/Modals/btnCustomGroup';
-import {DeleteButton} from '../Catalog/Modals/btnDecDelete';
-import {ModalObjectView} from '../Catalog/Modals/modalObjectView';
-import {ModalGroupView} from '../Catalog/Modals/modalGroupView';
-import {
-	AddDefaultButton,
-	EditDefaultButton,
-} from '../Catalog/Modals/btnDefaultObject';
-import {ModalDefaultObjectView} from '../Catalog/Modals/modalDefaultObjectView';
+
 import {useHistory} from 'react-router';
 
 // history.location.pathname === '/detours-configurator/control-points';
@@ -29,6 +18,18 @@ import {
 	// ToolOutlined,
 } from '@ant-design/icons';
 import {paths} from '../../constants/paths';
+import {
+	AddCustomGroupOnServer,
+	EditCustomGroupOnServer,
+} from '../Base/Modals/CustomGroupOnServer';
+import {DeleteOnServer} from '../Base/Modals/DeleteOnServer';
+import {CustomObjectView} from '../Base/Modals/CustomObjectView';
+import {CustomGroupView} from '../Base/Modals/CustomGroupView';
+import {
+	AddDefaultObjectOnServer,
+	EditDefaultObjectOnServer,
+} from '../Base/Modals/DefaultObjectOnServer';
+import {DefaultObjectView} from '../Base/Modals/DefaultObjectView';
 
 const {Button, Row} = classic;
 
@@ -102,43 +103,40 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 				return (
 					<>
 						<AddObjectButton />
-						<AddGroupButton
+						<AddCustomGroupOnServer
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<EditObjectButton />
-						{/*<EditCustomObjectButton*/}
-						{/*    catalogName={catalogName}*/}
-						{/*    unique={unique}*/}
-						{/*/>*/}
-						<EditGroupButton
+
+						<EditCustomGroupOnServer
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<DeleteButton
+						<DeleteOnServer
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<ModalObjectView
+						<CustomObjectView
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<ModalGroupView catalogName={catalogName} />
+						<CustomGroupView catalogName={catalogName} />
 					</>
 				);
 			default:
 				return (
 					<>
-						<AddDefaultButton
+						<AddDefaultObjectOnServer
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<EditDefaultButton
+						<EditDefaultObjectOnServer
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
-						<ModalDefaultObjectView
+						<DefaultObjectView
 							catalogName={catalogName}
 							unique={unique}
 						/>
