@@ -16,7 +16,7 @@ const {Form, FormBody, Table} = classic;
 // } from '../Base/Modals/GroupOnServer';
 // import {modalGroupView} from './Modals/modalGroupView';
 // import {modalObjectView} from './Modals/modalObjectView';
-// import {headerControlPointsTable} from './tableProps';
+// import {headerControlPointsTable} from './fdgsd.js';
 // import {logoutUrl} from "mobile-inspections-base-ui/lib/constants/auth.constants";
 
 /**

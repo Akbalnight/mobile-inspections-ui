@@ -43,8 +43,14 @@ const TechMaps = () => {
 
 							// В примере #3 будет описан вот этот массив
 							modals: [
-								addGroupOnServer('techMaps'),
-								editGroupOnServer('techMaps'),
+								addGroupOnServer(
+									'techMaps',
+									'techMapsGroupSave'
+								),
+								editGroupOnServer(
+									'techMaps',
+									'techMapsGroupSave'
+								),
 								techMapDataView(),
 								groupView(
 									'Информация о группе технологической карты'

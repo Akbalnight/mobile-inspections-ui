@@ -6,15 +6,16 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../apis/catalog.api';
-import {paths} from '../../constants/paths';
-import {routeControlPointViewModal} from './Modals/routeControlPointView';
+} from '../../../apis/catalog.api';
+import {paths} from '../../../constants/paths';
+import {routeControlPointViewModal} from '../Modals/routeControlPointView';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
-} from './Modals/routeControlPointEdit';
-import {duration, position} from '../Base/customColumnProps';
-import {codeInput} from '../Base/Inputs/CodeInput';
+} from '../Modals/routeControlPointEdit';
+import {codeInput} from '../../Base/Inputs/CodeInput';
+import {customColumnProps} from '../tableProps';
+// import {selectRowsById} from "../../Base/Functions/TableSelectById";
 
 /**
  * компонент создания/редактирования маршрута.
@@ -155,7 +156,7 @@ const RoutesForm = (props) => {
 						componentType: 'LocalTable',
 						history,
 						customFields: customFields,
-						customColumnProps: [{...position}, {...duration}],
+						customColumnProps: [...customColumnProps],
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -165,7 +166,6 @@ const RoutesForm = (props) => {
 								down: {},
 							},
 						},
-						// requestLoadRows: loadControlPointsForRoute,
 						requestLoadRows: loadRowsHandler('routeControlPoints'),
 						requestLoadConfig: apiGetConfigByName(
 							'routeControlPoints'

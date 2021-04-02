@@ -12,12 +12,9 @@ import {
 	apiSaveControlPoints,
 } from '../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
-// import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
-// import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
 import {paths} from '../../constants/paths';
-// import {codeInput} from '../Base/Inputs/CodeInput';
-// import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
 import {PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+// import {selectRowsById} from "../Base/Functions/TableSelectById";
 
 const {
 	Form,

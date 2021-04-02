@@ -12,8 +12,8 @@ import {
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
-import Routes from '../components/Routes/Routes';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
+import Routes from '../components/Routes/Registry/Routes';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
 import Detours from '../components/Detours/Detours';
 import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
 import {
