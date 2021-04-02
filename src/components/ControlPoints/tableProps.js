@@ -113,10 +113,11 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<DeleteOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
+						{/* временно скроем удаление контрольных точек, стоит потом проверить работу  */}
+						{/*<DeleteOnServer*/}
+						{/*	catalogName={catalogName}*/}
+						{/*	unique={unique}*/}
+						{/*/>*/}
 						<CustomObjectView
 							catalogName={catalogName}
 							unique={unique}

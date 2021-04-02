@@ -401,7 +401,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 								apiGetFlatDataByConfigName(
 									'controlPointsEquipments'
 								)({
-									data: {...data, controlPointsId: sRow.id},
+									data: {...data, controlPointId: sRow.id},
 									params,
 								})
 							}
@@ -419,7 +419,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 								apiGetFlatDataByConfigName(
 									'controlPointsTechMaps'
 								)({
-									data: {...data, controlPointsId: sRow.id},
+									data: {...data, controlPointId: sRow.id},
 									params,
 								})
 							}
