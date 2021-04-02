@@ -25,7 +25,6 @@ const {
 	Button,
 	FormList,
 	Title,
-	Text,
 } = classic;
 
 /**
@@ -217,13 +216,15 @@ export const objectOnServer = (catalogName) => {
 														key={field.key}
 														style={{
 															width: '100%',
+															justifyContent:
+																'center',
 														}}
-														direction={'vertical'}
-														align={'center'}
 													>
 														<Space
 															style={{
 																display: 'flex',
+																alignItems:
+																	'flex-start',
 															}}
 														>
 															<Input
@@ -231,10 +232,6 @@ export const objectOnServer = (catalogName) => {
 																	className:
 																		'mb-0',
 																	name: `${index}`,
-																	style: {
-																		alignSelf:
-																			'stretch',
-																	},
 																	rules: [
 																		{
 																			required: true,
@@ -242,20 +239,16 @@ export const objectOnServer = (catalogName) => {
 																				'Заполните точку измерения',
 																		},
 																	],
-																	// label:
-																	// 	'Точка измерений',
-																	// labelCol: {
-																	// 	span: 10,
-																	// },
-																	// wrapperCol: {
-																	// 	span: 14,
-																	// },
+																	label:
+																		'Точка измерений',
+																	labelCol: {
+																		span: 10,
+																	},
+																	wrapperCol: {
+																		span: 14,
+																	},
 																}}
 																placeholder='Данные точки измерения'
-																style={{
-																	width:
-																		'500px',
-																}}
 															/>
 															{fields.length ? (
 																<Button
@@ -273,15 +266,6 @@ export const objectOnServer = (catalogName) => {
 																/>
 															) : null}
 														</Space>
-														<Text
-															style={{
-																alignSelf:
-																	'flex-end',
-															}}
-															label={
-																'* поле обязательно к заполению'
-															}
-														/>
 													</Space>
 												))}
 										</>

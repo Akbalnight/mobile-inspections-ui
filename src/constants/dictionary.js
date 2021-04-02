@@ -20,6 +20,12 @@ export const itemsInfo = {
 		name: 'name',
 		label: 'Наименование',
 		className: 'mb-8',
+		rules: [
+			{
+				required: true,
+				message: 'Заполните наименование',
+			},
+		],
 	},
 	techPlacePath: {
 		name: 'techPlacePath',
