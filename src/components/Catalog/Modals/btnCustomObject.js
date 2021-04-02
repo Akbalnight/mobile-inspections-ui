@@ -17,6 +17,8 @@ import {
 	ToolOutlined,
 } from '@ant-design/icons';
 import {disabledEndDate, disabledStartDate} from '../../Base/baseFunctions';
+// import {paths} from "../../../constants/paths";
+// import {useHistory} from "react-router";
 
 const {
 	FormBody,
@@ -44,6 +46,7 @@ const {
  */
 export const AddCustomObjectButton = ({catalogName, unique}) =>
 	operationOnServer('add', catalogName, unique);
+
 export const EditCustomObjectButton = ({catalogName, unique}) =>
 	operationOnServer('edit', catalogName, unique);
 
@@ -323,12 +326,12 @@ const operationOnServer = (type, catalogName, unique) => {
 							treeCheckStrictly={false}
 							treeDefaultExpandAll={true}
 							requestLoadRows={({data, params}) =>
-								apiGetHierarchicalDataByConfigName(
-									'defectTypical'
-								)({
-									data: {...data, isGroup: true},
-									params,
-								})
+								apiGetHierarchicalDataByConfigName(catalogName)(
+									{
+										data: {...data, isGroup: true},
+										params,
+									}
+								)
 							}
 							optionConverter={(option) => ({
 								value: option.id, //change

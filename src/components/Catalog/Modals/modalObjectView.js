@@ -7,17 +7,24 @@ import {itemsInfo} from '../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
+	// apiGetHierarchicalDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
+import {paths} from '../../../constants/paths';
+import {useHistory} from 'react-router';
 
 const {
 	Modal,
 	FormBody,
 	Text,
+	Title,
 	Tabs,
 	TabPane,
+	Button,
 	Space,
+	Row,
+	Col,
 	Layout,
 	Checkbox,
 	DateText,
@@ -30,12 +37,14 @@ const {
  *
  * @param catalogName name of server configuration
  * @param unique phrase on Russian
- * @returns {JSX.object}
+ * @returns {JSX.Element}
  * @desc This is view modal by server information there we have is_group props
  *
  */
 export const ModalObjectView = ({catalogName, unique}) => {
 	let sRow;
+	let history = useHistory();
+
 	/**
 	 *
 	 * @param callBack function change state (row)
@@ -44,6 +53,7 @@ export const ModalObjectView = ({catalogName, unique}) => {
 	 */
 	const loadInitData = (callBack, row) => {
 		sRow = row;
+		// console.log('sRow',sRow)
 		const dataObjectWarranty = {
 			equipmentFiles: {
 				equipmentId: row.id,
@@ -57,19 +67,38 @@ export const ModalObjectView = ({catalogName, unique}) => {
 			},
 		};
 		callBack({
+			// controlPointId:sRow.id,
 			...row,
 			warrantyUploadObject: dataObjectWarranty,
 			attachmentUploadObject: dataObjectAttachment,
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение
 		});
 	};
+
+	const BtnEdit = (props) => {
+		if (sRow) {
+			return (
+				<Button
+					size={'small'}
+					onClick={() => {
+						history.push(props.historyPath + '/' + sRow.id);
+					}}
+				>
+					Редактировать
+				</Button>
+			);
+		} else return null;
+	};
 	/**
 	 *
 	 * @param catalogName name of server configuration
-	 * @returns {JSX.object}
+	 * @returns {JSX.Element}
 	 * @desc Choice function.
 	 */
 	const configCatalog = (catalogName) => {
+		let historyPath = null;
+		// sRow && console.log('sRow conf Catalog', sRow)
+
 		switch (catalogName) {
 			case 'equipments':
 				return (
@@ -326,6 +355,81 @@ export const ModalObjectView = ({catalogName, unique}) => {
 						</Tabs>
 					</>
 				);
+			case 'controlPoints':
+				historyPath = paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path;
+				console.log('srow:', sRow);
+				return (
+					<>
+						<Row>
+							<Col span={20}>
+								<Title level={5}>Описание</Title>
+							</Col>
+							<Col span={4} align={'right'}>
+								<BtnEdit historyPath={historyPath} />
+							</Col>
+						</Row>
+						<Row>
+							<Col span={6}>
+								<Text
+									itemProps={{
+										...itemsInfo.code,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={10}>
+								<Text
+									itemProps={{
+										...itemsInfo.name,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={8}>
+								<Text
+									itemProps={{
+										...itemsInfo.parentName,
+										label: 'Группа',
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+						</Row>
+						<Title level={5}>Оборудование контрольных точек</Title>
+						<Table
+							requestLoadRows={({data, params}) =>
+								apiGetFlatDataByConfigName(
+									'controlPointsEquipments'
+								)({
+									data: {...data, controlPointsId: sRow.id},
+									params,
+								})
+							}
+							requestLoadConfig={apiGetConfigByName(
+								'controlPointsEquipments'
+							)}
+							// dispatchPath={'debug'}
+						/>
+						<Title level={5}>Технологические карты</Title>
+						<Table
+							// requestLoadRows={apiGetFlatDataByConfigName(
+							//     'controlPointsTechMaps'
+							// )}
+							requestLoadRows={({data, params}) =>
+								apiGetFlatDataByConfigName(
+									'controlPointsTechMaps'
+								)({
+									data: {...data, controlPointsId: sRow.id},
+									params,
+								})
+							}
+							requestLoadConfig={apiGetConfigByName(
+								'controlPointsTechMaps'
+							)}
+						/>
+					</>
+				);
+
 			default:
 				return (
 					<>
@@ -345,13 +449,26 @@ export const ModalObjectView = ({catalogName, unique}) => {
 				);
 		}
 	};
+
+	const getModalSize = (catalogName) => {
+		switch (catalogName) {
+			case 'equipments':
+				return {width: 750, bodyStyle: {height: 650}};
+
+			case 'controlPoints':
+				return {width: 1000, bodyStyle: {height: 650}};
+
+			default:
+				return {width: 500, bodyStyle: {height: 200}};
+		}
+	};
+
 	return (
 		<Modal
 			modalConfig={{
 				type: 'viewObject',
 				title: `Карточка ${unique}`,
-				width: catalogName === 'equipments' ? 750 : 500,
-				bodyStyle: {height: catalogName === 'equipments' ? 650 : 200},
+				...getModalSize(catalogName),
 				form: {
 					name: `${catalogName}ModalObjectInfoForm`,
 					loadInitData: loadInitData,
@@ -370,6 +487,8 @@ export const ModalObjectView = ({catalogName, unique}) => {
 								...value.value,
 							});
 						value && !value.value.isGroup && openModal();
+						// sRow={...value.value}
+						// console.log()
 					},
 				},
 			]}

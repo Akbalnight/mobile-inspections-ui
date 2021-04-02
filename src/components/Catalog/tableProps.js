@@ -202,6 +202,7 @@ export const itemsInfo = {
  */
 export const CatalogTableHeader = ({catalogName, unique}) => {
 	const configCatalogName = (catalogName) => {
+		// console.log('catalogName',catalogName)
 		switch (catalogName) {
 			case 'equipments':
 			case 'defectTypical':
