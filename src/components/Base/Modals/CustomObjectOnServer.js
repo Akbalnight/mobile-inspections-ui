@@ -33,12 +33,6 @@ const operationOnServer = (type, catalogName, unique) => {
 		callBack(type === 'add' ? null : sRow);
 	};
 
-	/**
-	 *
-	 * @param catalogName name of server configuration<string>
-	 * @returns {null|JSX.object}
-	 */
-
 	return (
 		<Modal
 			buttonProps={{

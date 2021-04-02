@@ -25,7 +25,16 @@ const {
 	Button,
 	FormList,
 	Title,
+	Text,
 } = classic;
+
+/**
+ *
+ * @param catalogName name of server configuration<string>
+ * @returns {JSX.object}
+ * @desc objectOnServer - func choice JSX by catalogName in CustomObjectOnServer.js
+ */
+
 export const objectOnServer = (catalogName) => {
 	switch (catalogName) {
 		case 'equipments':
@@ -196,6 +205,8 @@ export const objectOnServer = (catalogName) => {
 											<Divider
 												itemProps={{
 													className: 'mb-0',
+													justifyContent:
+														'space-between',
 												}}
 												className={'mb-8 mt-8'}
 											/>
@@ -207,12 +218,12 @@ export const objectOnServer = (catalogName) => {
 														style={{
 															width: '100%',
 														}}
+														direction={'vertical'}
+														align={'center'}
 													>
 														<Space
 															style={{
 																display: 'flex',
-																justifyContent:
-																	'center',
 															}}
 														>
 															<Input
@@ -231,20 +242,20 @@ export const objectOnServer = (catalogName) => {
 																				'Заполните точку измерения',
 																		},
 																	],
-																	label:
-																		'Точка измерений',
-																	labelCol: {
-																		span: 8,
-																	},
-																	wrapperCol: {
-																		span: 16,
-																	},
+																	// label:
+																	// 	'Точка измерений',
+																	// labelCol: {
+																	// 	span: 10,
+																	// },
+																	// wrapperCol: {
+																	// 	span: 14,
+																	// },
 																}}
 																placeholder='Данные точки измерения'
-																// style={{
-																//     width:
-																//         '300px',
-																// }}
+																style={{
+																	width:
+																		'500px',
+																}}
 															/>
 															{fields.length ? (
 																<Button
@@ -262,6 +273,15 @@ export const objectOnServer = (catalogName) => {
 																/>
 															) : null}
 														</Space>
+														<Text
+															style={{
+																alignSelf:
+																	'flex-end',
+															}}
+															label={
+																'* поле обязательно к заполению'
+															}
+														/>
 													</Space>
 												))}
 										</>
@@ -299,7 +319,7 @@ export const objectOnServer = (catalogName) => {
 							)
 						}
 						optionConverter={(option) => ({
-							value: option.id, //change
+							value: option.id,
 							label: (
 								<span>
 									{option.isGroup ? (
