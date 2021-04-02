@@ -7,7 +7,7 @@ import {itemsInfo} from '../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
+	// apiGetHierarchicalDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
@@ -67,6 +67,7 @@ export const ModalObjectView = ({catalogName, unique}) => {
 			},
 		};
 		callBack({
+			// controlPointId:sRow.id,
 			...row,
 			warrantyUploadObject: dataObjectWarranty,
 			attachmentUploadObject: dataObjectAttachment,
@@ -356,7 +357,7 @@ export const ModalObjectView = ({catalogName, unique}) => {
 				);
 			case 'controlPoints':
 				historyPath = paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path;
-
+				console.log('srow:', sRow);
 				return (
 					<>
 						<Row>
@@ -396,19 +397,32 @@ export const ModalObjectView = ({catalogName, unique}) => {
 						</Row>
 						<Title level={5}>Оборудование контрольных точек</Title>
 						<Table
-							requestLoadRows={apiGetHierarchicalDataByConfigName(
-								'controlPointsEquipmentsExtended'
-							)}
+							requestLoadRows={({data, params}) =>
+								apiGetFlatDataByConfigName(
+									'controlPointsEquipments'
+								)({
+									data: {...data, controlPointsId: sRow.id},
+									params,
+								})
+							}
 							requestLoadConfig={apiGetConfigByName(
-								'controlPointsEquipmentsExtended'
+								'controlPointsEquipments'
 							)}
-							dispatchPath={'debug'}
+							// dispatchPath={'debug'}
 						/>
 						<Title level={5}>Технологические карты</Title>
 						<Table
-							requestLoadRows={apiGetHierarchicalDataByConfigName(
-								'controlPointsTechMaps'
-							)}
+							// requestLoadRows={apiGetFlatDataByConfigName(
+							//     'controlPointsTechMaps'
+							// )}
+							requestLoadRows={({data, params}) =>
+								apiGetFlatDataByConfigName(
+									'controlPointsTechMaps'
+								)({
+									data: {...data, controlPointsId: sRow.id},
+									params,
+								})
+							}
 							requestLoadConfig={apiGetConfigByName(
 								'controlPointsTechMaps'
 							)}

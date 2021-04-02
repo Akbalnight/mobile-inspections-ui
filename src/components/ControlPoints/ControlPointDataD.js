@@ -12,11 +12,11 @@ import {
 	apiSaveControlPoints,
 } from '../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
-import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
-import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
+// import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
+// import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
 import {paths} from '../../constants/paths';
-import {codeInput} from '../Base/Inputs/CodeInput';
-import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
+// import {codeInput} from '../Base/Inputs/CodeInput';
+// import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
 import {PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 
 const {
@@ -108,148 +108,6 @@ const ControlPointDataD = (props) => {
 		}
 	};
 
-	const headFields = [
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Описание',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Row',
-			gutter: [16, 16],
-			children: [
-				{
-					componentType: 'Col',
-					span: 12,
-					children: [
-						// pageParams.id === 'new' ? {} : codeInput,
-						controlPointId ? codeInput : {},
-						{
-							componentType: 'Item',
-							label: 'Наименование',
-							name: 'name',
-							rules: [
-								{
-									message: 'Заполните наименование',
-									required: true,
-								},
-							],
-							child: {
-								componentType: 'Input',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Группа',
-							name: 'parentId',
-							child: {
-								componentType: 'SingleSelect',
-								widthControl: 0,
-								heightPopup: 300,
-								expandColumnKey: 'id',
-								rowRender: 'name',
-								nodeAssociated: false,
-								expandDefaultAll: true,
-								requestLoadRows: ({data, params}) =>
-									apiGetHierarchicalDataByConfigName(
-										'controlPoints'
-									)({
-										data: {...data, isGroup: true},
-										params,
-									}),
-								requestLoadDefault: apiGetFlatDataByConfigName(
-									'controlPoints'
-								),
-							},
-						},
-					],
-				},
-			],
-		},
-	];
-
-	const equipmentTableConfig = [
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Оборудование',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Layout',
-			className: 'mb-16',
-			children: [
-				{
-					componentType: 'Item',
-					name: 'equipments',
-					child: {
-						componentType: 'LocalTable',
-						commandPanelProps: {
-							systemBtnProps: {
-								add: {actionType: 'modal'},
-								delete: {actionType: 'modal'},
-							},
-						},
-						modals: [{...EquipmentSelectModal}],
-						customFields: [...equipmentTableCustom(controlPointId)],
-						// requestLoadRows: (info) =>
-						// 	loadRowsHandler('controlPointsEquipmentsExtended', info),
-						requestLoadRows: ({data, params}) =>
-							apiGetFlatDataByConfigName(
-								'controlPointsEquipmentsExtended'
-							)({
-								data: {...data, controlPointId: controlPointId},
-								params,
-							}),
-						requestLoadConfig: apiGetConfigByName(
-							'controlPointsEquipmentsExtended'
-						),
-					},
-				},
-			],
-		},
-	];
-
-	const techMaps = [
-		{
-			componentType: 'Item',
-			child: {
-				componentType: 'Title',
-				label: 'Технологические карты',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Layout',
-			children: [
-				{
-					componentType: 'Item',
-					name: 'techMaps',
-					child: {
-						componentType: 'LocalTable',
-						commandPanelProps: {
-							systemBtnProps: {
-								add: {actionType: 'modal'},
-								delete: {actionType: 'modal'},
-							},
-						},
-						modals: [{...TechMapSelectModal}],
-						customFields: [...techMapsTableCustom(controlPointId)],
-						requestLoadRows: (info) =>
-							loadRowsHandler('controlPointsTechMaps', info),
-						requestLoadConfig: apiGetConfigByName(
-							'controlPointsTechMaps'
-						),
-					},
-				},
-			],
-		},
-	];
 	const onFinish = (values) => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
 	};
@@ -316,8 +174,9 @@ const ControlPointDataD = (props) => {
 	// return <Form {...formConfig} />;
 	return (
 		<Form
+			name={'controlPointForm'}
 			loadInitData={loadData}
-			// requestSaveForm={apiSaveControlPoints}
+			requestSaveForm={apiSaveControlPoints}
 			methodSaveForm={controlPointId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}
@@ -416,7 +275,7 @@ const ControlPointDataD = (props) => {
 									}}
 								/>
 								<Table
-									itemProps={{name: 'equipments'}}
+									itemProps={{name: 'equipmentsModalTable'}}
 									selectable={true}
 									requestLoadRows={apiGetHierarchicalDataByConfigName(
 										'equipments'
@@ -479,23 +338,38 @@ const ControlPointDataD = (props) => {
 					</Space>
 					<Table
 						itemProps={{name: 'equipments'}}
+						rowKey={'equipmentId'}
 						customFields={[
 							{
-								name: 'id',
+								name: 'equipmentId',
+								value: (row) => row.id,
 								validate: (row, rows) => {
+									// console.log('row eq selected:', row)
 									return !row.isGroup
 										? !rows
-												.map((row) => row.id)
+												.map((row) => row.equipmentId)
 												.includes(row.id)
 										: false;
 								},
 							},
+							{
+								name: 'id',
+								value: () => null,
+							},
+							{
+								name: 'controlPointId',
+								value: () => controlPointId,
+							},
+							{
+								name: 'equipmentName',
+								value: (row) => row.name,
+							},
 						]}
 						requestLoadRows={loadRowsHandler(
-							'controlPointsEquipmentsExtended'
+							'controlPointsEquipments'
 						)}
 						requestLoadConfig={apiGetConfigByName(
-							'controlPointsEquipmentsExtended'
+							'controlPointsEquipments'
 						)}
 						dispatchPath={'catalog.controlPoints.equipments.table'}
 						subscribe={[
@@ -562,7 +436,7 @@ const ControlPointDataD = (props) => {
 								</Row>
 
 								<Table
-									itemProps={{name: 'techMaps'}}
+									itemProps={{name: 'techMapsModalTable'}}
 									requestLoadRows={apiGetHierarchicalDataByConfigName(
 										'techMaps'
 									)}
@@ -649,15 +523,29 @@ const ControlPointDataD = (props) => {
 					</Space>
 					<Table
 						itemProps={{name: 'techMaps'}}
-						// customFields={[
-						//     {
-						//         name: 'id',
-						//         validate: (row, rows) => {
-						//             return !row.isGroup ? !rows.map((row) => row.id).includes(row.id) : false;
-						//         }
-						//     }
-						// ]}
-
+						rowKey={'techMapId'}
+						customFields={[
+							{
+								name: 'techMapId',
+								value: (row) => row.id,
+								validate: (row, rows) => {
+									// console.log('row tech maps selected:', row)
+									return !row.isGroup
+										? !rows
+												.map((row) => row.techMapId)
+												.includes(row.id)
+										: false;
+								},
+							},
+							{
+								name: 'id',
+								value: () => null,
+							},
+							{
+								name: 'controlPointId',
+								value: () => controlPointId,
+							},
+						]}
 						requestLoadRows={loadRowsHandler(
 							'controlPointsTechMaps'
 						)}
@@ -672,9 +560,10 @@ const ControlPointDataD = (props) => {
 									'rtd.catalog.controlPoints.techMaps.addModal.onSave',
 								extraData:
 									'rtd.catalog.controlPoints.techMaps.addModal.table.selected',
-								onChange: ({extraData, addRow}) => {
-									console.log('techMap selected:', extraData);
-									addRow(extraData);
+								// addRow не поддерживает валидацию, потому использован addRows
+								onChange: ({extraData, addRows}) => {
+									// console.log('techMap selected:', extraData);
+									addRows([extraData]);
 								},
 							},
 							{
