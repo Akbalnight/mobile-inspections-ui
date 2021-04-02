@@ -8,7 +8,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../apis/catalog.api';
-import {disabledEndDate, disabledStartDate} from '../Base/baseFunctions';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 /**
  * этот компонент необязателен он представлен для вариативности. В данном контексте дефекты будут создаваться в мобильном приложении,
  * но данный путь нужно было пройти в web варианте

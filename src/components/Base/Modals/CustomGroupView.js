@@ -1,6 +1,6 @@
 import {classic} from 'rt-design';
 import React from 'react';
-import {itemsInfo} from '../tableProps';
+import {itemsInfo} from '../../../constants/dictionary';
 
 const {Modal, FormBody, Text} = classic;
 
@@ -10,7 +10,7 @@ const {Modal, FormBody, Text} = classic;
  * @returns {JSX.Element}
  * @desc Modal view table info about row(onRowDoubleClick) , only object
  */
-export const ModalGroupView = ({catalogName}) => {
+export const CustomGroupView = ({catalogName}) => {
 	return (
 		<Modal
 			modalConfig={{
@@ -30,7 +30,6 @@ export const ModalGroupView = ({catalogName}) => {
 					name: `${catalogName}ModalInfo`,
 					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
-						// console.log(value.value);
 						value &&
 							setModalData &&
 							setModalData({
@@ -54,16 +53,11 @@ export const ModalGroupView = ({catalogName}) => {
 								...itemsInfo.techPlacePath,
 							}}
 						/>
-						<Text
-							itemProps={{
-								...itemsInfo.techPlace,
-								label: 'Родитель',
-							}}
-						/>
 					</>
-				) : (
-					<Text itemProps={{...itemsInfo.parentName}} />
-				)}
+				) : null}
+				<Text
+					itemProps={{...itemsInfo.parentName, label: 'Родитель'}}
+				/>
 			</FormBody>
 		</Modal>
 	);

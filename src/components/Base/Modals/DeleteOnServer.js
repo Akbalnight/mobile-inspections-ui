@@ -13,7 +13,7 @@ const {Modal, Text, FormBody} = classic;
  * @returns {JSX.object}
  * @desc Delete modal(button)
  */
-export const DeleteButton = ({catalogName, unique}) => {
+export const DeleteOnServer = ({catalogName, unique}) => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
