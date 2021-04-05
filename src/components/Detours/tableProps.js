@@ -5,7 +5,19 @@ import {
 import {checkBox, code, date} from '../Base/customColumnProps';
 import {classic} from 'rt-design';
 import React from 'react';
-const {Space, Select, DatePicker, Button, Search, Divider} = classic;
+import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
+import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
+
+const {
+	Space,
+	Select,
+	DatePicker,
+	Button,
+	Search,
+	Divider,
+	RadioGroup,
+	Text,
+} = classic;
 
 /**
  * configFilterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
@@ -51,18 +63,94 @@ export const TableHeader = () => {
 		<Space direction={'vertical'} className={'p-8'}>
 			<Space style={{justifyContent: 'space-between', width: '100%'}}>
 				<Space>
-					<Button>1</Button>
+					<AddDetour />
+					<EditDetour />
 				</Space>
 				<Space>
-					<DatePicker />
-					<Search />
-					<Button>1</Button>
+					<RadioGroup
+						itemProps={{name: 'viewMode'}}
+						optionType={'button'}
+						size={'middle'}
+						options={[
+							{
+								label: <TableOutlined />,
+								value: 0,
+							},
+							{
+								label: <CalendarOutlined />,
+								value: 1,
+							},
+						]}
+						dispatch={{
+							path: 'detours.mainForm.table.events.viewMode',
+						}}
+					/>
+					<Search
+						itemProps={{name: 'searchInput'}}
+						placeholder={'Введите наименование'}
+						dispatch={{
+							path: 'detours.mainForm.table.events.onSearch',
+							type: 'event',
+						}}
+					/>
 				</Space>
 			</Space>
 			<Divider className={'my-0'} />
 			<Space>
-				<Button>2</Button>
-				<Select />
+				<Space direction={'vertical'}>
+					<Text label={'Маршрут:'} />
+					<Select
+						itemProps={{name: 'routeId'}}
+						placeholder={'Выберите маршрут'}
+						mode={'single'}
+						allowClear={true}
+						showSearch={true}
+						filterOption={false}
+						searchParamName={'name'}
+						infinityMode={true}
+						requestLoadRows={apiGetFlatDataByConfigName('routes')}
+						optionConverter={(option) => ({
+							value: option.id,
+							label: option.name,
+						})}
+					/>
+				</Space>
+				<Space direction={'vertical'}>
+					<Text label={'Исполнитель:'} />
+					<Select
+						itemProps={{name: 'staffId'}}
+						placeholder={'Выберите исполнителя'}
+						mode={'single'}
+						allowClear={true}
+						infinityMode={true}
+						showSearch={true}
+						filterOption={false}
+						searchParamName={'username'}
+						requestLoadRows={apiGetFlatDataByConfigName('staff')}
+						optionConverter={(option) => ({
+							value: option.id,
+							label: option.username,
+						})}
+					/>
+				</Space>
+				<Space direction={'vertical'}>
+					<Text label={'Период:'} />
+					<Space>
+						<DatePicker />
+					</Space>
+				</Space>
+				<Space
+					direction={'vertical'}
+					style={{justifyContent: 'space-between'}}
+				>
+					<Text
+						label={'Период:'}
+						itemProps={{hidden: true}}
+						hidden={true}
+					/>
+
+					<Button className={'mt-4'}>Применить</Button>
+				</Space>
 			</Space>
 		</Space>
 	);
