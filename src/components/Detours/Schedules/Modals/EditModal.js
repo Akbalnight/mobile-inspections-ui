@@ -1,6 +1,9 @@
 import React from 'react';
 import {EditOutlined} from '@ant-design/icons';
-import {apiSaveByConfigName} from '../../../../apis/catalog.api';
+import {
+	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../../apis/catalog.api';
 import {classic} from 'rt-design';
 
 const {
@@ -14,6 +17,8 @@ const {
 	DatePicker,
 	Row,
 	Text,
+	Checkbox,
+	Input,
 } = classic;
 
 /** checkValue задается при первом вызове функции
@@ -31,7 +36,7 @@ const EditModal = () => {
 	return (
 		<Modal
 			//не нашел на https://ant.design/components/tooltip/
-			toolTipProps={{title: 'Изменить расписание'}}
+			toolTipProps={{title: 'Создание расписания обхода'}}
 			buttonProps={{
 				type: 'default',
 				icon: <EditOutlined />,
@@ -40,10 +45,10 @@ const EditModal = () => {
 			}}
 			modalConfig={{
 				type: 'editOnServer',
-				title: `Изменить расписание`,
+				title: `Создание расписания обхода`,
 				requestSaveRow: apiSaveByConfigName(`repeaterDataSave`),
 				width: 610,
-				bodyStyle: {height: 320},
+				bodyStyle: {height: 960},
 				form: {
 					// processBeforeSaveForm: processBeforeSaveForm,
 					name: 'detours.schedules.registry.editModal',
@@ -89,6 +94,183 @@ const EditModal = () => {
 			]}
 		>
 			<FormBody noPadding={false} scrollable={false}>
+				<div className={'mb-16 mt-16'}>
+					<h3>Создание обхода</h3>
+				</div>
+
+				<Input
+					itemProps={{
+						name: 'dateBegin',
+						className: 'mb-12',
+						label: 'Наименование обхода:',
+						rules: [{required: true}],
+					}}
+					placeholder='Basic usage'
+				/>
+				<Select
+					itemProps={{
+						name: 'status',
+						className: 'mb-12',
+						label: 'Маршрут:',
+						rules: [{required: true}],
+					}}
+					requestLoadRows={apiGetFlatDataByConfigName('routes')}
+					optionConverter={(option) => ({
+						label: <span>{option.name}</span>,
+						value: option.id,
+					})}
+
+					// dispatch={{ path: 'example.form.table.filter.statusProcessId' }}
+				/>
+				<Select
+					itemProps={{
+						name: 'status',
+						className: 'mb-12',
+						label: 'Исполнитель:',
+						rules: [{required: true}],
+					}}
+					// className={`${prefixCls}-selectSettings`}
+					// widthControl={'250px'}
+					requestLoadRows={apiGetFlatDataByConfigName('staffAuto')}
+					optionConverter={(option) => ({
+						label: <span>{option.username}</span>,
+						value: option.id,
+					})}
+					dispatch={{
+						path: 'example.form.table.filter.statusProcessId',
+					}}
+				/>
+
+				{/*<Row>*/}
+				{/*	<Col>*/}
+				{/*		<Row  className={`${prefixCls}-colOneThreeBlockOneSettings`}>*/}
+				{/*			<Text itemProps={{*/}
+				{/*				rules: [{required: true}],*/}
+				{/*			}}> *v</Text>*/}
+				{/*		</Row>*/}
+				{/*		<Row  className={`${prefixCls}-colOneThreeBlockOneSettings`}>*/}
+				{/*			<Text>Маршрут</Text>*/}
+				{/*		</Row>*/}
+				{/*		<Row  className={`${prefixCls}-colOneThreeBlockOneSettings`}>*/}
+				{/*			<Text>Исполнитель</Text>*/}
+				{/*		</Row>*/}
+				{/*	</Col>*/}
+				{/*	<Col>*/}
+				{/*		<Row className={`${prefixCls}-colTwoThreeBlockOneSettings`}>*/}
+				{/*			<Input></Input>*/}
+				{/*		</Row>*/}
+				{/*		<Row className={`${prefixCls}-colTwoThreeBlockOneSettings`}>*/}
+				{/*			<Select*/}
+				{/*				itemProps={{name: 'status', className: 'mb-0'}}*/}
+				{/*				// widthControl={'250px'}*/}
+				{/*				requestLoadRows={apiGetFlatDataByConfigName('routes')}*/}
+				{/*				optionConverter={(option) => ({ label: (<span>{option.name}</span>), value: option.id })}*/}
+				{/*				// dispatch={{ path: 'example.form.table.filter.statusProcessId' }}*/}
+				{/*			/>*/}
+				{/*		</Row>*/}
+				{/*		<Row className={`${prefixCls}-colTwoThreeBlockOneSettings`}>*/}
+				{/*			<Select*/}
+				{/*				itemProps={{name: 'status', className: 'mb-0'}}*/}
+				{/*				// widthControl={'250px'}*/}
+				{/*				requestLoadRows={apiGetFlatDataByConfigName('staffAuto')}*/}
+				{/*				optionConverter={(option) => ({ label: (<span>{option.username}</span>), value: option.id })}*/}
+				{/*				dispatch={{ path: 'example.form.table.filter.statusProcessId' }}*/}
+				{/*			/>*/}
+				{/*		</Row>*/}
+				{/*	</Col>*/}
+				{/*</Row>*/}
+				<div className={'mb-16 mt-16'}>
+					<h3>Допуски по обходу</h3>
+				</div>
+				<Row>
+					<Col>
+						<Row className={`${prefixCls}-colOneThreeSettings`}>
+							<Text>Учитывать порядок обхода</Text>
+						</Row>
+						<Row className={`${prefixCls}-colOneThreeSettings`}>
+							<Text>Учитывать время начала</Text>
+						</Row>
+						<Row className={`${prefixCls}-colOneThreeSettings`}>
+							<Text>Учитывать время начала</Text>
+						</Row>
+						<Row className={`${prefixCls}-colOneThreeSettings`}>
+							<Text>Учитывать время окончания</Text>
+						</Row>
+					</Col>
+					<Col>
+						<Row className={`${prefixCls}-colTwoSettings`}>
+							<Checkbox></Checkbox>
+						</Row>
+						<Row className={`${prefixCls}-colTwoSettings`}>
+							<Checkbox></Checkbox>
+						</Row>
+						<Row className={`${prefixCls}-colTwoSettings`}>
+							<Checkbox></Checkbox>
+						</Row>
+						<Row className={`${prefixCls}-colTwoSettings`}>
+							<Checkbox></Checkbox>
+						</Row>
+					</Col>
+					{/*<Col className={`${prefixCls}-newSettingsFirstRow`}*/}
+					{/*>*/}
+					{/*    <Row>*/}
+					{/*        <InputNumber*/}
+					{/*            itemProps={{*/}
+					{/*                name: 'status',*/}
+					{/*                label: 'Допустимое откл. на точке, мин.:',*/}
+					{/*            }}*/}
+					{/*            className={`${prefixCls}-interval`}*/}
+					{/*        ></InputNumber>*/}
+					{/*    </Row>*/}
+					{/*    <Row>*/}
+					{/*        <InputNumber*/}
+					{/*            itemProps={{*/}
+					{/*                name: 'status',*/}
+					{/*                // className: 'mb-12',*/}
+					{/*                label: 'Допустимое откл., мин.:',*/}
+					{/*            }}*/}
+					{/*            className={`${prefixCls}-interval`}*/}
+					{/*        ></InputNumber>*/}
+					{/*    </Row>*/}
+					{/*    <Row>*/}
+					{/*        <InputNumber*/}
+					{/*            itemProps={{*/}
+					{/*                name: 'status',*/}
+					{/*                // className: 'mb-12',*/}
+					{/*                label: 'Допустимое откл., мин.:',*/}
+					{/*            }}*/}
+					{/*            className={`${prefixCls}-interval`}*/}
+					{/*        ></InputNumber>*/}
+					{/*    </Row>*/}
+					{/*</Col>*/}
+					<Col>
+						<Row className={`${prefixCls}-rowAfterEmpty`}>
+							<Text>Допустимое откл. на точке, мин.</Text>
+						</Row>
+						<Row className={`${prefixCls}-colOneThreeSettings`}>
+							<Text>Допустимое откл., мин.</Text>
+						</Row>
+						<Row className={`${prefixCls}-colOneThreeSettings`}>
+							<Text>Допустимое откл., мин.</Text>
+						</Row>
+					</Col>
+					<Col className={`${prefixCls}-col4settings`}>
+						<Row
+							className={`${prefixCls}-colFourAfterEmptySettings`}
+						>
+							<InputNumber></InputNumber>
+						</Row>
+						<Row className={`${prefixCls}-colFourSettings`}>
+							<InputNumber></InputNumber>
+						</Row>
+						<Row className={`${prefixCls}-colFourSettings`}>
+							<InputNumber></InputNumber>
+						</Row>
+					</Col>
+				</Row>
+				<div className={'mb-16 mt-16'}>
+					<h3>Параметры расписания</h3>
+				</div>
 				<Select
 					itemProps={{
 						label: 'Повторение',
@@ -96,7 +278,7 @@ const EditModal = () => {
 						// Поле обязательнок заполнению
 						rules: [{required: true}],
 					}}
-					widthControl={200}
+					// widthControl={200}
 					optionConverter={(option) => ({
 						label: option.label,
 						value: option.value,
@@ -115,6 +297,24 @@ const EditModal = () => {
 						rules: [{required: true}],
 					}}
 					className={`${prefixCls}-interval`}
+				/>
+				<DatePicker
+					itemProps={{
+						name: 'dateBegin',
+						label: 'Начать повторение с:',
+						rules: [{required: true}],
+					}}
+					format={'LLLL'}
+					className={'mb-8'}
+					disabled={true}
+					subscribe={[
+						{
+							name: 'repeaterType',
+							path:
+								'rtd.detours.schedules.registry.editModal.repeaterType',
+							onChange: onChangeRepeaterType('02'),
+						},
+					]}
 				/>
 				<Row itemProps={{label: 'Завершить повторение'}}>
 					<Col span={8}>
