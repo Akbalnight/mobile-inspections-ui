@@ -27,7 +27,9 @@ export const checkBox = (name) => ({
 
 export const date = (name) => ({
 	name: name,
-	cellRenderer: ({cellData}) => toDDMMYYYYdot(cellData),
+	cellRenderer: ({cellData}) => (
+		<div className={'rt-table-cell'}>{toDDMMYYYYdot(cellData)}</div>
+	),
 });
 
 export const dateTime = (name) => ({

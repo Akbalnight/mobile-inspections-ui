@@ -212,7 +212,7 @@ export const ModalObjectView = ({catalogName, unique}) => {
 											}}
 										/>
 									</Space>
-									<Divider className={'mt-8 mb-0'} />
+									<Divider className={'my-8'} />
 									<Table
 										itemProps={{name: 'warrantyTableFiles'}}
 										defaultFilter={{

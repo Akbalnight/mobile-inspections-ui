@@ -21,6 +21,7 @@ import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 import DeclarativeDebug from '../components/Debug/DeclarativeDebug';
+import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -132,8 +133,14 @@ export const paths = {
 		component: RoutesEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
-		title: 'Обходы',
+		title: 'Обходы new',
 		path: '/detours-configurator/detours',
+		component: DetoursMain,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_DETOURS_PREVIOUS: {
+		title: 'Обходы previous',
+		path: '/detours-configurator/detoursPrevious',
 		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
