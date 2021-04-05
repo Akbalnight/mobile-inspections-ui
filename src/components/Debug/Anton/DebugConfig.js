@@ -3,8 +3,8 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
-import {checkBox, code, dateTime} from '../Base/customColumnProps';
+} from '../../../apis/catalog.api';
+import {checkBox, code, dateTime} from '../../Base/customColumnProps';
 import {MehOutlined, ReloadOutlined} from '@ant-design/icons';
 import {editModalDebug} from './editModalDebug';
 import {selectModalDebug} from './selectModalDebug';
@@ -123,7 +123,7 @@ const disabledEndDate = (startValue, endValue) => {
 	return endValue.valueOf() <= startValue.valueOf();
 };
 
-const Debug = () => {
+const DebugConfig = () => {
 	console.log(classic);
 
 	const formConfig = {
@@ -459,6 +459,6 @@ const Debug = () => {
 	);
 };
 
-Debug.propTypes = {};
+DebugConfig.propTypes = {};
 
-export default Debug;
+export default DebugConfig;

@@ -6,7 +6,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../apis/catalog.api';
+} from '../../../apis/catalog.api';
 import {EditOutlined, MehOutlined, ReloadOutlined} from '@ant-design/icons';
 const {
 	Form,
@@ -27,7 +27,7 @@ const {
 	Col,
 } = classic;
 
-const DeclarativeDebug = (props) => {
+const DebugJSX = (props) => {
 	console.log(classic);
 
 	const ffff = {
@@ -77,9 +77,12 @@ const DeclarativeDebug = (props) => {
 		},
 	};
 
+	// let isDragging = false;
+	// let lastX = null;
+	// let width = 200;
+
 	return (
 		<BasePage>
-			{/*{Forms}*/}
 			<Form labelCol={{span: 2}} wrapperCol={{span: 22}}>
 				<FormHeader>
 					<Title className={'mb-0'} level={3}>
@@ -302,6 +305,6 @@ const DeclarativeDebug = (props) => {
 	);
 };
 
-DeclarativeDebug.propTypes = {};
+DebugJSX.propTypes = {};
 
-export default DeclarativeDebug;
+export default DebugJSX;
