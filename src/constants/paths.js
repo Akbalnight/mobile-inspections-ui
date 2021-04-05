@@ -21,6 +21,7 @@ import {
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
 import Defects from '../components/Defects/Defects';
+import DefectsJsx from '../components/Defects/DefectsJsx';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
@@ -209,6 +210,12 @@ export const paths = {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
 		component: Defects,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	CONTROL_DEFECTS_DEFECTS_JSX: {
+		title: 'Журнал учета дефектов JSX',
+		path: '/control-defects/defects-jsx',
+		component: DefectsJsx,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {

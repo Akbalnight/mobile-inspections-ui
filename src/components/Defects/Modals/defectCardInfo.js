@@ -2,21 +2,28 @@ import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/in
 import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
 import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
 import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
+import {ReactComponent as HistoryTab} from '../../../imgs/tabPane/defectCardInfo/historyTab.svg';
 import {infoTabFields} from '../Tabs/infoFields';
 import {fileManagerFields} from '../Tabs/fileManagerFields';
 import {equipmentFields} from '../Tabs/equipmentFields';
 import {scheduleFields} from '../Tabs/scheduleFields';
+import {historyFields} from '../Tabs/historyFields';
 
 /**
  *
  * Карточка информации дефекта
  */
 export const defectCardInfoModal = () => {
+	let sRow;
+	let defectId = null;
 	const loadData = (callBack, row) => {
+		sRow = row;
+		// defectId = row.id
 		callBack(row);
 	};
+	// console.log(sRow)
 
-	const tabsField = [
+	const tabsField = (transferId) => [
 		{
 			componentType: 'Tabs',
 			type: 'card',
@@ -33,19 +40,25 @@ export const defectCardInfoModal = () => {
 					componentType: 'TabPane',
 					tab: <FilesTab />,
 					key: 'fileTab',
-					children: [fileManagerFields()],
+					children: [fileManagerFields(transferId)],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <EquipmentsTab />,
 					key: 'equipmentTab',
-					children: [equipmentFields()],
+					children: [equipmentFields(transferId)],
 				},
 				{
 					componentType: 'TabPane',
 					tab: <ScheduleTab />,
 					key: 'scheduleTab',
-					children: [scheduleFields()],
+					children: [scheduleFields(transferId)],
+				},
+				{
+					componentType: 'TabPane',
+					tab: <HistoryTab />,
+					key: 'historyTab',
+					children: [historyFields(transferId)],
 				},
 			],
 		},
@@ -66,8 +79,9 @@ export const defectCardInfoModal = () => {
 					labelCol: {span: 8},
 					wrapperCol: {span: 16},
 					loadInitData: loadData,
-					body: [...tabsField],
+					body: tabsField(defectId),
 				},
+				// dispatch:'defects.defectsTable.modalViewObject.event'
 			},
 			subscribe: [
 				{
@@ -75,11 +89,12 @@ export const defectCardInfoModal = () => {
 					path:
 						'rtd.defects.defectTable.table.events.onRowDoubleClick',
 					onChange: ({value, setModalData, openModal}) => {
-						value &&
-							setModalData &&
+						if (value && setModalData) {
+							defectId = value.value.id;
 							setModalData({
 								...value.value,
 							});
+						}
 						openModal();
 					},
 				},

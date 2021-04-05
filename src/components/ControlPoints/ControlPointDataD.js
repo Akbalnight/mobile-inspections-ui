@@ -14,7 +14,7 @@ import {
 import {useHistory, useParams} from 'react-router';
 import {paths} from '../../constants/paths';
 import {PlusOutlined, DeleteOutlined} from '@ant-design/icons';
-// import {selectRowsById} from "../Base/Functions/TableSelectById";
+import {selectRowsById} from '../Base/Functions/TableSelectById';
 
 const {
 	Form,
@@ -88,22 +88,22 @@ const ControlPointDataD = (props) => {
 		}
 	};
 
-	/** Функция-очиститель для табличных данных */
-	const loadRowsHandler = (catalogName) => ({params, data}) => {
-		if (controlPointId) {
-			// console.log('controlPointId', controlPointId);
-			const newData = {...data, controlPointId: controlPointId};
-			// return apiGetHierarchicalDataByConfigName (catalogName)({
-			// console.log('catalogName', catalogName);
-			return apiGetFlatDataByConfigName(catalogName)({
-				data: newData,
-				params,
-			});
-		} else {
-			// console.log('controlPointId not transferred');
-			return new Promise((resolve) => resolve({data: []}));
-		}
-	};
+	// /** Функция-очиститель для табличных данных */
+	// const loadRowsHandler = (catalogName) => ({params, data}) => {
+	//     if (controlPointId) {
+	//         // console.log('controlPointId', controlPointId);
+	//         const newData = {...data, controlPointId: controlPointId};
+	//         // return apiGetHierarchicalDataByConfigName (catalogName)({
+	//         // console.log('catalogName', catalogName);
+	//         return apiGetFlatDataByConfigName(catalogName)({
+	//             data: newData,
+	//             params,
+	//         });
+	//     } else {
+	//         // console.log('controlPointId not transferred');
+	//         return new Promise((resolve) => resolve({data: []}));
+	//     }
+	// };
 
 	const onFinish = (values) => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
@@ -362,8 +362,13 @@ const ControlPointDataD = (props) => {
 								value: (row) => row.name,
 							},
 						]}
-						requestLoadRows={loadRowsHandler(
-							'controlPointsEquipments'
+						// requestLoadRows={loadRowsHandler(
+						// 	'controlPointsEquipments'
+						// )}
+						requestLoadRows={selectRowsById(
+							'controlPointsEquipments',
+							'controlPointId',
+							controlPointId
 						)}
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsEquipments'
@@ -543,8 +548,13 @@ const ControlPointDataD = (props) => {
 								value: () => controlPointId,
 							},
 						]}
-						requestLoadRows={loadRowsHandler(
-							'controlPointsTechMaps'
+						// requestLoadRows={loadRowsHandler(
+						//     'controlPointsTechMaps'
+						// )}
+						requestLoadRows={selectRowsById(
+							'controlPointsTechMaps',
+							'controlPointId',
+							controlPointId
 						)}
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsTechMaps'
