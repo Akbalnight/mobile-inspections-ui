@@ -10,16 +10,19 @@ const PointsOnMap = (props) => {
 	const {existPoints = [], onChange} = props;
 	if (existPoints)
 		return existPoints.map((point, index) => (
+			/**
+			 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+			 */
 			<Rnd
 				key={`${index}-${point.id}`}
 				bounds={'.routeMapImage'}
 				size={{width: 32, height: 32}}
 				style={{
-					display: 'inline-block!important',
-					margin: 20,
-					background: '#b7e4c7',
-					borderRadius: '0% 31% 100% 62% ',
+					background: '#39839D',
 					textAlign: 'center',
+					color: 'white',
+					clipPath:
+						'polygon(50% 0%, 83% 5%, 99% 29%, 78% 65%, 51% 100%, 53% 100%, 25% 66%, 0 29%, 15% 7%)',
 				}}
 				onDragStop={(e, d) => {
 					// сохранение новых координат
@@ -29,6 +32,7 @@ const PointsOnMap = (props) => {
 					onChange(savePoint);
 				}}
 				default={{x: point.xLocation, y: point.yLocation}}
+				scale={1}
 			>
 				<div>{point.position}</div>
 			</Rnd>
@@ -46,7 +50,6 @@ const RouteMap = () => {
 						name: 'routeMap',
 						path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
-							// console.log('Custom img =>', value)
 							value && setSubscribeProps({src: value.fileUrl});
 						},
 					},
@@ -73,6 +76,7 @@ const RouteMap = () => {
 				dispatch={{path: 'routeMaps.mainForm.routeMapPoints.onChange'}}
 				subscribe={[
 					{
+						/** Action change controlPoints in routeMap*/
 						// Обновить точки при изменении карты (картинки)
 						// extraData - точки
 						name: 'onSelectedRouteMap',
@@ -84,12 +88,12 @@ const RouteMap = () => {
 								const points = extraData.filter(
 									(item) => item.routeMapId === value.id
 								);
-								// console.log('Custom routeControlPoints =>', points.map(point => [ point.xLocation, point.yLocation] ))
 								setSubscribeProps({existPoints: points});
 							}
 						},
 					},
 					{
+						/** Action change controlPoints coordinate in table*/
 						// Обновить точки при изменении таблицы с точками
 						// extraData - выбранная карт (картинка)
 						name: 'onChangeControlPoints',
@@ -101,7 +105,6 @@ const RouteMap = () => {
 								const points = value.filter(
 									(item) => item.routeMapId === extraData.id
 								);
-								// console.log('Custom routeControlPoints =>', points.map(point => [ point.xLocation, point.yLocation] ))
 								setSubscribeProps({existPoints: points});
 							}
 						},

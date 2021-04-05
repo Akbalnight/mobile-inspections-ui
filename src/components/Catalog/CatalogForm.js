@@ -1,86 +1,77 @@
 import React from 'react';
-import {components} from 'rt-design';
+import {classic} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
-import {headerTable} from './tableProps';
 
-const {Form} = components;
-/**
- *
- * @param {catalogName, SaveForm, SaveGroup} props
- * @param catalogName -string, configName
- * @param SaveForm- string, configName
- * @param SaveGroup- string, configName
- * @returns Component
- */
+import {customColumnPropsEquipments} from './tableProps';
+import {TableHeader} from '../Base/TableHeader';
+
+const {Form, FormBody, Table} = classic;
 export const CatalogForm = (props) => {
 	const {catalogName, hierarchical, unique} = props;
 
-	const defaultTableFields = [
-		{
-			componentType: 'Layout',
-			children: [
-				headerTable(catalogName, unique),
-				{
-					componentType: 'Item',
-					child: {
-						componentType: 'Table',
-						fixWidthColumn: true,
-						dispatchPath: `catalog.${catalogName}Table.table`,
-						/**сделал сортировку в конфиге, не корректно отображалось */
-						// sortBy:{
-						// 	key:'code',
-						// 	order:'asc'
-						// },
-
-						requestLoadRows: hierarchical
-							? apiGetHierarchicalDataByConfigName(catalogName)
-							: apiGetFlatDataByConfigName(catalogName),
-						requestLoadConfig: apiGetConfigByName(catalogName),
-						subscribe: [
-							/** Событие создания */
-							{
-								name: 'onAddModal',
-								path: `rtd.catalog.${catalogName}Table.modal.events.onAddModal`,
-								onChange: ({value, addRow}) => {
-									addRow(value.value);
-								},
-							},
-							/** Событие редактирования */
-							{
-								name: 'onEditModal',
-								path: `rtd.catalog.${catalogName}Table.modal.events.onEditModal`,
-								onChange: ({value, editRow}) => {
-									editRow(value.value);
-								},
-							},
-							/** Событие удаления */
-							{
-								name: 'onDeleteModal',
-								path: `rtd.catalog.${catalogName}Table.modal.events.onDeleteModal`,
-								onChange: ({value, removeRow}) => {
-									console.log(value.value);
-									removeRow();
-								},
-							},
-						],
-					},
-				},
-			],
-		},
-	];
-
-	const formConfig = {
-		noPadding: true,
-		name: 'catalogSideForm',
-		body: [...defaultTableFields],
-	};
 	return (
-		<>
-			<Form {...formConfig} />
-		</>
+		<Form>
+			<FormBody noPadding={true} name={'catalogSideFormDec'}>
+				<TableHeader catalogName={catalogName} unique={unique} />
+				<Table
+					itemProps={{name: 'table'}}
+					fixWidthColumn={true}
+					dispatchPath={`catalog.${catalogName}Table.table`}
+					requestLoadRows={
+						hierarchical
+							? apiGetHierarchicalDataByConfigName(catalogName)
+							: apiGetFlatDataByConfigName(catalogName)
+					}
+					requestLoadConfig={apiGetConfigByName(catalogName)}
+					customColumnProps={customColumnPropsEquipments}
+					subscribe={[
+						/** Событие создания оборудования*/
+						{
+							name: 'onAddModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.addOnModal`,
+							onChange: ({reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Событие редактирования оборудования*/
+						{
+							name: 'onEditModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.editOnModal`,
+							onChange: ({reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Событие создания Группы оборудования*/
+						{
+							name: 'onAddGroupModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.addOnGroupModal`,
+							onChange: ({reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Событие редактирования Группы оборудования*/
+						{
+							name: 'onEditGroupModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.editOnGroupModal`,
+							onChange: ({reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Событие удаления оборудования*/
+						{
+							name: 'onDeleteModal',
+							path: `rtd.catalog.${catalogName}Table.modal.events.deleteOnModal`,
+							onChange: ({reloadTable}) => {
+								reloadTable({});
+							},
+						},
+					]}
+				/>
+			</FormBody>
+		</Form>
 	);
 };

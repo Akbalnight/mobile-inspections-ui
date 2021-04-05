@@ -17,6 +17,8 @@ import {
 } from '@ant-design/icons';
 import RouteMap from './RouteMap';
 import {useParams} from 'react-router';
+import {EditFileName} from '../Modals/SaveObjectModal';
+import {customColumnProps} from './tableProps';
 
 const {
 	Form,
@@ -28,7 +30,6 @@ const {
 	Layout,
 	Table,
 	Space,
-	Divider,
 } = classic;
 
 export const AddRouteMaps = () => {
@@ -58,13 +59,7 @@ const RouteMaps = (props) => {
 	const loadData = (callBack, row) => {
 		return callBack(routeId ? {...row, routeSelect: routeId} : null);
 	};
-	/**
-	 * СИТУАЦИИ:
-	 * 1. Человек заходит на карту и на ней есть уже несколько КТ(не кликая на таблицу контрольных точек)
-	 * 2. Человек заходит на карту и выбирает КТ(происходит ререндер- не приемлимо)
-	 * 3. Человек выбирает иную карту, автоматически сохраняются предыдущие КТ и новые.
-	 * 4. Человек хочет убрать КТ с карты
-	 */
+
 	const processBeforeSaveForm = (rawValues) => {
 		return {
 			controlPointsCoordinate: rawValues.controlPointsTable,
@@ -77,6 +72,7 @@ const RouteMaps = (props) => {
 			minSize={500}
 			maxSize={700}
 			defaultSize={500}
+			pane2Style={{overflow: 'auto'}}
 		>
 			<div className={'routeMapsConfig'}>
 				<Form
@@ -99,16 +95,12 @@ const RouteMaps = (props) => {
 							filterOption={false}
 							showArrow={true}
 							showSearch={true}
-							// defaultValue={routeId? routeId: null}
 							searchParamName={'name'}
 							mode={'single'}
 							infinityMode={true}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								'routes'
 							)}
-							// requestLoadRows={({data, params}) => apiGetFlatDataByConfigName(
-							//     'routes'
-							// )({data: routeId ? {...data, id: routeId} : {...data}, params})}
 							optionConverter={(option) => ({
 								label: option.name,
 								value: option.id,
@@ -154,12 +146,11 @@ const RouteMaps = (props) => {
 							}
 						/>
 
-						<Layout>
-							<Title level={5} className={'pt-8'}>
-								Маршрутные карты
-							</Title>
-							<Divider className={'mb-0 mt-0'} />
+						<Title level={5} className={'pt-8'}>
+							Маршрутные карты
+						</Title>
 
+						<Layout style={{border: '1px solid #DFDFDF'}}>
 							<Space className={'p-8'}>
 								<UploadFile
 									itemProps={{
@@ -206,6 +197,7 @@ const RouteMaps = (props) => {
 										},
 									]}
 								/>
+								<EditFileName />
 								<Button
 									icon={<ArrowUpOutlined />}
 									disabled={true}
@@ -224,6 +216,7 @@ const RouteMaps = (props) => {
 												setSubscribeProps,
 											}) => {
 												value &&
+													setSubscribeProps &&
 													setSubscribeProps({
 														disabled: !value,
 													});
@@ -249,6 +242,7 @@ const RouteMaps = (props) => {
 												setSubscribeProps,
 											}) => {
 												value &&
+													setSubscribeProps &&
 													setSubscribeProps({
 														disabled: !value,
 													});
@@ -257,13 +251,14 @@ const RouteMaps = (props) => {
 									]}
 								/>
 							</Space>
-							<Divider className={'mb-8 mt-0'} />
+
 							<Table
 								itemProps={{name: 'routeMapsTable'}}
 								infinityMode={true}
 								defaultFilter={{
 									routeId: routeId ? routeId : null,
 								}}
+								customColumnProps={customColumnProps}
 								requestLoadRows={apiGetFlatDataByConfigName(
 									'routeMaps'
 								)}
@@ -359,16 +354,33 @@ const RouteMaps = (props) => {
 												method: 'POST',
 											}),
 									},
+									/** Action change row position in table */
+									{
+										name: 'editFileName',
+										path:
+											'rtd.routeMaps.mainForm.routeMapsTable.modal.editFileName',
+										onChange: ({value, reloadTable}) => {
+											value &&
+												reloadTable &&
+												reloadTable({
+													filter: {
+														routeId:
+															value.value.routeId,
+													},
+												});
+										},
+									},
 								]}
 							/>
+						</Layout>
+						<Title level={5} className={'p-8'}>
+							Контрольные точки
+						</Title>
 
-							<Title level={5} className={'p-8'}>
-								Контрольные точки
-							</Title>
-
+						<Layout>
 							<Table
 								itemProps={{name: 'controlPointsTable'}}
-								infinityMode={true}
+								pageSize={1}
 								editMode={true}
 								defaultFilter={{
 									routeId: routeId ? routeId : null,
@@ -487,118 +499,3 @@ const RouteMaps = (props) => {
 		</SplitPane>
 	);
 };
-
-/**
- *  НЕ УДАЛЯТЬ!!!!
- *  public.route_maps.id.route_map_id/public.files.id.file_id
- */
-/**
- * https://www.npmjs.com/package/react-rnd -  документация по пакету.
- *
- * Что нам интересно(свойства)
- *
- *  position?: { x: number, y: number }-  тут мы сожем задавать начальные координаты на рисунке
- *
- * size?: { width: (number | string), height: (number | string) }
- *
- *  disableDragging?: boolean; - оно отключает перетаскивание, вдруг точка является ключевой и ее нельзя перетаскивать
- *
- *  bounds?: string; - ограничение по передвижению элемента, можно задать 'parent'  или className  в формате '.className'. Возможно сюда
- * мы будем задавать взяимосвязь с загружаемыми данными в объекте выше.
- *
- * Сallback
- *
- *   onDragStop - пригодиться для получения новых координат
- *
- *
- */
-/**
- * style={{display:'flex', flexDirection: 'row'}} поставил эти стили на BasePage  инлайново. возможно это не в лучших практиках
- * style={{display: 'flex', flexDirection: 'row'}} width: 100%; flex: auto;
- * style={{width: '30%', height: '100%'}}
- * style={{width: '70%', height: '100%', background: '#f9dcc4'}}
- */
-
-/**
- *  НЕ УДАЛЯТЬ!!!!
- */
-/**
- *  <Custom
- itemProps={{name: 'imageField'}}
- render={({
-                                     value,
-                                     defaultValue,
-                                     onChange,
-                                     koordinate,
-                                 }) => {
-                            // console.log(
-                            //     '1',
-                            //     defaultValue,
-                            //
-                            //     '2',
-                            //     koordinate
-                            // );
-                            return (
-                                <>
-                                    {defaultValue === undefined ? (
-                                        <ExclamationCircleTwoTone/>
-                                    ) : (
-                                        <>
-                                            <img
-                                                src={`${
-                                                    defaultValue &&
-                                                    defaultValue.fileUrl
-                                                }`}
-                                                alt={`${
-                                                    defaultValue &&
-                                                    defaultValue.name
-                                                }`}
-                                                width={'100%'}
-                                                height={'100%'}
-                                            />
-                                        </>
-                                    )}
-                                    <Rnd
-                                        key={
-                                            koordinate &&
-                                            koordinate.controlPointId
-                                        }
-                                        // size={{width: 32, height: 32}}
-                                        bounds={'.routeMapsContainer'}
-                                        style={{
-                                            display: 'inline-block!important',
-                                            margin: 20,
-                                            background: '#b7e4c7',
-                                            borderRadius:
-                                                '0% 31% 100% 62% ',
-                                            textAlign: 'center',
-                                            verticalAlign: 'middle'
-
-                                        }}
-                                        onDragStop={(e, d) => {
-                                            console.log(
-                                                'koor X',
-                                                d.x,
-                                                'koor Y',
-                                                d.y
-                                            );
-                                        }}
-                                        default={{
-                                            x:
-                                                koordinate &&
-                                                koordinate.xLocation,
-                                            y:
-                                                koordinate &&
-                                                koordinate.yLocation,
-                                            width: koordinate && 32, height: koordinate && 32
-
-                                        }}
-                                    >
-                                        <div>
-                                            {koordinate && koordinate.controlPointName}
-                                        </div>
-                                    </Rnd>
-                                </>
-                            );
-                        }}
- */

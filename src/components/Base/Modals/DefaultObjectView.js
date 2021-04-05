@@ -1,5 +1,5 @@
 import {classic} from 'rt-design';
-import {itemsInfo} from '../tableProps';
+import {itemsInfo} from '../../../constants/dictionary';
 import React from 'react';
 import {
 	CalendarOutlined,
@@ -27,7 +27,7 @@ const {
  * @returns {JSX.object}
  * @desc Modal view table info about row(onRowDoubleClick) , only object
  */
-export const ModalDefaultObjectView = ({catalogName, unique}) => {
+export const DefaultObjectView = ({catalogName, unique}) => {
 	/**
 	 *
 	 * @param callBack function change state (row)
