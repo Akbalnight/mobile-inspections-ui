@@ -1,12 +1,13 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {components} from 'rt-design';
+import {components, classic} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {useHistory} from 'react-router';
 import {customColumnProps, headerTable} from './tableProps';
+import {paths} from '../../constants/paths';
 
 /**
  * Общий компонет для двух разделов Журнал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -16,7 +17,18 @@ import {customColumnProps, headerTable} from './tableProps';
  * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
 
-const {Form} = components;
+// const {Form} = components;
+const {
+	Layout,
+	Form,
+	Space,
+	FormHeader,
+	FormBody,
+	FormFooter,
+	Table,
+	Button,
+	Title,
+} = classic;
 
 export default function DefectsJsx() {
 	const history = useHistory();
@@ -99,7 +111,88 @@ export default function DefectsJsx() {
 	};
 	return (
 		<BasePage>
-			<Form {...formConfig} />
+			<Form>
+				<Layout>
+					<FormHeader>
+						<Space
+							className={'px-8 pt-8'}
+							style={{
+								justifyContent: 'space-between',
+							}}
+						>
+							<Space>
+								<Button
+									label={'Перейти в панель проблем'}
+									type={'primary'}
+									onClick={() => {
+										history.push(
+											`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
+										);
+									}}
+								/>
+							</Space>
+						</Space>
+					</FormHeader>
+					<FormBody noPadding={true}>
+						<Table
+							selectable={true}
+							searchParamName={'name'}
+							fixWidthColumn={true}
+							// history,
+							headerHeight={35}
+							infinityMode={true}
+							dispatchPath={'defects.defectTable.table'}
+							customColumnProps={customColumnProps}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								historyChange ? 'defects' : 'panelProblems'
+							)}
+							requestLoadConfig={apiGetConfigByName(
+								historyChange ? 'defects' : 'panelProblems'
+							)}
+							subscribe={[
+								/** Событие поиска в таблице по значению name */
+								{
+									name: 'onSearch',
+									path:
+										'rtd.defects.defectTable.events.onSearch',
+									onChange: ({
+										value,
+										extraData,
+										reloadTable,
+									}) => {
+										reloadTable({
+											searchValue: value.value,
+										});
+									},
+								},
+								/** Событие фильтрации в таблице по параметрам */
+								{
+									name: 'onApplyFilter',
+									path:
+										'rtd.defects.defectTable.events.onApplyFilter',
+									extraData: 'rtd.defects.defectTable.filter',
+									onChange: ({extraData, reloadTable}) => {
+										console.log(
+											'Table onApplyFilter',
+											extraData
+										);
+										reloadTable({filter: extraData});
+									},
+								},
+								{
+									/** Обработчик события на кнопку Reload */
+									name: ' onReload',
+									path:
+										' rtd.defects.defectTable.events.onReload',
+									onChange: ({reloadTable}) => {
+										reloadTable({filter: {}});
+									},
+								},
+							]}
+						/>
+					</FormBody>
+				</Layout>
+			</Form>
 		</BasePage>
 	);
 }
