@@ -16,7 +16,7 @@ import {
  * Получение данных по определенной КТ
  */
 // const loadControlPointEquipmentsHandler = ({data, params}) => {
-// 	const newData = {...data, controlPointsId: Row.controlPointId};
+// 	const newData = {...data, controlPointId: Row.controlPointId};
 // 	return apiGetFlatDataByConfigName('controlPointsEquipments')({
 // 		data: newData,
 // 		params,
@@ -28,7 +28,7 @@ import {
  * Получение данных по определенной КТ
  */
 // const loadControlPointTechMapsHandler = ({data, params}) => {
-// 	const newData = {...data, controlPointsId: Row.controlPointId};
+// 	const newData = {...data, controlPointId: Row.controlPointId};
 // 	return apiGetFlatDataByConfigName('controlPointsTechMaps')({
 // 		data: newData,
 // 		params,
@@ -53,8 +53,8 @@ export const routeMapsControlPointViewModal = (history) => {
 	const loadRowsHandler = (catalogName, sRow, {params, data}) => {
 		// console.log("routeMapsControlPointViewModal sRow", sRow);
 		let newData = {...data};
-		if (sRow.controlPointId) newData.controlPointsId = sRow.controlPointId;
-		else newData.controlPointsId = sRow.id;
+		if (sRow.controlPointId) newData.controlPointId = sRow.controlPointId;
+		else newData.controlPointId = sRow.id;
 		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,

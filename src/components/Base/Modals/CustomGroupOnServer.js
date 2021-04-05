@@ -5,7 +5,7 @@ import {
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
-import {itemsInfo} from '../tableProps';
+import {itemsInfo} from '../../../constants/dictionary';
 
 /**
  *
@@ -14,9 +14,9 @@ import {itemsInfo} from '../tableProps';
  * @returns {JSX.object}
  *
  */
-export const AddGroupButton = ({catalogName, unique}) =>
+export const AddCustomGroupOnServer = ({catalogName, unique}) =>
 	operationOnServer('add', catalogName, unique);
-export const EditGroupButton = ({catalogName, unique}) =>
+export const EditCustomGroupOnServer = ({catalogName, unique}) =>
 	operationOnServer('edit', catalogName, unique);
 
 const {Modal, FormBody, Input, TreeSelect} = classic;

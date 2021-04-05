@@ -439,7 +439,7 @@ const Debug = () => {
 						name: 'table',
 						path: 'rtd.debug.form.mode.onChange',
 						onChange: ({value, setSubscribeProps}) => {
-							// console.log('Switcher value', value);
+							console.log('Switcher value', value);
 							setSubscribeProps({value: value});
 						},
 					},

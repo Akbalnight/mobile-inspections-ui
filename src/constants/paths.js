@@ -5,17 +5,21 @@ import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
-import ControlPointsD from '../components/ControlPoints/ControlPointsD';
+// import ControlPointsD from '../components/ControlPoints/ControlPointsD';
+import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
 import {
 	ControlPointAdd,
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
-import Routes from '../components/Routes/Routes';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
+import Routes from '../components/Routes/Registry/Routes';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
 import Detours from '../components/Detours/Detours';
 import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
-import RouteMaps from '../components/RouteMaps/RouteMaps';
+import {
+	AddRouteMaps,
+	EditRouteMaps,
+} from '../components/RouteMaps/Registry/RouteMaps';
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
@@ -100,10 +104,16 @@ export const paths = {
 		path: '/detours-configurator/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
+	// DETOURS_CONFIGURATOR_CONTROL_POINTS: {
+	// 	title: 'Контрольные точки',
+	// 	path: '/detours-configurator/control-points',
+	// 	component: ControlPointsD,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPointsD,
+		component: ControlPointsBase,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
@@ -163,7 +173,13 @@ export const paths = {
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
-		component: RouteMaps,
+		component: AddRouteMaps,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_ROUTE_MAPS_EDIT: {
+		title: 'Редактирование маршрутной карты',
+		path: '/detours-configurator/route-maps/:id',
+		component: EditRouteMaps,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_EQUIPMENTS: {

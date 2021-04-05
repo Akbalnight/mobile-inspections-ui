@@ -6,15 +6,16 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../apis/catalog.api';
-import {paths} from '../../constants/paths';
-import {routeControlPointViewModal} from './Modals/routeControlPointView';
+} from '../../../apis/catalog.api';
+import {paths} from '../../../constants/paths';
+import {routeControlPointViewModal} from '../Modals/routeControlPointView';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
-} from './Modals/routeControlPointEdit';
-import {duration, position} from '../Base/customColumnProps';
-import {codeInput} from '../Base/Inputs/CodeInput';
+} from '../Modals/routeControlPointEdit';
+import {codeInput} from '../../Base/Inputs/CodeInput';
+import {customColumnProps} from '../tableProps';
+// import {selectRowsById} from "../../Base/Functions/TableSelectById";
 
 /**
  * компонент создания/редактирования маршрута.
@@ -36,19 +37,19 @@ export const RoutesEdit = () => {
 	const pageParams = useParams();
 	return (
 		<BasePage>
-			<RoutesForm routesId={pageParams.id} />
+			<RoutesForm routeId={pageParams.id} />
 		</BasePage>
 	);
 };
 
 const RoutesForm = (props) => {
-	const {routesId} = props;
+	const {routeId} = props;
 	const history = useHistory();
 
 	const loadData = (callBack) => {
-		if (routesId) {
+		if (routeId) {
 			apiGetFlatDataByConfigName('routes')({
-				data: {id: routesId},
+				data: {id: routeId},
 			})
 				.then((response) => {
 					callBack(response.data[0]);
@@ -64,15 +65,21 @@ const RoutesForm = (props) => {
 		}
 	};
 
-	const loadControlPointsForRoute = ({params, data}) => {
-		const newData = {
-			...data,
-			routeId: routesId ? routesId : null,
-		};
-		return apiGetFlatDataByConfigName('routeControlPoints')({
-			data: newData,
-			params,
-		});
+	/** Функция-очиститель для табличных данных */
+	const loadRowsHandler = (catalogName) => ({params, data}) => {
+		if (routeId) {
+			// console.log('controlPointId', controlPointId);
+			const newData = {...data, routeId: routeId};
+			// return apiGetHierarchicalDataByConfigName (catalogName)({
+			// console.log('catalogName', catalogName);
+			return apiGetFlatDataByConfigName(catalogName)({
+				data: newData,
+				params,
+			});
+		} else {
+			// console.log('controlPointId not transferred');
+			return new Promise((resolve) => resolve({data: []}));
+		}
 	};
 
 	const headFields = [
@@ -84,7 +91,7 @@ const RoutesForm = (props) => {
 					componentType: 'Col',
 					span: 16,
 					children: [
-						routesId ? codeInput : {},
+						routeId ? codeInput : {},
 						{
 							componentType: 'Item',
 							label: 'Наименование:',
@@ -149,7 +156,7 @@ const RoutesForm = (props) => {
 						componentType: 'LocalTable',
 						history,
 						customFields: customFields,
-						customColumnProps: [{...position}, {...duration}],
+						customColumnProps: [...customColumnProps],
 						commandPanelProps: {
 							systemBtnProps: {
 								add: {actionType: 'modal'},
@@ -159,7 +166,7 @@ const RoutesForm = (props) => {
 								down: {},
 							},
 						},
-						requestLoadRows: loadControlPointsForRoute,
+						requestLoadRows: loadRowsHandler('routeControlPoints'),
 						requestLoadConfig: apiGetConfigByName(
 							'routeControlPoints'
 						),
@@ -174,7 +181,7 @@ const RoutesForm = (props) => {
 		},
 	];
 
-	const techMapsFields = [
+	const routeMapsFields = [
 		{
 			componentType: 'Row',
 			justify: 'space-between',
@@ -187,21 +194,26 @@ const RoutesForm = (props) => {
 						level: 5,
 					},
 				},
-
-				{
-					componentType: 'Item',
-					child: {
-						componentType: 'Button',
-						label: 'В конструктор',
-						size: 'small',
-						type: 'link',
-						onClick: () => {
-							history.push(
-								paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path
-							);
-						},
-					},
-				},
+				routeId
+					? {
+							componentType: 'Item',
+							child: {
+								componentType: 'Button',
+								label: 'В конструктор',
+								size: 'small',
+								type: 'link',
+								onClick: () => {
+									history.push(
+										`${
+											paths
+												.DETOURS_CONFIGURATOR_ROUTE_MAPS
+												.path
+										}/${routeId ? routeId : ''}`
+									);
+								},
+							},
+					  }
+					: {},
 			],
 		},
 		{
@@ -212,9 +224,12 @@ const RoutesForm = (props) => {
 					child: {
 						componentType: 'LocalTable',
 						history, // необходимо проверить проавльные двнные приходят
-						requestLoadRows: apiGetFlatDataByConfigName(
-							'routeMaps'
-						),
+						requestLoadRows: loadRowsHandler('routeMaps'),
+						// requestLoadRows: ({data, params}) =>
+						// 	apiGetFlatDataByConfigName('routeMaps')({
+						// 		data: {...data, routeId: routeId},
+						// 		params,
+						// 	}),
 						requestLoadConfig: apiGetConfigByName('routeMaps'),
 					},
 				},
@@ -236,7 +251,7 @@ const RoutesForm = (props) => {
 		wrapperCol: {span: 8},
 		loadInitData: loadData,
 		requestSaveForm: apiSaveByConfigName('routes'),
-		methodSaveForm: routesId ? 'PUT' : 'POST',
+		methodSaveForm: routeId ? 'PUT' : 'POST',
 		processBeforeSaveForm: processBeforeSaveForm,
 		onFinish: (values) => {
 			history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
@@ -248,13 +263,13 @@ const RoutesForm = (props) => {
 					componentType: 'Title',
 					className: 'mb-0',
 					level: 3,
-					label: routesId
+					label: routeId
 						? 'Редактирование маршрута'
 						: 'Создание маршрута',
 				},
 			},
 		],
-		body: [...headFields, ...controlPointsFields, ...techMapsFields],
+		body: [...headFields, ...controlPointsFields, ...routeMapsFields],
 		footer: [
 			{
 				componentType: 'Item',

@@ -14,7 +14,7 @@ import DetoursCalendar from './DetoursCalendar';
 import {addDetourForm, editDetourForm} from './Modals/detourEdit';
 
 /**
- * Основной компонент раздела, вынесены настройки таблицы в tableProps, модальные окна вынесены в отдельную папку
+ * Основной компонент раздела, вынесены настройки таблицы в fdgsd.js, модальные окна вынесены в отдельную папку
  */
 export default function Detours() {
 	const [pageView, setPageView] = useState(true);
