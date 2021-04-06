@@ -9,7 +9,7 @@ const {Modal, FormBody, Text} = classic;
  *
  * @param catalogName name of server configuration<string>
  * @param unique phrase on Russian<string>
- * @returns {JSX.object}
+ * @returns {JSX.Element}
  * @desc Modal view table info about row(onRowDoubleClick) , only object
  */
 export const DefaultObjectView = ({catalogName, unique}) => {

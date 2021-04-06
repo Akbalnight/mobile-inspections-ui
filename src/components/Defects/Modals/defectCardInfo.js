@@ -8,12 +8,28 @@ import {fileManagerFields} from '../Tabs/fileManagerFields';
 import {equipmentFields} from '../Tabs/equipmentFields';
 import {scheduleFields} from '../Tabs/scheduleFields';
 import {historyFields} from '../Tabs/historyFields';
+import {classic} from 'rt-design';
+import React from 'react';
 
+const {
+	Layout,
+	Form,
+	Space,
+	FormHeader,
+	FormBody,
+	FormFooter,
+	Divider,
+	Table,
+	Button,
+	Title,
+	Search,
+	Modal,
+} = classic;
 /**
  *
  * Карточка информации дефекта
  */
-export const defectCardInfoModal = () => {
+export const DefectCardInfoModal = () => {
 	let sRow;
 	let defectId = null;
 	const loadData = (callBack, row) => {
@@ -64,7 +80,45 @@ export const defectCardInfoModal = () => {
 		},
 	];
 
-	return {
+	return (
+		<Modal
+			modalConfig={{
+				type: 'viewObject',
+				title: `Карточка дефекта`,
+				width: 800,
+				bodyStyle: {height: 650},
+				form: {
+					name: 'defectDataView',
+					noPadding: true,
+					labelCol: {span: 8},
+					wrapperCol: {span: 16},
+					loadInitData: loadData,
+					// body: tabsField(defectId),
+				},
+			}}
+			subscribe={[
+				{
+					name: 'infoForm',
+					path:
+						'rtd.defects.defectTable.table.events.onRowDoubleClick',
+					onChange: ({value, setModalData, openModal}) => {
+						if (value && setModalData) {
+							defectId = value.value.id;
+							setModalData({
+								...value.value,
+							});
+						}
+						openModal();
+					},
+				},
+			]}
+			// dispatch:'defects.defectsTable.modalViewObject.event'
+		>
+			{/*{tabsField(defectId)}*/}
+		</Modal>
+	);
+
+	const dummy = {
 		componentType: 'Item',
 		child: {
 			componentType: 'Modal',

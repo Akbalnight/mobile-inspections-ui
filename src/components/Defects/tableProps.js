@@ -1,3 +1,4 @@
+import React from 'react';
 import {Rate, Radio} from 'antd';
 import {
 	CheckOutlined,
@@ -18,14 +19,18 @@ import {
 	buttonSendToPanel,
 	buttonSendToSap,
 } from './Modals/modalButtonDefects';
+import {classic} from 'rt-design';
+
 import {editDefectCard} from './Modals/defectEdit';
-import {defectCardInfoModal} from './Modals/defectCardInfo';
+// import {defectCardInfoModal} from './Modals/defectCardInfo';
 import {
 	disabledEndDate,
 	disabledStartDate,
 	reloadFilterFields,
 } from '../Base/Functions/DateLimits';
+import {useHistory} from 'react-router';
 
+const {Space, Text, DatePicker, Select, Button} = classic;
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
  *
@@ -136,6 +141,276 @@ export const customColumnProps = [
 		},
 	},
 ];
+export const FilterPanel = () => {
+	const history = useHistory();
+
+	let historyChange = history
+		? // history.location.pathname === '/control-defects/defects';
+		  history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS_JSX.path
+		: null;
+
+	return (
+		<>
+			<Space
+				className={'p-8'}
+				style={{
+					justifyContent: 'space-between',
+					alignItems: 'flex-end',
+				}}
+			>
+				<Space>
+					<Space direction={'vertical'} className={'mr-8'}>
+						<Text className={'mb-0'}>Период обнаружения</Text>
+						<Space>
+							<DatePicker
+								itemProps={{
+									name: 'dateDetectDefectStart',
+									label: 'c',
+									className: 'mb-0',
+								}}
+								dispatch={{
+									path:
+										'defects.defectTable.filter.detectStartDate',
+								}}
+								subscribe={[
+									{
+										name: 'startDate',
+										path:
+											'rtd.defects.defectTable.filter.detectEndDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										'defects.defectTable.events.onReload'
+									),
+								]}
+							/>
+							<DatePicker
+								itemProps={{
+									name: 'dateDetectDefectEnd',
+									label: 'по',
+									className: 'mb-0',
+								}}
+								dispatch={{
+									path:
+										'defects.defectTable.filter.detectEndDate',
+								}}
+								subscribe={[
+									{
+										name: 'endDate',
+										path:
+											'rtd.defects.defectTable.filter.detectStartDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										'defects.defectTable.events.onReload'
+									),
+								]}
+							/>
+						</Space>
+					</Space>
+					<Space direction={'vertical'} className={'mr-8'}>
+						<Text className={'mb-0'}>Период устранения</Text>
+						<Space>
+							<DatePicker
+								itemProps={{
+									name: 'dateEliminationPlan',
+									label: 'c',
+									className: 'mb-0',
+								}}
+								dispatch={{
+									path:
+										'defects.defectTable.filter.eliminateStartDate',
+								}}
+								subscribe={[
+									{
+										name: 'startDate',
+										path:
+											'rtd.defects.defectTable.filter.eliminateEndDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										'defects.defectTable.events.onReload'
+									),
+								]}
+							/>
+							<DatePicker
+								itemProps={{
+									name: 'dateEliminationFact',
+									label: 'по',
+									className: 'mb-0',
+								}}
+								dispatch={{
+									path:
+										'defects.defectTable.filter.eliminateEndDate',
+								}}
+								subscribe={[
+									{
+										name: 'endDate',
+										path:
+											'rtd.defects.defectTable.filter.eliminateStartDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										'defects.defectTable.events.onReload'
+									),
+								]}
+							/>
+						</Space>
+					</Space>
+					<Space direction={'vertical'}>
+						<Text className={'mb-0'}>Статус обработки</Text>
+						<Select
+							itemProps={{name: 'selectId'}}
+							autoClearSearchValue={true}
+							showSearch={true}
+							searchParamName={'name'}
+							showArrow={true}
+							filterOption={false}
+							widthControl={170}
+							dropdownMatchSelectWidth={200}
+							mode={'single'}
+							allowClear={true}
+							infinityMode={true}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								historyChange
+									? 'defectStatusesProcess'
+									: 'panelProblemsStatuses'
+							)}
+							optionConverter={(option) => ({
+								label: <span>{option.name}</span>,
+								value: option.id,
+								className: '',
+								disabled: undefined,
+							})}
+							dispatch={{
+								path: `defects.defectTable.filter.${
+									historyChange
+										? 'statusProcessId'
+										: 'statusPanelId'
+								}`,
+							}}
+							subscribe={[
+								reloadFilterFields(
+									'defects.defectTable.events.onReload'
+								),
+							]}
+						/>
+					</Space>
+					{historyChange ? null : (
+						<Space direction={'vertical'}>
+							<Text>Приоритет</Text>
+							<Select
+								itemProps={{name: 'panelProblemPriority'}}
+								autoClearSearchValue={true}
+								showSearch={true}
+								searchParamName={'name'}
+								showArrow={true}
+								filterOption={false}
+								widthControl={170}
+								dropdownMatchSelectWidth={200}
+								mode={'single'}
+								allowClear={true}
+								infinityMode={true}
+								placeholder={'Выберите приоритет'}
+								requestLoadRows={apiGetFlatDataByConfigName(
+									'panelProblemsPriorities'
+								)}
+								optionConverter={(option) => ({
+									label: <span>{option.name}</span>,
+									value: option.id,
+									className: '',
+									disabled: undefined,
+								})}
+								dispatch={{
+									path:
+										'defects.defectTable.filter.panelPriority',
+								}}
+								subscribe={[
+									/**
+									 * не работает очищение при 'multiple', надо будет продумать.
+									 */
+									reloadFilterFields(
+										'defects.defectTable.events.onReload'
+									),
+								]}
+							/>
+						</Space>
+					)}
+				</Space>
+				<Space
+					style={{
+						justifyContent: 'space-between',
+					}}
+				>
+					<Button
+						itemProps={{name: 'btnDefectFilterApply'}}
+						type={'primary'}
+						dispatch={{
+							path: 'defects.defectTable.events.onApplyFilter',
+							extraData: 'rtd.defects.defectTable.filter',
+							type: 'event',
+						}}
+					>
+						Применить
+					</Button>
+					<Button
+						itemProps={{name: 'btnDefectFilterClear'}}
+						dispatch={{
+							path: 'defects.defectTable.events.onReload',
+							type: 'event',
+						}}
+					>
+						Сбросить
+					</Button>
+				</Space>
+			</Space>
+		</>
+	);
+};
 /**
  * filterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
  *
@@ -158,25 +433,25 @@ export const headerTable = (history) => {
 						 * изменить все модалки на функции
 						 */
 						editDefectCard(
-							historyChange ? 'defects' : 'panelProblems'
+							historyChange ? ' defects' : ' panelProblems'
 						),
 						buttonCloseWithNote(),
 						...(historyChange
 							? buttonSendToPanel
 							: buttonSendToSap),
-						defectCardInfoModal(),
+						// defectCardInfoModal(),
 					],
 				},
 				{
-					componentType: 'Space',
+					componentType: ' Space',
 					children: [
 						historyChange
 							? {
-									componentType: 'Item',
+									componentType: ' Item',
 									child: {
-										componentType: 'Button',
-										label: 'Перейти в панель проблем',
-										type: 'primary',
+										componentType: ' Button',
+										label: ' Перейти в панель проблем',
+										type: ' primary',
 										onClick: () => {
 											history.push(
 												`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
@@ -185,11 +460,11 @@ export const headerTable = (history) => {
 									},
 							  }
 							: {
-									componentType: 'Item',
+									componentType: ' Item',
 									child: {
-										componentType: 'Button',
-										label: 'Перейти в журнал дефектов',
-										type: 'primary',
+										componentType: ' Button',
+										label: ' Перейти в журнал дефектов',
+										type: ' primary',
 										onClick: () => {
 											history.push(
 												`${paths.CONTROL_DEFECTS_DEFECTS.path}`
@@ -198,14 +473,15 @@ export const headerTable = (history) => {
 									},
 							  },
 						{
-							componentType: 'Item',
-							name: 'searchInput',
+							componentType: ' Item',
+							name: ' searchInput',
 							child: {
-								componentType: 'Search',
-								placeholder: 'Введите наименование',
+								componentType: ' Search',
+								placeholder: ' Введите наименование',
 								dispatch: {
-									path: 'defects.defectTable.events.onSearch',
-									type: 'event',
+									path:
+										' defects.defectTable.events.onSearch',
+									type: ' event',
 								},
 							},
 						},
@@ -215,53 +491,53 @@ export const headerTable = (history) => {
 			],
 		},
 		{
-			componentType: 'Item',
+			componentType: ' Item',
 			child: {
-				className: 'mt-8 mb-0',
-				componentType: 'Divider',
+				className: ' mt-8 mb-0',
+				componentType: ' Divider',
 			},
 		},
 		{
-			componentType: 'Space',
+			componentType: ' Space',
 			style: {
-				justifyContent: 'space-between',
+				justifyContent: ' space-between',
 			},
 			children: [
 				{
-					componentType: 'Space',
-					className: 'p-8',
+					componentType: ' Space',
+					className: ' p-8',
 					children: [
 						{
-							componentType: 'Space',
-							direction: 'vertical',
+							componentType: ' Space',
+							direction: ' vertical',
 							children: [
 								{
-									componentType: 'Item',
+									componentType: ' Item',
 									child: {
-										componentType: 'Text',
-										label: 'Период обнаружения',
+										componentType: ' Text',
+										label: ' Период обнаружения',
 									},
 								},
 								{
-									componentType: 'Space',
-									className: 'mb-0',
+									componentType: ' Space',
+									className: ' mb-0',
 									children: [
 										{
-											componentType: 'Item',
-											name: 'dateDetectDefectStart',
-											label: 'c',
-											className: 'mb-0',
+											componentType: ' Item',
+											name: ' dateDetectDefectStart',
+											label: ' c',
+											className: ' mb-0',
 											child: {
-												componentType: 'DatePicker',
+												componentType: ' DatePicker',
 												dispatch: {
 													path:
-														'defects.defectTable.filter.detectStartDate',
+														' defects.defectTable.filter.detectStartDate',
 												},
 												subscribe: [
 													{
-														name: 'startDate',
+														name: ' startDate',
 														path:
-															'rtd.defects.defectTable.filter.detectEndDate',
+															' rtd.defects.defectTable.filter.detectEndDate',
 														onChange: ({
 															value,
 															setSubscribeProps,
@@ -278,27 +554,27 @@ export const headerTable = (history) => {
 														},
 													},
 													reloadFilterFields(
-														'defects.defectTable.events.onReload'
+														' defects.defectTable.events.onReload'
 													),
 												],
 											},
 										},
 										{
-											componentType: 'Item',
-											name: 'dateDetectDefectEnd',
-											label: 'по',
-											className: 'mb-0',
+											componentType: ' Item',
+											name: ' dateDetectDefectEnd',
+											label: ' по',
+											className: ' mb-0',
 											child: {
-												componentType: 'DatePicker',
+												componentType: ' DatePicker',
 												dispatch: {
 													path:
-														'defects.defectTable.filter.detectEndDate',
+														' defects.defectTable.filter.detectEndDate',
 												},
 												subscribe: [
 													{
-														name: 'endDate',
+														name: ' endDate',
 														path:
-															'rtd.defects.defectTable.filter.detectStartDate',
+															' rtd.defects.defectTable.filter.detectStartDate',
 														onChange: ({
 															value,
 															setSubscribeProps,
@@ -315,7 +591,7 @@ export const headerTable = (history) => {
 														},
 													},
 													reloadFilterFields(
-														'defects.defectTable.events.onReload'
+														' defects.defectTable.events.onReload'
 													),
 												],
 											},
@@ -325,37 +601,37 @@ export const headerTable = (history) => {
 							],
 						},
 						{
-							componentType: 'Space',
-							direction: 'vertical',
-							className: 'ml-8',
+							componentType: ' Space',
+							direction: ' vertical',
+							className: ' ml-8',
 							children: [
 								{
-									componentType: 'Item',
+									componentType: ' Item',
 									child: {
-										componentType: 'Text',
-										label: 'Период устранения',
+										componentType: ' Text',
+										label: ' Период устранения',
 									},
 								},
 								{
-									componentType: 'Space',
-									className: 'mb-0',
+									componentType: ' Space',
+									className: ' mb-0',
 									children: [
 										{
-											componentType: 'Item',
-											label: 'c',
-											className: 'mb-0',
-											name: 'dateEliminationPlan',
+											componentType: ' Item',
+											label: ' c',
+											className: ' mb-0',
+											name: ' dateEliminationPlan',
 											child: {
-												componentType: 'DatePicker',
+												componentType: ' DatePicker',
 												dispatch: {
 													path:
-														'defects.defectTable.filter.eliminateStartDate',
+														' defects.defectTable.filter.eliminateStartDate',
 												},
 												subscribe: [
 													{
-														name: 'startDate',
+														name: ' startDate',
 														path:
-															'rtd.defects.defectTable.filter.eliminateEndDate',
+															' rtd.defects.defectTable.filter.eliminateEndDate',
 														onChange: ({
 															value,
 															setSubscribeProps,
@@ -372,27 +648,27 @@ export const headerTable = (history) => {
 														},
 													},
 													reloadFilterFields(
-														'defects.defectTable.events.onReload'
+														' defects.defectTable.events.onReload'
 													),
 												],
 											},
 										},
 										{
-											componentType: 'Item',
-											label: 'по',
-											className: 'mb-0',
-											name: 'dateEliminationFact',
+											componentType: ' Item',
+											label: ' по',
+											className: ' mb-0',
+											name: ' dateEliminationFact',
 											child: {
-												componentType: 'DatePicker',
+												componentType: ' DatePicker',
 												dispatch: {
 													path:
-														'defects.defectTable.filter.eliminateEndDate',
+														' defects.defectTable.filter.eliminateEndDate',
 												},
 												subscribe: [
 													{
-														name: 'endDate',
+														name: ' endDate',
 														path:
-															'rtd.defects.defectTable.filter.eliminateStartDate',
+															' rtd.defects.defectTable.filter.eliminateStartDate',
 														onChange: ({
 															value,
 															setSubscribeProps,
@@ -409,7 +685,7 @@ export const headerTable = (history) => {
 														},
 													},
 													reloadFilterFields(
-														'defects.defectTable.events.onReload'
+														' defects.defectTable.events.onReload'
 													),
 												],
 											},
@@ -419,35 +695,35 @@ export const headerTable = (history) => {
 							],
 						},
 						{
-							componentType: 'Space',
-							direction: 'vertical',
+							componentType: ' Space',
+							direction: ' vertical',
 							children: [
 								{
-									componentType: 'Item',
+									componentType: ' Item',
 									child: {
-										componentType: 'Text',
-										label: 'Статус обработки',
+										componentType: ' Text',
+										label: ' Статус обработки',
 									},
 								},
 								{
-									componentType: 'Item',
-									name: 'selectId',
+									componentType: ' Item',
+									name: ' selectId',
 									child: {
-										componentType: 'Select',
+										componentType: ' Select',
 										autoClearSearchValue: true,
 										showSearch: true,
-										searchParamName: 'name',
+										searchParamName: ' name',
 										showArrow: true,
 										filterOption: false,
-										widthControl: 230,
+										widthControl: 170,
 										dropdownMatchSelectWidth: 200,
-										mode: 'single',
+										mode: ' single',
 										allowClear: true,
 										infinityMode: true,
 										requestLoadRows: apiGetFlatDataByConfigName(
 											historyChange
-												? 'defectStatusesProcess'
-												: 'panelProblemsStatuses'
+												? ' defectStatusesProcess'
+												: ' panelProblemsStatuses'
 										),
 										optionConverter: (option) => ({
 											label: <span>{option.name}</span>,
@@ -459,13 +735,13 @@ export const headerTable = (history) => {
 										dispatch: {
 											path: `defects.defectTable.filter.${
 												historyChange
-													? 'statusProcessId'
-													: 'statusPanelId'
+													? ' statusProcessId'
+													: ' statusPanelId'
 											}`,
 										},
 										subscribe: [
 											reloadFilterFields(
-												'defects.defectTable.events.onReload'
+												' defects.defectTable.events.onReload'
 											),
 										],
 									},
@@ -475,35 +751,35 @@ export const headerTable = (history) => {
 						historyChange
 							? {}
 							: {
-									componentType: 'Space',
-									direction: 'vertical',
+									componentType: ' Space',
+									direction: ' vertical',
 									children: [
 										{
-											componentType: 'Item',
+											componentType: ' Item',
 											child: {
-												componentType: 'Text',
-												label: 'Приоритет',
+												componentType: ' Text',
+												label: ' Приоритет',
 											},
 										},
 										{
-											componentType: 'Item',
-											name: 'panelProblemPriority',
+											componentType: ' Item',
+											name: ' panelProblemPriority',
 											child: {
-												componentType: 'Select',
+												componentType: ' Select',
 												autoClearSearchValue: true,
 												showSearch: true,
-												searchParamName: 'name',
+												searchParamName: ' name',
 												showArrow: true,
 												filterOption: false,
 												widthControl: 230,
 												dropdownMatchSelectWidth: 200,
-												mode: 'single', //'multiple'
+												mode: ' single', //' multiple'
 												allowClear: true,
 												infinityMode: true,
 												placeholder:
-													'Выберите приоритет',
+													' Выберите приоритет',
 												requestLoadRows: apiGetFlatDataByConfigName(
-													'panelProblemsPriorities'
+													' panelProblemsPriorities'
 												),
 												optionConverter: (option) => ({
 													label: (
@@ -517,14 +793,14 @@ export const headerTable = (history) => {
 												}),
 												dispatch: {
 													path:
-														'defects.defectTable.filter.panelPrioriry',
+														' defects.defectTable.filter.panelPrioriry',
 												},
 												subscribe: [
 													/**
-													 * не работает очищение при 'multiple', надо будет продумать.
+													 * не работает очищение при ' multiple', надо будет продумать.
 													 */
 													reloadFilterFields(
-														'defects.defectTable.events.onReload'
+														' defects.defectTable.events.onReload'
 													),
 												],
 											},
@@ -535,33 +811,35 @@ export const headerTable = (history) => {
 				},
 
 				{
-					componentType: 'Space',
-					className: 'mt-8',
+					componentType: ' Space',
+					className: ' mt-8',
 					children: [
 						{
-							componentType: 'Item',
+							componentType: ' Item',
 							child: {
-								componentType: 'Button',
-								className: 'mt-16',
-								label: 'Применить',
-								type: 'primary',
+								componentType: ' Button',
+								className: ' mt-16',
+								label: ' Применить',
+								type: ' primary',
 								dispatch: {
 									path:
-										'defects.defectTable.events.onApplyFilter',
-									extraData: 'rtd.defects.defectTable.filter',
-									type: 'event',
+										' defects.defectTable.events.onApplyFilter',
+									extraData:
+										' rtd.defects.defectTable.filter',
+									type: ' event',
 								},
 							},
 						},
 						{
-							componentType: 'Item',
+							componentType: ' Item',
 							child: {
-								componentType: 'Button',
-								className: 'mt-16 mr-16',
-								label: 'Сбросить',
+								componentType: ' Button',
+								className: ' mt-16 mr-16',
+								label: ' Сбросить',
 								dispatch: {
-									path: 'defects.defectTable.events.onReload',
-									type: 'event',
+									path:
+										' defects.defectTable.events.onReload',
+									type: ' event',
 								},
 							},
 						},
@@ -570,10 +848,10 @@ export const headerTable = (history) => {
 			],
 		},
 		{
-			componentType: 'Item',
+			componentType: ' Item',
 			child: {
-				className: 'mt-0 mb-8',
-				componentType: 'Divider',
+				className: ' mt-0 mb-8',
+				componentType: ' Divider',
 			},
 		},
 	];

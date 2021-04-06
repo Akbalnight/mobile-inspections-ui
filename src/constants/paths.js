@@ -226,7 +226,7 @@ export const paths = {
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: Defects,
+		component: DefectsJsx,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {

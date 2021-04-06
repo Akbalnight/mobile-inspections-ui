@@ -357,7 +357,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 				);
 			case 'controlPoints':
 				historyPath = paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path;
-				console.log('srow:', sRow);
+				// console.log('srow:', sRow);
 				return (
 					<>
 						<Row>
@@ -410,7 +410,9 @@ export const CustomObjectView = ({catalogName, unique}) => {
 							)}
 							// dispatchPath={'debug'}
 						/>
-						<Title level={5}>Технологические карты</Title>
+						<Title className={'mt-8'} level={5}>
+							Технологические карты
+						</Title>
 						<Table
 							// requestLoadRows={apiGetFlatDataByConfigName(
 							//     'controlPointsTechMaps'

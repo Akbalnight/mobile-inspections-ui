@@ -1,13 +1,20 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {components, classic} from 'rt-design';
+import {classic} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {useHistory} from 'react-router';
-import {customColumnProps, headerTable} from './tableProps';
+import {customColumnProps, headerTable, FilterPanel} from './tableProps';
 import {paths} from '../../constants/paths';
+import {
+	DefectCardInfoModal,
+	defectCardInfoModal,
+} from './Modals/defectCardInfo';
+import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
+/** пока не нужно, не используется здесь */
+// import {ButtonFilterSettings} from '../Base/Block/btnFilterSettings'
 
 /**
  * Общий компонет для двух разделов Журнал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -18,17 +25,7 @@ import {paths} from '../../constants/paths';
  */
 
 // const {Form} = components;
-const {
-	Layout,
-	Form,
-	Space,
-	FormHeader,
-	FormBody,
-	FormFooter,
-	Table,
-	Button,
-	Title,
-} = classic;
+const {Layout, Form, Space, FormBody, Divider, Table, Button, Search} = classic;
 
 export default function DefectsJsx() {
 	const history = useHistory();
@@ -37,7 +34,9 @@ export default function DefectsJsx() {
 	 * historyChange не уверен в корректоности такой замены по файлу
 	 */
 	let historyChange =
-		history.location.pathname === '/control-defects/defects';
+		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS_JSX.path;
+
+	const currentMode = historyChange ? 'defects' : 'panelProblems';
 
 	const tableFields = [
 		{
@@ -111,29 +110,56 @@ export default function DefectsJsx() {
 	};
 	return (
 		<BasePage>
-			<Form>
+			<Form name={'defectsLogForm'}>
 				<Layout>
-					<FormHeader>
+					<FormBody noPadding={true}>
 						<Space
-							className={'px-8 pt-8'}
+							className={'p-8'}
 							style={{
 								justifyContent: 'space-between',
+								width: '100%',
 							}}
 						>
 							<Space>
-								<Button
-									label={'Перейти в панель проблем'}
-									type={'primary'}
-									onClick={() => {
-										history.push(
-											`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
-										);
+								{/*<EditDefaultObjectOnServer catalogName={currentMode}/>*/}
+								<DefectCardInfoModal />
+							</Space>
+							<Space>
+								{historyChange ? (
+									<Button
+										label={'Перейти в панель проблем'}
+										type={'primary'}
+										onClick={() => {
+											history.push(
+												`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
+											);
+										}}
+									/>
+								) : (
+									<Button
+										label={'Перейти в журнал дефектов'}
+										type={'primary'}
+										onClick={() => {
+											history.push(
+												`${paths.CONTROL_DEFECTS_DEFECTS.path}`
+											);
+										}}
+									/>
+								)}
+								<Search
+									placeholder={'Введите наименование'}
+									dispatch={{
+										path:
+											'defects.defectTable.events.onSearch',
+										type: 'event',
 									}}
 								/>
+								{/*<ButtonFilterSettings/>*/}
 							</Space>
 						</Space>
-					</FormHeader>
-					<FormBody noPadding={true}>
+						<Divider className={'mt-0 mb-0'} />
+						<FilterPanel historyChange={history} />
+
 						<Table
 							selectable={true}
 							searchParamName={'name'}
@@ -151,10 +177,14 @@ export default function DefectsJsx() {
 							)}
 							subscribe={[
 								/** Событие поиска в таблице по значению name */
+								/** при этом может быть установлен фильтр, его стоит захватывать с собой
+								 * однако, если фильтр был установлен, а потом очищен -
+								 * не очищаются значения фильтра в store */
 								{
 									name: 'onSearch',
 									path:
 										'rtd.defects.defectTable.events.onSearch',
+									extraData: 'rtd.defects.defectTable.filter',
 									onChange: ({
 										value,
 										extraData,
@@ -162,6 +192,7 @@ export default function DefectsJsx() {
 									}) => {
 										reloadTable({
 											searchValue: value.value,
+											filter: extraData,
 										});
 									},
 								},
@@ -172,18 +203,18 @@ export default function DefectsJsx() {
 										'rtd.defects.defectTable.events.onApplyFilter',
 									extraData: 'rtd.defects.defectTable.filter',
 									onChange: ({extraData, reloadTable}) => {
-										console.log(
-											'Table onApplyFilter',
-											extraData
-										);
+										// console.log(
+										//     'Table onApplyFilter',
+										//     extraData
+										// );
 										reloadTable({filter: extraData});
 									},
 								},
 								{
 									/** Обработчик события на кнопку Reload */
-									name: ' onReload',
+									name: 'onReload',
 									path:
-										' rtd.defects.defectTable.events.onReload',
+										'rtd.defects.defectTable.events.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({filter: {}});
 									},
