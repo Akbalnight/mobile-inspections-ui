@@ -51,7 +51,7 @@ export default function Defects() {
 						requestLoadConfig: apiGetConfigByName(
 							historyChange ? 'defects' : 'panelProblems'
 						),
-
+						footerProps: {showElements: ['selected']},
 						subscribe: [
 							/** Событие поиска в таблице по значению name */
 							{
