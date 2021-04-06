@@ -1,24 +1,15 @@
-import React, {useState} from 'react';
-import {Table as AntTablea, Tag as AntTag} from 'antd';
+import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
-import HeaderCell from './HeaderCell';
-import ColumnResizer from 'react-base-table/lib/ColumnResizer';
-import {
-	CaretDownOutlined,
-	CaretRightOutlined,
-	CaretUpOutlined,
-} from '@ant-design/icons';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {code} from '../../Base/customColumnProps';
-import {logoutUrl} from 'mobile-inspections-base-ui/lib/constants/auth.constants';
 
-const {Form, Space, Table, Layout, FormBody, Row, Col, Title, Button} = classic;
-const DebugTable = (props) => {
+const {Form, Space, Table, Layout, FormBody, Title, Button} = classic;
+const DebugTable = () => {
 	const colStyle = {
 		height: '500px',
 		width: '50%',
@@ -52,7 +43,8 @@ const DebugTable = (props) => {
 								/>
 							</Space>
 							<Table
-								type={'rt'}
+								// type={'rt'}
+								// pageSize={1}
 								size={'small'}
 								bordered={true}
 								fixWidthColumn={true}
@@ -81,26 +73,18 @@ const DebugTable = (props) => {
 										},
 									},
 								]}
-								// pageSize={1}
-								// pagination={{ position: ['none', 'none'], pageSize: 1 }}
-
-								// columns={columns}
-								// dataSource={data}
-								// scroll={{ x: true, y: 500 }}
 							/>
 						</Layout>
 						<Layout style={colStyle}>
 							<Title label={'Base Tree'} level={3} />
 							<Table
 								size={'small'}
-								// bordered={true}
 								requestLoadRows={apiGetHierarchicalDataByConfigName(
 									'techMaps'
 								)}
 								requestLoadConfig={apiGetConfigByName(
 									'techMaps'
 								)} // detours // routes
-								// fixWidthColumn={true}
 							/>
 						</Layout>
 						<Layout style={colStyle}>
@@ -108,13 +92,12 @@ const DebugTable = (props) => {
 							<Table
 								size={'small'}
 								bordered={true}
+								// fixWidthColumn={true}
+								selectable={true}
 								requestLoadRows={apiGetFlatDataByConfigName(
 									'routes'
 								)}
 								requestLoadConfig={apiGetConfigByName('routes')} // detours // routes
-								// pageSize={1}
-								// fixWidthColumn={true}
-								selectable={true}
 								dispatchPath={'debugTable.table.3'}
 								footerProps={{
 									// leftCustomSideElement: () => (<span>lCustom</span>),
@@ -126,7 +109,6 @@ const DebugTable = (props) => {
 						</Layout>
 						<Layout style={colStyle}>
 							<Title label={'Tree select'} level={3} />
-
 							<Table
 								size={'small'}
 								// bordered={true}
@@ -139,7 +121,6 @@ const DebugTable = (props) => {
 								requestLoadConfig={apiGetConfigByName(
 									'techMaps'
 								)} // detours // routes
-								// fixWidthColumn={true}
 								selectable={true}
 								dispatchPath={'debugTable.table.4'}
 							/>
