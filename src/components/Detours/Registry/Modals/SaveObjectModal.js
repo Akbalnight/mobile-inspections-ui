@@ -67,7 +67,7 @@ const operationOnServer = (type) => {
 				},
 			}}
 			dispatch={{
-				path: `detours.mainForm.modal.events.${type}OnModal`,
+				path: `detours.mainForm.table.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
@@ -121,7 +121,7 @@ const operationOnServer = (type) => {
 					}}
 					subscribe={[
 						{
-							name: 'finishDate',
+							name: 'startDate',
 							path: 'rtd.detours.mainForm.modal.events.startDate',
 							onChange: ({value, setSubscribeProps}) => {
 								setSubscribeProps({

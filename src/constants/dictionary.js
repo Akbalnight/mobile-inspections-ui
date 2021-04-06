@@ -218,6 +218,11 @@ export const itemsInfo = {
 			},
 		],
 	},
+	routeName: {
+		name: 'routeName',
+		label: 'Маршрут',
+		className: 'mb-8',
+	},
 	detourStatusId: {
 		name: 'statusId',
 		label: 'Статус',
@@ -232,6 +237,11 @@ export const itemsInfo = {
 	executorId: {
 		label: 'Доступные испольнители',
 		name: 'staffId',
+		className: 'mb-8',
+	},
+	executorName: {
+		label: 'Исполнитель',
+		name: 'staffName',
 		className: 'mb-8',
 	},
 	saveOrderControlPoints: {

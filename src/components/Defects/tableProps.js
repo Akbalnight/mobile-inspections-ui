@@ -20,11 +20,8 @@ import {
 } from './Modals/modalButtonDefects';
 import {editDefectCard} from './Modals/defectEdit';
 import {defectCardInfoModal} from './Modals/defectCardInfo';
-import {
-	disabledEndDate,
-	disabledStartDate,
-	reloadFilterFields,
-} from '../Base/Functions/DateLimits';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js

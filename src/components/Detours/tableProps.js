@@ -1,12 +1,12 @@
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {checkBox, code, date} from '../Base/customColumnProps';
 import {classic} from 'rt-design';
 import React from 'react';
 import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
 import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {ViewDetour} from './Registry/Modals/ViewModal';
 
 const {
 	Space,
@@ -19,45 +19,6 @@ const {
 	Text,
 } = classic;
 
-/**
- * configFilterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
- *
- */
-export const configFilterPanel = [
-	{
-		componentType: 'SingleSelect',
-		name: 'routeIds',
-		className: 'mr-16',
-		rowRender: 'name',
-		title: 'Маршрут',
-		widthControl: 150,
-		widthPopup: 300,
-		heightPopup: 200,
-		requestLoadRows: apiGetFlatDataByConfigName('routes'),
-		requestLoadConfig: apiGetConfigByName('routes'),
-	},
-	{
-		componentType: 'SingleSelect',
-		name: 'staffIds',
-		className: 'mr-16',
-		rowRender: 'username',
-		title: 'Сотрудник',
-		widthControl: 150,
-		widthPopup: 300,
-		heightPopup: 200,
-		requestLoadRows: apiGetFlatDataByConfigName('staff'),
-		requestLoadConfig: apiGetConfigByName('staff'),
-	},
-	{
-		componentType: 'DateRange',
-		title: 'Период',
-		nameStart: 'dateBegin',
-		nameEnd: 'dateEnd',
-		dateFormat: 'DD-MM-YYYY HH:mm:ss',
-		className: 'mr-16',
-	},
-];
-
 export const TableHeader = () => {
 	return (
 		<Space direction={'vertical'} className={'p-8'}>
@@ -65,12 +26,14 @@ export const TableHeader = () => {
 				<Space>
 					<AddDetour />
 					<EditDetour />
+					<ViewDetour />
 				</Space>
-				<Space>
+				<Space className={'mr-8'}>
 					<RadioGroup
 						itemProps={{name: 'viewMode'}}
 						optionType={'button'}
 						size={'middle'}
+						defaultValue={0}
 						options={[
 							{
 								label: <TableOutlined />,
@@ -96,60 +59,170 @@ export const TableHeader = () => {
 				</Space>
 			</Space>
 			<Divider className={'my-0'} />
-			<Space>
-				<Space direction={'vertical'}>
-					<Text label={'Маршрут:'} />
-					<Select
-						itemProps={{name: 'routeId'}}
-						placeholder={'Выберите маршрут'}
-						mode={'single'}
-						allowClear={true}
-						showSearch={true}
-						filterOption={false}
-						searchParamName={'name'}
-						infinityMode={true}
-						requestLoadRows={apiGetFlatDataByConfigName('routes')}
-						optionConverter={(option) => ({
-							value: option.id,
-							label: option.name,
-						})}
-					/>
-				</Space>
-				<Space direction={'vertical'}>
-					<Text label={'Исполнитель:'} />
-					<Select
-						itemProps={{name: 'staffId'}}
-						placeholder={'Выберите исполнителя'}
-						mode={'single'}
-						allowClear={true}
-						infinityMode={true}
-						showSearch={true}
-						filterOption={false}
-						searchParamName={'username'}
-						requestLoadRows={apiGetFlatDataByConfigName('staff')}
-						optionConverter={(option) => ({
-							value: option.id,
-							label: option.username,
-						})}
-					/>
-				</Space>
-				<Space direction={'vertical'}>
-					<Text label={'Период:'} />
-					<Space>
-						<DatePicker />
+			<Space style={{justifyContent: 'space-between', width: '100%'}}>
+				<Space>
+					<Space direction={'vertical'} className={'ml-8'}>
+						<Text label={'Маршрут:'} />
+						<Select
+							itemProps={{name: 'routeId'}}
+							placeholder={'Выберите маршрут'}
+							mode={'single'}
+							allowClear={true}
+							showSearch={true}
+							filterOption={false}
+							searchParamName={'name'}
+							infinityMode={true}
+							widthControl={200}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								'routes'
+							)}
+							optionConverter={(option) => ({
+								value: option.id,
+								label: option.name,
+							})}
+							dispatch={{
+								path: 'detours.mainForm.filter.events.routeId',
+							}}
+							subscribe={[
+								reloadFilterFields(
+									'detour.mainForm.filter.events.onReload'
+								),
+							]}
+						/>
+					</Space>
+					<Space direction={'vertical'} className={'ml-8'}>
+						<Text label={'Исполнитель:'} />
+						<Select
+							itemProps={{name: 'staffId'}}
+							placeholder={'Выберите исполнителя'}
+							mode={'single'}
+							allowClear={true}
+							infinityMode={true}
+							showSearch={true}
+							filterOption={false}
+							widthControl={200}
+							searchParamName={'username'}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								'staff'
+							)}
+							optionConverter={(option) => ({
+								value: option.id,
+								label: option.username,
+							})}
+							dispatch={{
+								path: 'detours.mainForm.filter.events.staffId',
+							}}
+							subscribe={[
+								reloadFilterFields(
+									'detour.mainForm.filter.events.onReload'
+								),
+							]}
+						/>
+					</Space>
+					<Space direction={'vertical'}>
+						<Text label={'Период:'} className={'ml-16'} />
+						<Space className={'ml-8'}>
+							<DatePicker
+								itemProps={{
+									name: 'startDate',
+									label: 'с',
+									className: 'mb-0',
+								}}
+								format={'DD-MM-YYYY HH:mm:ss'}
+								dispatch={{
+									path:
+										'detours.mainForm.filter.events.startDate',
+								}}
+								subscribe={[
+									{
+										name: 'finishDate',
+										path:
+											'rtd.detours.mainForm.filter.events.finishDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										'detour.mainForm.filter.events.onReload'
+									),
+								]}
+							/>
+							<DatePicker
+								itemProps={{
+									name: 'finishDate',
+									label: 'по',
+									className: 'mb-0',
+								}}
+								format={'DD-MM-YYYY HH:mm:ss'}
+								dispatch={{
+									path:
+										'detours.mainForm.filter.events.finishDate',
+								}}
+								subscribe={[
+									{
+										name: 'startDate',
+										path:
+											'rtd.detours.mainForm.filter.events.startDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										'detour.mainForm.filter.events.onReload'
+									),
+								]}
+							/>
+						</Space>
 					</Space>
 				</Space>
 				<Space
 					direction={'vertical'}
 					style={{justifyContent: 'space-between'}}
+					className={'mr-8'}
 				>
 					<Text
 						label={'Период:'}
 						itemProps={{hidden: true}}
 						hidden={true}
 					/>
-
-					<Button className={'mt-4'}>Применить</Button>
+					<Space>
+						<Button
+							className={'mt-4'}
+							type={'primary'}
+							dispatch={{
+								path: 'detours.mainForm.filter.onApplyFilter',
+								extraData: 'rtd.detours.mainForm.filter.events',
+								type: 'event',
+							}}
+						>
+							Применить
+						</Button>
+						<Button
+							dispatch={{
+								path: 'detour.mainForm.filter.events.onReload',
+							}}
+						>
+							Сбросить
+						</Button>
+					</Space>
 				</Space>
 			</Space>
 		</Space>
@@ -160,4 +233,7 @@ export const customColumnProps = [
 	{...code},
 	{...date('dateStartPlan')},
 	{...checkBox('saveOrderControlPoints')},
+	{...checkBox('equipmentStop')},
+	{...checkBox('needInputData')},
+	{...checkBox('increasedDanger')},
 ];

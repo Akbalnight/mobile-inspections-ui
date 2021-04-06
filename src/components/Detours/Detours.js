@@ -9,7 +9,7 @@ import {detourViewModal} from './Modals/detourViewModal';
 import {useHistory} from 'react-router';
 import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 
-import {configFilterPanel, customColumnProps} from './tableProps';
+import {customColumnProps} from './tableProps';
 import DetoursCalendar from './DetoursCalendar';
 import {addDetourForm, editDetourForm} from './Modals/detourEdit';
 
@@ -66,9 +66,6 @@ export default function Detours() {
 								delete: {},
 							},
 						},
-						filterPanelProps: {
-							configFilter: [...configFilterPanel],
-						},
 						dispatchPath: 'detourSchedules.mainTable.detours',
 						requestLoadRows: apiGetFlatDataByConfigName('detours'),
 						requestLoadConfig: apiGetConfigByName('detours'),
@@ -83,13 +80,13 @@ export default function Detours() {
 		},
 	];
 	/**
- * возможно придется вренуть все в состояние в котором было до рефакторинга.
- * Мое предположение связано с тем что в концепции 
- * render: ({onChange, defaultValue, value}) => {
+     * возможно придется вренуть все в состояние в котором было до рефакторинга.
+     * Мое предположение связано с тем что в концепции
+     * render: ({onChange, defaultValue, value}) => {
 					return <DetoursCalendar />;
 				},
-* нам может понадобиться активировать аргументы функции
- */
+     * нам может понадобиться активировать аргументы функции
+     */
 	const calendarFields = [
 		{
 			componentType: 'Item',

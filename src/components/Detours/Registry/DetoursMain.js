@@ -43,16 +43,16 @@ export const DetoursMain = () => {
 								{
 									name: 'addDetourOnServer',
 									path:
-										'rtd.detours.mainForm.modal.events.addOnModal',
+										'rtd.detours.mainForm.table.events.addOnModal',
 									onChange: ({reloadTable}) => {
 										reloadTable({});
 									},
 								},
 								/** Action edit detour*/
 								{
-									name: 'addDetourOnServer',
+									name: 'editDetourOnServer',
 									path:
-										'rtd.detours.mainForm.modal.events.addOnModal',
+										'rtd.detours.mainForm.table.events.editOnModal',
 									onChange: ({reloadTable}) => {
 										reloadTable({});
 									},
@@ -67,6 +67,30 @@ export const DetoursMain = () => {
 										reloadTable({
 											searchValue: value.value,
 										});
+									},
+								},
+								/** Событие фильтрации в таблице по параметрам */
+								{
+									name: 'onApplyFilter',
+									path:
+										'rtd.detours.mainForm.filter.onApplyFilter',
+									extraData:
+										'rtd.detours.mainForm.filter.events',
+									onChange: ({extraData, reloadTable}) => {
+										console.log(
+											'Table onApplyFilter',
+											extraData
+										);
+										reloadTable({filter: extraData});
+									},
+								},
+								{
+									/** Обработчик события на кнопку Reload */
+									name: 'onReload',
+									path:
+										'rtd.detour.mainForm.filter.events.onReload',
+									onChange: ({reloadTable}) => {
+										reloadTable({filter: {}});
 									},
 								},
 							]}
