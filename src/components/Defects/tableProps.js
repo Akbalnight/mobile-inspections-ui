@@ -481,7 +481,7 @@ export const headerTable = (history) => {
 								dispatch: {
 									path:
 										' defects.defectTable.events.onSearch',
-									type: ' event',
+									// type: ' event',
 								},
 							},
 						},

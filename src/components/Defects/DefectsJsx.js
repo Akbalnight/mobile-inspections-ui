@@ -13,6 +13,7 @@ import {
 	defectCardInfoModal,
 } from './Modals/defectCardInfo';
 import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
+import {reloadFilterFields} from '../Base/Functions/DateLimits';
 /** пока не нужно, не используется здесь */
 // import {ButtonFilterSettings} from '../Base/Block/btnFilterSettings'
 
@@ -25,7 +26,17 @@ import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
  */
 
 // const {Form} = components;
-const {Layout, Form, Space, FormBody, Divider, Table, Button, Search} = classic;
+const {
+	Layout,
+	Form,
+	Space,
+	FormBody,
+	Divider,
+	Table,
+	Button,
+	Search,
+	Input,
+} = classic;
 
 export default function DefectsJsx() {
 	const history = useHistory();
@@ -70,7 +81,7 @@ export default function DefectsJsx() {
 								path: 'rtd.defects.defectTable.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
 									reloadTable({
-										searchValue: value.value,
+										searchValue: value,
 									});
 								},
 							},
@@ -147,13 +158,22 @@ export default function DefectsJsx() {
 									/>
 								)}
 								<Search
+									itemProps={{name: 'onSearch'}}
 									placeholder={'Введите наименование'}
 									dispatch={{
 										path:
 											'defects.defectTable.events.onSearch',
-										type: 'event',
+										// type: 'event',
 									}}
+									subscribe={[
+										reloadFilterFields(
+											'defects.defectTable.events.onReload'
+										),
+									]}
 								/>
+								{/*<Input.Search*/}
+								{/*	placeholder={'Ant search'}*/}
+								{/*/>*/}
 								{/*<ButtonFilterSettings/>*/}
 							</Space>
 						</Space>
@@ -166,7 +186,7 @@ export default function DefectsJsx() {
 							fixWidthColumn={true}
 							// history,
 							headerHeight={35}
-							infinityMode={true}
+							// infinityMode={true}
 							dispatchPath={'defects.defectTable.table'}
 							customColumnProps={customColumnProps}
 							requestLoadRows={apiGetFlatDataByConfigName(
@@ -190,8 +210,12 @@ export default function DefectsJsx() {
 										extraData,
 										reloadTable,
 									}) => {
+										console.log(
+											'Table onSearch',
+											extraData
+										);
 										reloadTable({
-											searchValue: value.value,
+											searchValue: value,
 											filter: extraData,
 										});
 									},
@@ -201,13 +225,21 @@ export default function DefectsJsx() {
 									name: 'onApplyFilter',
 									path:
 										'rtd.defects.defectTable.events.onApplyFilter',
-									extraData: 'rtd.defects.defectTable.filter',
+									extraData: {
+										filter:
+											'rtd.defects.defectTable.filter',
+										searchValue:
+											'rtd.defects.defectTable.events.onSearch',
+									},
 									onChange: ({extraData, reloadTable}) => {
-										// console.log(
-										//     'Table onApplyFilter',
-										//     extraData
-										// );
-										reloadTable({filter: extraData});
+										console.log(
+											'Table onApplyFilter',
+											extraData
+										);
+										reloadTable({
+											searchValue: extraData.searchValue,
+											filter: extraData.filter,
+										});
 									},
 								},
 								{
@@ -216,7 +248,10 @@ export default function DefectsJsx() {
 									path:
 										'rtd.defects.defectTable.events.onReload',
 									onChange: ({reloadTable}) => {
-										reloadTable({filter: {}});
+										reloadTable({
+											filter: {},
+											searchValue: '',
+										});
 									},
 								},
 							]}
