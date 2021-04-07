@@ -6,7 +6,7 @@ import {
 } from '../../../apis/catalog.api';
 import {customColumnProps, TableHeader} from '../tableProps';
 import React from 'react';
-import DetoursCalendar from '../DetoursCalendar';
+import DetoursCalendar from './DetoursCalendar';
 
 const {Form, FormBody, Table, Switcher} = classic;
 export const DetoursMain = () => {
@@ -22,7 +22,6 @@ export const DetoursMain = () => {
 								path:
 									'rtd.detours.mainForm.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
-									console.log('Switcher value', value);
 									setSubscribeProps({value: value});
 								},
 							},
@@ -69,29 +68,29 @@ export const DetoursMain = () => {
 										});
 									},
 								},
-								/** Событие фильтрации в таблице по параметрам */
+								/** Action filter by detour routId, staffId*/
 								{
 									name: 'onApplyFilter',
 									path:
-										'rtd.detours.mainForm.filter.onApplyFilter',
+										'rtd.detours.mainForm.table.onApplyFilter',
 									extraData:
 										'rtd.detours.mainForm.filter.events',
 									onChange: ({extraData, reloadTable}) => {
-										console.log(
-											'Table onApplyFilter',
-											extraData
-										);
 										reloadTable({filter: extraData});
 									},
 								},
 								{
-									/** Обработчик события на кнопку Reload */
+									/** Action on push button Сбросить */
 									name: 'onReload',
 									path:
-										'rtd.detour.mainForm.filter.events.onReload',
+										'rtd.detours.mainForm.filter.events.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({filter: {}});
 									},
+								},
+								{
+									name: 'onDelete',
+									path: 'rtd.detours.',
 								},
 							]}
 						/>

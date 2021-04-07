@@ -7,6 +7,7 @@ import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {ViewDetour} from './Registry/Modals/ViewModal';
+import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
 
 const {
 	Space,
@@ -17,6 +18,7 @@ const {
 	Divider,
 	RadioGroup,
 	Text,
+	Switcher,
 } = classic;
 
 export const TableHeader = () => {
@@ -26,6 +28,7 @@ export const TableHeader = () => {
 				<Space>
 					<AddDetour />
 					<EditDetour />
+					<DeleteDetour catalogName={'detours'} unique={'обхода'} />
 					<ViewDetour />
 				</Space>
 				<Space className={'mr-8'}>
@@ -67,7 +70,7 @@ export const TableHeader = () => {
 							itemProps={{name: 'routeId'}}
 							placeholder={'Выберите маршрут'}
 							mode={'single'}
-							allowClear={true}
+							// allowClear={true}
 							showSearch={true}
 							filterOption={false}
 							searchParamName={'name'}
@@ -85,8 +88,17 @@ export const TableHeader = () => {
 							}}
 							subscribe={[
 								reloadFilterFields(
-									'detour.mainForm.filter.events.onReload'
+									'detours.mainForm.filter.events.onReload'
 								),
+								/** Action clear value*/
+								{
+									name: 'selectMainForm',
+									path:
+										'rtd.detours.mainForm.table.events.viewMode',
+									onChange: ({value, setSubscribeProps}) => {
+										// setSubscribeProps({open: true});
+									},
+								},
 							]}
 						/>
 					</Space>
@@ -114,84 +126,109 @@ export const TableHeader = () => {
 							}}
 							subscribe={[
 								reloadFilterFields(
-									'detour.mainForm.filter.events.onReload'
+									'detours.mainForm.filter.events.onReload'
 								),
+								/** Action clear value*/
+								{
+									name: 'selectMainForm',
+									path:
+										'rtd.detours.mainForm.table.events.viewMode',
+									onChange: ({value, setSubscribeProps}) => {
+										// setSubscribeProps({onClear:()=>{}});
+									},
+								},
 							]}
 						/>
 					</Space>
-					<Space direction={'vertical'}>
-						<Text label={'Период:'} className={'ml-16'} />
-						<Space className={'ml-8'}>
-							<DatePicker
-								itemProps={{
-									name: 'startDate',
-									label: 'с',
-									className: 'mb-0',
-								}}
-								format={'DD-MM-YYYY HH:mm:ss'}
-								dispatch={{
-									path:
-										'detours.mainForm.filter.events.startDate',
-								}}
-								subscribe={[
-									{
-										name: 'finishDate',
-										path:
-											'rtd.detours.mainForm.filter.events.finishDate',
-										onChange: ({
-											value,
-											setSubscribeProps,
-										}) => {
-											setSubscribeProps({
-												disabledDate: (startValue) =>
-													disabledStartDate(
-														startValue,
-														value
-													),
-											});
-										},
-									},
-									reloadFilterFields(
-										'detour.mainForm.filter.events.onReload'
-									),
-								]}
-							/>
-							<DatePicker
-								itemProps={{
-									name: 'finishDate',
-									label: 'по',
-									className: 'mb-0',
-								}}
-								format={'DD-MM-YYYY HH:mm:ss'}
-								dispatch={{
-									path:
-										'detours.mainForm.filter.events.finishDate',
-								}}
-								subscribe={[
-									{
+					<Switcher
+						subscribe={[
+							{
+								name: 'detourMainForm',
+								path:
+									'rtd.detours.mainForm.table.events.viewMode',
+								onChange: ({value, setSubscribeProps}) => {
+									setSubscribeProps({value: value});
+								},
+							},
+						]}
+					>
+						<Space direction={'vertical'}>
+							<Text label={'Период:'} className={'ml-16'} />
+							<Space className={'ml-8'}>
+								<DatePicker
+									itemProps={{
 										name: 'startDate',
+										label: 'с',
+										className: 'mb-0',
+									}}
+									format={'DD-MM-YYYY HH:mm:ss'}
+									dispatch={{
 										path:
-											'rtd.detours.mainForm.filter.events.startDate',
-										onChange: ({
-											value,
-											setSubscribeProps,
-										}) => {
-											setSubscribeProps({
-												disabledDate: (endValue) =>
-													disabledEndDate(
-														value,
-														endValue
-													),
-											});
+											'detours.mainForm.filter.events.startDate',
+									}}
+									subscribe={[
+										{
+											name: 'finishDate',
+											path:
+												'rtd.detours.mainForm.filter.events.finishDate',
+											onChange: ({
+												value,
+												setSubscribeProps,
+											}) => {
+												setSubscribeProps({
+													disabledDate: (
+														startValue
+													) =>
+														disabledStartDate(
+															startValue,
+															value
+														),
+												});
+											},
 										},
-									},
-									reloadFilterFields(
-										'detour.mainForm.filter.events.onReload'
-									),
-								]}
-							/>
+										reloadFilterFields(
+											'detours.mainForm.filter.events.onReload'
+										),
+									]}
+								/>
+								<DatePicker
+									itemProps={{
+										name: 'finishDate',
+										label: 'по',
+										className: 'mb-0',
+									}}
+									format={'DD-MM-YYYY HH:mm:ss'}
+									dispatch={{
+										path:
+											'detours.mainForm.filter.events.finishDate',
+									}}
+									subscribe={[
+										{
+											name: 'startDate',
+											path:
+												'rtd.detours.mainForm.filter.events.startDate',
+											onChange: ({
+												value,
+												setSubscribeProps,
+											}) => {
+												setSubscribeProps({
+													disabledDate: (endValue) =>
+														disabledEndDate(
+															value,
+															endValue
+														),
+												});
+											},
+										},
+										reloadFilterFields(
+											'detours.mainForm.filter.events.onReload'
+										),
+									]}
+								/>
+							</Space>
 						</Space>
-					</Space>
+						<Space />
+					</Switcher>
 				</Space>
 				<Space
 					direction={'vertical'}
@@ -208,7 +245,7 @@ export const TableHeader = () => {
 							className={'mt-4'}
 							type={'primary'}
 							dispatch={{
-								path: 'detours.mainForm.filter.onApplyFilter',
+								path: 'detours.mainForm.table.onApplyFilter',
 								extraData: 'rtd.detours.mainForm.filter.events',
 								type: 'event',
 							}}
@@ -217,7 +254,7 @@ export const TableHeader = () => {
 						</Button>
 						<Button
 							dispatch={{
-								path: 'detour.mainForm.filter.events.onReload',
+								path: 'detours.mainForm.filter.events.onReload',
 							}}
 						>
 							Сбросить
