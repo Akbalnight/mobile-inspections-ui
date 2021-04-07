@@ -4,6 +4,9 @@ import {
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import {defectDetection} from '../../Base/Block/DefectDetection';
+import {classic} from 'rt-design';
+
+const {Space, Text, DatePicker, Select, Button, Modal, FormBody} = classic;
 
 /**
  *
@@ -234,6 +237,70 @@ const OperationOnServer = (catalogName, type, code) => {
 			],
 		},
 	];
+
+	return (
+		<Modal
+			title={'Редактровать дефект'}
+			buttonProps={{
+				type: 'default',
+				icon: <EditOutlined />,
+			}}
+			modalConfig={{
+				type: `${type}OnServer`,
+				title: 'Редактрование дефекта',
+				width: catalogName === 'defects' ? 600 : 500,
+				bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
+				requestSaveRow: apiSaveByConfigName(
+					catalogName === 'defects'
+						? 'saveEditModalDefect'
+						: 'saveEditModalPanelProblem'
+				),
+				form: {
+					name: `${type}ModalForm`,
+					loadInitData: loadData,
+					methodSaveForm: 'PUT',
+					processBeforeSaveForm: processBeforeSaveForm,
+					onFinish: (values) => {
+						console.log('values', values);
+					},
+					labelCol: {span: 10},
+					wrapperCol: {span: 12},
+					// body: [
+					//     code,
+					//     ...defectDetectionField,
+					//     ...(catalogName === 'defects'
+					//         ? correctionPlanFields
+					//         : defectSapFields),
+					//     ...(catalogName === 'defects'
+					//         ? defectEliminationFields
+					//         : []),
+					// ],
+				},
+			}}
+			dispatch={{
+				path: 'defects.defectTable.modal.events.onEditModal',
+				type: 'event',
+			}}
+			subscribe={[
+				{
+					name: 'editForm',
+					path: 'rtd.defects.defectTable.table.selected',
+					onChange: ({value, setModalData, setButtonProps}) => {
+						value &&
+							setModalData &&
+							setModalData({
+								...value[value.length - 1],
+							});
+						value &&
+							setButtonProps &&
+							setButtonProps({disabled: !(value.length === 1)});
+					},
+				},
+			]}
+		>
+			<FormBody></FormBody>
+		</Modal>
+	);
 
 	return {
 		componentType: 'Item',
