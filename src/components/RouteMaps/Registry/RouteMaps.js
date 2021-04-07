@@ -378,6 +378,7 @@ const RouteMaps = (props) => {
 							<Table
 								itemProps={{name: 'controlPointsTable'}}
 								pageSize={1}
+								fixWidthColumn={true}
 								editMode={true}
 								defaultFilter={{
 									routeId: routeId ? routeId : null,

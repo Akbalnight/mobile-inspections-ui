@@ -3,7 +3,6 @@ import Catalog from '../components/Catalog/Catalog';
 import TechMaps from '../components/TechMaps/TechMaps';
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
 // import ControlPointsD from '../components/ControlPoints/ControlPointsD';
 import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
@@ -24,8 +23,13 @@ import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
-import DeclarativeDebug from '../components/Debug/DeclarativeDebug';
+
 import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
+
+// Debugs
+import DebugConfig from '../components/Debug/Anton/DebugConfig';
+import DebugJSX from '../components/Debug/Anton/DebugJSX';
+import DebugTable from '../components/Debug/Anton/DebugTable';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -57,18 +61,22 @@ export const paths = {
 		component: Home,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DEBUG: {
-		title: 'Debug',
-		path: '/debug',
-		component: Debug,
-		// component: Debug,
+	DEBUG_CONFIG: {
+		title: 'Debug config',
+		path: '/config-debug',
+		component: DebugConfig,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DEBUG_2: {
-		title: 'Debug 2',
-		path: '/2debug',
-		component: DeclarativeDebug,
-		// component: Debug,
+	DEBUG_JSX: {
+		title: 'Debug jsx',
+		path: '/jsx-debug',
+		component: DebugJSX,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	DEBUG_TABLE: {
+		title: 'Debug table',
+		path: '/table-debug',
+		component: DebugTable,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	// DEBUG_MARSEL: {
