@@ -143,7 +143,7 @@ export const paths = {
 		component: RoutesEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
-		title: 'Обходы new',
+		title: 'Обходы',
 		path: '/detours-configurator/detours',
 		component: DetoursMain,
 		roles: ['ROLE_ADMIN'],

@@ -160,12 +160,6 @@ export const ViewDetour = () => {
 																	'equipments',
 																],
 															}}
-															// requestLoadRows={({data, params}) => apiGetFlatDataByConfigName('controlPointsEquipments')({
-															//     data: {
-															//         ...data,
-															//         controlPointId: item.controlPointId
-															//     }, params
-															// })}
 															requestLoadConfig={apiGetConfigByName(
 																'controlPointsEquipments'
 															)}
@@ -194,12 +188,6 @@ export const ViewDetour = () => {
 																	'techOperations',
 																],
 															}}
-															// requestLoadRows={({data, params}) => apiGetFlatDataByConfigName('techOperations')({
-															//     data: {
-															//         ...data,
-															//         techMapId: item.techMap.id
-															//     }, params
-															// })}
 															requestLoadConfig={apiGetConfigByName(
 																'techOperations'
 															)}

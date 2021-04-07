@@ -11,12 +11,12 @@ export const menu = [
 		...paths.HOME,
 		icon: HOME,
 	},
-	{
-		...paths.DEBUG,
-	},
-	{
-		...paths.DEBUG_2,
-	},
+	// {
+	// 	...paths.DEBUG,
+	// },
+	// {
+	// 	...paths.DEBUG_2,
+	// },
 	{
 		...paths.CATALOG,
 		icon: CATALOG,
@@ -31,7 +31,7 @@ export const menu = [
 			// paths.DEBUG_CP_ANTON,
 			paths.DETOURS_CONFIGURATOR_ROUTES,
 			paths.DETOURS_CONFIGURATOR_DETOURS,
-			paths.DETOURS_CONFIGURATOR_DETOURS_PREVIOUS,
+			// paths.DETOURS_CONFIGURATOR_DETOURS_PREVIOUS,
 			// paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
 			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
 		],
