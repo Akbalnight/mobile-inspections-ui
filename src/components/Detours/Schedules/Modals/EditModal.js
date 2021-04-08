@@ -1,5 +1,5 @@
 import React from 'react';
-import {EditOutlined} from '@ant-design/icons';
+import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
@@ -32,16 +32,19 @@ const onChangeRepeaterType = (checkValue) => ({value, setSubscribeProps}) => {
 
 const prefixCls = 'detours-schedules-registry-modal';
 
-const EditModal = () => {
+export const AddDetourButton = () => EditModal('add');
+export const EditDetourButton = () => EditModal('edit');
+
+const EditModal = (type) => {
 	return (
 		<Modal
-			//не нашел на https://ant.design/components/tooltip/
-			toolTipProps={{title: 'Создание расписания обхода'}}
 			buttonProps={{
 				type: 'default',
-				icon: <EditOutlined />,
-				label: 'Edit',
-				disabled: true,
+				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
+				disabled: type === 'add' ? false : true,
+			}}
+			toolTipProps={{
+				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
 				type: 'editOnServer',
@@ -50,13 +53,14 @@ const EditModal = () => {
 				width: 610,
 				bodyStyle: {height: 960},
 				form: {
-					// processBeforeSaveForm: processBeforeSaveForm,
 					name: 'detours.schedules.registry.editModal',
 					className: prefixCls,
 					labelCol: {span: 8},
 					wrapperCol: {span: 16},
 					loadInitData: (callBack, row) => {
+						console.log('row', row);
 						let newData = {...row};
+
 						if (newData.dateFinish) {
 							newData.repeaterType = '02';
 							// console.log("Set repeaterType 02");
@@ -71,7 +75,7 @@ const EditModal = () => {
 							// console.log("Set repeaterType 01");
 						}
 						// console.log("newData", newData);
-						callBack(newData);
+						callBack(type === 'add' ? null : newData);
 					},
 				},
 			}}
@@ -100,7 +104,7 @@ const EditModal = () => {
 
 				<Input
 					itemProps={{
-						name: 'dateBegin',
+						name: ['data', 'name'],
 						className: 'mb-12',
 						label: 'Наименование обхода:',
 						rules: [{required: true}],
@@ -109,7 +113,7 @@ const EditModal = () => {
 				/>
 				<Select
 					itemProps={{
-						name: 'status',
+						name: ['data', 'routeId'],
 						className: 'mb-12',
 						label: 'Маршрут:',
 						rules: [{required: true}],
@@ -124,12 +128,11 @@ const EditModal = () => {
 				/>
 				<Select
 					itemProps={{
-						name: 'status',
+						name: ['data', 'staffId'],
 						className: 'mb-12',
 						label: 'Исполнитель:',
 						rules: [{required: true}],
 					}}
-					// className={`${prefixCls}-selectSettings`}
 					// widthControl={'250px'}
 					requestLoadRows={apiGetFlatDataByConfigName('staffAuto')}
 					optionConverter={(option) => ({
@@ -140,45 +143,6 @@ const EditModal = () => {
 						path: 'example.form.table.filter.statusProcessId',
 					}}
 				/>
-
-				{/*<Row>*/}
-				{/*	<Col>*/}
-				{/*		<Row  className={`${prefixCls}-colOneThreeBlockOneSettings`}>*/}
-				{/*			<Text itemProps={{*/}
-				{/*				rules: [{required: true}],*/}
-				{/*			}}> *v</Text>*/}
-				{/*		</Row>*/}
-				{/*		<Row  className={`${prefixCls}-colOneThreeBlockOneSettings`}>*/}
-				{/*			<Text>Маршрут</Text>*/}
-				{/*		</Row>*/}
-				{/*		<Row  className={`${prefixCls}-colOneThreeBlockOneSettings`}>*/}
-				{/*			<Text>Исполнитель</Text>*/}
-				{/*		</Row>*/}
-				{/*	</Col>*/}
-				{/*	<Col>*/}
-				{/*		<Row className={`${prefixCls}-colTwoThreeBlockOneSettings`}>*/}
-				{/*			<Input></Input>*/}
-				{/*		</Row>*/}
-				{/*		<Row className={`${prefixCls}-colTwoThreeBlockOneSettings`}>*/}
-				{/*			<Select*/}
-				{/*				itemProps={{name: 'status', className: 'mb-0'}}*/}
-				{/*				// widthControl={'250px'}*/}
-				{/*				requestLoadRows={apiGetFlatDataByConfigName('routes')}*/}
-				{/*				optionConverter={(option) => ({ label: (<span>{option.name}</span>), value: option.id })}*/}
-				{/*				// dispatch={{ path: 'example.form.table.filter.statusProcessId' }}*/}
-				{/*			/>*/}
-				{/*		</Row>*/}
-				{/*		<Row className={`${prefixCls}-colTwoThreeBlockOneSettings`}>*/}
-				{/*			<Select*/}
-				{/*				itemProps={{name: 'status', className: 'mb-0'}}*/}
-				{/*				// widthControl={'250px'}*/}
-				{/*				requestLoadRows={apiGetFlatDataByConfigName('staffAuto')}*/}
-				{/*				optionConverter={(option) => ({ label: (<span>{option.username}</span>), value: option.id })}*/}
-				{/*				dispatch={{ path: 'example.form.table.filter.statusProcessId' }}*/}
-				{/*			/>*/}
-				{/*		</Row>*/}
-				{/*	</Col>*/}
-				{/*</Row>*/}
 				<div className={'mb-16 mt-16'}>
 					<h3>Допуски по обходу</h3>
 				</div>
@@ -188,7 +152,7 @@ const EditModal = () => {
 							<Text>Учитывать порядок обхода</Text>
 						</Row>
 						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Учитывать время начала</Text>
+							<Text>Учитывать время обхода</Text>
 						</Row>
 						<Row className={`${prefixCls}-colOneThreeSettings`}>
 							<Text>Учитывать время начала</Text>
@@ -199,50 +163,41 @@ const EditModal = () => {
 					</Col>
 					<Col>
 						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox></Checkbox>
+							<Checkbox
+								itemProps={{
+									valuePropName: 'checked',
+									name: ['data', 'saveOrderControlPoints'],
+								}}
+							/>
 						</Row>
 						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox></Checkbox>
+							<Checkbox
+								itemProps={{
+									valuePropName: 'checked',
+									name: [
+										'data',
+										'takeIntoAccountTimeLocation',
+									],
+								}}
+							/>
 						</Row>
 						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox></Checkbox>
+							<Checkbox
+								itemProps={{
+									valuePropName: 'checked',
+									name: ['data', 'takeIntoAccountDateStart'],
+								}}
+							/>
 						</Row>
 						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox></Checkbox>
+							<Checkbox
+								itemProps={{
+									valuePropName: 'checked',
+									name: ['data', 'takeIntoAccountDateFinish'],
+								}}
+							/>
 						</Row>
 					</Col>
-					{/*<Col className={`${prefixCls}-newSettingsFirstRow`}*/}
-					{/*>*/}
-					{/*    <Row>*/}
-					{/*        <InputNumber*/}
-					{/*            itemProps={{*/}
-					{/*                name: 'status',*/}
-					{/*                label: 'Допустимое откл. на точке, мин.:',*/}
-					{/*            }}*/}
-					{/*            className={`${prefixCls}-interval`}*/}
-					{/*        ></InputNumber>*/}
-					{/*    </Row>*/}
-					{/*    <Row>*/}
-					{/*        <InputNumber*/}
-					{/*            itemProps={{*/}
-					{/*                name: 'status',*/}
-					{/*                // className: 'mb-12',*/}
-					{/*                label: 'Допустимое откл., мин.:',*/}
-					{/*            }}*/}
-					{/*            className={`${prefixCls}-interval`}*/}
-					{/*        ></InputNumber>*/}
-					{/*    </Row>*/}
-					{/*    <Row>*/}
-					{/*        <InputNumber*/}
-					{/*            itemProps={{*/}
-					{/*                name: 'status',*/}
-					{/*                // className: 'mb-12',*/}
-					{/*                label: 'Допустимое откл., мин.:',*/}
-					{/*            }}*/}
-					{/*            className={`${prefixCls}-interval`}*/}
-					{/*        ></InputNumber>*/}
-					{/*    </Row>*/}
-					{/*</Col>*/}
 					<Col>
 						<Row className={`${prefixCls}-rowAfterEmpty`}>
 							<Text>Допустимое откл. на точке, мин.</Text>
@@ -258,13 +213,37 @@ const EditModal = () => {
 						<Row
 							className={`${prefixCls}-colFourAfterEmptySettings`}
 						>
-							<InputNumber></InputNumber>
+							<InputNumber
+								itemProps={{
+									name: [
+										'data',
+										'possibleDeviationLocationTime',
+									],
+								}}
+								// disabled={true}
+							/>
 						</Row>
 						<Row className={`${prefixCls}-colFourSettings`}>
-							<InputNumber></InputNumber>
+							<InputNumber
+								itemProps={{
+									name: [
+										'data',
+										'possibleDeviationDateStart',
+									],
+								}}
+								// disabled={true}
+							/>
 						</Row>
 						<Row className={`${prefixCls}-colFourSettings`}>
-							<InputNumber></InputNumber>
+							<InputNumber
+								itemProps={{
+									name: [
+										'data',
+										'possibleDeviationDateFinish',
+									],
+								}}
+								// disabled={true}
+							/>
 						</Row>
 					</Col>
 				</Row>
@@ -293,28 +272,19 @@ const EditModal = () => {
 					itemProps={{
 						label: 'Интервал, дней',
 						name: 'interval',
-						// Поле обязательнок заполнению
 						rules: [{required: true}],
 					}}
 					className={`${prefixCls}-interval`}
 				/>
 				<DatePicker
 					itemProps={{
-						name: 'dateBegin',
+						name: 'nextExecution',
 						label: 'Начать повторение с:',
 						rules: [{required: true}],
+						disabled: false,
 					}}
 					format={'LLLL'}
 					className={'mb-8'}
-					disabled={true}
-					subscribe={[
-						{
-							name: 'repeaterType',
-							path:
-								'rtd.detours.schedules.registry.editModal.repeaterType',
-							onChange: onChangeRepeaterType('02'),
-						},
-					]}
 				/>
 				<Row itemProps={{label: 'Завершить повторение'}}>
 					<Col span={8}>

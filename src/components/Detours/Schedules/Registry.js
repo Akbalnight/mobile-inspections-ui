@@ -5,8 +5,12 @@ import {
 } from '../../../apis/catalog.api';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
-import EditModal from './Modals/EditModal';
+import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
 const {Form, Table, FormBody, Space} = classic;
+// import {
+// 	AddDetourButton,
+// 	EditDetourButton,
+// } from './Modals/EditModal.js';
 
 const Registry = () => {
 	return (
@@ -14,7 +18,8 @@ const Registry = () => {
 			<Form>
 				<FormBody noPadding={true} scrollable={false}>
 					<Space className={'m-8'}>
-						<EditModal />
+						<AddDetourButton />
+						<EditDetourButton />
 					</Space>
 					<Table
 						requestLoadRows={apiGetFlatDataByConfigName(
