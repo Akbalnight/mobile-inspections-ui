@@ -4,18 +4,14 @@ import {Checkbox} from 'antd';
 
 export const code = {
 	name: 'code',
-	cellRenderer: ({rowData}) => (
-		<div className={'rt-table-cell'}>
-			{String(rowData.code).padStart(8, '0')}
-		</div>
-	),
+	cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0'),
 };
 
 export const position = {
 	name: 'position',
 	cellRenderer: ({rowData, rowIndex}) => {
 		rowData.position = rowIndex + 1;
-		return <div className={'rt-table-cell'}>{rowIndex + 1}</div>;
+		return rowIndex + 1;
 	},
 };
 
@@ -31,9 +27,7 @@ export const checkBox = (name) => ({
 
 export const date = (name) => ({
 	name: name,
-	cellRenderer: ({cellData}) => (
-		<div className={'rt-table-cell'}>{toDDMMYYYYdot(cellData)}</div>
-	),
+	cellRenderer: ({cellData}) => toDDMMYYYYdot(cellData),
 });
 
 export const dateTime = (name) => ({

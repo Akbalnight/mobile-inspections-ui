@@ -7,6 +7,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../apis/catalog.api';
 import {CatalogTableHeader} from './tableProps';
+import {code} from '../Base/customColumnProps';
 
 const {Form, FormBody, Table} = classic;
 
@@ -34,6 +35,7 @@ const ControlPointsBase = () => {
 				<FormBody noPadding={true}>
 					<Table
 						footerShow={true}
+						customColumnProps={[{...code}]}
 						requestLoadRows={apiGetHierarchicalDataByConfigName(
 							'controlPoints'
 						)}

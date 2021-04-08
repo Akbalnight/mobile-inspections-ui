@@ -108,11 +108,12 @@ export const customColumnPropsEquipments = [
 		),
 	},
 	{
-		name: 'code', //'codeHierarchical'
+		name: 'code', //'codeHierarchical' //{(rowData.code).padStart(8, '0')}
 		cellRenderer: ({rowData, cellData}) => {
 			return (
-				<span className={'rt-table-cell'}>
-					{rowData.isGroup ? <FolderOutlined /> : null} {cellData}
+				<span>
+					{rowData.isGroup ? <FolderOutlined /> : null}{' '}
+					{String(cellData).padStart(8, '0')}
 				</span>
 			);
 		},
