@@ -219,6 +219,8 @@ export const ViewDetour = () => {
 								}}
 							>
 								<Table
+									infinityMode={true}
+									customColumnProps={customColumnProps}
 									requestLoadRows={({data, params}) =>
 										apiGetFlatDataByConfigName('defects')({
 											data: {
@@ -240,6 +242,7 @@ export const ViewDetour = () => {
 								}}
 							>
 								<Table
+									infinityMode={true}
 									requestLoadRows={({data, params}) =>
 										apiGetFlatDataByConfigName(
 											'defectExtraData'

@@ -1,5 +1,5 @@
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
-import {checkBox, code, date} from '../Base/customColumnProps';
+import {checkBox, date, dateTime} from '../Base/customColumnProps';
 import {classic} from 'rt-design';
 import React from 'react';
 import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
@@ -261,10 +261,58 @@ export const TableHeader = () => {
 };
 
 export const customColumnProps = [
-	{...code},
 	{...date('dateStartPlan')},
+	{...date('dateDetectDefect')},
+	{...date('dateEliminationPlan')},
+	{...dateTime('dateDetectDefect')},
 	{...checkBox('saveOrderControlPoints')},
 	{...checkBox('equipmentStop')},
 	{...checkBox('needInputData')},
 	{...checkBox('increasedDanger')},
+	{...checkBox('viewOnPanel')},
+	{...checkBox('kpi')},
+	{
+		name: 'description',
+		hidden: true,
+	},
+	{
+		name: 'sendedToSap',
+		hidden: true,
+	},
+	{
+		name: 'code',
+		hidden: true,
+	},
+	{
+		name: 'sapStatusCode',
+		hidden: true,
+	},
+	{
+		name: 'staffEliminationName',
+		hidden: true,
+	},
+	{
+		name: 'note',
+		hidden: true,
+	},
+	{
+		name: 'dateEliminationFact',
+		hidden: true,
+	},
+	{
+		name: 'equipmentName',
+		hidden: true,
+	},
+	{
+		name: 'actionDescription',
+		hidden: true,
+	},
+	{
+		name: 'actionPlan',
+		hidden: true,
+	},
+	{
+		name: 'descriptionCauses',
+		hidden: true,
+	},
 ];
