@@ -12,6 +12,17 @@ const {Form, Table, FormBody, Space} = classic;
 // 	EditDetourButton,
 // } from './Modals/EditModal.js';
 
+const columnProps = [
+	{
+		name: 'interval',
+		cellRenderer: ({rowData, cellData}) => {
+			let period = cellData > 1 ? rowData.periodName + 's' : rowData;
+
+			return cellData + ' ' + period;
+		},
+	},
+];
+
 const Registry = () => {
 	return (
 		<BasePage>
@@ -27,6 +38,7 @@ const Registry = () => {
 						)}
 						requestLoadConfig={apiGetConfigByName('repeaters')}
 						headerHeight={70}
+						customColumnProps={columnProps}
 						dispatchPath={'detours.schedules.registry'}
 						subscribe={[
 							{
