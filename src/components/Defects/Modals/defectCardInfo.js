@@ -26,25 +26,13 @@ import React from 'react';
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 const {
-	// Layout,
-	// Form,
-	// Space,
-	// FormHeader,
 	FormBody,
-	// FormFooter,
-	// Divider,
-	// Table,
-	// Button,
-	// Title,
-	// Search,
 	Modal,
 	Tabs,
-	TabPane,
-	// Text,
-	// Checkbox
+	// TabPane,
 } = classic;
 
-// const {TabPane} = Tabs
+const {TabPane} = Tabs;
 /**
  *
  * Карточка информации дефекта
@@ -74,47 +62,6 @@ export const DefectCardInfoModal = () => {
 		callBack({...sRow});
 	};
 
-	// const tabsField = (transferId) => [
-	//     {
-	//         componentType: 'Tabs',
-	//         type: 'card',
-	//         size: 'large',
-	//         style: {paddingTop: '24px'},
-	//         children: [
-	//             // {
-	//             //     componentType: 'TabPane',
-	//             //     tab: <InfoTab/>,
-	//             //     key: 'infoTab',
-	//             //     children: [infoTabFields()],
-	//             // },
-	//             // {
-	//             //     componentType: 'TabPane',
-	//             //     tab: <FilesTab/>,
-	//             //     key: 'fileTab',
-	//             //     children: [fileManagerFields(transferId)],
-	//             // },
-	//             // {
-	//             //     componentType: 'TabPane',
-	//             //     tab: <EquipmentsTab/>,
-	//             //     key: 'equipmentTab',
-	//             //     children: [equipmentFields(transferId)],
-	//             // },
-	//             // {
-	//             //     componentType: 'TabPane',
-	//             //     tab: <ScheduleTab/>,
-	//             //     key: 'scheduleTab',
-	//             //     children: [scheduleFields(transferId)],
-	//             // },
-	//             // {
-	//             //     componentType: 'TabPane',
-	//             //     tab: <HistoryTab/>,
-	//             //     key: 'historyTab',
-	//             //     children: [historyFields(transferId)],
-	//             // },
-	//         ],
-	//     },
-	// ];
-	// const InfoTabFieldsTab = (sRow) => <InfoTabFields tRow={sRow}/>
 	return (
 		<Modal
 			modalConfig={{
@@ -138,7 +85,6 @@ export const DefectCardInfoModal = () => {
 						'rtd.defects.defectTable.table.events.onRowDoubleClick',
 					onChange: ({value, setModalData, openModal}) => {
 						if (value && setModalData) {
-							defectId = value.value.id;
 							setModalData({
 								...value.value,
 							});

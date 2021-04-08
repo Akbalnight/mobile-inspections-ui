@@ -2,21 +2,8 @@ import React from 'react';
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 import {classic} from 'rt-design';
 
-const {
-	Layout,
-	Form,
-	Space,
-	FormBody,
-	Divider,
-	Table,
-	Button,
-	Search,
-	Input,
-	Select,
-	DatePicker,
-	Checkbox,
-	TextArea,
-} = classic;
+const {Input, Select, DatePicker, Checkbox, TextArea} = classic;
+
 export const DefectDetection = () => {
 	return (
 		<>
@@ -25,12 +12,12 @@ export const DefectDetection = () => {
 					label: 'Дата обнаружения',
 					name: 'dateDetectDefect',
 					className: 'mb-8',
-					rules: [
-						{
-							required: true,
-							message: 'Заполните дату обнаружения',
-						},
-					],
+					// rules: [
+					// 	{
+					// 		required: true,
+					// 		message: 'Заполните дату обнаружения',
+					// 	},
+					// ],
 				}}
 				showTime={true}
 			/>
@@ -52,28 +39,19 @@ export const DefectDetection = () => {
 					label: 'Оборудование',
 					name: 'equipmentId',
 					className: 'mb-8',
-					rules: [
-						{
-							required: true,
-							message: 'Заполните оборудование',
-						},
-					],
+					// rules: [
+					// 	{
+					// 		required: true,
+					// 		message: 'Заполните оборудование',
+					// 	},
+					// ],
 				}}
-				rowRender={'name'}
-				expandColumnKey={'id'}
-				autoClearSearchValue={true}
 				showSearch={true}
-				searchParamName={'name'}
-				showArrow={true}
-				// widthControl={300},
-				filterOption={false}
-				dropdownMatchSelectWidth={200}
 				mode={'single'}
 				allowClear={true}
-				infinityMode={true}
 				requestLoadRows={apiGetFlatDataByConfigName(
 					'equipmentsAutoQuery'
-				)} //apiGetHierarchicalDataByConfigName
+				)}
 				optionConverter={(option) => ({
 					label: <span>{option.name}</span>,
 					value: option.id,
@@ -86,25 +64,16 @@ export const DefectDetection = () => {
 					label: 'Обнаружил',
 					name: 'staffDetectId',
 					className: 'mb-8',
-					rules: [
-						{
-							required: true,
-							message: 'Заполните сотрудника',
-						},
-					],
+					// rules: [
+					// 	{
+					// 		required: true,
+					// 		message: 'Заполните сотрудника',
+					// 	},
+					// ],
 				}}
-				rowRender={'name'}
-				expandColumnKey={'id'}
-				autoClearSearchValue={true}
 				showSearch={true}
-				searchParamName={'username'}
-				showArrow={true}
-				// widthControl={300},
-				filterOption={false}
-				dropdownMatchSelectWidth={200}
 				mode={'single'}
 				allowClear={true}
-				infinityMode={true}
 				requestLoadRows={apiGetFlatDataByConfigName('staff')} //apiGetHierarchicalDataByConfigName
 				optionConverter={(option) => ({
 					label: <span>{option.username}</span>,
@@ -118,12 +87,12 @@ export const DefectDetection = () => {
 					label: 'Описание дефекта',
 					name: 'description',
 					className: 'mb-8',
-					rules: [
-						{
-							required: true,
-							message: 'Заполните описание',
-						},
-					],
+					// rules: [
+					// 	{
+					// 		required: true,
+					// 		message: 'Заполните описание',
+					// 	},
+					// ],
 				}}
 			/>
 			<Input
@@ -131,12 +100,12 @@ export const DefectDetection = () => {
 					label: 'Причина возникновения',
 					name: 'descriptionCauses',
 					className: 'mb-8',
-					rules: [
-						{
-							required: true,
-							message: 'Заполните причину',
-						},
-					],
+					// rules: [
+					// 	{
+					// 		required: true,
+					// 		message: 'Заполните причину',
+					// 	},
+					// ],
 				}}
 			/>
 		</>

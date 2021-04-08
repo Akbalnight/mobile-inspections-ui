@@ -17,11 +17,11 @@ export const editControlPointToRoute = () => OperationOnLocal('edit', {});
 
 const OperationOnLocal = (type, code) => {
 	let Row = null;
-	let controlPointId;
+	// let controlPointId;
 
 	const loadData = (callBack, row) => {
 		Row = {...row};
-		controlPointId = Row.id;
+		// controlPointId = Row.id;
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};

@@ -6,14 +6,15 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../apis/catalog.api';
 import {useHistory} from 'react-router';
-import {customColumnProps, headerTable, FilterPanel} from './tableProps';
+import {customColumnProps, FilterPanel} from './tableProps';
 import {paths} from '../../constants/paths';
 import {
 	DefectCardInfoModal,
-	defectCardInfoModal,
+	// defectCardInfoModal,
 } from './Modals/defectCardInfo';
-import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
+// import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
 import {reloadFilterFields} from '../Base/Functions/DateLimits';
+import {EditDefectCard} from './Modals/defectEdit';
 /** пока не нужно, не используется здесь */
 // import {ButtonFilterSettings} from '../Base/Block/btnFilterSettings'
 
@@ -26,17 +27,7 @@ import {reloadFilterFields} from '../Base/Functions/DateLimits';
  */
 
 // const {Form} = components;
-const {
-	Layout,
-	Form,
-	Space,
-	FormBody,
-	Divider,
-	Table,
-	Button,
-	Search,
-	Input,
-} = classic;
+const {Layout, Form, Space, FormBody, Divider, Table, Button, Search} = classic;
 
 export default function DefectsJsx() {
 	const history = useHistory();
@@ -46,76 +37,10 @@ export default function DefectsJsx() {
 	 */
 	let historyChange =
 		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
-
+	console.log('history:', historyChange);
 	const currentMode = historyChange ? 'defects' : 'panelProblems';
+	console.log('currentMode:', currentMode);
 
-	const tableFields = [
-		{
-			componentType: 'Layout',
-			children: [
-				...headerTable(history),
-				{
-					componentType: 'Item',
-					classname: 'mt-0',
-					child: {
-						componentType: 'Table',
-						selectable: true,
-						searchParamName: 'name',
-						fixWidthColumn: true,
-						history,
-						headerHeight: 35,
-						infinityMode: true,
-						dispatchPath: 'defects.defectTable.table',
-						customColumnProps: customColumnProps,
-						requestLoadRows: apiGetFlatDataByConfigName(
-							currentMode
-						),
-						requestLoadConfig: apiGetConfigByName(currentMode),
-						subscribe: [
-							/** Событие поиска в таблице по значению name */
-							{
-								name: 'onSearch',
-								path: 'rtd.defects.defectTable.events.onSearch',
-								onChange: ({value, reloadTable}) => {
-									reloadTable({
-										searchValue: value,
-									});
-								},
-							},
-							/** Событие фильтрации в таблице по параметрам */
-							{
-								name: 'onApplyFilter',
-								path:
-									'rtd.defects.defectTable.events.onApplyFilter',
-								extraData: 'rtd.defects.defectTable.filter',
-								onChange: ({extraData, reloadTable}) => {
-									console.log(
-										'Table onApplyFilter',
-										extraData
-									);
-									reloadTable({filter: extraData});
-								},
-							},
-							{
-								/** Обработчик события на кнопку Reload */
-								name: 'onReload',
-								path: 'rtd.defects.defectTable.events.onReload',
-								onChange: ({reloadTable}) => {
-									reloadTable({filter: {}});
-								},
-							},
-						],
-					},
-				},
-			],
-		},
-	];
-
-	// const formConfig = {
-	// 	noPadding: true,
-	// 	name: 'defectsLogForm',
-	// 	body: [...tableFields],
-	// };
 	return (
 		<BasePage>
 			<Form name={'defectsLogForm'}>
@@ -130,6 +55,7 @@ export default function DefectsJsx() {
 						>
 							<Space>
 								{/*<EditDefaultObjectOnServer catalogName={currentMode}/>*/}
+								<EditDefectCard catalogName={currentMode} />
 								<DefectCardInfoModal />
 							</Space>
 							<Space>
@@ -183,6 +109,10 @@ export default function DefectsJsx() {
 							fixWidthColumn={true}
 							// history,
 							headerHeight={35}
+							defaultSortBy={{
+								key: 'dateDetectDefect',
+								order: 'asc',
+							}}
 							// infinityMode={true}
 							dispatchPath={'defects.defectTable.table'}
 							customColumnProps={customColumnProps}
@@ -207,10 +137,10 @@ export default function DefectsJsx() {
 										extraData,
 										reloadTable,
 									}) => {
-										console.log(
-											'Table onSearch',
-											extraData
-										);
+										// console.log(
+										// 	'Table onSearch',
+										// 	extraData
+										// );
 										reloadTable({
 											searchValue: value,
 											filter: extraData,

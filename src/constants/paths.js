@@ -20,7 +20,7 @@ import {
 	AddRouteMaps,
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
-import Defects from '../components/Defects/Defects';
+// import Defects from '../components/Defects/Defects';
 import DefectsJsx from '../components/Defects/DefectsJsx';
 import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/DetoursSchedules';
