@@ -35,6 +35,21 @@ const prefixCls = 'detours-schedules-registry-modal';
 export const AddDetourButton = () => EditModal('add');
 export const EditDetourButton = () => EditModal('edit');
 
+const processBeforeSaveForm = (rawValues) => {
+	const values = {...rawValues};
+
+	if (values.repeaterType === '02') {
+		values.finalCount = null;
+	} else if (values.repeaterType === '03') {
+		values.dateFinish = null;
+	} else {
+		values.finalCount = null;
+		values.dateFinish = null;
+	}
+
+	return values;
+};
+
 const EditModal = (type) => {
 	return (
 		<Modal
@@ -57,24 +72,11 @@ const EditModal = (type) => {
 					className: prefixCls,
 					labelCol: {span: 8},
 					wrapperCol: {span: 16},
+					processBeforeSaveForm: processBeforeSaveForm,
 					loadInitData: (callBack, row) => {
 						console.log('row', row);
 						let newData = {...row};
 
-						if (newData.dateFinish) {
-							newData.repeaterType = '02';
-							// console.log("Set repeaterType 02");
-						} else if (
-							newData.finalCount &&
-							newData.finalCount !== 0
-						) {
-							newData.repeaterType = '03';
-							// console.log("Set repeaterType 03");
-						} else {
-							newData.repeaterType = '01';
-							// console.log("Set repeaterType 01");
-						}
-						// console.log("newData", newData);
 						callBack(type === 'add' ? null : newData);
 					},
 				},
