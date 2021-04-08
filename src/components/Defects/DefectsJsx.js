@@ -10,7 +10,7 @@ import {customColumnProps, headerTable, FilterPanel} from './tableProps';
 import {paths} from '../../constants/paths';
 import {
 	DefectCardInfoModal,
-	defectCardInfoModal,
+	// defectCardInfoModal,
 } from './Modals/defectCardInfo';
 import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
 import {reloadFilterFields} from '../Base/Functions/DateLimits';
@@ -35,7 +35,7 @@ const {
 	Table,
 	Button,
 	Search,
-	Input,
+	// Input,
 } = classic;
 
 export default function DefectsJsx() {
@@ -68,18 +68,15 @@ export default function DefectsJsx() {
 						dispatchPath: 'defects.defectTable.table',
 						customColumnProps: customColumnProps,
 						requestLoadRows: apiGetFlatDataByConfigName(
-							historyChange ? 'defects' : 'panelProblems'
+							currentMode
 						),
-						requestLoadConfig: apiGetConfigByName(
-							historyChange ? 'defects' : 'panelProblems'
-						),
-
+						requestLoadConfig: apiGetConfigByName(currentMode),
 						subscribe: [
 							/** Событие поиска в таблице по значению name */
 							{
 								name: 'onSearch',
 								path: 'rtd.defects.defectTable.events.onSearch',
-								onChange: ({value, extraData, reloadTable}) => {
+								onChange: ({value, reloadTable}) => {
 									reloadTable({
 										searchValue: value,
 									});
@@ -114,11 +111,11 @@ export default function DefectsJsx() {
 		},
 	];
 
-	const formConfig = {
-		noPadding: true,
-		name: 'defectsLogForm',
-		body: [...tableFields],
-	};
+	// const formConfig = {
+	// 	noPadding: true,
+	// 	name: 'defectsLogForm',
+	// 	body: [...tableFields],
+	// };
 	return (
 		<BasePage>
 			<Form name={'defectsLogForm'}>
@@ -237,8 +234,12 @@ export default function DefectsJsx() {
 											extraData
 										);
 										reloadTable({
-											searchValue: extraData.searchValue,
-											filter: extraData.filter,
+											searchValue: extraData
+												? extraData.searchValue
+												: '',
+											filter: extraData
+												? extraData.filter
+												: '',
 										});
 									},
 								},

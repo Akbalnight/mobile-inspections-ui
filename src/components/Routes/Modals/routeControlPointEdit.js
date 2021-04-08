@@ -4,7 +4,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
-import {selectRowsById} from '../../Base/Functions/TableSelectById';
+// import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 /**
  * в данном модальном окне сохранение идет в формате "...OnLocal", причиною тому

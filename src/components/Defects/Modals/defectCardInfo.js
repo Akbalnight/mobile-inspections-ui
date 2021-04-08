@@ -1,30 +1,50 @@
 import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/infoTab.svg';
 import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
 import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
-import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
+// import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
 import {ReactComponent as HistoryTab} from '../../../imgs/tabPane/defectCardInfo/historyTab.svg';
-import {infoTabFields} from '../Tabs/infoFields';
-import {fileManagerFields} from '../Tabs/fileManagerFields';
-import {equipmentFields} from '../Tabs/equipmentFields';
-import {scheduleFields} from '../Tabs/scheduleFields';
-import {historyFields} from '../Tabs/historyFields';
+import {
+	InfoTabFields,
+	// infoTabFields
+} from '../Tabs/infoFields';
+import {
+	// fileManagerFields,
+	FilesFields,
+} from '../Tabs/fileManagerFields';
+import {
+	EquipmentFields,
+	// equipmentFields
+} from '../Tabs/equipmentFields';
+// import {scheduleFields} from '../Tabs/scheduleFields';
+import {
+	HistoryFields,
+	// historyFields
+} from '../Tabs/historyFields';
 import {classic} from 'rt-design';
 import React from 'react';
+// import {apiGetConfigByName, apiGetFlatDataByConfigName} from "../../../apis/catalog.api";
+import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 const {
-	Layout,
-	Form,
-	Space,
-	FormHeader,
+	// Layout,
+	// Form,
+	// Space,
+	// FormHeader,
 	FormBody,
-	FormFooter,
-	Divider,
-	Table,
-	Button,
-	Title,
-	Search,
+	// FormFooter,
+	// Divider,
+	// Table,
+	// Button,
+	// Title,
+	// Search,
 	Modal,
+	Tabs,
+	TabPane,
+	// Text,
+	// Checkbox
 } = classic;
+
+// const {TabPane} = Tabs
 /**
  *
  * Карточка информации дефекта
@@ -32,61 +52,76 @@ const {
 export const DefectCardInfoModal = () => {
 	let sRow;
 	let defectId = null;
-	const loadData = (callBack, row) => {
+
+	const loadData = async (callBack, row) => {
 		sRow = row;
-		// defectId = row.id
-		callBack(row);
+		defectId = row.id;
+		const defectHistoryResponse = await selectRowsById(
+			'defectHistory',
+			'id',
+			row.id
+		)({});
+		if (defectHistoryResponse.status === 200)
+			sRow = {...sRow, defectHistory: defectHistoryResponse.data};
+		const defectFilesResponse = await selectRowsById(
+			'defectFiles',
+			'defectId',
+			row.id
+		)({});
+		if (defectFilesResponse.status === 200)
+			sRow = {...sRow, defectFiles: defectFilesResponse.data};
+		// console.log('sRow', sRow)
+		callBack({...sRow});
 	};
-	// console.log(sRow)
 
-	const tabsField = (transferId) => [
-		{
-			componentType: 'Tabs',
-			type: 'card',
-			size: 'large',
-			style: {paddingTop: '24px'},
-			children: [
-				{
-					componentType: 'TabPane',
-					tab: <InfoTab />,
-					key: 'infoTab',
-					children: [infoTabFields()],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <FilesTab />,
-					key: 'fileTab',
-					children: [fileManagerFields(transferId)],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <EquipmentsTab />,
-					key: 'equipmentTab',
-					children: [equipmentFields(transferId)],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <ScheduleTab />,
-					key: 'scheduleTab',
-					children: [scheduleFields(transferId)],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <HistoryTab />,
-					key: 'historyTab',
-					children: [historyFields(transferId)],
-				},
-			],
-		},
-	];
-
+	// const tabsField = (transferId) => [
+	//     {
+	//         componentType: 'Tabs',
+	//         type: 'card',
+	//         size: 'large',
+	//         style: {paddingTop: '24px'},
+	//         children: [
+	//             // {
+	//             //     componentType: 'TabPane',
+	//             //     tab: <InfoTab/>,
+	//             //     key: 'infoTab',
+	//             //     children: [infoTabFields()],
+	//             // },
+	//             // {
+	//             //     componentType: 'TabPane',
+	//             //     tab: <FilesTab/>,
+	//             //     key: 'fileTab',
+	//             //     children: [fileManagerFields(transferId)],
+	//             // },
+	//             // {
+	//             //     componentType: 'TabPane',
+	//             //     tab: <EquipmentsTab/>,
+	//             //     key: 'equipmentTab',
+	//             //     children: [equipmentFields(transferId)],
+	//             // },
+	//             // {
+	//             //     componentType: 'TabPane',
+	//             //     tab: <ScheduleTab/>,
+	//             //     key: 'scheduleTab',
+	//             //     children: [scheduleFields(transferId)],
+	//             // },
+	//             // {
+	//             //     componentType: 'TabPane',
+	//             //     tab: <HistoryTab/>,
+	//             //     key: 'historyTab',
+	//             //     children: [historyFields(transferId)],
+	//             // },
+	//         ],
+	//     },
+	// ];
+	// const InfoTabFieldsTab = (sRow) => <InfoTabFields tRow={sRow}/>
 	return (
 		<Modal
 			modalConfig={{
 				type: 'viewObject',
 				title: `Карточка дефекта`,
 				width: 800,
-				bodyStyle: {height: 650},
+				bodyStyle: {height: 750},
 				form: {
 					name: 'defectDataView',
 					noPadding: true,
@@ -108,51 +143,33 @@ export const DefectCardInfoModal = () => {
 								...value.value,
 							});
 						}
-						openModal();
+						value && openModal();
 					},
 				},
 			]}
 			// dispatch:'defects.defectsTable.modalViewObject.event'
 		>
-			{/*{tabsField(defectId)}*/}
+			<FormBody noPadding={true}>
+				<Tabs type={'card'} className={'ml-8 mr-8'}>
+					<TabPane key={'infoTab'} tab={<InfoTab />}>
+						<InfoTabFields />
+					</TabPane>
+					<TabPane key={'fileTab'} tab={<FilesTab />}>
+						<FilesFields />
+					</TabPane>
+					<TabPane key={'equipmentTab'} tab={<EquipmentsTab />}>
+						<EquipmentFields />
+					</TabPane>
+					{/*<TabPane*/}
+					{/*    key={'scheduleTab'}*/}
+					{/*    tab={<ScheduleTab/>}*/}
+					{/*>*/}
+					{/*</TabPane>*/}
+					<TabPane key={'historyTab'} tab={<HistoryTab />}>
+						<HistoryFields />
+					</TabPane>
+				</Tabs>
+			</FormBody>
 		</Modal>
 	);
-
-	const dummy = {
-		componentType: 'Item',
-		child: {
-			componentType: 'Modal',
-			modalConfig: {
-				type: 'viewObject',
-				title: `Карточка дефекта`,
-				width: 800,
-				bodyStyle: {height: 650},
-				form: {
-					name: 'defectDataView',
-					noPadding: true,
-					labelCol: {span: 8},
-					wrapperCol: {span: 16},
-					loadInitData: loadData,
-					body: tabsField(defectId),
-				},
-				// dispatch:'defects.defectsTable.modalViewObject.event'
-			},
-			subscribe: [
-				{
-					name: 'infoForm',
-					path:
-						'rtd.defects.defectTable.table.events.onRowDoubleClick',
-					onChange: ({value, setModalData, openModal}) => {
-						if (value && setModalData) {
-							defectId = value.value.id;
-							setModalData({
-								...value.value,
-							});
-						}
-						openModal();
-					},
-				},
-			],
-		},
-	};
 };
