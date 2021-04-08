@@ -1,40 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {classic, notificationError} from 'rt-design';
 import moment from 'moment';
-import {Calendar, Popover, Checkbox} from 'antd';
+import {Calendar as AntCalendar, Popover, Checkbox} from 'antd';
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 import {calendarPrefix} from '../../../utils/baseUtils';
 
-const {FormBody, Custom, Layout} = classic;
+const {Custom, Layout} = classic;
 
 /**
  *
  * @returns Custom Calendar with subscribes on filtert events
  * @desc Maybe in Popover necessary need JSX-style by rt-design
  */
-export default function DetoursCalendar() {
-	const [calendarValues, setCalendarValues] = useState([]);
 
+const Calendar = ({onChange, detours, value}) => {
 	useEffect(() => {
-		apiGetFlatDataByConfigName('detours')({
-			data: {},
-			params: {size: 50},
-		})
-			.then((response) => {
-				return setCalendarValues(response.data);
-			})
-			.catch((error) =>
-				notificationError(error, 'Ошибка загрузки данных формы')
-			);
+		onChange && onChange(moment());
+		// console.log('useEffect onChange')
 	}, []);
+
+	const onChangeHandler = (value) => {
+		onChange(value);
+	};
 
 	/**
 	 *
 	 * @param value - Calendar main props
 	 * @returns content in Calendar
 	 */
-	function dateCellRender(value) {
-		const listData = calendarValues;
+	const dateCellRender = (value) => {
+		const listData = detours;
 		return (
 			<>
 				{listData &&
@@ -98,127 +93,159 @@ export default function DetoursCalendar() {
 					})}
 			</>
 		);
-	}
+	};
+
+	return (
+		<AntCalendar
+			headerRender={() => null}
+			dateCellRender={dateCellRender}
+			value={value}
+			onChange={onChangeHandler}
+			// dateFullCellRender={_dateFullCellRender(_value)}
+			className={'calendar-detours'}
+		/>
+	);
+};
+
+export default function DetoursCalendar() {
+	// const [calendarValues, setCalendarValues] = useState([]);
+	//
+	// useEffect(() => {
+	// 	apiGetFlatDataByConfigName('detours')({
+	// 		data: {},
+	// 		params: {size: 50},
+	// 	})
+	// 		.then((response) => {
+	// 			return setCalendarValues(response.data);
+	// 		})
+	// 		.catch((error) =>
+	// 			notificationError(error, 'Ошибка загрузки данных формы')
+	// 		);
+	// }, []);
 
 	return (
 		<>
-			<FormBody noPadding={true}>
-				<Layout className={'px-8'} style={{height: '100%'}}>
-					<Custom
-						itemProps={{name: 'calendarDetours'}}
-						render={({onChange, defaultValue, value}) => {
-							return (
-								<Calendar
-									// headerRender={() => null}
-									dateCellRender={dateCellRender}
-									className={'calendar-detours'}
-								/>
-							);
-						}}
-						dispatch={{
-							path: 'detours.mainForm.calendar',
-						}}
-						subscribe={[
-							/** Action search by detour name*/
-							{
-								name: 'onSearch',
-								path:
-									'rtd.detours.mainForm.table.events.onSearch',
-								onChange: ({value}) => {
-									apiGetFlatDataByConfigName('detours')({
-										data: {name: value.value},
-										params: {size: 50},
-									})
-										.then((response) => {
-											return setCalendarValues(
-												response.data
-											);
-										})
-										.catch((error) =>
-											notificationError(
-												error,
-												'Ошибка загрузки данных формы'
-											)
-										);
-								},
+			<Layout className={'px-8'}>
+				<Custom
+					itemProps={{name: 'calendarDetours'}}
+					render={Calendar}
+					dispatch={{
+						path: 'detours.mainForm.calendar',
+					}}
+					subscribe={[
+						{
+							name: 'onChangeMonth',
+							path: 'rtd.detours.mainForm.filter.events.month',
+							onChange: ({value, setSubscribeProps}) => {
+								setSubscribeProps({value: value});
 							},
-							/** Action filter by detour routId, staffId*/
-							{
-								name: 'onApplyFilter',
-								path:
-									'rtd.detours.mainForm.table.onApplyFilter',
-								extraData: 'rtd.detours.mainForm.filter.events',
-								onChange: ({extraData}) => {
-									apiGetFlatDataByConfigName('detours')({
-										data: {
-											routeId: extraData.routeId,
-											staffId: extraData.staffId,
-										},
-										params: {size: 50},
+						},
+						/** Action search by detour name*/
+						{
+							name: 'onSearch',
+							path: 'rtd.detours.mainForm.table.events.onSearch',
+							onChange: ({value, setSubscribeProps}) => {
+								apiGetFlatDataByConfigName('detours')({
+									data: {name: value.value},
+									params: {size: 50},
+								})
+									.then((response) => {
+										setSubscribeProps({
+											detours: response.data,
+										});
 									})
-										.then((response) => {
-											return setCalendarValues(
-												response.data
-											);
-										})
-										.catch((error) =>
-											notificationError(
-												error,
-												'Ошибка загрузки данных формы'
-											)
-										);
-								},
+									.catch((error) =>
+										notificationError(
+											error,
+											'Ошибка загрузки данных формы'
+										)
+									);
 							},
-							{
-								/** Action on push button Сбросить */
-								name: 'onReload',
-								path:
-									'rtd.detours.mainForm.filter.events.onReload',
-								onChange: () => {
-									apiGetFlatDataByConfigName('detours')({
-										data: {},
-										params: {size: 50},
+						},
+						/** Action filter by detour routId, staffId*/
+						{
+							name: 'onApplyFilter',
+							path: 'rtd.detours.mainForm.table.onApplyFilter',
+							extraData: 'rtd.detours.mainForm.filter.events',
+							onChange: ({extraData, setSubscribeProps}) => {
+								apiGetFlatDataByConfigName('detours')({
+									data: {
+										routeId: extraData.routeId,
+										staffId: extraData.staffId,
+										startDate: extraData.month
+											? extraData.month
+													.clone()
+													.startOf('month')
+											: undefined,
+										finishDate: extraData.month
+											? extraData.month
+													.clone()
+													.endOf('month')
+											: undefined,
+									},
+									params: {size: 50},
+								})
+									.then((response) => {
+										setSubscribeProps({
+											detours: response.data,
+										});
 									})
-										.then((response) => {
-											return setCalendarValues(
-												response.data
-											);
-										})
-										.catch((error) =>
-											notificationError(
-												error,
-												'Ошибка загрузки данных формы'
-											)
-										);
-								},
+									.catch((error) =>
+										notificationError(
+											error,
+											'Ошибка загрузки данных формы'
+										)
+									);
 							},
-							/** Action add detour*/
-							{
-								name: 'addDetourOnServer',
-								path:
-									'rtd.detours.mainForm.table.events.addOnModal',
-								onChange: () => {
-									apiGetFlatDataByConfigName('detours')({
-										data: {},
-										params: {size: 50},
+						},
+						{
+							/** Action on push button Сбросить */
+							name: 'onReload',
+							path: 'rtd.detours.mainForm.filter.events.onReload',
+							onChange: ({setSubscribeProps}) => {
+								apiGetFlatDataByConfigName('detours')({
+									data: {},
+									params: {size: 50},
+								})
+									.then((response) => {
+										setSubscribeProps({
+											detours: response.data,
+										});
 									})
-										.then((response) => {
-											return setCalendarValues(
-												response.data
-											);
-										})
-										.catch((error) =>
-											notificationError(
-												error,
-												'Ошибка загрузки данных формы'
-											)
-										);
-								},
+									.catch((error) =>
+										notificationError(
+											error,
+											'Ошибка загрузки данных формы'
+										)
+									);
 							},
-						]}
-					/>
-				</Layout>
-			</FormBody>
+						},
+						/** Action add detour*/
+						{
+							name: 'addDetourOnServer',
+							path:
+								'rtd.detours.mainForm.table.events.addOnModal',
+							onChange: ({setSubscribeProps}) => {
+								apiGetFlatDataByConfigName('detours')({
+									data: {},
+									params: {size: 50},
+								})
+									.then((response) => {
+										setSubscribeProps({
+											detours: response.data,
+										});
+									})
+									.catch((error) =>
+										notificationError(
+											error,
+											'Ошибка загрузки данных формы'
+										)
+									);
+							},
+						},
+					]}
+				/>
+			</Layout>
 		</>
 	);
 }

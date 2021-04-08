@@ -115,7 +115,7 @@ export const InfoTabFields = ({tRow}) => {
 				<Table
 					itemProps={{name: 'extraData'}}
 					rowKey={'dateDetectDefect'}
-					style={{height: '150px'}}
+					// style={{height: '150px'}}
 					// infinityMode={true}
 					requestLoadConfig={apiGetConfigByName(
 						'defectExtraDataColumns'

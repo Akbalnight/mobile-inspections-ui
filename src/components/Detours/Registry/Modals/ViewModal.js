@@ -25,7 +25,6 @@ const {
 	DateText,
 	Layout,
 	Title,
-	Space,
 } = classic;
 export const ViewDetour = () => {
 	let sRow;
@@ -66,9 +65,13 @@ export const ViewDetour = () => {
 				},
 			]}
 		>
-			<FormBody>
+			<FormBody noPadding={true}>
 				<Tabs type={'card'} size={'large'}>
-					<TabPane tab={<InfoTab />} key={'infoTab'}>
+					<TabPane
+						tab={<InfoTab />}
+						key={'infoTab'}
+						style={{padding: '16px'}}
+					>
 						<Layout>
 							<Text itemProps={{...itemsInfo.name, rules: []}} />
 							<Text itemProps={{...itemsInfo.routeName}} />
@@ -132,6 +135,7 @@ export const ViewDetour = () => {
 						tab={<DetourCompositionTab />}
 						key={'compositionTab'}
 						scrollable={true}
+						style={{padding: '16px'}}
 					>
 						<Layout>
 							<List
@@ -210,14 +214,14 @@ export const ViewDetour = () => {
 						tab={<DefectsTab />}
 						key={'defectsTab'}
 						scrollable={true}
+						style={{padding: '16px'}}
 					>
-						<Space direction={'vertical'} style={{width: '100%'}}>
-							<Title label={'Обнаруженные дефекты'} level={5} />
-							<Layout
-								style={{
-									height: '200px',
-								}}
-							>
+						<Layout>
+							<Layout>
+								<Title
+									label={'Обнаруженные дефекты'}
+									level={5}
+								/>
 								<Table
 									infinityMode={true}
 									customColumnProps={customColumnProps}
@@ -235,12 +239,12 @@ export const ViewDetour = () => {
 									)}
 								/>
 							</Layout>
-							<Title label={'Устраненные дефекты'} level={5} />
-							<Layout
-								style={{
-									height: '200px',
-								}}
-							>
+							<Layout>
+								<Title
+									label={'Устраненные дефекты'}
+									level={5}
+									style={{marginTop: '16px'}}
+								/>
 								<Table
 									infinityMode={true}
 									requestLoadRows={({data, params}) =>
@@ -259,7 +263,7 @@ export const ViewDetour = () => {
 									)}
 								/>
 							</Layout>
-						</Space>
+						</Layout>
 					</TabPane>
 				</Tabs>
 			</FormBody>

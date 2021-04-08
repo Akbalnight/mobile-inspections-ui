@@ -221,7 +221,30 @@ export const TableHeader = () => {
 								/>
 							</Space>
 						</Space>
-						<Space />
+						<Space direction={'vertical'}>
+							<Text label={'Месяц:'} />
+							<DatePicker
+								itemProps={{name: 'month'}}
+								format={'MMM YYYY'}
+								picker='month'
+								dispatch={{
+									path:
+										'detours.mainForm.filter.events.month',
+								}}
+								subscribe={[
+									{
+										name: 'detourMainForm',
+										path: 'rtd.detours.mainForm.calendar',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({value: value});
+										},
+									},
+								]}
+							/>
+						</Space>
 					</Switcher>
 				</Space>
 				<Space
