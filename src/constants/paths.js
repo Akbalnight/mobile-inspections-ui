@@ -209,15 +209,15 @@ export const paths = {
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
-		component: Defects,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	CONTROL_DEFECTS_DEFECTS_JSX: {
-		title: 'Журнал учета дефектов JSX',
-		path: '/control-defects/defects-jsx',
 		component: DefectsJsx,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	// CONTROL_DEFECTS_DEFECTS_JSX: {
+	// 	title: 'Журнал учета дефектов JSX',
+	// 	path: '/control-defects/defects-jsx',
+	// 	component: DefectsJsx,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',
 		path: '/control-defects/defects/:id',

@@ -146,7 +146,7 @@ export const FilterPanel = () => {
 
 	let historyChange = history
 		? // history.location.pathname === '/control-defects/defects';
-		  history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS_JSX.path
+		  history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path
 		: null;
 
 	return (

@@ -3,15 +3,30 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
-import {defectDetection} from '../../Base/Block/DefectDetection';
+import {
+	defectDetection,
+	DefectDetection,
+} from '../../Base/Block/DefectDetection';
 import {classic} from 'rt-design';
 
-const {Space, Text, DatePicker, Select, Button, Modal, FormBody} = classic;
+const {
+	Space,
+	Text,
+	DatePicker,
+	Select,
+	Button,
+	Title,
+	Modal,
+	FormBody,
+} = classic;
 
 /**
  *
  * Форма изменение дефекта, все поля и правила по макетам
  */
+export const EditDefectCard = (catalogName) =>
+	OperationOnServer(catalogName, 'edit', {});
+
 export const editDefectCard = (catalogName) =>
 	OperationOnServer(catalogName, 'edit', {});
 
@@ -26,6 +41,32 @@ const OperationOnServer = (catalogName, type, code) => {
 		return values;
 	};
 
+	const DefectDetectionFields = (catalogName) => {
+		return (
+			<>
+				{catalogName === 'defects' ? (
+					<>
+						<Select
+							itemProps={{
+								name: 'statusProcessId',
+								label: 'Статус обработки',
+							}}
+							rowRender={'name'}
+							widthControl={0}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								'defectStatusesProcess'
+							)}
+							requestLoadDefault={apiGetFlatDataByConfigName(
+								'defectStatusesProcess'
+							)}
+						/>
+						<Title level={5}>Выявление дефекта</Title>
+					</>
+				) : null}
+				<DefectDetection />
+			</>
+		);
+	};
 	const defectDetectionField = [
 		catalogName === 'defects'
 			? {
@@ -261,7 +302,7 @@ const OperationOnServer = (catalogName, type, code) => {
 					methodSaveForm: 'PUT',
 					processBeforeSaveForm: processBeforeSaveForm,
 					onFinish: (values) => {
-						console.log('values', values);
+						console.log('edit defect values', values);
 					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
@@ -298,74 +339,76 @@ const OperationOnServer = (catalogName, type, code) => {
 				},
 			]}
 		>
-			<FormBody></FormBody>
+			<FormBody>
+				<DefectDetectionFields catalogName={catalogName} />
+			</FormBody>
 		</Modal>
 	);
 
-	return {
-		componentType: 'Item',
-		child: {
-			componentType: 'Modal',
-			buttonProps: {
-				type: 'default',
-				icon: <EditOutlined />,
-			},
-			toolTipProps: {
-				title: 'Редактровать дефект',
-			},
-
-			modalConfig: {
-				type: `${type}OnServer`,
-				title: 'Редактрование дефекта',
-				width: catalogName === 'defects' ? 600 : 500,
-				bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
-				requestSaveRow: apiSaveByConfigName(
-					catalogName === 'defects'
-						? 'saveEditModalDefect'
-						: 'saveEditModalPanelProblem'
-				),
-				form: {
-					name: `${type}ModalForm`,
-					loadInitData: loadData,
-					methodSaveForm: 'PUT',
-					processBeforeSaveForm: processBeforeSaveForm,
-					onFinish: (values) => {
-						console.log('values', values);
-					},
-					labelCol: {span: 10},
-					wrapperCol: {span: 12},
-					body: [
-						code,
-						...defectDetectionField,
-						...(catalogName === 'defects'
-							? correctionPlanFields
-							: defectSapFields),
-						...(catalogName === 'defects'
-							? defectEliminationFields
-							: []),
-					],
-				},
-			},
-			disoatch: {
-				path: 'defects.defectTable.modal.events.onEditModal',
-				type: 'event',
-			},
-			subscribe: [
-				{
-					name: 'editForm',
-					path: 'rtd.defects.defectTable.table.selected',
-					onChange: ({value, setModalData, setButtonProps}) => {
-						value &&
-							setModalData &&
-							setModalData({
-								...value[value.length - 1],
-							});
-						value &&
-							setButtonProps &&
-							setButtonProps({disabled: !(value.length === 1)});
-					},
-				},
-			],
-		},
-	};
+	// return {
+	// 	componentType: 'Item',
+	// 	child: {
+	// 		componentType: 'Modal',
+	// 		buttonProps: {
+	// 			type: 'default',
+	// 			icon: <EditOutlined />,
+	// 		},
+	// 		toolTipProps: {
+	// 			title: 'Редактровать дефект',
+	// 		},
+	//
+	// 		modalConfig: {
+	// 			type: `${type}OnServer`,
+	// 			title: 'Редактрование дефекта',
+	// 			width: catalogName === 'defects' ? 600 : 500,
+	// 			bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
+	// 			requestSaveRow: apiSaveByConfigName(
+	// 				catalogName === 'defects'
+	// 					? 'saveEditModalDefect'
+	// 					: 'saveEditModalPanelProblem'
+	// 			),
+	// 			form: {
+	// 				name: `${type}ModalForm`,
+	// 				loadInitData: loadData,
+	// 				methodSaveForm: 'PUT',
+	// 				processBeforeSaveForm: processBeforeSaveForm,
+	// 				onFinish: (values) => {
+	// 					console.log('values', values);
+	// 				},
+	// 				labelCol: {span: 10},
+	// 				wrapperCol: {span: 12},
+	// 				body: [
+	// 					code,
+	// 					...defectDetectionField,
+	// 					...(catalogName === 'defects'
+	// 						? correctionPlanFields
+	// 						: defectSapFields),
+	// 					...(catalogName === 'defects'
+	// 						? defectEliminationFields
+	// 						: []),
+	// 				],
+	// 			},
+	// 		},
+	// 		disoatch: {
+	// 			path: 'defects.defectTable.modal.events.onEditModal',
+	// 			type: 'event',
+	// 		},
+	// 		subscribe: [
+	// 			{
+	// 				name: 'editForm',
+	// 				path: 'rtd.defects.defectTable.table.selected',
+	// 				onChange: ({value, setModalData, setButtonProps}) => {
+	// 					value &&
+	// 						setModalData &&
+	// 						setModalData({
+	// 							...value[value.length - 1],
+	// 						});
+	// 					value &&
+	// 						setButtonProps &&
+	// 						setButtonProps({disabled: !(value.length === 1)});
+	// 				},
+	// 			},
+	// 		],
+	// 	},
+	// };
 };

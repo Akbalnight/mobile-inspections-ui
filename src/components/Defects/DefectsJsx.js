@@ -10,10 +10,11 @@ import {customColumnProps, headerTable, FilterPanel} from './tableProps';
 import {paths} from '../../constants/paths';
 import {
 	DefectCardInfoModal,
-	defectCardInfoModal,
+	// defectCardInfoModal,
 } from './Modals/defectCardInfo';
 import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
 import {reloadFilterFields} from '../Base/Functions/DateLimits';
+import {EditDefectCard} from './Modals/defectEdit';
 /** пока не нужно, не используется здесь */
 // import {ButtonFilterSettings} from '../Base/Block/btnFilterSettings'
 
@@ -45,80 +46,80 @@ export default function DefectsJsx() {
 	 * historyChange не уверен в корректоности такой замены по файлу
 	 */
 	let historyChange =
-		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS_JSX.path;
+		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
 
 	const currentMode = historyChange ? 'defects' : 'panelProblems';
 
-	const tableFields = [
-		{
-			componentType: 'Layout',
-			children: [
-				...headerTable(history),
-				{
-					componentType: 'Item',
-					classname: 'mt-0',
-					child: {
-						componentType: 'Table',
-						selectable: true,
-						searchParamName: 'name',
-						fixWidthColumn: true,
-						history,
-						headerHeight: 35,
-						infinityMode: true,
-						dispatchPath: 'defects.defectTable.table',
-						customColumnProps: customColumnProps,
-						requestLoadRows: apiGetFlatDataByConfigName(
-							historyChange ? 'defects' : 'panelProblems'
-						),
-						requestLoadConfig: apiGetConfigByName(
-							historyChange ? 'defects' : 'panelProblems'
-						),
+	// const tableFields = [
+	// 	{
+	// 		componentType: 'Layout',
+	// 		children: [
+	// 			...headerTable(history),
+	// 			{
+	// 				componentType: 'Item',
+	// 				classname: 'mt-0',
+	// 				child: {
+	// 					componentType: 'Table',
+	// 					selectable: true,
+	// 					searchParamName: 'name',
+	// 					fixWidthColumn: true,
+	// 					history,
+	// 					headerHeight: 35,
+	// 					infinityMode: true,
+	// 					dispatchPath: 'defects.defectTable.table',
+	// 					customColumnProps: customColumnProps,
+	// 					requestLoadRows: apiGetFlatDataByConfigName(
+	// 						historyChange ? 'defects' : 'panelProblems'
+	// 					),
+	// 					requestLoadConfig: apiGetConfigByName(
+	// 						historyChange ? 'defects' : 'panelProblems'
+	// 					),
+	//
+	// 					subscribe: [
+	// 						/** Событие поиска в таблице по значению name */
+	// 						{
+	// 							name: 'onSearch',
+	// 							path: 'rtd.defects.defectTable.events.onSearch',
+	// 							onChange: ({value, extraData, reloadTable}) => {
+	// 								reloadTable({
+	// 									searchValue: value,
+	// 								});
+	// 							},
+	// 						},
+	// 						/** Событие фильтрации в таблице по параметрам */
+	// 						{
+	// 							name: 'onApplyFilter',
+	// 							path:
+	// 								'rtd.defects.defectTable.events.onApplyFilter',
+	// 							extraData: 'rtd.defects.defectTable.filter',
+	// 							onChange: ({extraData, reloadTable}) => {
+	// 								console.log(
+	// 									'Table onApplyFilter',
+	// 									extraData
+	// 								);
+	// 								reloadTable({filter: extraData});
+	// 							},
+	// 						},
+	// 						{
+	// 							/** Обработчик события на кнопку Reload */
+	// 							name: 'onReload',
+	// 							path: 'rtd.defects.defectTable.events.onReload',
+	// 							onChange: ({reloadTable}) => {
+	// 								reloadTable({filter: {}});
+	// 							},
+	// 						},
+	// 					],
+	// 				},
+	// 			},
+	// 		],
+	// 	},
+	// ];
 
-						subscribe: [
-							/** Событие поиска в таблице по значению name */
-							{
-								name: 'onSearch',
-								path: 'rtd.defects.defectTable.events.onSearch',
-								onChange: ({value, extraData, reloadTable}) => {
-									reloadTable({
-										searchValue: value,
-									});
-								},
-							},
-							/** Событие фильтрации в таблице по параметрам */
-							{
-								name: 'onApplyFilter',
-								path:
-									'rtd.defects.defectTable.events.onApplyFilter',
-								extraData: 'rtd.defects.defectTable.filter',
-								onChange: ({extraData, reloadTable}) => {
-									console.log(
-										'Table onApplyFilter',
-										extraData
-									);
-									reloadTable({filter: extraData});
-								},
-							},
-							{
-								/** Обработчик события на кнопку Reload */
-								name: 'onReload',
-								path: 'rtd.defects.defectTable.events.onReload',
-								onChange: ({reloadTable}) => {
-									reloadTable({filter: {}});
-								},
-							},
-						],
-					},
-				},
-			],
-		},
-	];
-
-	const formConfig = {
-		noPadding: true,
-		name: 'defectsLogForm',
-		body: [...tableFields],
-	};
+	// const formConfig = {
+	// 	noPadding: true,
+	// 	name: 'defectsLogForm',
+	// 	body: [...tableFields],
+	// };
 	return (
 		<BasePage>
 			<Form name={'defectsLogForm'}>
@@ -133,6 +134,7 @@ export default function DefectsJsx() {
 						>
 							<Space>
 								{/*<EditDefaultObjectOnServer catalogName={currentMode}/>*/}
+								<EditDefectCard catalogName={currentMode} />
 								<DefectCardInfoModal />
 							</Space>
 							<Space>
