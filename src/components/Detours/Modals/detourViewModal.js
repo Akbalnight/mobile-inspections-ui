@@ -1,4 +1,4 @@
-import {fileManagerFields} from '../../Defects/Tabs/fileManagerFields';
+// import {fileManagerFields} from '../../Defects/Tabs/fileManagerFields';
 import {equipmentFields} from '../../Defects/Tabs/equipmentFields';
 
 /**
@@ -161,12 +161,12 @@ export const detourViewModal = () => {
 						},
 					],
 				},
-				{
-					componentType: 'TabPane',
-					tab: '2',
-					key: '2',
-					children: [fileManagerFields()],
-				},
+				// {
+				// 	componentType: 'TabPane',
+				// 	tab: '2',
+				// 	key: '2',
+				// 	children: [fileManagerFields()],
+				// },
 				{
 					componentType: 'TabPane',
 					tab: '3',

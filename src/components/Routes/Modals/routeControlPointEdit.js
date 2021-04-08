@@ -4,6 +4,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
+// import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 /**
  * в данном модальном окне сохранение идет в формате "...OnLocal", причиною тому
@@ -16,15 +17,15 @@ export const editControlPointToRoute = () => OperationOnLocal('edit', {});
 
 const OperationOnLocal = (type, code) => {
 	let Row = null;
-	let controlPointId;
+	// let controlPointId;
 
 	const loadData = (callBack, row) => {
 		Row = {...row};
-		controlPointId = Row.id;
+		// controlPointId = Row.id;
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};
-	console.log(controlPointId);
+
 	const addControlPoint = {
 		componentType: 'Row',
 		gutter: [16, 16],

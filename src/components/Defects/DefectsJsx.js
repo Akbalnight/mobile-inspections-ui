@@ -8,10 +8,15 @@ import {
 import {useHistory} from 'react-router';
 import {customColumnProps, FilterPanel} from './tableProps';
 import {paths} from '../../constants/paths';
-import {DefectCardInfoModal} from './Modals/defectCardInfo';
-
-import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {
+	DefectCardInfoModal,
+	// defectCardInfoModal,
+} from './Modals/defectCardInfo';
+// import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
+import {reloadFilterFields} from '../Base/Functions/DateLimits';
+import {EditDefectCard} from './Modals/defectEdit';
 /** пока не нужно, не используется здесь */
+// import {ButtonFilterSettings} from '../Base/Block/btnFilterSettings'
 
 /**
  * Общий компонет для двух разделов Журнал дефектов иПанель проблем, при необходимости отображение свойственнх только одному разделу
@@ -21,6 +26,7 @@ import {reloadFilterFields} from '../Base/Functions/ReloadField';
  * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
 
+// const {Form} = components;
 const {Layout, Form, Space, FormBody, Divider, Table, Button, Search} = classic;
 
 export default function DefectsJsx() {
@@ -30,9 +36,10 @@ export default function DefectsJsx() {
 	 * historyChange не уверен в корректоности такой замены по файлу
 	 */
 	let historyChange =
-		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS_JSX.path;
-
-	// const currentMode = historyChange ? 'defects' : 'panelProblems';
+		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
+	console.log('history:', historyChange);
+	const currentMode = historyChange ? 'defects' : 'panelProblems';
+	console.log('currentMode:', currentMode);
 
 	return (
 		<BasePage>
@@ -48,6 +55,7 @@ export default function DefectsJsx() {
 						>
 							<Space>
 								{/*<EditDefaultObjectOnServer catalogName={currentMode}/>*/}
+								<EditDefectCard catalogName={currentMode} />
 								<DefectCardInfoModal />
 							</Space>
 							<Space>
@@ -101,6 +109,10 @@ export default function DefectsJsx() {
 							fixWidthColumn={true}
 							// history,
 							headerHeight={35}
+							defaultSortBy={{
+								key: 'dateDetectDefect',
+								order: 'asc',
+							}}
 							// infinityMode={true}
 							dispatchPath={'defects.defectTable.table'}
 							customColumnProps={customColumnProps}
@@ -125,10 +137,10 @@ export default function DefectsJsx() {
 										extraData,
 										reloadTable,
 									}) => {
-										console.log(
-											'Table onSearch',
-											extraData
-										);
+										// console.log(
+										// 	'Table onSearch',
+										// 	extraData
+										// );
 										reloadTable({
 											searchValue: value,
 											filter: extraData,
@@ -152,8 +164,12 @@ export default function DefectsJsx() {
 											extraData
 										);
 										reloadTable({
-											searchValue: extraData.searchValue,
-											filter: extraData.filter,
+											searchValue: extraData
+												? extraData.searchValue
+												: '',
+											filter: extraData
+												? extraData.filter
+												: '',
 										});
 									},
 								},

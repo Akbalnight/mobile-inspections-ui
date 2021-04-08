@@ -143,7 +143,7 @@ export const FilterPanel = () => {
 
 	let historyChange = history
 		? // history.location.pathname === '/control-defects/defects';
-		  history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS_JSX.path
+		  history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path
 		: null;
 
 	return (
@@ -155,7 +155,11 @@ export const FilterPanel = () => {
 					alignItems: 'flex-end',
 				}}
 			>
-				<Space>
+				<Space
+					style={{
+						alignItems: 'flex-end',
+					}}
+				>
 					<Space direction={'vertical'} className={'mr-8'}>
 						<Text className={'mb-0'}>Период обнаружения</Text>
 						<Space>
@@ -170,23 +174,6 @@ export const FilterPanel = () => {
 										'defects.defectTable.filter.detectStartDate',
 								}}
 								subscribe={[
-									{
-										name: 'startDate',
-										path:
-											'rtd.defects.defectTable.filter.detectEndDate',
-										onChange: ({
-											value,
-											setSubscribeProps,
-										}) => {
-											setSubscribeProps({
-												disabledDate: (startValue) =>
-													disabledStartDate(
-														startValue,
-														value
-													),
-											});
-										},
-									},
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
@@ -203,23 +190,6 @@ export const FilterPanel = () => {
 										'defects.defectTable.filter.detectEndDate',
 								}}
 								subscribe={[
-									{
-										name: 'endDate',
-										path:
-											'rtd.defects.defectTable.filter.detectStartDate',
-										onChange: ({
-											value,
-											setSubscribeProps,
-										}) => {
-											setSubscribeProps({
-												disabledDate: (endValue) =>
-													disabledEndDate(
-														value,
-														endValue
-													),
-											});
-										},
-									},
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
