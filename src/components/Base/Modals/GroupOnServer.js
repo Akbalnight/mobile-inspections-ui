@@ -37,7 +37,7 @@ const GroupOnServer = (type, getCatalogName, saveCatalogName, code) => {
 				// Возвращение объекта или null в зависимоти от типа операции
 				callBack(type === 'edit' ? row : null);
 			},
-			// methodSaveForm: type==='add'? 'POST': 'PUT',
+			methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 			// requestSaveForm: apiSaveByConfigName(saveCatalogName),
 			className: 'lastSelectModal',
 			body: [

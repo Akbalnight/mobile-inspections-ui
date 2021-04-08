@@ -5,8 +5,8 @@ import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
-import {configFilterPanel, customColumnProps} from './tableProps';
+} from '../../../apis/catalog.api';
+import {customColumnProps} from '../tableProps';
 
 /**
  * Данный компонет был создан для реализации концепции повторения Обходов с определенной периодичностью.
@@ -367,9 +367,7 @@ export default function DetoursSchedules() {
 							commandPanelProps: {
 								leftCustomSideElement: [...buttonRepeat],
 							},
-							filterPanelProps: {
-								configFilter: [...configFilterPanel],
-							},
+
 							dispatchPath:
 								'detourSchedules.mainTable.detoursSchedules',
 							requestLoadRows: apiGetFlatDataByConfigName(

@@ -11,18 +11,24 @@ import {
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
-import Routes from '../components/Routes/Routes';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
-import Detours from '../components/Detours/Detours';
-import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
+import Routes from '../components/Routes/Registry/Routes';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
+import Detours from '../components/Detours/legacy/Detours';
+import {
+	DetoursAdd,
+	DetoursEdit,
+} from '../components/Detours/legacy/DetoursForm';
 import {
 	AddRouteMaps,
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
-import Defects from '../components/Defects/Defects';
+// import Defects from '../components/Defects/Defects';
+import DefectsJsx from '../components/Defects/DefectsJsx';
 import DefectsForm from '../components/Defects/DefectsForm';
-import DetoursSchedules from '../components/Detours/DetoursSchedules';
+import DetoursSchedules from '../components/Detours/legacy/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
+
+import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
 
 // Debugs
 import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -151,6 +157,12 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
+		component: DetoursMain,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_DETOURS_PREVIOUS: {
+		title: 'Обходы previous',
+		path: '/detours-configurator/detoursPrevious',
 		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
@@ -215,9 +227,15 @@ export const paths = {
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
-		component: Defects,
+		component: DefectsJsx,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	// CONTROL_DEFECTS_DEFECTS_JSX: {
+	// 	title: 'Журнал учета дефектов JSX',
+	// 	path: '/control-defects/defects-jsx',
+	// 	component: DefectsJsx,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',
 		path: '/control-defects/defects/:id',
@@ -226,7 +244,7 @@ export const paths = {
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: Defects,
+		component: DefectsJsx,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {

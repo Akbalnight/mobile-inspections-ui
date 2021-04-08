@@ -110,7 +110,6 @@ const RouteMaps = (props) => {
 								type: 'event',
 							}}
 						/>
-
 						<Title
 							itemProps={{hidden: false}}
 							level={2}
@@ -145,11 +144,9 @@ const RouteMaps = (props) => {
 								</span>
 							}
 						/>
-
 						<Title level={5} className={'pt-8'}>
 							Маршрутные карты
 						</Title>
-
 						<Layout style={{border: '1px solid #DFDFDF'}}>
 							<Space className={'p-8'}>
 								<UploadFile

@@ -20,6 +20,12 @@ export const itemsInfo = {
 		name: 'name',
 		label: 'Наименование',
 		className: 'mb-8',
+		rules: [
+			{
+				required: true,
+				message: 'Заполните наименование',
+			},
+		],
 	},
 	techPlacePath: {
 		name: 'techPlacePath',
@@ -173,6 +179,108 @@ export const itemsInfo = {
 	departmentName: {
 		name: 'departmentName',
 		label: 'Департамент',
+		className: 'mb-8',
+	},
+
+	/**
+	 * Detours/Registry/Modals/SaveObjectModal.js
+	 */
+	dateStartPlan: {
+		name: 'dateStartPlan',
+		label: 'Начало обхода (план)',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните дату начала обхода',
+				required: true,
+			},
+		],
+	},
+	dateFinishPlan: {
+		name: 'dateFinishPlan',
+		label: 'Окончание обхода (план)',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните дату окончания обхода',
+				required: true,
+			},
+		],
+	},
+	routeId: {
+		name: 'routeId',
+		label: 'Маршрут',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните маршрут',
+				required: true,
+			},
+		],
+	},
+	routeName: {
+		name: 'routeName',
+		label: 'Маршрут',
+		className: 'mb-8',
+	},
+	detourStatusId: {
+		name: 'statusId',
+		label: 'Статус',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните статус',
+				required: true,
+			},
+		],
+	},
+	executorId: {
+		label: 'Доступные испольнители',
+		name: 'staffId',
+		className: 'mb-8',
+	},
+	executorName: {
+		label: 'Исполнитель',
+		name: 'staffName',
+		className: 'mb-8',
+	},
+	saveOrderControlPoints: {
+		label: 'Учитывать порядок обхода',
+		name: 'saveOrderControlPoints',
+		valuePropName: 'checked',
+		className: 'mb-8',
+	},
+	takeIntoAccountTimeLocation: {
+		name: 'takeIntoAccountTimeLocation',
+		label: 'Учитывать время обхода',
+		valuePropName: 'checked',
+		className: 'mb-8',
+	},
+	takeIntoAccountDateStart: {
+		name: 'takeIntoAccountDateStart',
+		label: 'Учитывать время начала',
+		valuePropName: 'checked',
+		className: 'mb-8',
+	},
+	takeIntoAccountDateFinish: {
+		name: 'takeIntoAccountDateFinish',
+		label: 'Учитывать время окончания',
+		valuePropName: 'checked',
+		className: 'mb-8',
+	},
+	possibleDeviationLocationTime: {
+		name: 'possibleDeviationLocationTime',
+		label: 'Допустимое откл. на точке, мин',
+		className: 'mb-8',
+	},
+	possibleDeviationDateStart: {
+		name: 'possibleDeviationDateStart',
+		label: 'Допустимое откл., мин',
+		className: 'mb-8',
+	},
+	possibleDeviationDateFinish: {
+		name: 'possibleDeviationDateFinish',
+		label: 'Допустимое откл., мин',
 		className: 'mb-8',
 	},
 };

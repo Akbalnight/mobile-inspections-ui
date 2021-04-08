@@ -1,0 +1,9 @@
+<span role="img" aria-label="project" class="anticon pane">
+    <svg width="14" height="20" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 1H1V11.8779H17V1Z" stroke="currentColor" stroke-miterlimit="10"/>
+        <path d="M15.2376 2.71893H2.771V10.1069H15.2376V2.71893Z" stroke="currentColor" stroke-miterlimit="10"/>
+        <path d="M5.44507 15.3592H12.5639" stroke="currentColor" stroke-miterlimit="10"/>
+        <path d="M9.00439 11.8866V15.3592" stroke="currentColor" stroke-miterlimit="10"/>
+    </svg>
+    <p>Дефекты</p>
+</span>

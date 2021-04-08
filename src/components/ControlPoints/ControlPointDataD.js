@@ -12,12 +12,9 @@ import {
 	apiSaveControlPoints,
 } from '../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
-// import {TechMapSelectModal} from '../Base/Modals/TechMapSelectModal';
-// import {EquipmentSelectModal} from '../Base/Modals/EquipmentSelectModal';
 import {paths} from '../../constants/paths';
-// import {codeInput} from '../Base/Inputs/CodeInput';
-// import {equipmentTableCustom, techMapsTableCustom} from './tableProps';
 import {PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import {selectRowsById} from '../Base/Functions/TableSelectById';
 
 const {
 	Form,
@@ -91,87 +88,27 @@ const ControlPointDataD = (props) => {
 		}
 	};
 
-	/** Функция-очиститель для табличных данных */
-	const loadRowsHandler = (catalogName) => ({params, data}) => {
-		if (controlPointId) {
-			// console.log('controlPointId', controlPointId);
-			const newData = {...data, controlPointsId: controlPointId};
-			// return apiGetHierarchicalDataByConfigName (catalogName)({
-			// console.log('catalogName', catalogName);
-			return apiGetFlatDataByConfigName(catalogName)({
-				data: newData,
-				params,
-			});
-		} else {
-			// console.log('controlPointId not transferred');
-			return new Promise((resolve) => resolve({data: []}));
-		}
-	};
+	// /** Функция-очиститель для табличных данных */
+	// const loadRowsHandler = (catalogName) => ({params, data}) => {
+	//     if (controlPointId) {
+	//         // console.log('controlPointId', controlPointId);
+	//         const newData = {...data, controlPointId: controlPointId};
+	//         // return apiGetHierarchicalDataByConfigName (catalogName)({
+	//         // console.log('catalogName', catalogName);
+	//         return apiGetFlatDataByConfigName(catalogName)({
+	//             data: newData,
+	//             params,
+	//         });
+	//     } else {
+	//         // console.log('controlPointId not transferred');
+	//         return new Promise((resolve) => resolve({data: []}));
+	//     }
+	// };
 
 	const onFinish = (values) => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
 	};
-	//
-	// const onFinishFailed = errorInfo => {
-	//     console.log('Failed:', errorInfo);
-	// };
 
-	// const formConfig = {
-	//     // name: 'PageFormData',
-	//     labelCol: {span: 8},
-	//     wrapperCol: {span: 16},
-	//     loadInitData: loadData,
-	//     requestSaveForm: apiSaveControlPoints,
-	//     methodSaveForm: controlPointId ? 'PUT' : 'POST',
-	//     onFinish: onFinish,
-	//     header: [
-	//         {
-	//             componentType: 'Item',
-	//             child: {
-	//                 componentType: 'Title',
-	//                 label: controlPointId
-	//                     ? `Редактирование контрольной точки`
-	//                     : `Создание контрольной точки`,
-	//                 className: 'mb-0',
-	//                 level: 3,
-	//             },
-	//         },
-	//     ],
-	//     body: [...headFields, ...equipmentTableConfig, ...techMaps],
-	//     footer: [
-	//         {
-	//             componentType: 'Item',
-	//             child: {
-	//                 componentType: 'Button',
-	//                 label: 'Закрыть',
-	//                 className: 'mr-8',
-	//                 onClick: () => history.goBack(),
-	//             },
-	//         },
-	//         {
-	//             componentType: 'Item',
-	//             child: {
-	//                 componentType: 'Button',
-	//                 label: 'Сохранить',
-	//                 type: 'primary',
-	//                 htmlType: 'submit',
-	//             },
-	//         },
-	//     ],
-	// };
-
-	// return (
-	// 	<BasePage
-	// 		path={
-	// 			pageParams.id === 'new'
-	// 				? '/detours-configurator/control-points/new'
-	// 				: undefined
-	// 		}
-	// 	>
-	// 		<Form {...formConfig} />
-	// 	</BasePage>
-	// );
-	// return <Form {...formConfig} />;
 	return (
 		<Form
 			name={'controlPointForm'}
@@ -190,9 +127,8 @@ const ControlPointDataD = (props) => {
 				</Title>
 			</FormHeader>
 			<FormBody>
-				<Title level={5}>Описание</Title>
-				<Row>
-					<Col span={12}>
+				<Row style={{justifyContent: 'flex-start'}}>
+					<Col span={4}>
 						{controlPointId ? (
 							<InputNumber
 								itemProps={{
@@ -207,6 +143,8 @@ const ControlPointDataD = (props) => {
 								}}
 							/>
 						) : null}
+					</Col>
+					<Col span={8}>
 						<Input
 							itemProps={{
 								name: 'name',
@@ -219,6 +157,8 @@ const ControlPointDataD = (props) => {
 								],
 							}}
 						/>
+					</Col>
+					<Col span={6}>
 						<TreeSelect
 							itemProps={{name: 'parentId', label: 'Группа'}}
 							allowClear={true}
@@ -365,8 +305,13 @@ const ControlPointDataD = (props) => {
 								value: (row) => row.name,
 							},
 						]}
-						requestLoadRows={loadRowsHandler(
-							'controlPointsEquipments'
+						// requestLoadRows={loadRowsHandler(
+						// 	'controlPointsEquipments'
+						// )}
+						requestLoadRows={selectRowsById(
+							'controlPointsEquipments',
+							'controlPointId',
+							controlPointId
 						)}
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsEquipments'
@@ -546,8 +491,13 @@ const ControlPointDataD = (props) => {
 								value: () => controlPointId,
 							},
 						]}
-						requestLoadRows={loadRowsHandler(
-							'controlPointsTechMaps'
+						// requestLoadRows={loadRowsHandler(
+						//     'controlPointsTechMaps'
+						// )}
+						requestLoadRows={selectRowsById(
+							'controlPointsTechMaps',
+							'controlPointId',
+							controlPointId
 						)}
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsTechMaps'

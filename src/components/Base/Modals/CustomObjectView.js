@@ -241,7 +241,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 											}}
 										/>
 									</Space>
-									<Divider className={'mt-8 mb-0'} />
+									<Divider className={'my-8'} />
 									<Table
 										itemProps={{name: 'warrantyTableFiles'}}
 										defaultFilter={{
@@ -357,7 +357,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 				);
 			case 'controlPoints':
 				historyPath = paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path;
-				console.log('srow:', sRow);
+				// console.log('srow:', sRow);
 				return (
 					<>
 						<Row>
@@ -401,7 +401,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 								apiGetFlatDataByConfigName(
 									'controlPointsEquipments'
 								)({
-									data: {...data, controlPointsId: sRow.id},
+									data: {...data, controlPointId: sRow.id},
 									params,
 								})
 							}
@@ -410,7 +410,9 @@ export const CustomObjectView = ({catalogName, unique}) => {
 							)}
 							// dispatchPath={'debug'}
 						/>
-						<Title level={5}>Технологические карты</Title>
+						<Title className={'mt-8'} level={5}>
+							Технологические карты
+						</Title>
 						<Table
 							// requestLoadRows={apiGetFlatDataByConfigName(
 							//     'controlPointsTechMaps'
@@ -419,7 +421,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 								apiGetFlatDataByConfigName(
 									'controlPointsTechMaps'
 								)({
-									data: {...data, controlPointsId: sRow.id},
+									data: {...data, controlPointId: sRow.id},
 									params,
 								})
 							}

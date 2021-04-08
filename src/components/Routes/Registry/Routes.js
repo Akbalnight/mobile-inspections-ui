@@ -4,15 +4,15 @@ import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
+} from '../../../apis/catalog.api';
 
 import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	addControlPointToRoute,
 	editControlPointToRoute,
-} from './Modals/routeControlPointEdit';
-import {routeViewModal} from './Modals/routeView';
-import {code} from '../Base/customColumnProps';
+} from '../Modals/routeControlPointEdit';
+import {routeViewModal} from '../Modals/routeView';
+import {customColumnProps} from '../tableProps';
 
 /**
  * Основной компонент, отсюда выходят все станицы и модальные окна
@@ -30,7 +30,7 @@ export default function Routes() {
 						componentType: 'Item',
 						child: {
 							componentType: 'LocalTable',
-							customColumnProps: [{...code}],
+							customColumnProps: [...customColumnProps],
 							history,
 							commandPanelProps: {
 								systemBtnProps: {

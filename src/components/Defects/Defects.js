@@ -59,7 +59,7 @@ export default function Defects() {
 								path: 'rtd.defects.defectTable.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
 									reloadTable({
-										searchValue: value.value,
+										searchValue: value,
 									});
 								},
 							},

@@ -3,255 +3,229 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
-import {defectDetection} from '../../Base/Block/DefectDetection';
+import {
+	// defectDetection,
+	DefectDetection,
+} from '../../Base/Block/DefectDetection';
+import {classic} from 'rt-design';
+import React from 'react';
+
+const {
+	// Layout,
+	Text,
+	DatePicker,
+	Select,
+	// Button,
+	Input,
+	Title,
+	Modal,
+	TextArea,
+	FormBody,
+} = classic;
 
 /**
  *
  * Форма изменение дефекта, все поля и правила по макетам
  */
+export const EditDefectCard = ({catalogName}) =>
+	OperationOnServer(catalogName, 'edit', {});
+
 export const editDefectCard = (catalogName) =>
 	OperationOnServer(catalogName, 'edit', {});
 
-const OperationOnServer = (catalogName, type, code) => {
+const OperationOnServer = (catalogName, type) => {
+	// console.log('catalogName on server:', catalogName)
 	const loadData = (callBack, row) => {
 		callBack(row);
 	};
 
 	const processBeforeSaveForm = (rawValues) => {
-		const values = {...rawValues};
+		return {...rawValues};
+	};
+	/** только дефекты 0 уровень */
+	const DefectDetectionFields = ({catalogName}) => {
+		// console.log('catalogName in fields:', catalogName)
+		return (
+			<>
+				{catalogName === 'defects' ? (
+					<>
+						<Select
+							itemProps={{
+								name: 'statusProcessId',
+								label: 'Статус обработки',
+							}}
+							showSearch={true}
+							optionConverter={(option) => ({
+								label: <span>{option.name}</span>,
+								value: option.id,
+								className: '',
+								disabled: undefined,
+							})}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								'defectStatusesProcess'
+							)}
+						/>
+						<Title level={5}>Выявление дефекта</Title>
+					</>
+				) : (
+					<Text
+						itemProps={{
+							label: '№ в журнале дефектов',
+							name: 'code',
+							className: 'mb-8',
+							// rules: [
+							// 	{
+							// 		required: true,
+							// 		message: 'Заполните причину',
+							// 	},
+							// ],
+						}}
+					/>
+				)}
+				<DefectDetection />
+			</>
+		);
+	};
+	/** толко проблемы 2 уровень */
+	const DefectSapFields = () => {
+		return (
+			<>
+				{/*<Text itemProps={{*/}
+				{/*    label: '№ из SAP',*/}
+				{/*    name: 'sapStatusCode',*/}
+				{/*    className: 'mb-8',*/}
+				{/*}}/>*/}
+				<TextArea
+					itemProps={{
+						label: 'План действий',
+						name: 'actionPlan',
+						className: 'mb-8',
+					}}
+				/>
+				<Input
+					itemProps={{
+						label: 'Что происходит',
+						name: 'actionDescription',
+						className: 'mb-8',
+					}}
+				/>
+				{/*<Input itemProps={{*/}
+				{/*    label: 'Статус из SAP',*/}
+				{/*    name: 'sapMessageCode',*/}
+				{/*    className: 'mb-8',*/}
+				{/*}}/>*/}
+				<Select
+					itemProps={{
+						name: 'sapStatusesId',
+						label: 'Статус из SAP',
+					}}
+					showSearch={true}
+					allowClear={true}
+					optionConverter={(option) => ({
+						label: <span>{option.name}</span>,
+						value: option.id,
+						className: '',
+						disabled: undefined,
+					})}
+					requestLoadRows={apiGetFlatDataByConfigName('sapStatuses')}
+				/>
+				<DatePicker
+					itemProps={{
+						label: 'Дата начала устранения',
+						name: 'dateEliminationPlan',
+						className: 'mb-8',
+					}}
+					showTime={true}
+				/>
+				<DatePicker
+					itemProps={{
+						label: 'Дата окончания устранения',
+						name: 'dateEliminationFact',
+						className: 'mb-8',
+					}}
+					showTime={true}
+				/>
+			</>
+		);
+	};
+	/** только дефекты 2 план устранения */
+	const CorrectionPlanFields = () => {
+		return (
+			<>
+				<Title level={5}>План устранения</Title>
 
-		return values;
+				{/*<Text itemProps={{*/}
+				{/*    label: '№ из SAP',*/}
+				{/*    name: 'sapMessageCode',*/}
+				{/*    className: 'mb-8',*/}
+				{/*}}/>*/}
+				{/*<Text itemProps={{*/}
+				{/*    label: 'Диспетчер',*/}
+				{/*    name: 'staffEliminationName',*/}
+				{/*    className: 'mb-8',*/}
+				{/*}}/>*/}
+				<DatePicker
+					itemProps={{
+						label: 'Плановый срок устранения до',
+						name: 'dateEliminationPlan',
+						className: 'mb-8',
+					}}
+					showTime={true}
+				/>
+			</>
+		);
+	};
+	/** только дефекты 3 уровень
+	 * */
+	const DefectEliminationFields = () => {
+		return (
+			<>
+				<Title level={5}>Устранение дефекта</Title>
+				<DatePicker
+					itemProps={{
+						label: 'Дата фактического устранения',
+						name: 'dateEliminationFact',
+						className: 'mb-8',
+					}}
+					showTime={true}
+				/>
+				<Select
+					itemProps={{
+						name: 'staffEliminationId',
+						label: 'Ответственный',
+					}}
+					showSearch={true}
+					optionConverter={(option) => ({
+						label: <span>{option.username}</span>,
+						value: option.id,
+						className: '',
+						disabled: undefined,
+					})}
+					requestLoadRows={apiGetFlatDataByConfigName('staff')}
+				/>
+				<TextArea
+					itemProps={{
+						label: 'Мероприятия по устранению',
+						name: 'note',
+						className: 'mb-8',
+					}}
+				/>
+			</>
+		);
 	};
 
-	const defectDetectionField = [
-		catalogName === 'defects'
-			? {
-					componentType: 'Col',
-					children: [
-						{
-							componentType: 'Item',
-							name: 'statusProcessId',
-							label: 'Статус обработки',
-							child: {
-								componentType: 'SingleSelect',
-								rowRender: 'name',
-								widthControl: 0,
-								requestLoadRows: apiGetFlatDataByConfigName(
-									'defectStatusesProcess'
-								),
-								requestLoadDefault: apiGetFlatDataByConfigName(
-									'defectStatusesProcess'
-								),
-							},
-						},
-
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								label: 'Выявление дефекта',
-								level: 5,
-							},
-						},
-					],
-			  }
-			: {},
-		{
-			componentType: 'Item',
-			name: 'code',
-			label: '№ в журнале',
-			className: 'mb-8',
-			child: {
-				componentType: 'Text',
-			},
-		},
-		{...defectDetection},
-	];
-
-	const defectSapFields = [
-		{
-			componentType: 'Layout',
-			className: 'mt-0',
-			children: [
-				{
-					componentType: 'Col',
-					className: 'mt-0',
-					children: [
-						{
-							componentType: 'Item',
-							label: '№ из SAP',
-							name: 'sapMessageCode',
-							className: 'mb-8',
-							child: {
-								componentType: 'Text',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'План действий',
-							name: 'actionPlan',
-							className: 'mb-8',
-							child: {
-								componentType: 'TextArea',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Что происходит',
-							name: 'actionDescription',
-							className: 'mb-8',
-							child: {
-								componentType: 'Input',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Статус из SAP',
-							name: 'sapMessageCode',
-							className: 'mb-8',
-							child: {
-								componentType: 'Input',
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Дата начала устранения',
-							name: 'dateEliminationPlan',
-							className: 'mb-8',
-							child: {
-								componentType: 'DatePicker',
-								showTime: true,
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Дата окончания устранения',
-							name: 'dateEliminationFact',
-							className: 'mb-8',
-							child: {
-								componentType: 'DatePicker',
-								showTime: true,
-							},
-						},
-					],
-				},
-			],
-		},
-	];
-
-	const correctionPlanFields = [
-		{
-			componentType: 'Item',
-			className: 'mt-16',
-			child: {
-				componentType: 'Title',
-				label: 'План устранения',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Col',
-			className: 'mt-16',
-			children: [
-				{
-					componentType: 'Item',
-					label: '№ из SAP',
-					name: 'sapMessageCode',
-					className: 'mb-8',
-					child: {
-						componentType: 'Text',
-					},
-				},
-				{
-					componentType: 'Item',
-					label: 'Диспетчер',
-					name: 'staffEliminationName',
-					className: 'mb-8',
-					child: {
-						componentType: 'Text',
-					},
-				},
-				{
-					componentType: 'Item',
-					label: 'Плановый срок устранения до',
-					name: 'dateEliminationPlan',
-					className: 'mb-8',
-					child: {
-						componentType: 'DatePicker',
-						showTime: true,
-					},
-				},
-			],
-		},
-	];
-
-	const defectEliminationFields = [
-		{
-			componentType: 'Item',
-			className: 'mt-16',
-			child: {
-				componentType: 'Title',
-				label: 'Устранение дефекта',
-				level: 5,
-			},
-		},
-		{
-			componentType: 'Col',
-			className: 'mt-16',
-			children: [
-				{
-					componentType: 'Item',
-					label: 'Дата фактического устранения',
-					name: 'dateEliminationFact',
-					className: 'mb-8',
-					child: {
-						componentType: 'DatePicker',
-						showTime: true,
-					},
-				},
-				{
-					componentType: 'Item',
-					label: 'Ответственный',
-					name: 'staffEliminationId',
-					className: 'mb-8',
-					child: {
-						componentType: 'SingleSelect',
-						widthControl: 0,
-						rowRender: 'positionName',
-						requestLoadRows: apiGetFlatDataByConfigName('staff'),
-						requestLoadDefault: apiGetFlatDataByConfigName('staff'),
-					},
-				},
-				{
-					componentType: 'Item',
-					label: 'Мероприятия по устранению',
-					name: 'note',
-					className: 'mb-8',
-					child: {
-						componentType: 'Input',
-					},
-				},
-			],
-		},
-	];
-
-	return {
-		componentType: 'Item',
-		child: {
-			componentType: 'Modal',
-			buttonProps: {
+	return (
+		<Modal
+			title={'Редактровать дефект'}
+			buttonProps={{
 				type: 'default',
 				icon: <EditOutlined />,
-			},
-			toolTipProps: {
-				title: 'Редактровать дефект',
-			},
-
-			modalConfig: {
+			}}
+			modalConfig={{
 				type: `${type}OnServer`,
 				title: 'Редактрование дефекта',
 				width: catalogName === 'defects' ? 600 : 500,
-				bodyStyle: {height: catalogName === 'defects' ? 860 : 680},
+				bodyStyle: {height: catalogName === 'defects' ? 760 : 640},
 				requestSaveRow: apiSaveByConfigName(
 					catalogName === 'defects'
 						? 'saveEditModalDefect'
@@ -262,28 +236,18 @@ const OperationOnServer = (catalogName, type, code) => {
 					loadInitData: loadData,
 					methodSaveForm: 'PUT',
 					processBeforeSaveForm: processBeforeSaveForm,
-					onFinish: (values) => {
-						console.log('values', values);
-					},
+					// onFinish: (values) => {
+					//     console.log('edit defect values', values);
+					// },
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
-					body: [
-						code,
-						...defectDetectionField,
-						...(catalogName === 'defects'
-							? correctionPlanFields
-							: defectSapFields),
-						...(catalogName === 'defects'
-							? defectEliminationFields
-							: []),
-					],
 				},
-			},
-			disoatch: {
+			}}
+			dispatch={{
 				path: 'defects.defectTable.modal.events.onEditModal',
 				type: 'event',
-			},
-			subscribe: [
+			}}
+			subscribe={[
 				{
 					name: 'editForm',
 					path: 'rtd.defects.defectTable.table.selected',
@@ -298,7 +262,17 @@ const OperationOnServer = (catalogName, type, code) => {
 							setButtonProps({disabled: !(value.length === 1)});
 					},
 				},
-			],
-		},
-	};
+			]}
+		>
+			<FormBody>
+				<DefectDetectionFields catalogName={catalogName} />
+				{catalogName === 'defects' ? (
+					<CorrectionPlanFields />
+				) : (
+					<DefectSapFields />
+				)}
+				{catalogName === 'defects' ? <DefectEliminationFields /> : null}
+			</FormBody>
+		</Modal>
+	);
 };

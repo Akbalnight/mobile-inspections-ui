@@ -18,7 +18,7 @@ export const routeControlPointViewModal = () => {
 	 * надо продумать, как настроить корректное отоборажени информации в таблице
 	 */
 	const loadControlPointEquipmentsHandler = ({data, params}) => {
-		// const newData = {...data, controlPointsId: Row.controlPointId};
+		// const newData = {...data, controlPointId: Row.controlPointId};
 		// return apiGetFlatDataByConfigName('controlPointsEquipments')({
 		// 	data: newData,
 		// 	params,
