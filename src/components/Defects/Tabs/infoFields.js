@@ -1,3 +1,5 @@
+import {apiGetConfigByName} from '../../../apis/catalog.api';
+
 /**
  * информационная вкладка, переделать после обновления
  */
@@ -125,6 +127,32 @@ export const infoTabFields = () => {
 						name: 'actionPlan',
 						className: 'mb-0',
 						child: {componentType: 'Text'},
+					},
+				],
+			},
+			{
+				componentType: 'Item',
+				child: {
+					componentType: 'Title',
+					label: 'Дополнительная информация',
+					level: 5,
+				},
+			},
+			{
+				componentType: 'Layout',
+				children: [
+					{
+						componentType: 'Item',
+						name: 'extraData',
+						child: {
+							componentType: 'Table',
+							// componentType: 'Title',
+							// label: 'Дополнительная информация',
+							requestLoadConfig: apiGetConfigByName(
+								'defectExtraDataColumns'
+							),
+							// filter:{controlPointId:'ddd'}
+						},
 					},
 				],
 			},

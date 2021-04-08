@@ -1,20 +1,20 @@
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
-
-export const selectRowsById = (catalogName, name, currentId) => ({
+/**
+ * Проверяет необходимость запроса в базу данных. Если не передан id записи - вернет пустой промис */
+export const selectRowsById = (catalogName, fieldName, fieldValue) => ({
 	params,
 	data,
 }) => {
-	console.log('>>>', currentId, name);
-	/**
-	 * посмотри на name
-	 */
-	if (currentId) {
-		const newData = {...data, name: currentId};
+	if (fieldValue) {
+		console.log('transferred', fieldValue);
+		const newData = {...data, [fieldName]: fieldValue};
 		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,
 		});
 	} else {
+		console.log('not transferred');
+
 		return new Promise((resolve) => resolve({data: []}));
 	}
 };
