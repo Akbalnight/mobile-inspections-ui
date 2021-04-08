@@ -4,7 +4,6 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
-import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 /**
  * в данном модальном окне сохранение идет в формате "...OnLocal", причиною тому
@@ -25,7 +24,7 @@ const OperationOnLocal = (type, code) => {
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};
-
+	console.log(controlPointId);
 	const addControlPoint = {
 		componentType: 'Row',
 		gutter: [16, 16],

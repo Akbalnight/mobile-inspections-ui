@@ -1,7 +1,4 @@
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../apis/catalog.api';
 
 /**
  * нужно будет переделать и получать данные по определенному дефекту

@@ -2,9 +2,13 @@ import {classic} from 'rt-design';
 import React from 'react';
 import {ReactComponent as InfoTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
 import {ReactComponent as DetourCompositionTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/detourCompositionTab.svg';
+import {ReactComponent as DefectsTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/defectTab.svg';
 import {itemsInfo} from '../../../../constants/dictionary';
 import {Collapse} from 'antd';
-import {apiGetConfigByName} from '../../../../apis/catalog.api';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+} from '../../../../apis/catalog.api';
 import {customColumnProps} from '../../tableProps';
 
 const {Panel} = Collapse;
@@ -21,11 +25,16 @@ const {
 	DateText,
 	Layout,
 	Title,
+	Space,
 } = classic;
 export const ViewDetour = () => {
+	let sRow;
 	const loadData = (callBack, row) => {
+		sRow = row;
 		callBack({...row, routesData: row.route.routesData});
+		return sRow;
 	};
+	console.log(sRow);
 	return (
 		<Modal
 			modalConfig={{
@@ -130,77 +139,124 @@ export const ViewDetour = () => {
 									valuePropName: 'dataSource',
 									name: 'routesData',
 								}}
-								renderItem={(item, index) => {
-									// console.log(item, '>>>>', index)
-									return (
-										<>
-											<Collapse>
-												<Panel
-													key={item.controlPointId}
-													header={
-														item.controlPointName
-													}
+								renderItem={(item, index) => (
+									<>
+										<Collapse>
+											<Panel
+												key={item.id}
+												header={item.controlPointName}
+											>
+												<Title
+													label={'Оборудование'}
+													level={5}
+												/>
+												<Layout
+													style={{
+														height: '150px',
+													}}
+													className={'mb-16'}
 												>
-													<Title
-														label={'Оборудование'}
-														level={5}
-													/>
-													<Layout
-														style={{
-															height: '150px',
+													<Table
+														itemProps={{
+															name: [
+																'route',
+																'routesData',
+																index,
+																'equipments',
+															],
 														}}
-														className={'mb-16'}
-													>
-														<Table
-															itemProps={{
-																name: [
-																	'route',
-																	'routesData',
-																	index,
-																	'equipments',
-																],
-															}}
-															requestLoadConfig={apiGetConfigByName(
-																'controlPointsEquipments'
-															)}
-														/>
-													</Layout>
-													<Title
-														label={`Технологическая карта: ${item.techMap.name}`}
-														level={5}
-														className={'mt-16'}
+														requestLoadConfig={apiGetConfigByName(
+															'controlPointsEquipments'
+														)}
 													/>
-													<Layout
-														style={{
-															height: '150px',
+												</Layout>
+												<Title
+													label={`Технологическая карта: ${item.techMap.name}`}
+													level={5}
+													className={'mt-16'}
+												/>
+												<Layout
+													style={{
+														height: '150px',
+													}}
+												>
+													<Table
+														customColumnProps={
+															customColumnProps
+														}
+														itemProps={{
+															name: [
+																'route',
+																'routesData',
+																index,
+																'techMap',
+																'techOperations',
+															],
 														}}
-													>
-														<Table
-															customColumnProps={
-																customColumnProps
-															}
-															itemProps={{
-																name: [
-																	'route',
-																	'routesData',
-																	index,
-																	'techMap',
-																	'techOperations',
-																],
-															}}
-															requestLoadConfig={apiGetConfigByName(
-																'techOperations'
-															)}
-														/>
-													</Layout>
-												</Panel>
-											</Collapse>
-										</>
-									);
-								}}
+														requestLoadConfig={apiGetConfigByName(
+															'techOperationsByDetours'
+														)}
+													/>
+												</Layout>
+											</Panel>
+										</Collapse>
+									</>
+								)}
 								itemLayout={'vertical'}
 							/>
 						</Layout>
+					</TabPane>
+					<TabPane
+						tab={<DefectsTab />}
+						key={'defectsTab'}
+						scrollable={true}
+					>
+						<Space direction={'vertical'} style={{width: '100%'}}>
+							<Title label={'Обнаруженные дефекты'} level={5} />
+							<Layout
+								style={{
+									height: '200px',
+								}}
+							>
+								<Table
+									requestLoadRows={({data, params}) =>
+										apiGetFlatDataByConfigName('defects')({
+											data: {
+												...data,
+												detourId: sRow.id,
+											},
+											params,
+										})
+									}
+									requestLoadConfig={apiGetConfigByName(
+										'defects'
+									)}
+								/>
+							</Layout>
+							<Title label={'Устраненные дефекты'} level={5} />
+							<Layout
+								style={{
+									height: '200px',
+								}}
+							>
+								<Table
+									requestLoadRows={({data, params}) =>
+										apiGetFlatDataByConfigName(
+											'defectExtraData'
+										)({
+											data: {
+												...data,
+												detourId: sRow.id,
+											},
+											params,
+										})
+									}
+									requestLoadConfig={apiGetConfigByName(
+										'defectExtraData'
+									)}
+								/>
+							</Layout>
+						</Space>
 					</TabPane>
 				</Tabs>
 			</FormBody>

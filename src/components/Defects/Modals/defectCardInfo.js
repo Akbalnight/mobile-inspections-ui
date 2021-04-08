@@ -11,20 +11,7 @@ import {historyFields} from '../Tabs/historyFields';
 import {classic} from 'rt-design';
 import React from 'react';
 
-const {
-	Layout,
-	Form,
-	Space,
-	FormHeader,
-	FormBody,
-	FormFooter,
-	Divider,
-	Table,
-	Button,
-	Title,
-	Search,
-	Modal,
-} = classic;
+const {Modal} = classic;
 /**
  *
  * Карточка информации дефекта
@@ -37,7 +24,6 @@ export const DefectCardInfoModal = () => {
 		// defectId = row.id
 		callBack(row);
 	};
-	// console.log(sRow)
 
 	const tabsField = (transferId) => [
 		{
@@ -80,6 +66,7 @@ export const DefectCardInfoModal = () => {
 		},
 	];
 
+	console.log(sRow, tabsField, defectId);
 	return (
 		<Modal
 			modalConfig={{
@@ -117,42 +104,4 @@ export const DefectCardInfoModal = () => {
 			{/*{tabsField(defectId)}*/}
 		</Modal>
 	);
-
-	const dummy = {
-		componentType: 'Item',
-		child: {
-			componentType: 'Modal',
-			modalConfig: {
-				type: 'viewObject',
-				title: `Карточка дефекта`,
-				width: 800,
-				bodyStyle: {height: 650},
-				form: {
-					name: 'defectDataView',
-					noPadding: true,
-					labelCol: {span: 8},
-					wrapperCol: {span: 16},
-					loadInitData: loadData,
-					body: tabsField(defectId),
-				},
-				// dispatch:'defects.defectsTable.modalViewObject.event'
-			},
-			subscribe: [
-				{
-					name: 'infoForm',
-					path:
-						'rtd.defects.defectTable.table.events.onRowDoubleClick',
-					onChange: ({value, setModalData, openModal}) => {
-						if (value && setModalData) {
-							defectId = value.value.id;
-							setModalData({
-								...value.value,
-							});
-						}
-						openModal();
-					},
-				},
-			],
-		},
-	};
 };

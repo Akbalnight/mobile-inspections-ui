@@ -23,13 +23,9 @@ import {classic} from 'rt-design';
 
 import {editDefectCard} from './Modals/defectEdit';
 
-// import {defectCardInfoModal} from './Modals/defectCardInfo';
-import {
-	disabledEndDate,
-	disabledStartDate,
-	reloadFilterFields,
-} from '../Base/Functions/DateLimits';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {useHistory} from 'react-router';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
 
 const {Space, Text, DatePicker, Select, Button} = classic;
 /**

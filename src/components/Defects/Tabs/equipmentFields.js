@@ -1,7 +1,3 @@
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
 import {itemsInfo} from '../../../constants/dictionary';
 
 export const equipmentFields = () => {

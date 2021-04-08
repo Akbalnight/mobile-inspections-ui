@@ -7,7 +7,7 @@ export const reloadFilterFields = (subscribeWay) => {
 		path: `rtd.${subscribeWay}`,
 		onChange: ({setSubscribeProps}) => {
 			setSubscribeProps({
-				value: null,
+				value: undefined,
 			});
 		},
 	};

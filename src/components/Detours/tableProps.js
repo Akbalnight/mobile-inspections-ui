@@ -7,7 +7,7 @@ import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {ViewDetour} from './Registry/Modals/ViewModal';
-import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
+// import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
 
 const {
 	Space,
@@ -28,15 +28,14 @@ export const TableHeader = () => {
 				<Space>
 					<AddDetour />
 					<EditDetour />
-					<DeleteDetour catalogName={'detours'} unique={'обхода'} />
+					{/*<DeleteDetour catalogName={'detours'} unique={'обхода'} />*/}
 					<ViewDetour />
 				</Space>
 				<Space className={'mr-8'}>
 					<RadioGroup
-						itemProps={{name: 'viewMode'}}
+						itemProps={{name: 'viewMode', initialValue: 0}}
 						optionType={'button'}
 						size={'middle'}
-						defaultValue={0}
 						options={[
 							{
 								label: <TableOutlined />,
@@ -56,8 +55,13 @@ export const TableHeader = () => {
 						placeholder={'Введите наименование'}
 						dispatch={{
 							path: 'detours.mainForm.table.events.onSearch',
-							type: 'event',
+							// type: 'event',
 						}}
+						subscribe={[
+							reloadFilterFields(
+								'detours.mainForm.filter.events.onReload'
+							),
+						]}
 					/>
 				</Space>
 			</Space>
@@ -70,7 +74,7 @@ export const TableHeader = () => {
 							itemProps={{name: 'routeId'}}
 							placeholder={'Выберите маршрут'}
 							mode={'single'}
-							// allowClear={true}
+							allowClear={true}
 							showSearch={true}
 							filterOption={false}
 							searchParamName={'name'}
@@ -91,14 +95,9 @@ export const TableHeader = () => {
 									'detours.mainForm.filter.events.onReload'
 								),
 								/** Action clear value*/
-								{
-									name: 'selectMainForm',
-									path:
-										'rtd.detours.mainForm.table.events.viewMode',
-									onChange: ({value, setSubscribeProps}) => {
-										// setSubscribeProps({open: true});
-									},
-								},
+								reloadFilterFields(
+									'detours.mainForm.table.events.viewMode'
+								),
 							]}
 						/>
 					</Space>
@@ -129,14 +128,9 @@ export const TableHeader = () => {
 									'detours.mainForm.filter.events.onReload'
 								),
 								/** Action clear value*/
-								{
-									name: 'selectMainForm',
-									path:
-										'rtd.detours.mainForm.table.events.viewMode',
-									onChange: ({value, setSubscribeProps}) => {
-										// setSubscribeProps({onClear:()=>{}});
-									},
-								},
+								reloadFilterFields(
+									'detours.mainForm.table.events.viewMode'
+								),
 							]}
 						/>
 					</Space>

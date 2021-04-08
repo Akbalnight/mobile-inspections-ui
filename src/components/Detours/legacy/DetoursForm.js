@@ -5,9 +5,9 @@ import {Form, notificationError} from 'rt-design';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../apis/catalog.api';
+} from '../../../apis/catalog.api';
 
-import {paths} from '../../constants/paths';
+import {paths} from '../../../constants/paths';
 // import {buttonExecutorDetour} from './Modals/modalButtonDetours';
 
 export const DetoursAdd = () => {

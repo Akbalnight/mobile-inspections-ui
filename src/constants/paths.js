@@ -13,8 +13,11 @@ import {
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 import Routes from '../components/Routes/Registry/Routes';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
-import Detours from '../components/Detours/Detours';
-import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
+import Detours from '../components/Detours/legacy/Detours';
+import {
+	DetoursAdd,
+	DetoursEdit,
+} from '../components/Detours/legacy/DetoursForm';
 import {
 	AddRouteMaps,
 	EditRouteMaps,
@@ -22,7 +25,7 @@ import {
 import Defects from '../components/Defects/Defects';
 import DefectsJsx from '../components/Defects/DefectsJsx';
 import DefectsForm from '../components/Defects/DefectsForm';
-import DetoursSchedules from '../components/Detours/DetoursSchedules';
+import DetoursSchedules from '../components/Detours/legacy/DetoursSchedules';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 import {DetoursMain} from '../components/Detours/Registry/DetoursMain';

@@ -28,8 +28,8 @@ export const DetoursMain = () => {
 						]}
 					>
 						<Table
-							selectable={true}
 							fixWidthColumn={true}
+							infinityMode={true}
 							searchParamName={'name'}
 							dispatchPath={'detours.mainForm.table'}
 							customColumnProps={customColumnProps}
@@ -56,27 +56,51 @@ export const DetoursMain = () => {
 										reloadTable({});
 									},
 								},
+
 								/** Action search by detour name*/
 								{
 									name: 'onSearch',
 									path:
 										'rtd.detours.mainForm.table.events.onSearch',
-									onChange: ({value, reloadTable}) => {
-										console.log(value);
+									extraData:
+										'rtd.detours.mainForm.filter.events',
+									onChange: ({
+										value,
+										extraData,
+										reloadTable,
+									}) => {
+										console.log(
+											'Table onSearch',
+											extraData,
+											value
+										);
 										reloadTable({
-											searchValue: value.value,
+											searchValue: value,
+											filter: extraData,
 										});
 									},
 								},
 								/** Action filter by detour routId, staffId*/
+
 								{
 									name: 'onApplyFilter',
 									path:
 										'rtd.detours.mainForm.table.onApplyFilter',
-									extraData:
-										'rtd.detours.mainForm.filter.events',
+									extraData: {
+										filter:
+											'rtd.detours.mainForm.filter.events',
+										searchValue:
+											'rtd.detours.mainForm.table.events.onSearch',
+									},
 									onChange: ({extraData, reloadTable}) => {
-										reloadTable({filter: extraData});
+										console.log(
+											'Table onApplyFilter',
+											extraData
+										);
+										reloadTable({
+											searchValue: extraData.searchValue,
+											filter: extraData.filter,
+										});
 									},
 								},
 								{

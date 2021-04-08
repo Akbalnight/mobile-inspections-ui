@@ -4,14 +4,14 @@ import {Form} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../apis/catalog.api';
-import {detourViewModal} from './Modals/detourViewModal';
+} from '../../../apis/catalog.api';
+import {detourViewModal} from '../Modals/detourViewModal';
 import {useHistory} from 'react-router';
 import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 
-import {customColumnProps} from './tableProps';
-import DetoursCalendar from './Registry/DetoursCalendar';
-import {addDetourForm, editDetourForm} from './Modals/detourEdit';
+import {customColumnProps} from '../tableProps';
+import DetoursCalendar from '../Registry/DetoursCalendar';
+import {addDetourForm, editDetourForm} from '../Modals/detourEdit';
 
 /**
  * Основной компонент раздела, вынесены настройки таблицы в fdgsd.js, модальные окна вынесены в отдельную папку

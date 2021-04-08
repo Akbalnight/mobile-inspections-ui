@@ -78,12 +78,12 @@ const operationOnServer = (type) => {
 						value &&
 							setModalData &&
 							setModalData({
-								...value[value.length - 1],
+								...value,
 							});
 						type !== 'add' &&
 							value &&
 							setButtonProps &&
-							setButtonProps({disabled: !(value.length === 1)});
+							setButtonProps({disabled: !value});
 					},
 				},
 			]}

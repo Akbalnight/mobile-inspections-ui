@@ -6,15 +6,12 @@ export const selectRowsById = (catalogName, fieldName, fieldValue) => ({
 	data,
 }) => {
 	if (fieldValue) {
-		console.log('transferred', fieldValue);
 		const newData = {...data, [fieldName]: fieldValue};
 		return apiGetFlatDataByConfigName(catalogName)({
 			data: newData,
 			params,
 		});
 	} else {
-		console.log('not transferred');
-
 		return new Promise((resolve) => resolve({data: []}));
 	}
 };

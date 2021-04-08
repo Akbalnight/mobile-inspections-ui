@@ -5,7 +5,7 @@ import {Calendar, Popover, Checkbox} from 'antd';
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 import {calendarPrefix} from '../../../utils/baseUtils';
 
-const {Form, FormBody, Custom, Layout} = classic;
+const {FormBody, Custom, Layout} = classic;
 
 /**
  *
@@ -39,6 +39,7 @@ export default function DetoursCalendar() {
 			<>
 				{listData &&
 					listData.map((item) => {
+						// console.log(item)
 						const content = (
 							<div key={item.id} className='calendar'>
 								<div>Название: {item.name}</div>
@@ -76,6 +77,7 @@ export default function DetoursCalendar() {
 									trigger={'hover'}
 									content={content}
 									overlayClassName={`${calendarPrefix}-popover-hover`}
+									key={item.id}
 								>
 									<div
 										key={item.id}
@@ -86,7 +88,12 @@ export default function DetoursCalendar() {
 								</Popover>
 							);
 						} else {
-							return <div className={'special-hidden'} />;
+							return (
+								<div
+									className={'special-hidden'}
+									key={item.id}
+								/>
+							);
 						}
 					})}
 			</>
@@ -95,126 +102,123 @@ export default function DetoursCalendar() {
 
 	return (
 		<>
-			<Form>
-				<FormBody noPadding={true}>
-					<Layout className={'px-8'}>
-						<Custom
-							itemProps={{name: 'calendarDetours'}}
-							render={({onChange, defaultValue, value}) => {
-								return (
-									<Calendar
-										headerRender={() => null}
-										dateCellRender={dateCellRender}
-										className={'calendar-detours'}
-										onSelect={() => {
-											console.log('select date');
-										}}
-									/>
-								);
-							}}
-							subscribe={[
-								/** Action search by detour name*/
-								{
-									name: 'onSearch',
-									path:
-										'rtd.detours.mainForm.table.events.onSearch',
-									onChange: ({value}) => {
-										apiGetFlatDataByConfigName('detours')({
-											data: {name: value.value},
-											params: {size: 50},
-										})
-											.then((response) => {
-												return setCalendarValues(
-													response.data
-												);
-											})
-											.catch((error) =>
-												notificationError(
-													error,
-													'Ошибка загрузки данных формы'
-												)
+			<FormBody noPadding={true}>
+				<Layout className={'px-8'} style={{height: '100%'}}>
+					<Custom
+						itemProps={{name: 'calendarDetours'}}
+						render={({onChange, defaultValue, value}) => {
+							return (
+								<Calendar
+									// headerRender={() => null}
+									dateCellRender={dateCellRender}
+									className={'calendar-detours'}
+								/>
+							);
+						}}
+						dispatch={{
+							path: 'detours.mainForm.calendar',
+						}}
+						subscribe={[
+							/** Action search by detour name*/
+							{
+								name: 'onSearch',
+								path:
+									'rtd.detours.mainForm.table.events.onSearch',
+								onChange: ({value}) => {
+									apiGetFlatDataByConfigName('detours')({
+										data: {name: value.value},
+										params: {size: 50},
+									})
+										.then((response) => {
+											return setCalendarValues(
+												response.data
 											);
-									},
-								},
-								/** Action filter by detour routId, staffId*/
-								{
-									name: 'onApplyFilter',
-									path:
-										'rtd.detours.mainForm.table.onApplyFilter',
-									extraData:
-										'rtd.detours.mainForm.filter.events',
-									onChange: ({extraData}) => {
-										apiGetFlatDataByConfigName('detours')({
-											data: {
-												routeId: extraData.routeId,
-												staffId: extraData.staffId,
-											},
-											params: {size: 50},
 										})
-											.then((response) => {
-												return setCalendarValues(
-													response.data
-												);
-											})
-											.catch((error) =>
-												notificationError(
-													error,
-													'Ошибка загрузки данных формы'
-												)
-											);
-									},
+										.catch((error) =>
+											notificationError(
+												error,
+												'Ошибка загрузки данных формы'
+											)
+										);
 								},
-								{
-									/** Action on push button Сбросить */
-									name: 'onReload',
-									path:
-										'rtd.detours.mainForm.filter.events.onReload',
-									onChange: () => {
-										apiGetFlatDataByConfigName('detours')({
-											data: {},
-											params: {size: 50},
+							},
+							/** Action filter by detour routId, staffId*/
+							{
+								name: 'onApplyFilter',
+								path:
+									'rtd.detours.mainForm.table.onApplyFilter',
+								extraData: 'rtd.detours.mainForm.filter.events',
+								onChange: ({extraData}) => {
+									apiGetFlatDataByConfigName('detours')({
+										data: {
+											routeId: extraData.routeId,
+											staffId: extraData.staffId,
+										},
+										params: {size: 50},
+									})
+										.then((response) => {
+											return setCalendarValues(
+												response.data
+											);
 										})
-											.then((response) => {
-												return setCalendarValues(
-													response.data
-												);
-											})
-											.catch((error) =>
-												notificationError(
-													error,
-													'Ошибка загрузки данных формы'
-												)
-											);
-									},
+										.catch((error) =>
+											notificationError(
+												error,
+												'Ошибка загрузки данных формы'
+											)
+										);
 								},
-								/** Action add detour*/
-								{
-									name: 'addDetourOnServer',
-									path:
-										'rtd.detours.mainForm.table.events.addOnModal',
-									onChange: () => {
-										apiGetFlatDataByConfigName('detours')({
-											data: {},
-											params: {size: 50},
+							},
+							{
+								/** Action on push button Сбросить */
+								name: 'onReload',
+								path:
+									'rtd.detours.mainForm.filter.events.onReload',
+								onChange: () => {
+									apiGetFlatDataByConfigName('detours')({
+										data: {},
+										params: {size: 50},
+									})
+										.then((response) => {
+											return setCalendarValues(
+												response.data
+											);
 										})
-											.then((response) => {
-												return setCalendarValues(
-													response.data
-												);
-											})
-											.catch((error) =>
-												notificationError(
-													error,
-													'Ошибка загрузки данных формы'
-												)
-											);
-									},
+										.catch((error) =>
+											notificationError(
+												error,
+												'Ошибка загрузки данных формы'
+											)
+										);
 								},
-							]}
-						/>
-					</Layout>
-				</FormBody>
-			</Form>
+							},
+							/** Action add detour*/
+							{
+								name: 'addDetourOnServer',
+								path:
+									'rtd.detours.mainForm.table.events.addOnModal',
+								onChange: () => {
+									apiGetFlatDataByConfigName('detours')({
+										data: {},
+										params: {size: 50},
+									})
+										.then((response) => {
+											return setCalendarValues(
+												response.data
+											);
+										})
+										.catch((error) =>
+											notificationError(
+												error,
+												'Ошибка загрузки данных формы'
+											)
+										);
+								},
+							},
+						]}
+					/>
+				</Layout>
+			</FormBody>
 		</>
 	);
 }
