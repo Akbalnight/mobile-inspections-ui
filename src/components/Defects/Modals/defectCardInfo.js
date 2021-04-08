@@ -25,20 +25,7 @@ import React from 'react';
 // import {apiGetConfigByName, apiGetFlatDataByConfigName} from "../../../apis/catalog.api";
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
-const {
-	Layout,
-	Form,
-	Space,
-	FormHeader,
-	FormBody,
-	FormFooter,
-	Divider,
-	Table,
-	Button,
-	Title,
-	Search,
-	Modal,
-} = classic;
+const {FormBody, Tabs, TabPane, Modal} = classic;
 /**
  *
  * Карточка информации дефекта
@@ -67,48 +54,48 @@ export const DefectCardInfoModal = () => {
 		// console.log('sRow', sRow)
 		callBack({...sRow});
 	};
-	// console.log(sRow)
+	console.log(sRow, defectId);
 
-	const tabsField = (transferId) => [
-		{
-			componentType: 'Tabs',
-			type: 'card',
-			size: 'large',
-			style: {paddingTop: '24px'},
-			children: [
-				{
-					componentType: 'TabPane',
-					tab: <InfoTab />,
-					key: 'infoTab',
-					children: [infoTabFields()],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <FilesTab />,
-					key: 'fileTab',
-					children: [fileManagerFields(transferId)],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <EquipmentsTab />,
-					key: 'equipmentTab',
-					children: [equipmentFields(transferId)],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <ScheduleTab />,
-					key: 'scheduleTab',
-					children: [scheduleFields(transferId)],
-				},
-				{
-					componentType: 'TabPane',
-					tab: <HistoryTab />,
-					key: 'historyTab',
-					children: [historyFields(transferId)],
-				},
-			],
-		},
-	];
+	// const tabsField = (transferId) => [
+	// 	{
+	// 		componentType: 'Tabs',
+	// 		type: 'card',
+	// 		size: 'large',
+	// 		style: {paddingTop: '24px'},
+	// 		children: [
+	// 			{
+	// 				componentType: 'TabPane',
+	// 				tab: <InfoTab />,
+	// 				key: 'infoTab',
+	// 				children: [infoTabFields()],
+	// 			},
+	// 			{
+	// 				componentType: 'TabPane',
+	// 				tab: <FilesTab />,
+	// 				key: 'fileTab',
+	// 				children: [fileManagerFields(transferId)],
+	// 			},
+	// 			{
+	// 				componentType: 'TabPane',
+	// 				tab: <EquipmentsTab />,
+	// 				key: 'equipmentTab',
+	// 				children: [equipmentFields(transferId)],
+	// 			},
+	// 			{
+	// 				componentType: 'TabPane',
+	// 				tab: <ScheduleTab />,
+	// 				key: 'scheduleTab',
+	// 				children: [scheduleFields(transferId)],
+	// 			},
+	// 			{
+	// 				componentType: 'TabPane',
+	// 				tab: <HistoryTab />,
+	// 				key: 'historyTab',
+	// 				children: [historyFields(transferId)],
+	// 			},
+	// 		],
+	// 	},
+	// ];
 
 	return (
 		<Modal

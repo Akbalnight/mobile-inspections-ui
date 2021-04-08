@@ -13,7 +13,7 @@ import {
 	// defectCardInfoModal,
 } from './Modals/defectCardInfo';
 // import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
-import {reloadFilterFields} from '../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {EditDefectCard} from './Modals/defectEdit';
 /** пока не нужно, не используется здесь */
 // import {ButtonFilterSettings} from '../Base/Block/btnFilterSettings'
