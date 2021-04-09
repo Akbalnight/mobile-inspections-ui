@@ -9,7 +9,7 @@ import {detourViewModal} from './Modals/detourViewModal';
 import {useHistory} from 'react-router';
 import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 
-import {customColumnProps} from '../tableProps';
+import {customColumnProps} from '../Registry/tableProps';
 import DetoursCalendar from '../Registry/DetoursCalendar';
 import {addDetourForm, editDetourForm} from './Modals/detourEdit';
 

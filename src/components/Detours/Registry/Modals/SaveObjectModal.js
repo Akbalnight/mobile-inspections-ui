@@ -54,6 +54,7 @@ const operationOnServer = (type) => {
 		<Switcher
 			itemProps={{initialValue: 1}}
 			subscribe={[
+				/** Role model in portal necessary stay where*/
 				{
 					name: `mainTableChange`,
 					path: `rtd.detours.mainForm.table.selected`,
@@ -61,10 +62,14 @@ const operationOnServer = (type) => {
 					onChange: ({value, setSubscribeProps, extraData}) => {
 						console.log('switcher', extraData);
 						value &&
-						type !== 'add' &&
-						statusesInfo.stopEdit.includes(value.statusId)
-							? setSubscribeProps({value: 1})
-							: setSubscribeProps({value: 0});
+							type !== 'add' &&
+							setSubscribeProps({
+								value: statusesInfo.stopEdit.includes(
+									value.statusId
+								)
+									? 1
+									: 0,
+							});
 					},
 				},
 			]}

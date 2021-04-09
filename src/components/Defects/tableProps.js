@@ -1,10 +1,13 @@
 import React from 'react';
-import {Rate, Radio} from 'antd';
+import {Rate, Radio, Tooltip} from 'antd';
 import {
 	CheckOutlined,
 	MailOutlined,
 	SettingOutlined,
 	ThunderboltOutlined,
+	QuestionOutlined,
+	CaretRightOutlined,
+	FieldTimeOutlined,
 } from '@ant-design/icons';
 import {checkBox, code, dateTime} from '../Base/customColumnProps';
 import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
@@ -38,40 +41,97 @@ const {Space, Text, DatePicker, Select, Button} = classic;
  * configFilterPanel общий вид панели для двух разделов, отображение меняется при помощи history
  */
 
-const statusesConfig = [
+export const statusesConfig = [
 	{
+		// новый
 		priorityId: 'f6a672f7-f2b5-4178-af24-a1f4a75da273',
 		priorityIcon: <One />,
 		statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-		statusProcessIcon: <ThunderboltOutlined />,
+		statusIcon: <ThunderboltOutlined />,
+		statusIconF: ThunderboltOutlined,
 		statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
 		color: '#FF4040',
 	},
 	{
+		// в работе
 		priorityId: '985949ba-558f-4c14-836d-a609bcfa1ed7',
 		priorityIcon: <Two />,
 		statusProcessId: '879f0adf-0d96-449e-bcee-800f81c4e58d',
-		statusProcessIcon: <SettingOutlined />,
+		statusIcon: <SettingOutlined />,
+		statusIconF: SettingOutlined,
 		statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
 		color: '#F2C94C',
 	},
 	{
+		// просрочен
 		priorityId: '10eb0af7-4551-44f2-9ef6-d038d7875d06',
 		priorityIcon: <Three />,
 		statusProcessId: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-		statusProcessIcon: <CheckOutlined />,
+		statusIcon: <FieldTimeOutlined />,
+		statusIconF: FieldTimeOutlined,
 		statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
-		color: '#9DCE5B',
+		color: '#e07c04',
 	},
 	{
+		// устранен
 		priorityId: '1f06e13f-b300-4d9e-93db-0e54e2370d5c',
 		priorityIcon: <Four />,
 		statusProcessId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
-		statusProcessIcon: <MailOutlined />,
-		statusPanelId: 'e07a6417-840e-4743-a4f0-45da65707432', // сюда вставить ID четвертого статуса, как он появится
+		statusIcon: <MailOutlined />,
+		statusIconF: MailOutlined,
+		statusPanelId: '418406b1-8f78-4448-96e1-8caa022fe242',
 		color: '#98B8E3',
 	},
+	{
+		// подтвержден
+		priorityId: '',
+		// priorityIcon: <Four />,
+		statusProcessId: '83b4bbf8-e1da-43d4-8e0d-a973a136eeaa',
+		statusIcon: <CheckOutlined />,
+		statusIconF: CheckOutlined,
+		statusPanelId: '',
+		color: '#686868',
+	},
+	{
+		// возобновлен
+		priorityId: '',
+		// priorityIcon: <Four />,
+		statusProcessId: '086d775e-f41b-4af6-86c8-31f340344f47',
+		statusIcon: <CaretRightOutlined />,
+		statusIconF: CaretRightOutlined,
+		statusPanelId: '', // сюда вставить ID четвертого статуса, как он появится
+		color: '#98B8E3',
+	},
+	{
+		// на расммотрении
+		priorityId: '',
+		// priorityIcon: <Four />,
+		statusProcessId: '',
+		statusIcon: <QuestionOutlined />,
+		statusIconF: QuestionOutlined,
+		statusPanelId: '3252ec53-44a7-4cfd-ac24-650d85236bd2', // сюда вставить ID четвертого статуса, как он появится
+		color: '#686868',
+	},
 ];
+/**
+ * отображает иконку состояния для дефектов и проблем */
+const StatusIcon = ({keyToFind, statusId, title = ''}) =>
+	statusesConfig &&
+	statusesConfig.map((el, index) => {
+		// console.log(rowData)
+		if (el[keyToFind] === statusId) {
+			const StatusVariant = el.statusIconF;
+			return (
+				<React.Fragment key={index}>
+					<Tooltip title={title}>
+						<StatusVariant
+							style={{color: el.color, cursor: 'help'}}
+						/>
+					</Tooltip>
+				</React.Fragment>
+			);
+		} else return null;
+	});
 
 export const customColumnProps = [
 	// на данный момент оставлю так, если будет потребность в другом формате исправим
@@ -82,6 +142,26 @@ export const customColumnProps = [
 	{...checkBox('sendedToSap')},
 	{...checkBox('viewOnPanel')},
 	{...checkBox('kpi')},
+	{
+		name: 'statusProcessId',
+		cellRenderer: ({rowData}) => (
+			<StatusIcon
+				keyToFind={'statusProcessId'}
+				statusId={rowData.statusProcessId}
+				title={rowData.statusProcessName}
+			/>
+		),
+	},
+	{
+		name: 'statusPanelId',
+		cellRenderer: ({rowData}) => (
+			<StatusIcon
+				keyToFind={'statusPanelId'}
+				statusId={rowData.statusPanelId}
+				title={rowData.statusPanelName}
+			/>
+		),
+	},
 	{
 		name: 'statusProcessName',
 		cellRenderer: ({rowData}) => (
@@ -96,7 +176,7 @@ export const customColumnProps = [
 							key={el.statusProcessId}
 							value={el.statusProcessId}
 						>
-							{el.statusProcessIcon}
+							{el.statusIcon}
 						</Radio.Button>
 					))}
 			</Radio.Group>
@@ -117,26 +197,26 @@ export const customColumnProps = [
 			/>
 		),
 	},
-	{
-		name: 'statusPanelId',
-		cellRenderer: ({cellData}) => {
-			let statusIndicator = statusesConfig.find(
-				(el) => el.statusPanelId === cellData
-			);
-			return statusIndicator ? (
-				<div
-					style={{
-						width: 10,
-						height: 10,
-						background: `${statusIndicator.color}`,
-						borderRadius: '50%',
-					}}
-				></div>
-			) : (
-				<div>Без статуса</div>
-			);
-		},
-	},
+	// {
+	//     name: 'statusPanelId',
+	//     cellRenderer: ({cellData}) => {
+	//         let statusIndicator = statusesConfig.find(
+	//             (el) => el.statusPanelId === cellData
+	//         );
+	//         return statusIndicator ? (
+	//             <div
+	//                 style={{
+	//                     width: 10,
+	//                     height: 10,
+	//                     background: `${statusIndicator.color}`,
+	//                     borderRadius: '50%',
+	//                 }}
+	//             ></div>
+	//         ) : (
+	//             <div>Без статуса</div>
+	//         );
+	//     },
+	// },
 ];
 export const FilterPanel = () => {
 	const history = useHistory();
@@ -288,7 +368,21 @@ export const FilterPanel = () => {
 									: 'panelProblemsStatuses'
 							)}
 							optionConverter={(option) => ({
-								label: <span>{option.name}</span>,
+								label: (
+									<>
+										<StatusIcon
+											statusId={option.id}
+											keyToFind={
+												historyChange
+													? 'statusProcessId'
+													: 'statusPanelId'
+											}
+										/>{' '}
+										<span className={'ml-8'}>
+											{option.name}
+										</span>
+									</>
+								),
 								value: option.id,
 								className: '',
 								disabled: undefined,

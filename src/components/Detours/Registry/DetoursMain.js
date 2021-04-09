@@ -4,7 +4,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {customColumnProps, TableHeader} from '../tableProps';
+import {customColumnProps, TableHeader} from './tableProps';
 import React from 'react';
 import DetoursCalendar from './DetoursCalendar';
 

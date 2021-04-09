@@ -251,11 +251,17 @@ const OperationOnServer = (catalogName, type) => {
 				{
 					name: 'editForm',
 					path: 'rtd.defects.defectTable.table.selected',
-					onChange: ({value, setModalData, setButtonProps}) => {
+					onChange: ({
+						value,
+						extraData,
+						setModalData,
+						setButtonProps,
+					}) => {
 						value &&
 							setModalData &&
 							setModalData({
 								...value[value.length - 1],
+								userRoles: extraData,
 							});
 						value &&
 							setButtonProps &&

@@ -113,7 +113,7 @@ export default function DefectsJsx() {
 								key: 'dateDetectDefect',
 								order: 'asc',
 							}}
-							// infinityMode={true}
+							infinityMode={true}
 							dispatchPath={'defects.defectTable.table'}
 							customColumnProps={customColumnProps}
 							requestLoadRows={apiGetFlatDataByConfigName(
