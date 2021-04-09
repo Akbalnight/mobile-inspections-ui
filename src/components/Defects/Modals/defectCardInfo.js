@@ -2,6 +2,7 @@ import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/in
 import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
 import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
 import {HistoryOutlined} from '@ant-design/icons';
+import './defectCardInfo.less';
 
 // import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
 // import {ReactComponent as HistoryTab} from '../../../imgs/tabPane/defectCardInfo/historyTab.svg';
@@ -97,7 +98,7 @@ export const DefectCardInfoModal = () => {
 			// dispatch:'defects.defectsTable.modalViewObject.event'
 		>
 			<FormBody noPadding={true}>
-				<Tabs type={'card'} className={'ml-8 mr-8'}>
+				<Tabs type={'card'} className={'p-8'}>
 					<TabPane key={'infoTab'} tab={<InfoTab />}>
 						<InfoTabFields />
 					</TabPane>
