@@ -1,7 +1,7 @@
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../../apis/catalog.api';
 
 export const addDetourForm = () => operationOnServer('add', {});
 

@@ -3,9 +3,9 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../../apis/catalog.api';
 // import {customColumnProps} from '../tableProps';
-import {ReactComponent as ExecutorIcon} from '../../../imgs/detour/executor-btn.svg';
+import {ReactComponent as ExecutorIcon} from '../../../../imgs/detour/executor-btn.svg';
 import {addDetourForm} from './detourEdit';
 
 // при необходимости в модальное окно можно передать history

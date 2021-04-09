@@ -30,7 +30,10 @@ export const ViewDetour = () => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
-		callBack({...row, routesData: row.route.routesData});
+		callBack({
+			...row,
+			routesData: row.route !== null ? row.route.routesData : [],
+		});
 		return sRow;
 	};
 	console.log(sRow);
