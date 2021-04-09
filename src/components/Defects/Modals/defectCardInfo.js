@@ -42,11 +42,9 @@ const {FormBody, Tabs, TabPane, Modal} = classic;
  */
 export const DefectCardInfoModal = () => {
 	let sRow;
-	let defectId = null;
 
 	const loadData = async (callBack, row) => {
 		sRow = row;
-		defectId = row.id;
 		const defectHistoryResponse = await selectRowsById(
 			'defectHistory',
 			'id',

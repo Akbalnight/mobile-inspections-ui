@@ -1,29 +1,10 @@
 import {apiGetConfigByName} from '../../../apis/catalog.api';
 import React from 'react';
 import {classic} from 'rt-design';
-import {statusesConfig} from '../tableProps.js';
-
 /**
  * информационная вкладка, переделать после обновления
  */
-const {
-	Layout,
-	// Form,
-	// Space,
-	// FormHeader,
-	// FormBody,
-	// FormFooter,
-	// Divider,
-	Table,
-	// Button,
-	Title,
-	// Search,
-	// Modal,
-	// Tabs,
-	Text,
-	Checkbox,
-	DateText,
-} = classic;
+const {Layout, Table, Title, Text, Checkbox, DateText} = classic;
 
 export const InfoTabFields = () => {
 	return (

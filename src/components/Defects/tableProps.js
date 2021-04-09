@@ -5,7 +5,6 @@ import {
 	MailOutlined,
 	SettingOutlined,
 	ThunderboltOutlined,
-	PauseOutlined,
 	QuestionOutlined,
 	CaretRightOutlined,
 	FieldTimeOutlined,
