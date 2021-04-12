@@ -1,30 +1,12 @@
 import {apiGetConfigByName} from '../../../apis/catalog.api';
 import React from 'react';
 import {classic} from 'rt-design';
-
 /**
  * информационная вкладка, переделать после обновления
  */
-const {
-	Layout,
-	// Form,
-	// Space,
-	// FormHeader,
-	// FormBody,
-	// FormFooter,
-	// Divider,
-	Table,
-	// Button,
-	Title,
-	// Search,
-	// Modal,
-	// Tabs,
-	Text,
-	Checkbox,
-} = classic;
+const {Layout, Table, Title, Text, Checkbox, DateText} = classic;
 
-export const InfoTabFields = ({tRow}) => {
-	console.log('tRow', tRow);
+export const InfoTabFields = () => {
 	return (
 		<>
 			<Layout className={'p-8'}>
@@ -43,12 +25,13 @@ export const InfoTabFields = ({tRow}) => {
 					}}
 				/>
 				<Title level={5}>Выявление дефекта</Title>
-				<Text
+				<DateText
 					itemProps={{
 						label: 'Дата обнаружения',
 						name: 'dateDetectDefect',
 						className: 'mb-0',
 					}}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<Text
 					itemProps={{
@@ -72,17 +55,18 @@ export const InfoTabFields = ({tRow}) => {
 					}}
 				/>
 				<Title level={5}>План устранения</Title>
-				<Text
+				<DateText
 					itemProps={{
 						label: 'Плановый срок устранения',
 						name: 'dateEliminationPlan',
 						className: 'mb-0',
 					}}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<Text
 					itemProps={{
 						label: 'Диспетчер',
-						name: 'staffEliminationId',
+						name: 'staffEliminationName',
 						className: 'mb-0',
 					}}
 				/>

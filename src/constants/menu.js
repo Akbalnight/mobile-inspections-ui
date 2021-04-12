@@ -25,6 +25,10 @@ export const menu = [
 		icon: BugOutlined,
 		...paths.DEBUG_TABLE,
 	},
+	// {
+	// 	icon: BugOutlined,
+	// 	...paths.DEBUG_MARSEL,
+	// },
 
 	{
 		...paths.CATALOG,

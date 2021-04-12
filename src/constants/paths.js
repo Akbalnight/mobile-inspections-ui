@@ -34,6 +34,7 @@ import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
 import DebugConfig from '../components/Debug/Anton/DebugConfig';
 import DebugJSX from '../components/Debug/Anton/DebugJSX';
 import DebugTable from '../components/Debug/Anton/DebugTable';
+import {DebugMarsel} from '../components/Debug/DebugMarsel/DebugMarsel';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -83,11 +84,12 @@ export const paths = {
 		component: DebugTable,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	// DEBUG_MARSEL: {
-	// 	title: 'DebugMarsel',
-	// 	path: '/debugMarsel',
-	// 	component: Home,
-	// },
+	DEBUG_MARSEL: {
+		title: 'DebugMarsel',
+		path: '/debugMarsel',
+		component: DebugMarsel,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',

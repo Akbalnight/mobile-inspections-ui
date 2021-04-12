@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const customColumnProps = [
 	{
 		name: 'position',

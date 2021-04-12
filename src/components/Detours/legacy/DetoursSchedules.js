@@ -6,7 +6,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {customColumnProps} from '../tableProps';
+import {customColumnProps} from '../Registry/tableProps';
 
 /**
  * Данный компонет был создан для реализации концепции повторения Обходов с определенной периодичностью.

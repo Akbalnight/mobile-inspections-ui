@@ -17,6 +17,7 @@ const Calendar = ({onChange, detours, value}) => {
 	useEffect(() => {
 		onChange && onChange(moment());
 		// console.log('useEffect onChange')
+		// eslint-disable-next-line
 	}, []);
 
 	const onChangeHandler = (value) => {
@@ -133,6 +134,7 @@ export default function DetoursCalendar() {
 						path: 'detours.mainForm.calendar',
 					}}
 					subscribe={[
+						/** Action trigger by calendar*/
 						{
 							name: 'onChangeMonth',
 							path: 'rtd.detours.mainForm.filter.events.month',

@@ -1,5 +1,5 @@
 // import {fileManagerFields} from '../../Defects/Tabs/fileManagerFields';
-import {equipmentFields} from '../../Defects/Tabs/equipmentFields';
+import {equipmentFields} from '../../../Defects/Tabs/equipmentFields';
 
 /**
  * модальное окно просмотра обхода. Форма была собрана из макета интерфейса

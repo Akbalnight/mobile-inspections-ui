@@ -251,7 +251,6 @@ const RouteMaps = (props) => {
 
 							<Table
 								itemProps={{name: 'routeMapsTable'}}
-								infinityMode={true}
 								defaultFilter={{
 									routeId: routeId ? routeId : null,
 								}}

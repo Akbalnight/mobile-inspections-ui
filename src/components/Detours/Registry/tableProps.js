@@ -1,12 +1,15 @@
-import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
-import {checkBox, date, dateTime} from '../Base/customColumnProps';
+import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
+import {checkBox, date, dateTime} from '../../Base/customColumnProps';
 import {classic} from 'rt-design';
 import React from 'react';
-import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
+import {AddDetour, EditDetour} from './Modals/SaveObjectModal';
 import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
-import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
-import {reloadFilterFields} from '../Base/Functions/ReloadField';
-import {ViewDetour} from './Registry/Modals/ViewModal';
+import {
+	disabledEndDate,
+	disabledStartDate,
+} from '../../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../../Base/Functions/ReloadField';
+import {ViewDetour} from './Modals/ViewModal';
 // import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
 
 const {
