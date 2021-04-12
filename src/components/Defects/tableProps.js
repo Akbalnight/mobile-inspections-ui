@@ -1,5 +1,5 @@
 import React from 'react';
-import {Rate, Radio, Tooltip} from 'antd';
+import {Rate, Tooltip} from 'antd';
 import {
 	CheckOutlined,
 	MailOutlined,
@@ -115,23 +115,23 @@ export const statusesConfig = [
 ];
 /**
  * отображает иконку состояния для дефектов и проблем */
-const StatusIcon = ({keyToFind, statusId, title = ''}) =>
-	statusesConfig &&
-	statusesConfig.map((el, index) => {
-		// console.log(rowData)
-		if (el[keyToFind] === statusId) {
-			const StatusVariant = el.statusIconF;
-			return (
-				<React.Fragment key={index}>
-					<Tooltip title={title}>
-						<StatusVariant
-							style={{color: el.color, cursor: 'help'}}
-						/>
-					</Tooltip>
-				</React.Fragment>
-			);
-		} else return null;
-	});
+export const StatusIcon = ({keyToFind, statusId, title = ''}) => {
+	const foundStatus =
+		statusesConfig &&
+		statusesConfig.find((status) => status[keyToFind] === statusId);
+
+	if (foundStatus) {
+		const StatusVariant = foundStatus.statusIconF;
+		return (
+			<Tooltip title={title}>
+				<StatusVariant
+					className={'statusIcon'}
+					style={{color: foundStatus.color, cursor: 'help'}}
+				/>
+			</Tooltip>
+		);
+	} else return null;
+};
 
 export const customColumnProps = [
 	// на данный момент оставлю так, если будет потребность в другом формате исправим
@@ -163,23 +163,32 @@ export const customColumnProps = [
 		),
 	},
 	{
+		//  в этой колонке истории использован custom SQL
 		name: 'statusProcessName',
 		cellRenderer: ({rowData}) => (
-			<Radio.Group
-				defaultValue={rowData.statusProcessId}
-				size={'small'}
-				disabled
-			>
-				{statusesConfig &&
-					statusesConfig.map((el) => (
-						<Radio.Button
-							key={el.statusProcessId}
-							value={el.statusProcessId}
-						>
-							{el.statusIcon}
-						</Radio.Button>
-					))}
-			</Radio.Group>
+			<>
+				<StatusIcon
+					keyToFind={'statusProcessId'}
+					statusId={rowData.status_process_id}
+					title={rowData.statusProcessName}
+				/>
+				<span>{rowData.statusProcessName}</span>
+			</>
+			// <Radio.Group
+			// 	defaultValue={rowData.statusProcessId}
+			// 	size={'small'}
+			// 	disabled
+			// >
+			// 	{statusesConfig &&
+			// 		statusesConfig.map((el) => (
+			// 			<Radio.Button
+			// 				key={el.statusProcessId}
+			// 				value={el.statusProcessId}
+			// 			>
+			// 				{el.statusIcon}
+			// 			</Radio.Button>
+			// 		))}
+			// </Radio.Group>
 		),
 	},
 	{

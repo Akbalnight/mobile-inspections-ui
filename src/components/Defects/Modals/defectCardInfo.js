@@ -27,6 +27,7 @@ import {classic} from 'rt-design';
 import React from 'react';
 // import {apiGetConfigByName, apiGetFlatDataByConfigName} from "../../../apis/catalog.api";
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
+import {emptyToNd} from '../../Base/Functions/TextUtils';
 
 const HistoryTab = () => {
 	return (
@@ -37,10 +38,11 @@ const HistoryTab = () => {
 	);
 };
 const {FormBody, Tabs, TabPane, Modal} = classic;
+
 /**
- *
  * Карточка информации дефекта
  */
+
 export const DefectCardInfoModal = () => {
 	let sRow;
 
@@ -60,7 +62,7 @@ export const DefectCardInfoModal = () => {
 		)({});
 		if (defectFilesResponse.status === 200)
 			sRow = {...sRow, defectFiles: defectFilesResponse.data};
-		// console.log('sRow', sRow)
+		sRow = {...emptyToNd(sRow), equipment: emptyToNd(row.equipment)};
 		callBack({...sRow});
 	};
 
