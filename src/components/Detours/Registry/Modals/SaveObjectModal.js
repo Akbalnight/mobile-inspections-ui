@@ -193,20 +193,22 @@ const operationOnServer = (type) => {
 							label: option.name,
 						})}
 					/>
-					<Select
-						itemProps={{...itemsInfo.detourStatusId}}
-						placeholder={'Выберите ствтус'}
-						mode={'single'}
-						allowClear={true}
-						infinityMode={true}
-						requestLoadRows={apiGetFlatDataByConfigName(
-							'detoursStatuses'
-						)}
-						optionConverter={(option) => ({
-							value: option.id,
-							label: option.name,
-						})}
-					/>
+					{type !== 'add' ? (
+						<Select
+							itemProps={{...itemsInfo.detourStatusId}}
+							placeholder={'Выберите статус'}
+							mode={'single'}
+							allowClear={true}
+							infinityMode={true}
+							requestLoadRows={apiGetFlatDataByConfigName(
+								'detoursStatuses'
+							)}
+							optionConverter={(option) => ({
+								value: option.id,
+								label: option.name,
+							})}
+						/>
+					) : null}
 					<Title label={'Исполнитель'} level={5} />
 					<Select
 						itemProps={{...itemsInfo.executorId}}
