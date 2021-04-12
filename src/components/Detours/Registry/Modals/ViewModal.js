@@ -9,7 +9,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../../apis/catalog.api';
-import {customColumnProps} from '../../tableProps';
+import {customColumnProps} from '../tableProps';
 import {Access} from 'mobile-inspections-base-ui';
 
 const {Panel} = Collapse;
@@ -31,9 +31,13 @@ export const ViewDetour = () => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
-		callBack({...row, routesData: row.route.routesData});
+		callBack({
+			...row,
+			routesData: row.route !== null ? row.route.routesData : [],
+		});
 		return sRow;
 	};
+
 	console.log(sRow);
 	return (
 		<Modal
