@@ -139,6 +139,7 @@ export default function DetoursCalendar() {
 							name: 'onChangeMonth',
 							path: 'rtd.detours.mainForm.filter.events.month',
 							onChange: ({value, setSubscribeProps}) => {
+								console.log('>>>>2');
 								setSubscribeProps({value: value});
 							},
 						},

@@ -242,6 +242,7 @@ export const TableHeader = () => {
 											value,
 											setSubscribeProps,
 										}) => {
+											console.log('>>>>1');
 											setSubscribeProps({value: value});
 										},
 									},
