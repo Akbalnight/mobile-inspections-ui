@@ -55,6 +55,9 @@ const operationOnServer = (type) => {
 				requestSaveRow: apiSaveByConfigName('saveDetourForm'),
 				form: {
 					name: `${type}ModalForm`,
+					dispatch: {
+						path: `detours.mainForm.table.events.${type}ModalFormData`,
+					},
 					loadInitData: (callBack, row) => {
 						callBack(type === 'add' ? null : row);
 					},

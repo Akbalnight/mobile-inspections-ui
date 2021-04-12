@@ -10,6 +10,7 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../../apis/catalog.api';
 import {customColumnProps} from '../../tableProps';
+import {Access} from 'mobile-inspections-base-ui';
 
 const {Panel} = Collapse;
 
@@ -74,7 +75,24 @@ export const ViewDetour = () => {
 					>
 						<Layout>
 							<Text itemProps={{...itemsInfo.name, rules: []}} />
-							<Text itemProps={{...itemsInfo.routeName}} />
+							<Access roles={['ROLE_ADMIN']}>
+								<Text
+									itemProps={{...itemsInfo.routeName}}
+									subscribe={[
+										{
+											name: `detourModalInfo`,
+											withMount: true,
+											path: `auth`,
+											onChange: ({value}) => {
+												console.log(
+													'DateText onRowDoubleClick => ',
+													value
+												);
+											},
+										},
+									]}
+								/>
+							</Access>
 							<DateText
 								itemProps={{
 									...itemsInfo.dateStartPlan,
