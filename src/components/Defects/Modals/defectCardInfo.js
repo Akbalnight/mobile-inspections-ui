@@ -2,6 +2,7 @@ import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/in
 import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
 import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
 import {HistoryOutlined} from '@ant-design/icons';
+import './defectCardInfo.less';
 
 // import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
 // import {ReactComponent as HistoryTab} from '../../../imgs/tabPane/defectCardInfo/historyTab.svg';
@@ -26,6 +27,7 @@ import {classic} from 'rt-design';
 import React from 'react';
 // import {apiGetConfigByName, apiGetFlatDataByConfigName} from "../../../apis/catalog.api";
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
+import {emptyToNd} from '../../Base/Functions/TextUtils';
 
 const HistoryTab = () => {
 	return (
@@ -36,10 +38,11 @@ const HistoryTab = () => {
 	);
 };
 const {FormBody, Tabs, TabPane, Modal} = classic;
+
 /**
- *
  * Карточка информации дефекта
  */
+
 export const DefectCardInfoModal = () => {
 	let sRow;
 
@@ -59,7 +62,7 @@ export const DefectCardInfoModal = () => {
 		)({});
 		if (defectFilesResponse.status === 200)
 			sRow = {...sRow, defectFiles: defectFilesResponse.data};
-		// console.log('sRow', sRow)
+		sRow = {...emptyToNd(sRow), equipment: emptyToNd(row.equipment)};
 		callBack({...sRow});
 	};
 
@@ -97,7 +100,7 @@ export const DefectCardInfoModal = () => {
 			// dispatch:'defects.defectsTable.modalViewObject.event'
 		>
 			<FormBody noPadding={true}>
-				<Tabs type={'card'} className={'ml-8 mr-8'}>
+				<Tabs type={'card'} className={'p-8'}>
 					<TabPane key={'infoTab'} tab={<InfoTab />}>
 						<InfoTabFields />
 					</TabPane>

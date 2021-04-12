@@ -8,11 +8,9 @@ import {
 import {useHistory} from 'react-router';
 import {customColumnProps, FilterPanel} from './tableProps';
 import {paths} from '../../constants/paths';
-import {
-	DefectCardInfoModal,
-	// defectCardInfoModal,
-} from './Modals/defectCardInfo';
+import {DefectCardInfoModal} from './Modals/defectCardInfo';
 // import {EditDefaultObjectOnServer} from '../Base/Modals/DefaultObjectOnServer';
+import {ButtonSendToSap} from './Modals/modalButtonDefects';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {EditDefectCard} from './Modals/defectEdit';
 /** пока не нужно, не используется здесь */
@@ -56,6 +54,7 @@ export default function DefectsJsx() {
 							<Space>
 								{/*<EditDefaultObjectOnServer catalogName={currentMode}/>*/}
 								<EditDefectCard catalogName={currentMode} />
+								<ButtonSendToSap />
 								<DefectCardInfoModal />
 							</Space>
 							<Space>

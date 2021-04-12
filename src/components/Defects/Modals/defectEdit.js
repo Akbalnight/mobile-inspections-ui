@@ -8,14 +8,14 @@ import {
 	DefectDetection,
 } from '../../Base/Block/DefectDetection';
 import {classic} from 'rt-design';
+import {Access} from 'mobile-inspections-base-ui';
 import React from 'react';
+import {StatusIcon} from '../tableProps';
 
 const {
-	// Layout,
 	Text,
 	DatePicker,
 	Select,
-	// Button,
 	Input,
 	Title,
 	Modal,
@@ -42,6 +42,7 @@ const OperationOnServer = (catalogName, type) => {
 	const processBeforeSaveForm = (rawValues) => {
 		return {...rawValues};
 	};
+
 	/** только дефекты 0 уровень */
 	const DefectDetectionFields = ({catalogName}) => {
 		// console.log('catalogName in fields:', catalogName)
@@ -49,22 +50,33 @@ const OperationOnServer = (catalogName, type) => {
 			<>
 				{catalogName === 'defects' ? (
 					<>
-						<Select
-							itemProps={{
-								name: 'statusProcessId',
-								label: 'Статус обработки',
-							}}
-							showSearch={true}
-							optionConverter={(option) => ({
-								label: <span>{option.name}</span>,
-								value: option.id,
-								className: '',
-								disabled: undefined,
-							})}
-							requestLoadRows={apiGetFlatDataByConfigName(
-								'defectStatusesProcess'
-							)}
-						/>
+						<Access roles={['ROLE_ADMIN']}>
+							<Select
+								itemProps={{
+									name: 'statusProcessId',
+									label: 'Статус обработки',
+								}}
+								showSearch={true}
+								optionConverter={(option) => ({
+									label: (
+										<>
+											<StatusIcon
+												keyToFind={'statusProcessId'}
+												statusId={option.id}
+											/>
+											<span>{option.name}</span>
+										</>
+									),
+									value: option.id,
+									className: '',
+									disabled: undefined,
+								})}
+								requestLoadRows={apiGetFlatDataByConfigName(
+									'defectStatusesProcess'
+								)}
+							/>
+						</Access>
+
 						<Title level={5}>Выявление дефекта</Title>
 					</>
 				) : (
@@ -73,12 +85,6 @@ const OperationOnServer = (catalogName, type) => {
 							label: '№ в журнале дефектов',
 							name: 'code',
 							className: 'mb-8',
-							// rules: [
-							// 	{
-							// 		required: true,
-							// 		message: 'Заполните причину',
-							// 	},
-							// ],
 						}}
 					/>
 				)}
@@ -109,11 +115,6 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 				/>
-				{/*<Input itemProps={{*/}
-				{/*    label: 'Статус из SAP',*/}
-				{/*    name: 'sapMessageCode',*/}
-				{/*    className: 'mb-8',*/}
-				{/*}}/>*/}
 				<Select
 					itemProps={{
 						name: 'sapStatusesId',
@@ -251,12 +252,14 @@ const OperationOnServer = (catalogName, type) => {
 				{
 					name: 'editForm',
 					path: 'rtd.defects.defectTable.table.selected',
+					extraData: 'auth.roles',
 					onChange: ({
 						value,
 						extraData,
 						setModalData,
 						setButtonProps,
 					}) => {
+						console.log('extraData', extraData);
 						value &&
 							setModalData &&
 							setModalData({
