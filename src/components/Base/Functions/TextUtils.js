@@ -12,3 +12,10 @@ export const emptyToNd = (partialRow) => {
 	}
 	return reFilled;
 };
+
+/**
+ * нормализует код к формату 0000####
+ */
+export const codeNormalizer = (code) => {
+	return String(code).padStart(8, '0');
+};

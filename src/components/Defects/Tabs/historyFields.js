@@ -10,6 +10,10 @@ export const HistoryFields = () => {
 			<Table
 				itemProps={{name: 'defectHistory'}}
 				customColumnProps={customColumnProps}
+				defaultSortBy={{
+					key: 'ts',
+					order: 'asc',
+				}}
 				// строки формируются в loadData модалки
 				requestLoadConfig={apiGetConfigByName('defectHistory')}
 			/>

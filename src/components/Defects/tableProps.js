@@ -139,6 +139,7 @@ export const customColumnProps = [
 	{...dateTime('dateDetectDefect')},
 	{...dateTime('dateEliminationPlan')},
 	{...dateTime('dateEliminationFact')},
+	{...dateTime('ts')}, // специально для истории изменений дефектов (в конфиге custom SQL)
 	{...checkBox('sendedToSap')},
 	{...checkBox('viewOnPanel')},
 	{...checkBox('kpi')},
