@@ -5,6 +5,7 @@ import {
 } from '../../apis/catalog.api';
 import {AdvancedTable, notificationError} from 'rt-design';
 import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
 const CatalogData = (props) => {
 	const [mounted, setMounted] = useState(false);
@@ -88,14 +89,14 @@ const CatalogData = (props) => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRender: ({rowData}) => String(rowData.code).padStart(8, '0'),
+			cellRender: ({rowData}) => codeNormalizer(rowData.code),
 		},
 		{
 			name: 'techPlacePath',
 			cellRender: ({rowData}) =>
 				rowData.isGroup
 					? rowData.techPlacePath
-					: String(rowData.techPlacePath).padStart(8, '0'),
+					: codeNormalizer(rowData.techPlacePath),
 		},
 		{
 			name: 'is_group',

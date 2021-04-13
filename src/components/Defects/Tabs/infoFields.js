@@ -1,6 +1,7 @@
 import {apiGetConfigByName} from '../../../apis/catalog.api';
 import React from 'react';
 import {classic} from 'rt-design';
+import {customColumnProps} from '../tableProps';
 /**
  * информационная вкладка, переделать после обновления
  */
@@ -99,8 +100,7 @@ export const InfoTabFields = () => {
 				<Table
 					itemProps={{name: 'extraData'}}
 					rowKey={'dateDetectDefect'}
-					// style={{height: '150px'}}
-					// infinityMode={true}
+					customColumnProps={customColumnProps}
 					requestLoadConfig={apiGetConfigByName(
 						'defectExtraDataColumns'
 					)}

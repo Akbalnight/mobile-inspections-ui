@@ -28,7 +28,7 @@ ReactDOM.render(
 				/>
 				<Route exact path={paths.AUTHORIZATION_CODE.path}>
 					<paths.AUTHORIZATION_CODE.component
-						redirectUrl={paths.HOME.path}
+						redirectUrl={paths.CONTROL_DEFECTS_DEFECTS.path}
 					/>
 				</Route>
 
@@ -42,6 +42,7 @@ ReactDOM.render(
 							menuProps={{
 								type: 'recursive',
 								menu: menu,
+								defaultOpenKeys: ['CONTROL_DEFECTS_DEFECTS'],
 								ToggleBtnRight: ToggleBtnRight,
 								LogoSmall: LogoSmall,
 								LogoBig: LogoBig,

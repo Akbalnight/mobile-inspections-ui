@@ -115,7 +115,7 @@ export const FilesFields = () => {
 					// console.log('At props', props)
 					return <AttachmentsPreview items={props.value} />;
 				}}
-			></Custom>
+			/>
 			{/*<Table*/}
 			{/*    itemProps={{name: 'defectFiles'}}*/}
 			{/*    // строки формируются в loadData модалки*/}

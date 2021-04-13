@@ -11,6 +11,7 @@ import {FolderOutlined} from '@ant-design/icons';
 import TechMapDataView from './TechMapDataView';
 import GroupViewModal from '../Base/GroupViewModal';
 import {default as TechMapGroupEdit} from '../Catalog/Forms/BaseModals/BaseModalWithParentId';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
 const TechMaps = () => {
 	const [mounted, setMounted] = useState(false);
@@ -51,7 +52,7 @@ const TechMaps = () => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRender: ({rowData}) => String(rowData.code).padStart(8, '0'),
+			cellRender: ({rowData}) => codeNormalizer(rowData.code),
 		},
 		{
 			//equipmentStop increasedDanger

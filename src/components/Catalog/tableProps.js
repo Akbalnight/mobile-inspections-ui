@@ -2,6 +2,7 @@ import {classic} from 'rt-design';
 import React from 'react';
 import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
 import {dateTime} from '../Base/customColumnProps';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
 const {Checkbox, DateText} = classic;
 /**
@@ -113,7 +114,7 @@ export const customColumnPropsEquipments = [
 			return (
 				<span>
 					{rowData.isGroup ? <FolderOutlined /> : null}{' '}
-					{String(cellData).padStart(8, '0')}
+					{codeNormalizer(cellData)}
 				</span>
 			);
 		},

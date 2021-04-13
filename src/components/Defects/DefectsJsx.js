@@ -35,9 +35,9 @@ export default function DefectsJsx() {
 	 */
 	let historyChange =
 		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
-	console.log('history:', historyChange);
+	// console.log('history:', historyChange);
 	const currentMode = historyChange ? 'defects' : 'panelProblems';
-	console.log('currentMode:', currentMode);
+	// console.log('currentMode:', currentMode);
 
 	return (
 		<BasePage>
@@ -54,7 +54,9 @@ export default function DefectsJsx() {
 							<Space>
 								{/*<EditDefaultObjectOnServer catalogName={currentMode}/>*/}
 								<EditDefectCard catalogName={currentMode} />
-								<ButtonSendToSap />
+								{currentMode === 'defects' ? (
+									<ButtonSendToSap />
+								) : null}
 								<DefectCardInfoModal />
 							</Space>
 							<Space>

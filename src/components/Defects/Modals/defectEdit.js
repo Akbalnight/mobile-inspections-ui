@@ -221,6 +221,7 @@ const OperationOnServer = (catalogName, type) => {
 			buttonProps={{
 				type: 'default',
 				icon: <EditOutlined />,
+				disabled: true,
 			}}
 			modalConfig={{
 				type: `${type}OnServer`,

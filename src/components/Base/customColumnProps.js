@@ -1,10 +1,11 @@
 import React from 'react';
 import {toDDMMYYYYdot, toDDMMYYYYHHMMSS} from '../../utils/datesUtils';
 import {Checkbox} from 'antd';
+import {codeNormalizer} from './Functions/TextUtils';
 
 export const code = {
 	name: 'code',
-	cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0'),
+	cellRenderer: ({rowData}) => codeNormalizer(rowData.code),
 };
 
 export const position = {

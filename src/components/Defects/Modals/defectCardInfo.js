@@ -27,7 +27,7 @@ import {classic} from 'rt-design';
 import React from 'react';
 // import {apiGetConfigByName, apiGetFlatDataByConfigName} from "../../../apis/catalog.api";
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
-import {emptyToNd} from '../../Base/Functions/TextUtils';
+import {codeNormalizer, emptyToNd} from '../../Base/Functions/TextUtils';
 
 const HistoryTab = () => {
 	return (
@@ -62,7 +62,12 @@ export const DefectCardInfoModal = () => {
 		)({});
 		if (defectFilesResponse.status === 200)
 			sRow = {...sRow, defectFiles: defectFilesResponse.data};
-		sRow = {...emptyToNd(sRow), equipment: emptyToNd(row.equipment)};
+		sRow = {
+			...emptyToNd(sRow),
+			equipment: emptyToNd(row.equipment),
+			code: codeNormalizer(row.code),
+		};
+		// sRow = {...emptyToNd(sRow), equipment: emptyToNd(row.equipment)};
 		callBack({...sRow});
 	};
 

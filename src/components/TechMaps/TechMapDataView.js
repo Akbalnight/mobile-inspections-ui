@@ -2,26 +2,21 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {AdvancedTable} from 'rt-design';
 import {Checkbox, Button, Modal} from 'antd';
-import {toDDMMYYYYdot} from "../../utils/datesUtils";
+import {toDDMMYYYYdot} from '../../utils/datesUtils';
 import {
-    apiGetConfigByObject,
-    apiGetDataByConfigName,
+	apiGetConfigByObject,
+	apiGetDataByConfigName,
 } from '../../apis/catalog.api';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
-const TechMapDataView = props => {
-
+const TechMapDataView = (props) => {
 	const [loadingConfig, setLoadingConfig] = useState(false);
 	const [techOperationsConfig, setTechOperationsConfig] = useState({});
 
-	const {
-		title,
-		visible,
-		setVisible,
-		rowData,
-	} = props;
+	const {title, visible, setVisible, rowData} = props;
 
 	useEffect(() => {
-		if(visible) {
+		if (visible) {
 			setLoadingConfig(true);
 			loadForm();
 		}
@@ -29,7 +24,9 @@ const TechMapDataView = props => {
 
 	async function loadForm() {
 		try {
-			const toConfig = await apiGetConfigByObject({configName: 'techOperations'});
+			const toConfig = await apiGetConfigByObject({
+				configName: 'techOperations',
+			});
 			setTechOperationsConfig(toConfig.data);
 			setLoadingConfig(false);
 		} catch (error) {
@@ -44,26 +41,32 @@ const TechMapDataView = props => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRender: ({ rowData }) => String(rowData.code).padStart(8,'0')
+			cellRender: ({rowData}) => codeNormalizer(rowData.code),
 		},
-		{ //equipmentStop increasedDanger
+		{
+			//equipmentStop increasedDanger
 			name: 'needInputData',
-			cellRender: ({ rowData }) => <Checkbox defaultChecked={rowData.needInputData} disabled />
+			cellRender: ({rowData}) => (
+				<Checkbox defaultChecked={rowData.needInputData} disabled />
+			),
 		},
 		{
 			name: 'equipmentStop',
-			cellRender: ({ rowData }) => <Checkbox defaultChecked={rowData.equipmentStop} disabled />
+			cellRender: ({rowData}) => (
+				<Checkbox defaultChecked={rowData.equipmentStop} disabled />
+			),
 		},
 		{
 			name: 'increasedDanger',
-			cellRender: ({ rowData }) => <Checkbox defaultChecked={rowData.increasedDanger} disabled />
+			cellRender: ({rowData}) => (
+				<Checkbox defaultChecked={rowData.increasedDanger} disabled />
+			),
 		},
 		{
 			name: 'duration',
-			cellRender: ({cellData}) => `${cellData} мин.`
-		}
+			cellRender: ({cellData}) => `${cellData} мин.`,
+		},
 	];
-
 
 	return (
 		<Modal
@@ -76,7 +79,11 @@ const TechMapDataView = props => {
 			width={'1000px'}
 			className={'TechMap-InfoModal'}
 			footer={[
-				<Button key={'ok'} type="primary" onClick={() => setVisible(false)}>
+				<Button
+					key={'ok'}
+					type='primary'
+					onClick={() => setVisible(false)}
+				>
 					Oк
 				</Button>,
 			]}
@@ -106,7 +113,9 @@ const TechMapDataView = props => {
 				</div>
 			</div>
 
-			<div className={'InfoTitle'} style={{ marginTop: '30px'}}>Технологические операции</div>
+			<div className={'InfoTitle'} style={{marginTop: '30px'}}>
+				Технологические операции
+			</div>
 			<div style={{height: '300px'}}>
 				{!loadingConfig ? (
 					<AdvancedTable
@@ -120,7 +129,7 @@ const TechMapDataView = props => {
 								hierarchical: false,
 								lazyLoad: false,
 								data: {...data, techMapId: rowData.id},
-								params
+								params,
 							})
 						}
 					/>
@@ -136,6 +145,5 @@ TechMapDataView.propTypes = {
 	setVisible: PropTypes.func,
 	rowData: PropTypes.object,
 };
-
 
 export default TechMapDataView;
