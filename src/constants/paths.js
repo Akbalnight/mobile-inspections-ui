@@ -39,10 +39,10 @@ import DefectsJsx from '../components/Defects/DefectsJsx';
 import DefectsForm from '../components/Defects/DefectsForm';
 
 // Debugs
-import DebugConfig from '../components/Debug/Anton/DebugConfig';
-import DebugJSX from '../components/Debug/Anton/DebugJSX';
-import DebugTable from '../components/Debug/Anton/DebugTable';
-import {DebugMarsel} from '../components/Debug/DebugMarsel/DebugMarsel';
+// import DebugConfig from '../components/Debug/Anton/DebugConfig';
+// import DebugJSX from '../components/Debug/Anton/DebugJSX';
+// import DebugTable from '../components/Debug/Anton/DebugTable';
+// import {DebugMarsel} from '../components/Debug/DebugMarsel/DebugMarsel';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -68,36 +68,36 @@ export const paths = {
 		path: `${pathPrefix}/authorization_code`,
 		component: AuthorizationCode,
 	},
-	HOME: {
-		title: 'Главная',
-		path: '/home',
-		component: Home,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	DEBUG_CONFIG: {
-		title: 'Debug config',
-		path: '/config-debug',
-		component: DebugConfig,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	DEBUG_JSX: {
-		title: 'Debug jsx',
-		path: '/jsx-debug',
-		component: DebugJSX,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	DEBUG_TABLE: {
-		title: 'Debug table',
-		path: '/table-debug',
-		component: DebugTable,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	DEBUG_MARSEL: {
-		title: 'DebugMarsel',
-		path: '/debugMarsel',
-		component: DebugMarsel,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
+	// HOME: {
+	// 	title: 'Главная',
+	// 	path: '/home',
+	// 	component: Home,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
+	// DEBUG_CONFIG: {
+	// 	title: 'Debug config',
+	// 	path: '/config-debug',
+	// 	component: DebugConfig,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
+	// DEBUG_JSX: {
+	// 	title: 'Debug jsx',
+	// 	path: '/jsx-debug',
+	// 	component: DebugJSX,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
+	// DEBUG_TABLE: {
+	// 	title: 'Debug table',
+	// 	path: '/table-debug',
+	// 	component: DebugTable,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
+	// DEBUG_MARSEL: {
+	// 	title: 'DebugMarsel',
+	// 	path: '/debugMarsel',
+	// 	component: DebugMarsel,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',
@@ -126,12 +126,6 @@ export const paths = {
 		path: '/detours-configurator/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
-	// DETOURS_CONFIGURATOR_CONTROL_POINTS: {
-	// 	title: 'Контрольные точки',
-	// 	path: '/detours-configurator/control-points',
-	// 	component: ControlPointsD,
-	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	// },
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
@@ -193,7 +187,7 @@ export const paths = {
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
-		title: 'Расписание обходов(таблица)',
+		title: 'Расписание обходов',
 		path: '/detours-configurator/schedules',
 		component: Registry,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
@@ -246,12 +240,6 @@ export const paths = {
 		component: DefectsJsx,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	// CONTROL_DEFECTS_DEFECTS_JSX: {
-	// 	title: 'Журнал учета дефектов JSX',
-	// 	path: '/control-defects/defects-jsx',
-	// 	component: DefectsJsx,
-	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	// },
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',
 		path: '/control-defects/defects/:id',
