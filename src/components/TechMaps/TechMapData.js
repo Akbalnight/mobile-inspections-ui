@@ -24,6 +24,7 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {uuid} from '../../utils/baseUtils';
 import TechOperationsModal from './TechOperationsModal';
 import {paths} from '../../constants/paths';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
 const {confirm} = Modal;
 
@@ -103,7 +104,7 @@ const TechMapData = () => {
 	const customCellRenders = [
 		{
 			name: 'code',
-			cellRenderer: ({rowData}) => String(rowData.code).padStart(8, '0'),
+			cellRenderer: ({rowData}) => codeNormalizer(rowData.code),
 		},
 		{
 			name: 'position',
@@ -171,7 +172,8 @@ const TechMapData = () => {
 				const method = params.id === 'new' ? 'POST' : 'PUT';
 
 				apiSaveTechMap({method, data: saveObject})
-					.then((response) => {
+					.then(() => {
+						// .then((response) => {
 						// console.log('response -> ', response);
 						notification.success({
 							message: 'Сохранение прошло успешно',
@@ -188,7 +190,8 @@ const TechMapData = () => {
 			});
 	};
 
-	const onClickAddHandler = (event) => {
+	const onClickAddHandler = () => {
+		// const onClickAddHandler = (event) => {
 		setTechOperationSelected({
 			id: uuid(),
 			name: '',
