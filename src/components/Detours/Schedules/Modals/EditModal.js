@@ -19,6 +19,7 @@ const {
 	Text,
 	Checkbox,
 	Input,
+	TimePicker,
 } = classic;
 
 /** checkValue задается при первом вызове функции
@@ -26,7 +27,6 @@ const {
  */
 const onChangeRepeaterType = (checkValue) => ({value, setSubscribeProps}) => {
 	const disabled = value.value !== checkValue;
-	// console.log("onChangeRepeaterType", checkValue, disabled)
 	setSubscribeProps({disabled: disabled});
 };
 
@@ -37,6 +37,19 @@ export const EditDetourButton = () => EditModal('edit');
 
 const processBeforeSaveForm = (rawValues) => {
 	const values = {...rawValues};
+
+	//Доступен ли repeater для выполнения
+	values.isAvailable = true;
+	//По умолчанию все конфиги для обходов
+	values.configName = 'detours';
+
+	rawValues.data.detourBeginTime = rawValues.data.detourBeginTime.format(
+		'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+	);
+
+	rawValues.data.detourEndTime = rawValues.data.detourEndTime.format(
+		'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+	);
 
 	if (values.repeaterType === '02') {
 		values.finalCount = null;
@@ -66,7 +79,7 @@ const EditModal = (type) => {
 				title: `Создание расписания обхода`,
 				requestSaveRow: apiSaveByConfigName(`repeaterDataSave`),
 				width: 610,
-				bodyStyle: {height: 960},
+				bodyStyle: {height: 1080},
 				form: {
 					name: 'detours.schedules.registry.editModal',
 					className: prefixCls,
@@ -113,6 +126,23 @@ const EditModal = (type) => {
 					}}
 					placeholder='Basic usage'
 				/>
+				<TimePicker
+					itemProps={{
+						name: ['data', 'detourBeginTime'],
+						label: 'Время начала',
+						rules: [{required: true}],
+						disabled: false,
+					}}
+				></TimePicker>
+				<TimePicker
+					itemProps={{
+						name: ['data', 'detourEndTime'],
+						label: 'Время окончания',
+						rules: [{required: true}],
+						disabled: false,
+					}}
+					// format={'HH:mm'}
+				></TimePicker>
 				<Select
 					itemProps={{
 						name: ['data', 'routeId'],
