@@ -1,7 +1,7 @@
 import {BasePage} from 'mobile-inspections-base-ui';
 import React from 'react';
 import {classic} from 'rt-design';
-import {apiSaveByConfigName} from '../../apis/catalog.api';
+import {apiSaveByConfigName} from '../../../apis/catalog.api';
 
 const {
 	Form,

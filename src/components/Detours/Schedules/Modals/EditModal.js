@@ -124,7 +124,6 @@ const EditModal = (type) => {
 						label: 'Наименование обхода:',
 						rules: [{required: true}],
 					}}
-					placeholder='Basic usage'
 				/>
 				<TimePicker
 					itemProps={{
@@ -133,7 +132,7 @@ const EditModal = (type) => {
 						rules: [{required: true}],
 						disabled: false,
 					}}
-				></TimePicker>
+				/>
 				<TimePicker
 					itemProps={{
 						name: ['data', 'detourEndTime'],
@@ -142,7 +141,7 @@ const EditModal = (type) => {
 						disabled: false,
 					}}
 					// format={'HH:mm'}
-				></TimePicker>
+				/>
 				<Select
 					itemProps={{
 						name: ['data', 'routeId'],

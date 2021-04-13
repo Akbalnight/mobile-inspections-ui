@@ -1,43 +1,48 @@
+// Root
 import Home from '../components/Home/Home';
+import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
+// НСИ
 import Catalog from '../components/Catalog/Catalog';
+// Тех карты
 import TechMaps from '../components/TechMaps/TechMaps';
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 import TechMapData from '../components/TechMaps/TechMapData';
-// import ControlPointsD from '../components/ControlPoints/ControlPointsD';
+// Контрольные точки
 import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
 import {
 	ControlPointAdd,
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
-import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
+// Маршруты и Маршрутные карты
 import Routes from '../components/Routes/Registry/Routes';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
+import {
+	AddRouteMaps,
+	EditRouteMaps,
+} from '../components/RouteMaps/Registry/RouteMaps';
+// Обходы
+// -- legacy
 import Detours from '../components/Detours/legacy/Detours';
 import {
 	DetoursAdd,
 	DetoursEdit,
 } from '../components/Detours/legacy/DetoursForm';
-import {
-	AddRouteMaps,
-	EditRouteMaps,
-} from '../components/RouteMaps/Registry/RouteMaps';
-// import Defects from '../components/Defects/Defects';
-import DefectsJsx from '../components/Defects/DefectsJsx';
-import DefectsForm from '../components/Defects/DefectsForm';
 import DetoursSchedules from '../components/Detours/legacy/DetoursSchedules';
+// -- actual
+import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
+import Registry from '../components/Detours/Schedules/Registry';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
-import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
+// Дефекты
+import DefectsJsx from '../components/Defects/DefectsJsx';
+import DefectsForm from '../components/Defects/DefectsForm';
 
 // Debugs
 import DebugConfig from '../components/Debug/Anton/DebugConfig';
 import DebugJSX from '../components/Debug/Anton/DebugJSX';
 import DebugTable from '../components/Debug/Anton/DebugTable';
 import {DebugMarsel} from '../components/Debug/DebugMarsel/DebugMarsel';
-import DeclarativeDebug from '../components/Debug/DeclarativeDebug';
-// import DetoureSchedulesTable from '../components/Detours/DetoureSchedulesTable';
-import Registry from '../components/Detours/Schedules/Registry';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
