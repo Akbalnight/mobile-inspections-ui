@@ -1,0 +1,10 @@
+<span role="img" aria-label="project" class="anticon pane">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.56022 13.6764H2V1H11.9674V7.33822" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.90565 2.95587H4.01318V5.1221H9.90565V2.95587Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.90565 7.1272H4.01318V9.29342H9.90565V7.1272Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M11.9387 9.97552V15" stroke="currentColor" stroke-miterlimit="10" stroke-linejoin="round"/>
+    <path d="M14.0002 12.8835L11.9383 14.9996L9.8667 12.8835" stroke="currentColor" stroke-miterlimit="10"/>
+</svg>
+    <p>Состав обхода</p>
+</span>

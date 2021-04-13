@@ -183,7 +183,7 @@ const TechMapDataEdit = () => {
 		requestSaveForm: apiSaveTechMap,
 		methodSaveForm: pageParams.id === 'new' ? 'POST' : 'PUT',
 		onFinish: () => {
-			history.push(paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM.path);
+			history.push(paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM.path);
 		},
 		header: [
 			{
@@ -206,7 +206,7 @@ const TechMapDataEdit = () => {
 					className: 'mr-8',
 					onClick: () =>
 						history.push(
-							paths.CONTROL_EQUIPMENTS_TECH_MAPS_FORM.path
+							paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM.path
 						),
 				},
 			},

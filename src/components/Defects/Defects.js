@@ -51,7 +51,7 @@ export default function Defects() {
 						requestLoadConfig: apiGetConfigByName(
 							historyChange ? 'defects' : 'panelProblems'
 						),
-
+						footerProps: {showElements: ['selected']},
 						subscribe: [
 							/** Событие поиска в таблице по значению name */
 							{
@@ -59,7 +59,7 @@ export default function Defects() {
 								path: 'rtd.defects.defectTable.events.onSearch',
 								onChange: ({value, extraData, reloadTable}) => {
 									reloadTable({
-										searchValue: value.value,
+										searchValue: value,
 									});
 								},
 							},

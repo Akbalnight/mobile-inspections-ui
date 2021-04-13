@@ -23,7 +23,7 @@
     "react-split-pane": "^0.1.92",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.61"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.66"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^2.34.0",
@@ -60,7 +60,6 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss, less, md}": [
-      "npm run lint",
       "prettier --write",
       "git add"
     ]

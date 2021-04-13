@@ -4,6 +4,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
+// import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 /**
  * в данном модальном окне сохранение идет в формате "...OnLocal", причиною тому
@@ -16,8 +17,11 @@ export const editControlPointToRoute = () => OperationOnLocal('edit', {});
 
 const OperationOnLocal = (type, code) => {
 	let Row = null;
+	// let controlPointId;
+
 	const loadData = (callBack, row) => {
 		Row = {...row};
+		// controlPointId = Row.id;
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};
@@ -83,7 +87,7 @@ const OperationOnLocal = (type, code) => {
 		let newData = {...data};
 		// console.log('loadControlPointsEquipments Row => ', Row);
 		if (type === 'edit')
-			newData.controlPointsId = Row ? Row.controlPointId : null;
+			newData.controlPointId = Row ? Row.controlPointId : null;
 		return apiGetFlatDataByConfigName('controlPointsEquipments')({
 			params,
 			data: newData,
@@ -126,7 +130,7 @@ const OperationOnLocal = (type, code) => {
 						footerProps: {
 							showElements: ['selected'],
 						},
-						defaultFilter: {controlPointsId: null},
+						defaultFilter: {controlPointId: null},
 						subscribe:
 							type === 'add'
 								? {
@@ -138,7 +142,7 @@ const OperationOnLocal = (type, code) => {
 												setReloadTable &&
 												setReloadTable({
 													filter: {
-														controlPointsId: value.id
+														controlPointId: value.id
 															? value.id
 															: value,
 													},
@@ -147,6 +151,7 @@ const OperationOnLocal = (type, code) => {
 								  }
 								: {},
 						requestLoadRows: loadControlPointsEquipments,
+						// requestLoadRows: selectRowsById('controlPointsEquipments', 'controlPointId', controlPointId),
 						requestLoadConfig: apiGetConfigByName(
 							'controlPointsEquipments'
 						),
@@ -189,6 +194,8 @@ const OperationOnLocal = (type, code) => {
 								requestLoadRows: apiGetHierarchicalDataByConfigName(
 									'techMaps'
 								),
+								// requestLoadRows: selectRowsById('controlPointsEquipments', 'controlPointId', controlPointId),
+
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'techMaps'
 								),

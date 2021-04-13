@@ -1,4 +1,7 @@
 import {FilterOutlined, SettingOutlined} from '@ant-design/icons';
+import {classic} from 'rt-design';
+
+const {Button} = classic;
 
 export const btnFilterSettings = [
 	{
@@ -20,3 +23,9 @@ export const btnFilterSettings = [
 		},
 	},
 ];
+export const ButtonFilterSettings = () => (
+	<>
+		<Button icon={<FilterOutlined />} disabled={true} type={'text'} />
+		<Button icon={<SettingOutlined />} disabled={true} type={'text'} />
+	</>
+);
