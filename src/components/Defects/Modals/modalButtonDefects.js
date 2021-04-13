@@ -57,7 +57,8 @@ export const buttonCloseWithNote = (ref) => {
 				width: 600,
 				bodyStyle: {height: 320},
 				okText: 'Передать',
-				onFinish: (values) => ref && ref.reloadData({}),
+				// onFinish: (values) => ref && ref.reloadData({}),
+				onFinish: () => ref && ref.reloadData({}),
 				requestSaveRow: apiSaveByConfigName('saveDefectsWithNote'), //Один и вариантов сохранения данных
 				form: {
 					name: 'defectCloseData',
@@ -252,6 +253,8 @@ export const ButtonSendToSap = () => {
 				}}
 				dispatch={{
 					path: 'defects.defectTable.modal.events.onSendToSapModal',
+					// диспатчим туда же, где фильтр таблицы, т.к. перезагрузка таблицы одинаковая
+					// path: 'rtd.defects.defectTable.events.onApplyFilter',
 					type: 'event',
 				}}
 				subscribe={[
@@ -278,7 +281,6 @@ export const ButtonSendToSap = () => {
 							name: 'length',
 							label: 'Выбрано дефектов',
 							className: 'mb-0',
-							strong: true,
 						}}
 					/>
 					<Layout>
@@ -295,77 +297,3 @@ export const ButtonSendToSap = () => {
 		</>
 	);
 };
-
-export const buttonSendToSap = [
-	{
-		componentType: 'Item',
-		child: {
-			componentType: 'Modal',
-			buttonProps: {
-				type: 'default',
-				icon: <SendToSap />,
-				disabled: true,
-			},
-			modalConfig: {
-				type: 'editOnServer',
-				title: `Передать в SAP`,
-				width: 350,
-				bodyStyle: {height: 200},
-				okText: 'Передать',
-				form: {
-					name: 'defectCloseData',
-					noPadding: false,
-					labelCol: {span: 12},
-					wrapperCol: {span: 6},
-					loadInitData: (callBack, row) => {
-						callBack(row);
-					},
-					body: [
-						{
-							componentType: 'Item',
-							child: {
-								componentType: 'Title',
-								className: 'mt-0',
-								label:
-									'Выдействительно хотите передать в SAP выбранные дефекты?',
-								level: 5,
-							},
-						},
-						{
-							componentType: 'Item',
-							label: 'Выбрано дефектов',
-							className: 'mb-0',
-							name: 'length',
-							child: {
-								componentType: 'Text',
-								strong: true,
-							},
-						},
-					],
-				},
-			},
-
-			dispatch: {
-				path: 'defects.defectTable.modal.events.onSendToSapModal',
-				type: 'event',
-			},
-			subscribe: [
-				{
-					name: 'sendToSap',
-					path: 'rtd.defects.defectTable.table.selected',
-					onChange: ({value, setModalData, setButtonProps}) => {
-						value &&
-							setModalData &&
-							setModalData({
-								defectsSendToSap: value,
-								length: value.length,
-							});
-						value &&
-							setButtonProps &&
-							setButtonProps({disabled: !(value.length > 0)});
-					},
-				},
-			],
-		},
-	},
-];

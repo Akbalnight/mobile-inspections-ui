@@ -15,16 +15,16 @@ import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
 import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
 import {ReactComponent as Four} from '../../imgs/defects/priority/four.svg';
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
-import {btnFilterSettings} from '../Base/Block/btnFilterSettings';
+// import {btnFilterSettings} from '../Base/Block/btnFilterSettings';
 import {paths} from '../../constants/paths';
-import {
-	buttonCloseWithNote,
-	buttonSendToPanel,
-	buttonSendToSap,
-} from './Modals/modalButtonDefects';
+// import {
+// buttonCloseWithNote,
+// buttonSendToPanel,
+// buttonSendToSap,
+// } from './Modals/modalButtonDefects';
 import {classic} from 'rt-design';
 
-import {editDefectCard} from './Modals/defectEdit';
+// import {editDefectCard} from './Modals/defectEdit';
 
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {useHistory} from 'react-router';
@@ -485,444 +485,444 @@ export const FilterPanel = () => {
  * filterPanel, при изменении этого компонента не забыть сохранить names иначе не будет работать панель фильтрации
  *
  */
-export const headerTable = (history) => {
-	let historyChange =
-		history.location.pathname === '/control-defects/defects';
-	return [
-		{
-			componentType: 'Space',
-			className: 'px-8 pt-8',
-			style: {
-				justifyContent: 'space-between',
-			},
-			children: [
-				{
-					componentType: 'Space',
-					children: [
-						/**
-						 * изменить все модалки на функции
-						 */
-						editDefectCard(
-							historyChange ? ' defects' : ' panelProblems'
-						),
-						buttonCloseWithNote(),
-						...(historyChange
-							? buttonSendToPanel
-							: buttonSendToSap),
-						// defectCardInfoModal(),
-					],
-				},
-				{
-					componentType: ' Space',
-					children: [
-						historyChange
-							? {
-									componentType: ' Item',
-									child: {
-										componentType: ' Button',
-										label: ' Перейти в панель проблем',
-										type: ' primary',
-										onClick: () => {
-											history.push(
-												`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
-											);
-										},
-									},
-							  }
-							: {
-									componentType: ' Item',
-									child: {
-										componentType: ' Button',
-										label: ' Перейти в журнал дефектов',
-										type: ' primary',
-										onClick: () => {
-											history.push(
-												`${paths.CONTROL_DEFECTS_DEFECTS.path}`
-											);
-										},
-									},
-							  },
-						{
-							componentType: ' Item',
-							name: ' searchInput',
-							child: {
-								componentType: ' Search',
-								placeholder: ' Введите наименование',
-								dispatch: {
-									path:
-										' defects.defectTable.events.onSearch',
-									// type: ' event',
-								},
-							},
-						},
-						...btnFilterSettings,
-					],
-				},
-			],
-		},
-		{
-			componentType: ' Item',
-			child: {
-				className: ' mt-8 mb-0',
-				componentType: ' Divider',
-			},
-		},
-		{
-			componentType: ' Space',
-			style: {
-				justifyContent: ' space-between',
-			},
-			children: [
-				{
-					componentType: ' Space',
-					className: ' p-8',
-					children: [
-						{
-							componentType: ' Space',
-							direction: ' vertical',
-							children: [
-								{
-									componentType: ' Item',
-									child: {
-										componentType: ' Text',
-										label: ' Период обнаружения',
-									},
-								},
-								{
-									componentType: ' Space',
-									className: ' mb-0',
-									children: [
-										{
-											componentType: ' Item',
-											name: ' dateDetectDefectStart',
-											label: ' c',
-											className: ' mb-0',
-											child: {
-												componentType: ' DatePicker',
-												dispatch: {
-													path:
-														' defects.defectTable.filter.detectStartDate',
-												},
-												subscribe: [
-													{
-														name: ' startDate',
-														path:
-															' rtd.defects.defectTable.filter.detectEndDate',
-														onChange: ({
-															value,
-															setSubscribeProps,
-														}) => {
-															setSubscribeProps({
-																disabledDate: (
-																	startValue
-																) =>
-																	disabledStartDate(
-																		startValue,
-																		value
-																	),
-															});
-														},
-													},
-													reloadFilterFields(
-														' defects.defectTable.events.onReload'
-													),
-												],
-											},
-										},
-										{
-											componentType: ' Item',
-											name: ' dateDetectDefectEnd',
-											label: ' по',
-											className: ' mb-0',
-											child: {
-												componentType: ' DatePicker',
-												dispatch: {
-													path:
-														' defects.defectTable.filter.detectEndDate',
-												},
-												subscribe: [
-													{
-														name: ' endDate',
-														path:
-															' rtd.defects.defectTable.filter.detectStartDate',
-														onChange: ({
-															value,
-															setSubscribeProps,
-														}) => {
-															setSubscribeProps({
-																disabledDate: (
-																	endValue
-																) =>
-																	disabledEndDate(
-																		value,
-																		endValue
-																	),
-															});
-														},
-													},
-													reloadFilterFields(
-														' defects.defectTable.events.onReload'
-													),
-												],
-											},
-										},
-									],
-								},
-							],
-						},
-						{
-							componentType: ' Space',
-							direction: ' vertical',
-							className: ' ml-8',
-							children: [
-								{
-									componentType: ' Item',
-									child: {
-										componentType: ' Text',
-										label: ' Период устранения',
-									},
-								},
-								{
-									componentType: ' Space',
-									className: ' mb-0',
-									children: [
-										{
-											componentType: ' Item',
-											label: ' c',
-											className: ' mb-0',
-											name: ' dateEliminationPlan',
-											child: {
-												componentType: ' DatePicker',
-												dispatch: {
-													path:
-														' defects.defectTable.filter.eliminateStartDate',
-												},
-												subscribe: [
-													{
-														name: ' startDate',
-														path:
-															' rtd.defects.defectTable.filter.eliminateEndDate',
-														onChange: ({
-															value,
-															setSubscribeProps,
-														}) => {
-															setSubscribeProps({
-																disabledDate: (
-																	startValue
-																) =>
-																	disabledStartDate(
-																		startValue,
-																		value
-																	),
-															});
-														},
-													},
-													reloadFilterFields(
-														' defects.defectTable.events.onReload'
-													),
-												],
-											},
-										},
-										{
-											componentType: ' Item',
-											label: ' по',
-											className: ' mb-0',
-											name: ' dateEliminationFact',
-											child: {
-												componentType: ' DatePicker',
-												dispatch: {
-													path:
-														' defects.defectTable.filter.eliminateEndDate',
-												},
-												subscribe: [
-													{
-														name: ' endDate',
-														path:
-															' rtd.defects.defectTable.filter.eliminateStartDate',
-														onChange: ({
-															value,
-															setSubscribeProps,
-														}) => {
-															setSubscribeProps({
-																disabledDate: (
-																	endValue
-																) =>
-																	disabledEndDate(
-																		value,
-																		endValue
-																	),
-															});
-														},
-													},
-													reloadFilterFields(
-														' defects.defectTable.events.onReload'
-													),
-												],
-											},
-										},
-									],
-								},
-							],
-						},
-						{
-							componentType: ' Space',
-							direction: ' vertical',
-							children: [
-								{
-									componentType: ' Item',
-									child: {
-										componentType: ' Text',
-										label: ' Статус обработки',
-									},
-								},
-								{
-									componentType: ' Item',
-									name: ' selectId',
-									child: {
-										componentType: ' Select',
-										autoClearSearchValue: true,
-										showSearch: true,
-										searchParamName: ' name',
-										showArrow: true,
-										filterOption: false,
-										widthControl: 170,
-										dropdownMatchSelectWidth: 200,
-										mode: ' single',
-										allowClear: true,
-										infinityMode: true,
-										requestLoadRows: apiGetFlatDataByConfigName(
-											historyChange
-												? ' defectStatusesProcess'
-												: ' panelProblemsStatuses'
-										),
-										optionConverter: (option) => ({
-											label: <span>{option.name}</span>,
-											value: option.id,
-											className: '',
-											disabled: undefined,
-										}),
-
-										dispatch: {
-											path: `defects.defectTable.filter.${
-												historyChange
-													? ' statusProcessId'
-													: ' statusPanelId'
-											}`,
-										},
-										subscribe: [
-											reloadFilterFields(
-												' defects.defectTable.events.onReload'
-											),
-										],
-									},
-								},
-							],
-						},
-						historyChange
-							? {}
-							: {
-									componentType: ' Space',
-									direction: ' vertical',
-									children: [
-										{
-											componentType: ' Item',
-											child: {
-												componentType: ' Text',
-												label: ' Приоритет',
-											},
-										},
-										{
-											componentType: ' Item',
-											name: ' panelProblemPriority',
-											child: {
-												componentType: ' Select',
-												autoClearSearchValue: true,
-												showSearch: true,
-												searchParamName: ' name',
-												showArrow: true,
-												filterOption: false,
-												widthControl: 230,
-												dropdownMatchSelectWidth: 200,
-												mode: ' single', //' multiple'
-												allowClear: true,
-												infinityMode: true,
-												placeholder:
-													' Выберите приоритет',
-												requestLoadRows: apiGetFlatDataByConfigName(
-													' panelProblemsPriorities'
-												),
-												optionConverter: (option) => ({
-													label: (
-														<span>
-															{option.name}
-														</span>
-													),
-													value: option.id,
-													className: '',
-													disabled: undefined,
-												}),
-												dispatch: {
-													path:
-														' defects.defectTable.filter.panelPrioriry',
-												},
-												subscribe: [
-													/**
-													 * не работает очищение при ' multiple', надо будет продумать.
-													 */
-													reloadFilterFields(
-														' defects.defectTable.events.onReload'
-													),
-												],
-											},
-										},
-									],
-							  },
-					],
-				},
-
-				{
-					componentType: ' Space',
-					className: ' mt-8',
-					children: [
-						{
-							componentType: ' Item',
-							child: {
-								componentType: ' Button',
-								className: ' mt-16',
-								label: ' Применить',
-								type: ' primary',
-								dispatch: {
-									path:
-										' defects.defectTable.events.onApplyFilter',
-									extraData:
-										' rtd.defects.defectTable.filter',
-									type: ' event',
-								},
-							},
-						},
-						{
-							componentType: ' Item',
-							child: {
-								componentType: ' Button',
-								className: ' mt-16 mr-16',
-								label: ' Сбросить',
-								dispatch: {
-									path:
-										' defects.defectTable.events.onReload',
-									type: ' event',
-								},
-							},
-						},
-					],
-				},
-			],
-		},
-		{
-			componentType: ' Item',
-			child: {
-				className: ' mt-0 mb-8',
-				componentType: ' Divider',
-			},
-		},
-	];
-};
+// export const headerTable = (history) => {
+// 	let historyChange =
+// 		history.location.pathname === '/control-defects/defects';
+// 	return [
+// 		{
+// 			componentType: 'Space',
+// 			className: 'px-8 pt-8',
+// 			style: {
+// 				justifyContent: 'space-between',
+// 			},
+// 			children: [
+// 				{
+// 					componentType: 'Space',
+// 					children: [
+// 						/**
+// 						 * изменить все модалки на функции
+// 						 */
+// 						editDefectCard(
+// 							historyChange ? ' defects' : ' panelProblems'
+// 						),
+// 						buttonCloseWithNote(),
+// 						// ...(historyChange
+// 						// 	? buttonSendToPanel
+// 						// 	: buttonSendToSap),
+// 						// defectCardInfoModal(),
+// 					],
+// 				},
+// 				{
+// 					componentType: ' Space',
+// 					children: [
+// 						historyChange
+// 							? {
+// 									componentType: ' Item',
+// 									child: {
+// 										componentType: ' Button',
+// 										label: ' Перейти в панель проблем',
+// 										type: ' primary',
+// 										onClick: () => {
+// 											history.push(
+// 												`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
+// 											);
+// 										},
+// 									},
+// 							  }
+// 							: {
+// 									componentType: ' Item',
+// 									child: {
+// 										componentType: ' Button',
+// 										label: ' Перейти в журнал дефектов',
+// 										type: ' primary',
+// 										onClick: () => {
+// 											history.push(
+// 												`${paths.CONTROL_DEFECTS_DEFECTS.path}`
+// 											);
+// 										},
+// 									},
+// 							  },
+// 						{
+// 							componentType: ' Item',
+// 							name: ' searchInput',
+// 							child: {
+// 								componentType: ' Search',
+// 								placeholder: ' Введите наименование',
+// 								dispatch: {
+// 									path:
+// 										' defects.defectTable.events.onSearch',
+// 									// type: ' event',
+// 								},
+// 							},
+// 						},
+// 						...btnFilterSettings,
+// 					],
+// 				},
+// 			],
+// 		},
+// 		{
+// 			componentType: ' Item',
+// 			child: {
+// 				className: ' mt-8 mb-0',
+// 				componentType: ' Divider',
+// 			},
+// 		},
+// 		{
+// 			componentType: ' Space',
+// 			style: {
+// 				justifyContent: ' space-between',
+// 			},
+// 			children: [
+// 				{
+// 					componentType: ' Space',
+// 					className: ' p-8',
+// 					children: [
+// 						{
+// 							componentType: ' Space',
+// 							direction: ' vertical',
+// 							children: [
+// 								{
+// 									componentType: ' Item',
+// 									child: {
+// 										componentType: ' Text',
+// 										label: ' Период обнаружения',
+// 									},
+// 								},
+// 								{
+// 									componentType: ' Space',
+// 									className: ' mb-0',
+// 									children: [
+// 										{
+// 											componentType: ' Item',
+// 											name: ' dateDetectDefectStart',
+// 											label: ' c',
+// 											className: ' mb-0',
+// 											child: {
+// 												componentType: ' DatePicker',
+// 												dispatch: {
+// 													path:
+// 														' defects.defectTable.filter.detectStartDate',
+// 												},
+// 												subscribe: [
+// 													{
+// 														name: ' startDate',
+// 														path:
+// 															' rtd.defects.defectTable.filter.detectEndDate',
+// 														onChange: ({
+// 															value,
+// 															setSubscribeProps,
+// 														}) => {
+// 															setSubscribeProps({
+// 																disabledDate: (
+// 																	startValue
+// 																) =>
+// 																	disabledStartDate(
+// 																		startValue,
+// 																		value
+// 																	),
+// 															});
+// 														},
+// 													},
+// 													reloadFilterFields(
+// 														' defects.defectTable.events.onReload'
+// 													),
+// 												],
+// 											},
+// 										},
+// 										{
+// 											componentType: ' Item',
+// 											name: ' dateDetectDefectEnd',
+// 											label: ' по',
+// 											className: ' mb-0',
+// 											child: {
+// 												componentType: ' DatePicker',
+// 												dispatch: {
+// 													path:
+// 														' defects.defectTable.filter.detectEndDate',
+// 												},
+// 												subscribe: [
+// 													{
+// 														name: ' endDate',
+// 														path:
+// 															' rtd.defects.defectTable.filter.detectStartDate',
+// 														onChange: ({
+// 															value,
+// 															setSubscribeProps,
+// 														}) => {
+// 															setSubscribeProps({
+// 																disabledDate: (
+// 																	endValue
+// 																) =>
+// 																	disabledEndDate(
+// 																		value,
+// 																		endValue
+// 																	),
+// 															});
+// 														},
+// 													},
+// 													reloadFilterFields(
+// 														' defects.defectTable.events.onReload'
+// 													),
+// 												],
+// 											},
+// 										},
+// 									],
+// 								},
+// 							],
+// 						},
+// 						{
+// 							componentType: ' Space',
+// 							direction: ' vertical',
+// 							className: ' ml-8',
+// 							children: [
+// 								{
+// 									componentType: ' Item',
+// 									child: {
+// 										componentType: ' Text',
+// 										label: ' Период устранения',
+// 									},
+// 								},
+// 								{
+// 									componentType: ' Space',
+// 									className: ' mb-0',
+// 									children: [
+// 										{
+// 											componentType: ' Item',
+// 											label: ' c',
+// 											className: ' mb-0',
+// 											name: ' dateEliminationPlan',
+// 											child: {
+// 												componentType: ' DatePicker',
+// 												dispatch: {
+// 													path:
+// 														' defects.defectTable.filter.eliminateStartDate',
+// 												},
+// 												subscribe: [
+// 													{
+// 														name: ' startDate',
+// 														path:
+// 															' rtd.defects.defectTable.filter.eliminateEndDate',
+// 														onChange: ({
+// 															value,
+// 															setSubscribeProps,
+// 														}) => {
+// 															setSubscribeProps({
+// 																disabledDate: (
+// 																	startValue
+// 																) =>
+// 																	disabledStartDate(
+// 																		startValue,
+// 																		value
+// 																	),
+// 															});
+// 														},
+// 													},
+// 													reloadFilterFields(
+// 														' defects.defectTable.events.onReload'
+// 													),
+// 												],
+// 											},
+// 										},
+// 										{
+// 											componentType: ' Item',
+// 											label: ' по',
+// 											className: ' mb-0',
+// 											name: ' dateEliminationFact',
+// 											child: {
+// 												componentType: ' DatePicker',
+// 												dispatch: {
+// 													path:
+// 														' defects.defectTable.filter.eliminateEndDate',
+// 												},
+// 												subscribe: [
+// 													{
+// 														name: ' endDate',
+// 														path:
+// 															' rtd.defects.defectTable.filter.eliminateStartDate',
+// 														onChange: ({
+// 															value,
+// 															setSubscribeProps,
+// 														}) => {
+// 															setSubscribeProps({
+// 																disabledDate: (
+// 																	endValue
+// 																) =>
+// 																	disabledEndDate(
+// 																		value,
+// 																		endValue
+// 																	),
+// 															});
+// 														},
+// 													},
+// 													reloadFilterFields(
+// 														' defects.defectTable.events.onReload'
+// 													),
+// 												],
+// 											},
+// 										},
+// 									],
+// 								},
+// 							],
+// 						},
+// 						{
+// 							componentType: ' Space',
+// 							direction: ' vertical',
+// 							children: [
+// 								{
+// 									componentType: ' Item',
+// 									child: {
+// 										componentType: ' Text',
+// 										label: ' Статус обработки',
+// 									},
+// 								},
+// 								{
+// 									componentType: ' Item',
+// 									name: ' selectId',
+// 									child: {
+// 										componentType: ' Select',
+// 										autoClearSearchValue: true,
+// 										showSearch: true,
+// 										searchParamName: ' name',
+// 										showArrow: true,
+// 										filterOption: false,
+// 										widthControl: 170,
+// 										dropdownMatchSelectWidth: 200,
+// 										mode: ' single',
+// 										allowClear: true,
+// 										infinityMode: true,
+// 										requestLoadRows: apiGetFlatDataByConfigName(
+// 											historyChange
+// 												? ' defectStatusesProcess'
+// 												: ' panelProblemsStatuses'
+// 										),
+// 										optionConverter: (option) => ({
+// 											label: <span>{option.name}</span>,
+// 											value: option.id,
+// 											className: '',
+// 											disabled: undefined,
+// 										}),
+//
+// 										dispatch: {
+// 											path: `defects.defectTable.filter.${
+// 												historyChange
+// 													? ' statusProcessId'
+// 													: ' statusPanelId'
+// 											}`,
+// 										},
+// 										subscribe: [
+// 											reloadFilterFields(
+// 												' defects.defectTable.events.onReload'
+// 											),
+// 										],
+// 									},
+// 								},
+// 							],
+// 						},
+// 						historyChange
+// 							? {}
+// 							: {
+// 									componentType: ' Space',
+// 									direction: ' vertical',
+// 									children: [
+// 										{
+// 											componentType: ' Item',
+// 											child: {
+// 												componentType: ' Text',
+// 												label: ' Приоритет',
+// 											},
+// 										},
+// 										{
+// 											componentType: ' Item',
+// 											name: ' panelProblemPriority',
+// 											child: {
+// 												componentType: ' Select',
+// 												autoClearSearchValue: true,
+// 												showSearch: true,
+// 												searchParamName: ' name',
+// 												showArrow: true,
+// 												filterOption: false,
+// 												widthControl: 230,
+// 												dropdownMatchSelectWidth: 200,
+// 												mode: ' single', //' multiple'
+// 												allowClear: true,
+// 												infinityMode: true,
+// 												placeholder:
+// 													' Выберите приоритет',
+// 												requestLoadRows: apiGetFlatDataByConfigName(
+// 													' panelProblemsPriorities'
+// 												),
+// 												optionConverter: (option) => ({
+// 													label: (
+// 														<span>
+// 															{option.name}
+// 														</span>
+// 													),
+// 													value: option.id,
+// 													className: '',
+// 													disabled: undefined,
+// 												}),
+// 												dispatch: {
+// 													path:
+// 														' defects.defectTable.filter.panelPrioriry',
+// 												},
+// 												subscribe: [
+// 													/**
+// 													 * не работает очищение при ' multiple', надо будет продумать.
+// 													 */
+// 													reloadFilterFields(
+// 														' defects.defectTable.events.onReload'
+// 													),
+// 												],
+// 											},
+// 										},
+// 									],
+// 							  },
+// 					],
+// 				},
+//
+// 				{
+// 					componentType: ' Space',
+// 					className: ' mt-8',
+// 					children: [
+// 						{
+// 							componentType: ' Item',
+// 							child: {
+// 								componentType: ' Button',
+// 								className: ' mt-16',
+// 								label: ' Применить',
+// 								type: ' primary',
+// 								dispatch: {
+// 									path:
+// 										' defects.defectTable.events.onApplyFilter',
+// 									extraData:
+// 										' rtd.defects.defectTable.filter',
+// 									type: ' event',
+// 								},
+// 							},
+// 						},
+// 						{
+// 							componentType: ' Item',
+// 							child: {
+// 								componentType: ' Button',
+// 								className: ' mt-16 mr-16',
+// 								label: ' Сбросить',
+// 								dispatch: {
+// 									path:
+// 										' defects.defectTable.events.onReload',
+// 									type: ' event',
+// 								},
+// 							},
+// 						},
+// 					],
+// 				},
+// 			],
+// 		},
+// 		{
+// 			componentType: ' Item',
+// 			child: {
+// 				className: ' mt-0 mb-8',
+// 				componentType: ' Divider',
+// 			},
+// 		},
+// 	];
+// };

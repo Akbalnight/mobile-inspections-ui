@@ -158,10 +158,10 @@ export default function DefectsJsx() {
 											'rtd.defects.defectTable.events.onSearch',
 									},
 									onChange: ({extraData, reloadTable}) => {
-										console.log(
-											'Table onApplyFilter',
-											extraData
-										);
+										// console.log(
+										// 	'Table onApplyFilter',
+										// 	extraData
+										// );
 										reloadTable({
 											searchValue: extraData
 												? extraData.searchValue
@@ -181,6 +181,28 @@ export default function DefectsJsx() {
 										reloadTable({
 											filter: {},
 											searchValue: '',
+										});
+									},
+								},
+								{
+									/** Обработчик события отправки дефектов в SAP */
+									name: 'onSendToSap',
+									path:
+										'rtd.defects.defectTable.modal.events.onSendToSapModal',
+									extraData: {
+										filter:
+											'rtd.defects.defectTable.filter',
+										searchValue:
+											'rtd.defects.defectTable.events.onSearch',
+									},
+									onChange: ({extraData, reloadTable}) => {
+										reloadTable({
+											searchValue: extraData
+												? extraData.searchValue
+												: '',
+											filter: extraData
+												? extraData.filter
+												: '',
 										});
 									},
 								},
