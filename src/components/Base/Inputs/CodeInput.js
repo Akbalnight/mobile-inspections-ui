@@ -5,8 +5,9 @@ export const codeInput = {
 	rules: [
 		{
 			message: 'Заполните код',
-			required: true
-		}
+			required: true,
+		},
 	],
-	child: {componentType: 'InputNumber'}
+	child: {componentType: 'InputNumber'},
+	hidden: true,
 };
