@@ -4,6 +4,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
+import {useState} from 'react';
 // import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 /**
@@ -17,6 +18,7 @@ export const editControlPointToRoute = () => OperationOnLocal('edit', {});
 
 const OperationOnLocal = (type, code) => {
 	let Row = null;
+	const [cPointId, setCPointId] = useState();
 	// let controlPointId;
 
 	const loadData = (callBack, row) => {
@@ -25,7 +27,7 @@ const OperationOnLocal = (type, code) => {
 		if (Row.jsonEquipments) Row.equipments = JSON.parse(Row.jsonEquipments);
 		type === 'add' ? callBack(null) : callBack(Row);
 	};
-
+	console.log(cPointId);
 	const addControlPoint = {
 		componentType: 'Row',
 		gutter: [16, 16],
@@ -147,6 +149,7 @@ const OperationOnLocal = (type, code) => {
 															: value,
 													},
 												});
+											value && setCPointId(value.id);
 										},
 								  }
 								: {},
@@ -185,17 +188,22 @@ const OperationOnLocal = (type, code) => {
 								componentType: 'SingleSelect',
 								widthControl: 0,
 								widthPopup: 740,
-								heightPopup: 300,
-								expandColumnKey: 'id',
+								heightPopup: 150,
+								// expandColumnKey: 'id',
 								rowRender: 'name',
 								expandDefaultAll: true,
 								dispatchPath:
 									'routes.controlPointModal.techMap',
-								requestLoadRows: apiGetHierarchicalDataByConfigName(
-									'techMaps'
-								),
-								// requestLoadRows: selectRowsById('controlPointsEquipments', 'controlPointId', controlPointId),
+								requestLoadRows: ({data, params}) =>
+									apiGetFlatDataByConfigName('techMaps')({
+										data: {
+											...data,
+											controlPointId: cPointId,
+										},
+										params,
+									}),
 
+								// requestLoadRows: selectRowsById('controlPointsEquipments', 'controlPointId', controlPointId),
 								requestLoadDefault: apiGetFlatDataByConfigName(
 									'techMaps'
 								),
