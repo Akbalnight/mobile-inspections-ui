@@ -51,7 +51,8 @@ export const paths = {
 		title: 'Portal ',
 		path: ``,
 		isGroup: true,
-		redirect: `${pathPrefix}/home`,
+		// redirect: `${pathPrefix}/home`,
+		redirect: '/control-defects/defects',
 	},
 	404: {
 		title: '404',
@@ -232,6 +233,7 @@ export const paths = {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
 		component: Home,
+		// redirect: '/control-defects/defects', // возможно, стоит сделать переадресацию на вложенный пункт?
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
@@ -240,6 +242,7 @@ export const paths = {
 		component: DefectsJsx,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',
 		path: '/control-defects/defects/:id',
