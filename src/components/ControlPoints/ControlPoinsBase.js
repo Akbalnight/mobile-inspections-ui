@@ -8,8 +8,9 @@ import {
 } from '../../apis/catalog.api';
 import {CatalogTableHeader} from './tableProps';
 import {code} from '../Base/customColumnProps';
+
 // import {StatusIcon} from "../Defects/tableProps";
-import {CreditCardOutlined} from '@ant-design/icons';
+import {Checkbox} from 'antd';
 
 const {Form, FormBody, Table} = classic;
 
@@ -27,7 +28,7 @@ const customColumnProps = [
 	{
 		name: 'rfidCode',
 		cellRenderer: ({cellData}) =>
-			cellData ? <CreditCardOutlined style={{color: '#98B8E3'}} /> : null,
+			cellData ? <Checkbox checked={true} disabled={true} /> : '---',
 	},
 ];
 /**

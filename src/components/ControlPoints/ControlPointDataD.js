@@ -193,25 +193,32 @@ const ControlPointDataD = (props) => {
 							}}
 						>
 							<FormBody>
-								<Search
-									dispatch={{
-										path:
-											'catalog.controlPoints.equipments.addModal.onSearch',
-									}}
-								/>
+								<Row justify={'end'}>
+									<Col span={12}>
+										<Search
+											dispatch={{
+												path:
+													'catalog.controlPoints.equipments.addModal.onSearch',
+											}}
+											className={'mb-8'}
+										/>
+									</Col>
+								</Row>
 								<Table
 									itemProps={{name: 'equipmentsModalTable'}}
 									selectable={true}
+									// requestLoadRows={apiGetFlatDataByConfigName(
 									requestLoadRows={apiGetHierarchicalDataByConfigName(
 										'equipments'
 									)}
 									requestLoadConfig={apiGetConfigByName(
 										'equipments'
 									)}
+									infinityMode={true}
 									fixWidthColumn={true}
 									subscribe={[
 										{
-											name: 'onSearch',
+											name: 'onControlPointsSearch',
 											path:
 												'rtd.catalog.controlPoints.equipments.addModal.onSearch',
 											onChange: ({
@@ -375,7 +382,7 @@ const ControlPointDataD = (props) => {
 									)}
 									subscribe={[
 										{
-											name: 'onSearch',
+											name: 'onTechMapsSearch',
 											path:
 												'rtd.catalog.controlPoints.techMaps.addModal.onSearch',
 											onChange: ({
