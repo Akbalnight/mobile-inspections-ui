@@ -51,8 +51,7 @@ export const paths = {
 		title: 'Portal ',
 		path: ``,
 		isGroup: true,
-		// redirect: `${pathPrefix}/home`,
-		redirect: '/control-defects/defects',
+		redirect: `${pathPrefix}/control-defects/defects`,
 	},
 	404: {
 		title: '404',
@@ -69,12 +68,14 @@ export const paths = {
 		path: `${pathPrefix}/authorization_code`,
 		component: AuthorizationCode,
 	},
-	// HOME: {
-	// 	title: 'Главная',
-	// 	path: '/home',
-	// 	component: Home,
-	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	// },
+	HOME: {
+		title: 'Главная',
+		path: '/home',
+		// component: Home,
+		// roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		isGroup: true,
+		redirect: `${pathPrefix}/control-defects/defects`,
+	},
 	// DEBUG_CONFIG: {
 	// 	title: 'Debug config',
 	// 	path: '/config-debug',
@@ -110,9 +111,9 @@ export const paths = {
 	DETOURS_CONFIGURATOR: {
 		title: 'Конфигуратор обходов',
 		path: '/detours-configurator',
-		component: Home,
+		// component: Home,
 		isGroup: true,
-		redirect: '/detours-configurator/control-points',
+		redirect: '/detours-configurator/formTechMaps',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	/** Тех. карты на формах */
@@ -209,6 +210,8 @@ export const paths = {
 		title: 'Управление обслуживанием оборудования',
 		path: '/controlEquipments',
 		component: Home,
+		// isGroup: true,
+		// redirect: '/detours-configurator/formTechMaps',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
@@ -232,8 +235,9 @@ export const paths = {
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
-		component: Home,
-		// redirect: '/control-defects/defects', // возможно, стоит сделать переадресацию на вложенный пункт?
+		// component: Home,
+		isGroup: true,
+		redirect: '/control-defects/defects',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
