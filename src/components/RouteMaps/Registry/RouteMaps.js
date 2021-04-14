@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, executeRequest} from 'rt-design';
+import {classic, executeRequest, notificationError} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -173,23 +173,59 @@ const RouteMaps = (props) => {
 											name: 'makeHidden',
 											path:
 												'rtd.routeMaps.mainForm.events.onSelectRoute',
+											extraData:
+												'rtd.routeMaps.mainForm.routeMapsTable',
 											onChange: ({
 												value,
 												setSubscribeProps,
+												extraData,
 											}) => {
-												value &&
-													setSubscribeProps &&
-													setSubscribeProps({
-														dataObject: {
-															routeMap: {
-																id: null,
-																position: null,
-																fileId: null,
-																routeId:
-																	value.value,
+												console.log(extraData);
+												/** возможно лишний запрос, через ExtraData ошибка выходит, думаю над упрощением*/
+												apiGetFlatDataByConfigName(
+													'routeMaps'
+												)({
+													data: {
+														routeId: value.value,
+													},
+												})
+													.then((response) => {
+														setSubscribeProps({
+															dataObject: {
+																routeMap: {
+																	id: null,
+																	position:
+																		response
+																			.data
+																			.length +
+																		1,
+																	fileId: null,
+																	routeId:
+																		value.value,
+																},
 															},
-														},
-													});
+														});
+													})
+													.catch((error) =>
+														notificationError(
+															error,
+															'Ошибка загрузки данных формы'
+														)
+													);
+
+												// 	value &&
+												// 	setSubscribeProps &&
+												// 	setSubscribeProps({
+												// 		dataObject: {
+												// 			routeMap: {
+												// 				id: null,
+												// 				position: null,
+												// 				fileId: null,
+												// 				routeId:
+												// 					value.value,
+												// 			},
+												// 		},
+												// 	});
 											},
 										},
 									]}

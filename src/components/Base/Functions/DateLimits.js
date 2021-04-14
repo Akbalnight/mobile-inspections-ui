@@ -5,7 +5,8 @@ export const disabledStartDate = (startValue, endValue) => {
 	if (!startValue || !endValue) {
 		return false;
 	}
-	return startValue.valueOf() > endValue.valueOf();
+	console.log('1>>>', startValue.valueOf(), '2>>>', endValue.valueOf());
+	return startValue.valueOf() >= endValue.valueOf();
 };
 
 /**
