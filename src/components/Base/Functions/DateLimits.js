@@ -5,7 +5,8 @@ export const disabledStartDate = (startValue, endValue) => {
 	if (!startValue || !endValue) {
 		return false;
 	}
-	return startValue.valueOf() > endValue.valueOf();
+
+	return startValue.startOf('day').valueOf() >= endValue.valueOf();
 };
 
 /**
@@ -15,5 +16,5 @@ export const disabledEndDate = (startValue, endValue) => {
 	if (!endValue || !startValue) {
 		return false;
 	}
-	return endValue.valueOf() <= startValue.valueOf();
+	return endValue.valueOf() <= startValue.startOf('day').valueOf();
 };

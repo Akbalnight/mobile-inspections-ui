@@ -7,10 +7,10 @@ import {
 } from '../../../apis/catalog.api';
 
 import {BasePage} from 'mobile-inspections-base-ui';
-import {
-	addControlPointToRoute,
-	editControlPointToRoute,
-} from '../Modals/routeControlPointEdit';
+// import {
+// 	addControlPointToRoute,
+// 	editControlPointToRoute,
+// } from '../Modals/routeControlPointEdit';
 import {routeViewModal} from '../Modals/routeView';
 import {customColumnProps} from '../tableProps';
 
@@ -45,8 +45,8 @@ export default function Routes() {
 							requestLoadConfig: apiGetConfigByName('routes'),
 
 							modals: [
-								addControlPointToRoute(),
-								editControlPointToRoute(),
+								// addControlPointToRoute(),
+								// editControlPointToRoute(),
 								routeViewModal(history),
 							],
 						},
