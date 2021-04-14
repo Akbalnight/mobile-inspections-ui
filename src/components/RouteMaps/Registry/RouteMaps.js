@@ -173,14 +173,14 @@ const RouteMaps = (props) => {
 											name: 'makeHidden',
 											path:
 												'rtd.routeMaps.mainForm.events.onSelectRoute',
-											extraData:
-												'rtd.routeMaps.mainForm.routeMapsTable',
+											// extraData:
+											//     'rtd.routeMaps.mainForm.routeMapsTable',
 											onChange: ({
 												value,
 												setSubscribeProps,
-												extraData,
+												// extraData,
 											}) => {
-												console.log(extraData);
+												// console.log(extraData);
 												/** возможно лишний запрос, через ExtraData ошибка выходит, думаю над упрощением*/
 												apiGetFlatDataByConfigName(
 													'routeMaps'
@@ -503,12 +503,6 @@ const RouteMaps = (props) => {
 									height: 50,
 									rightCustomSideElement: () => (
 										<>
-											<Button
-												className={'mr-8'}
-												onClick={console.log()}
-											>
-												Закрыть
-											</Button>
 											<Button
 												className={'mr-8'}
 												type={'primary'}
