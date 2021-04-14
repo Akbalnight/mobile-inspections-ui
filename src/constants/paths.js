@@ -51,7 +51,7 @@ export const paths = {
 		title: 'Portal ',
 		path: ``,
 		isGroup: true,
-		redirect: `${pathPrefix}/home`,
+		redirect: `${pathPrefix}/control-defects/defects`,
 	},
 	404: {
 		title: '404',
@@ -68,12 +68,14 @@ export const paths = {
 		path: `${pathPrefix}/authorization_code`,
 		component: AuthorizationCode,
 	},
-	// HOME: {
-	// 	title: 'Главная',
-	// 	path: '/home',
-	// 	component: Home,
-	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	// },
+	HOME: {
+		title: 'Главная',
+		path: '/home',
+		// component: Home,
+		// roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		isGroup: true,
+		redirect: `${pathPrefix}/control-defects/defects`,
+	},
 	// DEBUG_CONFIG: {
 	// 	title: 'Debug config',
 	// 	path: '/config-debug',
