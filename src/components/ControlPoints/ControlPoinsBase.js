@@ -8,6 +8,8 @@ import {
 } from '../../apis/catalog.api';
 import {CatalogTableHeader} from './tableProps';
 import {code} from '../Base/customColumnProps';
+// import {StatusIcon} from "../Defects/tableProps";
+import {CreditCardOutlined} from '@ant-design/icons';
 
 const {Form, FormBody, Table} = classic;
 
@@ -20,6 +22,14 @@ const {Form, FormBody, Table} = classic;
 // import {headerControlPointsTable} from './fdgsd.js';
 // import {logoutUrl} from "mobile-inspections-base-ui/lib/constants/auth.constants";
 
+const customColumnProps = [
+	{...code},
+	{
+		name: 'rfidCode',
+		cellRenderer: ({cellData}) =>
+			cellData ? <CreditCardOutlined style={{color: '#98B8E3'}} /> : null,
+	},
+];
 /**
  * нейминг подписки некорректный, сейчас использована подписка на catalog
  * нужно пееделать в подписку по разделам
@@ -35,7 +45,7 @@ const ControlPointsBase = () => {
 				<FormBody noPadding={true}>
 					<Table
 						footerShow={true}
-						customColumnProps={[{...code}]}
+						customColumnProps={customColumnProps}
 						requestLoadRows={apiGetHierarchicalDataByConfigName(
 							'controlPoints'
 						)}

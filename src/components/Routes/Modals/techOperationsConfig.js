@@ -25,17 +25,19 @@ export const techOperations = (loadControlPointsTechOperations) => [
 				child: {
 					componentType: 'ServerTable',
 					customColumnProps: customColumnProps,
+					defaultFilter: {techMapId: null},
 					// defaultFilter: (type === 'add' ? {techMapId: null} : { techMapId: Row.techMapId } ),
 					dispatchPath: 'routes.controlPointModal.techOperations',
 					subscribe: {
 						name: 'controlPointTechMap',
 						path: 'rtd.routes.controlPointModal.techMap.selected',
-						onChange: ({value, setReloadTable}) =>
+						onChange: ({value, setReloadTable}) => {
 							value &&
-							setReloadTable &&
-							setReloadTable({
-								filter: {techMapId: value.id},
-							}),
+								setReloadTable &&
+								setReloadTable({
+									filter: {techMapId: value.id},
+								});
+						},
 					},
 					footerProps: {
 						rightCustomSideElement: [

@@ -88,24 +88,8 @@ const ControlPointDataD = (props) => {
 		}
 	};
 
-	// /** Функция-очиститель для табличных данных */
-	// const loadRowsHandler = (catalogName) => ({params, data}) => {
-	//     if (controlPointId) {
-	//         // console.log('controlPointId', controlPointId);
-	//         const newData = {...data, controlPointId: controlPointId};
-	//         // return apiGetHierarchicalDataByConfigName (catalogName)({
-	//         // console.log('catalogName', catalogName);
-	//         return apiGetFlatDataByConfigName(catalogName)({
-	//             data: newData,
-	//             params,
-	//         });
-	//     } else {
-	//         // console.log('controlPointId not transferred');
-	//         return new Promise((resolve) => resolve({data: []}));
-	//     }
-	// };
-
-	const onFinish = (values) => {
+	// const onFinish = (values) => {
+	const onFinish = () => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
 	};
 
@@ -128,22 +112,23 @@ const ControlPointDataD = (props) => {
 			</FormHeader>
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
-					<Col span={4}>
-						{controlPointId ? (
-							<InputNumber
-								itemProps={{
-									name: 'code',
-									label: 'Код',
-									rules: [
-										{
-											message: 'Заполните код',
-											required: true,
-										},
-									],
-								}}
-							/>
-						) : null}
-					</Col>
+					{/*<Col span={4}>*/}
+					{controlPointId ? (
+						<InputNumber
+							itemProps={{
+								name: 'code',
+								label: 'Код',
+								hidden: true,
+								// rules: [
+								//     {
+								//         message: 'Заполните код',
+								//         required: true,
+								//     },
+								// ],
+							}}
+						/>
+					) : null}
+					{/*</Col>*/}
 					<Col span={8}>
 						<Input
 							itemProps={{

@@ -140,12 +140,14 @@ const operationOnServer = (type) => {
 						dispatch={{
 							path: 'detours.mainForm.modal.events.startDate',
 						}}
+						showNow={false}
 						subscribe={[
 							{
 								name: 'finishDate',
 								path:
 									'rtd.detours.mainForm.modal.events.finishDate',
 								onChange: ({value, setSubscribeProps}) => {
+									console.log('startDate', value);
 									setSubscribeProps({
 										disabledDate: (startValue) =>
 											disabledStartDate(
@@ -161,6 +163,7 @@ const operationOnServer = (type) => {
 						itemProps={{...itemsInfo.dateFinishPlan}}
 						format={'DD.MM.YYYY HH:mm:ss'}
 						showTime={true}
+						showNow={false}
 						dispatch={{
 							path: 'detours.mainForm.modal.events.finishDate',
 						}}
@@ -170,6 +173,7 @@ const operationOnServer = (type) => {
 								path:
 									'rtd.detours.mainForm.modal.events.startDate',
 								onChange: ({value, setSubscribeProps}) => {
+									console.log('endDate', value);
 									setSubscribeProps({
 										disabledDate: (endValue) =>
 											disabledEndDate(value, endValue),
