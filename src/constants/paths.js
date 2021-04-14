@@ -111,9 +111,9 @@ export const paths = {
 	DETOURS_CONFIGURATOR: {
 		title: 'Конфигуратор обходов',
 		path: '/detours-configurator',
-		component: Home,
+		// component: Home,
 		isGroup: true,
-		redirect: '/detours-configurator/control-points',
+		redirect: '/detours-configurator/formTechMaps',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	/** Тех. карты на формах */
@@ -210,6 +210,8 @@ export const paths = {
 		title: 'Управление обслуживанием оборудования',
 		path: '/controlEquipments',
 		component: Home,
+		// isGroup: true,
+		// redirect: '/detours-configurator/formTechMaps',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
@@ -233,7 +235,9 @@ export const paths = {
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
-		component: Home,
+		// component: Home,
+		isGroup: true,
+		redirect: '/control-defects/defects',
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
