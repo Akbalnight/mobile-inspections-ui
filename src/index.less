@@ -9,8 +9,8 @@
 
 @import './components/Catalog/Catalog.less';
 @import './components/TechMaps/TechMaps.less';
-@import './components/RouteMaps/RouteMaps.less';
-@import './components/Detours/DetoursCalendar.less';
+@import './components/RouteMaps/Registry/RouteMaps.less';
+@import './components/Detours/Registry/DetoursCalendar.less';
 //@import 'components/Detours/DetoureSchedulesTable';
 
 @import './components/Detours/Schedules/styles';
@@ -88,6 +88,12 @@
 	margin-left: 16px;
 }
 
+/** Y-axis*/
+.my-0 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
 /** Paddings */
 .p-0 {
 	padding: 0;
@@ -159,4 +165,11 @@
 
 .ant-menu-sub.ant-menu-inline {
 	background-color: transparent;
+}
+
+
+
+.ant-table-cell:hover .BaseTable__column-resizer {
+	visibility: visible;
+	opacity: 0.5;
 }

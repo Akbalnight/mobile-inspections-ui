@@ -4,6 +4,7 @@ import {ReactComponent as DETOURS_CONFIGURATOR} from '../imgs/menu/detours_confi
 // import {ReactComponent as CONTROL_EQUIPMENTS} from '../imgs/menu/control_equipments.svg';
 import {ReactComponent as CONTROL_DEFECTS} from '../imgs/menu/control_defects.svg';
 import {ReactComponent as ANALYTICS} from '../imgs/menu/analytics.svg';
+import {BugOutlined} from '@ant-design/icons';
 import {paths} from './paths';
 
 export const menu = [
@@ -11,12 +12,24 @@ export const menu = [
 		...paths.HOME,
 		icon: HOME,
 	},
+
 	{
-		...paths.DEBUG,
+		icon: BugOutlined,
+		...paths.DEBUG_CONFIG,
 	},
 	{
-		...paths.DEBUG_2,
+		icon: BugOutlined,
+		...paths.DEBUG_JSX,
 	},
+	{
+		icon: BugOutlined,
+		...paths.DEBUG_TABLE,
+	},
+	// {
+	// 	icon: BugOutlined,
+	// 	...paths.DEBUG_MARSEL,
+	// },
+
 	{
 		...paths.CATALOG,
 		icon: CATALOG,
@@ -28,12 +41,14 @@ export const menu = [
 		children: [
 			paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM,
 			paths.DETOURS_CONFIGURATOR_CONTROL_POINTS,
+			// paths.DEBUG_CP_ANTON,
 			paths.DETOURS_CONFIGURATOR_ROUTES,
 			paths.DETOURS_CONFIGURATOR_DETOURS,
+			// paths.DETOURS_CONFIGURATOR_DETOURS_PREVIOUS,
 			paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
 			paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE,
 			// paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
-			// paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
+			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
 		],
 	},
 	// {
@@ -53,6 +68,7 @@ export const menu = [
 		icon: CONTROL_DEFECTS,
 		children: [
 			paths.CONTROL_DEFECTS_DEFECTS,
+			// paths.CONTROL_DEFECTS_DEFECTS_JSX,
 			paths.CONTROL_DEFECTS_PANEL_PROBLEMS,
 			// paths.CONTROL_DEFECTS_PANEL_DEVIATIONS,
 		],

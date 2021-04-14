@@ -1,28 +1,48 @@
+// Root
 import Home from '../components/Home/Home';
+import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
+// НСИ
 import Catalog from '../components/Catalog/Catalog';
+// Тех карты
 import TechMaps from '../components/TechMaps/TechMaps';
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-import Debug from '../components/Debug/Debug';
 import TechMapData from '../components/TechMaps/TechMapData';
-import ControlPointsD from '../components/ControlPoints/ControlPointsD';
+// Контрольные точки
+import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
 import {
 	ControlPointAdd,
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
-import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
-import Routes from '../components/Routes/Routes';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/RoutesForm';
-import Detours from '../components/Detours/Detours';
-import {DetoursAdd, DetoursEdit} from '../components/Detours/DetoursForm';
-import RouteMaps from '../components/RouteMaps/RouteMaps';
-import Defects from '../components/Defects/Defects';
-import DefectsForm from '../components/Defects/DefectsForm';
-import DetoursSchedules from '../components/Detours/DetoursSchedules';
-import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
-import DeclarativeDebug from '../components/Debug/DeclarativeDebug';
-// import DetoureSchedulesTable from '../components/Detours/DetoureSchedulesTable';
+// Маршруты и Маршрутные карты
+import Routes from '../components/Routes/Registry/Routes';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
+import {
+	AddRouteMaps,
+	EditRouteMaps,
+} from '../components/RouteMaps/Registry/RouteMaps';
+// Обходы
+// -- legacy
+import Detours from '../components/Detours/legacy/Detours';
+import {
+	DetoursAdd,
+	DetoursEdit,
+} from '../components/Detours/legacy/DetoursForm';
+import DetoursSchedules from '../components/Detours/legacy/DetoursSchedules';
+// -- actual
+import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
 import Registry from '../components/Detours/Schedules/Registry';
+import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
+
+// Дефекты
+import DefectsJsx from '../components/Defects/DefectsJsx';
+import DefectsForm from '../components/Defects/DefectsForm';
+
+// Debugs
+import DebugConfig from '../components/Debug/Anton/DebugConfig';
+import DebugJSX from '../components/Debug/Anton/DebugJSX';
+import DebugTable from '../components/Debug/Anton/DebugTable';
+import {DebugMarsel} from '../components/Debug/DebugMarsel/DebugMarsel';
 
 const pathPrefix = process && process.env && process.env.PUBLIC_URL;
 
@@ -54,25 +74,30 @@ export const paths = {
 		component: Home,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DEBUG: {
-		title: 'Debug',
-		path: '/debug',
-		component: Debug,
-		// component: Debug,
+	DEBUG_CONFIG: {
+		title: 'Debug config',
+		path: '/config-debug',
+		component: DebugConfig,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DEBUG_2: {
-		title: 'Debug 2',
-		path: '/2debug',
-		component: DeclarativeDebug,
-		// component: Debug,
+	DEBUG_JSX: {
+		title: 'Debug jsx',
+		path: '/jsx-debug',
+		component: DebugJSX,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	// DEBUG_MARSEL: {
-	// 	title: 'DebugMarsel',
-	// 	path: '/debugMarsel',
-	// 	component: Home,
-	// },
+	DEBUG_TABLE: {
+		title: 'Debug table',
+		path: '/table-debug',
+		component: DebugTable,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	DEBUG_MARSEL: {
+		title: 'DebugMarsel',
+		path: '/debugMarsel',
+		component: DebugMarsel,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',
@@ -101,10 +126,16 @@ export const paths = {
 		path: '/detours-configurator/formTechMaps/:id',
 		component: TechMapDataForm,
 	},
+	// DETOURS_CONFIGURATOR_CONTROL_POINTS: {
+	// 	title: 'Контрольные точки',
+	// 	path: '/detours-configurator/control-points',
+	// 	component: ControlPointsD,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPointsD,
+		component: ControlPointsBase,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
@@ -136,6 +167,12 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
+		component: DetoursMain,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_DETOURS_PREVIOUS: {
+		title: 'Обходы previous',
+		path: '/detours-configurator/detoursPrevious',
 		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
@@ -164,7 +201,13 @@ export const paths = {
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
-		component: RouteMaps,
+		component: AddRouteMaps,
+		roles: ['ROLE_ADMIN'],
+	},
+	DETOURS_CONFIGURATOR_ROUTE_MAPS_EDIT: {
+		title: 'Редактирование маршрутной карты',
+		path: '/detours-configurator/route-maps/:id',
+		component: EditRouteMaps,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_EQUIPMENTS: {
@@ -200,9 +243,15 @@ export const paths = {
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
-		component: Defects,
+		component: DefectsJsx,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	// CONTROL_DEFECTS_DEFECTS_JSX: {
+	// 	title: 'Журнал учета дефектов JSX',
+	// 	path: '/control-defects/defects-jsx',
+	// 	component: DefectsJsx,
+	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	// },
 	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
 		title: 'Создание/редактирование дефекта',
 		path: '/control-defects/defects/:id',
@@ -211,7 +260,7 @@ export const paths = {
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: Defects,
+		component: DefectsJsx,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {

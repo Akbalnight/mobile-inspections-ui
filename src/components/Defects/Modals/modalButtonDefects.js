@@ -1,9 +1,17 @@
+import React from 'react';
 import {ReactComponent as SendToSap} from '../../../imgs/defects/send-to-sap-btn.svg';
 import {ReactComponent as CloseWithNote} from '../../../imgs/defects/close-with-note-btn.svg';
 import {ReactComponent as SendToPanel} from '../../../imgs/defects/send-to-panel-btn.svg';
-import {apiSaveByConfigName} from '../../../apis/catalog.api';
-
+import {
+	apiSaveByConfigName,
+	apiGetConfigByName,
+} from '../../../apis/catalog.api';
+import {classic} from 'rt-design';
 import {defectDetection} from '../../Base/Block/DefectDetection';
+// import {EditOutlined} from "@ant-design/icons";
+// import {StatusIcon} from "../tableProps";
+
+const {FormBody, Layout, Text, Table, Modal} = classic;
 
 /**
  *
@@ -203,6 +211,91 @@ export const buttonSendToPanel = [
 		},
 	},
 ];
+
+export const ButtonSendToSap = () => {
+	const processBeforeSaveForm = (rawValues) => {
+		// console.log('rawValues', rawValues)
+		const defectsToSapQueueArray =
+			rawValues &&
+			rawValues.defectsToSapQueueArray.map((row) => {
+				return {...row, sendedToSap: true, viewOnPanel: true};
+			});
+		//console.log('modifiedValues', modifiedValues)
+		return {defectsToSapQueueArray};
+	};
+	return (
+		<>
+			<Modal
+				buttonProps={{
+					type: 'default',
+					icon: <SendToSap />,
+					disabled: true,
+				}}
+				modalConfig={{
+					okText: 'Передать',
+					type: 'editOnServer',
+					title: `Передать в SAP`,
+					width: 650,
+					bodyStyle: {height: 450},
+					requestSaveRow: apiSaveByConfigName(`sapViewOnPanelSave`),
+					form: {
+						name: 'defectsToSapQueueModal',
+						noPadding: false,
+						methodSaveForm: 'POST',
+						labelCol: {span: 12},
+						wrapperCol: {span: 6},
+						loadInitData: (callBack, row) => {
+							callBack(row);
+						},
+						processBeforeSaveForm: processBeforeSaveForm,
+					},
+				}}
+				dispatch={{
+					path: 'defects.defectTable.modal.events.onSendToSapModal',
+					type: 'event',
+				}}
+				subscribe={[
+					{
+						name: 'sendToSap',
+						path: 'rtd.defects.defectTable.table.selected',
+						onChange: ({value, setModalData, setButtonProps}) => {
+							value &&
+								setModalData &&
+								setModalData({
+									defectsToSapQueueArray: value,
+									length: value.length,
+								});
+							value &&
+								setButtonProps &&
+								setButtonProps({disabled: !(value.length > 0)});
+						},
+					},
+				]}
+			>
+				<FormBody>
+					<Text
+						itemProps={{
+							name: 'length',
+							label: 'Выбрано дефектов',
+							className: 'mb-0',
+							strong: true,
+						}}
+					/>
+					<Layout>
+						<Table
+							itemProps={{
+								name: 'defectsToSapQueueArray',
+							}}
+							fixWidthColumn={true}
+							requestLoadConfig={apiGetConfigByName('defects')}
+						/>
+					</Layout>
+				</FormBody>
+			</Modal>
+		</>
+	);
+};
+
 export const buttonSendToSap = [
 	{
 		componentType: 'Item',

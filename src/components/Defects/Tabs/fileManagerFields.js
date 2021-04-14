@@ -1,39 +1,20 @@
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../apis/catalog.api';
+import {classic} from 'rt-design';
+import React from 'react';
 
+const {Layout, Table} = classic;
 /**
  * нужно будет переделать и получать данные по определенному дефекту
  * связть public.files и  public.defects
  */
-export const fileManagerFields = () => {
-	return {
-		componentType: 'Layout',
-		className: 'ml-16',
-		children: [
-			{
-				componentType: 'Item',
-				name: 'name',
-				child: {
-					componentType: 'Title',
-					level: 5,
-				},
-			},
-
-			{
-				componentType: 'Item',
-				className: 'p-8',
-				child: {
-					componentType: 'FileManager',
-					requestLoadConfig: apiGetConfigByName(
-						'routeControlPoints' // для макета, нужно поменять
-					),
-					requestLoadRows: apiGetFlatDataByConfigName(
-						'routeControlPoints' // для макета, нужно поменять
-					),
-				},
-			},
-		],
-	};
+export const FilesFields = () => {
+	return (
+		<Layout className={'p-8'}>
+			<Table
+				itemProps={{name: 'defectFiles'}}
+				// строки формируются в loadData модалки
+				requestLoadConfig={apiGetConfigByName('defectFiles')}
+			/>
+		</Layout>
+	);
 };
