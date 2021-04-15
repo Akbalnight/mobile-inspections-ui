@@ -6,6 +6,7 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
+import {RouteViewModal} from './Modals/ViewModal';
 
 const {Form, FormBody, Table, Button, Space} = classic;
 export const Routes = () => {
@@ -13,13 +14,15 @@ export const Routes = () => {
 		<BasePage>
 			<Form>
 				<FormBody noPadding={true} scrollable={true}>
-					<Space>
+					<Space className={'p-8'}>
 						<Button>1</Button>
+						<RouteViewModal />
 					</Space>
 					<Table
 						customColumnProps={customColumnProps}
 						requestLoadRows={apiGetFlatDataByConfigName('routes')}
 						requestLoadConfig={apiGetConfigByName('routes')}
+						dispatchPath={'routes.mainForm.table'}
 					/>
 				</FormBody>
 			</Form>
