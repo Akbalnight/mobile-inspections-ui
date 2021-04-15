@@ -1,24 +1,63 @@
 // import {apiGetConfigByName} from '../../../apis/catalog.api';
-import {classic} from 'rt-design';
+import {classic, notificationError} from 'rt-design';
 import React from 'react';
 import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
+// import UploadFile from "rt-design/lib/components/UploadFile/UploadFile";
+import {
+	apiGetFlatDataByConfigName,
+	apiSaveFileByConfigName,
+} from '../../../apis/catalog.api';
 
-const {Layout, Space, Custom} = classic;
-/**
- * нужно будет переделать и получать данные по определенному дефекту
- * связть public.files и  public.defects
- */
+const {Layout, Space, Custom, UploadFile} = classic;
 
-export const FilesFields = () => {
+export const FilesTabFields = ({sRow}) => {
 	return (
-		<Layout className={'p-8'}>
-			<Space></Space>
+		<Layout className={'px-8'}>
+			<Space className={'mb-8'}>
+				<UploadFile
+					itemProps={{
+						name: 'defectUploadFilesHolder', // <- по этому ключу лежит объект с данными для загрузки
+						valuePropName: 'dataObject',
+					}}
+					requestUploadFile={apiSaveFileByConfigName(
+						`defectFilesSave`
+					)}
+					dispatch={{
+						path: 'defects.defectTable.modal.defectFileUpload',
+						type: 'event',
+					}}
+				/>
+			</Space>
 			<Custom
-				itemProps={{name: 'defectFiles'}}
-				render={(props) => {
-					// console.log('At props', props)
-					return <AttachmentsPreview items={props.value} />;
-				}}
+				itemProps={{name: 'defectPreviewFiles'}} // пропс будет заполнен по подписке на кнопку загрузки
+				render={(props) => (
+					<AttachmentsPreview items={props.defectPreviewFiles} />
+				)}
+				subscribe={[
+					{
+						// withMount: true, // можно использовать, если не сработает событие монтирования кнопки
+						name: 'defectFileUploadCustom',
+						path: `rtd.defects.defectTable.modal.defectFileUpload`,
+						onChange: ({setSubscribeProps}) => {
+							apiGetFlatDataByConfigName('defectFiles')({
+								data: {
+									defectId: sRow.id,
+								},
+							})
+								.then((response) => {
+									setSubscribeProps({
+										defectPreviewFiles: response.data,
+									});
+								})
+								.catch((error) =>
+									notificationError(
+										error,
+										'Ошибка загрузки файлов гарантии'
+									)
+								);
+						},
+					},
+				]}
 			/>
 		</Layout>
 	);
