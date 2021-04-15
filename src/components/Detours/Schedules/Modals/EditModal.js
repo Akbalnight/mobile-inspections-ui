@@ -310,7 +310,7 @@ const EditModal = (type) => {
 				<DatePicker
 					itemProps={{
 						name: 'dateStart',
-						label: 'Дата начала:',
+						label: 'Начать повторение с:',
 						rules: [{required: true}],
 						disabled: false,
 					}}
@@ -319,7 +319,7 @@ const EditModal = (type) => {
 				<DatePicker
 					itemProps={{
 						name: 'nextExecution',
-						label: 'Начать повторение с:',
+						label: 'Дата след. выполнения:',
 						rules: [{required: true}],
 						disabled: false,
 					}}
