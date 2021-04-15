@@ -44,21 +44,21 @@ export const CommonFileIcon = ({extension}) => {
 		case 'rar':
 			return <FileZipOutlined style={{color: '#ed8c24'}} />;
 		default:
-			return <FileUnknownOutlined style={{color: '#666'}} />;
+			return <FileUnknownOutlined style={{color: '#bdbdbd'}} />;
 	}
 };
 
 /**
  * превью вложенных файлов. {items} .fileUrl, .fileType, .fileName,
  * */
-export const AttachmentsPreview = ({items}) => {
+export const AttachmentsPreview = ({items, enableTitles = true}) => {
 	const images = [];
 	const files = [];
 
 	const DisplayImages = ({images}) => {
 		return (
 			<>
-				<Title level={5}>Изображения</Title>
+				{enableTitles ? <Title level={5}>Изображения</Title> : null}
 				<div className={'imagesPreviewList'}>
 					<Image.PreviewGroup>
 						{images.map((image, index) => (
@@ -79,7 +79,7 @@ export const AttachmentsPreview = ({items}) => {
 	const DisplayFiles = ({files}) => {
 		return (
 			<>
-				<Title level={5}>Файлы</Title>
+				{enableTitles ? <Title level={5}>Файлы</Title> : null}
 				<ul className={'filesPreviewList'}>
 					{files.map((file, index) => (
 						<li key={index}>

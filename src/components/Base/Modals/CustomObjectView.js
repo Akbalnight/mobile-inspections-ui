@@ -285,12 +285,9 @@ export const CustomObjectView = ({catalogName, unique}) => {
 																sRow.id,
 															type: 'warranty',
 														},
-														// params: {size: 50},
 													})
 														.then((response) => {
-															// console.log('warranty response.data:', response.data)
 															setSubscribeProps({
-																// warrantyPreviewFiles: normalizePreviewFiles(response.data),
 																warrantyPreviewFiles:
 																	response.data,
 															});
