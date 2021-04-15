@@ -17,7 +17,8 @@ const columnProps = [
 	{
 		name: 'interval',
 		cellRenderer: ({rowData, cellData}) => {
-			let period = cellData > 1 ? rowData.periodName + 's' : rowData;
+			let period =
+				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
 
 			return cellData + ' ' + period;
 		},
