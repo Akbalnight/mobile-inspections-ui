@@ -15,7 +15,7 @@ import {
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
 // Маршруты и Маршрутные карты
-import Routes from '../components/Routes/Registry/Routes';
+import RoutesPrevious from '../components/Routes/Registry/RoutesPrevious';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
 import {
 	AddRouteMaps,
@@ -23,7 +23,6 @@ import {
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
 // -- legacy
-import Detours from '../components/Detours/legacy/Detours';
 import {
 	DetoursAdd,
 	DetoursEdit,
@@ -37,6 +36,7 @@ import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 // Дефекты
 import DefectsJsx from '../components/Defects/DefectsJsx';
 import DefectsForm from '../components/Defects/DefectsForm';
+import {Routes} from '../components/Routes/Registry/Routes';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -150,26 +150,26 @@ export const paths = {
 		component: Routes,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	DETOURS_CONFIGURATOR_ROUTES_PREVIOUS: {
+		title: 'Маршруты previous',
+		path: '/detours-configurator/routesPrevious',
+		component: RoutesPrevious,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
 		title: 'Создание маршрута',
-		path: '/detours-configurator/routes/new',
+		path: '/detours-configurator/routesPrevious/new',
 		component: RoutesAdd,
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT: {
 		title: 'Редактирование маршрута',
-		path: '/detours-configurator/routes/:id',
+		path: '/detours-configurator/routesPrevious/:id',
 		component: RoutesEdit,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
 		component: DetoursMain,
-		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_PREVIOUS: {
-		title: 'Обходы previous',
-		path: '/detours-configurator/detoursPrevious',
-		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_DATA_ADD: {

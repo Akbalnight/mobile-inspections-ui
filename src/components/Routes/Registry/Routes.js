@@ -1,64 +1,28 @@
-import React from 'react';
-import {useHistory} from 'react-router';
-import {Form} from 'rt-design';
+import {BasePage} from 'mobile-inspections-base-ui';
+import {classic} from 'rt-design';
+import {customColumnProps} from '../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
+import React from 'react';
 
-import {BasePage} from 'mobile-inspections-base-ui';
-// import {
-// 	addControlPointToRoute,
-// 	editControlPointToRoute,
-// } from '../Modals/routeControlPointEdit';
-import {routeViewModal} from '../Modals/routeView';
-import {customColumnProps} from '../tableProps';
-
-/**
- * Основной компонент, отсюда выходят все станицы и модальные окна
- */
-export default function Routes() {
-	let history = useHistory();
-
-	const formConfig = {
-		noPadding: true,
-		body: [
-			{
-				componentType: 'Layout',
-				children: [
-					{
-						componentType: 'Item',
-						child: {
-							componentType: 'LocalTable',
-							customColumnProps: [...customColumnProps],
-							history,
-							commandPanelProps: {
-								systemBtnProps: {
-									add: {actionType: 'page'},
-									edit: {actionType: ['page', 'modal']},
-									delete: {},
-								},
-							},
-							requestLoadRows: apiGetFlatDataByConfigName(
-								'routes'
-							),
-							requestLoadConfig: apiGetConfigByName('routes'),
-
-							modals: [
-								// addControlPointToRoute(),
-								// editControlPointToRoute(),
-								routeViewModal(history),
-							],
-						},
-					},
-				],
-			},
-		],
-	};
-
+const {Form, FormBody, Table, Button, Space} = classic;
+export const Routes = () => {
 	return (
 		<BasePage>
-			<Form {...formConfig} />
+			<Form>
+				<FormBody noPadding={true} scrollable={true}>
+					<Space>
+						<Button>1</Button>
+					</Space>
+					<Table
+						customColumnProps={customColumnProps}
+						requestLoadRows={apiGetFlatDataByConfigName('routes')}
+						requestLoadConfig={apiGetConfigByName('routes')}
+					/>
+				</FormBody>
+			</Form>
 		</BasePage>
 	);
-}
+};
