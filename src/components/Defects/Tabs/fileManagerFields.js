@@ -3,7 +3,7 @@ import {classic} from 'rt-design';
 import React from 'react';
 import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
 
-const {Layout, Custom} = classic;
+const {Layout, Space, Custom} = classic;
 /**
  * нужно будет переделать и получать данные по определенному дефекту
  * связть public.files и  public.defects
@@ -12,6 +12,7 @@ const {Layout, Custom} = classic;
 export const FilesFields = () => {
 	return (
 		<Layout className={'p-8'}>
+			<Space></Space>
 			<Custom
 				itemProps={{name: 'defectFiles'}}
 				render={(props) => {
@@ -19,11 +20,6 @@ export const FilesFields = () => {
 					return <AttachmentsPreview items={props.value} />;
 				}}
 			/>
-			{/*<Table*/}
-			{/*    itemProps={{name: 'defectFiles'}}*/}
-			{/*    // строки формируются в loadData модалки*/}
-			{/*    requestLoadConfig={apiGetConfigByName('defectFiles')}*/}
-			{/*/>*/}
 		</Layout>
 	);
 };
