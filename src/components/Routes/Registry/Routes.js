@@ -7,18 +7,41 @@ import {
 } from '../../../apis/catalog.api';
 import React from 'react';
 import {RouteViewModal} from './Modals/ViewModal';
+import {EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {paths} from '../../../constants/paths';
+import {useHistory} from 'react-router';
 
 const {Form, FormBody, Table, Button, Space} = classic;
 export const Routes = () => {
+	const history = useHistory();
 	return (
 		<BasePage>
 			<Form>
 				<FormBody noPadding={true} scrollable={true}>
-					<Space className={'p-8'}>
-						<Button>1</Button>
-						<RouteViewModal />
+					<Space
+						className={'p-8'}
+						style={{justifyContent: 'space-between'}}
+					>
+						<Space>
+							<Button
+								icon={<PlusOutlined />}
+								onClick={() => {
+									history.push(
+										paths
+											.DETOURS_CONFIGURATOR_ROUTES_DATA_NEW
+											.path
+									);
+								}}
+							/>
+							<Button icon={<EditOutlined />} />
+							<RouteViewModal />
+						</Space>
+						<Space>
+							<Button>1</Button>
+						</Space>
 					</Space>
 					<Table
+						infinityMode={true}
 						customColumnProps={customColumnProps}
 						requestLoadRows={apiGetFlatDataByConfigName('routes')}
 						requestLoadConfig={apiGetConfigByName('routes')}

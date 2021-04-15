@@ -26,23 +26,23 @@ import {customColumnProps} from '../tableProps';
  *
  * routeMapsControlPointViewModal(history) - временное решение пока не обсудили входные данные с сервера
  */
-export const RoutesAdd = () => {
+export const RoutesAddL = () => {
 	return (
 		<BasePage>
-			<RoutesForm />
+			<Legacy />
 		</BasePage>
 	);
 };
-export const RoutesEdit = () => {
+export const RoutesEditL = () => {
 	const pageParams = useParams();
 	return (
 		<BasePage>
-			<RoutesForm routeId={pageParams.id} />
+			<Legacy routeId={pageParams.id} />
 		</BasePage>
 	);
 };
 
-const RoutesForm = (props) => {
+const Legacy = (props) => {
 	const {routeId} = props;
 	const history = useHistory();
 

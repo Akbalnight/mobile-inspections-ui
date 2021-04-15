@@ -16,7 +16,8 @@ import {
 } from '../components/ControlPoints/ControlPointDataD';
 // Маршруты и Маршрутные карты
 import RoutesPrevious from '../components/Routes/Registry/RoutesPrevious';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
+import {RoutesAddL, RoutesEditL} from '../components/Routes/Form/Legacy';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
 import {
 	AddRouteMaps,
 	EditRouteMaps,
@@ -150,21 +151,31 @@ export const paths = {
 		component: Routes,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
+		title: 'Создание маршрута',
+		path: '/detours-configurator/routes/new',
+		component: RoutesAdd,
+	},
+	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT: {
+		title: 'Редактирование маршрута',
+		path: '/detours-configurator/routes/:id',
+		component: RoutesEdit,
+	},
 	DETOURS_CONFIGURATOR_ROUTES_PREVIOUS: {
 		title: 'Маршруты previous',
 		path: '/detours-configurator/routesPrevious',
 		component: RoutesPrevious,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
-	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
+	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW_PREV: {
 		title: 'Создание маршрута',
 		path: '/detours-configurator/routesPrevious/new',
-		component: RoutesAdd,
+		component: RoutesAddL,
 	},
-	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT: {
+	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT_PREV: {
 		title: 'Редактирование маршрута',
 		path: '/detours-configurator/routesPrevious/:id',
-		component: RoutesEdit,
+		component: RoutesEditL,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',

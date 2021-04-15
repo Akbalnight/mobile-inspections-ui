@@ -4,8 +4,9 @@ import {itemsInfo} from '../../../../constants/dictionary';
 import {duration} from '../../../Base/customColumnProps';
 import {apiGetConfigByName} from '../../../../apis/catalog.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
+import {AttachmentsPreview} from '../../../Base/Functions/MediaUtils';
 
-const {Modal, FormBody, Text, Table, Layout, Space, Title} = classic;
+const {Modal, FormBody, Text, Table, Layout, Space, Title, Custom} = classic;
 export const RouteViewModal = () => {
 	let sRow;
 
@@ -19,7 +20,7 @@ export const RouteViewModal = () => {
 		if (controlPointsByIdResponse.status === 200)
 			sRow = {...sRow, cpById: controlPointsByIdResponse.data};
 		const routeMapsByIdResponse = await selectRowsById(
-			'routeControlPoints',
+			'routeMaps',
 			'routeId',
 			sRow.id
 		)({});
@@ -59,21 +60,36 @@ export const RouteViewModal = () => {
 					<Text itemProps={{...itemsInfo.code}} />
 					<Text
 						itemProps={{
-							name: 'duration',
-							label: 'Продолжительность',
-							className: 'mb-8',
+							...itemsInfo.duration,
 						}}
 					/>
 				</Space>
 				<Title label={'Контрольные точки'} level={5} />
-				<Layout>
+				<Layout style={{height: '150px'}}>
 					<Table
 						itemProps={{name: 'cpById'}}
 						customColumnProps={[{...duration}]}
-						// requestLoadRows={loadControlPointsHandler}
 						requestLoadConfig={apiGetConfigByName(
 							'routeControlPoints'
 						)}
+					/>
+				</Layout>
+				<Title
+					label={'Маршрутные карты'}
+					level={5}
+					className={'mt-8'}
+				/>
+				<Layout style={{height: '200px'}}>
+					<Custom
+						itemProps={{name: 'rmById'}}
+						render={({value}) => {
+							return value ? (
+								<AttachmentsPreview
+									enableTitles={false}
+									items={value}
+								/>
+							) : null;
+						}}
 					/>
 				</Layout>
 			</FormBody>
