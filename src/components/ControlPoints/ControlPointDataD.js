@@ -214,7 +214,8 @@ const ControlPointDataD = (props) => {
 									requestLoadConfig={apiGetConfigByName(
 										'equipments'
 									)}
-									infinityMode={true}
+									// infinityMode={false}
+									type={'rt'}
 									fixWidthColumn={true}
 									subscribe={[
 										{
