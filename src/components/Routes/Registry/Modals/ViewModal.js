@@ -57,7 +57,7 @@ export const RouteViewModal = () => {
 				<Title label={'Описание'} level={5} />
 				<Space style={{justifyContent: 'space-around'}}>
 					<Text itemProps={{...itemsInfo.name, rules: []}} />
-					<Text itemProps={{...itemsInfo.code}} />
+					<Text itemProps={{...itemsInfo.code, rules: []}} />
 					<Text
 						itemProps={{
 							...itemsInfo.duration,

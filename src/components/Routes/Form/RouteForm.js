@@ -1,8 +1,14 @@
 import {BasePage} from 'mobile-inspections-base-ui';
 import {useHistory, useParams} from 'react-router';
 import React from 'react';
-import {classic} from 'rt-design';
+import {classic, notificationError} from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
+import {selectRowsById} from '../../Base/Functions/TableSelectById';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+} from '../../../apis/catalog.api';
+import {paths} from '../../../constants/paths';
 
 const {
 	Form,
@@ -36,8 +42,33 @@ export const RoutesEdit = () => {
 const RouteForm = (props) => {
 	const {routeId} = props;
 	const history = useHistory();
+
+	const loadData = (callBack) => {
+		if (routeId) {
+			apiGetFlatDataByConfigName('routes')({
+				data: {id: routeId},
+			})
+				.then((response) => {
+					callBack(response.data[0]);
+				})
+				.catch((error) =>
+					notificationError(error, 'Ошибка загрузки данных формы')
+				);
+		} else {
+			callBack({
+				name: null,
+				duration: null,
+			});
+		}
+	};
 	return (
-		<Form>
+		<Form
+			loadInitData={loadData}
+			methodSaveForm={routeId ? 'PUT' : 'POST'}
+			onFinish={() => {
+				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
+			}}
+		>
 			<FormHeader>
 				<Title
 					level={3}
@@ -48,13 +79,39 @@ const RouteForm = (props) => {
 					}
 				/>
 			</FormHeader>
-			<FormBody>
-				<Space>
+			<FormBody noPadding={true}>
+				<Space
+					style={{
+						justifyContent: 'space-around',
+						width: '60%',
+						alignItems: 'flex-start',
+					}}
+				>
 					<Input itemProps={{...itemsInfo.name}} />
-					<InputNumber />
+					<InputNumber itemProps={{...itemsInfo.duration}} min={0} />
 				</Space>
+				<Title
+					label={'Контрольные точки'}
+					level={5}
+					className={'ml-8'}
+				/>
 				<Layout>
-					<Table />
+					<Space className={'p-8'}>
+						<Button>1</Button>
+					</Space>
+					<Table
+						requestLoadRows={selectRowsById(
+							'routeControlPoints',
+							'routeId',
+							routeId ? routeId : undefined
+						)}
+						requestLoadConfig={apiGetConfigByName(
+							'routeControlPoints'
+						)}
+					/>
+				</Layout>
+				<Layout>
+					<div>Начать отсюда</div>
 				</Layout>
 			</FormBody>
 			<FormFooter>

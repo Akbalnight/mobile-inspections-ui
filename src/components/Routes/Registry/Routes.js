@@ -13,6 +13,7 @@ import {useHistory} from 'react-router';
 
 const {Form, FormBody, Table, Button, Space} = classic;
 export const Routes = () => {
+	let sValueId = null;
 	const history = useHistory();
 	return (
 		<BasePage>
@@ -33,7 +34,37 @@ export const Routes = () => {
 									);
 								}}
 							/>
-							<Button icon={<EditOutlined />} />
+							<Button
+								icon={<EditOutlined />}
+								disabled={true}
+								subscribe={[
+									{
+										name: 'editRouteForm',
+										path:
+											'rtd.routes.mainForm.table.selected',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											if (value) {
+												sValueId = value.id;
+												setSubscribeProps({
+													disabled: !value,
+												});
+											} else {
+												sValueId = null;
+											}
+										},
+									},
+								]}
+								onClick={() =>
+									history.push(
+										paths.DETOURS_CONFIGURATOR_ROUTES.path +
+											'/' +
+											sValueId
+									)
+								}
+							/>
 							<RouteViewModal />
 						</Space>
 						<Space>

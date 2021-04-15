@@ -287,5 +287,11 @@ export const itemsInfo = {
 		name: 'duration',
 		label: 'Продолжительность, мин.',
 		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните продолжительность',
+				required: true,
+			},
+		],
 	},
 };
