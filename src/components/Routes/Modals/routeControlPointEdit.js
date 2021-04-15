@@ -195,7 +195,7 @@ const OperationOnLocal = (type, code) => {
 								dispatchPath:
 									'routes.controlPointModal.techMap',
 								requestLoadRows: ({data, params}) =>
-									apiGetFlatDataByConfigName('techMaps')({
+									apiGetFlatDataByConfigName('techMapsByCP')({
 										data: {
 											...data,
 											controlPointId: cPointId,
@@ -205,7 +205,7 @@ const OperationOnLocal = (type, code) => {
 
 								// requestLoadRows: selectRowsById('controlPointsEquipments', 'controlPointId', controlPointId),
 								requestLoadDefault: apiGetFlatDataByConfigName(
-									'techMaps'
+									'techMapsByCP'
 								),
 							},
 						},
