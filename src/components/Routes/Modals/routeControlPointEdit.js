@@ -5,6 +5,7 @@ import {
 } from '../../../apis/catalog.api';
 import {techOperations} from './techOperationsConfig';
 import {useState} from 'react';
+
 // import {selectRowsById} from '../../Base/Functions/TableSelectById';
 
 /**
@@ -240,8 +241,11 @@ const OperationOnLocal = (type, code) => {
 				subscribe: {
 					name: 'controlPointEquipments',
 					path: 'rtd.routes.controlPointModal.controlPoint.selected',
-					onChange: ({value, setSubscribeProps}) =>
-						value && setSubscribeProps({value: value.name}),
+					onChange: ({value, setSubscribeProps}) => {
+						console.log(value);
+
+						value && setSubscribeProps({value: value.name});
+					},
 				},
 			},
 		},
