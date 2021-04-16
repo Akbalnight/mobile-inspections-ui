@@ -79,7 +79,7 @@ const EditModal = (type) => {
 				title: `Создание расписания обхода`,
 				requestSaveRow: apiSaveByConfigName(`repeaterDataSave`),
 				width: 610,
-				bodyStyle: {height: 1080},
+				bodyStyle: {height: 580},
 				form: {
 					name: 'detours.schedules.registry.editModal',
 					className: prefixCls,
@@ -112,7 +112,7 @@ const EditModal = (type) => {
 				},
 			]}
 		>
-			<FormBody noPadding={false} scrollable={false}>
+			<FormBody noPadding={false} scrollable={true}>
 				<div className={'mb-16 mt-16'}>
 					<h3>Создание обхода</h3>
 				</div>
@@ -309,8 +309,17 @@ const EditModal = (type) => {
 				/>
 				<DatePicker
 					itemProps={{
-						name: 'nextExecution',
+						name: 'dateStart',
 						label: 'Начать повторение с:',
+						rules: [{required: true}],
+						disabled: false,
+					}}
+					format={'LLLL'}
+				/>
+				<DatePicker
+					itemProps={{
+						name: 'nextExecution',
+						label: 'Дата след. выполнения:',
 						rules: [{required: true}],
 						disabled: false,
 					}}

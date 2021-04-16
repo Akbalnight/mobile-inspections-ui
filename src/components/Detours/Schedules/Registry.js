@@ -6,6 +6,7 @@ import {
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
 import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
+import moment from 'moment';
 const {Form, Table, FormBody, Space} = classic;
 // import {
 // 	AddDetourButton,
@@ -16,9 +17,16 @@ const columnProps = [
 	{
 		name: 'interval',
 		cellRenderer: ({rowData, cellData}) => {
-			let period = cellData > 1 ? rowData.periodName + 's' : rowData;
+			let period =
+				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
 
 			return cellData + ' ' + period;
+		},
+	},
+	{
+		name: 'nextExecution',
+		cellRenderer: ({rowData, cellData}) => {
+			return moment(cellData).format('DD.MM.YYYY HH:mm:ss');
 		},
 	},
 ];
