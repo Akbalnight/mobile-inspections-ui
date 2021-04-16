@@ -24,7 +24,7 @@ const {
 	// Checkbox
 } = classic;
 
-export const EquipmentFields = () => {
+export const EquipmentTabFields = () => {
 	return (
 		<Layout className={'p-8'}>
 			<Text

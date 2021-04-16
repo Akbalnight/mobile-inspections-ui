@@ -1,4 +1,4 @@
-import {classic} from 'rt-design';
+import {classic, notificationError} from 'rt-design';
 import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
 import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
 import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
@@ -13,6 +13,7 @@ import {
 import React from 'react';
 import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';
+import {AttachmentsPreview} from '../Functions/MediaUtils';
 
 const {
 	Modal,
@@ -32,6 +33,7 @@ const {
 	Table,
 	Divider,
 	List,
+	Custom,
 } = classic;
 /**
  *
@@ -45,15 +47,27 @@ export const CustomObjectView = ({catalogName, unique}) => {
 	let sRow;
 	let history = useHistory();
 
+	// const normalizeFiles = (filesList) => { // потребуется, если будем забирать данные lkz превью из строки row
+	//     return filesList.map((file) =>
+	//         ({
+	//             fileName: file.name,
+	//             fileUrl: file.url,
+	//             fileType: file.extension,
+	//         })
+	//     )
+	// }
+
 	/**
 	 *
 	 * @param callBack function change state (row)
 	 * @param row info object from table
 	 * @desc It's difficult func because many actions with current state
 	 */
+
 	const loadInitData = (callBack, row) => {
 		sRow = row;
 		// console.log('sRow',sRow)
+
 		const dataObjectWarranty = {
 			equipmentFiles: {
 				equipmentId: row.id,
@@ -69,6 +83,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 		callBack({
 			// controlPointId:sRow.id,
 			...row,
+			// warrantyPreviewFiles: normalizeFiles(row.warrantyFiles),
 			warrantyUploadObject: dataObjectWarranty,
 			attachmentUploadObject: dataObjectAttachment,
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение
@@ -241,37 +256,50 @@ export const CustomObjectView = ({catalogName, unique}) => {
 											}}
 										/>
 									</Space>
-									<Divider className={'my-8'} />
-									<Table
-										itemProps={{name: 'warrantyTableFiles'}}
-										defaultFilter={{
-											type: 'warranty',
+									<Divider className={'mt-8 mb-8'} />
+									<Custom
+										itemProps={{
+											name: 'warrantyPreviewFiles',
 										}}
-										infinityMode={true}
-										requestLoadRows={({data, params}) =>
-											apiGetFlatDataByConfigName(
-												'equipmentFiles'
-											)({
-												data: {
-													...data,
-													equipmentId: sRow.id,
-												},
-												params,
-											})
-										}
-										requestLoadConfig={apiGetConfigByName(
-											'equipmentFiles'
-										)} //
+										render={(props) => {
+											// console.log('warranty props', props)
+											return props.warrantyPreviewFiles ? (
+												<AttachmentsPreview
+													items={
+														props.warrantyPreviewFiles
+													}
+												/>
+											) : null;
+										}}
 										subscribe={[
 											{
+												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'warrantyUploadFile',
 												path: `rtd.catalog.${catalogName}Table.modal.warrantyUpload`,
-												onChange: ({reloadTable}) => {
-													reloadTable({
-														filter: {
+												onChange: ({
+													setSubscribeProps,
+												}) => {
+													apiGetFlatDataByConfigName(
+														'equipmentFiles'
+													)({
+														data: {
+															equipmentId:
+																sRow.id,
 															type: 'warranty',
 														},
-													});
+													})
+														.then((response) => {
+															setSubscribeProps({
+																warrantyPreviewFiles:
+																	response.data,
+															});
+														})
+														.catch((error) =>
+															notificationError(
+																error,
+																'Ошибка загрузки файлов гарантии'
+															)
+														);
 												},
 											},
 										]}
@@ -283,10 +311,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 								key={'attachments'}
 							>
 								<Layout>
-									<Space
-										className={'p-8'}
-										style={{justifyContent: 'flex-end'}}
-									>
+									<Space style={{justifyContent: 'flex-end'}}>
 										<UploadFile
 											itemProps={{
 												name: 'attachmentUploadObject',
@@ -301,51 +326,52 @@ export const CustomObjectView = ({catalogName, unique}) => {
 											}}
 										/>
 									</Space>
-									<Table
+									<Custom
 										itemProps={{
-											name: 'attachmentTableFiles',
+											name: 'attachmentPreviewFiles',
 										}}
-										defaultFilter={{type: 'attachment'}}
-										searchParamName={'name'}
-										infinityMode={true}
-										requestLoadRows={({data, params}) =>
-											apiGetFlatDataByConfigName(
-												'equipmentFiles'
-											)({
-												data: {
-													...data,
-													equipmentId: sRow.id,
-												},
-												params,
-											})
-										}
-										requestLoadConfig={apiGetConfigByName(
-											'equipmentFiles'
-										)} //
+										render={(props) => {
+											// console.log('warranty props', props)
+											return props.attachmentPreviewFiles ? (
+												<AttachmentsPreview
+													items={
+														props.attachmentPreviewFiles
+													}
+												/>
+											) : null;
+										}}
 										subscribe={[
 											{
+												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'attachmentUploadFile',
 												path: `rtd.catalog.${catalogName}Table.modal.attachmentUpload`,
-												onChange: ({reloadTable}) => {
-													reloadTable({
-														filter: {
+												onChange: ({
+													setSubscribeProps,
+												}) => {
+													apiGetFlatDataByConfigName(
+														'equipmentFiles'
+													)({
+														data: {
+															equipmentId:
+																sRow.id,
 															type: 'attachment',
 														},
-													});
-												},
-											},
-											/** Поиск по таблице*/
-											{
-												name: 'warrantyUploadFile',
-												path: `rtd.catalog.${catalogName}Table.modal.attachmentSearch`,
-												onChange: ({
-													value,
-													reloadTable,
-												}) => {
-													console.log(value);
-													reloadTable({
-														searchValue: value,
-													});
+														// params: {size: 50},
+													})
+														.then((response) => {
+															// console.log('warranty response.data:', response.data)
+															setSubscribeProps({
+																// warrantyPreviewFiles: normalizePreviewFiles(response.data),
+																attachmentPreviewFiles:
+																	response.data,
+															});
+														})
+														.catch((error) =>
+															notificationError(
+																error,
+																'Ошибка загрузки документов'
+															)
+														);
 												},
 											},
 										]}

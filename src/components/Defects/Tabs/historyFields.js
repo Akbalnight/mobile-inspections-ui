@@ -4,7 +4,7 @@ import React from 'react';
 import {customColumnProps} from '../tableProps';
 
 const {Layout, Table} = classic;
-export const HistoryFields = () => {
+export const HistoryTabFields = () => {
 	return (
 		<Layout className={'p-8'}>
 			<Table

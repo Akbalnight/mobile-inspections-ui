@@ -1,31 +1,16 @@
+import React from 'react';
+
 import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/infoTab.svg';
 import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
 import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
 import {HistoryOutlined} from '@ant-design/icons';
 import './defectCardInfo.less';
 
-// import {ReactComponent as ScheduleTab} from '../../../imgs/tabPane/defectCardInfo/scheduleTab.svg';
-// import {ReactComponent as HistoryTab} from '../../../imgs/tabPane/defectCardInfo/historyTab.svg';
-import {
-	InfoTabFields,
-	// infoTabFields
-} from '../Tabs/infoFields';
-import {
-	// fileManagerFields,
-	FilesFields,
-} from '../Tabs/fileManagerFields';
-import {
-	EquipmentFields,
-	// equipmentFields
-} from '../Tabs/equipmentFields';
-// import {scheduleFields} from '../Tabs/scheduleFields';
-import {
-	HistoryFields,
-	// historyFields
-} from '../Tabs/historyFields';
+import {InfoTabFields} from '../Tabs/infoFields';
+import {FilesTabFields} from '../Tabs/fileManagerFields';
+import {EquipmentTabFields} from '../Tabs/equipmentFields';
+import {HistoryTabFields} from '../Tabs/historyFields';
 import {classic} from 'rt-design';
-import React from 'react';
-// import {apiGetConfigByName, apiGetFlatDataByConfigName} from "../../../apis/catalog.api";
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
 import {codeNormalizer, emptyToNd} from '../../Base/Functions/TextUtils';
 
@@ -53,23 +38,36 @@ export const DefectCardInfoModal = () => {
 			'id',
 			row.id
 		)({});
+
 		if (defectHistoryResponse.status === 200)
 			sRow = {...sRow, defectHistory: defectHistoryResponse.data};
-		const defectFilesResponse = await selectRowsById(
-			'defectFiles',
-			'defectId',
-			row.id
-		)({});
-		if (defectFilesResponse.status === 200)
-			sRow = {...sRow, defectFiles: defectFilesResponse.data};
+
+		/** код получения файлов дефекта переехал в FilesTabFields и работает с подпиской */
+		// const defectFilesResponse = await selectRowsById(
+		//     'defectFiles',
+		//     'defectId',
+		//     row.id
+		// )({});
+		// if (defectFilesResponse.status === 200)
+		//     sRow = {...sRow, defectFiles: defectFilesResponse.data};
+
 		sRow = {
 			...emptyToNd(sRow),
 			equipment: emptyToNd(row.equipment),
 			code: codeNormalizer(row.code),
+			defectUploadFilesHolder: {
+				// попросить объяснения, зечем такая вложенность?
+				defectUploadFiles: {
+					defectId: row.id,
+				},
+			},
 		};
-		// sRow = {...emptyToNd(sRow), equipment: emptyToNd(row.equipment)};
+
 		callBack({...sRow});
 	};
+
+	// пришлось пробрасывать sRow
+	const FilesTabFieldsRow = () => <FilesTabFields sRow={sRow} />;
 
 	return (
 		<Modal
@@ -102,7 +100,6 @@ export const DefectCardInfoModal = () => {
 					},
 				},
 			]}
-			// dispatch:'defects.defectsTable.modalViewObject.event'
 		>
 			<FormBody noPadding={true}>
 				<Tabs type={'card'} className={'p-8'}>
@@ -110,10 +107,10 @@ export const DefectCardInfoModal = () => {
 						<InfoTabFields />
 					</TabPane>
 					<TabPane key={'fileTab'} tab={<FilesTab />}>
-						<FilesFields />
+						<FilesTabFieldsRow />
 					</TabPane>
 					<TabPane key={'equipmentTab'} tab={<EquipmentsTab />}>
-						<EquipmentFields />
+						<EquipmentTabFields />
 					</TabPane>
 					{/*<TabPane*/}
 					{/*    key={'scheduleTab'}*/}
@@ -121,7 +118,7 @@ export const DefectCardInfoModal = () => {
 					{/*>*/}
 					{/*</TabPane>*/}
 					<TabPane key={'historyTab'} tab={<HistoryTab />}>
-						<HistoryFields />
+						<HistoryTabFields />
 					</TabPane>
 				</Tabs>
 			</FormBody>
