@@ -374,9 +374,19 @@ const ControlPointDataD = (props) => {
 
 								<Table
 									itemProps={{name: 'techMapsModalTable'}}
-									requestLoadRows={apiGetHierarchicalDataByConfigName(
-										'techMaps'
-									)}
+									requestLoadRows={({params, data}) =>
+										apiGetFlatDataByConfigName(
+											// в hierarhical не работает фильтрация
+											'techMaps'
+										)({
+											params,
+											data: {
+												...data,
+												techMapsStatusId:
+													'551d1144-2031-4a10-be2e-60b1a6d48a7e',
+											},
+										})
+									} // только действующие
 									requestLoadConfig={apiGetConfigByName(
 										'techMaps'
 									)}

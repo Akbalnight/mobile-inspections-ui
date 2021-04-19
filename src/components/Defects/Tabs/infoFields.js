@@ -1,13 +1,16 @@
 import {apiGetConfigByName} from '../../../apis/catalog.api';
 import React from 'react';
 import {classic} from 'rt-design';
-import {customColumnProps} from '../tableProps';
+import {customColumnProps, GetCurrentMode} from '../tableProps';
+
 /**
- * информационная вкладка, переделать после обновления
+ * информационная вкладка, скорректировать вывод статуса панели
  */
 const {Layout, Table, Title, Text, Checkbox, DateText} = classic;
 
 export const InfoTabFields = () => {
+	const currentMode = GetCurrentMode();
+	console.log('crm', currentMode);
 	return (
 		<>
 			<Layout className={'p-8'}>
@@ -18,13 +21,23 @@ export const InfoTabFields = () => {
 						className: 'mb-0',
 					}}
 				/>
-				<Text
-					itemProps={{
-						label: 'Статус',
-						name: 'statusProcessName',
-						className: 'mb-0',
-					}}
-				/>
+				{currentMode === 'defects' ? (
+					<Text
+						itemProps={{
+							label: 'Статус',
+							name: 'statusProcessName',
+							className: 'mb-0',
+						}}
+					/>
+				) : (
+					<Text
+						itemProps={{
+							label: 'Статус',
+							name: 'statusPanelName',
+							className: 'mb-0',
+						}}
+					/>
+				)}
 				<Title level={5}>Выявление дефекта</Title>
 				<DateText
 					itemProps={{

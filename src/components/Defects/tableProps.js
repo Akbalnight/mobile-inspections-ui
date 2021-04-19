@@ -62,6 +62,13 @@ export const StatusIcon = ({keyToFind, statusId, title = ''}) => {
 	} else return null;
 };
 
+/** не очень элегантно */
+export const GetCurrentMode = () => {
+	const history = useHistory();
+	if (history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path)
+		return 'defects';
+	else return 'panelProblems';
+};
 /** переключатель отображения журнал дефектов / панель проблем */
 export const DefectsModeSwitcher = ({currentMode}) => {
 	const history = useHistory();
@@ -86,12 +93,7 @@ export const DefectsModeSwitcher = ({currentMode}) => {
 };
 
 export const FilterPanel = () => {
-	const history = useHistory();
-
-	let historyChange = history
-		? history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path
-		: null;
-
+	const currentMode = GetCurrentMode();
 	return (
 		<>
 			<Space
@@ -228,7 +230,7 @@ export const FilterPanel = () => {
 							mode={'single'}
 							allowClear={true}
 							requestLoadRows={apiGetFlatDataByConfigName(
-								historyChange
+								currentMode === 'defects'
 									? 'defectStatusesProcess'
 									: 'panelProblemsStatuses'
 							)}
@@ -238,7 +240,7 @@ export const FilterPanel = () => {
 										<StatusIcon
 											statusId={option.id}
 											keyToFind={
-												historyChange
+												currentMode === 'defects'
 													? 'statusProcessId'
 													: 'statusPanelId'
 											}
@@ -254,7 +256,7 @@ export const FilterPanel = () => {
 							})}
 							dispatch={{
 								path: `defects.defectTable.filter.${
-									historyChange
+									currentMode === 'defects'
 										? 'statusProcessId'
 										: 'statusPanelId'
 								}`,
@@ -266,7 +268,7 @@ export const FilterPanel = () => {
 							]}
 						/>
 					</Space>
-					{historyChange ? null : (
+					{currentMode === 'defects' ? null : (
 						<Space direction={'vertical'}>
 							<Text>Приоритет</Text>
 							<Select
