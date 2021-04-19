@@ -13,6 +13,7 @@ import {HistoryTabFields} from '../Tabs/historyFields';
 import {classic} from 'rt-design';
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
 import {codeNormalizer, emptyToNd} from '../../Base/Functions/TextUtils';
+import {GetCurrentMode} from '../tableProps';
 
 const HistoryTab = () => {
 	return (
@@ -104,7 +105,7 @@ export const DefectCardInfoModal = () => {
 			<FormBody noPadding={true}>
 				<Tabs type={'card'} className={'p-8'}>
 					<TabPane key={'infoTab'} tab={<InfoTab />}>
-						<InfoTabFields />
+						<InfoTabFields currentMode={() => GetCurrentMode()} />
 					</TabPane>
 					<TabPane key={'fileTab'} tab={<FilesTab />}>
 						<FilesTabFieldsRow />
