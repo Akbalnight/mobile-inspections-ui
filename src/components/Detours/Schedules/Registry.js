@@ -6,12 +6,8 @@ import {
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
 import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
-import moment from 'moment';
+import {dateTime} from '../../Base/customColumnProps';
 const {Form, Table, FormBody, Space} = classic;
-// import {
-// 	AddDetourButton,
-// 	EditDetourButton,
-// } from './Modals/EditModal.js';
 
 const columnProps = [
 	{
@@ -23,12 +19,10 @@ const columnProps = [
 			return cellData + ' ' + period;
 		},
 	},
-	{
-		name: 'nextExecution',
-		cellRenderer: ({rowData, cellData}) => {
-			return moment(cellData).format('DD.MM.YYYY HH:mm:ss');
-		},
-	},
+
+	{...dateTime('dateStart')},
+	{...dateTime('nextExecution')},
+	{...dateTime('dateFinish')},
 ];
 
 const Registry = () => {
@@ -41,11 +35,12 @@ const Registry = () => {
 						<EditDetourButton />
 					</Space>
 					<Table
+						infinityMode={true}
+						fixWidthColumn={true}
 						requestLoadRows={apiGetFlatDataByConfigName(
 							'repeaters'
 						)}
 						requestLoadConfig={apiGetConfigByName('repeaters')}
-						headerHeight={70}
 						customColumnProps={columnProps}
 						dispatchPath={'detours.schedules.registry'}
 						subscribe={[

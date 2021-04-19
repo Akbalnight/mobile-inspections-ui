@@ -69,7 +69,7 @@ const EditModal = (type) => {
 			buttonProps={{
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
-				disabled: type === 'add' ? false : true,
+				disabled: type !== 'add',
 			}}
 			toolTipProps={{
 				title: type === 'add' ? 'Создать' : 'Редактировать',
@@ -113,7 +113,8 @@ const EditModal = (type) => {
 			]}
 		>
 			<FormBody noPadding={false} scrollable={true}>
-				<div className={'mb-16 mt-16'}>
+				{/*className={'mb-16 mt-16'}*/}
+				<div className={'mb-16'}>
 					<h3>Создание обхода</h3>
 				</div>
 
