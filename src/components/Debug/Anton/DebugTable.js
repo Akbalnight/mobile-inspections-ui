@@ -54,7 +54,7 @@ const DebugTable = () => {
 									'routes'
 								)}
 								requestLoadConfig={apiGetConfigByName('routes')} // detours // routes
-								dispatchPath={'debugTable.table.1'}
+								dispatch={{path: 'debugTable.table.1'}}
 								subscribe={[
 									{
 										name: 'onAdd',
@@ -98,7 +98,7 @@ const DebugTable = () => {
 									'routes'
 								)}
 								requestLoadConfig={apiGetConfigByName('routes')} // detours // routes
-								dispatchPath={'debugTable.table.3'}
+								dispatch={{path: 'debugTable.table.3'}}
 								footerProps={{
 									// leftCustomSideElement: () => (<span>lCustom</span>),
 									// centerCustomSideElement: () => (<span>cCustom</span>),
@@ -122,7 +122,7 @@ const DebugTable = () => {
 									'techMaps'
 								)} // detours // routes
 								selectable={true}
-								dispatchPath={'debugTable.table.4'}
+								dispatch={{path: 'debugTable.table.4'}}
 							/>
 						</Layout>
 					</div>

@@ -59,24 +59,14 @@ const DetoureSchedulesTable = () => {
 		console.log('RGHandler');
 		// form.resetFields()
 		let pps = {};
-		if (value === '1') {
-			pps.disabled = false;
-		} else {
-			pps.disabled = true;
-			// form.setFieldsValue({dateFinish: null});
-		}
+		pps.disabled = value !== '1';
 		setSubscribeProps({...pps});
 	};
 
 	const InputHandler = ({value, setSubscribeProps}) => {
 		console.log('InputHandler');
 		let pps = {};
-		if (value === '2') {
-			pps.disabled = false;
-		} else {
-			pps.disabled = true;
-			// form.setFieldsValue({finalCount: null});
-		}
+		pps.disabled = value !== '2';
 		setSubscribeProps({...pps});
 	};
 
@@ -291,7 +281,7 @@ const DetoureSchedulesTable = () => {
 						requestLoadConfig={apiGetConfigByName('repeaters')} //
 						zebraStyle={true}
 						headerHeight={70}
-						dispatchPath={'detourSchedulesTable.form.table'}
+						dispatch={{path: 'detourSchedulesTable.form.table'}}
 						subscribe={[
 							{
 								name: 'onEditModal',

@@ -260,7 +260,7 @@ const OperationOnServer = (catalogName, type) => {
 						setModalData,
 						setButtonProps,
 					}) => {
-						console.log('extraData', extraData);
+						// console.log('extraData defectModal', extraData);
 						value &&
 							setModalData &&
 							setModalData({

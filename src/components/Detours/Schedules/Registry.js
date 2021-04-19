@@ -47,7 +47,7 @@ const Registry = () => {
 						requestLoadConfig={apiGetConfigByName('repeaters')}
 						headerHeight={70}
 						customColumnProps={columnProps}
-						dispatchPath={'detours.schedules.registry'}
+						dispatch={{path: 'detours.schedules.registry'}}
 						subscribe={[
 							{
 								name: 'onEditModal',

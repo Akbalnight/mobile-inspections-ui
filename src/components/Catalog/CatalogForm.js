@@ -20,7 +20,7 @@ export const CatalogForm = (props) => {
 				<Table
 					itemProps={{name: 'table'}}
 					fixWidthColumn={true}
-					dispatchPath={`catalog.${catalogName}Table.table`}
+					dispatch={{path: `catalog.${catalogName}Table.table`}}
 					requestLoadRows={
 						hierarchical
 							? apiGetHierarchicalDataByConfigName(catalogName)

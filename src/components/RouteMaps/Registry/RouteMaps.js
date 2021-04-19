@@ -97,7 +97,6 @@ const RouteMaps = (props) => {
 							showSearch={true}
 							searchParamName={'name'}
 							mode={'single'}
-							infinityMode={true}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								'routes'
 							)}
@@ -297,9 +296,9 @@ const RouteMaps = (props) => {
 								requestLoadConfig={apiGetConfigByName(
 									'routeMaps'
 								)}
-								dispatchPath={
-									'routeMaps.mainForm.routeMapsTable'
-								}
+								dispatch={{
+									path: 'routeMaps.mainForm.routeMapsTable',
+								}}
 								subscribe={[
 									/** Action reload table after select Route in Select*/
 									{
@@ -424,9 +423,10 @@ const RouteMaps = (props) => {
 								requestLoadConfig={apiGetConfigByName(
 									'routeControlPointsDebug'
 								)}
-								dispatchPath={
-									'routeMaps.mainForm.controlPointsTable'
-								}
+								dispatch={{
+									path:
+										'routeMaps.mainForm.controlPointsTable',
+								}}
 								subscribe={[
 									/** Action reload table after select Route in Select*/
 									{

@@ -59,7 +59,6 @@ export const objectOnServer = (catalogName) => {
 						showSearch={true}
 						mode={'single'}
 						searchValueName={'name'}
-						infinityMode={false}
 						requestLoadRows={apiGetFlatDataByConfigName(
 							catalogName
 						)}

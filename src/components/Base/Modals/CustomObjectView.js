@@ -434,7 +434,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 							requestLoadConfig={apiGetConfigByName(
 								'controlPointsEquipments'
 							)}
-							// dispatchPath={'debug'}
+							// dispatch={{path:'debug'}}
 						/>
 						<Title className={'mt-8'} level={5}>
 							Технологические карты

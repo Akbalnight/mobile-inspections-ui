@@ -214,7 +214,6 @@ const ControlPointDataD = (props) => {
 									requestLoadConfig={apiGetConfigByName(
 										'equipments'
 									)}
-									// infinityMode={false}
 									type={'rt'}
 									fixWidthColumn={true}
 									subscribe={[
@@ -232,9 +231,10 @@ const ControlPointDataD = (props) => {
 											},
 										},
 									]}
-									dispatchPath={
-										'catalog.controlPoints.equipments.addModal.table'
-									}
+									dispatch={{
+										path:
+											'catalog.controlPoints.equipments.addModal.table',
+									}}
 								/>
 							</FormBody>
 						</Modal>
@@ -298,9 +298,6 @@ const ControlPointDataD = (props) => {
 								value: (row) => row.name,
 							},
 						]}
-						// requestLoadRows={loadRowsHandler(
-						// 	'controlPointsEquipments'
-						// )}
 						requestLoadRows={selectRowsById(
 							'controlPointsEquipments',
 							'controlPointId',
@@ -309,7 +306,9 @@ const ControlPointDataD = (props) => {
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsEquipments'
 						)}
-						dispatchPath={'catalog.controlPoints.equipments.table'}
+						dispatch={{
+							path: 'catalog.controlPoints.equipments.table',
+						}}
 						subscribe={[
 							{
 								name: 'onEquipmentsLocalAdd',
@@ -396,9 +395,10 @@ const ControlPointDataD = (props) => {
 											},
 										},
 									]}
-									dispatchPath={
-										'catalog.controlPoints.techMaps.addModal.table'
-									}
+									dispatch={{
+										path:
+											'catalog.controlPoints.techMaps.addModal.table',
+									}}
 								/>
 								<Table
 									itemProps={{name: 'techOperations'}}
@@ -495,7 +495,9 @@ const ControlPointDataD = (props) => {
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsTechMaps'
 						)}
-						dispatchPath={'catalog.controlPoints.techMaps.table'}
+						dispatch={{
+							path: 'catalog.controlPoints.techMaps.table',
+						}}
 						subscribe={[
 							{
 								name: 'onTechMapsLocalAdd',

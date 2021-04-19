@@ -65,8 +65,9 @@ export const techMapsSelectModal = () => {
 								rowRender: 'name',
 								widthControl: 0,
 								defaultFilter: {parentId: null},
-								dispatchPath:
-									'controlPointData.modal.techMapName',
+								dispatch: {
+									path: 'controlPointData.modal.techMapName',
+								},
 								// подписка на селектор выше
 								subscribe: {
 									name: 'techMap',
@@ -120,8 +121,9 @@ export const techMapsSelectModal = () => {
 								componentType: 'ServerTable',
 								className: 'mb-0',
 								style: {minHeight: 150},
-								dispatchPath:
-									'controlPointData.modal.techMapTable',
+								dispatch: {
+									path: 'controlPointData.modal.techMapTable',
+								},
 								defaultFilter: {techMapId: null},
 								// подписка на селектор выше
 								subscribe: {

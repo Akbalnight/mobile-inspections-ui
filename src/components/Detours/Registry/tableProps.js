@@ -81,7 +81,6 @@ export const TableHeader = () => {
 							showSearch={true}
 							filterOption={false}
 							searchParamName={'name'}
-							infinityMode={true}
 							widthControl={200}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								'routes'
@@ -111,7 +110,6 @@ export const TableHeader = () => {
 							placeholder={'Выберите исполнителя'}
 							mode={'single'}
 							allowClear={true}
-							infinityMode={true}
 							showSearch={true}
 							filterOption={false}
 							widthControl={200}
