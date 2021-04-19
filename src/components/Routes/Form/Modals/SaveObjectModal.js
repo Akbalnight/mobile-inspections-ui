@@ -1,14 +1,14 @@
 import {classic, notificationError} from 'rt-design';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import React from 'react';
+import React, {useState} from 'react';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../../apis/catalog.api';
 
-export const AddControlPointToRoute = () => operationOnLocal('add');
-export const EditControlPointToRoute = () => operationOnLocal('edit');
+export const AddControlPointToRoute = () => OperationOnLocal('add');
+export const EditControlPointToRoute = () => OperationOnLocal('edit');
 
 const {
 	Modal,
@@ -19,12 +19,22 @@ const {
 	Title,
 	TreeSelect,
 	Input,
+	Text,
 } = classic;
-const operationOnLocal = (type) => {
+/**
+ *
+ * @param type- string
+ * @returns {JSX.object}
+ * @desc function change row in RouteForm.js controlPointTable
+ */
+const OperationOnLocal = (type) => {
+	const [cPointId, setCPointId] = useState();
+
 	let sRow;
+	const toCapitalize = type[0].toUpperCase() + type.substring(1);
+
 	const loadData = (callBack, row) => {
 		sRow = {...row};
-		// if (sRow.jsonEquipments) sRow.equipments = JSON.parse(sRow.jsonEquipments);
 		callBack(type === 'add' ? null : sRow);
 	};
 	const loadControlPointsEquipments = ({params, data}) => {
@@ -32,6 +42,18 @@ const operationOnLocal = (type) => {
 		if (type === 'edit')
 			newData.controlPointId = sRow ? sRow.controlPointId : null;
 		return apiGetFlatDataByConfigName('controlPointsEquipments')({
+			params,
+			data: newData,
+		});
+	};
+
+	const loadControlPointsTechOperations = ({params, data}) => {
+		let newData = {...data};
+		if (type === 'edit') {
+			// && newData.techMapId === undefined
+			newData.techMapId = sRow ? sRow.techMapId : null;
+		}
+		return apiGetFlatDataByConfigName('techOperationsSmall')({
 			params,
 			data: newData,
 		});
@@ -76,6 +98,10 @@ const operationOnLocal = (type) => {
 					},
 				},
 			]}
+			dispatch={{
+				path: `routes.routeForm.controlPointsTable.modal.events.on${toCapitalize}Row`,
+				type: 'event',
+			}}
 		>
 			<FormBody>
 				<TreeSelect
@@ -97,10 +123,9 @@ const operationOnLocal = (type) => {
 					dispatch={{
 						path:
 							'routes.routeForm.controlPointsTable.modal.controlPointSelect',
-						type: 'event',
 					}}
 				/>
-				<Title level={5} label={'Оборудование'} />
+				<Title level={5} label={'Оборудование'} className={'my-16'} />
 				<Layout>
 					<Table
 						itemProps={{name: 'equipments'}}
@@ -111,38 +136,153 @@ const operationOnLocal = (type) => {
 							{
 								name: 'controlPointEquipments',
 								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect.selected',
-								onChange: ({value, setReloadTable}) => {
-									console.log('>>>>>>>>', value);
+									'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
+								onChange: ({value, reloadTable}) => {
 									value &&
-										setReloadTable &&
-										setReloadTable({
+										reloadTable &&
+										reloadTable({
 											filter: {
 												controlPointId: value,
+												// ? value.id
+												// : value,
 											},
 										});
-									// value && setCPointId(value.id);
+									value && setCPointId(value);
 								},
 							},
 						]}
 						requestLoadConfig={apiGetConfigByName(
 							'controlPointsEquipments'
 						)}
+						footerProps={{
+							height: 50,
+							showElements: ['selected', 'total'],
+						}}
 					/>
 				</Layout>
+				<Title
+					level={5}
+					label={'Технологическая карта'}
+					className={'my-16'}
+				/>
 				<Select
-					requestLoadRows={apiGetFlatDataByConfigName('techMaps')}
+					itemProps={{name: 'techMapId'}}
+					defaultFilter={{
+						controlPointId: cPointId ? cPointId : null,
+					}}
+					requestLoadRows={apiGetFlatDataByConfigName('techMapsByCP')}
+					// requestLoadRows={({data, params}) =>
+					//     apiGetFlatDataByConfigName('techMapsByCP')({
+					//         data: {
+					//             ...data,
+					//             controlPointId: cPointId? cPointId: null,
+					//         },
+					//         params,
+					//     })}
 					optionConverter={(option) => ({
 						value: option.id,
 						label: option.name,
-						children: option.children,
 					})}
+					dispatch={{
+						path:
+							'routes.routeForm.controlPointsTable.modal.techMapSelect',
+					}}
+					subscribe={[
+						{
+							name: 'controlPointTechMaps',
+							// withMount: true,
+							path:
+								'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
+							onChange: ({value, setSubscribeProps}) => {
+								value &&
+									setSubscribeProps &&
+									setSubscribeProps({
+										filter: {
+											controlPointId: value,
+										},
+									});
+							},
+						},
+					]}
 				/>
+				<Title
+					level={5}
+					label={'Технологическая операция'}
+					className={'my-16'}
+				/>
+				<Layout>
+					<Table
+						itemProps={{name: 'techOperations'}}
+						defaultFilter={{techMapId: null}}
+						requestLoadRows={loadControlPointsTechOperations}
+						requestLoadConfig={apiGetConfigByName(
+							'techOperationsSmall'
+						)}
+						dispatch={{
+							path:
+								'routes.routeForm.controlPointsTable.modal.techOperationTable',
+						}}
+						subscribe={[
+							{
+								name: 'controlPointTechMaps',
+								path:
+									'rtd.routes.routeForm.controlPointsTable.modal.techMapSelect',
+								onChange: ({value, reloadTable}) => {
+									value &&
+										reloadTable &&
+										reloadTable({
+											filter: {
+												techMapId: value,
+											},
+										});
+								},
+							},
+						]}
+						footerProps={{
+							height: 50,
+							rightCustomSideElement: () => (
+								<>
+									<Text
+										label={
+											'Продолжительность всех операций, мин:'
+										}
+										className={'mr-8'}
+									/>
+									<Text
+										itemProps={{name: 'duration'}}
+										subscribe={[
+											{
+												name: 'techMapTechOperation',
+												path:
+													'rtd.routes.routeForm.controlPointsTable.modal.techOperationTable.rows',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													const totalDuration = value.reduce(
+														(total, item) =>
+															total +
+															item.duration,
+														0
+													);
+													setSubscribeProps({
+														value: totalDuration,
+														// label: `Продолжительность всех операций: ${totalDuration}`,
+													});
+												},
+											},
+										]}
+									/>
+								</>
+							),
+						}}
+					/>
+				</Layout>
 				<Input
 					itemProps={{name: 'controlPointName', hidden: true}}
 					subscribe={[
 						{
-							name: 'takeAName',
+							name: 'takeANameCP',
 							path:
 								'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
 							onChange: ({value, setSubscribeProps}) => {
@@ -153,6 +293,34 @@ const operationOnLocal = (type) => {
 											params: {},
 										}
 									)
+										.then((response) => {
+											setSubscribeProps({
+												value: response.data[0].name,
+											});
+										})
+										.catch((error) =>
+											notificationError(
+												error,
+												'Ошибка загрузки данных формы'
+											)
+										);
+							},
+						},
+					]}
+				/>
+				<Input
+					itemProps={{name: 'techMapName', hidden: true}}
+					subscribe={[
+						{
+							name: 'takeANameTM',
+							path:
+								'rtd.routes.routeForm.controlPointsTable.modal.techMapSelect',
+							onChange: ({value, setSubscribeProps}) => {
+								value &&
+									apiGetFlatDataByConfigName('techMaps')({
+										data: {id: value},
+										params: {},
+									})
 										.then((response) => {
 											setSubscribeProps({
 												value: response.data[0].name,

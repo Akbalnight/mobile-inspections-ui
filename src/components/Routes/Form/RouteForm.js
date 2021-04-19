@@ -141,6 +141,28 @@ const RouteForm = (props) => {
 						requestLoadConfig={apiGetConfigByName(
 							'routeControlPoints'
 						)}
+						subscribe={[
+							/** Add table Items */
+							{
+								name: 'addOnLocal',
+								path:
+									'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
+								onChange: ({value, addRow}) => {
+									console.log(value);
+									addRow(value.value);
+								},
+							},
+							/** Eit table Items */
+							{
+								name: 'editOnLocal',
+								path:
+									'rtd.routes.routeForm.controlPointsTable.modal.events.onEditRow',
+								onChange: ({value, editRow}) => {
+									console.log(value);
+									editRow(value.value);
+								},
+							},
+						]}
 					/>
 				</Layout>
 				<Title
