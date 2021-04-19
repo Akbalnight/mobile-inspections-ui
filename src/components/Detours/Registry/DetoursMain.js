@@ -31,7 +31,7 @@ export const DetoursMain = () => {
 							fixWidthColumn={true}
 							infinityMode={true}
 							searchParamName={'name'}
-							dispatchPath={'detours.mainForm.table'}
+							dispatch={{path: 'detours.mainForm.table'}}
 							customColumnProps={customColumnProps}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								'detours'

@@ -38,7 +38,7 @@ export const ViewDetour = () => {
 		return sRow;
 	};
 
-	console.log(sRow);
+	// console.log(sRow);
 	return (
 		<Modal
 			modalConfig={{
@@ -245,7 +245,6 @@ export const ViewDetour = () => {
 									level={5}
 								/>
 								<Table
-									infinityMode={true}
 									customColumnProps={customColumnProps}
 									requestLoadRows={({data, params}) =>
 										apiGetFlatDataByConfigName('defects')({
@@ -268,7 +267,6 @@ export const ViewDetour = () => {
 									style={{marginTop: '16px'}}
 								/>
 								<Table
-									infinityMode={true}
 									requestLoadRows={({data, params}) =>
 										apiGetFlatDataByConfigName(
 											'defectExtraData'

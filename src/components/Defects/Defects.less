@@ -1,0 +1,26 @@
+.asSearch {
+  display: flex;
+
+  input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  button {
+    min-width: 32px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    position: relative;
+    z-index: 0;
+    margin-left: -1px;
+    color: rgba(0, 0, 0, 0.45);
+
+    &:focus,
+    &:hover {
+      z-index: 2;
+
+    }
+  }
+}

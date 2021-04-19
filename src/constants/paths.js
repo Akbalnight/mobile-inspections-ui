@@ -35,7 +35,7 @@ import Registry from '../components/Detours/Schedules/Registry';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 // Дефекты
-import DefectsJsx from '../components/Defects/DefectsJsx';
+import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
 
 // Debugs
@@ -243,7 +243,7 @@ export const paths = {
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
-		component: DefectsJsx,
+		component: Defects,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 
@@ -255,7 +255,7 @@ export const paths = {
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
-		component: DefectsJsx,
+		component: Defects,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {

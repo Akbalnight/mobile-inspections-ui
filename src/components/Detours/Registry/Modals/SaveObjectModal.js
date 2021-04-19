@@ -190,7 +190,6 @@ const operationOnServer = (type) => {
 						showSearch={true}
 						filterOption={false}
 						searchParamName={'name'}
-						infinityMode={true}
 						requestLoadRows={apiGetFlatDataByConfigName('routes')}
 						optionConverter={(option) => ({
 							value: option.id,
@@ -203,7 +202,6 @@ const operationOnServer = (type) => {
 							placeholder={'Выберите статус'}
 							mode={'single'}
 							allowClear={true}
-							infinityMode={true}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								'detoursStatuses'
 							)}
@@ -219,7 +217,6 @@ const operationOnServer = (type) => {
 						placeholder={'Выберите исполнителя'}
 						mode={'single'}
 						allowClear={true}
-						infinityMode={true}
 						showSearch={true}
 						filterOption={false}
 						searchParamName={'username'}

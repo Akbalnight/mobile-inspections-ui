@@ -27,8 +27,8 @@ const {
 	Col,
 } = classic;
 
-const DebugJSX = (props) => {
-	console.log(classic);
+const DebugJSX = () => {
+	// console.log(classic);
 
 	const ffff = {
 		optionType: 'button',
@@ -223,7 +223,7 @@ const DebugJSX = (props) => {
 									'routes'
 								)}
 								requestLoadConfig={apiGetConfigByName('routes')}
-								dispatchPath={'2debug.form.table'}
+								dispatch={{path: '2debug.form.table'}}
 								subscribe={[
 									{
 										/** Обработчик события на сохранение модалки */
