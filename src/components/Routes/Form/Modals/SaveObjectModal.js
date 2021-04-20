@@ -190,7 +190,7 @@ const OperationOnLocal = (type) => {
 					subscribe={[
 						{
 							name: 'controlPointTechMaps',
-							// withMount: true,
+							withMount: true,
 							path:
 								'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
 							onChange: ({value, setSubscribeProps}) => {

@@ -52,6 +52,11 @@ const RouteForm = (props) => {
 	const {routeId} = props;
 	const history = useHistory();
 
+	const processBeforeSave = (rawValues) => {
+		const values = {...rawValues};
+		return values;
+	};
+
 	const loadData = async (callBack, row) => {
 		/** 3 request no KISS*/
 		if (routeId) {
@@ -72,7 +77,7 @@ const RouteForm = (props) => {
 				routeId
 			)({});
 			if (controlPointsByIdResponse.status === 200)
-				row = {...row, cpById: controlPointsByIdResponse.data};
+				row = {...row, controlPoints: controlPointsByIdResponse.data};
 			const routeMapsByIdResponse = await selectRowsById(
 				'routeMaps',
 				'routeId',
@@ -85,14 +90,16 @@ const RouteForm = (props) => {
 			callBack({
 				name: null,
 				duration: null,
-				cpById: null,
+				controlPoints: null,
 				rmById: null,
 			});
 		}
 	};
 	return (
 		<Form
+			name={'routeForm'}
 			loadInitData={loadData}
+			processBeforeSave={processBeforeSave}
 			methodSaveForm={routeId ? 'PUT' : 'POST'}
 			requestSaveForm={apiSaveByConfigName('routes')}
 			onFinish={() => {
@@ -132,12 +139,16 @@ const RouteForm = (props) => {
 						<EditControlPointToRoute />
 					</Space>
 					<Table
-						itemProps={{name: 'cpById'}}
-						size={'middle'}
+						itemProps={{name: 'controlPoints'}}
 						customColumnProps={customColumnProps}
 						dispatchPath={
 							'routes.routeForm.controlPointsTable.table'
 						}
+						requestLoadRows={selectRowsById(
+							'routeControlPoints',
+							'routeId',
+							routeId
+						)}
 						requestLoadConfig={apiGetConfigByName(
 							'routeControlPoints'
 						)}
