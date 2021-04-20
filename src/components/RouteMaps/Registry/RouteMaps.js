@@ -212,20 +212,6 @@ const RouteMaps = (props) => {
 															'Ошибка загрузки данных формы'
 														)
 													);
-
-												// 	value &&
-												// 	setSubscribeProps &&
-												// 	setSubscribeProps({
-												// 		dataObject: {
-												// 			routeMap: {
-												// 				id: null,
-												// 				position: null,
-												// 				fileId: null,
-												// 				routeId:
-												// 					value.value,
-												// 			},
-												// 		},
-												// 	});
 											},
 										},
 									]}
@@ -386,7 +372,7 @@ const RouteMaps = (props) => {
 												method: 'POST',
 											}),
 									},
-									/** Action change row position in table */
+									/** Action edit FileName in table */
 									{
 										name: 'editFileName',
 										path:

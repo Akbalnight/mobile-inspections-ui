@@ -38,6 +38,7 @@ const OperationOnLocal = (type) => {
 		callBack(type === 'add' ? null : sRow);
 	};
 	const loadControlPointsEquipments = ({params, data}) => {
+		console.log(data);
 		let newData = {...data};
 		if (type === 'edit')
 			newData.controlPointId = sRow ? sRow.controlPointId : null;
@@ -49,7 +50,7 @@ const OperationOnLocal = (type) => {
 
 	const loadControlPointsTechOperations = ({params, data}) => {
 		let newData = {...data};
-		if (type === 'edit') {
+		if (type === 'edit' && newData.techMapId === undefined) {
 			// && newData.techMapId === undefined
 			newData.techMapId = sRow ? sRow.techMapId : null;
 		}
@@ -87,7 +88,6 @@ const OperationOnLocal = (type) => {
 					path:
 						'rtd.routes.routeForm.controlPointsTable.table.selected',
 					onChange: ({value, setModalData, setButtonProps}) => {
-						// console.log(value)
 						value && setModalData && setModalData(value);
 						type === 'edit' &&
 							value &&
@@ -127,8 +127,10 @@ const OperationOnLocal = (type) => {
 				/>
 				<Title level={5} label={'Оборудование'} className={'my-16'} />
 				<Layout>
+					{/*при включении type={'rt'} начинает падать с ошибкой в функции getTableRowKeys в RT-design*/}
 					<Table
 						itemProps={{name: 'equipments'}}
+						// type={'rt'}
 						selectable={true}
 						defaultFilter={{controlPointId: null}}
 						requestLoadRows={loadControlPointsEquipments}
@@ -167,18 +169,19 @@ const OperationOnLocal = (type) => {
 				/>
 				<Select
 					itemProps={{name: 'techMapId'}}
-					defaultFilter={{
-						controlPointId: cPointId ? cPointId : null,
-					}}
-					requestLoadRows={apiGetFlatDataByConfigName('techMapsByCP')}
-					// requestLoadRows={({data, params}) =>
-					//     apiGetFlatDataByConfigName('techMapsByCP')({
-					//         data: {
-					//             ...data,
-					//             controlPointId: cPointId? cPointId: null,
-					//         },
-					//         params,
-					//     })}
+					// filter={{
+					// 	controlPointId: null,
+					// }}
+					// requestLoadRows={apiGetFlatDataByConfigName('techMapsByCP')}
+					requestLoadRows={({data, params}) =>
+						apiGetFlatDataByConfigName('techMapsByCP')({
+							data: {
+								...data,
+								controlPointId: cPointId ? cPointId : null,
+							},
+							params,
+						})
+					}
 					optionConverter={(option) => ({
 						value: option.id,
 						label: option.name,
@@ -188,12 +191,14 @@ const OperationOnLocal = (type) => {
 							'routes.routeForm.controlPointsTable.modal.techMapSelect',
 					}}
 					subscribe={[
+						/** Эта подписка не работает, фильтр обновляется по requestLoadRows*/
 						{
 							name: 'controlPointTechMaps',
-							withMount: true,
+							// withMount: true,
 							path:
 								'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
 							onChange: ({value, setSubscribeProps}) => {
+								// console.log('1111',value)
 								value &&
 									setSubscribeProps &&
 									setSubscribeProps({
