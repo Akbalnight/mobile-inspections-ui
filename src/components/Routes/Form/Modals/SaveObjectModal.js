@@ -169,10 +169,6 @@ const OperationOnLocal = (type) => {
 				/>
 				<Select
 					itemProps={{name: 'techMapId'}}
-					// filter={{
-					// 	controlPointId: null,
-					// }}
-					// requestLoadRows={apiGetFlatDataByConfigName('techMapsByCP')}
 					requestLoadRows={({data, params}) =>
 						apiGetFlatDataByConfigName('techMapsByCP')({
 							data: {

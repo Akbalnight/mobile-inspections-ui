@@ -15,8 +15,6 @@ import {
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
 // Маршруты и Маршрутные карты
-import RoutesPrevious from '../components/Routes/Registry/RoutesPrevious';
-import {RoutesAddL, RoutesEditL} from '../components/Routes/Form/Legacy';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
 import {
 	AddRouteMaps,
@@ -160,22 +158,6 @@ export const paths = {
 		title: 'Редактирование маршрута',
 		path: '/detours-configurator/routes/:id',
 		component: RoutesEdit,
-	},
-	DETOURS_CONFIGURATOR_ROUTES_PREVIOUS: {
-		title: 'Маршруты previous',
-		path: '/detours-configurator/routesPrevious',
-		component: RoutesPrevious,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW_PREV: {
-		title: 'Создание маршрута',
-		path: '/detours-configurator/routesPrevious/new',
-		component: RoutesAddL,
-	},
-	DETOURS_CONFIGURATOR_ROUTES_DATA_EDIT_PREV: {
-		title: 'Редактирование маршрута',
-		path: '/detours-configurator/routesPrevious/:id',
-		component: RoutesEditL,
 	},
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',

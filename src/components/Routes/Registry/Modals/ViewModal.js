@@ -61,6 +61,7 @@ export const RouteViewModal = () => {
 					<Text
 						itemProps={{
 							...itemsInfo.duration,
+							rules: [],
 						}}
 					/>
 				</Space>

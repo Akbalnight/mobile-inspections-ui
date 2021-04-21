@@ -10,14 +10,9 @@ import {
 } from '../../../apis/catalog.api';
 import {paths} from '../../../constants/paths';
 import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
-import {
-	AddControlPointToRoute,
-	EditControlPointToRoute,
-} from './Modals/SaveObjectModal';
-import {customColumnProps} from '../tableProps';
+import {ControlPointTableHeader, customColumnProps} from '../tableProps';
 import {Result} from 'antd';
-import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
-import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
+import {WayOutModal} from './Modals/WayOutModal';
 
 const {
 	Form,
@@ -33,8 +28,6 @@ const {
 	Button,
 	Custom,
 	Divider,
-	Modal,
-	Text,
 } = classic;
 export const RoutesAdd = () => {
 	return (
@@ -134,62 +127,16 @@ const RouteForm = (props) => {
 				</Space>
 				<Title label={'Контрольные точки'} level={5} />
 				<Layout style={{border: '1px solid #DFDFDF'}}>
-					<Space className={'p-8'}>
-						<AddControlPointToRoute />
-						<EditControlPointToRoute />
-						<Button
-							icon={<ArrowUpOutlined />}
-							disabled={true}
-							dispatch={{
-								path:
-									'routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
-								type: 'event',
-							}}
-							subscribe={[
-								{
-									name: 'btnUp',
-									path:
-										'rtd.routes.routeForm.controlPointsTable.table.selected',
-									onChange: ({value, setSubscribeProps}) => {
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												disabled: !value,
-											});
-									},
-								},
-							]}
-						/>
-						<Button
-							icon={<ArrowDownOutlined />}
-							disabled={true}
-							dispatch={{
-								path:
-									'routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
-								type: 'event',
-							}}
-							subscribe={[
-								{
-									name: 'btnUp',
-									path:
-										'rtd.routes.routeForm.controlPointsTable.table.selected',
-									onChange: ({value, setSubscribeProps}) => {
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												disabled: !value,
-											});
-									},
-								},
-							]}
-						/>
-					</Space>
+					<ControlPointTableHeader />
 					<Table
 						itemProps={{name: 'controlPoints'}}
+						rowKey={'controlPointId'}
+						// type={'rt'}
+						// requestLoadRows={apiGetFlatDataByConfigName('routeControlPoints')}
 						customColumnProps={customColumnProps}
-						dispatchPath={
-							'routes.routeForm.controlPointsTable.table'
-						}
+						dispatch={{
+							path: 'routes.routeForm.controlPointsTable.table',
+						}}
 						requestLoadRows={selectRowsById(
 							'routeControlPoints',
 							'routeId',
@@ -208,13 +155,22 @@ const RouteForm = (props) => {
 									value && addRow(value.value);
 								},
 							},
-							/** Eit table Items */
+							/** Edit table Items */
 							{
 								name: 'editOnLocal',
 								path:
 									'rtd.routes.routeForm.controlPointsTable.modal.events.onEditRow',
 								onChange: ({value, editRow}) => {
 									value && editRow(value.value);
+								},
+							},
+							/** Delete table Items */
+							{
+								name: 'deleteOnLocal',
+								path:
+									'rtd.routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
+								onChange: ({value, removeRow}) => {
+									removeRow();
 								},
 							},
 							/** Action change state after push on Button */
@@ -319,105 +275,7 @@ const RouteForm = (props) => {
 							'Вы можете перейти в Конструктор маршрутных карт'
 						}
 						style={{height: '450px'}}
-						extra={
-							<>
-								<Modal
-									buttonProps={{
-										type: 'primary',
-										label: 'В конструктор',
-									}}
-									modalConfig={{
-										type: `addOnServer`,
-										title: (
-											<span
-												style={{
-													display: 'flex',
-													flexDirection: 'row',
-												}}
-											>
-												<Warning />{' '}
-												<div
-													style={{
-														padding: '0px 10px 0px',
-													}}
-												>
-													Внимание
-												</div>
-											</span>
-										),
-										width: 450,
-										bodyStyle: {height: 180},
-										okText: 'Да',
-										cancelText: 'Нет',
-										requestSaveRow: apiSaveByConfigName(
-											'routes'
-										),
-										onFinish: () =>
-											history.push(
-												`${paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path}/`
-											),
-										form: {
-											name: `wayModalForm`,
-											loadInitData: (callBack, row) => {
-												console.log(row);
-												callBack(row);
-											},
-											processBeforeSaveForm: (
-												rawValues
-											) => {
-												return {
-													...rawValues.saveObject,
-												};
-											},
-										},
-									}}
-								>
-									<FormBody>
-										<Text
-											label={
-												'При переходе на страницу конструктора маршрутных карт, созданный маршрут автоматически сохранится.'
-											}
-										/>
-										<br />
-										<Text label={'Вы хотите этого?'} />
-										<Input
-											itemProps={{
-												name: 'saveObject',
-												hidden: true,
-											}}
-											subscribe={[
-												{
-													name: `wayOutModal`,
-													withMount: true,
-													path:
-														'rtd.routes.routeForm',
-													onChange: ({
-														value,
-														setModalData,
-														setButtonProps,
-														setSubscribeProps,
-													}) => {
-														console.log(value);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																value: value,
-															});
-														// value && setModalData && setModalData(value);
-														// type === 'edit' &&
-														// value &&
-														// setButtonProps &&
-														// setButtonProps({
-														//     disabled: !value,
-														// });
-													},
-												},
-											]}
-										/>
-									</FormBody>
-								</Modal>
-							</>
-						}
+						extra={<WayOutModal />}
 					/>
 				)}
 			</FormBody>
