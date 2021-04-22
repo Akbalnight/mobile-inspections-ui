@@ -1,12 +1,10 @@
-// import {apiGetConfigByName} from '../../../apis/catalog.api';
 import {classic, notificationError} from 'rt-design';
 import React from 'react';
-import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
-// import UploadFile from "rt-design/lib/components/UploadFile/UploadFile";
+import {AttachmentsPreview} from '../../../../Base/Functions/MediaUtils';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../../../apis/catalog.api';
 
 const {Layout, Space, Custom, UploadFile} = classic;
 

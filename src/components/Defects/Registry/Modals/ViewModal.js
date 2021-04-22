@@ -1,28 +1,18 @@
 import React from 'react';
 
-import {ReactComponent as InfoTab} from '../../../imgs/tabPane/defectCardInfo/infoTab.svg';
-import {ReactComponent as FilesTab} from '../../../imgs/tabPane/defectCardInfo/filesTab.svg';
-import {ReactComponent as EquipmentsTab} from '../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
-import {HistoryOutlined} from '@ant-design/icons';
+import {ReactComponent as InfoTab} from '../../../../imgs/tabPane/defectCardInfo/infoTab.svg';
+import {ReactComponent as FilesTab} from '../../../../imgs/tabPane/defectCardInfo/filesTab.svg';
+import {ReactComponent as EquipmentsTab} from '../../../../imgs/tabPane/defectCardInfo/equipmentsTab.svg';
 import './defectCardInfo.less';
 
-import {InfoTabFields} from '../Tabs/infoFields';
-import {FilesTabFields} from '../Tabs/fileManagerFields';
-import {EquipmentTabFields} from '../Tabs/equipmentFields';
-import {HistoryTabFields} from '../Tabs/historyFields';
+import {InfoTabFields} from './Tabs/infoFields';
+import {FilesTabFields} from './Tabs/fileManagerFields';
+import {EquipmentTabFields} from './Tabs/equipmentFields';
+import {HistoryTab, HistoryTabFields} from './Tabs/historyFields';
 import {classic} from 'rt-design';
-import {selectRowsById} from '../../Base/Functions/TableSelectById';
-import {codeNormalizer, emptyToNd} from '../../Base/Functions/TextUtils';
-import {GetCurrentMode} from '../tableProps';
+import {selectRowsById} from '../../../Base/Functions/TableSelectById';
+import {codeNormalizer, emptyToNd} from '../../../Base/Functions/TextUtils';
 
-const HistoryTab = () => {
-	return (
-		<span role='img' aria-label='project' className='anticon pane'>
-			<HistoryOutlined />
-			<p>История изменений</p>
-		</span>
-	);
-};
 const {FormBody, Tabs, TabPane, Modal} = classic;
 
 /**
@@ -42,15 +32,6 @@ export const DefectCardInfoModal = () => {
 
 		if (defectHistoryResponse.status === 200)
 			sRow = {...sRow, defectHistory: defectHistoryResponse.data};
-
-		/** код получения файлов дефекта переехал в FilesTabFields и работает с подпиской */
-		// const defectFilesResponse = await selectRowsById(
-		//     'defectFiles',
-		//     'defectId',
-		//     row.id
-		// )({});
-		// if (defectFilesResponse.status === 200)
-		//     sRow = {...sRow, defectFiles: defectFilesResponse.data};
 
 		sRow = {
 			...emptyToNd(sRow),
@@ -83,7 +64,6 @@ export const DefectCardInfoModal = () => {
 					labelCol: {span: 8},
 					wrapperCol: {span: 16},
 					loadInitData: loadData,
-					// body: tabsField(defectId),
 				},
 			}}
 			subscribe={[
@@ -105,7 +85,7 @@ export const DefectCardInfoModal = () => {
 			<FormBody noPadding={true}>
 				<Tabs type={'card'} className={'p-8'}>
 					<TabPane key={'infoTab'} tab={<InfoTab />}>
-						<InfoTabFields currentMode={() => GetCurrentMode()} />
+						<InfoTabFields />
 					</TabPane>
 					<TabPane key={'fileTab'} tab={<FilesTab />}>
 						<FilesTabFieldsRow />
@@ -113,11 +93,6 @@ export const DefectCardInfoModal = () => {
 					<TabPane key={'equipmentTab'} tab={<EquipmentsTab />}>
 						<EquipmentTabFields />
 					</TabPane>
-					{/*<TabPane*/}
-					{/*    key={'scheduleTab'}*/}
-					{/*    tab={<ScheduleTab/>}*/}
-					{/*>*/}
-					{/*</TabPane>*/}
 					<TabPane key={'historyTab'} tab={<HistoryTab />}>
 						<HistoryTabFields />
 					</TabPane>

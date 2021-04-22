@@ -27,8 +27,7 @@ import Registry from '../components/Detours/Schedules/Registry';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 // Дефекты
-import Defects from '../components/Defects/Defects';
-import DefectsForm from '../components/Defects/DefectsForm';
+import Defects from '../components/Defects/Registry/Defects';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -215,12 +214,6 @@ export const paths = {
 		path: '/control-defects/defects',
 		component: Defects,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-
-	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
-		title: 'Создание/редактирование дефекта',
-		path: '/control-defects/defects/:id',
-		component: DefectsForm,
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',

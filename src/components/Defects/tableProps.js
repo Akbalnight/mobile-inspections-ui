@@ -8,6 +8,7 @@ import {
 	QuestionOutlined,
 	CaretRightOutlined,
 	FieldTimeOutlined,
+	SearchOutlined,
 } from '@ant-design/icons';
 import {checkBox, code, dateTime} from '../Base/customColumnProps';
 import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
@@ -15,22 +16,16 @@ import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
 import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
 import {ReactComponent as Four} from '../../imgs/defects/priority/four.svg';
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
-// import {btnFilterSettings} from '../Base/Block/btnFilterSettings';
 import {paths} from '../../constants/paths';
-// import {
-// buttonCloseWithNote,
-// buttonSendToPanel,
-// buttonSendToSap,
-// } from './Modals/modalButtonDefects';
 import {classic} from 'rt-design';
-
-// import {editDefectCard} from './Modals/defectEdit';
-
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {useHistory} from 'react-router';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {EditDefectCard} from './Registry/Modals/SaveObjectModal';
+import {ButtonSendToSap} from './Registry/Modals/ActionButtons';
+import {DefectCardInfoModal} from './Registry/Modals/ViewModal';
 
-const {Space, Text, DatePicker, Select, Button} = classic;
+const {Space, Text, DatePicker, Select, Button, Input, Divider} = classic;
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
@@ -65,37 +60,90 @@ export const StatusIcon = ({keyToFind, statusId, title = ''}) => {
 /** не очень элегантно */
 export const GetCurrentMode = () => {
 	const history = useHistory();
-	if (history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path)
-		return 'defects';
-	else return 'panelProblems';
+	return history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path
+		? 'defects'
+		: 'panelProblems';
 };
-/** переключатель отображения журнал дефектов / панель проблем */
-export const DefectsModeSwitcher = ({currentMode}) => {
+
+export const MainTableHeader = () => {
 	const history = useHistory();
-
-	return currentMode === 'defects' ? (
-		<Button
-			label={'Перейти в панель проблем'}
-			type={'primary'}
-			onClick={() => {
-				history.push(`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`);
-			}}
-		/>
-	) : (
-		<Button
-			label={'Перейти в журнал дефектов'}
-			type={'primary'}
-			onClick={() => {
-				history.push(`${paths.CONTROL_DEFECTS_DEFECTS.path}`);
-			}}
-		/>
-	);
-};
-
-export const FilterPanel = () => {
 	const currentMode = GetCurrentMode();
 	return (
 		<>
+			<Space
+				className={'p-8'}
+				style={{
+					justifyContent: 'space-between',
+					width: '100%',
+				}}
+			>
+				<Space>
+					<EditDefectCard catalogName={currentMode} />
+					{currentMode === 'defects' ? <ButtonSendToSap /> : null}
+					<DefectCardInfoModal />
+				</Space>
+				<Space style={{justifyContent: 'flex-end'}}>
+					{currentMode === 'defects' ? (
+						<Button
+							label={'Перейти в панель проблем'}
+							type={'primary'}
+							onClick={() => {
+								history.push(
+									`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
+								);
+							}}
+						/>
+					) : (
+						<Button
+							label={'Перейти в журнал дефектов'}
+							type={'primary'}
+							onClick={() => {
+								history.push(
+									`${paths.CONTROL_DEFECTS_DEFECTS.path}`
+								);
+							}}
+						/>
+					)}
+					<div className={'asSearch'}>
+						<Input
+							style={{marginRight: 0}}
+							// т.к. есть кнопка submit ниже - обработка enter не требуется
+							// будет срабатывать событие отправки формы = клик на кнопку
+							// но, вероятно, отправка будет производиться по enter в любом текстовом поле - проверить
+							// onKeyPress={(e) => {
+							//
+							//     if (e.keyCode === 13) {
+							//         searchBtn.current.click();
+							//     }
+							// }}
+							itemProps={{name: 'defectsSearchInput'}}
+							placeholder={'Поиск по наименованию'}
+							subscribe={[
+								reloadFilterFields(
+									'defects.defectTable.events.onReload'
+								),
+							]}
+							dispatch={{
+								path: 'defects.defectTable.events.searchValue',
+							}}
+						/>
+						<Button
+							// ref={searchBtn}
+							itemProps={{
+								name: 'defectsSearchButton',
+							}}
+							icon={<SearchOutlined />}
+							type={'default'}
+							htmlType={'submit'}
+							// event?
+							dispatch={{
+								path: 'defects.defectTable.events.onBtnSearch',
+							}}
+						/>
+					</div>
+				</Space>
+			</Space>
+			<Divider className={'mt-0 mb-0'} />
 			<Space
 				className={'p-8'}
 				style={{

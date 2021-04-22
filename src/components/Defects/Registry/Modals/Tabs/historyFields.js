@@ -1,7 +1,8 @@
-import {apiGetConfigByName} from '../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../../../apis/catalog.api';
 import {classic} from 'rt-design';
 import React from 'react';
-import {customColumnProps} from '../tableProps';
+import {customColumnProps} from '../../../tableProps';
+import {HistoryOutlined} from '@ant-design/icons';
 
 const {Layout, Table} = classic;
 export const HistoryTabFields = () => {
@@ -18,5 +19,14 @@ export const HistoryTabFields = () => {
 				requestLoadConfig={apiGetConfigByName('defectHistory')}
 			/>
 		</Layout>
+	);
+};
+
+export const HistoryTab = () => {
+	return (
+		<span role='img' aria-label='project' className='anticon pane'>
+			<HistoryOutlined />
+			<p>История изменений</p>
+		</span>
 	);
 };

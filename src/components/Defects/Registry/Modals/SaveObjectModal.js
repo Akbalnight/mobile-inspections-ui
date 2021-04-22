@@ -2,15 +2,15 @@ import {EditOutlined} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../../apis/catalog.api';
 import {
 	// defectDetection,
 	DefectDetection,
-} from '../../Base/Block/DefectDetection';
+} from '../../../Base/Block/DefectDetection';
 import {classic} from 'rt-design';
 import {Access} from 'mobile-inspections-base-ui';
 import React from 'react';
-import {StatusIcon} from '../tableProps';
+import {StatusIcon} from '../../tableProps';
 
 const {
 	Text,
@@ -28,9 +28,6 @@ const {
  * Форма изменение дефекта, все поля и правила по макетам
  */
 export const EditDefectCard = ({catalogName}) =>
-	OperationOnServer(catalogName, 'edit', {});
-
-export const editDefectCard = (catalogName) =>
 	OperationOnServer(catalogName, 'edit', {});
 
 const OperationOnServer = (catalogName, type) => {
@@ -154,17 +151,6 @@ const OperationOnServer = (catalogName, type) => {
 		return (
 			<>
 				<Title level={5}>План устранения</Title>
-
-				{/*<Text itemProps={{*/}
-				{/*    label: '№ из SAP',*/}
-				{/*    name: 'sapMessageCode',*/}
-				{/*    className: 'mb-8',*/}
-				{/*}}/>*/}
-				{/*<Text itemProps={{*/}
-				{/*    label: 'Диспетчер',*/}
-				{/*    name: 'staffEliminationName',*/}
-				{/*    className: 'mb-8',*/}
-				{/*}}/>*/}
 				<DatePicker
 					itemProps={{
 						label: 'Плановый срок устранения до',
