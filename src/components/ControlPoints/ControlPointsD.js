@@ -12,7 +12,6 @@ import {
 	editGroupOnServer,
 } from '../Base/Modals/GroupOnServer';
 import {code} from '../Base/customColumnProps';
-import {routeMapsControlPointViewModal} from '../RouteMaps/Modals/routeMapsControlPointsInfo';
 import {controlPointsGroupInfo} from './Modals/modalControlPointsGroupInfo';
 
 /** Главный компонент раздела

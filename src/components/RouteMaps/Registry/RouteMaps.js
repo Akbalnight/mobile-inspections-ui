@@ -1,35 +1,26 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, executeRequest, notificationError} from 'rt-design';
+import {classic, executeRequest} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
-
-// import {routeMapsControlPointViewModal} from '../Modals/routeMapsControlPointsInfo';
 import SplitPane from 'react-split-pane';
-import {
-	ArrowDownOutlined,
-	ArrowUpOutlined,
-	ExclamationCircleTwoTone,
-} from '@ant-design/icons';
+import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import RouteMap from './RouteMap';
 import {useParams} from 'react-router';
-import {EditFileName} from '../Modals/SaveObjectModal';
-import {customColumnProps} from './tableProps';
+import {customColumnProps, RouteMapsTableHeader} from './tableProps';
 
 const {
 	Form,
 	FormBody,
 	Button,
 	Select,
-	UploadFile,
 	Title,
 	Layout,
 	Table,
-	Space,
+	Switcher,
 } = classic;
 
 export const AddRouteMaps = () => {
@@ -53,6 +44,7 @@ export const EditRouteMaps = () => {
  * @returns {JSX.object}
  * @desc RouteMaps component where you select choice connect with Drag'n'Drop field(package RnD)
  *
+ * @desc When you select Route, switcher change you view on two information table which current Route
  */
 const RouteMaps = (props) => {
 	const {routeId} = props;
@@ -109,412 +101,302 @@ const RouteMaps = (props) => {
 								type: 'event',
 							}}
 						/>
-						<Title
-							itemProps={{hidden: false}}
-							level={2}
+						<Switcher
+							itemProps={{initialValue: 0}}
 							subscribe={[
 								{
-									name: 'makeHidden',
+									name: 'choiceSwitcher',
 									path:
 										'rtd.routeMaps.mainForm.events.onSelectRoute',
 									onChange: ({value, setSubscribeProps}) => {
 										value &&
+											value.value &&
 											setSubscribeProps &&
-											setSubscribeProps({
-												hidden: value.value,
-											});
+											setSubscribeProps({value: 1});
 									},
 								},
 							]}
-							label={
-								<span
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										justifyContent: 'center',
-										textAlign: 'center',
-										height: '1600px', //костыль
-										zIndex: '100',
-									}}
-								>
-									<ArrowUpOutlined />
-									Выберите маршрут
-									<ExclamationCircleTwoTone />
-								</span>
-							}
-						/>
-						<Title level={5} className={'pt-8'}>
-							Маршрутные карты
-						</Title>
-						<Layout style={{border: '1px solid #DFDFDF'}}>
-							<Space className={'p-8'}>
-								<UploadFile
-									itemProps={{
-										name: 'uploadRouteMaps',
-										valuePropName: 'dataObject',
-									}}
-									dispatch={{
-										path: `routeMaps.mainForm.routeMapsTable.routeMapUpload`,
-										type: 'event',
-									}}
-									dataObject={{
-										routeMap: {
-											id: null,
-											position: null,
-											fileId: null,
-										},
-									}}
-									requestUploadFile={apiSaveFileByConfigName(
-										'routeMapFileSave'
-									)}
-									subscribe={[
-										{
-											name: 'makeHidden',
+						>
+							<Title
+								level={2}
+								label={
+									<span
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											justifyContent: 'center',
+											textAlign: 'center',
+											marginTop: '300px',
+										}}
+									>
+										<ArrowUpOutlined />
+										Выберите маршрут
+										<ExclamationCircleTwoTone />
+									</span>
+								}
+							/>
+							<Layout>
+								<Title level={5} className={'pt-8'}>
+									Маршрутные карты
+								</Title>
+								<Layout style={{border: '1px solid #DFDFDF'}}>
+									<RouteMapsTableHeader />
+									<Table
+										itemProps={{name: 'routeMapsTable'}}
+										defaultFilter={{
+											routeId: routeId ? routeId : null,
+										}}
+										customColumnProps={customColumnProps}
+										requestLoadRows={apiGetFlatDataByConfigName(
+											'routeMaps'
+										)}
+										requestLoadConfig={apiGetConfigByName(
+											'routeMaps'
+										)}
+										dispatch={{
 											path:
-												'rtd.routeMaps.mainForm.events.onSelectRoute',
-											// extraData:
-											//     'rtd.routeMaps.mainForm.routeMapsTable',
-											onChange: ({
-												value,
-												setSubscribeProps,
-												// extraData,
-											}) => {
-												// console.log(extraData);
-												/** возможно лишний запрос, через ExtraData ошибка выходит, думаю над упрощением*/
-												apiGetFlatDataByConfigName(
-													'routeMaps'
-												)({
-													data: {
-														routeId: value.value,
-													},
-												})
-													.then((response) => {
-														setSubscribeProps({
-															dataObject: {
-																routeMap: {
-																	id: null,
-																	position:
-																		response
-																			.data
-																			.length +
-																		1,
-																	fileId: null,
-																	routeId:
-																		value.value,
-																},
+												'routeMaps.mainForm.routeMapsTable',
+										}}
+										subscribe={[
+											/** Action reload table after select Route in Select*/
+											{
+												name: 'routeChoiceFilter',
+												withMount: true,
+												path:
+													'rtd.routeMaps.mainForm.events.onSelectRoute',
+												onChange: ({
+													value,
+													reloadTable,
+												}) => {
+													value &&
+														reloadTable &&
+														reloadTable({
+															filter: {
+																routeId:
+																	value.value,
 															},
 														});
-													})
-													.catch((error) =>
-														notificationError(
-															error,
-															'Ошибка загрузки данных формы'
+												},
+											},
+											/** Action reload table after upload file */
+											{
+												name: 'routeMapUpload',
+												path: `rtd.routeMaps.mainForm.routeMapsTable.routeMapUpload`,
+												extraData:
+													'rtd.routeMaps.mainForm.events.onSelectRoute',
+												onChange: ({
+													reloadTable,
+													extraData,
+												}) => {
+													extraData &&
+														reloadTable &&
+														reloadTable({
+															filter: {
+																routeId:
+																	extraData.value,
+															},
+														});
+												},
+											},
+											/** Action change state after push on Button */
+											{
+												name: 'onClickMoveUp',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+												onChange: ({moveUpRow}) =>
+													moveUpRow(),
+											},
+											/** Action change state after push on Button */
+											{
+												name: 'onClickMoveDown',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+												onChange: ({moveDownRow}) =>
+													moveDownRow(),
+											},
+
+											/** Action change row position in table */
+											{
+												name: 'onMoveUpRow',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveUpRow',
+												onChange: ({value}) =>
+													executeRequest(
+														apiSaveByConfigName(
+															'routeMapPositionSave'
 														)
-													);
-
-												// 	value &&
-												// 	setSubscribeProps &&
-												// 	setSubscribeProps({
-												// 		dataObject: {
-												// 			routeMap: {
-												// 				id: null,
-												// 				position: null,
-												// 				fileId: null,
-												// 				routeId:
-												// 					value.value,
-												// 			},
-												// 		},
-												// 	});
+													)({
+														data: {
+															routeMaps:
+																value.value,
+														},
+														method: 'POST',
+													}),
 											},
-										},
-									]}
-								/>
-								<EditFileName />
-								<Button
-									icon={<ArrowUpOutlined />}
-									disabled={true}
-									dispatch={{
-										path:
-											'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
-										type: 'event',
-									}}
-									subscribe={[
-										{
-											name: 'btnUp',
-											path:
-												'rtd.routeMaps.mainForm.routeMapsTable.selected',
-											onChange: ({
-												value,
-												setSubscribeProps,
-											}) => {
-												value &&
-													setSubscribeProps &&
-													setSubscribeProps({
-														disabled: !value,
-													});
+											/** Action change row position in table */
+											{
+												name: 'onMoveDownRow',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveDownRow',
+												onChange: ({value}) =>
+													executeRequest(
+														apiSaveByConfigName(
+															'routeMapPositionSave'
+														)
+													)({
+														data: {
+															routeMaps:
+																value.value,
+														},
+														method: 'POST',
+													}),
 											},
-										},
-									]}
-								/>
-								<Button
-									icon={<ArrowDownOutlined />}
-									disabled={true}
-									dispatch={{
-										path:
-											'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
-										type: 'event',
-									}}
-									subscribe={[
-										{
-											name: 'btnUp',
-											path:
-												'rtd.routeMaps.mainForm.routeMapsTable.selected',
-											onChange: ({
-												value,
-												setSubscribeProps,
-											}) => {
-												value &&
-													setSubscribeProps &&
-													setSubscribeProps({
-														disabled: !value,
-													});
-											},
-										},
-									]}
-								/>
-							</Space>
-
-							<Table
-								itemProps={{name: 'routeMapsTable'}}
-								defaultFilter={{
-									routeId: routeId ? routeId : null,
-								}}
-								customColumnProps={customColumnProps}
-								requestLoadRows={apiGetFlatDataByConfigName(
-									'routeMaps'
-								)}
-								requestLoadConfig={apiGetConfigByName(
-									'routeMaps'
-								)}
-								dispatch={{
-									path: 'routeMaps.mainForm.routeMapsTable',
-								}}
-								subscribe={[
-									/** Action reload table after select Route in Select*/
-									{
-										name: 'routeChoiceFilter',
-										path:
-											'rtd.routeMaps.mainForm.events.onSelectRoute',
-										onChange: ({value, reloadTable}) => {
-											value &&
-												reloadTable &&
-												reloadTable({
-													filter: {
-														routeId: value.value,
-													},
-												});
-										},
-									},
-									/** Action reload table after upload file */
-									{
-										name: 'routeMapUpload',
-										path: `rtd.routeMaps.mainForm.routeMapsTable.routeMapUpload`,
-										extraData:
-											'rtd.routeMaps.mainForm.events.onSelectRoute',
-										onChange: ({
-											reloadTable,
-											extraData,
-										}) => {
-											extraData &&
-												reloadTable &&
-												reloadTable({
-													filter: {
-														routeId:
-															extraData.value,
-													},
-												});
-										},
-									},
-									/** Action change state after push on Button */
-									{
-										name: 'onClickMoveUp',
-										path:
-											'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
-										onChange: ({moveUpRow}) => moveUpRow(),
-									},
-									/** Action change state after push on Button */
-									{
-										name: 'onClickMoveDown',
-										path:
-											'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
-										onChange: ({moveDownRow}) =>
-											moveDownRow(),
-									},
-
-									/** Action change row position in table */
-									{
-										name: 'onMoveUpRow',
-										path:
-											'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveUpRow',
-										onChange: ({value}) =>
-											executeRequest(
-												apiSaveByConfigName(
-													'routeMapPositionSave'
-												)
-											)({
-												data: {
-													routeMaps: value.value,
+											/** Action change row position in table */
+											{
+												name: 'editFileName',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.modal.editFileName',
+												onChange: ({
+													value,
+													reloadTable,
+												}) => {
+													value &&
+														reloadTable &&
+														reloadTable({
+															filter: {
+																routeId:
+																	value.value
+																		.routeId,
+															},
+														});
 												},
-												method: 'POST',
-											}),
-									},
-									/** Action change row position in table */
-									{
-										name: 'onMoveDownRow',
-										path:
-											'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveDownRow',
-										onChange: ({value}) =>
-											executeRequest(
-												apiSaveByConfigName(
-													'routeMapPositionSave'
-												)
-											)({
-												data: {
-													routeMaps: value.value,
+											},
+										]}
+									/>
+								</Layout>
+								<Title level={5} className={'p-8'}>
+									Контрольные точки
+								</Title>
+								<Layout>
+									<Table
+										itemProps={{name: 'controlPointsTable'}}
+										pageSize={1}
+										customColumnProps={customColumnProps}
+										fixWidthColumn={true}
+										editMode={true}
+										defaultFilter={{
+											routeId: routeId ? routeId : null,
+										}}
+										requestLoadRows={apiGetFlatDataByConfigName(
+											'routeControlPointsDebug'
+										)}
+										requestLoadConfig={apiGetConfigByName(
+											'routeControlPointsDebug'
+										)}
+										dispatch={{
+											path:
+												'routeMaps.mainForm.controlPointsTable',
+										}}
+										subscribe={[
+											/** Action reload table after select Route in Select*/
+											{
+												name: 'controlPointTable',
+												withMount: true,
+												path:
+													'rtd.routeMaps.mainForm.events.onSelectRoute',
+												onChange: ({
+													value,
+													reloadTable,
+												}) => {
+													value &&
+														reloadTable &&
+														reloadTable({
+															filter: {
+																routeId:
+																	value.value,
+															},
+														});
 												},
-												method: 'POST',
-											}),
-									},
-									/** Action change row position in table */
-									{
-										name: 'editFileName',
-										path:
-											'rtd.routeMaps.mainForm.routeMapsTable.modal.editFileName',
-										onChange: ({value, reloadTable}) => {
-											value &&
-												reloadTable &&
-												reloadTable({
-													filter: {
-														routeId:
-															value.value.routeId,
-													},
-												});
-										},
-									},
-								]}
-							/>
-						</Layout>
-						<Title level={5} className={'p-8'}>
-							Контрольные точки
-						</Title>
-
-						<Layout>
-							<Table
-								itemProps={{name: 'controlPointsTable'}}
-								pageSize={1}
-								fixWidthColumn={true}
-								editMode={true}
-								defaultFilter={{
-									routeId: routeId ? routeId : null,
-								}}
-								requestLoadRows={apiGetFlatDataByConfigName(
-									'routeControlPointsDebug'
-								)}
-								requestLoadConfig={apiGetConfigByName(
-									'routeControlPointsDebug'
-								)}
-								dispatch={{
-									path:
-										'routeMaps.mainForm.controlPointsTable',
-								}}
-								subscribe={[
-									/** Action reload table after select Route in Select*/
-									{
-										name: 'controlPointTable',
-										path:
-											'rtd.routeMaps.mainForm.events.onSelectRoute',
-										onChange: ({value, reloadTable}) => {
-											value &&
-												reloadTable &&
-												reloadTable({
-													filter: {
-														routeId: value.value,
-													},
-												});
-										},
-									},
-									/** Action change table state by click on table*/
-									{
-										// Изменить таблицу с точками по клику на таблицу с точками
-										name: 'onSelectedControlPoint',
-										path:
-											'rtd.routeMaps.mainForm.controlPointsTable.events.onRowClick',
-										extraData:
-											'rtd.routeMaps.mainForm.routeMapsTable.selected',
-										onChange: ({
-											value,
-											extraData,
-											editRow,
-										}) => {
-											const row = value.value; //.value.rowData;
-											if (
-												row &&
-												extraData &&
-												row.routeMapId === null
-											) {
-												// Add new point
-												// console.log('controlPointsTable - onSelectedControlPoint => Add new point')
-												const _row = {
-													...row,
-													routeMapId: extraData.id,
-													routeMapName:
-														extraData.name,
-												};
-												editRow(_row);
-											} else if (
-												row &&
-												extraData &&
-												row.routeMapId !== extraData.id
-											) {
-												// move point
-												// console.log('controlPointsTable - onSelectedControlPoint => move point from', row.routeMapId)
-												const _row = {
-													...row,
-													routeMapId: extraData.id,
-													routeMapName:
-														extraData.name,
-												};
-												editRow(_row);
-											}
-										},
-									},
-									/** Action change table rows value*/
-									{
-										// Изменить таблицу с точками по изменению на карте (картинке)
-										name: 'onChangeRouteMapPoints',
-										path:
-											'rtd.routeMaps.mainForm.routeMapPoints.onChange',
-										onChange: ({value, editRow}) => {
-											value && editRow(value);
-										},
-									},
-								]}
-								footerProps={{
-									height: 50,
-									rightCustomSideElement: () => (
-										<>
-											<Button
-												className={'mr-8'}
-												type={'primary'}
-												htmlType={'submit'}
-											>
-												Сохранить
-											</Button>
-										</>
-									),
-								}}
-							/>
-						</Layout>
+											},
+											/** Action change table state by click on table*/
+											{
+												// Изменить таблицу с точками по клику на таблицу с точками
+												name: 'onSelectedControlPoint',
+												path:
+													'rtd.routeMaps.mainForm.controlPointsTable.events.onRowClick',
+												extraData:
+													'rtd.routeMaps.mainForm.routeMapsTable.selected',
+												onChange: ({
+													value,
+													extraData,
+													editRow,
+												}) => {
+													const row = value.value; //.value.rowData;
+													if (
+														row &&
+														extraData &&
+														row.routeMapId === null
+													) {
+														// Add new point
+														// console.log('controlPointsTable - onSelectedControlPoint => Add new point')
+														const _row = {
+															...row,
+															routeMapId:
+																extraData.id,
+															routeMapName:
+																extraData.name,
+														};
+														editRow(_row);
+													} else if (
+														row &&
+														extraData &&
+														row.routeMapId !==
+															extraData.id
+													) {
+														// move point
+														// console.log('controlPointsTable - onSelectedControlPoint => move point from', row.routeMapId)
+														const _row = {
+															...row,
+															routeMapId:
+																extraData.id,
+															routeMapName:
+																extraData.name,
+														};
+														editRow(_row);
+													}
+												},
+											},
+											/** Action change table rows value*/
+											{
+												// Изменить таблицу с точками по изменению на карте (картинке)
+												name: 'onChangeRouteMapPoints',
+												path:
+													'rtd.routeMaps.mainForm.routeMapPoints.onChange',
+												onChange: ({
+													value,
+													editRow,
+												}) => {
+													value && editRow(value);
+												},
+											},
+										]}
+										footerProps={{
+											height: 50,
+											rightCustomSideElement: () => (
+												<>
+													<Button
+														type={'primary'}
+														htmlType={'submit'}
+													>
+														Сохранить
+													</Button>
+												</>
+											),
+										}}
+									/>
+								</Layout>
+							</Layout>
+						</Switcher>
 					</FormBody>
 				</Form>
 			</div>
