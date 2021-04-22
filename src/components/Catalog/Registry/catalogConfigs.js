@@ -1,7 +1,3 @@
-// import BaseModalWithParentId from "./Forms/BaseModals/BaseModalWithParentId"
-// import BaseModal from "./Forms/BaseModals/BaseModal";
-// import EquipmentsModal from "./Forms/Equipments/EquipmentsModal";
-// import EquipmentsGroupModal from "./Forms/Equipments/EquipmentsGroupModal";
 /**
  *
  * @param paths Obeject<path,title, component,roles<array>>

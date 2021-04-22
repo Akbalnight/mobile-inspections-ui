@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {classic} from 'rt-design';
-// import {EditCustomObjectButton} from '../Catalog/Modals/btnCustomObject';
+// import {EditCustomObjectButton} from '../CatalogForm/Modals/btnCustomObject';
 
 import {useHistory} from 'react-router';
 

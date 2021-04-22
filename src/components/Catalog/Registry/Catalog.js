@@ -2,13 +2,13 @@ import React from 'react';
 import SplitPane from 'react-split-pane';
 import {classic} from 'rt-design';
 import {Link, useLocation} from 'react-router-dom';
-import {paths} from '../../constants/paths';
+import {paths} from '../../../constants/paths';
 import {Route, Switch} from 'react-router';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {catalogConfigs} from './catalogConfigs';
-import {CatalogForm} from './CatalogForm';
+import {CatalogForm} from '../Form/CatalogForm';
 
 const {List, Button} = classic;
 const CATALOG_DATA_PATH = {
@@ -67,6 +67,7 @@ const Catalog = () => {
 									name={item.name}
 									render={() => (
 										<Component
+											mainWay={'catalog'}
 											catalogName={item.name}
 											hierarchical={item.hierarchical}
 											unique={item.unique}

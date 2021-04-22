@@ -9,11 +9,12 @@ const {Modal, Text, FormBody} = classic;
 /**
  *
  * @param catalogName name of server configuration<string>
+ * @param mainWay name of server configuration<string>
  * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Delete modal(button)
  */
-export const DeleteOnServer = ({catalogName, unique}) => {
+export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
@@ -55,13 +56,13 @@ export const DeleteOnServer = ({catalogName, unique}) => {
 				},
 			}}
 			dispatch={{
-				path: `catalog.${catalogName}Table.modal.events.deleteOnModal`,
+				path: `${mainWay}.${catalogName}Table.modal.events.deleteOnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.catalog.${catalogName}Table.table.selected`,
+					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						setButtonProps && setButtonProps({disabled: !value});

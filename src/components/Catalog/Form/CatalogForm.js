@@ -4,23 +4,27 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../apis/catalog.api';
+} from '../../../apis/catalog.api';
 
-import {customColumnPropsEquipments} from './tableProps';
-import {TableHeader} from '../Base/TableHeader';
+import {customColumnPropsEquipments} from '../tableProps';
+import {TableHeader} from '../../Base/TableHeader';
 
 const {Form, FormBody, Table} = classic;
 export const CatalogForm = (props) => {
-	const {catalogName, hierarchical, unique} = props;
+	const {mainWay, catalogName, hierarchical, unique} = props;
 
 	return (
 		<Form>
 			<FormBody noPadding={true} name={'catalogSideFormDec'}>
-				<TableHeader catalogName={catalogName} unique={unique} />
+				<TableHeader
+					mainWay={mainWay}
+					catalogName={catalogName}
+					unique={unique}
+				/>
 				<Table
 					itemProps={{name: 'table'}}
 					fixWidthColumn={true}
-					dispatch={{path: `catalog.${catalogName}Table.table`}}
+					dispatch={{path: `${mainWay}.${catalogName}Table.table`}}
 					requestLoadRows={
 						hierarchical
 							? apiGetHierarchicalDataByConfigName(catalogName)
@@ -32,7 +36,7 @@ export const CatalogForm = (props) => {
 						/** Событие создания оборудования*/
 						{
 							name: 'onAddModal',
-							path: `rtd.catalog.${catalogName}Table.modal.events.addOnModal`,
+							path: `rtd.${mainWay}.${catalogName}Table.modal.events.addOnModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -40,7 +44,7 @@ export const CatalogForm = (props) => {
 						/** Событие редактирования оборудования*/
 						{
 							name: 'onEditModal',
-							path: `rtd.catalog.${catalogName}Table.modal.events.editOnModal`,
+							path: `rtd.${mainWay}.${catalogName}Table.modal.events.editOnModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -48,7 +52,7 @@ export const CatalogForm = (props) => {
 						/** Событие создания Группы оборудования*/
 						{
 							name: 'onAddGroupModal',
-							path: `rtd.catalog.${catalogName}Table.modal.events.addOnGroupModal`,
+							path: `rtd.${mainWay}.${catalogName}Table.modal.events.addOnGroupModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -56,7 +60,7 @@ export const CatalogForm = (props) => {
 						/** Событие редактирования Группы оборудования*/
 						{
 							name: 'onEditGroupModal',
-							path: `rtd.catalog.${catalogName}Table.modal.events.editOnGroupModal`,
+							path: `rtd.${mainWay}.${catalogName}Table.modal.events.editOnGroupModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -64,7 +68,7 @@ export const CatalogForm = (props) => {
 						/** Событие удаления оборудования*/
 						{
 							name: 'onDeleteModal',
-							path: `rtd.catalog.${catalogName}Table.modal.events.deleteOnModal`,
+							path: `rtd.${mainWay}.${catalogName}Table.modal.events.deleteOnModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},

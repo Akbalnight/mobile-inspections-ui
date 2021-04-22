@@ -2,12 +2,12 @@
 import Home from '../components/Home/Home';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 // НСИ
-import Catalog from '../components/Catalog/Catalog';
+import Catalog from '../components/Catalog/Registry/Catalog';
 // Тех карты
-import TechMaps from '../components/TechMaps/TechMaps';
+
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-import TechMapData from '../components/TechMaps/TechMapData';
+
 // Контрольные точки
 import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
 import {
@@ -189,18 +189,6 @@ export const paths = {
 		component: WorkSchedules,
 		roles: ['ROLE_ADMIN'],
 	},
-	CONTROL_EQUIPMENTS_TECH_MAPS: {
-		title: 'Технологические карты и операции',
-		path: '/controlEquipments/techMaps',
-		component: TechMaps,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
-		title: 'Редактирование технологической карты',
-		path: '/controlEquipments/techMaps/:id',
-		component: TechMapData,
-	},
-
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
