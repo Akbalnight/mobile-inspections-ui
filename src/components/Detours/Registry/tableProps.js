@@ -24,7 +24,7 @@ const {
 	Switcher,
 } = classic;
 
-export const TableHeader = () => {
+export const DetoursMainTableHeader = () => {
 	return (
 		<Space direction={'vertical'} className={'p-8'}>
 			<Space style={{justifyContent: 'space-between', width: '100%'}}>

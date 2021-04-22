@@ -22,14 +22,6 @@ import {
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
-// -- legacy
-import Detours from '../components/Detours/legacy/Detours';
-import {
-	DetoursAdd,
-	DetoursEdit,
-} from '../components/Detours/legacy/DetoursForm';
-import DetoursSchedules from '../components/Detours/legacy/DetoursSchedules';
-// -- actual
 import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
 import Registry from '../components/Detours/Schedules/Registry';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
@@ -165,28 +157,6 @@ export const paths = {
 		path: '/detours-configurator/detours',
 		component: DetoursMain,
 		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_PREVIOUS: {
-		title: 'Обходы previous',
-		path: '/detours-configurator/detoursPrevious',
-		component: Detours,
-		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_DATA_ADD: {
-		title: 'Создание обхода',
-		path: '/detours-configurator/detours/new',
-		component: DetoursAdd,
-	},
-	DETOURS_CONFIGURATOR_DETOURS_DATA_EDIT: {
-		title: 'Редактирование обхода',
-		path: '/detours-configurator/detours/:id',
-		component: DetoursEdit,
-	},
-	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
-		title: 'Расписание обходов',
-		path: '/detours-configurator/detours-schedules',
-		component: DetoursSchedules,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов',

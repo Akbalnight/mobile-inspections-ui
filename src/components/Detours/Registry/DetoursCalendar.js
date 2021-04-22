@@ -108,22 +108,12 @@ const Calendar = ({onChange, detours, value}) => {
 	);
 };
 
+/**
+ *
+ * @returns {JSX.object}
+ * @desc In calendar you see Detours which current month(change select).
+ */
 export default function DetoursCalendar() {
-	// const [calendarValues, setCalendarValues] = useState([]);
-	//
-	// useEffect(() => {
-	// 	apiGetFlatDataByConfigName('detours')({
-	// 		data: {},
-	// 		params: {size: 50},
-	// 	})
-	// 		.then((response) => {
-	// 			return setCalendarValues(response.data);
-	// 		})
-	// 		.catch((error) =>
-	// 			notificationError(error, 'Ошибка загрузки данных формы')
-	// 		);
-	// }, []);
-
 	return (
 		<>
 			<Layout className={'px-8'}>

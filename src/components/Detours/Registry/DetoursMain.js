@@ -4,17 +4,23 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {customColumnProps, TableHeader} from './tableProps';
+import {customColumnProps, DetoursMainTableHeader} from './tableProps';
 import React from 'react';
 import DetoursCalendar from './DetoursCalendar';
 
 const {Form, FormBody, Table, Switcher} = classic;
+
+/**
+ *
+ * @returns {JSX.object}
+ * @desc Detour main component. You see 2 view blocks, table(full info) and calendar(short info)
+ */
 export const DetoursMain = () => {
 	return (
 		<BasePage>
 			<Form>
 				<FormBody noPadding={true}>
-					<TableHeader />
+					<DetoursMainTableHeader />
 					<Switcher
 						subscribe={[
 							{
