@@ -8,13 +8,14 @@ import {objectOnServer} from '../Functions/DefaultObject';
 /**
  *
  * @param catalogName name of server configuration
+ * @param mainWay name of server configuration
  * @param unique phrase on Russian
  * @returns {JSX.object}
  */
-export const AddDefaultObjectOnServer = ({catalogName, unique}) =>
-	operationOnServer('add', catalogName, unique);
-export const EditDefaultObjectOnServer = ({catalogName, unique}) =>
-	operationOnServer('edit', catalogName, unique);
+export const AddDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
+	operationOnServer('add', mainWay, catalogName, unique);
+export const EditDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
+	operationOnServer('edit', mainWay, catalogName, unique);
 
 const {Modal, FormBody, Input} = classic;
 
@@ -22,11 +23,12 @@ const {Modal, FormBody, Input} = classic;
  *
  * @param type modal type<string>
  * @param catalogName name of server configuration<string>
+ * @param mainWay name of server configuration<string>
  * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Modal work only object in row
  */
-const operationOnServer = (type, catalogName, unique) => {
+const operationOnServer = (type, mainWay, catalogName, unique) => {
 	/**
 	 *
 	 * @param callBack function change state (row)
@@ -106,13 +108,13 @@ const operationOnServer = (type, catalogName, unique) => {
 				},
 			}}
 			dispatch={{
-				path: `catalog.${catalogName}Table.modal.events.${type}OnModal`,
+				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.catalog.${catalogName}Table.table.selected`,
+					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&

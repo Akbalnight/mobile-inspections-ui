@@ -7,14 +7,14 @@ import {Route, Switch} from 'react-router';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import {catalogConfigs} from './catalogConfigs';
-import {CatalogForm} from '../Form/CatalogForm';
+import {catalogConfigs} from '../Registry/catalogConfigs';
+import {Catalogs} from '../Registry/Catalogs';
 
 const {List, Button} = classic;
 const CATALOG_DATA_PATH = {
 	title: 'Справочник',
 	path: '/catalog/:name',
-	component: CatalogForm,
+	component: Catalogs,
 };
 
 const Catalog = () => {

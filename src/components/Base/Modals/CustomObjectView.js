@@ -113,7 +113,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	 */
 	const configCatalog = (catalogName) => {
 		let historyPath = null;
-		// sRow && console.log('sRow conf CatalogForm', sRow)
+		// sRow && console.log('sRow conf Catalogs', sRow)
 
 		switch (catalogName) {
 			case 'equipments':

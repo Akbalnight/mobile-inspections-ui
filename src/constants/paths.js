@@ -2,18 +2,18 @@
 import Home from '../components/Home/Home';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 // НСИ
-import Catalog from '../components/Catalog/Registry/Catalog';
+import Catalog from '../components/Catalog/Form/Catalog';
 // Тех карты
 
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 
 // Контрольные точки
-import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
+import ControlPoints from '../components/ControlPoints/Registry/ControlPoins';
 import {
 	ControlPointAdd,
 	ControlPointEdit,
-} from '../components/ControlPoints/ControlPointDataD';
+} from '../components/ControlPoints/Form/ControlPoint';
 // Маршруты и Маршрутные карты
 import Routes from '../components/Routes/Registry/Routes';
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
@@ -122,7 +122,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPointsBase,
+		component: ControlPoints,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {

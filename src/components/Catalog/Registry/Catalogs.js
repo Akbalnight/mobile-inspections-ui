@@ -10,7 +10,7 @@ import {customColumnPropsEquipments} from '../tableProps';
 import {TableHeader} from '../../Base/TableHeader';
 
 const {Form, FormBody, Table} = classic;
-export const CatalogForm = (props) => {
+export const Catalogs = (props) => {
 	const {mainWay, catalogName, hierarchical, unique} = props;
 
 	return (

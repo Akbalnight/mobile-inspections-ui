@@ -8,11 +8,12 @@ const {Modal, FormBody, Text} = classic;
 /**
  *
  * @param catalogName name of server configuration<string>
+ * @param mainWay name of server configuration<string>
  * @param unique phrase on Russian<string>
  * @returns {JSX.Element}
  * @desc Modal view table info about row(onRowDoubleClick) , only object
  */
-export const DefaultObjectView = ({catalogName, unique}) => {
+export const DefaultObjectView = ({mainWay, catalogName, unique}) => {
 	/**
 	 *
 	 * @param callBack function change state (row)
@@ -67,7 +68,7 @@ export const DefaultObjectView = ({catalogName, unique}) => {
 			subscribe={[
 				{
 					name: `${catalogName}ModalInfo`,
-					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
+					path: `rtd.${mainWay}.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&
