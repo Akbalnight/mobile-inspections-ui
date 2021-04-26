@@ -283,4 +283,24 @@ export const itemsInfo = {
 		label: 'Допустимое откл., мин',
 		className: 'mb-8',
 	},
+	needInputData: {
+		name: 'needInputData',
+		label: 'Ввод данных',
+		className: 'mb-8',
+	},
+	labelInputData: {
+		name: 'labelInputData',
+		label: 'Подпись ввода данных',
+		className: 'mb-8',
+	},
+	equipmentStop: {
+		name: 'equipmentStop',
+		label: 'Остановка оборудования',
+		className: 'mb-8',
+	},
+	increasedDanger: {
+		name: 'increasedDanger',
+		label: 'Повышенная опасность',
+		className: 'mb-8',
+	},
 };
