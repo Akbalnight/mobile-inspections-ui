@@ -12,7 +12,6 @@ export const EditFileName = () => {
 				type: 'default',
 				icon: <EditOutlined />,
 				disabled: true,
-				// className: 'mr-8',
 			}}
 			toolTipProps={{
 				title: 'Редактировать наименование',
@@ -27,11 +26,7 @@ export const EditFileName = () => {
 				requestSaveRow: apiSaveByConfigName('routeMapFileNameSave'),
 				form: {
 					name: `editModalForm`,
-					// processBeforeSaveForm: processBeforeSaveForm,
 					methodSaveForm: 'PUT',
-					onFinish: (values) => {
-						console.log('values', values);
-					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
 				},

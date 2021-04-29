@@ -27,7 +27,7 @@ const {Row} = classic;
  * @desc Function choice table header buttons(action modals) and view modals
  */
 
-export const TableHeader = ({catalogName, unique}) => {
+export const TableHeader = ({mainWay, catalogName, unique}) => {
 	const configCatalogName = (catalogName) => {
 		switch (catalogName) {
 			case 'equipments':
@@ -35,45 +35,57 @@ export const TableHeader = ({catalogName, unique}) => {
 				return (
 					<>
 						<AddCustomObjectOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<AddCustomGroupOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<EditCustomObjectOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<EditCustomGroupOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<DeleteOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<CustomObjectView
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						<CustomGroupView catalogName={catalogName} />
+						<CustomGroupView
+							catalogName={catalogName}
+							mainWay={mainWay}
+						/>
 					</>
 				);
 			default:
 				return (
 					<>
 						<AddDefaultObjectOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
 						<EditDefaultObjectOnServer
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>
-						{/*<DeleteOnServer catalogName={catalogName} unique={unique} />*/}
+						{/*<DeleteOnServer catalogName={catalogName} unique={unique} mainWay={mainWay}/>*/}
 						<DefaultObjectView
+							mainWay={mainWay}
 							catalogName={catalogName}
 							unique={unique}
 						/>

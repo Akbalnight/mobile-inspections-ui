@@ -10,23 +10,25 @@ const {FormBody, Modal} = classic;
  *
  * @param catalogName name of server configuration<string>
  * @param unique phrase on Russian<string>
+ * @param mainWay name of server configuration<string>
  * @returns {JSX.object}
  *
  */
-export const AddCustomObjectOnServer = ({catalogName, unique}) =>
-	operationOnServer('add', catalogName, unique);
-export const EditCustomObjectOnServer = ({catalogName, unique}) =>
-	operationOnServer('edit', catalogName, unique);
+export const AddCustomObjectOnServer = ({mainWay, catalogName, unique}) =>
+	operationOnServer('add', mainWay, catalogName, unique);
+export const EditCustomObjectOnServer = ({mainWay, catalogName, unique}) =>
+	operationOnServer('edit', mainWay, catalogName, unique);
 
 /**
  *
  * @param type modal type<string>
  * @param catalogName name of server configuration<string>
+ * @param mainWay name of server configuration<string>
  * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Modal work only object in row
  */
-const operationOnServer = (type, catalogName, unique) => {
+const operationOnServer = (type, mainWay, catalogName, unique) => {
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;
@@ -65,13 +67,13 @@ const operationOnServer = (type, catalogName, unique) => {
 				},
 			}}
 			dispatch={{
-				path: `catalog.${catalogName}Table.modal.events.${type}OnModal`,
+				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.catalog.${catalogName}Table.table.selected`,
+					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type === 'edit' &&

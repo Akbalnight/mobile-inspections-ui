@@ -24,6 +24,7 @@ export const menu = [
 	// {
 	// 	icon: BugOutlined,
 	// 	...paths.DEBUG_TABLE,
+	// paths.DEBUG_CP_ANTON,
 	// },
 	// {
 	// 	icon: BugOutlined,
@@ -35,9 +36,7 @@ export const menu = [
 		icon: CONTROL_DEFECTS,
 		children: [
 			paths.CONTROL_DEFECTS_DEFECTS,
-			// paths.CONTROL_DEFECTS_DEFECTS_JSX,
 			paths.CONTROL_DEFECTS_PANEL_PROBLEMS,
-			// paths.CONTROL_DEFECTS_PANEL_DEVIATIONS,
 		],
 	},
 	{
@@ -47,13 +46,9 @@ export const menu = [
 		children: [
 			paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM,
 			paths.DETOURS_CONFIGURATOR_CONTROL_POINTS,
-			// paths.DEBUG_CP_ANTON,
 			paths.DETOURS_CONFIGURATOR_ROUTES,
 			paths.DETOURS_CONFIGURATOR_DETOURS,
-
-			// paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
 			paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE,
-			// paths.DETOURS_CONFIGURATOR_DETOURS_SCHEDULES,
 			paths.DETOURS_CONFIGURATOR_ROUTE_MAPS,
 		],
 	},
@@ -61,19 +56,6 @@ export const menu = [
 		...paths.CATALOG,
 		icon: CATALOG,
 	},
-
-	// {
-	// 	// control_equipments
-	// 	...paths.CONTROL_EQUIPMENTS,
-	// 	icon: CONTROL_EQUIPMENTS,
-	// 	children: [
-	// 		paths.CONTROL_EQUIPMENTS_WORK_SCHEDULES,
-	// 		// paths.CONTROL_EQUIPMENTS_TECH_MAPS,
-	//
-	// 		/** Тех. карты на формах */
-	// 	],
-	// },
-
 	{
 		// analytics
 		...paths.ANALYTICS,

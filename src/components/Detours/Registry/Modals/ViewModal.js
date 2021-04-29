@@ -9,7 +9,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../../apis/catalog.api';
-import {customColumnProps} from '../tableProps';
+import {customColumnProps} from '../../tableProps';
 import {Access} from 'mobile-inspections-base-ui';
 
 const {Panel} = Collapse;

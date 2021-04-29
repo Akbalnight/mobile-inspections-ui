@@ -4,43 +4,34 @@
  */
 import React from 'react';
 import {classic} from 'rt-design';
-// import {EditCustomObjectButton} from '../Catalog/Modals/btnCustomObject';
-
 import {useHistory} from 'react-router';
-
-// history.location.pathname === '/detours-configurator/control-points';
-
 import {
-	// DeleteOutlined,
 	EditOutlined,
-	// FolderOutlined,
+	FolderOutlined,
 	PlusOutlined,
-	// ToolOutlined,
+	ReloadOutlined,
 } from '@ant-design/icons';
 import {paths} from '../../constants/paths';
 import {
 	AddCustomGroupOnServer,
 	EditCustomGroupOnServer,
 } from '../Base/Modals/CustomGroupOnServer';
-// import {DeleteOnServer} from '../Base/Modals/DeleteOnServer';
 import {CustomObjectView} from '../Base/Modals/CustomObjectView';
 import {CustomGroupView} from '../Base/Modals/CustomGroupView';
-import {
-	AddDefaultObjectOnServer,
-	EditDefaultObjectOnServer,
-} from '../Base/Modals/DefaultObjectOnServer';
-import {DefaultObjectView} from '../Base/Modals/DefaultObjectView';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
-const {Button, Row} = classic;
+const {Button, Row, Space, Search, Checkbox} = classic;
 
 /**
  *
  * @param catalogName name of server configuration
+ * @param mainWay name of server configuration
  * @param unique phrase on Russian
  * @returns {JSX.object}
  * @desc Function choice table header buttons(action modals) and view modals
  */
-export const CatalogTableHeader = ({catalogName, unique}) => {
+export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 	let history = useHistory();
 
 	const AddObjectButton = () => {
@@ -63,22 +54,22 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 			<Button
 				className={['ant-btn-icon-only']}
 				dispatch={{
-					path: 'catalog.controlPointsTable.events.onClickEdit',
+					path: `${mainWay}.${catalogName}Table.events.onClickEdit`,
 				}}
+				disabled={true}
 				subscribe={[
 					{
-						name: 'selected',
-						path: 'rtd.catalog.controlPointsTable.table.selected',
+						name: 'btnActive',
+						path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
 						onChange: ({value, setSubscribeProps}) => {
-							// console.log('v', value);
 							if (value && !value.isGroup) {
 								sValueId = value.id;
 								setSubscribeProps({
-									hidden: false,
-									disabled: false,
+									hidden: !value,
+									disabled: !value,
 								});
 							} else {
-								setSubscribeProps({hidden: true});
+								setSubscribeProps({hidden: value});
 								sValueId = null;
 							}
 						},
@@ -96,60 +87,118 @@ export const CatalogTableHeader = ({catalogName, unique}) => {
 			</Button>
 		);
 	};
-	const configCatalogName = (catalogName) => {
-		// console.log('catalogName',catalogName)
-		switch (catalogName) {
-			case 'controlPoints':
-				return (
-					<>
-						<AddObjectButton />
-						<AddCustomGroupOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<EditObjectButton />
 
-						<EditCustomGroupOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						{/* временно скроем удаление контрольных точек, стоит потом проверить работу  */}
-						{/*<DeleteOnServer*/}
-						{/*	catalogName={catalogName}*/}
-						{/*	unique={unique}*/}
-						{/*/>*/}
-						<CustomObjectView
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<CustomGroupView catalogName={catalogName} />
-					</>
-				);
-			default:
-				return (
-					<>
-						<AddDefaultObjectOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<EditDefaultObjectOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
-						<DefaultObjectView
-							catalogName={catalogName}
-							unique={unique}
-						/>
-					</>
-				);
-		}
-	};
-	return <Row className={'p-8'}>{configCatalogName(catalogName)}</Row>;
+	return (
+		<Space style={{justifyContent: 'space-between'}} className={'p-8'}>
+			<Row>
+				<AddObjectButton />
+				<AddCustomGroupOnServer
+					mainWay={mainWay}
+					catalogName={catalogName}
+					unique={unique}
+				/>
+				<EditObjectButton />
+				<EditCustomGroupOnServer
+					mainWay={mainWay}
+					catalogName={catalogName}
+					unique={unique}
+				/>
+				<Button
+					icon={<ReloadOutlined />}
+					hidden={true}
+					subscribe={[
+						/** Action search activate btn*/
+						{
+							name: 'onSearchPush',
+							path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+							onChange: ({value, setSubscribeProps}) => {
+								value &&
+									setSubscribeProps &&
+									setSubscribeProps({hidden: !value});
+							},
+						},
+						/** Action reload in mainForm.table deactivate btn*/
+						{
+							name: 'onReloadPush',
+							path: `rtd.${mainWay}.${catalogName}Table.table.rows`,
+							onChange: ({value, setSubscribeProps}) => {
+								/** We might thinking about ${path}.rows array length*/
+
+								value &&
+									value.length >= 10 &&
+									setSubscribeProps &&
+									setSubscribeProps({hidden: value});
+							},
+						},
+					]}
+					dispatch={{
+						path: `${mainWay}.${catalogName}Table.table.events.onReload`,
+					}}
+				/>
+				<CustomObjectView
+					mainWay={mainWay}
+					catalogName={catalogName}
+					unique={unique}
+				/>
+				<CustomGroupView catalogName={catalogName} mainWay={mainWay} />
+			</Row>
+			<Search
+				itemProps={{name: 'onSearch'}}
+				placeholder={'Введите наименование'}
+				dispatch={{
+					path: `${mainWay}.${catalogName}Table.table.events.onSearch`,
+				}}
+				subscribe={[
+					/** Reload Search value field, clear STORE*/
+					reloadFilterFields(
+						`${mainWay}.${catalogName}Table.table.events.onReload`
+					),
+				]}
+			/>
+		</Space>
+	);
 };
 
+export const customColumnProps = [
+	{
+		name: 'code',
+		cellRenderer: ({rowData}) => {
+			return rowData.isGroup ? (
+				<span>
+					<FolderOutlined className={'mr-8'} />
+					{codeNormalizer(rowData.code)}
+				</span>
+			) : (
+				<span>{codeNormalizer(rowData.code)}</span>
+			);
+		},
+	},
+	{
+		name: 'rfidCode',
+		cellRenderer: ({cellData}) =>
+			cellData ? (
+				<Checkbox checked={!cellData} disabled={!cellData} />
+			) : (
+				'---'
+			),
+	},
+];
 export const equipmentTableCustom = (controlPointId) => {
 	return [
+		{
+			name: 'equipmentId',
+			value: (row) => row.id,
+			validate: (row, rows) => {
+				// console.log('row eq selected:', row)
+				return !row.isGroup
+					? !rows.map((row) => row.equipmentId).includes(row.id)
+					: false;
+			},
+		},
+		{
+			name: 'id',
+			value: () => null,
+		},
 		{
 			name: 'controlPointId',
 			value: () => controlPointId,
@@ -158,31 +207,27 @@ export const equipmentTableCustom = (controlPointId) => {
 			name: 'equipmentName',
 			value: (row) => row.name,
 		},
-		{
-			name: 'equipmentId',
-			value: (row) => row.id,
-			validate: (row, rows) => {
-				// console.log("validate => ", rows.map(row => row.equipmentId));
-				// console.log("validate => ", row.id);
-				// console.log("validate => ", !rows.map(row => row.equipmentId).includes(row.id));
-				return !rows.map((row) => row.equipmentId).includes(row.id);
-			},
-		},
 	];
 };
 export const techMapsTableCustom = (controlPointId) => {
 	return [
 		{
-			name: 'controlPointId',
-			value: () => controlPointId,
-		},
-		{
 			name: 'techMapId',
 			value: (row) => row.id,
+			validate: (row, rows) => {
+				// console.log('row tech maps selected:', row)
+				return !row.isGroup
+					? !rows.map((row) => row.techMapId).includes(row.id)
+					: false;
+			},
 		},
 		{
-			name: 'isGroup',
-			validate: (row, rows) => !row.isGroup,
+			name: 'id',
+			value: () => null,
+		},
+		{
+			name: 'controlPointId',
+			value: () => controlPointId,
 		},
 	];
 };

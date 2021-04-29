@@ -2,18 +2,18 @@
 import Home from '../components/Home/Home';
 import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 // НСИ
-import Catalog from '../components/Catalog/Catalog';
+import Catalog from '../components/Catalog/Form/Catalog';
 // Тех карты
-import TechMaps from '../components/TechMaps/TechMaps';
+
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-import TechMapData from '../components/TechMaps/TechMapData';
+
 // Контрольные точки
-import ControlPointsBase from '../components/ControlPoints/ControlPoinsBase';
+import ControlPoints from '../components/ControlPoints/Registry/ControlPoints';
 import {
 	ControlPointAdd,
 	ControlPointEdit,
-} from '../components/ControlPoints/ControlPointDataD';
+} from '../components/ControlPoints/Form/ControlPoint';
 // Маршруты и Маршрутные карты
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
 import {
@@ -21,20 +21,12 @@ import {
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
-// -- legacy
-import {
-	DetoursAdd,
-	DetoursEdit,
-} from '../components/Detours/legacy/DetoursForm';
-import DetoursSchedules from '../components/Detours/legacy/DetoursSchedules';
-// -- actual
-import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
+import {Detours} from '../components/Detours/Registry/Detours';
 import Registry from '../components/Detours/Schedules/Registry';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 // Дефекты
-import Defects from '../components/Defects/Defects';
-import DefectsForm from '../components/Defects/DefectsForm';
+import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 
 // Debugs
@@ -130,7 +122,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
-		component: ControlPointsBase,
+		component: ControlPoints,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
@@ -162,24 +154,8 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
-		component: DetoursMain,
+		component: Detours,
 		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_DATA_ADD: {
-		title: 'Создание обхода',
-		path: '/detours-configurator/detours/new',
-		component: DetoursAdd,
-	},
-	DETOURS_CONFIGURATOR_DETOURS_DATA_EDIT: {
-		title: 'Редактирование обхода',
-		path: '/detours-configurator/detours/:id',
-		component: DetoursEdit,
-	},
-	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES: {
-		title: 'Расписание обходов',
-		path: '/detours-configurator/detours-schedules',
-		component: DetoursSchedules,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов',
@@ -213,18 +189,6 @@ export const paths = {
 		component: WorkSchedules,
 		roles: ['ROLE_ADMIN'],
 	},
-	CONTROL_EQUIPMENTS_TECH_MAPS: {
-		title: 'Технологические карты и операции',
-		path: '/controlEquipments/techMaps',
-		component: TechMaps,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-	CONTROL_EQUIPMENTS_TECH_MAP_DATA: {
-		title: 'Редактирование технологической карты',
-		path: '/controlEquipments/techMaps/:id',
-		component: TechMapData,
-	},
-
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
@@ -238,12 +202,6 @@ export const paths = {
 		path: '/control-defects/defects',
 		component: Defects,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
-	},
-
-	CONTROL_DEFECTS_DEFECTS_DATA_FORM: {
-		title: 'Создание/редактирование дефекта',
-		path: '/control-defects/defects/:id',
-		component: DefectsForm,
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',

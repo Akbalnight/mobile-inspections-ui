@@ -11,13 +11,14 @@ import {itemsInfo} from '../../../constants/dictionary';
  *
  * @param catalogName name of server configuration<string>
  * @param unique phrase on Russian<string>
+ * @param mainWay name of server configuration<string>
  * @returns {JSX.object}
  *
  */
-export const AddCustomGroupOnServer = ({catalogName, unique}) =>
-	operationOnServer('add', catalogName, unique);
-export const EditCustomGroupOnServer = ({catalogName, unique}) =>
-	operationOnServer('edit', catalogName, unique);
+export const AddCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
+	operationOnServer('add', mainWay, catalogName, unique);
+export const EditCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
+	operationOnServer('edit', mainWay, catalogName, unique);
 
 const {Modal, FormBody, Input, TreeSelect} = classic;
 
@@ -25,11 +26,12 @@ const {Modal, FormBody, Input, TreeSelect} = classic;
  *
  * @param type modal type<string>
  * @param catalogName name of server configuration<string>
+ * @param mainWay name of server configuration<string>
  * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Modal work if table have is_group props in row
  */
-const operationOnServer = (type, catalogName, unique) => {
+const operationOnServer = (type, mainWay, catalogName, unique) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
@@ -70,13 +72,13 @@ const operationOnServer = (type, catalogName, unique) => {
 				},
 			}}
 			dispatch={{
-				path: `catalog.${catalogName}Table.modal.events.${type}OnGroupModal`,
+				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnGroupModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.catalog.${catalogName}Table.table.selected`,
+					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&
