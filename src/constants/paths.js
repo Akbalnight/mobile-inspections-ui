@@ -15,15 +15,13 @@ import {
 	ControlPointEdit,
 } from '../components/ControlPoints/ControlPointDataD';
 // Маршруты и Маршрутные карты
-import Routes from '../components/Routes/Registry/Routes';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
 import {
 	AddRouteMaps,
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
 // -- legacy
-import Detours from '../components/Detours/legacy/Detours';
 import {
 	DetoursAdd,
 	DetoursEdit,
@@ -37,6 +35,7 @@ import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 // Дефекты
 import Defects from '../components/Defects/Defects';
 import DefectsForm from '../components/Defects/DefectsForm';
+import {Routes} from '../components/Routes/Registry/Routes';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -164,12 +163,6 @@ export const paths = {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
 		component: DetoursMain,
-		roles: ['ROLE_ADMIN'],
-	},
-	DETOURS_CONFIGURATOR_DETOURS_PREVIOUS: {
-		title: 'Обходы previous',
-		path: '/detours-configurator/detoursPrevious',
-		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_DATA_ADD: {

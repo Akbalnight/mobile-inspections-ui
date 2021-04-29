@@ -1,64 +1,49 @@
-import React from 'react';
-import {useHistory} from 'react-router';
-import {Form} from 'rt-design';
+import {BasePage} from 'mobile-inspections-base-ui';
+import {classic} from 'rt-design';
+import {customColumnProps, MainTableHeader} from '../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
+import React from 'react';
 
-import {BasePage} from 'mobile-inspections-base-ui';
-// import {
-// 	addControlPointToRoute,
-// 	editControlPointToRoute,
-// } from '../Modals/routeControlPointEdit';
-import {routeViewModal} from '../Modals/routeView';
-import {customColumnProps} from '../tableProps';
-
-/**
- * Основной компонент, отсюда выходят все станицы и модальные окна
- */
-export default function Routes() {
-	let history = useHistory();
-
-	const formConfig = {
-		noPadding: true,
-		body: [
-			{
-				componentType: 'Layout',
-				children: [
-					{
-						componentType: 'Item',
-						child: {
-							componentType: 'LocalTable',
-							customColumnProps: [...customColumnProps],
-							history,
-							commandPanelProps: {
-								systemBtnProps: {
-									add: {actionType: 'page'},
-									edit: {actionType: ['page', 'modal']},
-									delete: {},
-								},
-							},
-							requestLoadRows: apiGetFlatDataByConfigName(
-								'routes'
-							),
-							requestLoadConfig: apiGetConfigByName('routes'),
-
-							modals: [
-								// addControlPointToRoute(),
-								// editControlPointToRoute(),
-								routeViewModal(history),
-							],
-						},
-					},
-				],
-			},
-		],
-	};
-
+const {Form, FormBody, Table} = classic;
+export const Routes = () => {
 	return (
 		<BasePage>
-			<Form {...formConfig} />
+			<Form>
+				<FormBody noPadding={true} scrollable={true}>
+					<MainTableHeader />
+					<Table
+						infinityMode={true}
+						customColumnProps={customColumnProps}
+						searchParamName={'name'}
+						requestLoadRows={apiGetFlatDataByConfigName('routes')}
+						requestLoadConfig={apiGetConfigByName('routes')}
+						dispatch={{path: 'routes.mainForm.table'}}
+						subscribe={[
+							{
+								name: 'onSearch',
+								path:
+									'rtd.routes.mainForm.table.events.onSearch',
+								onChange: ({value, reloadTable}) => {
+									reloadTable({
+										searchValue: value,
+									});
+								},
+							},
+							{
+								name: 'onReload',
+								path:
+									'rtd.routes.mainForm.table.events.onReload',
+								onChange: ({reloadTable}) => {
+									reloadTable({});
+								},
+							},
+						]}
+					/>
+				</FormBody>
+			</Form>
 		</BasePage>
 	);
-}
+};
