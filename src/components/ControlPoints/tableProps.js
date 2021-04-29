@@ -5,7 +5,12 @@
 import React from 'react';
 import {classic} from 'rt-design';
 import {useHistory} from 'react-router';
-import {EditOutlined, PlusOutlined, ReloadOutlined} from '@ant-design/icons';
+import {
+	EditOutlined,
+	FolderOutlined,
+	PlusOutlined,
+	ReloadOutlined,
+} from '@ant-design/icons';
 import {paths} from '../../constants/paths';
 import {
 	AddCustomGroupOnServer,
@@ -15,6 +20,7 @@ import {CustomObjectView} from '../Base/Modals/CustomObjectView';
 import {CustomGroupView} from '../Base/Modals/CustomGroupView';
 import {code} from '../Base/customColumnProps';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {codeNormalizer} from '../Base/Functions/TextUtils';
 
 const {Button, Row, Space, Search, Checkbox} = classic;
 
@@ -155,7 +161,19 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 };
 
 export const customColumnProps = [
-	{...code},
+	{
+		name: 'code',
+		cellRenderer: ({rowData}) => {
+			return rowData.isGroup ? (
+				<span>
+					<FolderOutlined className={'mr-8'} />
+					{codeNormalizer(rowData.code)}
+				</span>
+			) : (
+				<span>{codeNormalizer(rowData.code)}</span>
+			);
+		},
+	},
 	{
 		name: 'rfidCode',
 		cellRenderer: ({cellData}) =>

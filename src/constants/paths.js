@@ -9,7 +9,7 @@ import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
 
 // Контрольные точки
-import ControlPoints from '../components/ControlPoints/Registry/ControlPoins';
+import ControlPoints from '../components/ControlPoints/Registry/ControlPoints';
 import {
 	ControlPointAdd,
 	ControlPointEdit,

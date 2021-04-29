@@ -20,14 +20,18 @@ const CATALOG_DATA_PATH = {
 const Catalog = () => {
 	let {pathname} = useLocation();
 	// let history = useHistory();
-	// console.log('pathname - ', pathname.split('/'));
-
+	// console.log('pathname - ', pathname);
+	/**
+	 * pathname.split('/').length > 2 ? null: CATALOG_DATA_PATH.path
+	 * в этой строке происходит дейстиве которое приводит title страницы к сзначению undefined.
+	 * в обычно истуации туда страивается конечная точка пути в меню. сейчас для нас конечная точка НСИ, а уже внутри НСИ мы перебираем наши справочники.
+	 *
+	 * чуть большая проблема у нас с Breadcrumbs, как title он не изменен. вопрос открытый.
+	 *
+	 * в BasePage.js, из контекста берется занчение paths, но у нас есть сопоставимый объект catalogConfigs. Надо обсудить концепцию UI(Breadcrumbs, title) в данном разделе
+	 */
 	return (
-		<BasePage
-			path={
-				pathname.split('/').length > 2 ? CATALOG_DATA_PATH.path : null
-			}
-		>
+		<BasePage path={pathname.split('/').length > 2 ? null : null}>
 			<SplitPane
 				className={'Catalog'}
 				split='vertical'
@@ -47,6 +51,7 @@ const Catalog = () => {
 										width: '100%',
 										textAlign: 'left',
 									}}
+									className={'catalogBtn'}
 									type={'text'}
 								>
 									{item.title}
