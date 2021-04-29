@@ -82,9 +82,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 			},
 		};
 		callBack({
-			// controlPointId:sRow.id,
 			...row,
-			// warrantyPreviewFiles: normalizeFiles(row.warrantyFiles),
 			warrantyUploadObject: dataObjectWarranty,
 			attachmentUploadObject: dataObjectAttachment,
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение

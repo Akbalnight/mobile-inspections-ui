@@ -15,19 +15,19 @@ import {
 	ControlPointEdit,
 } from '../components/ControlPoints/Form/ControlPoint';
 // Маршруты и Маршрутные карты
-import Routes from '../components/Routes/Registry/Routes';
-import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RoutesForm';
+import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
 import {
 	AddRouteMaps,
 	EditRouteMaps,
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
-import {DetoursMain} from '../components/Detours/Registry/DetoursMain';
+import {Detours} from '../components/Detours/Registry/Detours';
 import Registry from '../components/Detours/Schedules/Registry';
 import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
+import {Routes} from '../components/Routes/Registry/Routes';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -154,7 +154,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS: {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
-		component: DetoursMain,
+		component: Detours,
 		roles: ['ROLE_ADMIN'],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {

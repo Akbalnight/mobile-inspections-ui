@@ -18,7 +18,6 @@ import {
 } from '../Base/Modals/CustomGroupOnServer';
 import {CustomObjectView} from '../Base/Modals/CustomObjectView';
 import {CustomGroupView} from '../Base/Modals/CustomGroupView';
-import {code} from '../Base/customColumnProps';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {codeNormalizer} from '../Base/Functions/TextUtils';
 

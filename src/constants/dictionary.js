@@ -283,4 +283,15 @@ export const itemsInfo = {
 		label: 'Допустимое откл., мин',
 		className: 'mb-8',
 	},
+	duration: {
+		name: 'duration',
+		label: 'Продолжительность, мин.',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните продолжительность',
+				required: true,
+			},
+		],
+	},
 };
