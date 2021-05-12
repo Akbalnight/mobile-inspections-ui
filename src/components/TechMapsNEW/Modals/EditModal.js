@@ -1,57 +1,40 @@
 import React from 'react';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {
-	apiGetFlatDataByConfigName,
-	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
 import {classic} from 'rt-design';
-import {
-	apiGetConfigByName,
-	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
 import {Form} from 'antd/lib/form';
-import {itemsInfo} from '../../../constants/dictionary';
 
-const {
-	Select,
-	RadioGroup,
-	FormBody,
-	Modal,
-	InputNumber,
-	Space,
-	Col,
-	DatePicker,
-	Row,
-	Text,
-	Checkbox,
-	Input,
-	TimePicker,
-	Table,
-	Search,
-} = classic;
+const {FormBody, Modal, InputNumber, Col, Row, Checkbox, Input} = classic;
 
-/** checkValue задается при первом вызове функции
- * value и setSubscribeProps прилетают при срабатывании subscribe
- */
-const onChangeRepeaterType = (checkValue) => ({value, setSubscribeProps}) => {
-	const disabled = value.value !== checkValue;
-	setSubscribeProps({disabled: disabled});
-};
-
-const prefixCls = 'detours-schedules-registry-modal';
-
-export const AddDetourButton = () => EditModal('add');
-export const EditDetourButton = () => EditModal('edit');
+export const AddTechOperationButton = () => EditModal('add');
+export const EditTechOperationButton = () => EditModal('edit');
 
 const EditModal = (type) => {
 	const footerCheckboxLayout = {
-		labelCol: {span: 10},
-		wrapperCol: {span: 1},
+		labelCol: {span: 8},
+		wrapperCol: {span: 10},
 	};
 	const footerInputLayout = {
-		labelCol: {span: 18},
-		wrapperCol: {span: 6},
+		labelCol: {span: 8},
+		wrapperCol: {span: 10},
 	};
+
+	const toCapitalize = type[0].toUpperCase() + type.substring(1);
+
+	const processBeforeSaveForm = (rawValues) => {
+		let values;
+		let hours = rawValues.hours ? rawValues.hours : 0;
+		let minutes = rawValues.minutes ? rawValues.minutes : 0;
+
+		let duration = hours * 60 + minutes;
+
+		values = {
+			...rawValues,
+			duration: duration,
+		};
+
+		return values;
+	};
+
 	return (
 		<Modal
 			buttonProps={{
@@ -65,7 +48,7 @@ const EditModal = (type) => {
 			modalConfig={{
 				width: 600,
 				bodyStyle: {height: 400},
-				type: 'select',
+				type: 'editOnLocal',
 				title:
 					type === 'add'
 						? `Добавить технологическую операцию`
@@ -74,10 +57,23 @@ const EditModal = (type) => {
 					name: 'techMaps.techOperations.editModal',
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
+					processBeforeSaveForm,
+					loadInitData: (callBack, row) => {
+						const newData = {
+							...row,
+							hours: row
+								? row.duration && parseInt(row.duration / 60)
+								: 0,
+							minutes: row
+								? row.duration && row.duration % 60
+								: 0,
+						};
+						callBack(type === 'add' ? null : newData);
+					},
 				},
 			}}
 			dispatch={{
-				path: 'rtd.techMaps.techOperations.addModal.onSave',
+				path: `techMaps.techOperations.table.modal.events.on${toCapitalize}Row`,
 				type: 'event',
 			}}
 			subscribe={[
@@ -99,32 +95,111 @@ const EditModal = (type) => {
 			]}
 		>
 			<FormBody>
-				<Input itemProps={{...itemsInfo.name}} maxLength={100} />
-				{/*<Col span={10}>*/}
+				<Input
+					itemProps={{
+						name: 'name',
+						label: 'Наименование',
+						rules: [
+							{
+								required: true,
+								message: 'Заполните наименование',
+							},
+						],
+						...footerInputLayout,
+					}}
+					maxLength={100}
+					placeholder={'Введите наименование'}
+				/>
 				<Checkbox
 					itemProps={{
-						...itemsInfo.needInputData,
+						name: 'needInputData',
+						label: 'Ввод данных',
+						className: 'mb-8',
+						valuePropName: 'checked',
 						...footerCheckboxLayout,
 					}}
 				/>
 				<Input
-					itemProps={{...itemsInfo.labelInputData}}
+					itemProps={{
+						name: 'labelInputData',
+						label: 'Подпись ввода данных',
+						className: 'mb-8',
+						...footerInputLayout,
+					}}
 					maxLength={100}
 					placeholder={'Введите значение'}
 				/>
 				<Checkbox
 					itemProps={{
-						...itemsInfo.equipmentStop,
+						name: 'equipmentStop',
+						label: 'Остановка оборудования',
+						valuePropName: 'checked',
+						className: 'mb-8',
 						...footerCheckboxLayout,
 					}}
 				/>
 				<Checkbox
 					itemProps={{
-						...itemsInfo.increasedDanger,
+						name: 'increasedDanger',
+						label: 'Повышенная опасность',
+						valuePropName: 'checked',
+						className: 'mb-8',
 						...footerCheckboxLayout,
 					}}
 				/>
-				{/*</Col>*/}
+				<Row>
+					<Col span={12}>
+						<Row>
+							<InputNumber
+								size={'small'}
+								min={0}
+								max={12}
+								placeholder='Часы'
+								itemProps={{
+									name: 'hours',
+									label: 'Продолжительность',
+									labelCol: {span: 14},
+									wrapperCol: {span: 8},
+								}}
+								style={{marginTop: '5px'}}
+							/>
+							<span
+								style={{
+									textAlign: 'center',
+									lineHeight: '24px',
+									marginLeft: '10px',
+									marginTop: '5px',
+								}}
+							>
+								часы
+							</span>
+						</Row>
+					</Col>
+					<Col span={12}>
+						<Row>
+							<InputNumber
+								size={'small'}
+								min={0}
+								max={60}
+								placeholder='Минуты'
+								itemProps={{
+									name: 'minutes',
+								}}
+								style={{marginTop: '5px'}}
+							/>
+							<span
+								style={{
+									width: '20%',
+									textAlign: 'center',
+									lineHeight: '24px',
+									marginTop: '5px',
+								}}
+							>
+								минуты
+							</span>
+						</Row>
+					</Col>
+				</Row>
 			</FormBody>
 		</Modal>
 	);

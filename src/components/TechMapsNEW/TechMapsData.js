@@ -9,18 +9,21 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-	apiSaveControlPoints,
+	apiSaveTechMap,
 } from '../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
 import {paths} from '../../constants/paths';
 import {
-	PlusOutlined,
 	DeleteOutlined,
 	ArrowUpOutlined,
 	ArrowDownOutlined,
 } from '@ant-design/icons';
-import {selectRowsById} from '../Base/Functions/TableSelectById';
-import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
+import {
+	AddTechOperationButton,
+	EditTechOperationButton,
+} from './Modals/EditModal';
+import {code, duration, position} from '../Base/customColumnProps';
+import {Checkbox} from 'antd';
 
 const {
 	Form,
@@ -35,13 +38,10 @@ const {
 	Button,
 	Table,
 	DatePicker,
-	// Divider,
 	Row,
 	Col,
-	Modal,
 	Layout,
 	Space,
-	Search,
 } = classic;
 
 export const TechMapsAdd = () => {
@@ -62,6 +62,23 @@ export const TechMapsEdit = () => {
 	);
 };
 
+export const customColumnProps = [
+	{...code},
+	{...position, width: '50px', align: 'center'},
+	{...duration},
+	{
+		name: 'needInputData',
+		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
+	},
+	{
+		name: 'equipmentStop',
+		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
+	},
+	{
+		name: 'increasedDanger',
+		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
+	},
+];
 const TechMapsData = (props) => {
 	// console.log('props', props)
 	const {techMapId} = props;
@@ -112,7 +129,7 @@ const TechMapsData = (props) => {
 		<Form
 			name={'TechMapsForm'}
 			loadInitData={loadData}
-			requestSaveForm={apiSaveControlPoints}
+			requestSaveForm={apiSaveTechMap}
 			methodSaveForm={techMapId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}
@@ -134,12 +151,6 @@ const TechMapsData = (props) => {
 								name: 'code',
 								label: 'Код',
 								hidden: true,
-								// rules: [
-								//     {
-								//         message: 'Заполните код',
-								//         required: true,
-								//     },
-								// ],
 							}}
 						/>
 					) : null}
@@ -218,105 +229,11 @@ const TechMapsData = (props) => {
 						/>
 					</Col>
 				</Row>
-
 				<Layout className={'mb-16'}>
 					<Title level={5}>Технологические операции</Title>
 					<Space className={'mb-8'}>
-						<AddDetourButton />
-						<EditDetourButton />
-						{/*<Modal*/}
-						{/*toolTipProps={{title: 'Добавить'}}*/}
-						{/*buttonProps={{*/}
-						{/*type: 'default',*/}
-						{/*icon: <PlusOutlined />,*/}
-						{/*}}*/}
-						{/*modalConfig={{*/}
-						{/*width: 700,*/}
-						{/*bodyStyle: {height: 650},*/}
-						{/*type: 'select',*/}
-						{/*title: `Добавить технологическую операцию`,*/}
-						{/*form: {*/}
-						{/*name: 'addModalTechOperations',*/}
-						{/*labelCol: {span: 10},*/}
-						{/*wrapperCol: {span: 12},*/}
-						{/*},*/}
-						{/*}}*/}
-						{/*dispatch={{*/}
-						{/*path:*/}
-						{/*'rtd.techMaps.mainForm.techOperations.addModal.onSave',*/}
-						{/*type: 'event',*/}
-						{/*}}*/}
-						{/*>*/}
-						{/*<FormBody>*/}
-						{/*<Row justify={'end'}>*/}
-						{/*<Col span={12}>*/}
-						{/*<Search*/}
-						{/*dispatch={{*/}
-						{/*path:*/}
-						{/*'techMaps.mainForm.techOperations.addModal.onSearch',*/}
-						{/*}}*/}
-						{/*className={'mb-8'}*/}
-						{/*/>*/}
-						{/*</Col>*/}
-						{/*</Row>*/}
-						{/*<Table*/}
-						{/*itemProps={{name: 'techOperationsModalTable'}}*/}
-						{/*requestLoadRows={apiGetHierarchicalDataByConfigName(*/}
-						{/*'techOperations'*/}
-						{/*)}*/}
-						{/*requestLoadConfig={apiGetConfigByName(*/}
-						{/*'techOperations'*/}
-						{/*)}*/}
-						{/*subscribe={[*/}
-						{/*{*/}
-						{/*name: 'onTechOperationsSearch',*/}
-						{/*path:*/}
-						{/*'rtd.techMaps.mainForm.techOperations.addModal.onSearch',*/}
-						{/*onChange: ({*/}
-						{/*value,*/}
-						{/*reloadTable,*/}
-						{/*}) => {*/}
-						{/*reloadTable({*/}
-						{/*filter: {name: value},*/}
-						{/*});*/}
-						{/*},*/}
-						{/*},*/}
-						{/*]}*/}
-						{/*dispatchPath={*/}
-						{/*'techMaps.mainForm.techOperations.addModal.table'*/}
-						{/*}*/}
-						{/*/>*/}
-						{/*<Table*/}
-						{/*itemProps={{name: 'techOperations'}}*/}
-						{/*requestLoadRows={apiGetFlatDataByConfigName(*/}
-						{/*'techOperationsSmall'*/}
-						{/*)}*/}
-						{/*requestLoadConfig={apiGetConfigByName(*/}
-						{/*'techOperationsSmall'*/}
-						{/*)}*/}
-						{/*defaultFilter={{techMapId: null}}*/}
-						{/*subscribe={[*/}
-						{/*{*/}
-						{/*name: 'onTechMapSelect',*/}
-						{/*path:*/}
-						{/*'rtd.techMaps.mainForm.techOperations.addModal.table.selected',*/}
-						{/*onChange: ({*/}
-						{/*value,*/}
-						{/*reloadTable,*/}
-						{/*}) => {*/}
-						{/*value &&*/}
-						{/*!value.isGroup &&*/}
-						{/*reloadTable({*/}
-						{/*filter: {*/}
-						{/*techMapId: value.id,*/}
-						{/*},*/}
-						{/*});*/}
-						{/*},*/}
-						{/*},*/}
-						{/*]}*/}
-						{/*/>*/}
-						{/*</FormBody>*/}
-						{/*</Modal>*/}
+						<AddTechOperationButton />
+						<EditTechOperationButton />
 						<Button
 							itemProps={{name: 'btnDelete'}}
 							icon={<DeleteOutlined />}
@@ -418,21 +335,29 @@ const TechMapsData = (props) => {
 								value: () => techMapId,
 							},
 						]}
+						customColumnProps={customColumnProps}
 						dispatchPath={'techMaps.techOperations.table'}
 						subscribe={[
+							/** Add table Items */
 							{
-								name: 'onTechMapsLocalAdd',
+								name: 'techOperationAddOnLocal',
 								path:
-									'rtd.techMaps.techOperations.table.addModal.onSave',
-								extraData:
-									'rtd.techMaps.techOperations.table.selected',
-								// addRow не поддерживает валидацию, потому использован addRows
-								onChange: ({extraData, addRows}) => {
-									addRows([extraData]);
+									'rtd.techMaps.techOperations.table.modal.events.onAddRow',
+								onChange: ({value, addRow}) => {
+									value && addRow(value.value);
+								},
+							},
+							/** Edit table Items */
+							{
+								name: 'techOperationEditOnLocal',
+								path:
+									'rtd.techMaps.techOperations.table.modal.events.onEditRow',
+								onChange: ({value, editRow}) => {
+									value && editRow(value.value);
 								},
 							},
 							{
-								name: 'onTechMapsLocalDelete',
+								name: 'techOperationDeleteOnLocal',
 								path:
 									'rtd.techMaps.techOperations.btnDelete.events',
 
