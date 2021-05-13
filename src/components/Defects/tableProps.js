@@ -424,26 +424,11 @@ export const customColumnProps = [
 			<>
 				<StatusIcon
 					keyToFind={'statusProcessId'}
-					statusId={rowData.status_process_id}
+					statusId={rowData.statusProcessId}
 					title={rowData.statusProcessName}
 				/>
 				<span>{rowData.statusProcessName}</span>
 			</>
-			// <Radio.Group
-			// 	defaultValue={rowData.statusProcessId}
-			// 	size={'small'}
-			// 	disabled
-			// >
-			// 	{statusesConfig &&
-			// 		statusesConfig.map((el) => (
-			// 			<Radio.Button
-			// 				key={el.statusProcessId}
-			// 				value={el.statusProcessId}
-			// 			>
-			// 				{el.statusIcon}
-			// 			</Radio.Button>
-			// 		))}
-			// </Radio.Group>
 		),
 	},
 	{

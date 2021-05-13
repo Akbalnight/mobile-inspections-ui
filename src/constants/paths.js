@@ -28,6 +28,7 @@ import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
+import {Signage} from '../components/Defects/Form/Signage';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -207,6 +208,13 @@ export const paths = {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
 		component: Defects,
+		roles: ['ROLE_ADMIN'],
+	},
+	CONTROL_DEFECTS_SIGNAGE: {
+		title: 'Панель проблем',
+		path: '/control-defects/signage',
+		// path: `${pathPrefix}/signage`,
+		component: Signage,
 		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {

@@ -184,3 +184,16 @@ export const apiGetDataFlatConfigManagement = (configName) => ({
 		data,
 		params,
 	});
+
+export const apiGetUnAuthFlatData = (configName) => ({data, params}) =>
+	genericRequest({
+		url: `/api/dynamicdq/unauthorized/data/flat/${configName}`,
+		method: 'POST',
+		data,
+		params,
+	});
+export const apiGetUnAuthConfigByName = (configName) => () =>
+	genericRequest({
+		url: `/api/dynamicdq/unauthorized/configuration/${configName}`,
+		method: 'POST',
+	});
