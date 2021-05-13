@@ -27,6 +27,7 @@ const TechMaps = () => {
 			<Form>
 				<TechMapsTableHeader
 					catalogName={'techMaps'}
+					mainWay={'techMaps'}
 					unique={'технологической карты'}
 				/>
 				<FormBody noPadding={true}>
@@ -37,7 +38,8 @@ const TechMaps = () => {
 							'techMaps'
 						)}
 						requestLoadConfig={apiGetConfigByName('techMaps')}
-						dispatchPath={'techMaps.mainForm.table'}
+						// dispatchPath={'techMaps.mainForm.table'}
+						dispatchPath={'techMaps.techMapsTable.table'}
 						subscribe={[
 							/**Событие добавления ТК*/
 							{

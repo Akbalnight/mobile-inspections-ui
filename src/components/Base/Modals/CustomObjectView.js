@@ -38,12 +38,13 @@ const {
 /**
  *
  * @param catalogName name of server configuration
+ * @param mainWay name of server configuration
  * @param unique phrase on Russian
  * @returns {JSX.Element}
  * @desc This is view modal by server information there we have is_group props
  *
  */
-export const CustomObjectView = ({catalogName, unique}) => {
+export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	let sRow;
 	let history = useHistory();
 
@@ -81,9 +82,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 			},
 		};
 		callBack({
-			// controlPointId:sRow.id,
 			...row,
-			// warrantyPreviewFiles: normalizeFiles(row.warrantyFiles),
 			warrantyUploadObject: dataObjectWarranty,
 			attachmentUploadObject: dataObjectAttachment,
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение
@@ -110,9 +109,18 @@ export const CustomObjectView = ({catalogName, unique}) => {
 	 * @returns {JSX.Element}
 	 * @desc Choice function.
 	 */
+
+	const loadTechOperationsHandler = ({data, params}) => {
+		const newData = {...data, techMapId: sRow.id};
+		return apiGetFlatDataByConfigName('techOperations')({
+			data: newData,
+			params,
+		});
+	};
+
 	const configCatalog = (catalogName) => {
 		let historyPath = null;
-		// sRow && console.log('sRow conf Catalog', sRow)
+		// sRow && console.log('sRow conf Catalogs', sRow)
 
 		switch (catalogName) {
 			case 'equipments':
@@ -251,7 +259,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 												`${catalogName}FilesCatalogSave`
 											)}
 											dispatch={{
-												path: `catalog.${catalogName}Table.modal.warrantyUpload`,
+												path: `${mainWay}.${catalogName}Table.modal.warrantyUpload`,
 												type: 'event',
 											}}
 										/>
@@ -275,7 +283,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 											{
 												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'warrantyUploadFile',
-												path: `rtd.catalog.${catalogName}Table.modal.warrantyUpload`,
+												path: `rtd.${mainWay}.${catalogName}Table.modal.warrantyUpload`,
 												onChange: ({
 													setSubscribeProps,
 												}) => {
@@ -321,7 +329,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 												`${catalogName}FilesCatalogSave`
 											)}
 											dispatch={{
-												path: `catalog.${catalogName}Table.modal.attachmentUpload`,
+												path: `${mainWay}.${catalogName}Table.modal.attachmentUpload`,
 												type: 'event',
 											}}
 										/>
@@ -344,7 +352,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 											{
 												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'attachmentUploadFile',
-												path: `rtd.catalog.${catalogName}Table.modal.attachmentUpload`,
+												path: `rtd.${mainWay}.${catalogName}Table.modal.attachmentUpload`,
 												onChange: ({
 													setSubscribeProps,
 												}) => {
@@ -434,7 +442,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 							requestLoadConfig={apiGetConfigByName(
 								'controlPointsEquipments'
 							)}
-							// dispatchPath={'debug'}
+							// dispatch={{path:'debug'}}
 						/>
 						<Title className={'mt-8'} level={5}>
 							Технологические карты
@@ -457,7 +465,54 @@ export const CustomObjectView = ({catalogName, unique}) => {
 						/>
 					</>
 				);
-
+			case 'techMaps':
+				historyPath =
+					paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION.path;
+				// console.log('srow:', sRow);
+				return (
+					<>
+						<Row>
+							<Col span={20}>
+								<Title level={5}>Описание</Title>
+							</Col>
+						</Row>
+						<Row>
+							<Col span={6}>
+								<Text
+									itemProps={{
+										...itemsInfo.code,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={10}>
+								<Text
+									itemProps={{
+										...itemsInfo.name,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={8}>
+								<Text
+									itemProps={{
+										...itemsInfo.parentName,
+										label: 'Группа',
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+						</Row>
+						<Title level={5}>Технологические операции</Title>
+						<Table
+							requestLoadRows={loadTechOperationsHandler}
+							requestLoadConfig={apiGetConfigByName(
+								'techOperations'
+							)}
+							// dispatch={{path:'debug'}}
+						/>
+					</>
+				);
 			default:
 				return (
 					<>
@@ -486,6 +541,9 @@ export const CustomObjectView = ({catalogName, unique}) => {
 			case 'controlPoints':
 				return {width: 1000, bodyStyle: {height: 650}};
 
+			case 'techMaps':
+				return {width: 1000, bodyStyle: {height: 650}};
+
 			default:
 				return {width: 500, bodyStyle: {height: 200}};
 		}
@@ -507,7 +565,7 @@ export const CustomObjectView = ({catalogName, unique}) => {
 			subscribe={[
 				{
 					name: `${catalogName}ModalInfo`,
-					path: `rtd.catalog.${catalogName}Table.table.events.onRowDoubleClick`,
+					path: `rtd.${mainWay}.${catalogName}Table.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

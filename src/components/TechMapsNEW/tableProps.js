@@ -31,7 +31,7 @@ import {
 } from '../Base/Modals/DefaultObjectOnServer';
 import {DefaultObjectView} from '../Base/Modals/DefaultObjectView';
 
-const {Button, Row} = classic;
+const {Button, Row, Space} = classic;
 
 /**
  *
@@ -40,7 +40,7 @@ const {Button, Row} = classic;
  * @returns {JSX.object}
  * @desc Function choice table header buttons(action modals) and view modals
  */
-export const TechMapsTableHeader = ({catalogName, unique}) => {
+export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 	let history = useHistory();
 
 	const AddObjectButton = () => {
@@ -70,7 +70,7 @@ export const TechMapsTableHeader = ({catalogName, unique}) => {
 				subscribe={[
 					{
 						name: 'selected',
-						path: 'rtd.techMaps.mainForm.table.selected',
+						path: 'rtd.techMaps.techMapsTable.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							// console.log('v', value);
 							if (value && !value.isGroup) {
@@ -99,49 +99,27 @@ export const TechMapsTableHeader = ({catalogName, unique}) => {
 			</Button>
 		);
 	};
-	const configCatalogName = (catalogName) => {
-		// console.log('catalogName',catalogName)
-		switch (catalogName) {
-			case 'techMaps':
-				return (
-					<>
-						<AddObjectButton />
-						<AddCustomGroupOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<EditObjectButton />
 
-						<EditCustomGroupOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<CustomObjectView
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<CustomGroupView catalogName={catalogName} />
-					</>
-				);
-			default:
-				return (
-					<>
-						<AddDefaultObjectOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						<EditDefaultObjectOnServer
-							catalogName={catalogName}
-							unique={unique}
-						/>
-						{/*<DeleteButton catalogName={catalogName} unique={unique} />*/}
-						<DefaultObjectView
-							catalogName={catalogName}
-							unique={unique}
-						/>
-					</>
-				);
-		}
-	};
-	return <Row className={'p-8'}>{configCatalogName(catalogName)}</Row>;
+	return (
+		<Space style={{justifyContent: 'space-between'}} className={'p-8'}>
+			<Row>
+				<AddObjectButton />
+				<AddCustomGroupOnServer
+					catalogName={catalogName}
+					unique={unique}
+				/>
+				<EditObjectButton />
+				<EditCustomGroupOnServer
+					catalogName={catalogName}
+					unique={unique}
+				/>
+				<CustomObjectView
+					catalogName={catalogName}
+					unique={unique}
+					mainWay={mainWay}
+				/>
+				<CustomGroupView catalogName={catalogName} mainWay={mainWay} />
+			</Row>
+		</Space>
+	);
 };
