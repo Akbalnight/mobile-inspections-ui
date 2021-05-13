@@ -25,6 +25,9 @@ export const Signage = () => {
 						<Text
 							itemProps={{name: 'detectCount'}}
 							className={'detectCount'}
+							dispatch={{
+								path: 'defects.defectsSignageTable.reload',
+							}}
 							subscribe={[
 								{
 									name: 'detectCount',
@@ -165,13 +168,33 @@ export const Signage = () => {
 						dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
 						requestLoadRows={({data, params}) =>
-							apiGetUnAuthFlatData(
-								'defectsSignage' //defectsSignage
-							)({data, params: {...params, size: 1000}})
+							apiGetUnAuthFlatData('defectsSignage')({
+								data,
+								params: {...params, size: 1000},
+							})
 						}
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
-						)} //defectsSignage
+						)}
+						subscribe={[
+							/** This situation we make force reload in table. You change timeout which you need*/
+							{
+								name: 'forceReload',
+								path: 'rtd.defects.defectsSignageTable.reload',
+								onChange: ({reloadTable}) => {
+									setTimeout(
+										() =>
+											reloadTable({
+												sortBy: {
+													key: 'dateDetectDefect',
+													order: 'asc',
+												},
+											}),
+										600000
+									);
+								},
+							},
+						]}
 					/>
 				</Layout>
 			</FormBody>
