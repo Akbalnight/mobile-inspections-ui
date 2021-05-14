@@ -109,6 +109,15 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	 * @returns {JSX.Element}
 	 * @desc Choice function.
 	 */
+
+	const loadTechOperationsHandler = ({data, params}) => {
+		const newData = {...data, techMapId: sRow.id};
+		return apiGetFlatDataByConfigName('techOperations')({
+			data: newData,
+			params,
+		});
+	};
+
 	const configCatalog = (catalogName) => {
 		let historyPath = null;
 		// sRow && console.log('sRow conf Catalogs', sRow)
@@ -456,7 +465,54 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 						/>
 					</>
 				);
-
+			case 'techMaps':
+				historyPath =
+					paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION.path;
+				// console.log('srow:', sRow);
+				return (
+					<>
+						<Row>
+							<Col span={20}>
+								<Title level={5}>Описание</Title>
+							</Col>
+						</Row>
+						<Row>
+							<Col span={6}>
+								<Text
+									itemProps={{
+										...itemsInfo.code,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={10}>
+								<Text
+									itemProps={{
+										...itemsInfo.name,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={8}>
+								<Text
+									itemProps={{
+										...itemsInfo.parentName,
+										label: 'Группа',
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+						</Row>
+						<Title level={5}>Технологические операции</Title>
+						<Table
+							requestLoadRows={loadTechOperationsHandler}
+							requestLoadConfig={apiGetConfigByName(
+								'techOperations'
+							)}
+							// dispatch={{path:'debug'}}
+						/>
+					</>
+				);
 			default:
 				return (
 					<>
@@ -483,6 +539,9 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 				return {width: 750, bodyStyle: {height: 650}};
 
 			case 'controlPoints':
+				return {width: 1000, bodyStyle: {height: 650}};
+
+			case 'techMaps':
 				return {width: 1000, bodyStyle: {height: 650}};
 
 			default:

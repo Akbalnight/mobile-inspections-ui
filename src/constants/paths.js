@@ -7,7 +7,11 @@ import Catalog from '../components/Catalog/Form/Catalog';
 
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-
+import TechMapsNew from '../components/TechMapsNEW/TechMaps';
+import {
+	TechMapsAdd,
+	TechMapsEdit,
+} from '../components/TechMapsNEW/TechMapsData';
 // Контрольные точки
 import ControlPoints from '../components/ControlPoints/Registry/ControlPoints';
 import {
@@ -114,6 +118,24 @@ export const paths = {
 		component: TechMapsForm,
 		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	},
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION: {
+		title: 'Технологические карты и операции (измененный)',
+		path: '/detours-configurator/techMaps',
+		component: TechMapsNew,
+		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+	},
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION_NEW: {
+		title: 'Создание технологической карты',
+		path: '/detours-configurator/techMaps/new',
+		component: TechMapsAdd,
+	},
+
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION_EDIT: {
+		title: 'Редактирование технологической карты',
+		path: '/detours-configurator/techMaps/:id',
+		component: TechMapsEdit,
+	},
+
 	DETOURS_CONFIGURATOR_TECH_MAP_DATA_FORM: {
 		title: 'Редактирование технологической карты',
 		path: '/detours-configurator/formTechMaps/:id',
