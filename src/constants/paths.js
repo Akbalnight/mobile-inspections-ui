@@ -97,7 +97,14 @@ export const paths = {
 		title: 'НСИ',
 		path: '/catalog',
 		component: Catalog,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+		],
 	},
 
 	DETOURS_CONFIGURATOR: {
@@ -196,26 +203,47 @@ export const paths = {
 		// component: Home,
 		isGroup: true,
 		redirect: '/control-defects/defects',
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+		],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
 		component: Defects,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+		],
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
 		component: Defects,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+		],
 	},
 	CONTROL_DEFECTS_SIGNAGE: {
 		title: 'Панель проблем',
 		path: '/control-defects/signage',
 		// path: `${pathPrefix}/signage`,
 		component: Signage,
-		roles: ['ROLE_ADMIN'],
+		// roles: ['ROLE_ADMIN'],// not require
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {
 		title: 'Панель отклонений',
@@ -227,6 +255,13 @@ export const paths = {
 		title: 'Аналитика и отчетность',
 		path: '/analytics',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+		],
 	},
 };

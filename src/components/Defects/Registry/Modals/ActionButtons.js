@@ -20,6 +20,9 @@ export const ButtonSendToSap = () => {
 	return (
 		<>
 			<Modal
+				toolTipProps={{
+					title: 'Передать в SAP',
+				}}
 				buttonProps={{
 					type: 'default',
 					icon: <SendToSap />,

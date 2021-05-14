@@ -24,6 +24,7 @@ import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {EditDefectCard} from './Registry/Modals/SaveObjectModal';
 import {ButtonSendToSap} from './Registry/Modals/ActionButtons';
 import {DefectCardInfoModal} from './Registry/Modals/ViewModal';
+import {Access} from 'mobile-inspections-base-ui';
 
 const {Space, Text, DatePicker, Select, Button, Input, Divider} = classic;
 
@@ -70,19 +71,19 @@ export const MainTableHeader = () => {
 	const currentMode = GetCurrentMode();
 	return (
 		<>
-			<Space
-				className={'p-8'}
-				style={{
-					justifyContent: 'space-between',
-					width: '100%',
-				}}
+			<Access
+				roles={[
+					'ROLE_MI_DETOURS_RESP',
+					'ROLE_MI_DETOURS_APPROVER',
+					'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+					'ROLE_MI_DETOUR_SCHEDULES_RESP',
+					'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+				]}
 			>
-				<Space>
-					<EditDefectCard catalogName={currentMode} />
-					{currentMode === 'defects' ? <ButtonSendToSap /> : null}
-					<DefectCardInfoModal />
-				</Space>
-				<Space style={{justifyContent: 'flex-end'}}>
+				<Space
+					style={{justifyContent: 'space-between'}}
+					className={'p-8'}
+				>
 					{currentMode === 'defects' ? (
 						<Button
 							label={'Перейти в панель проблем'}
@@ -142,7 +143,84 @@ export const MainTableHeader = () => {
 						/>
 					</div>
 				</Space>
-			</Space>
+			</Access>
+			<Access roles={['ROLE_MI_SHIFT_SUPERVISOR', 'ROLE_ADMIN']}>
+				<Space
+					className={'p-8'}
+					style={{
+						justifyContent: 'space-between',
+						width: '100%',
+					}}
+				>
+					<Space>
+						<EditDefectCard catalogName={currentMode} />
+						{currentMode === 'defects' ? <ButtonSendToSap /> : null}
+						<DefectCardInfoModal />
+					</Space>
+					<Space style={{justifyContent: 'flex-end'}}>
+						{currentMode === 'defects' ? (
+							<Button
+								label={'Перейти в панель проблем'}
+								type={'primary'}
+								onClick={() => {
+									history.push(
+										`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
+									);
+								}}
+							/>
+						) : (
+							<Button
+								label={'Перейти в журнал дефектов'}
+								type={'primary'}
+								onClick={() => {
+									history.push(
+										`${paths.CONTROL_DEFECTS_DEFECTS.path}`
+									);
+								}}
+							/>
+						)}
+						<div className={'asSearch'}>
+							<Input
+								style={{marginRight: 0}}
+								// т.к. есть кнопка submit ниже - обработка enter не требуется
+								// будет срабатывать событие отправки формы = клик на кнопку
+								// но, вероятно, отправка будет производиться по enter в любом текстовом поле - проверить
+								// onKeyPress={(e) => {
+								//
+								//     if (e.keyCode === 13) {
+								//         searchBtn.current.click();
+								//     }
+								// }}
+								itemProps={{name: 'defectsSearchInput'}}
+								placeholder={'Поиск по наименованию'}
+								subscribe={[
+									reloadFilterFields(
+										'defects.defectTable.events.onReload'
+									),
+								]}
+								dispatch={{
+									path:
+										'defects.defectTable.events.searchValue',
+								}}
+							/>
+							<Button
+								// ref={searchBtn}
+								itemProps={{
+									name: 'defectsSearchButton',
+								}}
+								icon={<SearchOutlined />}
+								type={'default'}
+								htmlType={'submit'}
+								// event?
+								dispatch={{
+									path:
+										'defects.defectTable.events.onBtnSearch',
+								}}
+							/>
+						</div>
+					</Space>
+				</Space>
+			</Access>
 			<Divider className={'mt-0 mb-0'} />
 			<Space
 				className={'p-8'}
