@@ -24,6 +24,9 @@ export const Catalogs = (props) => {
 				<Table
 					itemProps={{name: 'table'}}
 					fixWidthColumn={true}
+					searchParamName={
+						catalogName !== 'staff' ? 'name' : 'username'
+					}
 					dispatch={{path: `${mainWay}.${catalogName}Table.table`}}
 					requestLoadRows={
 						hierarchical
@@ -33,7 +36,7 @@ export const Catalogs = (props) => {
 					requestLoadConfig={apiGetConfigByName(catalogName)}
 					customColumnProps={customColumnPropsEquipments}
 					subscribe={[
-						/** Событие создания оборудования*/
+						/** Action add object*/
 						{
 							name: 'onAddModal',
 							path: `rtd.${mainWay}.${catalogName}Table.modal.events.addOnModal`,
@@ -41,7 +44,7 @@ export const Catalogs = (props) => {
 								reloadTable({});
 							},
 						},
-						/** Событие редактирования оборудования*/
+						/** Action edit object*/
 						{
 							name: 'onEditModal',
 							path: `rtd.${mainWay}.${catalogName}Table.modal.events.editOnModal`,
@@ -49,7 +52,7 @@ export const Catalogs = (props) => {
 								reloadTable({});
 							},
 						},
-						/** Событие создания Группы оборудования*/
+						/** Action add group of object*/
 						{
 							name: 'onAddGroupModal',
 							path: `rtd.${mainWay}.${catalogName}Table.modal.events.addOnGroupModal`,
@@ -57,7 +60,7 @@ export const Catalogs = (props) => {
 								reloadTable({});
 							},
 						},
-						/** Событие редактирования Группы оборудования*/
+						/** Action edit group of object*/
 						{
 							name: 'onEditGroupModal',
 							path: `rtd.${mainWay}.${catalogName}Table.modal.events.editOnGroupModal`,
@@ -65,10 +68,27 @@ export const Catalogs = (props) => {
 								reloadTable({});
 							},
 						},
-						/** Событие удаления оборудования*/
+						/** Action delete object*/
+						/** We won't have a decision for this question*/
 						{
 							name: 'onDeleteModal',
 							path: `rtd.${mainWay}.${catalogName}Table.modal.events.deleteOnModal`,
+							onChange: ({reloadTable}) => {
+								reloadTable({});
+							},
+						},
+						/** Action search by name*/
+						{
+							name: 'onSearch',
+							path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+							onChange: ({value, reloadTable}) => {
+								reloadTable({searchValue: value});
+							},
+						},
+						/** Action reload table after search*/
+						{
+							name: 'onReload',
+							path: `rtd.${mainWay}.${catalogName}Table.table.events.onReload`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},

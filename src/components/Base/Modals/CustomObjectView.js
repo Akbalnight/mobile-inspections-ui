@@ -7,7 +7,6 @@ import {itemsInfo} from '../../../constants/dictionary';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-	// apiGetHierarchicalDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
 import React from 'react';
@@ -48,16 +47,11 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	let sRow;
 	let history = useHistory();
 
-	// const normalizeFiles = (filesList) => { // потребуется, если будем забирать данные lkz превью из строки row
-	//     return filesList.map((file) =>
-	//         ({
-	//             fileName: file.name,
-	//             fileUrl: file.url,
-	//             fileType: file.extension,
-	//         })
-	//     )
-	// }
-
+	const entryRoles = [
+		'ROLE_ADMIN',
+		'ROLE_MI_SHIFT_SUPERVISOR',
+		'ROLE_MI_DETOURS_CREATOR',
+	];
 	/**
 	 *
 	 * @param callBack function change state (row)
@@ -240,7 +234,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 											}}
 											format={'DD.MM.YYYY'}
 										/>
-
 										<UploadFile
 											itemProps={{
 												name: 'warrantyUploadObject',
@@ -253,6 +246,34 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												path: `${mainWay}.${catalogName}Table.modal.warrantyUpload`,
 												type: 'event',
 											}}
+											subscribe={[
+												{
+													name: 'staffRoles',
+													path: 'auth',
+													withMount: true,
+													onChange: ({
+														value,
+														setSubscribeProps,
+													}) => {
+														const authRoles = value.roles
+															.replace('[', '')
+															.replace(']', '')
+															.split(', ')
+															.some((el) =>
+																entryRoles.includes(
+																	el
+																)
+															);
+														value &&
+															setSubscribeProps &&
+															setSubscribeProps({
+																buttonProps: {
+																	disabled: !authRoles,
+																},
+															});
+													},
+												},
+											]}
 										/>
 									</Space>
 									<Divider className={'mt-8 mb-8'} />
@@ -261,7 +282,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 											name: 'warrantyPreviewFiles',
 										}}
 										render={(props) => {
-											// console.log('warranty props', props)
 											return props.warrantyPreviewFiles ? (
 												<AttachmentsPreview
 													items={
@@ -272,7 +292,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										}}
 										subscribe={[
 											{
-												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'warrantyUploadFile',
 												path: `rtd.${mainWay}.${catalogName}Table.modal.warrantyUpload`,
 												onChange: ({
@@ -319,10 +338,41 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
 											)}
+											toolTipProps={{
+												title: 'Загрузить',
+											}}
 											dispatch={{
 												path: `${mainWay}.${catalogName}Table.modal.attachmentUpload`,
 												type: 'event',
 											}}
+											subscribe={[
+												{
+													name: 'staffRoles',
+													path: 'auth',
+													withMount: true,
+													onChange: ({
+														value,
+														setSubscribeProps,
+													}) => {
+														const authRoles = value.roles
+															.replace('[', '')
+															.replace(']', '')
+															.split(', ')
+															.some((el) =>
+																entryRoles.includes(
+																	el
+																)
+															);
+														value &&
+															setSubscribeProps &&
+															setSubscribeProps({
+																buttonProps: {
+																	disabled: !authRoles,
+																},
+															});
+													},
+												},
+											]}
 										/>
 									</Space>
 									<Custom
@@ -514,8 +564,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 								...value.value,
 							});
 						value && !value.value.isGroup && openModal();
-						// sRow={...value.value}
-						// console.log()
 					},
 				},
 			]}
