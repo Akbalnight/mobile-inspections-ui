@@ -38,6 +38,7 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 			case 'defectTypical':
 				return (
 					<>
+						{/** Show modals for this roles*/}
 						<Access
 							roles={[
 								'ROLE_ADMIN',

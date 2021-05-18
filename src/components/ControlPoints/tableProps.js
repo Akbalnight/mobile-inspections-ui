@@ -92,7 +92,8 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 	return (
 		<Space style={{justifyContent: 'space-between'}} className={'p-8'}>
 			<Row>
-				<Access roles={['ROLE_ADMIN', 'ROLE_MI_DETOURS_CREATOR']}>
+				{/** Show modals for this roles*/}
+				<Access roles={['ROLE_ADMIN', 'ROLE_MI_ADMIN']}>
 					<AddObjectButton />
 					<AddCustomGroupOnServer
 						mainWay={mainWay}

@@ -49,11 +49,12 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 
 	const catalogRoles = [
 		'ROLE_ADMIN',
+		'ROLE_MI_ADMIN',
 		'ROLE_MI_SHIFT_SUPERVISOR',
 		'ROLE_MI_DETOURS_CREATOR',
 	];
 
-	const controlPointRoles = ['ROLE_ADMIN', 'ROLE_MI_DETOURS_CREATOR'];
+	const controlPointRoles = ['ROLE_ADMIN', 'ROLE_MI_ADMIN'];
 	/**
 	 *
 	 * @param callBack function change state (row)

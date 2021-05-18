@@ -99,11 +99,14 @@ export const paths = {
 		component: Catalog,
 		roles: [
 			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
 			'ROLE_MI_DETOURS_RESP',
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_RESP',
 			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOURS_CREATOR',
 		],
 	},
 
@@ -113,7 +116,13 @@ export const paths = {
 		// component: Home,
 		isGroup: true,
 		redirect: '/detours-configurator/formTechMaps',
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	/** Тех. карты на формах */
 	DETOURS_CONFIGURATOR_TECH_MAPS_FORM: {
@@ -134,6 +143,7 @@ export const paths = {
 		roles: [
 			'ROLE_ADMIN',
 			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
 			'ROLE_MI_SHIFT_SUPERVISOR',
 			'ROLE_MI_DETOURS_CREATOR',
 		],
@@ -152,7 +162,15 @@ export const paths = {
 		title: 'Маршруты',
 		path: '/detours-configurator/routes',
 		component: Routes,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_RESP',
+		],
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
 		title: 'Создание маршрута',
@@ -205,11 +223,12 @@ export const paths = {
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
-		// component: Home,
 		isGroup: true,
 		redirect: '/control-defects/defects',
 		roles: [
 			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
 			'ROLE_MI_DETOURS_RESP',
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
@@ -223,6 +242,8 @@ export const paths = {
 		component: Defects,
 		roles: [
 			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
 			'ROLE_MI_DETOURS_RESP',
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
@@ -236,6 +257,8 @@ export const paths = {
 		component: Defects,
 		roles: [
 			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
 			'ROLE_MI_DETOURS_RESP',
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
@@ -262,11 +285,13 @@ export const paths = {
 		component: Home,
 		roles: [
 			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
 			'ROLE_MI_DETOURS_RESP',
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
 			'ROLE_MI_DETOUR_SCHEDULES_RESP',
-			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOURS_CREATOR',
 		],
 	},
 };
