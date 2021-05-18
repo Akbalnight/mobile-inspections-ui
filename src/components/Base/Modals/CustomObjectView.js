@@ -47,11 +47,13 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	let sRow;
 	let history = useHistory();
 
-	const entryRoles = [
+	const catalogRoles = [
 		'ROLE_ADMIN',
 		'ROLE_MI_SHIFT_SUPERVISOR',
 		'ROLE_MI_DETOURS_CREATOR',
 	];
+
+	const controlPointRoles = ['ROLE_ADMIN', 'ROLE_MI_DETOURS_CREATOR'];
 	/**
 	 *
 	 * @param callBack function change state (row)
@@ -91,6 +93,27 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 					onClick={() => {
 						history.push(props.historyPath + '/' + sRow.id);
 					}}
+					subscribe={[
+						{
+							name: 'staffRoles',
+							withMount: true,
+							path: `auth`,
+							onChange: ({value, setSubscribeProps}) => {
+								const authRoles = value.roles
+									.replace('[', '')
+									.replace(']', '')
+									.split(', ')
+									.some((el) =>
+										controlPointRoles.includes(el)
+									);
+								value &&
+									setSubscribeProps &&
+									setSubscribeProps({
+										hidden: !authRoles,
+									});
+							},
+						},
+					]}
 				>
 					Редактировать
 				</Button>
@@ -260,7 +283,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 															.replace(']', '')
 															.split(', ')
 															.some((el) =>
-																entryRoles.includes(
+																catalogRoles.includes(
 																	el
 																)
 															);
@@ -359,7 +382,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 															.replace(']', '')
 															.split(', ')
 															.some((el) =>
-																entryRoles.includes(
+																catalogRoles.includes(
 																	el
 																)
 															);
@@ -483,15 +506,14 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 							requestLoadConfig={apiGetConfigByName(
 								'controlPointsEquipments'
 							)}
-							// dispatch={{path:'debug'}}
+							footerProps={{
+								showElements: ['total'],
+							}}
 						/>
 						<Title className={'mt-8'} level={5}>
 							Технологические карты
 						</Title>
 						<Table
-							// requestLoadRows={apiGetFlatDataByConfigName(
-							//     'controlPointsTechMaps'
-							// )}
 							requestLoadRows={({data, params}) =>
 								apiGetFlatDataByConfigName(
 									'controlPointsTechMaps'
@@ -503,6 +525,9 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 							requestLoadConfig={apiGetConfigByName(
 								'controlPointsTechMaps'
 							)}
+							footerProps={{
+								showElements: ['total'],
+							}}
 						/>
 					</>
 				);

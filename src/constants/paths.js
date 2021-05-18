@@ -131,7 +131,12 @@ export const paths = {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
 		component: ControlPoints,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
 		title: 'Создание контрольной точки',
