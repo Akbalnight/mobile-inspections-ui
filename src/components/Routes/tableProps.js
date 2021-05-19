@@ -18,6 +18,7 @@ import {
 } from './Form/Modals/SaveObjectModal';
 import {DeleteControlPointToRoute} from './Form/Modals/DeleteObjectModal';
 import {ViewControlPointModal} from './Form/Modals/ViewControlPointModal';
+import {Access} from 'mobile-inspections-base-ui';
 
 const {Space, Button, Search} = classic;
 export const customColumnProps = [
@@ -32,44 +33,56 @@ export const MainTableHeader = () => {
 	return (
 		<Space className={'p-8'} style={{justifyContent: 'space-between'}}>
 			<Space>
-				<Button
-					icon={<PlusOutlined />}
-					onClick={() => {
-						history.push(
-							paths.DETOURS_CONFIGURATOR_ROUTES_DATA_NEW.path
-						);
-					}}
-				/>
-				<Button
-					icon={<EditOutlined />}
-					disabled={true}
-					subscribe={[
-						{
-							name: 'editRouteForm',
-							path: 'rtd.routes.mainForm.table.selected',
-							onChange: ({value, setSubscribeProps}) => {
-								if (value) {
-									sValueId = value.id;
-									setSubscribeProps({
-										disabled: !value,
-									});
-								} else {
-									sValueId = null;
-								}
-							},
-						},
+				<Access
+					roles={[
+						'ROLE_ADMIN',
+						'ROLE_MI_ADMIN',
+						'ROLE_MI_DETOURS_CREATOR',
 					]}
-					onClick={() =>
-						history.push(
-							paths.DETOURS_CONFIGURATOR_ROUTES.path +
-								'/' +
-								sValueId
-						)
-					}
-				/>
+				>
+					<Space>
+						<Button
+							icon={<PlusOutlined />}
+							onClick={() => {
+								history.push(
+									paths.DETOURS_CONFIGURATOR_ROUTES_DATA_NEW
+										.path
+								);
+							}}
+						/>
+						<Button
+							icon={<EditOutlined />}
+							disabled={true}
+							subscribe={[
+								{
+									name: 'editRouteForm',
+									path: 'rtd.routes.mainForm.table.selected',
+									onChange: ({value, setSubscribeProps}) => {
+										if (value) {
+											sValueId = value.id;
+											setSubscribeProps({
+												disabled: !value,
+											});
+										} else {
+											sValueId = null;
+										}
+									},
+								},
+							]}
+							onClick={() =>
+								history.push(
+									paths.DETOURS_CONFIGURATOR_ROUTES.path +
+										'/' +
+										sValueId
+								)
+							}
+						/>
+					</Space>
+				</Access>
 				<Button
 					icon={<ReloadOutlined />}
 					hidden={true}
+					type={'primary'}
 					subscribe={[
 						/** Action search activate btn*/
 						{
