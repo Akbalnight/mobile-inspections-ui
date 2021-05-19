@@ -3,11 +3,12 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {BasePage} from 'mobile-inspections-base-ui';
+import {Access, BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
 import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
 import {dateTime} from '../../Base/customColumnProps';
-const {Form, Table, FormBody, Space} = classic;
+import {DetourSchedulesView} from './Modals/ViewModal';
+const {Form, Table, FormBody, Space, Search, Button} = classic;
 
 const columnProps = [
 	{
@@ -30,9 +31,22 @@ const Registry = () => {
 		<BasePage>
 			<Form>
 				<FormBody noPadding={true} scrollable={false}>
-					<Space className={'m-8'}>
-						<AddDetourButton />
-						<EditDetourButton />
+					<Space>
+						<Access
+							roles={[
+								'ROLE_ADMIN',
+								'ROLE_MOBILE_APP',
+								'ROLE_MI_ADMIN',
+							]}
+						>
+							<Space className={'m-8'}>
+								<AddDetourButton />
+								<EditDetourButton />
+							</Space>
+						</Access>
+						<DetourSchedulesView />
+						<Button />
+						<Search />
 					</Space>
 					<Table
 						infinityMode={true}
@@ -42,12 +56,12 @@ const Registry = () => {
 						)}
 						requestLoadConfig={apiGetConfigByName('repeaters')}
 						customColumnProps={columnProps}
-						dispatch={{path: 'detours.schedules.registry'}}
+						dispatch={{path: 'detours.schedulesTable.table'}}
 						subscribe={[
 							{
 								name: 'onEditModal',
 								path:
-									'rtd.detours.schedules.registry.events.onEditModal',
+									'rtd.detours.schedulesTable.table.events.onEditModal',
 								onChange: ({reloadTable}) => reloadTable({}),
 							},
 						]}

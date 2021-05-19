@@ -288,12 +288,13 @@ const operationOnServer = (type) => {
 											value,
 											setSubscribeProps,
 										}) => {
-											console.log(value);
-											value &&
-												setSubscribeProps &&
-												setSubscribeProps({
-													disabled: !value,
-												});
+											value
+												? setSubscribeProps({
+														disabled: !value,
+												  })
+												: setSubscribeProps({
+														disabled: true,
+												  });
 										},
 									},
 								]}
@@ -314,12 +315,13 @@ const operationOnServer = (type) => {
 											value,
 											setSubscribeProps,
 										}) => {
-											console.log(value);
-											value &&
-												setSubscribeProps &&
-												setSubscribeProps({
-													disabled: !value,
-												});
+											value
+												? setSubscribeProps({
+														disabled: !value,
+												  })
+												: setSubscribeProps({
+														disabled: true,
+												  });
 										},
 									},
 								]}
@@ -340,12 +342,13 @@ const operationOnServer = (type) => {
 											value,
 											setSubscribeProps,
 										}) => {
-											console.log(value);
-											value &&
-												setSubscribeProps &&
-												setSubscribeProps({
-													disabled: !value,
-												});
+											value
+												? setSubscribeProps({
+														disabled: !value,
+												  })
+												: setSubscribeProps({
+														disabled: true,
+												  });
 										},
 									},
 								]}

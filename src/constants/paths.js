@@ -201,13 +201,26 @@ export const paths = {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/schedules',
 		component: Registry,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
 		component: AddRouteMaps,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS_EDIT: {
 		title: 'Редактирование маршрутной карты',
