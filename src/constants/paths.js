@@ -185,7 +185,17 @@ export const paths = {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
 		component: Detours,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов',

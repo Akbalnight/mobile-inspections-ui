@@ -7,6 +7,7 @@ import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {ViewDetour} from './Registry/Modals/ViewModal';
+import {Access} from 'mobile-inspections-base-ui';
 // import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
 
 const {
@@ -25,12 +26,20 @@ export const DetoursMainTableHeader = () => {
 	return (
 		<Space direction={'vertical'} className={'p-8'}>
 			<Space style={{justifyContent: 'space-between', width: '100%'}}>
-				<Space>
-					<AddDetour />
-					<EditDetour />
-					{/*<DeleteDetour catalogName={'detours'} unique={'обхода'} />*/}
-					<ViewDetour />
-				</Space>
+				{/** Show modals for this roles*/}
+				<Access
+					roles={[
+						'ROLE_ADMIN',
+						'ROLE_MI_ADMIN',
+						'ROLE_MI_SHIFT_SUPERVISOR',
+					]}
+				>
+					<Space>
+						<AddDetour />
+						<EditDetour />
+					</Space>
+				</Access>
+				<ViewDetour />
 				<Space className={'mr-8'}>
 					<RadioGroup
 						itemProps={{name: 'viewMode', initialValue: 0}}
