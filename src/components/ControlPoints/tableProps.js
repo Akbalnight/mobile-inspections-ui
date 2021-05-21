@@ -20,6 +20,7 @@ import {CustomObjectView} from '../Base/Modals/CustomObjectView';
 import {CustomGroupView} from '../Base/Modals/CustomGroupView';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {codeNormalizer} from '../Base/Functions/TextUtils';
+import {Access} from 'mobile-inspections-base-ui';
 
 const {Button, Row, Space, Search, Checkbox} = classic;
 
@@ -68,7 +69,7 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 									hidden: !value,
 									disabled: !value,
 								});
-							} else {
+							} else if (value) {
 								setSubscribeProps({hidden: value});
 								sValueId = null;
 							}
@@ -91,18 +92,21 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 	return (
 		<Space style={{justifyContent: 'space-between'}} className={'p-8'}>
 			<Row>
-				<AddObjectButton />
-				<AddCustomGroupOnServer
-					mainWay={mainWay}
-					catalogName={catalogName}
-					unique={unique}
-				/>
-				<EditObjectButton />
-				<EditCustomGroupOnServer
-					mainWay={mainWay}
-					catalogName={catalogName}
-					unique={unique}
-				/>
+				{/** Show modals for this roles*/}
+				<Access roles={['ROLE_ADMIN', 'ROLE_MI_ADMIN']}>
+					<AddObjectButton />
+					<AddCustomGroupOnServer
+						mainWay={mainWay}
+						catalogName={catalogName}
+						unique={unique}
+					/>
+					<EditObjectButton />
+					<EditCustomGroupOnServer
+						mainWay={mainWay}
+						catalogName={catalogName}
+						unique={unique}
+					/>
+				</Access>
 				<Button
 					icon={<ReloadOutlined />}
 					hidden={true}
