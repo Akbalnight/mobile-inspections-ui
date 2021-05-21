@@ -22,7 +22,6 @@ export const Catalogs = (props) => {
 					unique={unique}
 				/>
 				<Table
-					itemProps={{name: 'table'}}
 					fixWidthColumn={true}
 					searchParamName={
 						catalogName !== 'staff' ? 'name' : 'username'

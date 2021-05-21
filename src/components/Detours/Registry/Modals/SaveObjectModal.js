@@ -147,7 +147,6 @@ const operationOnServer = (type) => {
 								path:
 									'rtd.detours.mainForm.modal.events.finishDate',
 								onChange: ({value, setSubscribeProps}) => {
-									console.log('startDate', value);
 									setSubscribeProps({
 										disabledDate: (startValue) =>
 											disabledStartDate(
@@ -173,7 +172,6 @@ const operationOnServer = (type) => {
 								path:
 									'rtd.detours.mainForm.modal.events.startDate',
 								onChange: ({value, setSubscribeProps}) => {
-									console.log('endDate', value);
 									setSubscribeProps({
 										disabledDate: (endValue) =>
 											disabledEndDate(value, endValue),
