@@ -20,6 +20,12 @@ ReactDOM.render(
 	<Provider store={store}>
 		<BrowserRouter>
 			<Switch>
+				{/** Без авторизации*/}
+				<Route
+					exact
+					path={paths.CONTROL_DEFECTS_SIGNAGE.path}
+					component={paths.CONTROL_DEFECTS_SIGNAGE.component}
+				/>
 				{/** Авторизация */}
 				<Route
 					exact
