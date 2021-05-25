@@ -81,6 +81,10 @@ export const DefectCardInfoModal = () => {
 					},
 				},
 			]}
+			dispatch={{
+				path: 'defects.defectTable.modal.events.viewObject',
+				type: 'event',
+			}}
 		>
 			<FormBody noPadding={true}>
 				<Tabs type={'card'} className={'p-8'}>

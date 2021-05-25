@@ -8,12 +8,12 @@ import {classic} from 'rt-design';
 
 const {FormBody, Layout, Text, Table, Modal} = classic;
 
-export const ButtonSendToSap = () => {
+export const ButtonSendToPanel = () => {
 	const processBeforeSaveForm = (rawValues) => {
 		const defectsToSapQueueArray =
 			rawValues &&
 			rawValues.defectsToSapQueueArray.map((row) => {
-				return {...row, sendedToSap: true, viewOnPanel: true};
+				return {...row, viewOnPanel: true}; //sendedToSap: true,
 			});
 		return {defectsToSapQueueArray};
 	};
@@ -21,7 +21,7 @@ export const ButtonSendToSap = () => {
 		<>
 			<Modal
 				toolTipProps={{
-					title: 'Передать в SAP',
+					title: 'Передать',
 				}}
 				buttonProps={{
 					type: 'default',
@@ -30,13 +30,13 @@ export const ButtonSendToSap = () => {
 				}}
 				modalConfig={{
 					type: 'editOnServer',
-					title: `Передать в SAP`,
+					title: `Передать в Панель Проблем`,
 					width: 650,
 					bodyStyle: {height: 450},
 					okText: 'Передать',
 					requestSaveRow: apiSaveByConfigName(`sapViewOnPanelSave`),
 					form: {
-						name: 'defectsToSapQueueModal',
+						name: 'defectsToPanelQueueModal',
 						noPadding: false,
 						methodSaveForm: 'POST',
 						labelCol: {span: 12},
@@ -48,7 +48,7 @@ export const ButtonSendToSap = () => {
 					},
 				}}
 				dispatch={{
-					path: 'defects.defectTable.modal.events.onSendToSapModal',
+					path: 'defects.defectTable.modal.events.onSendToPanelModal',
 					// диспатчим туда же, где фильтр таблицы, т.к. перезагрузка таблицы одинаковая
 					// path: 'rtd.defects.defectTable.events.onApplyFilter',
 					type: 'event',

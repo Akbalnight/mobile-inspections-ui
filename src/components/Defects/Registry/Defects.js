@@ -1,4 +1,4 @@
-import React from 'react'; //, {useRef}
+import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
 import {
@@ -114,10 +114,10 @@ export default function Defects() {
 									},
 								},
 								{
-									/** Обработчик события отправки дефектов в SAP */
-									name: 'onSendToSap',
+									/** Обработчик события отправки дефектов в Panel problems */
+									name: 'onSendToPanel',
 									path:
-										'rtd.defects.defectTable.modal.events.onSendToSapModal',
+										'rtd.defects.defectTable.modal.events.onSendToPanelModal',
 									extraData: {
 										filter:
 											'rtd.defects.defectTable.filter',
@@ -132,6 +132,20 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
+										});
+									},
+								},
+								{
+									/** Обработчик события на кнопку овистить фильтр */
+									name: 'onCloseViewModal',
+									path:
+										'rtd.defects.defectTable.modal.events.viewObject',
+									onChange: ({reloadTable}) => {
+										reloadTable({
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'asc',
+											},
 										});
 									},
 								},

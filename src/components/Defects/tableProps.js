@@ -21,8 +21,7 @@ import {classic} from 'rt-design';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {useHistory} from 'react-router';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
-import {EditDefectCard} from './Registry/Modals/SaveObjectModal';
-import {ButtonSendToSap} from './Registry/Modals/ActionButtons';
+import {ButtonSendToPanel} from './Registry/Modals/ActionButtons';
 import {DefectCardInfoModal} from './Registry/Modals/ViewModal';
 import {Access} from 'mobile-inspections-base-ui';
 
@@ -153,8 +152,9 @@ export const MainTableHeader = () => {
 					}}
 				>
 					<Space>
-						<EditDefectCard catalogName={currentMode} />
-						{currentMode === 'defects' ? <ButtonSendToSap /> : null}
+						{currentMode === 'defects' ? (
+							<ButtonSendToPanel />
+						) : null}
 						<DefectCardInfoModal />
 					</Space>
 					<Space style={{justifyContent: 'flex-end'}}>
