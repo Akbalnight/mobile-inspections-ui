@@ -157,14 +157,16 @@ export const Signage = () => {
 						/>
 					</Space>
 				</Space>
-				<Layout>
+				<Layout className={'signage'}>
 					<Table
 						fixWidthColumn={true}
+						headerHeight={45}
 						defaultSortBy={{
 							key: 'dateDetectDefect',
-							order: 'asc',
+							order: 'desc',
 						}}
 						infinityMode={true}
+						zebraStyle={true}
 						dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
 						requestLoadRows={({data, params}) =>
@@ -187,7 +189,7 @@ export const Signage = () => {
 											reloadTable({
 												sortBy: {
 													key: 'dateDetectDefect',
-													order: 'asc',
+													order: 'desc',
 												},
 											}),
 										600000
