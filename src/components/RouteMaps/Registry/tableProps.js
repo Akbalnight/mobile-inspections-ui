@@ -40,8 +40,9 @@ export const RouteMapsTableHeader = () => {
 				subscribe={[
 					{
 						name: 'makeHidden',
+						withMount: true,
 						path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
-						onChange: ({value, setSubscribeProps}) => {
+						onChange: ({value, setSubscribeProps, extraData}) => {
 							/** возможно лишний запрос, через ExtraData ошибка выходит, думаю над упрощением*/
 							apiGetFlatDataByConfigName('routeMaps')({
 								data: {
@@ -67,19 +68,6 @@ export const RouteMapsTableHeader = () => {
 										'Ошибка загрузки данных формы'
 									)
 								);
-							// 	value &&
-							// 	setSubscribeProps &&
-							// 	setSubscribeProps({
-							// 		dataObject: {
-							// 			routeMap: {
-							// 				id: null,
-							// 				position: null,
-							// 				fileId: null,
-							// 				routeId:
-							// 					value.value,
-							// 			},
-							// 		},
-							// 	});
 						},
 					},
 				]}

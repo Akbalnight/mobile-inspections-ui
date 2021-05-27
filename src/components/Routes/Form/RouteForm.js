@@ -133,6 +133,7 @@ const RouteForm = (props) => {
 						rowKey={'controlPointId'}
 						// type={'rt'}
 						// requestLoadRows={apiGetFlatDataByConfigName('routeControlPoints')}
+						defaultSortBy={{key: 'controlPointName', order: 'asc'}}
 						customColumnProps={customColumnProps}
 						dispatch={{
 							path: 'routes.routeForm.controlPointsTable.table',
@@ -194,7 +195,6 @@ const RouteForm = (props) => {
 								path:
 									'rtd.routes.routeForm.controlPointsTable.table.events.onMoveUpRow',
 								onChange: ({value}) => {
-									console.log(value);
 									executeRequest(
 										apiSaveByConfigName(
 											'routeMapPositionSave'

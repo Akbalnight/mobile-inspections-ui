@@ -57,6 +57,11 @@ const RouteMaps = (props) => {
 			controlPointsCoordinate: rawValues.controlPointsTable,
 		};
 	};
+	/**
+	 * In Select(name: 'routeSelect'), deliberately stood prop -> allowClear={false}.
+	 * Because if user clear this Select, value equal undefined. This situation bad, all tables take undefined and load all items.
+	 * */
+
 	return (
 		<SplitPane
 			className={'routeMaps'}
@@ -81,8 +86,11 @@ const RouteMaps = (props) => {
 				>
 					<FormBody scrollable={false} noPadding={false}>
 						<Title level={4}>Маршрут</Title>
+
 						<Select
 							itemProps={{name: 'routeSelect'}}
+							pageSize={1}
+							allowClear={false}
 							autoClearSearchValue={true}
 							filterOption={false}
 							showArrow={true}

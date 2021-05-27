@@ -80,18 +80,16 @@ export const InfoTabFields = () => {
 									value[0].sendedToSap !== null
 								) {
 									setSubscribeProps({
-										checked:
-											value[0] && value[0].sendedToSap,
-										disabled:
-											value[0] && !value[0].viewOnPanel,
-										defaultChecked: value[0] && value[0].id,
+										checked: value[0].sendedToSap,
+										disabled: !value[0].viewOnPanel,
+										defaultChecked: value[0].id,
 									});
 								} else {
-									setSubscribeProps({
-										disabled:
-											value[0] && !value[0].viewOnPanel,
-										defaultChecked: value[0] && value[0].id,
-									});
+									value[0] &&
+										setSubscribeProps({
+											disabled: !value[0].viewOnPanel,
+											// defaultChecked: value[0].id,
+										});
 								}
 							},
 						},

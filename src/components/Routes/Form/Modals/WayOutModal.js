@@ -93,7 +93,6 @@ export const WayOutModal = () => {
 						name: `wayOutModal`,
 						path: 'rtd.routes.routeForm',
 						onChange: ({value, setModalData, setButtonProps}) => {
-							console.log('>>>>>>>', value);
 							value &&
 								value.name !== null &&
 								value.duration !== null &&

@@ -38,7 +38,6 @@ const OperationOnLocal = (type) => {
 		callBack(type === 'add' ? null : sRow);
 	};
 	const loadControlPointsEquipments = ({params, data}) => {
-		console.log(data);
 		let newData = {...data};
 		if (type === 'edit')
 			newData.controlPointId = sRow ? sRow.controlPointId : null;
@@ -190,11 +189,9 @@ const OperationOnLocal = (type) => {
 						/** Эта подписка не работает, фильтр обновляется по requestLoadRows*/
 						{
 							name: 'controlPointTechMaps',
-							// withMount: true,
 							path:
 								'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
 							onChange: ({value, setSubscribeProps}) => {
-								// console.log('1111',value)
 								value &&
 									setSubscribeProps &&
 									setSubscribeProps({
