@@ -25,7 +25,11 @@ export const Signage = () => {
 		eliminate: 0,
 		sendToPanel: 0,
 	});
-	const [tableVar, setTableVar] = useState({rowHeight: 15, pageSize: 70});
+	const [tableVar, setTableVar] = useState({
+		rowHeight: 15,
+		pageSize: 15,
+		rows: [],
+	});
 	useEffect(() => {
 		/** Request data count by defects */
 		apiGetDataCountByConfigName('defectsSignage')({
@@ -64,7 +68,22 @@ export const Signage = () => {
 			)
 			.catch((err) => console.error());
 	}, []);
-	useEffect(() => {}, [tableVar.pageSize]);
+	useEffect(() => {
+		apiGetUnAuthFlatData('defectsSignage')({
+			data: {
+				statusIds: [
+					'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+					'879f0adf-0d96-449e-bcee-800f81c4e58d',
+					'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+				],
+			},
+			params: {size: tableVar.pageSize},
+		})
+			.then((resp) =>
+				setTableVar((state) => ({...state, rows: [...resp.data]}))
+			)
+			.catch((err) => console.error());
+	}, [tableVar.pageSize]);
 	return (
 		<Form>
 			<FormBody noPadding={true}>
@@ -178,7 +197,7 @@ export const Signage = () => {
 				</Space>
 				<Layout className={'signage'}>
 					<Table
-						pageSize={tableVar.pageSize}
+						// pageSize={tableVar.pageSize}
 						rowHeight={tableVar.rowHeight}
 						rowKey={'id'}
 						type={'rt'}
@@ -192,19 +211,20 @@ export const Signage = () => {
 						zebraStyle={true}
 						dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
-						requestLoadRows={({data, params}) =>
-							apiGetUnAuthFlatData('defectsSignage')({
-								data: {
-									...data,
-									statusIds: [
-										'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-										'879f0adf-0d96-449e-bcee-800f81c4e58d',
-										'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-									],
-								},
-								params,
-							})
-						}
+						rows={tableVar.rows}
+						// requestLoadRows={({data, params}) =>
+						//     apiGetUnAuthFlatData('defectsSignage')({
+						//         data: {
+						//             ...data,
+						//             statusIds: [
+						//                 '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+						//                 '879f0adf-0d96-449e-bcee-800f81c4e58d',
+						//                 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+						//             ],
+						//         },
+						//         params: {...params, page: 1, size: tableVar.pageSize}
+						//     })
+						// }
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
 						)}
@@ -222,10 +242,34 @@ export const Signage = () => {
 													order: 'desc',
 												},
 											}),
-										600000
+										//600000
+										10000
 									);
 								},
 							},
+							// {
+							//
+							//     name: 'forceReload',
+							//     path: 'rtd.defects.defectsSignageTable.reload',
+							//     onChange: ({setSubscribeProps}) => {
+							//         setSubscribeProps({
+							//             requestLoadRows: ({data, params}) =>
+							//                 apiGetUnAuthFlatData('defectsSignage')({
+							//                     data: {
+							//                         ...data,
+							//                         statusIds: [
+							//                             '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+							//                             '879f0adf-0d96-449e-bcee-800f81c4e58d',
+							//                             'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+							//                         ],
+							//                     },
+							//                     params: {...params, size: tableVar.pageSize}
+							//                 })
+							//
+							//         })
+							//
+							//     }
+							// }
 						]}
 					/>
 				</Layout>
