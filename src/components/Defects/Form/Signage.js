@@ -1,14 +1,70 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {classic} from 'rt-design';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
 	apiGetUnAuthFlatData,
+	apiGetDataCountByConfigName,
 } from '../../../apis/catalog.api';
 import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
+import '../Registry/Defects.less';
 
-const {Form, FormBody, Layout, Table, Space, Text, Divider} = classic;
+const {
+	Form,
+	FormBody,
+	Layout,
+	Table,
+	Space,
+	Text,
+	Divider,
+	InputNumber,
+} = classic;
 export const Signage = () => {
+	const [defectsCounter, setDefectsCounter] = useState({
+		detected: 0,
+		eliminate: 0,
+		sendToPanel: 0,
+	});
+	const [tableVar, setTableVar] = useState({rowHeight: 15, pageSize: 70});
+	useEffect(() => {
+		/** Request data count by defects */
+		apiGetDataCountByConfigName('defectsSignage')({
+			data: {},
+			params: {},
+		})
+			.then((resp) =>
+				setDefectsCounter((state) => ({...state, detected: resp.data}))
+			)
+			.catch((err) => console.error());
+
+		/** Request data count by defect status 'Устранен'*/
+		apiGetDataCountByConfigName('defectsSignage')({
+			data: {
+				statusId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
+			},
+			params: {},
+		})
+			.then((resp) =>
+				setDefectsCounter((state) => ({...state, eliminate: resp.data}))
+			)
+			.catch((err) => console.error());
+
+		/** Request data count by defect viewOnPanel */
+		apiGetDataCountByConfigName('defectsSignage')({
+			data: {
+				viewOnPanel: true,
+			},
+			params: {},
+		})
+			.then((resp) =>
+				setDefectsCounter((state) => ({
+					...state,
+					sendToPanel: resp.data,
+				}))
+			)
+			.catch((err) => console.error());
+	}, []);
+	useEffect(() => {}, [tableVar.pageSize]);
 	return (
 		<Form>
 			<FormBody noPadding={true}>
@@ -20,6 +76,34 @@ export const Signage = () => {
 				>
 					<Space>
 						<MainLogo />
+						<Space>
+							<InputNumber
+								itemProps={{
+									name: 'pageSizeCount',
+									label: 'строк в таблице',
+								}}
+								defaultValue={tableVar.pageSize}
+								onChange={(value) => {
+									setTableVar((state) => ({
+										...state,
+										pageSize: value,
+									}));
+								}}
+							/>
+							<InputNumber
+								itemProps={{
+									name: 'rowHeightCount',
+									label: 'высота в таблице',
+								}}
+								defaultValue={tableVar.rowHeight}
+								onChange={(value) => {
+									setTableVar((state) => ({
+										...state,
+										rowHeight: value,
+									}));
+								}}
+							/>
+						</Space>
 					</Space>
 					<Space className={'defect-info mt-16'}>
 						<Text
@@ -28,151 +112,97 @@ export const Signage = () => {
 							dispatch={{
 								path: 'defects.defectsSignageTable.reload',
 							}}
-							subscribe={[
-								{
-									name: 'detectCount',
-									path:
-										'rtd.defects.defectsSignageTable.table.rows',
-									onChange: ({value, setSubscribeProps}) => {
-										let detectCount = value.filter(
-											(elem) =>
-												elem.statusProcessName ===
-												'Новый'
-										);
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												value: (
-													<span
-														style={{
-															textAlign: 'center',
-														}}
-													>
-														<div
-															style={{
-																color: 'black',
-																fontSize:
-																	'20px',
-															}}
-														>
-															Обнаружено
-														</div>
-														<div>
-															{detectCount.length}
-														</div>
-													</span>
-												),
-											});
-									},
-								},
-							]}
+							label={
+								<span
+									style={{
+										textAlign: 'center',
+									}}
+								>
+									<div
+										style={{
+											color: 'black',
+											fontSize: '20px',
+										}}
+									>
+										Обнаружено
+									</div>
+									<div>{defectsCounter.detected}</div>
+								</span>
+							}
 						/>
 						<Divider type={'vertical'} />
 						<Text
 							itemProps={{name: 'sendPanelCount'}}
 							className={'sendPanelCount'}
-							subscribe={[
-								{
-									name: 'sendPanelCount',
-									path:
-										'rtd.defects.defectsSignageTable.table.rows',
-									onChange: ({value, setSubscribeProps}) => {
-										let sendPanelCount = value.filter(
-											(elem) => elem.viewOnPanel === true
-										);
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												value: (
-													<span
-														style={{
-															textAlign: 'center',
-														}}
-													>
-														<div
-															style={{
-																color: 'black',
-																fontSize:
-																	'20px',
-															}}
-														>
-															Передано в ПП
-														</div>
-														<div>
-															{
-																sendPanelCount.length
-															}
-														</div>
-													</span>
-												),
-											});
-									},
-								},
-							]}
+							label={
+								<span
+									style={{
+										textAlign: 'center',
+									}}
+								>
+									<div
+										style={{
+											color: 'black',
+											fontSize: '20px',
+										}}
+									>
+										Передано в ПП
+									</div>
+									<div>{defectsCounter.sendToPanel}</div>
+								</span>
+							}
 						/>
 						<Divider type={'vertical'} />
 						<Text
 							itemProps={{name: 'eliminateCount'}}
 							className={'eliminateCount'}
-							subscribe={[
-								{
-									name: 'eliminateCount',
-									path:
-										'rtd.defects.defectsSignageTable.table.rows',
-									onChange: ({value, setSubscribeProps}) => {
-										let eliminateCount = value.filter(
-											(elem) =>
-												elem.statusProcessName ===
-												'Устранен'
-										);
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												value: (
-													<span
-														style={{
-															textAlign: 'center',
-														}}
-													>
-														<div
-															style={{
-																color: 'black',
-																fontSize:
-																	'20px',
-															}}
-														>
-															Устранено
-														</div>
-														<div>
-															{
-																eliminateCount.length
-															}
-														</div>
-													</span>
-												),
-											});
-									},
-								},
-							]}
+							label={
+								<span
+									style={{
+										textAlign: 'center',
+									}}
+								>
+									<div
+										style={{
+											color: 'black',
+											fontSize: '20px',
+										}}
+									>
+										Устранено
+									</div>
+									<div>{defectsCounter.eliminate}</div>
+								</span>
+							}
 						/>
 					</Space>
 				</Space>
 				<Layout className={'signage'}>
 					<Table
+						pageSize={tableVar.pageSize}
+						rowHeight={tableVar.rowHeight}
+						rowKey={'id'}
+						type={'rt'}
 						fixWidthColumn={true}
 						headerHeight={45}
 						defaultSortBy={{
 							key: 'dateDetectDefect',
 							order: 'desc',
 						}}
-						infinityMode={true}
+						// infinityMode={true}
 						zebraStyle={true}
 						dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
 						requestLoadRows={({data, params}) =>
 							apiGetUnAuthFlatData('defectsSignage')({
-								data,
-								params: {...params, size: 1000},
+								data: {
+									...data,
+									statusIds: [
+										'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+										'879f0adf-0d96-449e-bcee-800f81c4e58d',
+										'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+									],
+								},
+								params,
 							})
 						}
 						requestLoadConfig={apiGetUnAuthConfigByName(
