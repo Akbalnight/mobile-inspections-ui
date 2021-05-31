@@ -8,6 +8,7 @@ import {
 } from '../../../apis/catalog.api';
 import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
 import '../Registry/Defects.less';
+import {LeftOutlined, RightOutlined} from '@ant-design/icons';
 
 const {
 	Form,
@@ -18,6 +19,7 @@ const {
 	Text,
 	Divider,
 	InputNumber,
+	Button,
 } = classic;
 export const Signage = () => {
 	const [defectsCounter, setDefectsCounter] = useState({
@@ -28,6 +30,7 @@ export const Signage = () => {
 	const [tableVar, setTableVar] = useState({
 		rowHeight: 15,
 		pageSize: 15,
+		countPages: 15,
 		rows: [],
 	});
 	useEffect(() => {
@@ -69,6 +72,7 @@ export const Signage = () => {
 			.catch((err) => console.error());
 	}, []);
 	useEffect(() => {
+		setTimeout();
 		apiGetUnAuthFlatData('defectsSignage')({
 			data: {
 				statusIds: [
@@ -84,6 +88,58 @@ export const Signage = () => {
 			)
 			.catch((err) => console.error());
 	}, [tableVar.pageSize]);
+
+	const handleChange = (count, type) => {
+		switch (type) {
+			case 'next':
+				apiGetUnAuthFlatData('defectsSignage')({
+					data: {
+						statusIds: [
+							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+							'879f0adf-0d96-449e-bcee-800f81c4e58d',
+							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+						],
+					},
+					params: {size: tableVar.countPages + count},
+				})
+					.then((resp) =>
+						setTableVar((state) => ({
+							...state,
+							rows: [
+								...resp.data.splice(tableVar.countPages, count),
+							],
+							countPages: tableVar.countPages + count,
+						}))
+					)
+					.catch((err) => console.error());
+				return 1;
+			default:
+				apiGetUnAuthFlatData('defectsSignage')({
+					data: {
+						statusIds: [
+							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+							'879f0adf-0d96-449e-bcee-800f81c4e58d',
+							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+						],
+					},
+					params: {size: tableVar.countPages - count},
+				})
+					.then((resp) =>
+						setTableVar((state) => ({
+							...state,
+							rows: [
+								...resp.data.splice(
+									resp.data.length - tableVar.countPages,
+									count
+								),
+							],
+							countPages: tableVar.countPages - count,
+						}))
+					)
+					.catch((err) => console.error());
+				return 0;
+		}
+	};
 	return (
 		<Form>
 			<FormBody noPadding={true}>
@@ -106,8 +162,10 @@ export const Signage = () => {
 									setTableVar((state) => ({
 										...state,
 										pageSize: value,
+										countPages: value,
 									}));
 								}}
+								min={0}
 							/>
 							<InputNumber
 								itemProps={{
@@ -121,6 +179,7 @@ export const Signage = () => {
 										rowHeight: value,
 									}));
 								}}
+								min={0}
 							/>
 						</Space>
 					</Space>
@@ -196,8 +255,27 @@ export const Signage = () => {
 					</Space>
 				</Space>
 				<Layout className={'signage'}>
+					<Space
+						className={'p-8'}
+						style={{justifyContent: 'flex-end'}}
+					>
+						<Button
+							icon={<LeftOutlined />}
+							onClick={() =>
+								handleChange(tableVar.pageSize, 'last')
+							}
+						/>
+						<Text
+							label={`Дефектов ${tableVar.countPages}/${defectsCounter.detected}`}
+						/>
+						<Button
+							icon={<RightOutlined />}
+							onClick={() =>
+								handleChange(tableVar.pageSize, 'next')
+							}
+						/>
+					</Space>
 					<Table
-						// pageSize={tableVar.pageSize}
 						rowHeight={tableVar.rowHeight}
 						rowKey={'id'}
 						type={'rt'}
