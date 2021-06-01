@@ -26,11 +26,12 @@ export const Signage = () => {
 		detected: 0,
 		eliminate: 0,
 		sendToPanel: 0,
+		validInfo: 0,
 	});
 	const [tableVar, setTableVar] = useState({
 		rowHeight: 15,
 		pageSize: 15,
-		countPages: 15,
+		countPages: 0,
 		rows: [],
 	});
 	useEffect(() => {
@@ -41,6 +42,22 @@ export const Signage = () => {
 		})
 			.then((resp) =>
 				setDefectsCounter((state) => ({...state, detected: resp.data}))
+			)
+			.catch((err) => console.error());
+
+		/** Request data count by defects */
+		apiGetDataCountByConfigName('defectsSignage')({
+			data: {
+				statusIds: [
+					'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+					'879f0adf-0d96-449e-bcee-800f81c4e58d',
+					'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+				],
+			},
+			params: {},
+		})
+			.then((resp) =>
+				setDefectsCounter((state) => ({...state, validInfo: resp.data}))
 			)
 			.catch((err) => console.error());
 
@@ -70,9 +87,7 @@ export const Signage = () => {
 				}))
 			)
 			.catch((err) => console.error());
-	}, []);
-	useEffect(() => {
-		setTimeout();
+
 		apiGetUnAuthFlatData('defectsSignage')({
 			data: {
 				statusIds: [
@@ -81,63 +96,102 @@ export const Signage = () => {
 					'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
 				],
 			},
-			params: {size: tableVar.pageSize},
+			params: {size: tableVar.countPages},
 		})
 			.then((resp) =>
 				setTableVar((state) => ({...state, rows: [...resp.data]}))
 			)
 			.catch((err) => console.error());
-	}, [tableVar.pageSize]);
+	}, [tableVar.countPages]);
+
+	// useEffect(() => {
+	//     if (tableVar.countPages < defectsCounter.validInfo) {
+	//         setTimeout(() => {
+	//             return apiGetUnAuthFlatData('defectsSignage')({
+	//                 data: {
+	//                     statusIds: [
+	//                         '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+	//                         '879f0adf-0d96-449e-bcee-800f81c4e58d',
+	//                         'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+	//                     ],
+	//                 },
+	//                 params: {size: tableVar.countPages > tableVar.pageSize ? tableVar.countPages : tableVar.pageSize},
+	//             })
+	//                 .then((resp) =>
+	//                     setTableVar((state) => {
+	//                         let remArr = resp.data.splice(0, state.countPages - state.pageSize)
+	//                         console.log(tableVar.countPages)
+	//                         console.log({remArr})
+	//                         return ({
+	//                             ...state,
+	//                             rows: [...resp.data],
+	//                             countPages: state.countPages + state.pageSize
+	//                         })
+	//
+	//                     })
+	//                 )
+	//                 .catch((err) => console.error());
+	//
+	//         }, 5000);
+	//     }
+	// }, [tableVar.countPages, defectsCounter.validInfo]);
 
 	const handleChange = (count, type) => {
 		switch (type) {
 			case 'next':
-				apiGetUnAuthFlatData('defectsSignage')({
-					data: {
-						statusIds: [
-							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-							'879f0adf-0d96-449e-bcee-800f81c4e58d',
-							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-						],
-					},
-					params: {size: tableVar.countPages + count},
-				})
-					.then((resp) =>
-						setTableVar((state) => ({
-							...state,
-							rows: [
-								...resp.data.splice(tableVar.countPages, count),
+				if (tableVar.countPages + count < defectsCounter.validInfo) {
+					apiGetUnAuthFlatData('defectsSignage')({
+						data: {
+							statusIds: [
+								'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+								'879f0adf-0d96-449e-bcee-800f81c4e58d',
+								'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
 							],
-							countPages: tableVar.countPages + count,
-						}))
-					)
-					.catch((err) => console.error());
-				return 1;
+						},
+						params: {size: tableVar.countPages + count},
+					})
+						.then((resp) =>
+							setTableVar((state) => ({
+								...state,
+								rows: [
+									...resp.data.splice(
+										tableVar.countPages,
+										count
+									),
+								],
+								countPages: tableVar.countPages + count,
+							}))
+						)
+						.catch((err) => console.error());
+					break;
+				} else break;
 			default:
-				apiGetUnAuthFlatData('defectsSignage')({
-					data: {
-						statusIds: [
-							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-							'879f0adf-0d96-449e-bcee-800f81c4e58d',
-							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-						],
-					},
-					params: {size: tableVar.countPages - count},
-				})
-					.then((resp) =>
-						setTableVar((state) => ({
-							...state,
-							rows: [
-								...resp.data.splice(
-									resp.data.length - tableVar.countPages,
-									count
-								),
+				if (tableVar.countPages - count > 0) {
+					apiGetUnAuthFlatData('defectsSignage')({
+						data: {
+							statusIds: [
+								'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+								'879f0adf-0d96-449e-bcee-800f81c4e58d',
+								'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
 							],
-							countPages: tableVar.countPages - count,
-						}))
-					)
-					.catch((err) => console.error());
-				return 0;
+						},
+						params: {size: tableVar.countPages - count},
+					})
+						.then((resp) =>
+							setTableVar((state) => ({
+								...state,
+								rows: [
+									...resp.data.splice(
+										resp.data.length - tableVar.countPages,
+										count
+									),
+								],
+								countPages: tableVar.countPages - count,
+							}))
+						)
+						.catch((err) => console.error());
+					break;
+				} else break;
 		}
 	};
 	return (
@@ -166,6 +220,7 @@ export const Signage = () => {
 									}));
 								}}
 								min={0}
+								max={defectsCounter.validInfo}
 							/>
 							<InputNumber
 								itemProps={{
@@ -266,7 +321,7 @@ export const Signage = () => {
 							}
 						/>
 						<Text
-							label={`Дефектов ${tableVar.countPages}/${defectsCounter.detected}`}
+							label={`Дефектов ${tableVar.countPages}/${defectsCounter.validInfo}`}
 						/>
 						<Button
 							icon={<RightOutlined />}
