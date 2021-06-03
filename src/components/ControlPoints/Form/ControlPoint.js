@@ -146,9 +146,12 @@ const ControlPoint = (props) => {
 					</Col>
 				</Row>
 
-				<Layout className={'mb-16'}>
-					<Title level={5}>Оборудование</Title>
-					<Space className={'mb-8'}>
+				<Title level={5}>Оборудование</Title>
+				<Layout
+					className={'mb-16'}
+					style={{border: '1px solid #DFDFDF'}}
+				>
+					<Space className={'p-8'}>
 						<EquipmentAddModal />
 						<Button
 							itemProps={{
@@ -216,9 +219,12 @@ const ControlPoint = (props) => {
 					/>{' '}
 				</Layout>
 
-				<Layout className={'mb-16'}>
-					<Title level={5}>Технологические карты</Title>
-					<Space className={'mb-8'}>
+				<Title level={5}>Технологические карты</Title>
+				<Layout
+					className={'mb-16'}
+					style={{border: '1px solid #DFDFDF'}}
+				>
+					<Space className={'p-8'}>
 						<TechMapAddModal />
 						<Button
 							itemProps={{name: 'btnControlPointsTechMapsDelete'}}

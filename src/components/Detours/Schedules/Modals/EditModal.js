@@ -95,13 +95,13 @@ const EditModal = (type) => {
 				},
 			}}
 			dispatch={{
-				path: 'detours.schedules.registry.events.onEditModal',
+				path: 'detours.schedulesTable.table.events.onEditModal',
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: 'tableCloseInfo',
-					path: 'rtd.detours.schedules.registry.selected',
+					path: 'rtd.detours.schedulesTable.table.selected',
 					onChange: ({value, setModalData, setButtonProps}) => {
 						// Задать значение модальному окну по событию "Выбор строки в таблице"
 						value && setModalData && setModalData(value);

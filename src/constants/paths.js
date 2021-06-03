@@ -32,6 +32,7 @@ import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
+import {Signage} from '../components/Defects/Form/Signage';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -100,7 +101,17 @@ export const paths = {
 		title: 'НСИ',
 		path: '/catalog',
 		component: Catalog,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 
 	DETOURS_CONFIGURATOR: {
@@ -109,7 +120,18 @@ export const paths = {
 		// component: Home,
 		isGroup: true,
 		redirect: '/detours-configurator/formTechMaps',
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOURS_RESP',
+		],
 	},
 	/** Тех. карты на формах */
 	DETOURS_CONFIGURATOR_TECH_MAPS_FORM: {
@@ -145,7 +167,13 @@ export const paths = {
 		title: 'Контрольные точки',
 		path: '/detours-configurator/control-points',
 		component: ControlPoints,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS_NEW: {
 		title: 'Создание контрольной точки',
@@ -161,7 +189,14 @@ export const paths = {
 		title: 'Маршруты',
 		path: '/detours-configurator/routes',
 		component: Routes,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_ROUTES_DATA_NEW: {
 		title: 'Создание маршрута',
@@ -177,19 +212,42 @@ export const paths = {
 		title: 'Обходы',
 		path: '/detours-configurator/detours',
 		component: Detours,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/schedules',
 		component: Registry,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS: {
 		title: 'Маршрутные карты',
 		path: '/detours-configurator/route-maps',
 		component: AddRouteMaps,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	DETOURS_CONFIGURATOR_ROUTE_MAPS_EDIT: {
 		title: 'Редактирование маршрутной карты',
@@ -203,7 +261,16 @@ export const paths = {
 		component: Home,
 		// isGroup: true,
 		// redirect: '/detours-configurator/formTechMaps',
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOURS_RESP',
+		],
 	},
 	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
 		title: 'Рабочие графики',
@@ -214,22 +281,52 @@ export const paths = {
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
 		path: '/control-defects',
-		// component: Home,
 		isGroup: true,
 		redirect: '/control-defects/defects',
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+		],
 	},
 	CONTROL_DEFECTS_DEFECTS: {
 		title: 'Журнал учета дефектов',
 		path: '/control-defects/defects',
 		component: Defects,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+		],
 	},
 	CONTROL_DEFECTS_PANEL_PROBLEMS: {
 		title: 'Панель проблем',
 		path: '/control-defects/panel-problems',
 		component: Defects,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+		],
+	},
+	CONTROL_DEFECTS_SIGNAGE: {
+		title: 'Панель проблем',
+		path: '/control-defects/signage',
+		// path: `${pathPrefix}/signage`,
+		component: Signage,
+		// roles: ['ROLE_ADMIN'],// not require
 	},
 	CONTROL_DEFECTS_PANEL_DEVIATIONS: {
 		title: 'Панель отклонений',
@@ -241,6 +338,16 @@ export const paths = {
 		title: 'Аналитика и отчетность',
 		path: '/analytics',
 		component: Home,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 };

@@ -93,11 +93,6 @@ const OperationOnServer = (catalogName, type) => {
 	const DefectSapFields = () => {
 		return (
 			<>
-				{/*<Text itemProps={{*/}
-				{/*    label: '№ из SAP',*/}
-				{/*    name: 'sapStatusCode',*/}
-				{/*    className: 'mb-8',*/}
-				{/*}}/>*/}
 				<TextArea
 					itemProps={{
 						label: 'План действий',
@@ -204,6 +199,9 @@ const OperationOnServer = (catalogName, type) => {
 	return (
 		<Modal
 			title={'Редактровать дефект'}
+			toolTipProps={{
+				title: 'Изменение',
+			}}
 			buttonProps={{
 				type: 'default',
 				icon: <EditOutlined />,

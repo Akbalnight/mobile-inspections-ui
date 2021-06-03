@@ -31,7 +31,7 @@ const Catalog = () => {
 	 * в BasePage.js, из контекста берется занчение paths, но у нас есть сопоставимый объект catalogConfigs. Надо обсудить концепцию UI(Breadcrumbs, title) в данном разделе
 	 */
 	return (
-		<BasePage path={pathname.split('/').length > 2 ? null : null}>
+		<BasePage path={pathname} extraPaths={catalogConfigs(paths)}>
 			<SplitPane
 				className={'Catalog'}
 				split='vertical'

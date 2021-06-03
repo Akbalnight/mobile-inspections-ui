@@ -35,7 +35,7 @@ const ControlPoints = () => {
 							path: 'controlPoints.controlPointsTable.table',
 						}}
 						subscribe={[
-							/**Action add*/
+							/**Action add object*/
 							{
 								name: 'addOnModal',
 								path: `rtd.controlPoints.controlPointsTable.modal.events.addOnModal`,
@@ -44,7 +44,7 @@ const ControlPoints = () => {
 								},
 							},
 
-							/**Action edit*/
+							/**Action edit object*/
 							{
 								name: 'editOnModal',
 								path: `rtd.controlPoints.controlPointsTable.modal.events.editOnModal`,
@@ -52,8 +52,25 @@ const ControlPoints = () => {
 									reloadTable({});
 								},
 							},
+							/**Action add group of object*/
+							{
+								name: 'addOnModal',
+								path: `rtd.controlPoints.controlPointsTable.modal.events.addOnGroupModal`,
+								onChange: ({reloadTable}) => {
+									reloadTable({});
+								},
+							},
 
-							/**Action delete*/
+							/**Action edit group of object*/
+							{
+								name: 'editOnModal',
+								path: `rtd.controlPoints.controlPointsTable.modal.events.editOnGroupModal`,
+								onChange: ({reloadTable}) => {
+									reloadTable({});
+								},
+							},
+
+							/**Action delete object*/
 							{
 								name: 'deleteOnModal',
 								path: `rtd.controlPoints.controlPointsTable.modal.events.deleteOnModal`,
