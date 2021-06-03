@@ -9,6 +9,8 @@ import {
 import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
 import '../Registry/Defects.less';
 
+import {Spin} from 'antd';
+
 const {Form, FormBody, Layout, Table, Space, Text, Divider} = classic;
 export const Signage = () => {
 	const [defectsCounter, setDefectsCounter] = useState({
@@ -227,9 +229,17 @@ export const Signage = () => {
 							order: 'desc',
 						}}
 						empty={
-							<div className={'BaseTable__overlay'}>
+							<div
+								className={'BaseTable__overlay custom__overlay'}
+							>
 								{' '}
-								<span>Обновляем данные...</span>{' '}
+								<MainLogo className={'ml-16'} />
+								<Spin
+									tip='Обновляем данные...'
+									size={'large'}
+									className={'no__bg'}
+									style={{background: 'none'}}
+								/>{' '}
 							</div>
 						}
 						zebraStyle={true}
