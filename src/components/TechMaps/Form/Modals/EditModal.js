@@ -1,7 +1,6 @@
 import React from 'react';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {classic} from 'rt-design';
-import {Form} from 'antd/lib/form';
 
 const {FormBody, Modal, InputNumber, Col, Row, Checkbox, Input} = classic;
 

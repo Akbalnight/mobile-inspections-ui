@@ -7,11 +7,8 @@ import Catalog from '../components/Catalog/Form/Catalog';
 
 import TechMapsForm from '../components/TechMapsForm/TechMaps';
 import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-import TechMapsNew from '../components/TechMapsNEW/TechMaps';
-import {
-	TechMapsAdd,
-	TechMapsEdit,
-} from '../components/TechMapsNEW/TechMapsData';
+import TechMapsNew from '../components/TechMaps/Registry/TechMaps';
+import {TechMapsAdd, TechMapsEdit} from '../components/TechMaps/Form/TechMap';
 // Контрольные точки
 import ControlPoints from '../components/ControlPoints/Registry/ControlPoints';
 import {

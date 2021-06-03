@@ -1,29 +1,15 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {
-	// Form,
-	notificationError,
-} from 'rt-design';
-import {classic} from 'rt-design';
+import {classic, notificationError} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 	apiSaveTechMap,
-} from '../../apis/catalog.api';
+} from '../../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
-import {paths} from '../../constants/paths';
-import {
-	DeleteOutlined,
-	ArrowUpOutlined,
-	ArrowDownOutlined,
-} from '@ant-design/icons';
-import {
-	AddTechOperationButton,
-	EditTechOperationButton,
-} from './Modals/EditModal';
-import {code, duration, position} from '../Base/customColumnProps';
-import {Checkbox} from 'antd';
+import {paths} from '../../../constants/paths';
+import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
 
 const {
 	Form,
@@ -41,13 +27,12 @@ const {
 	Row,
 	Col,
 	Layout,
-	Space,
 } = classic;
 
 export const TechMapsAdd = () => {
 	return (
 		<BasePage>
-			<TechMapsData />
+			<TechMap />
 		</BasePage>
 	);
 };
@@ -57,30 +42,12 @@ export const TechMapsEdit = () => {
 
 	return (
 		<BasePage>
-			<TechMapsData techMapId={pageParams.id} />
+			<TechMap techMapId={pageParams.id} />
 		</BasePage>
 	);
 };
 
-export const customColumnProps = [
-	{...code},
-	{...position, width: '50px', align: 'center'},
-	{...duration},
-	{
-		name: 'needInputData',
-		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
-	},
-	{
-		name: 'equipmentStop',
-		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
-	},
-	{
-		name: 'increasedDanger',
-		cellRenderer: ({cellData}) => <Checkbox checked={cellData} disabled />,
-	},
-];
-const TechMapsData = (props) => {
-	// console.log('props', props)
+const TechMap = (props) => {
 	const {techMapId} = props;
 	const pageParams = useParams();
 	const history = useHistory();
@@ -144,7 +111,6 @@ const TechMapsData = (props) => {
 			</FormHeader>
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
-					{/*<Col span={4}>*/}
 					{techMapId ? (
 						<InputNumber
 							itemProps={{
@@ -154,7 +120,6 @@ const TechMapsData = (props) => {
 							}}
 						/>
 					) : null}
-					{/*</Col>*/}
 					<Col span={8}>
 						<Input
 							itemProps={{
@@ -229,85 +194,9 @@ const TechMapsData = (props) => {
 						/>
 					</Col>
 				</Row>
-				<Layout className={'mb-16'}>
-					<Title level={5}>Технологические операции</Title>
-					<Space className={'mb-8'}>
-						<AddTechOperationButton />
-						<EditTechOperationButton />
-						<Button
-							itemProps={{name: 'btnDelete'}}
-							icon={<DeleteOutlined />}
-							type={'default'}
-							disabled={true}
-							dispatch={{
-								path:
-									'techMaps.techOperations.btnDelete.events',
-								type: 'event',
-							}}
-							subscribe={[
-								{
-									name: 'onTechMapsTechOperationsSelect',
-									path:
-										'rtd.techMaps.techOperations.table.selected',
-									onChange: ({value, setSubscribeProps}) => {
-										value
-											? setSubscribeProps({
-													disabled: false,
-											  })
-											: setSubscribeProps({
-													disabled: true,
-											  });
-									},
-								},
-							]}
-						/>
-						<Button
-							icon={<ArrowUpOutlined />}
-							disabled={true}
-							dispatch={{
-								path:
-									'techMaps.techOperations.table.actions.onClickMoveUp',
-								type: 'event',
-							}}
-							subscribe={[
-								{
-									name: 'btnUp',
-									path:
-										'rtd.techMaps.techOperations.table.selected',
-									onChange: ({value, setSubscribeProps}) => {
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												disabled: !value,
-											});
-									},
-								},
-							]}
-						/>
-						<Button
-							icon={<ArrowDownOutlined />}
-							disabled={true}
-							dispatch={{
-								path:
-									'techMaps.techOperations.table.actions.onClickMoveDown',
-								type: 'event',
-							}}
-							subscribe={[
-								{
-									name: 'btnUp',
-									path:
-										'rtd.techMaps.techOperations.table.selected',
-									onChange: ({value, setSubscribeProps}) => {
-										value &&
-											setSubscribeProps &&
-											setSubscribeProps({
-												disabled: !value,
-											});
-									},
-								},
-							]}
-						/>
-					</Space>
+				<Title level={5}>Технологические операции</Title>
+				<Layout style={{border: '1px solid #DFDFDF'}}>
+					<TechOperTableHeader />
 					<Table
 						itemProps={{name: 'techOperations'}}
 						rowKey={'id'}
@@ -335,7 +224,7 @@ const TechMapsData = (props) => {
 								value: () => techMapId,
 							},
 						]}
-						customColumnProps={customColumnProps}
+						customColumnProps={formCustomColumnProps}
 						dispatchPath={'techMaps.techOperations.table'}
 						subscribe={[
 							/** Add table Items */
