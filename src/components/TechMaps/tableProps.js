@@ -135,7 +135,7 @@ export const TechOperTableHeader = () => {
 				type={'default'}
 				disabled={true}
 				dispatch={{
-					path: 'techMaps.techOperations.btnDelete.events',
+					path: 'techMaps.techOperations.table.events.btnDelete',
 					type: 'event',
 				}}
 				subscribe={[
@@ -166,11 +166,13 @@ export const TechOperTableHeader = () => {
 						name: 'btnUp',
 						path: 'rtd.techMaps.techOperations.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
-							value &&
-								setSubscribeProps &&
-								setSubscribeProps({
-									disabled: !value,
-								});
+							value && setSubscribeProps
+								? setSubscribeProps({
+										disabled: !value,
+								  })
+								: setSubscribeProps({
+										disabled: true,
+								  });
 						},
 					},
 				]}
@@ -188,11 +190,13 @@ export const TechOperTableHeader = () => {
 						name: 'btnUp',
 						path: 'rtd.techMaps.techOperations.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
-							value &&
-								setSubscribeProps &&
-								setSubscribeProps({
-									disabled: !value,
-								});
+							value && setSubscribeProps
+								? setSubscribeProps({
+										disabled: !value,
+								  })
+								: setSubscribeProps({
+										disabled: true,
+								  });
 						},
 					},
 				]}

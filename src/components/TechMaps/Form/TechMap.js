@@ -10,6 +10,7 @@ import {
 import {useHistory, useParams} from 'react-router';
 import {paths} from '../../../constants/paths';
 import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
+import {uuid} from '../../../utils/baseUtils';
 
 const {
 	Form,
@@ -18,7 +19,6 @@ const {
 	FormFooter,
 	Input,
 	Select,
-	InputNumber,
 	Title,
 	TreeSelect,
 	Button,
@@ -49,7 +49,6 @@ export const TechMapsEdit = () => {
 
 const TechMap = (props) => {
 	const {techMapId} = props;
-	const pageParams = useParams();
 	const history = useHistory();
 
 	const loadData = (callBack) => {
@@ -84,7 +83,7 @@ const TechMap = (props) => {
 	const loadTechOperationsHandler = ({data, params}) => {
 		const newData = {
 			...data,
-			techMapId: !pageParams.id ? null : pageParams.id,
+			techMapId: !techMapId ? null : techMapId,
 		};
 		return apiGetFlatDataByConfigName('techOperations')({
 			data: newData,
@@ -111,15 +110,6 @@ const TechMap = (props) => {
 			</FormHeader>
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
-					{techMapId ? (
-						<InputNumber
-							itemProps={{
-								name: 'code',
-								label: 'Код',
-								hidden: true,
-							}}
-						/>
-					) : null}
 					<Col span={8}>
 						<Input
 							itemProps={{
@@ -204,24 +194,29 @@ const TechMap = (props) => {
 						requestLoadConfig={apiGetConfigByName('techOperations')}
 						customFields={[
 							{
-								name: 'techOperationId',
-								value: (row) => row.id,
-								validate: (row, rows) => {
-									// console.log('row tech maps selected:', row)
-									return !row.isGroup
-										? !rows
-												.map((row) => row.techMapId)
-												.includes(row.id)
-										: false;
-								},
-							},
-							{
 								name: 'id',
-								value: () => null,
+								value: (row) => (row.id ? row.id : uuid()),
 							},
 							{
 								name: 'techMapId',
 								value: () => techMapId,
+							},
+							{
+								name: 'code',
+								value: (row, rows) =>
+									parseInt(
+										rows.reduce(
+											(max, current) =>
+												parseInt(current.code) > max
+													? current.code
+													: max,
+											0
+										)
+									) + 1,
+							},
+							{
+								name: 'position',
+								value: (row, rows) => rows.length + 1,
 							},
 						]}
 						customColumnProps={formCustomColumnProps}
@@ -248,8 +243,7 @@ const TechMap = (props) => {
 							{
 								name: 'techOperationDeleteOnLocal',
 								path:
-									'rtd.techMaps.techOperations.btnDelete.events',
-
+									'rtd.techMaps.techOperations.table.events.btnDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},

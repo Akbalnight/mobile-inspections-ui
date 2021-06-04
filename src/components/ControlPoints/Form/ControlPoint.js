@@ -21,7 +21,6 @@ const {
 	FormBody,
 	FormFooter,
 	Input,
-	InputNumber,
 	Title,
 	TreeSelect,
 	Button,
@@ -76,7 +75,6 @@ const ControlPoint = (props) => {
 		}
 	};
 
-	// const onFinish = (values) => {
 	const onFinish = () => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
 	};
@@ -100,15 +98,6 @@ const ControlPoint = (props) => {
 			</FormHeader>
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
-					{controlPointId ? (
-						<InputNumber
-							itemProps={{
-								name: 'code',
-								label: 'Код',
-								hidden: true,
-							}}
-						/>
-					) : null}
 					<Col span={8}>
 						<Input
 							itemProps={{

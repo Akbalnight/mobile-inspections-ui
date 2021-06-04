@@ -2,7 +2,7 @@ import React from 'react';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {classic} from 'rt-design';
 
-const {FormBody, Modal, InputNumber, Col, Row, Checkbox, Input} = classic;
+const {FormBody, Modal, InputNumber, Checkbox, Input, Space, Text} = classic;
 
 export const AddTechOperationButton = () => EditModal('add');
 export const EditTechOperationButton = () => EditModal('edit');
@@ -39,19 +39,19 @@ const EditModal = (type) => {
 			buttonProps={{
 				type: 'default',
 				icon: type === 'add' ? <PlusOutlined /> : <EditOutlined />,
-				disabled: type === 'add' ? false : true,
+				disabled: type !== 'add',
 			}}
 			toolTipProps={{
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				width: 600,
-				bodyStyle: {height: 400},
+				width: 580,
+				bodyStyle: {height: 350},
 				type: 'editOnLocal',
 				title:
 					type === 'add'
 						? `Добавить технологическую операцию`
-						: `Создать технологическую операцию`,
+						: `Изменить технологическую операцию`,
 				form: {
 					name: 'techMaps.techOperations.editModal',
 					labelCol: {span: 10},
@@ -86,9 +86,8 @@ const EditModal = (type) => {
 								...value,
 							});
 						type !== 'add' &&
-							value &&
 							setButtonProps &&
-							setButtonProps({disabled: !value});
+							setButtonProps({disabled: value ? !value : true});
 					},
 				},
 			]}
@@ -98,6 +97,7 @@ const EditModal = (type) => {
 					itemProps={{
 						name: 'name',
 						label: 'Наименование',
+						className: 'mb-8',
 						rules: [
 							{
 								required: true,
@@ -117,6 +117,11 @@ const EditModal = (type) => {
 						valuePropName: 'checked',
 						...footerCheckboxLayout,
 					}}
+					dispatch={{
+						path:
+							'techMaps.techOperations.table.modal.events.needInputData',
+						type: 'event',
+					}}
 				/>
 				<Input
 					itemProps={{
@@ -125,8 +130,21 @@ const EditModal = (type) => {
 						className: 'mb-8',
 						...footerInputLayout,
 					}}
+					disabled={true}
 					maxLength={100}
 					placeholder={'Введите значение'}
+					subscribe={[
+						{
+							name: 'unDisabled',
+							path:
+								'rtd.techMaps.techOperations.table.modal.events.needInputData',
+							onChange: ({value, setSubscribeProps}) => {
+								value &&
+									setSubscribeProps &&
+									setSubscribeProps({disabled: !value.value});
+							},
+						},
+					]}
 				/>
 				<Checkbox
 					itemProps={{
@@ -146,59 +164,31 @@ const EditModal = (type) => {
 						...footerCheckboxLayout,
 					}}
 				/>
-				<Row>
-					<Col span={12}>
-						<Row>
-							<InputNumber
-								size={'small'}
-								min={0}
-								max={12}
-								placeholder='Часы'
-								itemProps={{
-									name: 'hours',
-									label: 'Продолжительность',
-									labelCol: {span: 14},
-									wrapperCol: {span: 8},
-								}}
-								style={{marginTop: '5px'}}
-							/>
-							<span
-								style={{
-									textAlign: 'center',
-									lineHeight: '24px',
-									marginLeft: '10px',
-									marginTop: '5px',
-								}}
-							>
-								часы
-							</span>
-						</Row>
-					</Col>
-					<Col span={12}>
-						<Row>
-							<InputNumber
-								size={'small'}
-								min={0}
-								max={60}
-								placeholder='Минуты'
-								itemProps={{
-									name: 'minutes',
-								}}
-								style={{marginTop: '5px'}}
-							/>
-							<span
-								style={{
-									width: '20%',
-									textAlign: 'center',
-									lineHeight: '24px',
-									marginTop: '5px',
-								}}
-							>
-								минуты
-							</span>
-						</Row>
-					</Col>
-				</Row>
+				<Space align={'center'} style={{marginLeft: '40px'}}>
+					<Text label={'Продолжительность:'} className={'ml-16'} />
+					<Space>
+						<InputNumber
+							size={'middle'}
+							min={0}
+							max={12}
+							placeholder='Часы'
+							itemProps={{
+								name: 'hours',
+							}}
+						/>
+						<Text label={'часы'} />
+						<InputNumber
+							size={'middle'}
+							min={0}
+							max={60}
+							placeholder='Минуты'
+							itemProps={{
+								name: 'minutes',
+							}}
+						/>
+						<Text label={'минуты'} />
+					</Space>
+				</Space>
 			</FormBody>
 		</Modal>
 	);
