@@ -220,7 +220,7 @@ const TechMap = (props) => {
 							},
 						]}
 						customColumnProps={formCustomColumnProps}
-						dispatchPath={'techMaps.techOperations.table'}
+						dispatch={{path: 'techMaps.techOperations.table'}}
 						subscribe={[
 							/** Add table Items */
 							{

@@ -542,9 +542,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 					</>
 				);
 			case 'techMaps':
-				historyPath =
-					paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION.path;
-				// console.log('srow:', sRow);
 				return (
 					<>
 						<Row>
@@ -566,6 +563,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 									itemProps={{
 										...itemsInfo.name,
 										wrapperCol: {span: 12},
+										rules: [],
 									}}
 								/>
 							</Col>
@@ -585,7 +583,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 							requestLoadConfig={apiGetConfigByName(
 								'techOperations'
 							)}
-							// dispatch={{path:'debug'}}
 						/>
 					</>
 				);
