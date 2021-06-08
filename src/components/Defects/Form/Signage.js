@@ -20,9 +20,8 @@ export const Signage = () => {
 		validInfo: 0,
 	});
 	const [tableVar, setTableVar] = useState({
-		rowHeight: 30,
-		pageSize: 25,
-		countPages: 0,
+		pageSize: 10,
+		countPages: 10,
 		rows: [],
 	});
 
@@ -79,6 +78,27 @@ export const Signage = () => {
 				}))
 			)
 			.catch((err) => console.error());
+		/** First render data for table*/
+		apiGetUnAuthFlatData('defectsSignage')({
+			data: {
+				statusIds: [
+					'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+					'879f0adf-0d96-449e-bcee-800f81c4e58d',
+					'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+				],
+			},
+			params: {
+				size: tableVar.countPages,
+			},
+		})
+			.then((resp) =>
+				setTableVar((state) => ({
+					...state,
+					rows: [...resp.data],
+				}))
+			)
+			.catch((err) => console.error());
+		// eslint-disable-next-line
 	}, []);
 
 	useEffect(() => {
@@ -94,7 +114,7 @@ export const Signage = () => {
 					},
 					params: {
 						size:
-							tableVar.countPages + tableVar.pageSize <
+							tableVar.countPages + tableVar.pageSize <=
 							defectsCounter.validInfo
 								? tableVar.countPages + tableVar.pageSize
 								: defectsCounter.validInfo,
@@ -119,7 +139,7 @@ export const Signage = () => {
 						})
 					)
 					.catch((err) => console.error());
-			}, 10000);
+			}, 5000);
 		} else if (tableVar.countPages === defectsCounter.validInfo) {
 			setTableVar((state) => ({...state, rows: [], countPages: 0}));
 		}
@@ -219,11 +239,11 @@ export const Signage = () => {
 						/>
 					</Space>
 					<Table
-						rowHeight={tableVar.rowHeight}
 						rowKey={'id'}
 						type={'rt'}
 						fixWidthColumn={true}
-						headerHeight={45}
+						headerHeight={52}
+						rowHeight={60}
 						defaultSortBy={{
 							key: 'dateDetectDefect',
 							order: 'desc',
