@@ -21,7 +21,7 @@ export const Signage = () => {
 	});
 	const [tableVar, setTableVar] = useState({
 		pageSize: 10,
-		countPages: 10,
+		countPages: 0,
 		rows: [],
 	});
 
@@ -78,30 +78,10 @@ export const Signage = () => {
 				}))
 			)
 			.catch((err) => console.error());
-		/** First render data for table*/
-		apiGetUnAuthFlatData('defectsSignage')({
-			data: {
-				statusIds: [
-					'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-					'879f0adf-0d96-449e-bcee-800f81c4e58d',
-					'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-				],
-			},
-			params: {
-				size: tableVar.countPages,
-			},
-		})
-			.then((resp) =>
-				setTableVar((state) => ({
-					...state,
-					rows: [...resp.data],
-				}))
-			)
-			.catch((err) => console.error());
-		// eslint-disable-next-line
 	}, []);
 
 	useEffect(() => {
+		const currentTimeout = 5000;
 		if (tableVar.countPages < defectsCounter.validInfo) {
 			setTimeout(() => {
 				return apiGetUnAuthFlatData('defectsSignage')({
@@ -113,35 +93,54 @@ export const Signage = () => {
 						],
 					},
 					params: {
-						size:
-							tableVar.countPages + tableVar.pageSize <=
-							defectsCounter.validInfo
-								? tableVar.countPages + tableVar.pageSize
-								: defectsCounter.validInfo,
+						page:
+							tableVar.countPages !== 0
+								? tableVar.countPages / tableVar.pageSize
+								: tableVar.countPages,
+						size: tableVar.pageSize,
 					},
 				})
 					.then((resp) =>
-						setTableVar((state) => {
-							let remArr = resp.data.splice(
-								0,
-								resp.data.length - state.pageSize
-							);
-							console.log({remArr});
-							return {
-								...state,
-								rows: [...resp.data],
-								countPages:
-									state.countPages + state.pageSize <
-									defectsCounter.validInfo
-										? state.countPages + state.pageSize
-										: defectsCounter.validInfo,
-							};
-						})
+						setTableVar((state) => ({
+							...state,
+							rows: [...resp.data],
+							countPages:
+								state.countPages + state.pageSize <
+								defectsCounter.validInfo
+									? state.countPages + state.pageSize
+									: defectsCounter.validInfo,
+						}))
 					)
 					.catch((err) => console.error());
-			}, 5000);
-		} else if (tableVar.countPages === defectsCounter.validInfo) {
-			setTableVar((state) => ({...state, rows: [], countPages: 0}));
+			}, currentTimeout);
+		} else if (
+			tableVar.countPages === defectsCounter.validInfo &&
+			tableVar.countPages > tableVar.pageSize
+		) {
+			setTimeout(() => {
+				apiGetUnAuthFlatData('defectsSignage')({
+					data: {
+						statusIds: [
+							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+							'879f0adf-0d96-449e-bcee-800f81c4e58d',
+							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+						],
+					},
+					params: {
+						page: 0,
+						size: tableVar.pageSize,
+					},
+				})
+					.then((resp) =>
+						setTableVar((state) => ({
+							...state,
+							rows: [...resp.data],
+							countPages: tableVar.pageSize,
+						}))
+					)
+					.catch((err) => console.error());
+				// setTableVar((state) => ({...state, rows: [], countPages: 10}));
+			}, currentTimeout);
 		}
 	}, [tableVar.countPages, tableVar.pageSize, defectsCounter.validInfo]);
 
@@ -170,12 +169,7 @@ export const Signage = () => {
 										textAlign: 'center',
 									}}
 								>
-									<div
-										style={{
-											color: 'black',
-											fontSize: '20px',
-										}}
-									>
+									<div className={'regularColor'}>
 										Обнаружено
 									</div>
 									<div>{defectsCounter.detected}</div>
@@ -192,12 +186,7 @@ export const Signage = () => {
 										textAlign: 'center',
 									}}
 								>
-									<div
-										style={{
-											color: 'black',
-											fontSize: '20px',
-										}}
-									>
+									<div className={'regularColor'}>
 										Передано в ПП
 									</div>
 									<div>{defectsCounter.sendToPanel}</div>
@@ -214,12 +203,7 @@ export const Signage = () => {
 										textAlign: 'center',
 									}}
 								>
-									<div
-										style={{
-											color: 'black',
-											fontSize: '20px',
-										}}
-									>
+									<div className={'regularColor'}>
 										Устранено
 									</div>
 									<div>{defectsCounter.eliminate}</div>
