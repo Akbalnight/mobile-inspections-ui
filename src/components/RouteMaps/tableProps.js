@@ -1,10 +1,10 @@
-import {position} from '../../Base/customColumnProps';
+import {position} from '../Base/customColumnProps';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../apis/catalog.api';
 import {classic, notificationError} from 'rt-design';
-import {EditFileName} from '../Modals/SaveObjectModal';
+import {EditFileName} from './Modals/SaveObjectModal';
 import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
 import React from 'react';
 
@@ -89,8 +89,7 @@ export const RouteMapsTableHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+					path: 'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
@@ -111,8 +110,7 @@ export const RouteMapsTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+					path: 'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[

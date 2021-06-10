@@ -2,12 +2,19 @@ import React from 'react';
 import {classic} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
-import {ArrowLeftOutlined} from '@ant-design/icons';
+import {
+	ArrowLeftOutlined,
+	FullscreenOutlined,
+	MinusOutlined,
+	PlusOutlined,
+} from '@ant-design/icons';
+import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
 
-const {Custom} = classic;
+const {Custom, Space, Button} = classic;
 
+// let scale
 const PointsOnMap = (props) => {
-	const {existPoints = [], onChange} = props;
+	const {existPoints = [], onChange, scale = 1} = props;
 	if (existPoints)
 		return existPoints.map((point, index) => (
 			/**
@@ -32,7 +39,7 @@ const PointsOnMap = (props) => {
 					onChange(savePoint);
 				}}
 				default={{x: point.xLocation, y: point.yLocation}}
-				scale={1}
+				scale={scale}
 			>
 				<div>{point.position}</div>
 			</Rnd>
@@ -45,6 +52,10 @@ const RouteMap = () => {
 		<div className={'routeMapContainer'}>
 			<Custom
 				itemProps={{name: 'routeMap'}}
+				dispatch={{
+					path: 'routeMaps.mainForm.routeMapPoints.zoomSection',
+					type: 'event',
+				}}
 				subscribe={[
 					{
 						name: 'routeMap',
@@ -54,14 +65,60 @@ const RouteMap = () => {
 						},
 					},
 				]}
-				render={({src}) => (
+				render={({src, onChange}) => (
 					<>
 						{src ? (
-							<img
-								className={'routeMapImage'}
-								src={src}
-								alt={`Маршрутная карта`}
-							/>
+							<TransformWrapper
+								wheel={{
+									disabled: true,
+								}}
+								scale={1}
+								onZoomChange={(e) => onChange(e.scale)}
+							>
+								{({
+									zoomIn,
+									zoomOut,
+									resetTransform,
+									...rest
+								}) => (
+									<>
+										<Space
+											style={{
+												width: '95%',
+												justifyContent: 'flex-end',
+											}}
+											className={'px-8'}
+										>
+											<Space
+												direction={'vertical'}
+												className={'buttonBlock'}
+											>
+												<Button
+													icon={<PlusOutlined />}
+													onClick={zoomIn}
+												/>
+												<Button
+													icon={<MinusOutlined />}
+													onClick={zoomOut}
+												/>
+												<Button
+													icon={
+														<FullscreenOutlined />
+													}
+													onClick={resetTransform}
+												/>
+											</Space>
+										</Space>
+										<TransformComponent>
+											<img
+												className={'routeMapImage'}
+												src={src}
+												alt={`Маршрутная карта`}
+											/>
+										</TransformComponent>
+									</>
+								)}
+							</TransformWrapper>
 						) : (
 							<Result
 								title='Выберите маршрутную карту'
@@ -107,6 +164,18 @@ const RouteMap = () => {
 								);
 								setSubscribeProps({existPoints: points});
 							}
+						},
+					},
+					{
+						name: 'zoomAction',
+						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+						onChange: ({value, setSubscribeProps}) => {
+							console.log({value});
+							value && setSubscribeProps({scale: value.value});
+							/**
+							 * выходит ошибка
+							 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
+							 * */
 						},
 					},
 				]}
