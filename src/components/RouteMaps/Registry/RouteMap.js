@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {classic} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
@@ -15,6 +15,11 @@ const {Custom, Space, Button} = classic;
 // let scale
 const PointsOnMap = (props) => {
 	const {existPoints = [], onChange, scale = 1} = props;
+	useEffect(() => {
+		onChange && onChange(scale);
+		console.log('useEffect onChange');
+		// eslint-disable-next-line
+	}, [scale]);
 	if (existPoints)
 		return existPoints.map((point, index) => (
 			/**
@@ -65,68 +70,89 @@ const RouteMap = () => {
 						},
 					},
 				]}
-				render={({src, onChange}) => (
-					<>
-						{src ? (
-							<TransformWrapper
-								wheel={{
-									disabled: true,
-								}}
-								scale={1}
-								onZoomChange={(e) => onChange(e.scale)}
-							>
-								{({
-									zoomIn,
-									zoomOut,
-									resetTransform,
-									...rest
-								}) => (
-									<>
-										<Space
-											style={{
-												width: '95%',
-												justifyContent: 'flex-end',
-											}}
-											className={'px-8'}
-										>
-											<Space
-												direction={'vertical'}
-												className={'buttonBlock'}
-											>
-												<Button
-													icon={<PlusOutlined />}
-													onClick={zoomIn}
-												/>
-												<Button
-													icon={<MinusOutlined />}
-													onClick={zoomOut}
-												/>
-												<Button
-													icon={
-														<FullscreenOutlined />
-													}
-													onClick={resetTransform}
-												/>
-											</Space>
-										</Space>
-										<TransformComponent>
-											<img
-												className={'routeMapImage'}
-												src={src}
-												alt={`Маршрутная карта`}
-											/>
-										</TransformComponent>
-									</>
-								)}
-							</TransformWrapper>
-						) : (
-							<Result
-								title='Выберите маршрутную карту'
-								extra={<ArrowLeftOutlined />}
-							/>
-						)}
-					</>
-				)}
+				render={({src, onChange}) => {
+					const onChangeHandler = (value) => {
+						onChange(value);
+						// return  window.requestAnimationFrame
+					};
+					return (
+						<>
+							{src ? (
+								<TransformWrapper
+									wheel={{
+										disabled: true,
+									}}
+									// scale={1}
+
+									onZoomChange={onChangeHandler}
+									onPinching={(e) => console.log(e)}
+								>
+									{({
+										zoomIn,
+										zoomOut,
+										resetTransform,
+										...rest
+									}) => {
+										return (
+											<>
+												<Space
+													style={{
+														width: '95%',
+														justifyContent:
+															'flex-end',
+													}}
+													className={'px-8'}
+												>
+													<Space
+														direction={'vertical'}
+														className={
+															'buttonBlock'
+														}
+													>
+														<Button
+															icon={
+																<PlusOutlined />
+															}
+															onClick={zoomIn}
+														/>
+														<Button
+															icon={
+																<MinusOutlined />
+															}
+															onClick={zoomOut}
+														/>
+														<Button
+															icon={
+																<FullscreenOutlined />
+															}
+															onClick={
+																resetTransform
+															}
+														/>
+													</Space>
+												</Space>
+												<TransformComponent>
+													<img
+														className={
+															'routeMapImage'
+														}
+														src={src}
+														alt={`Маршрутная карта`}
+													/>
+												</TransformComponent>
+											</>
+										);
+									}}
+								</TransformWrapper>
+							) : (
+								<Result
+									title='Выберите маршрутную карту'
+									extra={<ArrowLeftOutlined />}
+								/>
+							)}
+						</>
+					);
+				}}
 			/>
 			<Custom
 				itemProps={{name: 'routeMapPoints'}}
@@ -171,7 +197,9 @@ const RouteMap = () => {
 						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
 						onChange: ({value, setSubscribeProps}) => {
 							console.log({value});
-							value && setSubscribeProps({scale: value.value});
+							value &&
+								value.value &&
+								setSubscribeProps({scale: value.value.scale});
 							/**
 							 * выходит ошибка
 							 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
