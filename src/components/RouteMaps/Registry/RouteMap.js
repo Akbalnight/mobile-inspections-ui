@@ -14,21 +14,34 @@ const {Custom, Space, Button} = classic;
 
 // let scale
 const PointsOnMap = (props) => {
-	const {existPoints = [], onChange, scale = 1} = props;
+	const {
+		existPoints = [],
+		onChange,
+		scale = 1,
+		positionX = 0,
+		positionY = 0,
+	} = props;
 	useEffect(() => {
-		onChange && onChange(scale);
-		console.log('useEffect onChange');
+		// onChange && onChange(scale);
+		console.log({scale, positionX, positionY});
 		// eslint-disable-next-line
 	}, [scale]);
 	if (existPoints)
 		return existPoints.map((point, index) => (
 			/**
 			 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+			 *
+			 *
+			 * props position не корректный он сделан лишь для наглядности
 			 */
 			<Rnd
 				key={`${index}-${point.id}`}
 				bounds={'.routeMapImage'}
 				size={{width: 32, height: 32}}
+				position={{
+					x: (point.xLocation + positionX) * scale,
+					y: (point.yLocation + positionY) * scale,
+				}}
 				style={{
 					background: '#39839D',
 					textAlign: 'center',
@@ -53,6 +66,14 @@ const PointsOnMap = (props) => {
 };
 
 const RouteMap = () => {
+	/**
+	 * Я дошел до вот такой статьи https://habr.com/ru/company/yandex/blog/559442/
+	 *
+	 * В изначально, были проблемы с сущностью https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+	 *
+	 *
+	 *
+	 * */
 	return (
 		<div className={'routeMapContainer'}>
 			<Custom
@@ -71,21 +92,14 @@ const RouteMap = () => {
 					},
 				]}
 				render={({src, onChange}) => {
-					const onChangeHandler = (value) => {
-						onChange(value);
-						// return  window.requestAnimationFrame
-					};
 					return (
 						<>
 							{src ? (
 								<TransformWrapper
-									wheel={{
-										disabled: true,
-									}}
-									// scale={1}
-
-									onZoomChange={onChangeHandler}
-									onPinching={(e) => console.log(e)}
+									// wheel={{
+									// 	disabled: true,
+									// }}
+									onZoomStop={onChange}
 								>
 									{({
 										zoomIn,
@@ -113,20 +127,24 @@ const RouteMap = () => {
 															icon={
 																<PlusOutlined />
 															}
-															onClick={zoomIn}
+															onClick={() =>
+																zoomIn()
+															}
 														/>
 														<Button
 															icon={
 																<MinusOutlined />
 															}
-															onClick={zoomOut}
+															onClick={() =>
+																zoomOut()
+															}
 														/>
 														<Button
 															icon={
 																<FullscreenOutlined />
 															}
-															onClick={
-																resetTransform
+															onClick={() =>
+																resetTransform()
 															}
 														/>
 													</Space>
@@ -199,9 +217,13 @@ const RouteMap = () => {
 							console.log({value});
 							value &&
 								value.value &&
-								setSubscribeProps({scale: value.value.scale});
+								setSubscribeProps({
+									scale: value.value.state.scale,
+									positionX: value.value.state.positionX,
+									positionY: value.value.state.positionY,
+								});
 							/**
-							 * выходит ошибка
+							 * выходит ошибка(Уже неактуально)
 							 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
 							 * */
 						},
