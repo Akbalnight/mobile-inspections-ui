@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {classic} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
@@ -21,47 +21,108 @@ const PointsOnMap = (props) => {
 		positionX = 0,
 		positionY = 0,
 	} = props;
+	// const TransformWrapperRef = useRef(null);
+	const [transformStyle, setTransformStyle] = useState(
+		`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
+	);
 	useEffect(() => {
 		// onChange && onChange(scale);
-		console.log({scale, positionX, positionY});
+		console.log('PointsOnMap', {scale, positionX, positionY});
+		setTransformStyle(
+			`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
+		);
+		// TransformWrapperRef.current && (TransformWrapperRef.current.state = {scale, positionX, positionY})
 		// eslint-disable-next-line
-	}, [scale]);
+	}, [scale, positionX, positionY]);
+	const widthIcon = 36 / scale;
+	const heightIcon = 42 / scale;
 	if (existPoints)
-		return existPoints.map((point, index) => (
-			/**
-			 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
-			 *
-			 *
-			 * props position не корректный он сделан лишь для наглядности
-			 */
-			<Rnd
-				key={`${index}-${point.id}`}
-				bounds={'.routeMapImage'}
-				size={{width: 32, height: 32}}
-				position={{
-					x: (point.xLocation + positionX) * scale,
-					y: (point.yLocation + positionY) * scale,
-				}}
-				style={{
-					background: '#39839D',
-					textAlign: 'center',
-					color: 'white',
-					clipPath:
-						'polygon(50% 0%, 83% 5%, 99% 29%, 78% 65%, 51% 100%, 53% 100%, 25% 66%, 0 29%, 15% 7%)',
-				}}
-				onDragStop={(e, d) => {
-					// сохранение новых координат
-					const savePoint = {...point};
-					savePoint.xLocation = d.x;
-					savePoint.yLocation = d.y;
-					onChange(savePoint);
-				}}
-				default={{x: point.xLocation, y: point.yLocation}}
-				scale={scale}
-			>
-				<div>{point.position}</div>
-			</Rnd>
-		));
+		// return null
+		return (
+			<div style={{transformOrigin: '0% 0%', transform: transformStyle}}>
+				{existPoints.map((point, index) => (
+					/**
+					 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+					 *
+					 *
+					 * props position не корректный он сделан лишь для наглядности
+					 */
+					<Rnd
+						key={`${index}-${point.id}`}
+						bounds={'.routeMapImage'}
+						size={{width: widthIcon, height: heightIcon}}
+						style={{
+							// background: '#39839D',
+							textAlign: 'center',
+							color: 'white',
+							// clipPath: transform={`scale(${1 / scale})`}
+							// 	'polygon(50% 0%, 83% 5%, 99% 29%, 78% 65%, 51% 100%, 53% 100%, 25% 66%, 0 29%, 15% 7%)',
+						}}
+						onDragStop={(e, d) => {
+							// сохранение новых координат
+							const savePoint = {...point};
+							savePoint.xLocation = d.x;
+							savePoint.yLocation = d.y;
+							onChange(savePoint);
+						}}
+						default={{x: point.xLocation, y: point.yLocation}}
+						// scale={1 / scale}
+					>
+						<svg
+							width={widthIcon}
+							height={heightIcon}
+							viewBox={`0 0 ${widthIcon} ${heightIcon}`}
+							fill='none'
+							xmlns='http://www.w3.org/2000/svg'
+						>
+							<path
+								transformOrigin={'0% 0%'}
+								transform={`scale(${1 / scale})`}
+								d='M27 13.8C27 20.8692 14 33 14 33C14 33 1 20.8692 1 13.8C1 6.73075 6.8203 1 14 1C21.1797 1 27 6.73075 27 13.8Z'
+								fill='#39839D'
+								stroke='white'
+							/>
+						</svg>
+						{/*<div>{point.position}</div>*/}
+					</Rnd>
+				))}
+			</div>
+		);
+	// return existPoints.map((point, index) => (
+	// 	/**
+	// 	 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+	// 	 *
+	// 	 *
+	// 	 * props position не корректный он сделан лишь для наглядности
+	// 	 */
+	// 	<Rnd
+	// 		key={`${index}-${point.id}`}
+	// 		bounds={'.routeMapImage'}
+	// 		size={{width: 32, height: 32}}
+	// 		position={{
+	// 			x: (point.xLocation + positionX) * scale,
+	// 			y: (point.yLocation + positionY) * scale,
+	// 		}}
+	// 		style={{
+	// 			background: '#39839D',
+	// 			textAlign: 'center',
+	// 			color: 'white',
+	// 			clipPath:
+	// 				'polygon(50% 0%, 83% 5%, 99% 29%, 78% 65%, 51% 100%, 53% 100%, 25% 66%, 0 29%, 15% 7%)',
+	// 		}}
+	// 		onDragStop={(e, d) => {
+	// 			// сохранение новых координат
+	// 			const savePoint = {...point};
+	// 			savePoint.xLocation = d.x;
+	// 			savePoint.yLocation = d.y;
+	// 			onChange(savePoint);
+	// 		}}
+	// 		default={{x: point.xLocation, y: point.yLocation}}
+	// 		scale={scale}
+	// 	>
+	// 		<div>{point.position}</div>
+	// 	</Rnd>
+	// ));
 	else return null;
 };
 
@@ -99,7 +160,11 @@ const RouteMap = () => {
 									// wheel={{
 									// 	disabled: true,
 									// }}
-									onZoomStop={onChange}
+									onWheel={onChange}
+									onPanning={onChange}
+									onPanningStop={onChange}
+									// onPinching={onChange}
+									// onZoom={onChange}
 								>
 									{({
 										zoomIn,
@@ -109,46 +174,46 @@ const RouteMap = () => {
 									}) => {
 										return (
 											<>
-												<Space
-													style={{
-														width: '95%',
-														justifyContent:
-															'flex-end',
-													}}
-													className={'px-8'}
-												>
-													<Space
-														direction={'vertical'}
-														className={
-															'buttonBlock'
-														}
-													>
-														<Button
-															icon={
-																<PlusOutlined />
-															}
-															onClick={() =>
-																zoomIn()
-															}
-														/>
-														<Button
-															icon={
-																<MinusOutlined />
-															}
-															onClick={() =>
-																zoomOut()
-															}
-														/>
-														<Button
-															icon={
-																<FullscreenOutlined />
-															}
-															onClick={() =>
-																resetTransform()
-															}
-														/>
-													</Space>
-												</Space>
+												{/*<Space*/}
+												{/*	style={{*/}
+												{/*		width: '95%',*/}
+												{/*		justifyContent:*/}
+												{/*			'flex-end',*/}
+												{/*	}}*/}
+												{/*	className={'px-8'}*/}
+												{/*>*/}
+												{/*	<Space*/}
+												{/*		direction={'vertical'}*/}
+												{/*		className={*/}
+												{/*			'buttonBlock'*/}
+												{/*		}*/}
+												{/*	>*/}
+												{/*		<Button*/}
+												{/*			icon={*/}
+												{/*				<PlusOutlined />*/}
+												{/*			}*/}
+												{/*			onClick={() =>*/}
+												{/*				zoomIn()*/}
+												{/*			}*/}
+												{/*		/>*/}
+												{/*		<Button*/}
+												{/*			icon={*/}
+												{/*				<MinusOutlined />*/}
+												{/*			}*/}
+												{/*			onClick={() =>*/}
+												{/*				zoomOut()*/}
+												{/*			}*/}
+												{/*		/>*/}
+												{/*		<Button*/}
+												{/*			icon={*/}
+												{/*				<FullscreenOutlined />*/}
+												{/*			}*/}
+												{/*			onClick={() =>*/}
+												{/*				resetTransform()*/}
+												{/*			}*/}
+												{/*		/>*/}
+												{/*	</Space>*/}
+												{/*</Space>*/}
 												<TransformComponent>
 													<img
 														className={
@@ -214,7 +279,10 @@ const RouteMap = () => {
 						name: 'zoomAction',
 						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
 						onChange: ({value, setSubscribeProps}) => {
-							console.log({value});
+							console.log(
+								'zoomAction => ',
+								value.value && value.value.state
+							);
 							value &&
 								value.value &&
 								setSubscribeProps({
