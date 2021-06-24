@@ -145,8 +145,7 @@ export const DetoursMainTableHeader = () => {
 						subscribe={[
 							{
 								name: 'detourMainForm',
-								path:
-									'rtd.detours.mainForm.table.events.viewMode',
+								path: 'rtd.detours.mainForm.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({value: value});
 								},
@@ -163,15 +162,16 @@ export const DetoursMainTableHeader = () => {
 										className: 'mb-0',
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
+									onChange={(date, dateString) =>
+										date.startOf('day')
+									}
 									dispatch={{
-										path:
-											'detours.mainForm.filter.events.startDate',
+										path: 'detours.mainForm.filter.events.startDate',
 									}}
 									subscribe={[
 										{
 											name: 'finishDate',
-											path:
-												'rtd.detours.mainForm.filter.events.finishDate',
+											path: 'rtd.detours.mainForm.filter.events.finishDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -199,15 +199,16 @@ export const DetoursMainTableHeader = () => {
 										className: 'mb-0',
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
+									onChange={(date, dateString) =>
+										date.endOf('day')
+									}
 									dispatch={{
-										path:
-											'detours.mainForm.filter.events.finishDate',
+										path: 'detours.mainForm.filter.events.finishDate',
 									}}
 									subscribe={[
 										{
 											name: 'startDate',
-											path:
-												'rtd.detours.mainForm.filter.events.startDate',
+											path: 'rtd.detours.mainForm.filter.events.startDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -235,8 +236,7 @@ export const DetoursMainTableHeader = () => {
 								format={'MMM YYYY'}
 								picker='month'
 								dispatch={{
-									path:
-										'detours.mainForm.filter.events.month',
+									path: 'detours.mainForm.filter.events.month',
 								}}
 								subscribe={[
 									{

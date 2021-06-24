@@ -40,7 +40,7 @@ export default function Defects() {
 						<MainTableHeader />
 						<Table
 							selectable={true}
-							searchParamName={'name'}
+							searchParamName={'equipment'}
 							fixWidthColumn={true}
 							headerHeight={35}
 							defaultSortBy={{
@@ -57,18 +57,19 @@ export default function Defects() {
 							subscribe={[
 								{
 									name: 'onSearch',
-									path:
-										'rtd.defects.defectTable.events.onBtnSearch',
+									path: 'rtd.defects.defectTable.events.onBtnSearch',
 									extraData: {
-										filter:
-											'rtd.defects.defectTable.filter',
+										filter: 'rtd.defects.defectTable.filter',
 										searchValue:
 											'rtd.defects.defectTable.events.searchValue',
 									},
 									onChange: ({extraData, reloadTable}) => {
 										const searchValue =
 											extraData && extraData.searchValue
-												? {name: extraData.searchValue}
+												? {
+														equipment:
+															extraData.searchValue,
+												  }
 												: {};
 										const composedFilter = {
 											...extraData.filter,
@@ -82,11 +83,9 @@ export default function Defects() {
 								/** Событие фильтрации в таблице по параметрам */
 								{
 									name: 'onApplyFilter',
-									path:
-										'rtd.defects.defectTable.events.onApplyFilter',
+									path: 'rtd.defects.defectTable.events.onApplyFilter',
 									extraData: {
-										filter:
-											'rtd.defects.defectTable.filter',
+										filter: 'rtd.defects.defectTable.filter',
 										searchValue:
 											'rtd.defects.defectTable.events.searchValue',
 									},
@@ -104,8 +103,7 @@ export default function Defects() {
 								{
 									/** Обработчик события на кнопку овистить фильтр */
 									name: 'onReload',
-									path:
-										'rtd.defects.defectTable.events.onReload',
+									path: 'rtd.defects.defectTable.events.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({
 											filter: {},
@@ -116,11 +114,9 @@ export default function Defects() {
 								{
 									/** Обработчик события отправки дефектов в SAP */
 									name: 'onSendToSap',
-									path:
-										'rtd.defects.defectTable.modal.events.onSendToSapModal',
+									path: 'rtd.defects.defectTable.modal.events.onSendToSapModal',
 									extraData: {
-										filter:
-											'rtd.defects.defectTable.filter',
+										filter: 'rtd.defects.defectTable.filter',
 										searchValue:
 											'rtd.defects.defectTable.events.onSearch',
 									},

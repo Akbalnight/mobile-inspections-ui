@@ -118,7 +118,7 @@ export const MainTableHeader = () => {
 							//     }
 							// }}
 							itemProps={{name: 'defectsSearchInput'}}
-							placeholder={'Поиск по наименованию'}
+							placeholder={'Поиск по оборудованию'}
 							subscribe={[
 								reloadFilterFields(
 									'defects.defectTable.events.onReload'
@@ -192,15 +192,14 @@ export const MainTableHeader = () => {
 								//     }
 								// }}
 								itemProps={{name: 'defectsSearchInput'}}
-								placeholder={'Поиск по наименованию'}
+								placeholder={'Поиск по оборудованию'}
 								subscribe={[
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
 								]}
 								dispatch={{
-									path:
-										'defects.defectTable.events.searchValue',
+									path: 'defects.defectTable.events.searchValue',
 								}}
 							/>
 							<Button
@@ -213,8 +212,7 @@ export const MainTableHeader = () => {
 								htmlType={'submit'}
 								// event?
 								dispatch={{
-									path:
-										'defects.defectTable.events.onBtnSearch',
+									path: 'defects.defectTable.events.onBtnSearch',
 								}}
 							/>
 						</div>
@@ -243,11 +241,29 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.startOf('day')
+								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.detectStartDate',
+									path: 'defects.defectTable.filter.detectStartDate',
 								}}
 								subscribe={[
+									{
+										name: 'startDate',
+										path: 'rtd.defects.defectTable.filter.detectEndDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
@@ -259,11 +275,29 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.endOf('day')
+								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.detectEndDate',
+									path: 'defects.defectTable.filter.detectEndDate',
 								}}
 								subscribe={[
+									{
+										name: 'endDate',
+										path: 'rtd.defects.defectTable.filter.detectStartDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
@@ -280,15 +314,16 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.startOf('day')
+								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.eliminateStartDate',
+									path: 'defects.defectTable.filter.eliminateStartDate',
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path:
-											'rtd.defects.defectTable.filter.eliminateEndDate',
+										path: 'rtd.defects.defectTable.filter.eliminateEndDate',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -313,15 +348,16 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.endOf('day')
+								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.eliminateEndDate',
+									path: 'defects.defectTable.filter.eliminateEndDate',
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path:
-											'rtd.defects.defectTable.filter.eliminateStartDate',
+										path: 'rtd.defects.defectTable.filter.eliminateStartDate',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -419,8 +455,7 @@ export const MainTableHeader = () => {
 									disabled: undefined,
 								})}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.panelPriority',
+									path: 'defects.defectTable.filter.panelPriority',
 								}}
 								subscribe={[
 									/**
