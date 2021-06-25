@@ -1,4 +1,17 @@
-import {classic} from 'rt-design';
+import {
+	Modal,
+	FormBody,
+	Title,
+	Input,
+	DatePicker,
+	Select,
+	Space,
+	Checkbox,
+	InputNumber,
+	Col,
+	Text,
+	Switcher,
+} from 'rt-design';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import React from 'react';
 import {
@@ -15,20 +28,6 @@ import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDe
 export const AddDetour = () => operationOnServer('add');
 export const EditDetour = () => operationOnServer('edit');
 
-const {
-	Modal,
-	FormBody,
-	Title,
-	Input,
-	DatePicker,
-	Select,
-	Space,
-	Checkbox,
-	InputNumber,
-	Col,
-	Text,
-	Switcher,
-} = classic;
 const operationOnServer = (type) => {
 	const statusesInfo = {
 		stopEdit: [

@@ -1,4 +1,4 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input, TreeSelect} from 'rt-design';
 import {EditOutlined, FolderAddOutlined} from '@ant-design/icons';
 import {
 	apiGetHierarchicalDataByConfigName,
@@ -19,8 +19,6 @@ export const AddCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('add', mainWay, catalogName, unique);
 export const EditCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('edit', mainWay, catalogName, unique);
-
-const {Modal, FormBody, Input, TreeSelect} = classic;
 
 /**
  *

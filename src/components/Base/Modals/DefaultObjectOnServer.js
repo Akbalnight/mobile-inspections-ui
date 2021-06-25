@@ -1,4 +1,4 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input} from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
@@ -16,8 +16,6 @@ export const AddDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('add', mainWay, catalogName, unique);
 export const EditDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('edit', mainWay, catalogName, unique);
-
-const {Modal, FormBody, Input} = classic;
 
 /**
  *

@@ -7,12 +7,7 @@ import {
 	// defectDetection,
 	DefectDetection,
 } from '../../../Base/Block/DefectDetection';
-import {classic} from 'rt-design';
-import {Access} from 'mobile-inspections-base-ui';
-import React from 'react';
-import {StatusIcon} from '../../tableProps';
-
-const {
+import {
 	Text,
 	DatePicker,
 	Select,
@@ -21,7 +16,10 @@ const {
 	Modal,
 	TextArea,
 	FormBody,
-} = classic;
+} from 'rt-design';
+import {Access} from 'mobile-inspections-base-ui';
+import React from 'react';
+import {StatusIcon} from '../../tableProps';
 
 /**
  *

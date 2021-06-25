@@ -1,10 +1,8 @@
 import React from 'react';
-import {classic} from 'rt-design';
+import {Custom} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-
-const {Custom} = classic;
 
 const PointsOnMap = (props) => {
 	const {existPoints = [], onChange} = props;

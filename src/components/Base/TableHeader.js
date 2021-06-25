@@ -15,12 +15,10 @@ import {
 } from './Modals/DefaultObjectOnServer';
 import {DefaultObjectView} from './Modals/DefaultObjectView';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Row, Search, Space, Button} from 'rt-design';
 import {Access} from 'mobile-inspections-base-ui';
 import {ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from './Functions/ReloadField';
-
-const {Row, Search, Space, Button} = classic;
 
 /**
  *

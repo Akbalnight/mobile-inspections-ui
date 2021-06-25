@@ -1,10 +1,8 @@
-import {classic} from 'rt-design';
+import {Modal, Text, FormBody} from 'rt-design';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
-
-const {Modal, Text, FormBody} = classic;
 
 /**
  *

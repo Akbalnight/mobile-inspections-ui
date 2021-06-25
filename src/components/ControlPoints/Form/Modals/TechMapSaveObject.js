@@ -4,9 +4,8 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../../apis/catalog.api';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Modal, FormBody, Row, Col, Search, Table} from 'rt-design';
 
-const {Modal, FormBody, Row, Col, Search, Table} = classic;
 export const TechMapAddModal = () => {
 	return (
 		<Modal

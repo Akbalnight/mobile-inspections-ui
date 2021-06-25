@@ -1,10 +1,8 @@
 import React from 'react';
-import {classic} from 'rt-design';
+import {FormBody, Modal} from 'rt-design';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {objectOnServer} from '../Functions/CustomObject';
-
-const {FormBody, Modal} = classic;
 
 /**
  *

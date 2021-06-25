@@ -1,10 +1,9 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input} from 'rt-design';
 import {EditOutlined} from '@ant-design/icons';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import {itemsInfo} from '../../../constants/dictionary';
 
-const {Modal, FormBody, Input} = classic;
 export const EditFileName = () => {
 	return (
 		<Modal

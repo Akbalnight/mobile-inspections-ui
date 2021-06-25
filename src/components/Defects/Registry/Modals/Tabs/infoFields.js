@@ -1,13 +1,11 @@
 import {apiGetConfigByName} from '../../../../../apis/catalog.api';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Layout, Table, Title, Text, Checkbox, DateText} from 'rt-design';
 import {customColumnProps, GetCurrentMode} from '../../../tableProps';
 
 /**
  * информационная вкладка, скорректировать вывод статуса панели
  */
-const {Layout, Table, Title, Text, Checkbox, DateText} = classic;
-
 export const InfoTabFields = () => {
 	const currentMode = GetCurrentMode();
 	return (

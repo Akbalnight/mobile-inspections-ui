@@ -1,13 +1,11 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {mainCustomColumnProps, TechMapsTableHeader} from '../tableProps';
-
-const {Form, FormBody, Table} = classic;
 
 /**
  * Main registry by Tech Maps section. Two action by add/edit object did in TechMap.js(like simple create form), two action by

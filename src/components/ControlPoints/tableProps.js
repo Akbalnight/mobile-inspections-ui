@@ -3,7 +3,7 @@
  * файл со всеми customFields, поля и валидация в объекты таблицы
  */
 import React from 'react';
-import {classic} from 'rt-design';
+import {Button, Row, Space, Search, Checkbox} from 'rt-design';
 import {useHistory} from 'react-router';
 import {
 	EditOutlined,
@@ -21,8 +21,6 @@ import {CustomGroupView} from '../Base/Modals/CustomGroupView';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {codeNormalizer} from '../Base/Functions/TextUtils';
 import {Access} from 'mobile-inspections-base-ui';
-
-const {Button, Row, Space, Search, Checkbox} = classic;
 
 /**
  *

@@ -1,6 +1,16 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, executeRequest} from 'rt-design';
+import {
+	Form,
+	FormBody,
+	Button,
+	Select,
+	Title,
+	Layout,
+	Table,
+	Switcher,
+	executeRequest,
+} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -11,17 +21,6 @@ import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import RouteMap from './RouteMap';
 import {useParams} from 'react-router';
 import {customColumnProps, RouteMapsTableHeader} from './tableProps';
-
-const {
-	Form,
-	FormBody,
-	Button,
-	Select,
-	Title,
-	Layout,
-	Table,
-	Switcher,
-} = classic;
 
 export const AddRouteMaps = () => {
 	return (

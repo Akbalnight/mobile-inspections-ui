@@ -1,9 +1,8 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Text, Title, Layout, Table} from 'rt-design';
 import React from 'react';
 import {apiGetConfigByName} from '../../../../apis/catalog.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 
-const {Modal, FormBody, Text, Title, Layout, Table} = classic;
 export const ViewControlPointModal = () => {
 	let sRow;
 	const loadData = async (callBack, row) => {

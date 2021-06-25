@@ -3,12 +3,11 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../apis/catalog.api';
-import {classic, notificationError} from 'rt-design';
+import {Space, UploadFile, Button, notificationError} from 'rt-design';
 import {EditFileName} from '../Modals/SaveObjectModal';
 import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
 import React from 'react';
 
-const {Space, UploadFile, Button} = classic;
 export const customColumnProps = [
 	{...position, width: '50px', align: 'center'},
 ];

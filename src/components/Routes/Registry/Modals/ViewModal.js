@@ -1,4 +1,13 @@
-import {classic} from 'rt-design';
+import {
+	Modal,
+	FormBody,
+	Text,
+	Table,
+	Layout,
+	Space,
+	Title,
+	Custom,
+} from 'rt-design';
 import React from 'react';
 import {itemsInfo} from '../../../../constants/dictionary';
 import {duration} from '../../../Base/customColumnProps';
@@ -6,7 +15,6 @@ import {apiGetConfigByName} from '../../../../apis/catalog.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {AttachmentsPreview} from '../../../Base/Functions/MediaUtils';
 
-const {Modal, FormBody, Text, Table, Layout, Space, Title, Custom} = classic;
 export const RouteViewModal = () => {
 	let sRow;
 

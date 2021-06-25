@@ -1,18 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, notificationError} from 'rt-design';
 import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
-	apiSaveTechMap,
-} from '../../../apis/catalog.api';
-import {useHistory, useParams} from 'react-router';
-import {paths} from '../../../constants/paths';
-import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
-import {uuid} from '../../../utils/baseUtils';
-
-const {
 	Form,
 	FormHeader,
 	FormBody,
@@ -27,7 +15,18 @@ const {
 	Row,
 	Col,
 	Layout,
-} = classic;
+	notificationError,
+} from 'rt-design';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
+	apiSaveTechMap,
+} from '../../../apis/catalog.api';
+import {useHistory, useParams} from 'react-router';
+import {paths} from '../../../constants/paths';
+import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
+import {uuid} from '../../../utils/baseUtils';
 
 export const TechMapsAdd = () => {
 	return (

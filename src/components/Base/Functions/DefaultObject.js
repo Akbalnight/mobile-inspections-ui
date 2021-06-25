@@ -13,15 +13,7 @@ import {
 	MedicineBoxOutlined,
 	PlusOutlined,
 } from '@ant-design/icons';
-import {classic} from 'rt-design';
-import React from 'react';
-
-/**
- *
- * @param catalogName name of server configuration<string>
- * @returns {null|JSX.object}
- */
-const {
+import {
 	Input,
 	InputNumber,
 	DatePicker,
@@ -38,7 +30,9 @@ const {
 	Layout,
 	DateText,
 	Row,
-} = classic;
+} from 'rt-design';
+import React from 'react';
+
 /**
  *
  * @param catalogName catalogName name of server configuration<string>

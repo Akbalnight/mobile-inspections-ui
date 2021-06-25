@@ -1,8 +1,5 @@
 import React from 'react';
-import {classic} from 'rt-design';
-import {itemsInfo} from '../../../../constants/dictionary';
-
-const {
+import {
 	Modal,
 	FormBody,
 	Text,
@@ -12,7 +9,9 @@ const {
 	Col,
 	Space,
 	DateText,
-} = classic;
+} from 'rt-design';
+import {itemsInfo} from '../../../../constants/dictionary';
+
 export const DetourSchedulesView = () => {
 	const loadInit = (callBack, row) => {
 		console.log({...row, ...row.data});

@@ -4,9 +4,7 @@ import {
 	apiSaveByConfigName,
 	apiGetConfigByName,
 } from '../../../../apis/catalog.api';
-import {classic} from 'rt-design';
-
-const {FormBody, Layout, Text, Table, Modal} = classic;
+import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
 
 export const ButtonSendToSap = () => {
 	const processBeforeSaveForm = (rawValues) => {

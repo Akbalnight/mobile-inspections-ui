@@ -9,11 +9,9 @@ import {InfoTabFields} from './Tabs/infoFields';
 import {FilesTabFields} from './Tabs/fileManagerFields';
 import {EquipmentTabFields} from './Tabs/equipmentFields';
 import {HistoryTab, HistoryTabFields} from './Tabs/historyFields';
-import {classic} from 'rt-design';
+import {FormBody, Tabs, TabPane, Modal} from 'rt-design';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {codeNormalizer, emptyToNd} from '../../../Base/Functions/TextUtils';
-
-const {FormBody, Tabs, TabPane, Modal} = classic;
 
 /**
  * Карточка информации дефекта

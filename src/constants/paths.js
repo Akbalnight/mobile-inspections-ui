@@ -21,7 +21,6 @@ import {
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
 import Registry from '../components/Detours/Schedules/Registry';
-import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
@@ -259,12 +258,6 @@ export const paths = {
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOURS_RESP',
 		],
-	},
-	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
-		title: 'Рабочие графики',
-		path: '/controlEquipments/work-schedules',
-		component: WorkSchedules,
-		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',

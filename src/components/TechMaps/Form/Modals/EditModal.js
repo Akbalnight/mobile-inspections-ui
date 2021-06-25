@@ -1,8 +1,14 @@
 import React from 'react';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {classic} from 'rt-design';
-
-const {FormBody, Modal, InputNumber, Checkbox, Input, Space, Text} = classic;
+import {
+	FormBody,
+	Modal,
+	InputNumber,
+	Checkbox,
+	Input,
+	Space,
+	Text,
+} from 'rt-design';
 
 export const AddTechOperationButton = () => EditModal('add');
 export const EditTechOperationButton = () => EditModal('edit');

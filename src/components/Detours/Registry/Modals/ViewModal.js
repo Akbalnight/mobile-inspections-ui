@@ -1,4 +1,16 @@
-import {classic} from 'rt-design';
+import {
+	Modal,
+	FormBody,
+	Tabs,
+	TabPane,
+	Text,
+	Table,
+	List,
+	Checkbox,
+	DateText,
+	Layout,
+	Title,
+} from 'rt-design';
 import React from 'react';
 import {ReactComponent as InfoTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
 import {ReactComponent as DetourCompositionTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/detourCompositionTab.svg';
@@ -14,19 +26,6 @@ import {Access} from 'mobile-inspections-base-ui';
 
 const {Panel} = Collapse;
 
-const {
-	Modal,
-	FormBody,
-	Tabs,
-	TabPane,
-	Text,
-	Table,
-	List,
-	Checkbox,
-	DateText,
-	Layout,
-	Title,
-} = classic;
 export const ViewDetour = () => {
 	let sRow;
 	const loadData = (callBack, row) => {

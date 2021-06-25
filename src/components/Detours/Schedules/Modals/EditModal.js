@@ -4,9 +4,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
-import {classic} from 'rt-design';
-
-const {
+import {
 	Select,
 	RadioGroup,
 	FormBody,
@@ -20,7 +18,7 @@ const {
 	Checkbox,
 	Input,
 	TimePicker,
-} = classic;
+} from 'rt-design';
 
 /** checkValue задается при первом вызове функции
  * value и setSubscribeProps прилетают при срабатывании subscribe

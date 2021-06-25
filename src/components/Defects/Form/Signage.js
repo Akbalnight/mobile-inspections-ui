@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {classic} from 'rt-design';
+import {Form, FormBody, Layout, Table, Space, Text, Divider} from 'rt-design';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
@@ -8,10 +8,8 @@ import {
 } from '../../../apis/catalog.api';
 import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
 import '../Registry/Defects.less';
-
 import {Spin} from 'antd';
 
-const {Form, FormBody, Layout, Table, Space, Text, Divider} = classic;
 export const Signage = () => {
 	const [defectsCounter, setDefectsCounter] = useState({
 		detected: 0,

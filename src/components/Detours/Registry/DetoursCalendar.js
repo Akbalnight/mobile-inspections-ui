@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
-import {classic, notificationError} from 'rt-design';
+import {Custom, Layout, notificationError} from 'rt-design';
 import moment from 'moment';
 import {Calendar as AntCalendar, Popover, Checkbox} from 'antd';
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 import {calendarPrefix} from '../../../utils/baseUtils';
-
-const {Custom, Layout} = classic;
 
 /**
  *
