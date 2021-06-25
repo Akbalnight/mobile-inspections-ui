@@ -3,10 +3,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
-import {
-	// defectDetection,
-	DefectDetection,
-} from '../../../Base/Block/DefectDetection';
+import {DefectDetection} from '../../../Base/Block/DefectDetection';
 import {
 	Text,
 	DatePicker,
@@ -206,11 +203,12 @@ const OperationOnServer = (catalogName, type) => {
 				disabled: true,
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
+				type: `save`,
 				title: 'Редактрование дефекта',
 				width: catalogName === 'defects' ? 600 : 500,
 				bodyStyle: {height: catalogName === 'defects' ? 760 : 640},
-				requestSaveRow: apiSaveByConfigName(
+				methodSaveForm: 'PUT',
+				requestSaveForm: apiSaveByConfigName(
 					catalogName === 'defects'
 						? 'saveEditModalDefect'
 						: 'saveEditModalPanelProblem'
@@ -218,7 +216,6 @@ const OperationOnServer = (catalogName, type) => {
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					methodSaveForm: 'PUT',
 					processBeforeSaveForm: processBeforeSaveForm,
 					// onFinish: (values) => {
 					//     console.log('edit defect values', values);

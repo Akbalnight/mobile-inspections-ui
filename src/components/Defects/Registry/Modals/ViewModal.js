@@ -52,7 +52,7 @@ export const DefectCardInfoModal = () => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Карточка дефекта`,
 				width: 800,
 				bodyStyle: {height: 750},

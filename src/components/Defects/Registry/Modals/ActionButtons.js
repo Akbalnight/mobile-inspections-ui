@@ -27,16 +27,16 @@ export const ButtonSendToSap = () => {
 					disabled: true,
 				}}
 				modalConfig={{
-					type: 'editOnServer',
+					type: 'save',
 					title: `Передать в SAP`,
 					width: 650,
 					bodyStyle: {height: 450},
 					okText: 'Передать',
-					requestSaveRow: apiSaveByConfigName(`sapViewOnPanelSave`),
+					methodSaveForm: 'POST',
+					requestSaveForm: apiSaveByConfigName(`sapViewOnPanelSave`),
 					form: {
 						name: 'defectsToSapQueueModal',
 						noPadding: false,
-						methodSaveForm: 'POST',
 						labelCol: {span: 12},
 						wrapperCol: {span: 6},
 						loadInitData: (callBack, row) => {

@@ -135,14 +135,12 @@ export const MainTableHeader = () => {
 							}}
 						/>
 						<Button
-							// ref={searchBtn}
 							itemProps={{
 								name: 'defectsSearchButton',
 							}}
 							icon={<SearchOutlined />}
 							type={'default'}
 							htmlType={'submit'}
-							// event?
 							dispatch={{
 								path: 'defects.defectTable.events.onBtnSearch',
 							}}
@@ -150,7 +148,13 @@ export const MainTableHeader = () => {
 					</div>
 				</Space>
 			</Access>
-			<Access roles={['ROLE_MI_SHIFT_SUPERVISOR', 'ROLE_ADMIN']}>
+			<Access
+				roles={[
+					'ROLE_MI_SHIFT_SUPERVISOR',
+					'ROLE_ADMIN',
+					'ROLE_MI_ADMIN',
+				]}
+			>
 				<Space
 					className={'p-8'}
 					style={{
