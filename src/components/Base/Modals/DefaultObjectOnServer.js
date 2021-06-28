@@ -82,7 +82,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
+				type: `ыфму`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
@@ -90,14 +90,14 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				bodyStyle: {
 					height: modalHeight(catalogName),
 				},
-				requestSaveRow: apiSaveByConfigName(
+				requestSaveForm: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				),
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
 					processBeforeSaveForm: processBeforeSaveForm,
-					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 					onFinish: (values) => {
 						console.log('values', values);
 					},

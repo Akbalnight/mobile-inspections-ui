@@ -32,7 +32,13 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 		sRow = row;
 		callBack(type === 'add' ? null : sRow);
 	};
-
+	const processBeforeSaveForm = (rawValues) => {
+		return {
+			...rawValues,
+			isGroup: false,
+			deleted: rawValues?.deleted ? rawValues.deleted : false,
+		};
+	};
 	return (
 		<Modal
 			buttonProps={{
@@ -45,18 +51,20 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
 				width: catalogName === 'equipments' ? 650 : 500,
 				bodyStyle: {height: catalogName === 'equipments' ? 700 : 200},
-				requestSaveRow: apiSaveByConfigName(
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+				requestSaveForm: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				),
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
+					processBeforeSaveForm,
 					onFinish: (values) => {
 						console.log('values', values);
 					},

@@ -40,6 +40,7 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 						<Access
 							roles={[
 								'ROLE_ADMIN',
+								'ROLE_MI_ADMIN',
 								'ROLE_MI_SHIFT_SUPERVISOR',
 								'ROLE_MI_DETOURS_CREATOR',
 							]}

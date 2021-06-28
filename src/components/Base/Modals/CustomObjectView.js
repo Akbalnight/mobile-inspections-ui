@@ -625,7 +625,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Карточка ${unique}`,
 				...getModalSize(catalogName),
 				form: {

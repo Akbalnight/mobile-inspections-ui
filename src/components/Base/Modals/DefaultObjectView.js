@@ -47,7 +47,7 @@ export const DefaultObjectView = ({mainWay, catalogName, unique}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title:
 					catalogName !== 'staff'
 						? `Карточка ${unique}`

@@ -30,7 +30,7 @@ export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 				title: `Удалить ${unique}`,
 			}}
 			modalConfig={{
-				type: 'editOnServer',
+				type: 'save',
 				title: (
 					<span style={{display: 'flex', flexDirection: 'row'}}>
 						<Warning />{' '}
@@ -42,7 +42,8 @@ export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 				width: 420,
 				// bodyStyle: {height: 200},
 				okText: 'Удалить',
-				requestSaveRow: ({method, data, params}) =>
+				methodSaveForm: 'PUT',
+				requestSaveForm: ({method, data, params}) =>
 					apiSaveByConfigName(`${catalogName}CatalogSave`)({
 						method: 'PUT',
 						data: {...data, id: sRow.id, deleted: true},
