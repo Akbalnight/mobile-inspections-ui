@@ -83,13 +83,14 @@ const operationOnServer = (type) => {
 					title: type === 'add' ? 'Создать' : 'Редактировать',
 				}}
 				modalConfig={{
-					type: `${type}OnServer`,
+					type: `save`,
 					title: `${
 						type === 'add' ? 'Создание' : 'Редактирование'
 					} обхода`,
 					width: 700,
 					bodyStyle: {height: type === 'add' ? 630 : 670},
-					requestSaveRow: apiSaveByConfigName('saveDetourForm'),
+					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+					requestSaveForm: apiSaveByConfigName('saveDetourForm'),
 					form: {
 						name: `${type}ModalForm`,
 						dispatch: {

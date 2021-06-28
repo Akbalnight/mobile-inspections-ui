@@ -73,9 +73,10 @@ const EditModal = (type) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: 'editOnServer',
+				type: 'save',
 				title: `Создание расписания обхода`,
-				requestSaveRow: apiSaveByConfigName(`repeaterDataSave`),
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+				requestSaveForm: apiSaveByConfigName(`repeaterDataSave`),
 				width: 610,
 				bodyStyle: {height: 580},
 				form: {

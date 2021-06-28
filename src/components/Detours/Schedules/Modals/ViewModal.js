@@ -28,7 +28,7 @@ export const DetourSchedulesView = () => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Информация об обходе`,
 				width: 850,
 				bodyStyle: {height: 650},

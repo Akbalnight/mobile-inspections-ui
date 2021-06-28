@@ -37,11 +37,10 @@ export const ViewDetour = () => {
 		return sRow;
 	};
 
-	// console.log(sRow);
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Информация об обходе`,
 				width: 850,
 				bodyStyle: {
