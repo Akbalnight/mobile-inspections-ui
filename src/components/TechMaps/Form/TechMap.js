@@ -74,9 +74,7 @@ const TechMap = (props) => {
 	};
 
 	const onFinish = () => {
-		history.push(
-			paths.DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION.path
-		);
+		history.push(paths.DETOURS_CONFIGURATOR_TECH_MAPS.path);
 	};
 
 	const loadTechOperationsHandler = ({data, params}) => {

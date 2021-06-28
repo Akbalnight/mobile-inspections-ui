@@ -139,13 +139,13 @@ export const paths = {
 			'ROLE_MI_ADMIN',
 		],
 	},
-	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION_NEW: {
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_ADD: {
 		title: 'Создание технологической карты',
 		path: '/detours-configurator/techMaps/new',
 		component: TechMapsAdd,
 	},
 
-	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION_EDIT: {
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_EDIT: {
 		title: 'Редактирование технологической карты',
 		path: '/detours-configurator/techMaps/:id',
 		component: TechMapsEdit,

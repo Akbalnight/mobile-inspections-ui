@@ -48,16 +48,15 @@ const EditModal = (type) => {
 				disabled: type !== 'add',
 			}}
 			toolTipProps={{
-				title: type === 'add' ? 'Создать' : 'Редактировать',
+				title: type === 'add' ? 'Добавить' : 'Изменить',
 			}}
 			modalConfig={{
+				type: 'save',
 				width: 580,
 				bodyStyle: {height: 350},
-				type: 'editOnLocal',
-				title:
-					type === 'add'
-						? `Добавить технологическую операцию`
-						: `Изменить технологическую операцию`,
+				title: `${
+					type === 'add' ? 'Добавить' : 'Изменить'
+				} технологическую операцию`,
 				form: {
 					name: 'techMaps.techOperations.editModal',
 					labelCol: {span: 10},
