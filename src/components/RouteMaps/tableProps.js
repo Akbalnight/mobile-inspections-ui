@@ -1,10 +1,10 @@
-import {position} from '../../Base/customColumnProps';
+import {position} from '../Base/customColumnProps';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../apis/catalog.api';
 import {Space, UploadFile, Button, notificationError} from 'rt-design';
-import {EditFileName} from '../Modals/SaveObjectModal';
+import {EditFileName} from './Modals/SaveObjectModal';
 import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
 import React from 'react';
 

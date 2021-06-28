@@ -20,7 +20,7 @@ import SplitPane from 'react-split-pane';
 import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import RouteMap from './RouteMap';
 import {useParams} from 'react-router';
-import {customColumnProps, RouteMapsTableHeader} from './tableProps';
+import {customColumnProps, RouteMapsTableHeader} from '../tableProps';
 
 export const AddRouteMaps = () => {
 	return (

@@ -82,7 +82,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `ыфму`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
