@@ -19,7 +19,7 @@ export const WayOutModal = () => {
 					disabled: true,
 				}}
 				modalConfig={{
-					type: `addOnServer`,
+					type: `save`,
 					title: (
 						<span
 							style={{
@@ -41,7 +41,8 @@ export const WayOutModal = () => {
 					bodyStyle: {height: 180},
 					okText: 'Да',
 					cancelText: 'Нет',
-					requestSaveRow: ({data}) => {
+					methodSaveForm: 'POST',
+					requestSaveForm: ({data}) => {
 						apiSaveByConfigName('routes')({
 							method: 'POST',
 							data: {...data},

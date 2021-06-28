@@ -41,7 +41,7 @@ export const RouteViewModal = () => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: 'Информация о маршруте',
 				width: 900,
 				bodyStyle: {height: 700},

@@ -34,7 +34,7 @@ export const ViewControlPointModal = () => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: 'Контрольная точка',
 				width: 800,
 				bodyStyle: {height: 700},

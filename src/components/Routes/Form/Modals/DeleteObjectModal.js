@@ -15,7 +15,7 @@ export const DeleteControlPointToRoute = () => {
 				title: `Удалить`,
 			}}
 			modalConfig={{
-				type: 'editOnLocal',
+				type: 'save',
 				title: (
 					<span style={{display: 'flex', flexDirection: 'row'}}>
 						<Warning />{' '}
@@ -26,6 +26,7 @@ export const DeleteControlPointToRoute = () => {
 				),
 				width: 420,
 				okText: 'Удалить',
+				methodSaveForm: 'PUT',
 				form: {
 					name: `deleteModalForm`,
 				},
