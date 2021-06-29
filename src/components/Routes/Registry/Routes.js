@@ -11,7 +11,7 @@ export const Routes = () => {
 	return (
 		<BasePage>
 			<Form>
-				<FormBody noPadding={true} scrollable={true}>
+				<FormBody noPadding={true} scrollable={false}>
 					<MainTableHeader />
 					<Table
 						infinityMode={true}

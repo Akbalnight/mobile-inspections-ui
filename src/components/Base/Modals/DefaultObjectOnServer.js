@@ -41,15 +41,6 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 	 * @param rawValues
 	 * @desc Function return few changes in save object
 	 */
-	const processBeforeSaveForm = (rawValues) => {
-		if (catalogName === 'staff') {
-			const values = {...rawValues};
-			return {
-				...values,
-				id: values.userId,
-			};
-		} else return rawValues;
-	};
 
 	/**
 	 *
@@ -97,7 +88,6 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					processBeforeSaveForm: processBeforeSaveForm,
 					onFinish: (values) => {
 						console.log('values', values);
 					},
