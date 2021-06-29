@@ -20,7 +20,7 @@ import {
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
-import Registry from '../components/Detours/Schedules/Registry';
+import Schedules from '../components/Detours/Schedules/Schedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
@@ -214,7 +214,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/schedules',
-		component: Registry,
+		component: Schedules,
 		roles: [
 			'ROLE_ADMIN',
 			'ROLE_MOBILE_APP',

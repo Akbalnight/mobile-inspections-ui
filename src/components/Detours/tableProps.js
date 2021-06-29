@@ -350,3 +350,18 @@ export const customColumnProps = [
 		hidden: true,
 	},
 ];
+
+export const schedulesCustomColumn = [
+	{
+		name: 'interval',
+		cellRenderer: ({rowData, cellData}) => {
+			let period =
+				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
+
+			return cellData + ' ' + period;
+		},
+	},
+	{...dateTime('dateStart')},
+	{...dateTime('nextExecution')},
+	{...dateTime('dateFinish')},
+];
