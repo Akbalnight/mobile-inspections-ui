@@ -183,7 +183,7 @@ export const itemsInfo = {
 	},
 
 	/**
-	 * Detours/Registry/Modals/SaveObjectModal.js
+	 * Detours/Schedules/Modals/SaveObjectModal.js
 	 */
 	dateStartPlan: {
 		name: 'dateStartPlan',

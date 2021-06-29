@@ -6,27 +6,17 @@ import {
 import {Access, BasePage} from 'mobile-inspections-base-ui';
 import {Form, Table, FormBody, Space, Search, Button} from 'rt-design';
 import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
-import {dateTime} from '../../Base/customColumnProps';
 import {DetourSchedulesView} from './Modals/ViewModal';
 import {ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from '../../Base/Functions/ReloadField';
+import {schedulesCustomColumn} from '../tableProps';
 
-const columnProps = [
-	{
-		name: 'interval',
-		cellRenderer: ({rowData, cellData}) => {
-			let period =
-				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
-
-			return cellData + ' ' + period;
-		},
-	},
-	{...dateTime('dateStart')},
-	{...dateTime('nextExecution')},
-	{...dateTime('dateFinish')},
-];
-
-const Registry = () => {
+/***
+ *
+ * @returns {JSX.object}
+ * @desc This is component to show repeat of detours by time.
+ */
+const Schedules = () => {
 	return (
 		<BasePage>
 			<Form>
@@ -128,9 +118,10 @@ const Registry = () => {
 							'repeaters'
 						)}
 						requestLoadConfig={apiGetConfigByName('repeaters')}
-						customColumnProps={columnProps}
+						customColumnProps={schedulesCustomColumn}
 						dispatch={{path: 'detours.schedulesTable.table'}}
 						subscribe={[
+							/** Action add new event*/
 							{
 								name: 'onEditModal',
 								path:
@@ -165,4 +156,4 @@ const Registry = () => {
 	);
 };
 
-export default Registry;
+export default Schedules;

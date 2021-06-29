@@ -280,6 +280,7 @@ const operationOnServer = (type) => {
 								subscribe={[
 									{
 										name: 'takeIntoAccountTimeLocation',
+										withMount: true,
 										path:
 											'rtd.detours.mainForm.modal.events.takeIntoAccountTimeLocation',
 										onChange: ({
@@ -307,6 +308,7 @@ const operationOnServer = (type) => {
 								subscribe={[
 									{
 										name: 'takeIntoAccountTimeLocation',
+										withMount: true,
 										path:
 											'rtd.detours.mainForm.modal.events.takeIntoAccountDateStart',
 										onChange: ({
@@ -334,6 +336,7 @@ const operationOnServer = (type) => {
 								subscribe={[
 									{
 										name: 'takeIntoAccountTimeLocation',
+										withMount: true,
 										path:
 											'rtd.detours.mainForm.modal.events.takeIntoAccountDateFinish',
 										onChange: ({

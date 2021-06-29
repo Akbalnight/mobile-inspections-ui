@@ -29,7 +29,7 @@ export const DeleteDetour = ({catalogName, unique}) => {
 				title: `Удалить ${unique}`,
 			}}
 			modalConfig={{
-				type: 'editOnServer',
+				type: 'save',
 				title: (
 					<span style={{display: 'flex', flexDirection: 'row'}}>
 						<Warning />{' '}
