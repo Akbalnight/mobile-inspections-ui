@@ -1,13 +1,11 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 import {ControlPointsTableHeader, customColumnProps} from '../tableProps';
-
-const {Form, FormBody, Table} = classic;
 
 /**
  * нейминг подписки некорректный, сейчас использована подписка на catalog

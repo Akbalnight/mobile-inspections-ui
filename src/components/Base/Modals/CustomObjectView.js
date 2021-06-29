@@ -1,20 +1,4 @@
-import {classic, notificationError} from 'rt-design';
-import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
-import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
-import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
-import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/attachmentsTab.svg';
-import {itemsInfo} from '../../../constants/dictionary';
 import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
-import React from 'react';
-import {paths} from '../../../constants/paths';
-import {useHistory} from 'react-router';
-import {AttachmentsPreview} from '../Functions/MediaUtils';
-
-const {
 	Modal,
 	FormBody,
 	Text,
@@ -33,7 +17,23 @@ const {
 	Divider,
 	List,
 	Custom,
-} = classic;
+	notificationError,
+} from 'rt-design';
+import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
+import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
+import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
+import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/attachmentsTab.svg';
+import {itemsInfo} from '../../../constants/dictionary';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+	apiSaveFileByConfigName,
+} from '../../../apis/catalog.api';
+import React from 'react';
+import {paths} from '../../../constants/paths';
+import {useHistory} from 'react-router';
+import {AttachmentsPreview} from '../Functions/MediaUtils';
+
 /**
  *
  * @param catalogName name of server configuration
@@ -625,7 +625,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Карточка ${unique}`,
 				...getModalSize(catalogName),
 				form: {

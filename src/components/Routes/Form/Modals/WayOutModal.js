@@ -4,11 +4,10 @@ import {
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
 import {paths} from '../../../../constants/paths';
-import {classic, notificationError} from 'rt-design';
+import {Modal, FormBody, Text, Input, notificationError} from 'rt-design';
 import React from 'react';
 import {useHistory} from 'react-router';
 
-const {Modal, FormBody, Text, Input} = classic;
 export const WayOutModal = () => {
 	const history = useHistory();
 	return (
@@ -20,7 +19,7 @@ export const WayOutModal = () => {
 					disabled: true,
 				}}
 				modalConfig={{
-					type: `addOnServer`,
+					type: `save`,
 					title: (
 						<span
 							style={{
@@ -42,7 +41,8 @@ export const WayOutModal = () => {
 					bodyStyle: {height: 180},
 					okText: 'Да',
 					cancelText: 'Нет',
-					requestSaveRow: ({data}) => {
+					methodSaveForm: 'POST',
+					requestSaveForm: ({data}) => {
 						apiSaveByConfigName('routes')({
 							method: 'POST',
 							data: {...data},

@@ -1,21 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, notificationError} from 'rt-design';
 import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
-	apiSaveControlPoints,
-} from '../../../apis/catalog.api';
-import {useHistory, useParams} from 'react-router';
-import {paths} from '../../../constants/paths';
-import {DeleteOutlined} from '@ant-design/icons';
-import {selectRowsById} from '../../Base/Functions/TableSelectById';
-import {EquipmentAddModal} from './Modals/EquipmentSaveObject';
-import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
-import {TechMapAddModal} from './Modals/TechMapSaveObject';
-
-const {
 	Form,
 	FormHeader,
 	FormBody,
@@ -29,7 +14,21 @@ const {
 	Col,
 	Layout,
 	Space,
-} = classic;
+	notificationError,
+} from 'rt-design';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
+	apiSaveControlPoints,
+} from '../../../apis/catalog.api';
+import {useHistory, useParams} from 'react-router';
+import {paths} from '../../../constants/paths';
+import {DeleteOutlined} from '@ant-design/icons';
+import {selectRowsById} from '../../Base/Functions/TableSelectById';
+import {EquipmentAddModal} from './Modals/EquipmentSaveObject';
+import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
+import {TechMapAddModal} from './Modals/TechMapSaveObject';
 
 export const ControlPointAdd = () => {
 	return (

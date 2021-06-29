@@ -1,17 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {classic} from 'rt-design';
+import {Form, FormBody, Layout, Table, Space, Text, Divider} from 'rt-design';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
-	apiGetUnAuthFlatData,
-	apiGetDataCountByConfigName,
+	apiGetUnAuthData,
 } from '../../../apis/catalog.api';
 import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
 import '../Registry/Defects.less';
-
 import {Spin} from 'antd';
 
-const {Form, FormBody, Layout, Table, Space, Text, Divider} = classic;
 export const Signage = () => {
 	const [defectsCounter, setDefectsCounter] = useState({
 		detected: 0,
@@ -27,7 +24,10 @@ export const Signage = () => {
 
 	useEffect(() => {
 		/** Request data count by defects */
-		apiGetDataCountByConfigName('defectsSignage')({
+		apiGetUnAuthData(
+			'defectsSignage',
+			'count'
+		)({
 			data: {},
 			params: {},
 		})
@@ -37,7 +37,10 @@ export const Signage = () => {
 			.catch((err) => console.error());
 
 		/** Request data count by defects */
-		apiGetDataCountByConfigName('defectsSignage')({
+		apiGetUnAuthData(
+			'defectsSignage',
+			'count'
+		)({
 			data: {
 				statusIds: [
 					'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
@@ -53,7 +56,10 @@ export const Signage = () => {
 			.catch((err) => console.error());
 
 		/** Request data count by defect status 'Устранен'*/
-		apiGetDataCountByConfigName('defectsSignage')({
+		apiGetUnAuthData(
+			'defectsSignage',
+			'count'
+		)({
 			data: {
 				statusId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
 			},
@@ -65,7 +71,10 @@ export const Signage = () => {
 			.catch((err) => console.error());
 
 		/** Request data count by defect viewOnPanel */
-		apiGetDataCountByConfigName('defectsSignage')({
+		apiGetUnAuthData(
+			'defectsSignage',
+			'count'
+		)({
 			data: {
 				viewOnPanel: true,
 			},
@@ -84,7 +93,10 @@ export const Signage = () => {
 		const currentTimeout = 5000;
 		if (tableVar.countPages < defectsCounter.validInfo) {
 			setTimeout(() => {
-				return apiGetUnAuthFlatData('defectsSignage')({
+				return apiGetUnAuthData(
+					'defectsSignage',
+					'flat'
+				)({
 					data: {
 						statusIds: [
 							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
@@ -118,7 +130,10 @@ export const Signage = () => {
 			tableVar.countPages > tableVar.pageSize
 		) {
 			setTimeout(() => {
-				apiGetUnAuthFlatData('defectsSignage')({
+				apiGetUnAuthData(
+					'defectsSignage',
+					'flat'
+				)({
 					data: {
 						statusIds: [
 							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',

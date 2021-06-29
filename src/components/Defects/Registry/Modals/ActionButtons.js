@@ -4,9 +4,7 @@ import {
 	apiSaveByConfigName,
 	apiGetConfigByName,
 } from '../../../../apis/catalog.api';
-import {classic} from 'rt-design';
-
-const {FormBody, Layout, Text, Table, Modal} = classic;
+import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
 
 export const ButtonSendToSap = () => {
 	const processBeforeSaveForm = (rawValues) => {
@@ -29,16 +27,16 @@ export const ButtonSendToSap = () => {
 					disabled: true,
 				}}
 				modalConfig={{
-					type: 'editOnServer',
+					type: 'save',
 					title: `Передать в SAP`,
 					width: 650,
 					bodyStyle: {height: 450},
 					okText: 'Передать',
-					requestSaveRow: apiSaveByConfigName(`sapViewOnPanelSave`),
+					methodSaveForm: 'POST',
+					requestSaveForm: apiSaveByConfigName(`sapViewOnPanelSave`),
 					form: {
 						name: 'defectsToSapQueueModal',
 						noPadding: false,
-						methodSaveForm: 'POST',
 						labelCol: {span: 12},
 						wrapperCol: {span: 6},
 						loadInitData: (callBack, row) => {

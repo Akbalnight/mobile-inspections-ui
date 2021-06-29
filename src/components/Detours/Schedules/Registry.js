@@ -4,14 +4,12 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 import {Access, BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, Table, FormBody, Space, Search, Button} from 'rt-design';
 import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
 import {dateTime} from '../../Base/customColumnProps';
 import {DetourSchedulesView} from './Modals/ViewModal';
 import {ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from '../../Base/Functions/ReloadField';
-
-const {Form, Table, FormBody, Space, Search, Button} = classic;
 
 const columnProps = [
 	{

@@ -1,8 +1,6 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Text} from 'rt-design';
 import React from 'react';
 import {itemsInfo} from '../../../constants/dictionary';
-
-const {Modal, FormBody, Text} = classic;
 
 /**
  *
@@ -15,7 +13,7 @@ export const CustomGroupView = ({mainWay, catalogName}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Карточка группы оборудования`,
 				width: 450,
 				bodyStyle: {height: catalogName === 'equipments' ? 250 : 200},

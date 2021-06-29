@@ -1,5 +1,5 @@
 import React from 'react';
-import {classic} from 'rt-design';
+import {Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -9,7 +9,6 @@ import {
 import {customColumnPropsEquipments} from '../tableProps';
 import {TableHeader} from '../../Base/TableHeader';
 
-const {Form, FormBody, Table} = classic;
 export const Catalogs = (props) => {
 	const {mainWay, catalogName, hierarchical, unique} = props;
 

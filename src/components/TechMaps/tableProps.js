@@ -1,5 +1,5 @@
 import React from 'react';
-import {classic} from 'rt-design';
+import {Button, Row, Space, Checkbox, Search} from 'rt-design';
 import {useHistory} from 'react-router';
 import {
 	ArrowDownOutlined,
@@ -25,8 +25,6 @@ import {
 } from './Form/Modals/EditModal';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {Access} from 'mobile-inspections-base-ui';
-
-const {Button, Row, Space, Checkbox, Search} = classic;
 
 /**
  *

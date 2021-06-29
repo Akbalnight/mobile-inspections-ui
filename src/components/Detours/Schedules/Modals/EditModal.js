@@ -4,9 +4,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
-import {classic} from 'rt-design';
-
-const {
+import {
 	Select,
 	RadioGroup,
 	FormBody,
@@ -20,7 +18,7 @@ const {
 	Checkbox,
 	Input,
 	TimePicker,
-} = classic;
+} from 'rt-design';
 
 /** checkValue задается при первом вызове функции
  * value и setSubscribeProps прилетают при срабатывании subscribe
@@ -75,9 +73,10 @@ const EditModal = (type) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: 'editOnServer',
+				type: 'save',
 				title: `Создание расписания обхода`,
-				requestSaveRow: apiSaveByConfigName(`repeaterDataSave`),
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+				requestSaveForm: apiSaveByConfigName(`repeaterDataSave`),
 				width: 610,
 				bodyStyle: {height: 580},
 				form: {

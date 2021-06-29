@@ -10,9 +10,7 @@ import {
 import {disabledEndDate, disabledStartDate} from './DateLimits';
 import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
 import React from 'react';
-import {classic} from 'rt-design';
-
-const {
+import {
 	TreeSelect,
 	Checkbox,
 	Input,
@@ -25,7 +23,7 @@ const {
 	Button,
 	FormList,
 	Title,
-} = classic;
+} from 'rt-design';
 
 /**
  *

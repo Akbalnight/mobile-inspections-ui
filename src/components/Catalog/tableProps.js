@@ -1,10 +1,9 @@
-import {classic} from 'rt-design';
+import {Checkbox, DateText} from 'rt-design';
 import React from 'react';
 import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
 import {dateTime} from '../Base/customColumnProps';
 import {codeNormalizer} from '../Base/Functions/TextUtils';
 
-const {Checkbox, DateText} = classic;
 /**
  * @desc Array of table column configuration
  * @type {({cellRenderer: (function({cellData: *}): *), name: string}|{cellRenderer: (function({cellData: *}): *), name: string}|{cellRenderer: (function({rowData: *, cellData: *}): *), name: string}|{cellRenderer: function({cellData?: *}): *, name: *})[]}

@@ -1,16 +1,6 @@
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {checkBox, date, dateTime} from '../Base/customColumnProps';
-import {classic} from 'rt-design';
-import React from 'react';
-import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
-import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
-import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
-import {reloadFilterFields} from '../Base/Functions/ReloadField';
-import {ViewDetour} from './Registry/Modals/ViewModal';
-import {Access} from 'mobile-inspections-base-ui';
-// import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
-
-const {
+import {
 	Space,
 	Select,
 	DatePicker,
@@ -20,7 +10,14 @@ const {
 	RadioGroup,
 	Text,
 	Switcher,
-} = classic;
+} from 'rt-design';
+import React from 'react';
+import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
+import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {ViewDetour} from './Registry/Modals/ViewModal';
+import {Access} from 'mobile-inspections-base-ui';
 
 export const DetoursMainTableHeader = () => {
 	return (
@@ -145,7 +142,8 @@ export const DetoursMainTableHeader = () => {
 						subscribe={[
 							{
 								name: 'detourMainForm',
-								path: 'rtd.detours.mainForm.table.events.viewMode',
+								path:
+									'rtd.detours.mainForm.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({value: value});
 								},
@@ -166,12 +164,14 @@ export const DetoursMainTableHeader = () => {
 										date.startOf('day')
 									}
 									dispatch={{
-										path: 'detours.mainForm.filter.events.startDate',
+										path:
+											'detours.mainForm.filter.events.startDate',
 									}}
 									subscribe={[
 										{
 											name: 'finishDate',
-											path: 'rtd.detours.mainForm.filter.events.finishDate',
+											path:
+												'rtd.detours.mainForm.filter.events.finishDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -203,12 +203,14 @@ export const DetoursMainTableHeader = () => {
 										date.endOf('day')
 									}
 									dispatch={{
-										path: 'detours.mainForm.filter.events.finishDate',
+										path:
+											'detours.mainForm.filter.events.finishDate',
 									}}
 									subscribe={[
 										{
 											name: 'startDate',
-											path: 'rtd.detours.mainForm.filter.events.startDate',
+											path:
+												'rtd.detours.mainForm.filter.events.startDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -236,7 +238,8 @@ export const DetoursMainTableHeader = () => {
 								format={'MMM YYYY'}
 								picker='month'
 								dispatch={{
-									path: 'detours.mainForm.filter.events.month',
+									path:
+										'detours.mainForm.filter.events.month',
 								}}
 								subscribe={[
 									{

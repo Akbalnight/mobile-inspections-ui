@@ -10,9 +10,8 @@ import {
 import {Image} from 'antd';
 import ReactPlayer from 'react-player';
 import './MediaUtils.less';
-import {classic} from 'rt-design';
+import {Title, Text} from 'rt-design';
 
-const {Title, Text} = classic;
 const videoTypes = ['mov', 'avi', 'mp4'];
 const imageTypes = ['jpg', 'png', 'gif'];
 

@@ -21,7 +21,6 @@ import {
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
 import Registry from '../components/Detours/Schedules/Registry';
-import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
@@ -140,13 +139,13 @@ export const paths = {
 			'ROLE_MI_ADMIN',
 		],
 	},
-	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION_NEW: {
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_ADD: {
 		title: 'Создание технологической карты',
 		path: '/detours-configurator/techMaps/new',
 		component: TechMapsAdd,
 	},
 
-	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_NEW_VERSION_EDIT: {
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_EDIT: {
 		title: 'Редактирование технологической карты',
 		path: '/detours-configurator/techMaps/:id',
 		component: TechMapsEdit,
@@ -259,12 +258,6 @@ export const paths = {
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOURS_RESP',
 		],
-	},
-	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
-		title: 'Рабочие графики',
-		path: '/controlEquipments/work-schedules',
-		component: WorkSchedules,
-		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',
