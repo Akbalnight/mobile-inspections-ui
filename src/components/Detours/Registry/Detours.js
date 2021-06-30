@@ -1,5 +1,5 @@
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, FormBody, Table, Switcher} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -7,8 +7,6 @@ import {
 import {customColumnProps, DetoursMainTableHeader} from '../tableProps';
 import React from 'react';
 import DetoursCalendar from './DetoursCalendar';
-
-const {Form, FormBody, Table, Switcher} = classic;
 
 /**
  *

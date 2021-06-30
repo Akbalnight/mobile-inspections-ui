@@ -1,6 +1,21 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, notificationError} from 'rt-design';
+import {
+	Form,
+	FormHeader,
+	FormBody,
+	FormFooter,
+	Input,
+	Title,
+	TreeSelect,
+	Button,
+	Table,
+	Row,
+	Col,
+	Layout,
+	Space,
+	notificationError,
+} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -14,23 +29,6 @@ import {selectRowsById} from '../../Base/Functions/TableSelectById';
 import {EquipmentAddModal} from './Modals/EquipmentSaveObject';
 import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
 import {TechMapAddModal} from './Modals/TechMapSaveObject';
-
-const {
-	Form,
-	FormHeader,
-	FormBody,
-	FormFooter,
-	Input,
-	InputNumber,
-	Title,
-	TreeSelect,
-	Button,
-	Table,
-	Row,
-	Col,
-	Layout,
-	Space,
-} = classic;
 
 export const ControlPointAdd = () => {
 	return (
@@ -76,7 +74,6 @@ const ControlPoint = (props) => {
 		}
 	};
 
-	// const onFinish = (values) => {
 	const onFinish = () => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
 	};
@@ -100,15 +97,6 @@ const ControlPoint = (props) => {
 			</FormHeader>
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
-					{controlPointId ? (
-						<InputNumber
-							itemProps={{
-								name: 'code',
-								label: 'Код',
-								hidden: true,
-							}}
-						/>
-					) : null}
 					<Col span={8}>
 						<Input
 							itemProps={{

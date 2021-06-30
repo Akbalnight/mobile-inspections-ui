@@ -1,9 +1,7 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Text} from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import React from 'react';
 import {objectView} from '../Functions/DefaultObject';
-
-const {Modal, FormBody, Text} = classic;
 
 /**
  *
@@ -49,7 +47,7 @@ export const DefaultObjectView = ({mainWay, catalogName, unique}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title:
 					catalogName !== 'staff'
 						? `Карточка ${unique}`

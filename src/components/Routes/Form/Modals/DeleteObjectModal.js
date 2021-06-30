@@ -1,9 +1,8 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Text} from 'rt-design';
 import {DeleteOutlined} from '@ant-design/icons';
 import React from 'react';
 import {ReactComponent as Warning} from '../../../../imgs/warning-mdl-big.svg';
 
-const {Modal, FormBody, Text} = classic;
 export const DeleteControlPointToRoute = () => {
 	return (
 		<Modal
@@ -16,7 +15,7 @@ export const DeleteControlPointToRoute = () => {
 				title: `Удалить`,
 			}}
 			modalConfig={{
-				type: 'editOnLocal',
+				type: 'save',
 				title: (
 					<span style={{display: 'flex', flexDirection: 'row'}}>
 						<Warning />{' '}
@@ -27,6 +26,7 @@ export const DeleteControlPointToRoute = () => {
 				),
 				width: 420,
 				okText: 'Удалить',
+				methodSaveForm: 'PUT',
 				form: {
 					name: `deleteModalForm`,
 				},

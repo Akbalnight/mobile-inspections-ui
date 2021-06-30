@@ -1,16 +1,6 @@
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {checkBox, date, dateTime} from '../Base/customColumnProps';
-import {classic} from 'rt-design';
-import React from 'react';
-import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
-import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
-import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
-import {reloadFilterFields} from '../Base/Functions/ReloadField';
-import {ViewDetour} from './Registry/Modals/ViewModal';
-import {Access} from 'mobile-inspections-base-ui';
-// import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
-
-const {
+import {
 	Space,
 	Select,
 	DatePicker,
@@ -20,7 +10,14 @@ const {
 	RadioGroup,
 	Text,
 	Switcher,
-} = classic;
+} from 'rt-design';
+import React from 'react';
+import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
+import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {ViewDetour} from './Registry/Modals/ViewModal';
+import {Access} from 'mobile-inspections-base-ui';
 
 export const DetoursMainTableHeader = () => {
 	return (
@@ -163,6 +160,9 @@ export const DetoursMainTableHeader = () => {
 										className: 'mb-0',
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
+									onChange={(date, dateString) =>
+										date.startOf('day')
+									}
 									dispatch={{
 										path:
 											'detours.mainForm.filter.events.startDate',
@@ -199,6 +199,9 @@ export const DetoursMainTableHeader = () => {
 										className: 'mb-0',
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
+									onChange={(date, dateString) =>
+										date.endOf('day')
+									}
 									dispatch={{
 										path:
 											'detours.mainForm.filter.events.finishDate',
@@ -346,4 +349,19 @@ export const customColumnProps = [
 		name: 'descriptionCauses',
 		hidden: true,
 	},
+];
+
+export const schedulesCustomColumn = [
+	{
+		name: 'interval',
+		cellRenderer: ({rowData, cellData}) => {
+			let period =
+				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
+
+			return cellData + ' ' + period;
+		},
+	},
+	{...dateTime('dateStart')},
+	{...dateTime('nextExecution')},
+	{...dateTime('dateFinish')},
 ];

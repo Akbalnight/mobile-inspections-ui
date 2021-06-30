@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {classic} from 'rt-design';
+import React from 'react';
+import {Custom, Space, Button} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
 import {
@@ -10,9 +10,8 @@ import {
 } from '@ant-design/icons';
 import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
 
-const {Custom, Space, Button} = classic;
+const {Custom} = classic;
 
-// let scale
 const PointsOnMap = (props) => {
 	const {
 		existPoints = [],
@@ -230,7 +229,8 @@ const RouteMap = () => {
 					},
 					{
 						name: 'zoomAction',
-						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+						path:
+							'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
 						onChange: ({value, setSubscribeProps}) => {
 							console.log(
 								'zoomAction => ',

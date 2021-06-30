@@ -4,9 +4,8 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../../apis/catalog.api';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Modal, FormBody, Row, Col, Table, Search} from 'rt-design';
 
-const {Modal, FormBody, Row, Col, Table, Search} = classic;
 export const EquipmentAddModal = () => {
 	return (
 		<Modal

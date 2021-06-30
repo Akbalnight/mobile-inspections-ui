@@ -9,11 +9,9 @@ import {InfoTabFields} from './Tabs/infoFields';
 import {FilesTabFields} from './Tabs/fileManagerFields';
 import {EquipmentTabFields} from './Tabs/equipmentFields';
 import {HistoryTab, HistoryTabFields} from './Tabs/historyFields';
-import {classic} from 'rt-design';
+import {FormBody, Tabs, TabPane, Modal} from 'rt-design';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {codeNormalizer, emptyToNd} from '../../../Base/Functions/TextUtils';
-
-const {FormBody, Tabs, TabPane, Modal} = classic;
 
 /**
  * Карточка информации дефекта
@@ -54,7 +52,7 @@ export const DefectCardInfoModal = () => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Карточка дефекта`,
 				width: 800,
 				bodyStyle: {height: 750},

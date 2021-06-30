@@ -1,4 +1,15 @@
-import {classic, notificationError} from 'rt-design';
+import {
+	Modal,
+	FormBody,
+	Select,
+	Table,
+	Layout,
+	Title,
+	TreeSelect,
+	Input,
+	Text,
+	notificationError,
+} from 'rt-design';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import React, {useState} from 'react';
 import {
@@ -10,17 +21,6 @@ import {
 export const AddControlPointToRoute = () => OperationOnLocal('add');
 export const EditControlPointToRoute = () => OperationOnLocal('edit');
 
-const {
-	Modal,
-	FormBody,
-	Select,
-	Table,
-	Layout,
-	Title,
-	TreeSelect,
-	Input,
-	Text,
-} = classic;
 /**
  *
  * @param type- string
@@ -38,7 +38,6 @@ const OperationOnLocal = (type) => {
 		callBack(type === 'add' ? null : sRow);
 	};
 	const loadControlPointsEquipments = ({params, data}) => {
-		console.log(data);
 		let newData = {...data};
 		if (type === 'edit')
 			newData.controlPointId = sRow ? sRow.controlPointId : null;
@@ -59,6 +58,13 @@ const OperationOnLocal = (type) => {
 			data: newData,
 		});
 	};
+
+	const processBeforeSaveForm = (rawValues) => {
+		return {
+			id: rawValues.controlPointId,
+			...rawValues,
+		};
+	};
 	return (
 		<Modal
 			buttonProps={{
@@ -70,7 +76,7 @@ const OperationOnLocal = (type) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `${type}OnLocal`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} контрольной точки`,
@@ -80,6 +86,7 @@ const OperationOnLocal = (type) => {
 					name: `${type}ModalForm`,
 					className: 'lastSelectModal',
 					loadInitData: loadData,
+					processBeforeSaveForm,
 				},
 			}}
 			subscribe={[

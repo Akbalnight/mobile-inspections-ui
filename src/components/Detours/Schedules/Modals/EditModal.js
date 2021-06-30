@@ -4,9 +4,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
-import {classic} from 'rt-design';
-
-const {
+import {
 	Select,
 	RadioGroup,
 	FormBody,
@@ -20,7 +18,9 @@ const {
 	Checkbox,
 	Input,
 	TimePicker,
-} = classic;
+	Title,
+} from 'rt-design';
+import {itemsInfo} from '../../../../constants/dictionary';
 
 /** checkValue задается при первом вызове функции
  * value и setSubscribeProps прилетают при срабатывании subscribe
@@ -64,6 +64,14 @@ const processBeforeSaveForm = (rawValues) => {
 };
 
 const EditModal = (type) => {
+	const footerCheckboxLayout = {
+		labelCol: {span: 23},
+		wrapperCol: {span: 1},
+	};
+	const footerInputLayout = {
+		labelCol: {span: 18},
+		wrapperCol: {span: 6},
+	};
 	return (
 		<Modal
 			buttonProps={{
@@ -75,10 +83,13 @@ const EditModal = (type) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: 'editOnServer',
-				title: `Создание расписания обхода`,
-				requestSaveRow: apiSaveByConfigName(`repeaterDataSave`),
-				width: 610,
+				type: 'save',
+				title: `${
+					type === 'add' ? 'Создание' : 'Изменение'
+				} расписания обхода`,
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+				requestSaveForm: apiSaveByConfigName(`repeaterDataSave`),
+				width: 700,
 				bodyStyle: {height: 580},
 				form: {
 					name: 'detours.schedules.registry.editModal',
@@ -87,9 +98,7 @@ const EditModal = (type) => {
 					wrapperCol: {span: 16},
 					processBeforeSaveForm: processBeforeSaveForm,
 					loadInitData: (callBack, row) => {
-						console.log('row', row);
 						let newData = {...row};
-
 						callBack(type === 'add' ? null : newData);
 					},
 				},
@@ -113,11 +122,6 @@ const EditModal = (type) => {
 			]}
 		>
 			<FormBody noPadding={false} scrollable={true}>
-				{/*className={'mb-16 mt-16'}*/}
-				<div className={'mb-16'}>
-					<h3>Создание обхода</h3>
-				</div>
-
 				<Input
 					itemProps={{
 						name: ['data', 'name'],
@@ -141,7 +145,6 @@ const EditModal = (type) => {
 						rules: [{required: true}],
 						disabled: false,
 					}}
-					// format={'HH:mm'}
 				/>
 				<Select
 					itemProps={{
@@ -155,8 +158,6 @@ const EditModal = (type) => {
 						label: <span>{option.name}</span>,
 						value: option.id,
 					})}
-
-					// dispatch={{ path: 'example.form.table.filter.statusProcessId' }}
 				/>
 				<Select
 					itemProps={{
@@ -171,117 +172,147 @@ const EditModal = (type) => {
 						label: <span>{option.username}</span>,
 						value: option.id,
 					})}
-					dispatch={{
-						path: 'example.form.table.filter.statusProcessId',
-					}}
 				/>
-				<div className={'mb-16 mt-16'}>
-					<h3>Допуски по обходу</h3>
-				</div>
-				<Row>
+
+				<Title
+					level={5}
+					label={'Допуски по обходу'}
+					className={'my-16'}
+				/>
+				<Space style={{justifyContent: 'flex-start'}}>
+					<Checkbox
+						itemProps={{
+							...itemsInfo.saveOrderControlPoints,
+							name: ['data', 'saveOrderControlPoints'],
+							...footerCheckboxLayout,
+							style: {
+								marginLeft: '48px',
+							},
+						}}
+					/>
+				</Space>
+				<Space style={{justifyContent: 'space-around'}}>
 					<Col>
-						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Учитывать порядок обхода</Text>
-						</Row>
-						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Учитывать время обхода</Text>
-						</Row>
-						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Учитывать время начала</Text>
-						</Row>
-						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Учитывать время окончания</Text>
-						</Row>
+						<Checkbox
+							itemProps={{
+								...itemsInfo.takeIntoAccountTimeLocation,
+								name: ['data', 'takeIntoAccountTimeLocation'],
+								...footerCheckboxLayout,
+							}}
+							dispatch={{
+								path:
+									'detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
+							}}
+						/>
+						<Checkbox
+							itemProps={{
+								...itemsInfo.takeIntoAccountDateStart,
+								name: ['data', 'takeIntoAccountDateStart'],
+								...footerCheckboxLayout,
+							}}
+							dispatch={{
+								path:
+									'detours.detourSchedules.modal.events.takeIntoAccountDateStart',
+							}}
+						/>
+						<Checkbox
+							itemProps={{
+								...itemsInfo.takeIntoAccountDateFinish,
+								name: ['data', 'takeIntoAccountDateFinish'],
+								...footerCheckboxLayout,
+							}}
+							dispatch={{
+								path:
+									'detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
+							}}
+						/>
 					</Col>
 					<Col>
-						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox
-								itemProps={{
-									valuePropName: 'checked',
-									name: ['data', 'saveOrderControlPoints'],
-								}}
-							/>
-						</Row>
-						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox
-								itemProps={{
-									valuePropName: 'checked',
-									name: [
-										'data',
-										'takeIntoAccountTimeLocation',
-									],
-								}}
-							/>
-						</Row>
-						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox
-								itemProps={{
-									valuePropName: 'checked',
-									name: ['data', 'takeIntoAccountDateStart'],
-								}}
-							/>
-						</Row>
-						<Row className={`${prefixCls}-colTwoSettings`}>
-							<Checkbox
-								itemProps={{
-									valuePropName: 'checked',
-									name: ['data', 'takeIntoAccountDateFinish'],
-								}}
-							/>
-						</Row>
+						<InputNumber
+							itemProps={{
+								...itemsInfo.possibleDeviationLocationTime,
+								name: ['data', 'possibleDeviationLocationTime'],
+								...footerInputLayout,
+							}}
+							min={0}
+							disabled={true}
+							subscribe={[
+								{
+									name: 'takeIntoAccountTimeLocation',
+									withMount: true,
+									path:
+										'rtd.detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
+									onChange: ({value, setSubscribeProps}) => {
+										value
+											? setSubscribeProps({
+													disabled: !value,
+											  })
+											: setSubscribeProps({
+													disabled: true,
+											  });
+									},
+								},
+							]}
+						/>
+						<InputNumber
+							itemProps={{
+								...itemsInfo.possibleDeviationDateStart,
+								name: ['data', 'possibleDeviationDateStart'],
+								...footerInputLayout,
+							}}
+							min={0}
+							disabled={true}
+							subscribe={[
+								{
+									name: 'takeIntoAccountTimeLocation',
+									withMount: true,
+									path:
+										'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateStart',
+									onChange: ({value, setSubscribeProps}) => {
+										value
+											? setSubscribeProps({
+													disabled: !value,
+											  })
+											: setSubscribeProps({
+													disabled: true,
+											  });
+									},
+								},
+							]}
+						/>
+						<InputNumber
+							itemProps={{
+								...itemsInfo.possibleDeviationDateFinish,
+								name: ['data', 'possibleDeviationDateFinish'],
+								...footerInputLayout,
+							}}
+							min={0}
+							disabled={true}
+							subscribe={[
+								{
+									name: 'takeIntoAccountTimeLocation',
+									withMount: true,
+									path:
+										'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
+									onChange: ({value, setSubscribeProps}) => {
+										value
+											? setSubscribeProps({
+													disabled: !value,
+											  })
+											: setSubscribeProps({
+													disabled: true,
+											  });
+									},
+								},
+							]}
+						/>
 					</Col>
-					<Col>
-						<Row className={`${prefixCls}-rowAfterEmpty`}>
-							<Text>Допустимое откл. на точке, мин.</Text>
-						</Row>
-						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Допустимое откл., мин.</Text>
-						</Row>
-						<Row className={`${prefixCls}-colOneThreeSettings`}>
-							<Text>Допустимое откл., мин.</Text>
-						</Row>
-					</Col>
-					<Col className={`${prefixCls}-col4settings`}>
-						<Row
-							className={`${prefixCls}-colFourAfterEmptySettings`}
-						>
-							<InputNumber
-								itemProps={{
-									name: [
-										'data',
-										'possibleDeviationLocationTime',
-									],
-								}}
-								// disabled={true}
-							/>
-						</Row>
-						<Row className={`${prefixCls}-colFourSettings`}>
-							<InputNumber
-								itemProps={{
-									name: [
-										'data',
-										'possibleDeviationDateStart',
-									],
-								}}
-								// disabled={true}
-							/>
-						</Row>
-						<Row className={`${prefixCls}-colFourSettings`}>
-							<InputNumber
-								itemProps={{
-									name: [
-										'data',
-										'possibleDeviationDateFinish',
-									],
-								}}
-								// disabled={true}
-							/>
-						</Row>
-					</Col>
-				</Row>
-				<div className={'mb-16 mt-16'}>
-					<h3>Параметры расписания</h3>
-				</div>
+				</Space>
+				<Title
+					level={5}
+					label={'Параметры расписания'}
+					className={'my-16'}
+				/>
 				<Select
 					itemProps={{
 						label: 'Повторение',

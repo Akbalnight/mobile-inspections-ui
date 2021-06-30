@@ -1,4 +1,4 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input} from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
@@ -16,8 +16,6 @@ export const AddDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('add', mainWay, catalogName, unique);
 export const EditDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('edit', mainWay, catalogName, unique);
-
-const {Modal, FormBody, Input} = classic;
 
 /**
  *
@@ -43,15 +41,6 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 	 * @param rawValues
 	 * @desc Function return few changes in save object
 	 */
-	const processBeforeSaveForm = (rawValues) => {
-		if (catalogName === 'staff') {
-			const values = {...rawValues};
-			return {
-				...values,
-				id: values.userId,
-			};
-		} else return rawValues;
-	};
 
 	/**
 	 *
@@ -84,7 +73,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
@@ -92,14 +81,13 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				bodyStyle: {
 					height: modalHeight(catalogName),
 				},
-				requestSaveRow: apiSaveByConfigName(
+				requestSaveForm: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				),
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					processBeforeSaveForm: processBeforeSaveForm,
-					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 					onFinish: (values) => {
 						console.log('values', values);
 					},

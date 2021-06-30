@@ -1,6 +1,6 @@
-import React from 'react'; //, {useRef}
+import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Layout, Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -18,11 +18,7 @@ import './Defects.less';
  * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
 
-const {Layout, Form, FormBody, Table} = classic;
-
 export default function Defects() {
-	// const searchBtn = useRef(null);
-
 	const history = useHistory();
 
 	/**
@@ -40,7 +36,7 @@ export default function Defects() {
 						<MainTableHeader />
 						<Table
 							selectable={true}
-							searchParamName={'name'}
+							searchParamName={'equipment'}
 							fixWidthColumn={true}
 							headerHeight={35}
 							defaultSortBy={{
@@ -68,7 +64,10 @@ export default function Defects() {
 									onChange: ({extraData, reloadTable}) => {
 										const searchValue =
 											extraData && extraData.searchValue
-												? {name: extraData.searchValue}
+												? {
+														equipment:
+															extraData.searchValue,
+												  }
 												: {};
 										const composedFilter = {
 											...extraData.filter,

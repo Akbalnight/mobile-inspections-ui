@@ -1,20 +1,7 @@
 import {BasePage} from 'mobile-inspections-base-ui';
 import {useHistory, useParams} from 'react-router';
 import React from 'react';
-import {classic, executeRequest} from 'rt-design';
-import {itemsInfo} from '../../../constants/dictionary';
-import {selectRowsById} from '../../Base/Functions/TableSelectById';
 import {
-	apiGetConfigByName,
-	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
-import {paths} from '../../../constants/paths';
-import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
-import {ControlPointTableHeader, customColumnProps} from '../tableProps';
-import {Result} from 'antd';
-import {WayOutModal} from './Modals/WayOutModal';
-
-const {
 	Form,
 	FormHeader,
 	FormBody,
@@ -28,7 +15,20 @@ const {
 	Button,
 	Custom,
 	Divider,
-} = classic;
+	executeRequest,
+} from 'rt-design';
+import {itemsInfo} from '../../../constants/dictionary';
+import {selectRowsById} from '../../Base/Functions/TableSelectById';
+import {
+	apiGetConfigByName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
+import {paths} from '../../../constants/paths';
+import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
+import {ControlPointTableHeader, customColumnProps} from '../tableProps';
+import {Result} from 'antd';
+import {WayOutModal} from './Modals/WayOutModal';
+
 export const RoutesAdd = () => {
 	return (
 		<BasePage>
@@ -90,6 +90,7 @@ const RouteForm = (props) => {
 			});
 		}
 	};
+
 	return (
 		<Form
 			name={'routeForm'}
@@ -131,8 +132,6 @@ const RouteForm = (props) => {
 					<Table
 						itemProps={{name: 'controlPoints'}}
 						rowKey={'controlPointId'}
-						// type={'rt'}
-						// requestLoadRows={apiGetFlatDataByConfigName('routeControlPoints')}
 						customColumnProps={customColumnProps}
 						dispatch={{
 							path: 'routes.routeForm.controlPointsTable.table',

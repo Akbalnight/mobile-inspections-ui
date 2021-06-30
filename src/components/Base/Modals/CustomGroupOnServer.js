@@ -1,4 +1,4 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input, TreeSelect} from 'rt-design';
 import {EditOutlined, FolderAddOutlined} from '@ant-design/icons';
 import {
 	apiGetHierarchicalDataByConfigName,
@@ -19,8 +19,6 @@ export const AddCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('add', mainWay, catalogName, unique);
 export const EditCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('edit', mainWay, catalogName, unique);
-
-const {Modal, FormBody, Input, TreeSelect} = classic;
 
 /**
  *
@@ -49,15 +47,16 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: `${type === 'add' ? 'Создать' : 'Редактировать'} группу`,
 			}}
 			modalConfig={{
-				type: `${type}GroupOnServer`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} группы ${unique}`,
 				width: 500,
 				bodyStyle: {height: catalogName === 'equipments' ? 250 : 200},
-				requestSaveRow: ({data, params}) =>
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+				requestSaveForm: ({data, params}) =>
 					apiSaveByConfigName(`${catalogName}CatalogSave`)({
-						method: type === 'add' ? 'POST' : 'PUT',
+						// method: type === 'add' ? 'POST' : 'PUT',
 						data: {...data, isGroup: true},
 						params,
 					}), //не забыть поставить

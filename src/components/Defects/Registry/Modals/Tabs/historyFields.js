@@ -1,10 +1,9 @@
 import {apiGetConfigByName} from '../../../../../apis/catalog.api';
-import {classic} from 'rt-design';
+import {Layout, Table} from 'rt-design';
 import React from 'react';
 import {customColumnProps} from '../../../tableProps';
 import {HistoryOutlined} from '@ant-design/icons';
 
-const {Layout, Table} = classic;
 export const HistoryTabFields = () => {
 	return (
 		<Layout className={'p-8'}>

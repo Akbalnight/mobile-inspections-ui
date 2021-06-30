@@ -17,7 +17,15 @@ import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
 import {ReactComponent as Four} from '../../imgs/defects/priority/four.svg';
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {paths} from '../../constants/paths';
-import {classic} from 'rt-design';
+import {
+	Space,
+	Text,
+	DatePicker,
+	Select,
+	Button,
+	Input,
+	Divider,
+} from 'rt-design';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {useHistory} from 'react-router';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
@@ -25,8 +33,6 @@ import {EditDefectCard} from './Registry/Modals/SaveObjectModal';
 import {ButtonSendToSap} from './Registry/Modals/ActionButtons';
 import {DefectCardInfoModal} from './Registry/Modals/ViewModal';
 import {Access} from 'mobile-inspections-base-ui';
-
-const {Space, Text, DatePicker, Select, Button, Input, Divider} = classic;
 
 /**
  * в этом файле находятся конфигурации для главной таблицы в Defects.js
@@ -118,7 +124,7 @@ export const MainTableHeader = () => {
 							//     }
 							// }}
 							itemProps={{name: 'defectsSearchInput'}}
-							placeholder={'Поиск по наименованию'}
+							placeholder={'Поиск по оборудованию'}
 							subscribe={[
 								reloadFilterFields(
 									'defects.defectTable.events.onReload'
@@ -129,14 +135,12 @@ export const MainTableHeader = () => {
 							}}
 						/>
 						<Button
-							// ref={searchBtn}
 							itemProps={{
 								name: 'defectsSearchButton',
 							}}
 							icon={<SearchOutlined />}
 							type={'default'}
 							htmlType={'submit'}
-							// event?
 							dispatch={{
 								path: 'defects.defectTable.events.onBtnSearch',
 							}}
@@ -144,7 +148,13 @@ export const MainTableHeader = () => {
 					</div>
 				</Space>
 			</Access>
-			<Access roles={['ROLE_MI_SHIFT_SUPERVISOR', 'ROLE_ADMIN']}>
+			<Access
+				roles={[
+					'ROLE_MI_SHIFT_SUPERVISOR',
+					'ROLE_ADMIN',
+					'ROLE_MI_ADMIN',
+				]}
+			>
 				<Space
 					className={'p-8'}
 					style={{
@@ -192,7 +202,7 @@ export const MainTableHeader = () => {
 								//     }
 								// }}
 								itemProps={{name: 'defectsSearchInput'}}
-								placeholder={'Поиск по наименованию'}
+								placeholder={'Поиск по оборудованию'}
 								subscribe={[
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
@@ -243,11 +253,31 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.startOf('day')
+								}
 								dispatch={{
 									path:
 										'defects.defectTable.filter.detectStartDate',
 								}}
 								subscribe={[
+									{
+										name: 'startDate',
+										path:
+											'rtd.defects.defectTable.filter.detectEndDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
@@ -259,11 +289,31 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.endOf('day')
+								}
 								dispatch={{
 									path:
 										'defects.defectTable.filter.detectEndDate',
 								}}
 								subscribe={[
+									{
+										name: 'endDate',
+										path:
+											'rtd.defects.defectTable.filter.detectStartDate',
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
 									reloadFilterFields(
 										'defects.defectTable.events.onReload'
 									),
@@ -280,6 +330,9 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.startOf('day')
+								}
 								dispatch={{
 									path:
 										'defects.defectTable.filter.eliminateStartDate',
@@ -313,6 +366,9 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								onChange={(date, dateString) =>
+									date.endOf('day')
+								}
 								dispatch={{
 									path:
 										'defects.defectTable.filter.eliminateEndDate',

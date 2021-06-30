@@ -1,6 +1,16 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, executeRequest} from 'rt-design';
+import {
+	Form,
+	FormBody,
+	Button,
+	Select,
+	Title,
+	Layout,
+	Table,
+	Switcher,
+	executeRequest,
+} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -10,10 +20,18 @@ import SplitPane from 'react-split-pane';
 import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import RouteMap from './RouteMap';
 import {useParams} from 'react-router';
-import {customColumnProps, RouteMapsTableHeader} from '../tableProps';
+import {customColumnProps, RouteMapsTableHeader} from './tableProps';
 
-const {Form, FormBody, Button, Select, Title, Layout, Table, Switcher} =
-	classic;
+const {
+	Form,
+	FormBody,
+	Button,
+	Select,
+	Title,
+	Layout,
+	Table,
+	Switcher,
+} = classic;
 
 export const AddRouteMaps = () => {
 	return (
@@ -98,7 +116,8 @@ const RouteMaps = (props) => {
 							subscribe={[
 								{
 									name: 'choiceSwitcher',
-									path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+									path:
+										'rtd.routeMaps.mainForm.events.onSelectRoute',
 									onChange: ({value, setSubscribeProps}) => {
 										value &&
 											value.value &&
@@ -145,14 +164,16 @@ const RouteMaps = (props) => {
 											'routeMaps'
 										)}
 										dispatch={{
-											path: 'routeMaps.mainForm.routeMapsTable',
+											path:
+												'routeMaps.mainForm.routeMapsTable',
 										}}
 										subscribe={[
 											/** Action reload table after select Route in Select*/
 											{
 												name: 'routeChoiceFilter',
 												withMount: true,
-												path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+												path:
+													'rtd.routeMaps.mainForm.events.onSelectRoute',
 												onChange: ({
 													value,
 													reloadTable,
@@ -190,14 +211,16 @@ const RouteMaps = (props) => {
 											/** Action change state after push on Button */
 											{
 												name: 'onClickMoveUp',
-												path: 'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
 												onChange: ({moveUpRow}) =>
 													moveUpRow(),
 											},
 											/** Action change state after push on Button */
 											{
 												name: 'onClickMoveDown',
-												path: 'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
 												onChange: ({moveDownRow}) =>
 													moveDownRow(),
 											},
@@ -205,7 +228,8 @@ const RouteMaps = (props) => {
 											/** Action change row position in table */
 											{
 												name: 'onMoveUpRow',
-												path: 'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveUpRow',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveUpRow',
 												onChange: ({value}) =>
 													executeRequest(
 														apiSaveByConfigName(
@@ -222,7 +246,8 @@ const RouteMaps = (props) => {
 											/** Action change row position in table */
 											{
 												name: 'onMoveDownRow',
-												path: 'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveDownRow',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveDownRow',
 												onChange: ({value}) =>
 													executeRequest(
 														apiSaveByConfigName(
@@ -239,7 +264,8 @@ const RouteMaps = (props) => {
 											/** Action change row position in table */
 											{
 												name: 'editFileName',
-												path: 'rtd.routeMaps.mainForm.routeMapsTable.modal.editFileName',
+												path:
+													'rtd.routeMaps.mainForm.routeMapsTable.modal.editFileName',
 												onChange: ({
 													value,
 													reloadTable,
@@ -278,14 +304,16 @@ const RouteMaps = (props) => {
 											'routeControlPointsDebug'
 										)}
 										dispatch={{
-											path: 'routeMaps.mainForm.controlPointsTable',
+											path:
+												'routeMaps.mainForm.controlPointsTable',
 										}}
 										subscribe={[
 											/** Action reload table after select Route in Select*/
 											{
 												name: 'controlPointTable',
 												withMount: true,
-												path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+												path:
+													'rtd.routeMaps.mainForm.events.onSelectRoute',
 												onChange: ({
 													value,
 													reloadTable,
@@ -304,7 +332,8 @@ const RouteMaps = (props) => {
 											{
 												// Изменить таблицу с точками по клику на таблицу с точками
 												name: 'onSelectedControlPoint',
-												path: 'rtd.routeMaps.mainForm.controlPointsTable.events.onRowClick',
+												path:
+													'rtd.routeMaps.mainForm.controlPointsTable.events.onRowClick',
 												extraData:
 													'rtd.routeMaps.mainForm.routeMapsTable.selected',
 												onChange: ({
@@ -351,7 +380,8 @@ const RouteMaps = (props) => {
 											{
 												// Изменить таблицу с точками по изменению на карте (картинке)
 												name: 'onChangeRouteMapPoints',
-												path: 'rtd.routeMaps.mainForm.routeMapPoints.onChange',
+												path:
+													'rtd.routeMaps.mainForm.routeMapPoints.onChange',
 												onChange: ({
 													value,
 													editRow,

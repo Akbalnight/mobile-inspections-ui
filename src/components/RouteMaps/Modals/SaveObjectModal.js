@@ -1,10 +1,9 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input} from 'rt-design';
 import {EditOutlined} from '@ant-design/icons';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import {itemsInfo} from '../../../constants/dictionary';
 
-const {Modal, FormBody, Input} = classic;
 export const EditFileName = () => {
 	return (
 		<Modal
@@ -17,16 +16,16 @@ export const EditFileName = () => {
 				title: 'Редактировать наименование',
 			}}
 			modalConfig={{
-				type: `editOnServer`,
+				type: `save`,
 				title: `Редактирование наименования`,
 				width: 450,
 				bodyStyle: {
 					height: 150,
 				},
-				requestSaveRow: apiSaveByConfigName('routeMapFileNameSave'),
+				methodSaveForm: 'PUT',
+				requestSaveForm: apiSaveByConfigName('routeMapFileNameSave'),
 				form: {
 					name: `editModalForm`,
-					methodSaveForm: 'PUT',
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
 				},

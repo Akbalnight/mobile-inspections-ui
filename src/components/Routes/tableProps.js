@@ -9,7 +9,7 @@ import {
 import {paths} from '../../constants/paths';
 import {RouteViewModal} from './Registry/Modals/ViewModal';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Space, Button, Search} from 'rt-design';
 import {useHistory} from 'react-router';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {
@@ -20,7 +20,6 @@ import {DeleteControlPointToRoute} from './Form/Modals/DeleteObjectModal';
 import {ViewControlPointModal} from './Form/Modals/ViewControlPointModal';
 import {Access} from 'mobile-inspections-base-ui';
 
-const {Space, Button, Search} = classic;
 export const customColumnProps = [
 	{...code},
 	{...position, width: '50px', align: 'center'},

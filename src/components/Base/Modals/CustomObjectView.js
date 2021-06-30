@@ -1,20 +1,4 @@
-import {classic, notificationError} from 'rt-design';
-import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
-import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
-import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
-import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/attachmentsTab.svg';
-import {itemsInfo} from '../../../constants/dictionary';
 import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
-import React from 'react';
-import {paths} from '../../../constants/paths';
-import {useHistory} from 'react-router';
-import {AttachmentsPreview} from '../Functions/MediaUtils';
-
-const {
 	Modal,
 	FormBody,
 	Text,
@@ -33,7 +17,23 @@ const {
 	Divider,
 	List,
 	Custom,
-} = classic;
+	notificationError,
+} from 'rt-design';
+import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
+import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
+import {ReactComponent as WarrantyTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/warrantyTab.svg';
+import {ReactComponent as AttachmentsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/attachmentsTab.svg';
+import {itemsInfo} from '../../../constants/dictionary';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+	apiSaveFileByConfigName,
+} from '../../../apis/catalog.api';
+import React from 'react';
+import {paths} from '../../../constants/paths';
+import {useHistory} from 'react-router';
+import {AttachmentsPreview} from '../Functions/MediaUtils';
+
 /**
  *
  * @param catalogName name of server configuration
@@ -127,6 +127,15 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	 * @returns {JSX.Element}
 	 * @desc Choice function.
 	 */
+
+	const loadTechOperationsHandler = ({data, params}) => {
+		const newData = {...data, techMapId: sRow.id};
+		return apiGetFlatDataByConfigName('techOperations')({
+			data: newData,
+			params,
+		});
+	};
+
 	const configCatalog = (catalogName) => {
 		let historyPath = null;
 		// sRow && console.log('sRow conf Catalogs', sRow)
@@ -532,7 +541,51 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 						/>
 					</>
 				);
-
+			case 'techMaps':
+				return (
+					<>
+						<Row>
+							<Col span={20}>
+								<Title level={5}>Описание</Title>
+							</Col>
+						</Row>
+						<Row>
+							<Col span={6}>
+								<Text
+									itemProps={{
+										...itemsInfo.code,
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+							<Col span={10}>
+								<Text
+									itemProps={{
+										...itemsInfo.name,
+										wrapperCol: {span: 12},
+										rules: [],
+									}}
+								/>
+							</Col>
+							<Col span={8}>
+								<Text
+									itemProps={{
+										...itemsInfo.parentName,
+										label: 'Группа',
+										wrapperCol: {span: 12},
+									}}
+								/>
+							</Col>
+						</Row>
+						<Title level={5}>Технологические операции</Title>
+						<Table
+							requestLoadRows={loadTechOperationsHandler}
+							requestLoadConfig={apiGetConfigByName(
+								'techOperations'
+							)}
+						/>
+					</>
+				);
 			default:
 				return (
 					<>
@@ -561,6 +614,9 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 			case 'controlPoints':
 				return {width: 1000, bodyStyle: {height: 650}};
 
+			case 'techMaps':
+				return {width: 1000, bodyStyle: {height: 650}};
+
 			default:
 				return {width: 500, bodyStyle: {height: 200}};
 		}
@@ -569,7 +625,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Карточка ${unique}`,
 				...getModalSize(catalogName),
 				form: {
