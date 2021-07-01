@@ -104,19 +104,12 @@ const RouteMap = () => {
 						<>
 							{src ? (
 								<TransformWrapper
-									centerOnInit={true}
-									// pinch={{
-									// 	disabled:true
-									// }}
-									// panning={{
-									// 	disabled:true
-									// }}
+									centerZoomedOut={true}
 									maxScale={3}
 									onWheel={onChange}
 									onPanning={onChange}
 									onPinching={onChange}
 									onZoom={onChange}
-									// onInit={onChange}
 								>
 									{({
 										zoomIn,
