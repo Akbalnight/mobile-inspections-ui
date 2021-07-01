@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Custom, Space, Button} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
@@ -9,8 +9,7 @@ import {
 	PlusOutlined,
 } from '@ant-design/icons';
 import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
-
-const {Custom} = classic;
+// import Draggable from 'react-draggable';
 
 const PointsOnMap = (props) => {
 	const {
@@ -35,7 +34,6 @@ const PointsOnMap = (props) => {
 	const widthIcon = 36 / scale;
 	const heightIcon = 36 / scale;
 	if (existPoints)
-		// return null
 		return (
 			<div style={{transformOrigin: '0% 0%', transform: transformStyle}}>
 				{existPoints.map((point, index) => (
@@ -106,14 +104,19 @@ const RouteMap = () => {
 						<>
 							{src ? (
 								<TransformWrapper
-									// wheel={{
-									// 	disabled: true,
+									centerOnInit={true}
+									// pinch={{
+									// 	disabled:true
 									// }}
+									// panning={{
+									// 	disabled:true
+									// }}
+									maxScale={3}
 									onWheel={onChange}
 									onPanning={onChange}
-									onPanningStop={onChange}
-									// onPinching={onChange}
-									// onZoom={onChange}
+									onPinching={onChange}
+									onZoom={onChange}
+									// onInit={onChange}
 								>
 									{({
 										zoomIn,
@@ -144,7 +147,7 @@ const RouteMap = () => {
 															onClick={() =>
 																zoomIn()
 															}
-															disabled={true}
+															// disabled={true}
 														/>
 														<Button
 															icon={
@@ -153,7 +156,7 @@ const RouteMap = () => {
 															onClick={() =>
 																zoomOut()
 															}
-															disabled={true}
+															// disabled={true}
 														/>
 														<Button
 															icon={
@@ -162,7 +165,7 @@ const RouteMap = () => {
 															onClick={() =>
 																resetTransform()
 															}
-															disabled={true}
+															// disabled={true}
 														/>
 													</Space>
 												</Space>
@@ -229,8 +232,7 @@ const RouteMap = () => {
 					},
 					{
 						name: 'zoomAction',
-						path:
-							'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
 						onChange: ({value, setSubscribeProps}) => {
 							console.log(
 								'zoomAction => ',
