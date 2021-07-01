@@ -88,8 +88,7 @@ export const RouteMapsTableHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+					path: 'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
@@ -110,8 +109,7 @@ export const RouteMapsTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+					path: 'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[

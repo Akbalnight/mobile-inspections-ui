@@ -1,48 +1,95 @@
-import React from 'react';
-import {Custom} from 'rt-design';
+import React, {useState, useEffect} from 'react';
+import {Custom, Space, Button} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
-import {ArrowLeftOutlined} from '@ant-design/icons';
+import {
+	ArrowLeftOutlined,
+	FullscreenOutlined,
+	MinusOutlined,
+	PlusOutlined,
+} from '@ant-design/icons';
+import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
+// import Draggable from 'react-draggable';
 
 const PointsOnMap = (props) => {
-	const {existPoints = [], onChange} = props;
+	const {
+		existPoints = [],
+		onChange,
+		scale = 1,
+		positionX = 0,
+		positionY = 0,
+	} = props;
+	const [transformStyle, setTransformStyle] = useState(
+		`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
+	);
+	useEffect(() => {
+		// onChange && onChange(scale);
+		console.log('PointsOnMap', {scale, positionX, positionY});
+		setTransformStyle(
+			`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
+		);
+		// TransformWrapperRef.current && (TransformWrapperRef.current.state = {scale, positionX, positionY})
+		// eslint-disable-next-line
+	}, [scale, positionX, positionY]);
+	const widthIcon = 36 / scale;
+	const heightIcon = 36 / scale;
 	if (existPoints)
-		return existPoints.map((point, index) => (
-			/**
-			 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
-			 */
-			<Rnd
-				key={`${index}-${point.id}`}
-				bounds={'.routeMapImage'}
-				size={{width: 32, height: 32}}
-				style={{
-					background: '#39839D',
-					textAlign: 'center',
-					color: 'white',
-					clipPath:
-						'polygon(50% 0%, 83% 5%, 99% 29%, 78% 65%, 51% 100%, 53% 100%, 25% 66%, 0 29%, 15% 7%)',
-				}}
-				onDragStop={(e, d) => {
-					// сохранение новых координат
-					const savePoint = {...point};
-					savePoint.xLocation = d.x;
-					savePoint.yLocation = d.y;
-					onChange(savePoint);
-				}}
-				default={{x: point.xLocation, y: point.yLocation}}
-				scale={1}
-			>
-				<div>{point.position}</div>
-			</Rnd>
-		));
+		return (
+			<div style={{transformOrigin: '0% 0%', transform: transformStyle}}>
+				{existPoints.map((point, index) => (
+					/**
+					 * https://www.npmjs.com/package/react-rnd -  документация по пакету.
+					 *
+					 *
+					 * props position не корректный он сделан лишь для наглядности
+					 */
+					<Rnd
+						key={`${index}-${point.id}`}
+						bounds={'.routeMapImage'}
+						size={{width: widthIcon, height: heightIcon}}
+						style={{
+							background: '#39839D',
+							textAlign: 'center',
+							color: 'white',
+							clipPath:
+								' polygon(61% 0, 98% 37%, 46% 100%, 0 64%, 0 0)',
+							padding: `${10 / scale}px 0`,
+							fontSize: `${12 / scale}px`,
+						}}
+						onDragStop={(e, d) => {
+							// сохранение новых координат
+							const savePoint = {...point};
+							savePoint.xLocation = d.x;
+							savePoint.yLocation = d.y;
+							onChange(savePoint);
+						}}
+						default={{x: point.xLocation, y: point.yLocation}}
+					>
+						<div>{point.position}</div>
+					</Rnd>
+				))}
+			</div>
+		);
 	else return null;
 };
 
 const RouteMap = () => {
+	/**
+	 * Я дошел до вот такой статьи https://habr.com/ru/company/yandex/blog/559442/
+	 *
+	 * В изначально, были проблемы с сущностью https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+	 *
+	 *
+	 *
+	 * */
 	return (
 		<div className={'routeMapContainer'}>
 			<Custom
 				itemProps={{name: 'routeMap'}}
+				dispatch={{
+					path: 'routeMaps.mainForm.routeMapPoints.zoomSection',
+					type: 'event',
+				}}
 				subscribe={[
 					{
 						name: 'routeMap',
@@ -52,22 +99,91 @@ const RouteMap = () => {
 						},
 					},
 				]}
-				render={({src}) => (
-					<>
-						{src ? (
-							<img
-								className={'routeMapImage'}
-								src={src}
-								alt={`Маршрутная карта`}
-							/>
-						) : (
-							<Result
-								title='Выберите маршрутную карту'
-								extra={<ArrowLeftOutlined />}
-							/>
-						)}
-					</>
-				)}
+				render={({src, onChange}) => {
+					return (
+						<>
+							{src ? (
+								<TransformWrapper
+									centerZoomedOut={true}
+									maxScale={3}
+									onWheel={onChange}
+									onPanning={onChange}
+									onPinching={onChange}
+									onZoom={onChange}
+								>
+									{({
+										zoomIn,
+										zoomOut,
+										resetTransform,
+										...rest
+									}) => {
+										return (
+											<>
+												<Space
+													style={{
+														width: '95%',
+														justifyContent:
+															'flex-end',
+													}}
+													className={'px-8'}
+												>
+													<Space
+														direction={'vertical'}
+														className={
+															'buttonBlock'
+														}
+													>
+														<Button
+															icon={
+																<PlusOutlined />
+															}
+															onClick={() =>
+																zoomIn()
+															}
+															disabled={true}
+														/>
+														<Button
+															icon={
+																<MinusOutlined />
+															}
+															onClick={() =>
+																zoomOut()
+															}
+															disabled={true}
+														/>
+														<Button
+															icon={
+																<FullscreenOutlined />
+															}
+															onClick={() =>
+																resetTransform()
+															}
+															disabled={true}
+														/>
+													</Space>
+												</Space>
+												<TransformComponent>
+													<img
+														className={
+															'routeMapImage'
+														}
+														src={src}
+														alt={`Маршрутная карта`}
+													/>
+												</TransformComponent>
+											</>
+										);
+									}}
+								</TransformWrapper>
+							) : (
+								<Result
+									title='Выберите маршрутную карту'
+									extra={<ArrowLeftOutlined />}
+								/>
+							)}
+						</>
+					);
+				}}
 			/>
 			<Custom
 				itemProps={{name: 'routeMapPoints'}}
@@ -105,6 +221,27 @@ const RouteMap = () => {
 								);
 								setSubscribeProps({existPoints: points});
 							}
+						},
+					},
+					{
+						name: 'zoomAction',
+						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+						onChange: ({value, setSubscribeProps}) => {
+							console.log(
+								'zoomAction => ',
+								value.value && value.value.state
+							);
+							value &&
+								value.value &&
+								setSubscribeProps({
+									scale: value.value.state.scale,
+									positionX: value.value.state.positionX,
+									positionY: value.value.state.positionY,
+								});
+							/**
+							 * выходит ошибка(Уже неактуально)
+							 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
+							 * */
 						},
 					},
 				]}

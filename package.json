@@ -22,6 +22,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-split-pane": "^0.1.92",
+    "react-zoom-pan-pinch": "^2.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.71"
