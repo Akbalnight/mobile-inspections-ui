@@ -140,7 +140,7 @@ const RouteMap = () => {
 															onClick={() =>
 																zoomIn()
 															}
-															// disabled={true}
+															disabled={true}
 														/>
 														<Button
 															icon={
@@ -149,7 +149,7 @@ const RouteMap = () => {
 															onClick={() =>
 																zoomOut()
 															}
-															// disabled={true}
+															disabled={true}
 														/>
 														<Button
 															icon={
@@ -158,7 +158,7 @@ const RouteMap = () => {
 															onClick={() =>
 																resetTransform()
 															}
-															// disabled={true}
+															disabled={true}
 														/>
 													</Space>
 												</Space>
