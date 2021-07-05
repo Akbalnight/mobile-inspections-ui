@@ -5,10 +5,14 @@ import {Analytics} from '../Registry/Analytics';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {analyticConfigs} from '../Registry/analyticConfigs';
 import {paths} from '../../../constants/paths';
+import {List} from 'rt-design';
+import {Route, Switch} from 'react-router';
+import {Result} from 'antd';
+import {ArrowLeftOutlined} from '@ant-design/icons';
 
 const ANALYTICS_DATA_PATH = {
 	title: 'Аналитика и отчетность',
-	path: '/catalog/:name',
+	path: '/analytics/:name',
 	component: Analytics,
 };
 
@@ -17,9 +21,9 @@ export const Analytic = () => {
 	return (
 		<BasePage path={pathname} extraPaths={analyticConfigs(paths)}>
 			<SplitPane
-				className={'analytics'}
+				className={'analytic'}
 				split='vertical'
-				minSize={200}
+				minSize={300}
 				maxSize={500}
 				defaultSize={300}
 			>
@@ -27,10 +31,49 @@ export const Analytic = () => {
 					<List
 						dataSource={analyticConfigs(paths)}
 						itemLayout={'vertical'}
-						// renderItem={}
+						renderItem={(item) => (
+							<li
+								className={
+									pathname === item.path ? 'activeReport' : ''
+								}
+							>
+								<Link to={item.path} className={'analyticLink'}>
+									{item.title}
+								</Link>
+							</li>
+						)}
 					/>
 				</div>
-				<div className={'analyticData'}>2</div>
+				<div className={'AnalyticData'}>
+					<Switch>
+						{analyticConfigs(paths).map((item, index) => {
+							const Component = ANALYTICS_DATA_PATH.component;
+							return (
+								<Route
+									exact
+									key={index}
+									path={item.path}
+									name={item.name}
+									render={() => (
+										<Component
+											mainWay={'analytic'}
+											catalogName={item.name}
+											// hierarchical={item.hierarchical}
+											// unique={item.unique}
+										/>
+									)}
+								/>
+							);
+						})}
+
+						<Route>
+							<Result
+								title='Выберите отчет'
+								extra={<ArrowLeftOutlined />}
+							/>
+						</Route>
+					</Switch>
+				</div>
 			</SplitPane>
 		</BasePage>
 	);

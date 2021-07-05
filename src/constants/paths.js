@@ -26,6 +26,7 @@ import Schedules from '../components/Detours/Schedules/Schedules';
 import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 import {Signage} from '../components/Defects/Form/Signage';
+import {Analytic} from '../components/Analytics/Form/Analytic';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -316,9 +317,10 @@ export const paths = {
 		roles: ['ROLE_ADMIN'],
 	},
 	ANALYTICS: {
+		exact: false,
 		title: 'Аналитика и отчетность',
 		path: '/analytics',
-		component: Home,
+		component: Analytic,
 		roles: [
 			'ROLE_ADMIN',
 			'ROLE_MI_ADMIN',
