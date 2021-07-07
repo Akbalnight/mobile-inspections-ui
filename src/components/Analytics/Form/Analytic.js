@@ -23,9 +23,9 @@ export const Analytic = () => {
 			<SplitPane
 				className={'analytic'}
 				split='vertical'
-				minSize={300}
+				minSize={250}
 				maxSize={500}
-				defaultSize={300}
+				defaultSize={250}
 			>
 				<div className={'analyticList'}>
 					<List
@@ -57,9 +57,7 @@ export const Analytic = () => {
 									render={() => (
 										<Component
 											mainWay={'analytic'}
-											catalogName={item.name}
-											// hierarchical={item.hierarchical}
-											// unique={item.unique}
+											analyticName={item.name}
 										/>
 									)}
 								/>

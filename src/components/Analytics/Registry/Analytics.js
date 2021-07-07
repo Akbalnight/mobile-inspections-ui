@@ -1,33 +1,35 @@
-import {Button, Form, FormBody, Space, Table} from 'rt-design';
+import {Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
-	apiGetHierarchicalDataByConfigName,
+	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import React, {useState} from 'react';
-import {Drawer} from 'antd';
+import React from 'react';
+import {DrawerChoose, TableHeaderAnalytics} from '../tableProps';
+import {Access} from 'mobile-inspections-base-ui';
 
 export const Analytics = (props) => {
-	const {mainWay, catalogName} = props;
-	const [visible, setVisible] = useState(false);
-	console.log(mainWay, catalogName);
+	const {analyticName} = props;
 	return (
 		<Form>
 			<FormBody noPadding={true} name={'analyticRegistrySide'}>
-				<Space>
-					{' '}
-					<Button onClick={() => setVisible((state) => !state)}>
-						911
-					</Button>
-				</Space>
+				<TableHeaderAnalytics analyticName={analyticName} />
 				<Table
-					requestLoadRows={apiGetHierarchicalDataByConfigName(
-						'techMaps'
+					requestLoadRows={apiGetFlatDataByConfigName(
+						`${analyticName}`
 					)}
-					requestLoadConfig={apiGetConfigByName('techMaps')}
+					requestLoadConfig={apiGetConfigByName(`${analyticName}`)}
 				/>
-				<Drawer visible={visible}>
-					<Button>911</Button>
-				</Drawer>
+				<Access
+					roles={[
+						'ROLE_ADMIN',
+						'ROLE_MI_ADMIN',
+						'ROLE_MI_SHIFT_SUPERVISOR',
+					]}
+				>
+					{analyticName === 'constructorReports' ? (
+						<DrawerChoose analyticName={analyticName} />
+					) : null}
+				</Access>
 			</FormBody>
 		</Form>
 	);

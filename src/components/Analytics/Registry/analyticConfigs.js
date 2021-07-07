@@ -9,4 +9,9 @@ export const analyticConfigs = (paths) => [
 		path: `${paths.ANALYTICS.path}/defects`,
 		title: 'Аналитика по дефектам',
 	},
+	{
+		name: 'constructorReports',
+		path: `${paths.ANALYTICS.path}/constructorReports`,
+		title: 'Конструктор отчетов',
+	},
 ];
