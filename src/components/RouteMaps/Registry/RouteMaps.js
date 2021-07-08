@@ -133,7 +133,7 @@ const RouteMaps = (props) => {
 									</span>
 								}
 							/>
-							<Layout>
+							<Layout className={'py-16 mb-16'}>
 								<Title level={5} className={'pt-8'}>
 									Маршрутные карты
 								</Title>
@@ -268,13 +268,13 @@ const RouteMaps = (props) => {
 								<Title level={5} className={'p-8'}>
 									Контрольные точки
 								</Title>
-								<Layout>
+								<Layout className={'my-16'}>
 									<Table
 										itemProps={{name: 'controlPointsTable'}}
 										pageSize={1}
 										customColumnProps={customColumnProps}
 										fixWidthColumn={true}
-										editMode={true}
+										// editMode={true}
 										defaultFilter={{
 											routeId: routeId ? routeId : null,
 										}}
