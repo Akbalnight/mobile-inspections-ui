@@ -209,8 +209,7 @@ export const MainTableHeader = () => {
 									),
 								]}
 								dispatch={{
-									path:
-										'defects.defectTable.events.searchValue',
+									path: 'defects.defectTable.events.searchValue',
 								}}
 							/>
 							<Button
@@ -223,8 +222,7 @@ export const MainTableHeader = () => {
 								htmlType={'submit'}
 								// event?
 								dispatch={{
-									path:
-										'defects.defectTable.events.onBtnSearch',
+									path: 'defects.defectTable.events.onBtnSearch',
 								}}
 							/>
 						</div>
@@ -254,17 +252,15 @@ export const MainTableHeader = () => {
 									className: 'mb-0',
 								}}
 								onChange={(date, dateString) =>
-									date.startOf('day')
+									date?.startOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.detectStartDate',
+									path: 'defects.defectTable.filter.detectStartDate',
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path:
-											'rtd.defects.defectTable.filter.detectEndDate',
+										path: 'rtd.defects.defectTable.filter.detectEndDate',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -290,17 +286,15 @@ export const MainTableHeader = () => {
 									className: 'mb-0',
 								}}
 								onChange={(date, dateString) =>
-									date.endOf('day')
+									date?.endOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.detectEndDate',
+									path: 'defects.defectTable.filter.detectEndDate',
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path:
-											'rtd.defects.defectTable.filter.detectStartDate',
+										path: 'rtd.defects.defectTable.filter.detectStartDate',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -331,17 +325,15 @@ export const MainTableHeader = () => {
 									className: 'mb-0',
 								}}
 								onChange={(date, dateString) =>
-									date.startOf('day')
+									date?.startOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.eliminateStartDate',
+									path: 'defects.defectTable.filter.eliminateStartDate',
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path:
-											'rtd.defects.defectTable.filter.eliminateEndDate',
+										path: 'rtd.defects.defectTable.filter.eliminateEndDate',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -367,17 +359,15 @@ export const MainTableHeader = () => {
 									className: 'mb-0',
 								}}
 								onChange={(date, dateString) =>
-									date.endOf('day')
+									date?.endOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.eliminateEndDate',
+									path: 'defects.defectTable.filter.eliminateEndDate',
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path:
-											'rtd.defects.defectTable.filter.eliminateStartDate',
+										path: 'rtd.defects.defectTable.filter.eliminateStartDate',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -433,8 +423,6 @@ export const MainTableHeader = () => {
 									</>
 								),
 								value: option.id,
-								className: '',
-								disabled: undefined,
 							})}
 							dispatch={{
 								path: `defects.defectTable.filter.${
@@ -471,12 +459,9 @@ export const MainTableHeader = () => {
 								optionConverter={(option) => ({
 									label: <span>{option.name}</span>,
 									value: option.id,
-									className: '',
-									disabled: undefined,
 								})}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.panelPriority',
+									path: 'defects.defectTable.filter.panelPriority',
 								}}
 								subscribe={[
 									/**
@@ -580,26 +565,6 @@ export const customColumnProps = [
 			/>
 		),
 	},
-	// {
-	//     name: 'statusPanelId',
-	//     cellRenderer: ({cellData}) => {
-	//         let statusIndicator = statusesConfig.find(
-	//             (el) => el.statusPanelId === cellData
-	//         );
-	//         return statusIndicator ? (
-	//             <div
-	//                 style={{
-	//                     width: 10,
-	//                     height: 10,
-	//                     background: `${statusIndicator.color}`,
-	//                     borderRadius: '50%',
-	//                 }}
-	//             ></div>
-	//         ) : (
-	//             <div>Без статуса</div>
-	//         );
-	//     },
-	// },
 ];
 
 export const statusesConfig = [

@@ -65,7 +65,8 @@ export const DetoursMainTableHeader = () => {
 						}}
 						subscribe={[
 							reloadFilterFields(
-								'detours.mainForm.filter.events.onReload'
+								'detours.mainForm.filter.events.onReload',
+								'reset'
 							),
 						]}
 					/>
@@ -101,7 +102,8 @@ export const DetoursMainTableHeader = () => {
 								),
 								/** Action clear value*/
 								reloadFilterFields(
-									'detours.mainForm.table.events.viewMode'
+									'detours.mainForm.table.events.viewMode',
+									'calendar'
 								),
 							]}
 						/>
@@ -128,12 +130,13 @@ export const DetoursMainTableHeader = () => {
 								path: 'detours.mainForm.filter.events.staffId',
 							}}
 							subscribe={[
-								reloadFilterFields(
-									'detours.mainForm.filter.events.onReload'
-								),
 								/** Action clear value*/
 								reloadFilterFields(
-									'detours.mainForm.table.events.viewMode'
+									'detours.mainForm.table.events.viewMode',
+									'calendar'
+								),
+								reloadFilterFields(
+									'detours.mainForm.filter.events.onReload'
 								),
 							]}
 						/>
@@ -142,8 +145,7 @@ export const DetoursMainTableHeader = () => {
 						subscribe={[
 							{
 								name: 'detourMainForm',
-								path:
-									'rtd.detours.mainForm.table.events.viewMode',
+								path: 'rtd.detours.mainForm.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({value: value});
 								},
@@ -161,17 +163,15 @@ export const DetoursMainTableHeader = () => {
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
 									onChange={(date, dateString) =>
-										date.startOf('day')
+										date?.startOf('day')
 									}
 									dispatch={{
-										path:
-											'detours.mainForm.filter.events.startDate',
+										path: 'detours.mainForm.filter.events.startDate',
 									}}
 									subscribe={[
 										{
 											name: 'finishDate',
-											path:
-												'rtd.detours.mainForm.filter.events.finishDate',
+											path: 'rtd.detours.mainForm.filter.events.finishDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -190,6 +190,10 @@ export const DetoursMainTableHeader = () => {
 										reloadFilterFields(
 											'detours.mainForm.filter.events.onReload'
 										),
+										reloadFilterFields(
+											'detours.mainForm.table.events.viewMode',
+											'calendar'
+										),
 									]}
 								/>
 								<DatePicker
@@ -200,17 +204,15 @@ export const DetoursMainTableHeader = () => {
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
 									onChange={(date, dateString) =>
-										date.endOf('day')
+										date?.endOf('day')
 									}
 									dispatch={{
-										path:
-											'detours.mainForm.filter.events.finishDate',
+										path: 'detours.mainForm.filter.events.finishDate',
 									}}
 									subscribe={[
 										{
 											name: 'startDate',
-											path:
-												'rtd.detours.mainForm.filter.events.startDate',
+											path: 'rtd.detours.mainForm.filter.events.startDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -227,6 +229,10 @@ export const DetoursMainTableHeader = () => {
 										reloadFilterFields(
 											'detours.mainForm.filter.events.onReload'
 										),
+										reloadFilterFields(
+											'detours.mainForm.table.events.viewMode',
+											'calendar'
+										),
 									]}
 								/>
 							</Space>
@@ -238,8 +244,7 @@ export const DetoursMainTableHeader = () => {
 								format={'MMM YYYY'}
 								picker='month'
 								dispatch={{
-									path:
-										'detours.mainForm.filter.events.month',
+									path: 'detours.mainForm.filter.events.month',
 								}}
 								subscribe={[
 									{
@@ -282,6 +287,7 @@ export const DetoursMainTableHeader = () => {
 						<Button
 							dispatch={{
 								path: 'detours.mainForm.filter.events.onReload',
+								type: 'event',
 							}}
 						>
 							Сбросить
