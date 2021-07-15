@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Form, FormBody, Layout, Table, Space, Text, Divider} from 'rt-design';
+import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
 	apiGetUnAuthData,
 } from '../../../apis/catalog.api';
-import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
+import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
 import {Spin} from 'antd';
 import {Pie} from 'react-chartjs-2';
@@ -18,7 +18,7 @@ export const Signage = () => {
 		validInfo: 0,
 	});
 	const [tableVar, setTableVar] = useState({
-		pageSize: 10,
+		pageSize: 8,
 		countPages: 0,
 		rows: [],
 	});
@@ -186,69 +186,46 @@ export const Signage = () => {
 	return (
 		<Form>
 			<FormBody noPadding={true}>
-				<Space
-					style={{
-						justifyContent: 'space-between',
-						marginRight: '300px',
-					}}
-				>
-					<Space>
-						<MainLogo />
-					</Space>
-					<Space className={'defect-info mt-16'}>
-						<Text
-							itemProps={{name: 'detectCount'}}
-							className={'detectCount'}
-							dispatch={{
-								path: 'defects.defectsSignageTable.reload',
-							}}
-							label={
-								<span
-									style={{
-										textAlign: 'center',
-									}}
-								>
-									<div className={'regularColor'}>
-										Обнаружено
-									</div>
-									<div>{defectsCounter.detected}</div>
-								</span>
-							}
-						/>
-						<Divider type={'vertical'} />
-						<Text
-							itemProps={{name: 'sendPanelCount'}}
-							className={'sendPanelCount'}
-							label={
-								<span
-									style={{
-										textAlign: 'center',
-									}}
-								>
-									<div className={'regularColor'}>
-										Передано в ПП
-									</div>
-									<div>{defectsCounter.sendToPanel}</div>
-								</span>
-							}
-						/>
-						<Divider type={'vertical'} />
-						<Text
-							itemProps={{name: 'eliminateCount'}}
-							className={'eliminateCount'}
-							label={
-								<span
-									style={{
-										textAlign: 'center',
-									}}
-								>
-									<div className={'regularColor'}>
-										Устранено
-									</div>
-									<div>{defectsCounter.eliminate}</div>
-								</span>
-							}
-						/>
+				<Space className={'signage-header'}>
+					<img
+						src={logoSignage}
+						style={{height: '100px'}}
+						alt={'logo'}
+					/>
+					<Space className={'defect-info'} size={32}>
+						<Space
+							direction={'vertical'}
+							className={'counter-container'}
+						>
+							<Text label={'Обнаружено'} />
+							<Text
+								itemProps={{name: 'detectCount'}}
+								className={'detectCount'}
+								dispatch={{
+									path: 'defects.defectsSignageTable.reload',
+								}}
+								label={defectsCounter.detected}
+							/>
+						</Space>
+						<Space
+							direction={'vertical'}
+							className={'counter-container'}
+						>
+							<Text label={'Передано в ПП'} />
+							<Text
+								itemProps={{name: 'sendPanelCount'}}
+								className={'sendPanelCount'}
+								label={defectsCounter.sendToPanel}
+							/>
+						</Space>
+						<Space direction={'vertical'}>
+							<Text label={'Устранено'} />
+							<Text
+								itemProps={{name: 'eliminateCount'}}
+								className={'eliminateCount'}
+								label={defectsCounter.eliminate}
+							/>
+						</Space>
 						<Space className={'chartPie'}>
 							<Pie
 								data={memoDataByChart}
@@ -257,23 +234,18 @@ export const Signage = () => {
 							/>
 						</Space>
 					</Space>
+					<Text
+						className={'pager'}
+						label={`Дефектов ${tableVar.countPages}/${defectsCounter.validInfo}`}
+					/>
 				</Space>
 				<Layout className={'signage'}>
-					<Space
-						className={'pb-8 mr-16'}
-						style={{justifyContent: 'flex-end'}}
-					>
-						<Text
-							label={`Дефектов ${tableVar.countPages}/${defectsCounter.validInfo}`}
-							className={'mr-16'}
-						/>
-					</Space>
 					<Table
 						rowKey={'id'}
 						type={'rt'}
 						// fixWidthColumn={true}
-						headerHeight={52}
-						rowHeight={60}
+						headerHeight={70}
+						rowHeight={70}
 						defaultSortBy={{
 							key: 'dateDetectDefect',
 							order: 'desc',
@@ -282,14 +254,12 @@ export const Signage = () => {
 							<div
 								className={'BaseTable__overlay custom__overlay'}
 							>
-								{' '}
-								<MainLogo className={''} />
 								<Spin
 									tip='Обновляем данные...'
 									size={'large'}
 									className={'no__bg'}
 									style={{background: 'none'}}
-								/>{' '}
+								/>
 							</div>
 						}
 						zebraStyle={true}
