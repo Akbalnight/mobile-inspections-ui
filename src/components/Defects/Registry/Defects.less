@@ -28,6 +28,9 @@
 }
 
  .defect-info .ant-typography {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
    font-family: "Roboto", sans-serif;
    font-size:min(24px, calc(100vw * 4 / 75));
    &.eliminateCount{
@@ -42,8 +45,12 @@
    .regularColor{
      color: black;
    }
-}
 
+}
+.chartPie {
+  margin-left: 100px;
+  margin-right: -200px;
+ }
 .signage {
   font-size: 20px;
   padding: 0px;
@@ -67,4 +74,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .anticon {
+  margin-left: -50px;
+
+  }
 }

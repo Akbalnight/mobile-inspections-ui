@@ -8,6 +8,7 @@ import {
 import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
 import '../Registry/Defects.less';
 import {Spin} from 'antd';
+import {Pie} from 'react-chartjs-2';
 
 export const Signage = () => {
 	const [defectsCounter, setDefectsCounter] = useState({
@@ -21,7 +22,30 @@ export const Signage = () => {
 		countPages: 0,
 		rows: [],
 	});
-
+	// const memoChart=(a,b,c)=>{
+	// let dataByPie
+	//   return dataByPie = {
+	//     datasets: [
+	//         {
+	//             data: [a,b,c],
+	//             backgroundColor: ['#F2C94C', '#98B8E3', '#39839D']
+	//         }]
+	// }
+	//
+	// }
+	// const memoDataByChart=useMemo(()=>memoChart(defectsCounter.detected, defectsCounter.eliminate, defectsCounter.sendToPanel), [defectsCounter.detected, defectsCounter.eliminate, defectsCounter.sendToPanel])
+	const memoDataByChart = {
+		datasets: [
+			{
+				data: [
+					defectsCounter.detected,
+					defectsCounter.eliminate,
+					defectsCounter.sendToPanel,
+				],
+				backgroundColor: ['#F2C94C', '#98B8E3', '#39839D'],
+			},
+		],
+	};
 	useEffect(() => {
 		/** Request data count by defects */
 		apiGetUnAuthData(
@@ -225,6 +249,13 @@ export const Signage = () => {
 								</span>
 							}
 						/>
+						<Space className={'chartPie'}>
+							<Pie
+								data={memoDataByChart}
+								width={120}
+								height={120}
+							/>
+						</Space>
 					</Space>
 				</Space>
 				<Layout className={'signage'}>
