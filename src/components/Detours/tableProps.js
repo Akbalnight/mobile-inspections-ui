@@ -65,7 +65,7 @@ export const DetoursMainTableHeader = () => {
 						}}
 						subscribe={[
 							reloadFilterFields(
-								'detours.mainForm.filter.events.onReload',
+								'detours.mainForm.table.onReload',
 								'reset'
 							),
 						]}
@@ -98,7 +98,7 @@ export const DetoursMainTableHeader = () => {
 							}}
 							subscribe={[
 								reloadFilterFields(
-									'detours.mainForm.filter.events.onReload'
+									'detours.mainForm.table.onReload'
 								),
 								/** Action clear value*/
 								reloadFilterFields(
@@ -136,7 +136,7 @@ export const DetoursMainTableHeader = () => {
 									'calendar'
 								),
 								reloadFilterFields(
-									'detours.mainForm.filter.events.onReload'
+									'detours.mainForm.table.onReload'
 								),
 							]}
 						/>
@@ -188,7 +188,7 @@ export const DetoursMainTableHeader = () => {
 											},
 										},
 										reloadFilterFields(
-											'detours.mainForm.filter.events.onReload'
+											'detours.mainForm.table.onReload'
 										),
 										reloadFilterFields(
 											'detours.mainForm.table.events.viewMode',
@@ -227,7 +227,7 @@ export const DetoursMainTableHeader = () => {
 											},
 										},
 										reloadFilterFields(
-											'detours.mainForm.filter.events.onReload'
+											'detours.mainForm.table.onReload'
 										),
 										reloadFilterFields(
 											'detours.mainForm.table.events.viewMode',
@@ -286,7 +286,7 @@ export const DetoursMainTableHeader = () => {
 						</Button>
 						<Button
 							dispatch={{
-								path: 'detours.mainForm.filter.events.onReload',
+								path: 'detours.mainForm.table.onReload',
 								type: 'event',
 							}}
 						>

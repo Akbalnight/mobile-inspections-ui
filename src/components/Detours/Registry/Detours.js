@@ -104,7 +104,7 @@ export const Detours = () => {
 								{
 									/** Action on push button Сбросить */
 									name: 'onReload',
-									path: 'rtd.detours.mainForm.filter.events.onReload',
+									path: 'rtd.detours.mainForm.table.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({filter: {}});
 									},
