@@ -240,7 +240,7 @@ export const Signage = () => {
 					<Table
 						rowKey={'id'}
 						type={'rt'}
-						fixWidthColumn={true}
+						// fixWidthColumn={true}
 						headerHeight={52}
 						rowHeight={60}
 						defaultSortBy={{
@@ -252,7 +252,7 @@ export const Signage = () => {
 								className={'BaseTable__overlay custom__overlay'}
 							>
 								{' '}
-								<MainLogo className={'ml-16'} />
+								<MainLogo className={''} />
 								<Spin
 									tip='Обновляем данные...'
 									size={'large'}
