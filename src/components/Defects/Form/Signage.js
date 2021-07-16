@@ -179,7 +179,8 @@ export const Signage = () => {
 				<Space className={'signage-header'}>
 					<img
 						src={logoSignage}
-						style={{height: '100px'}}
+						width={'200'}
+						height={'80'}
 						alt={'logo'}
 					/>
 					<Space className={'defect-info'} size={32}>
