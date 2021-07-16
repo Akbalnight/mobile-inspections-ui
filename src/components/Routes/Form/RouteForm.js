@@ -131,7 +131,7 @@ const RouteForm = (props) => {
 					<ControlPointTableHeader />
 					<Table
 						itemProps={{name: 'controlPoints'}}
-						rowKey={'controlPointId'}
+						rowKey={'id'}
 						customColumnProps={customColumnProps}
 						dispatch={{
 							path: 'routes.routeForm.controlPointsTable.table',
@@ -148,8 +148,7 @@ const RouteForm = (props) => {
 							/** Add table Items */
 							{
 								name: 'addOnLocal',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
+								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
 								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
 								},
@@ -157,8 +156,7 @@ const RouteForm = (props) => {
 							/** Edit table Items */
 							{
 								name: 'editOnLocal',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.events.onEditRow',
+								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onEditRow',
 								onChange: ({value, editRow}) => {
 									value && editRow(value.value);
 								},
@@ -166,8 +164,7 @@ const RouteForm = (props) => {
 							/** Delete table Items */
 							{
 								name: 'deleteOnLocal',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
+								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
 								onChange: ({value, removeRow}) => {
 									removeRow();
 								},
@@ -175,23 +172,20 @@ const RouteForm = (props) => {
 							/** Action change state after push on Button */
 							{
 								name: 'onClickMoveUp',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
+								path: 'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
 							},
 							/** Action change state after push on Button */
 							{
 								name: 'onClickMoveDown',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
+								path: 'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
 								onChange: ({moveDownRow}) => moveDownRow(),
 							},
 
 							/** Action change row position in table */
 							{
 								name: 'onMoveUpRow',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.events.onMoveUpRow',
+								path: 'rtd.routes.routeForm.controlPointsTable.table.events.onMoveUpRow',
 								onChange: ({value}) => {
 									console.log(value);
 									executeRequest(
@@ -209,8 +203,7 @@ const RouteForm = (props) => {
 							/** Action change row position in table */
 							{
 								name: 'onMoveDownRow',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.events.onMoveDownRow',
+								path: 'rtd.routes.routeForm.controlPointsTable.table.events.onMoveDownRow',
 								onChange: ({value}) =>
 									executeRequest(
 										apiSaveByConfigName(
