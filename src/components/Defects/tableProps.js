@@ -545,7 +545,9 @@ export const customColumnProps = [
 					statusId={rowData.statusPanelId}
 					title={rowData.statusPanelName}
 				/>
-				<span>{rowData.statusPanelName}</span>
+				<span style={{whiteSpace: 'nowrap'}}>
+					{rowData.statusPanelName}
+				</span>
 			</>
 		),
 	},

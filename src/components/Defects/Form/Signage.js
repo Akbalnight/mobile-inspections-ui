@@ -9,20 +9,56 @@ import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
 import {Spin} from 'antd';
 import {Pie} from 'react-chartjs-2';
+import axios from 'axios';
+
+const DATA_TABLE = {
+	viewOnPanel: true,
+	statusIds: [
+		'e07a6417-840e-4743-a4f0-45da6570743f', // newDetect
+		'ce4e57eb-ae8f-4648-98ec-410808da380e', // atWork
+		'04d98b77-f4c7-46ed-be25-b01b035027fd', // expired
+	],
+};
+const DATA_COUNTERS = {
+	newDetect: {
+		viewOnPanel: true,
+		statusId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+	},
+	atWork: {
+		viewOnPanel: true,
+		statusId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+	},
+	expired: {
+		viewOnPanel: true,
+		statusId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+	},
+	eliminate: {
+		viewOnPanel: true,
+		statusId: '418406b1-8f78-4448-96e1-8caa022fe242',
+	},
+	detected: {viewOnPanel: true},
+	validInfo: DATA_TABLE,
+};
 
 export const Signage = () => {
+	const [signageParams, setSignageParams] = useState({
+		timeoutUpdate: 5000,
+		pageSize: 8,
+		fixWidthColumn: false,
+		headerHeight: 70,
+		rowHeight: 70,
+	});
 	const [defectsCounter, setDefectsCounter] = useState({
-		detected: 0,
-		eliminate: 0,
-		expired: 0,
-		atWork: 0,
 		newDetect: 0,
+		atWork: 0,
+		expired: 0,
+		eliminate: 0,
+		detected: 0,
 		validInfo: 0,
 	});
 	const [tableVar, setTableVar] = useState({
-		pageSize: 8,
-		countPages: 0,
-		rows: [],
+		pageSize: signageParams.pageSize,
+		pageNum: 1,
 	});
 
 	const memoDataByChart = {
@@ -40,172 +76,61 @@ export const Signage = () => {
 	};
 
 	useEffect(() => {
-		/** Request data count by defects */
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				viewOnPanel: true,
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, detected: resp.data}))
-			)
-			.catch((err) => console.error());
+		loadConfig();
+		setTimeout(() => {
+			loadCounters();
+			loadTable();
+		}, signageParams.timeoutUpdate);
+	}, [tableVar.rows]);
 
-		/** Request data count by defects */
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusIds: [
-					'04d98b77-f4c7-46ed-be25-b01b035027fd',
-					'ce4e57eb-ae8f-4648-98ec-410808da380e',
-					'e07a6417-840e-4743-a4f0-45da6570743f',
-				],
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, validInfo: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defect status 'Устранен'*/
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusId: '418406b1-8f78-4448-96e1-8caa022fe242',
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, eliminate: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defect status 'Просрочен'*/
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, expired: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defect status 'В работе'*/
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, atWork: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defect status 'Новый'*/
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusId: 'e07a6417-840e-4743-a4f0-45da6570743f',
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, newDetect: resp.data}))
-			)
-			.catch((err) => console.error());
-	}, []);
-
-	useEffect(() => {
-		const currentTimeout = 5000;
-		if (tableVar.countPages < defectsCounter.validInfo) {
-			setTimeout(() => {
-				return apiGetUnAuthData(
-					'defectsSignage',
-					'flat'
-				)({
-					data: {
-						statusIds: [
-							'04d98b77-f4c7-46ed-be25-b01b035027fd',
-							'ce4e57eb-ae8f-4648-98ec-410808da380e',
-							'e07a6417-840e-4743-a4f0-45da6570743f',
-						],
-						viewOnPanel: true,
-					},
-					params: {
-						page:
-							tableVar.countPages !== 0
-								? tableVar.countPages / tableVar.pageSize
-								: tableVar.countPages,
-						size: tableVar.pageSize,
-					},
-				})
-					.then((resp) =>
-						setTableVar((state) => ({
-							...state,
-							rows: [...resp.data],
-							countPages:
-								state.countPages + state.pageSize <
-								defectsCounter.validInfo
-									? state.countPages + state.pageSize
-									: defectsCounter.validInfo,
-						}))
-					)
-					.catch((err) => console.error());
-			}, currentTimeout);
-		} else if (
-			tableVar.countPages === defectsCounter.validInfo &&
-			tableVar.countPages > tableVar.pageSize
-		) {
-			setTimeout(() => {
-				apiGetUnAuthData(
-					'defectsSignage',
-					'flat'
-				)({
-					data: {
-						statusIds: [
-							'04d98b77-f4c7-46ed-be25-b01b035027fd',
-							'ce4e57eb-ae8f-4648-98ec-410808da380e',
-							'e07a6417-840e-4743-a4f0-45da6570743f',
-						],
-						viewOnPanel: true,
-					},
-					params: {
-						page: 0,
-						size: tableVar.pageSize,
-					},
-				})
-					.then((resp) =>
-						setTableVar((state) => ({
-							...state,
-							rows: [...resp.data],
-							countPages: tableVar.pageSize,
-						}))
-					)
-					.catch((err) => console.error());
-				// setTableVar((state) => ({...state, rows: [], countPages: 10}));
-			}, currentTimeout);
+	const loadConfig = () => {
+		axios
+			.get('/SignageParams.json')
+			.then((res) => setSignageParams(res.data));
+	};
+	const loadCounters = () => {
+		for (const key in DATA_COUNTERS) {
+			// console.log("DATA_COUNTERS key => ", key);
+			apiGetUnAuthData(
+				'defectsSignage',
+				'count'
+			)({
+				data: DATA_COUNTERS[key],
+				params: {},
+			})
+				.then((resp) =>
+					setDefectsCounter((state) => ({...state, [key]: resp.data}))
+				)
+				.catch((err) => console.log(err));
 		}
-	}, [tableVar.countPages, tableVar.pageSize, defectsCounter.validInfo]);
+	};
+
+	const loadTable = () => {
+		apiGetUnAuthData(
+			'defectsSignage',
+			'flat'
+		)({
+			data: DATA_TABLE,
+			params: {
+				page: tableVar.pageNum - 1,
+				size: tableVar.pageSize,
+			},
+		})
+			.then((resp) => {
+				const totalCount = tableVar.pageNum * tableVar.pageSize;
+				const nextPageNum =
+					totalCount < defectsCounter.validInfo
+						? tableVar.pageNum + 1
+						: 1;
+				// console.log('totalCount, validInfo, nextPageNum=> ', totalCount, defectsCounter.validInfo, nextPageNum)
+				setTableVar((state) => ({
+					...state,
+					rows: [...resp.data],
+					pageNum: nextPageNum,
+				}));
+			})
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<Form>
@@ -225,7 +150,7 @@ export const Signage = () => {
 							<Text
 								itemProps={{name: 'newDetectCount'}}
 								className={'newDetectCount'}
-								label={defectsCounter.newDetect}
+								label={defectsCounter.newDetect || '0'}
 							/>
 						</Space>
 						<Space
@@ -236,11 +161,7 @@ export const Signage = () => {
 							<Text
 								itemProps={{name: 'atWorkCount'}}
 								className={'atWorkCount'}
-								label={
-									defectsCounter.atWork
-										? defectsCounter.atWork
-										: '0'
-								}
+								label={defectsCounter.atWork || '0'}
 							/>
 						</Space>
 						<Space
@@ -251,11 +172,7 @@ export const Signage = () => {
 							<Text
 								itemProps={{name: 'expiredCount'}}
 								className={'expiredCount'}
-								label={
-									defectsCounter.expired
-										? defectsCounter.expired
-										: '0'
-								}
+								label={defectsCounter.expired || '0'}
 							/>
 						</Space>
 						<Space
@@ -266,11 +183,7 @@ export const Signage = () => {
 							<Text
 								itemProps={{name: 'eliminateCount'}}
 								className={'eliminateCount'}
-								label={
-									defectsCounter.eliminate
-										? defectsCounter.eliminate
-										: '0'
-								}
+								label={defectsCounter.eliminate || '0'}
 							/>
 						</Space>
 						<Space direction={'vertical'}>
@@ -281,25 +194,17 @@ export const Signage = () => {
 								dispatch={{
 									path: 'defects.defectsSignageTable.reload',
 								}}
-								label={
-									defectsCounter.detected
-										? defectsCounter.detected
-										: '0'
-								}
+								label={defectsCounter.detected || '0'}
 							/>
 						</Space>
-						<Space className={'chartPie'}>
-							<Pie
-								data={memoDataByChart}
-								options={{
-									animation: {
-										duration: 0,
-									},
-								}}
-								width={120}
-								height={120}
-							/>
-						</Space>
+						<Pie
+							className={'chartPie'}
+							data={memoDataByChart}
+							options={{
+								plugins: {legend: {display: false}},
+								animation: {duration: 0},
+							}}
+						/>
 					</Space>
 					{/*<Text*/}
 					{/*	className={'pager'}*/}
@@ -311,12 +216,9 @@ export const Signage = () => {
 						rowKey={'id'}
 						type={'rt'}
 						// fixWidthColumn={true}
-						headerHeight={70}
-						rowHeight={70}
-						// defaultSortBy={{
-						// 	key: 'dateDetectDefect',
-						// 	order: 'desc',
-						// }}
+						fixWidthColumn={signageParams.fixWidthColumn}
+						headerHeight={signageParams.headerHeight}
+						rowHeight={signageParams.rowHeight}
 						empty={
 							<div
 								className={'BaseTable__overlay custom__overlay'}
@@ -336,26 +238,6 @@ export const Signage = () => {
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
 						)}
-						// subscribe={[
-						// 	/** This situation we make force reload in table. You change timeout which you need*/
-						// 	{
-						// 		name: 'forceReload',
-						// 		path: 'rtd.defects.defectsSignageTable.reload',
-						// 		onChange: ({reloadTable}) => {
-						// 			setTimeout(
-						// 				() =>
-						// 					reloadTable({
-						// 						sortBy: {
-						// 							key: 'dateDetectDefect',
-						// 							order: 'desc',
-						// 						},
-						// 					}),
-						// 				//600000
-						// 				10000
-						// 			);
-						// 		},
-						// 	},
-						// ]}
 					/>
 				</Layout>
 			</FormBody>

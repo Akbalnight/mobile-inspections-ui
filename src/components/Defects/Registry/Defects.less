@@ -41,41 +41,40 @@
   }
 
   .defect-info .ant-typography {
-    font-family: "Roboto", sans-serif;
+    // -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    //  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    //  'Noto Color Emoji';
+    //font-family: Roboto; //sans-serif;
     font-size: min(24px, calc(100vw * 4 / 75));
 
-    &.eliminateCount {
-      color: #024B6C;
-      font-size:32px;
-      margin: 0 0 0 25px;
+    &.newDetectCount,
+    &.atWorkCount,
+    &.expiredCount,
+    &.eliminateCount,
+    &.detectCount,
+    .regularColor{
+      font-size: 32px;
+      font-weight: 700;
     }
 
-    &.detectCount {
-      color: #5C85AB;
-      font-size:32px;
-    }
-
-    &.expiredCount {
-      color: #EC6546;
-      font-size:32px;
-      margin: 0 0 0 40px;
+    &.newDetectCount {
+      color: #FAB610;
     }
     &.atWorkCount {
       color: #0475A7;
-      font-size:32px;
-      margin: 0 0 0 25px;
     }
-    &.newDetectCount {
-      color: #FAB610;
-      font-size:32px;
-      margin: 0 0 0 10px;
+    &.expiredCount {
+      color: #EC6546;
     }
-
+    &.eliminateCount {
+      color: #024B6C;
+    }
+    &.detectCount {
+      color: #5C85AB;
+    }
     .regularColor {
       color: black;
-      font-size:32px
     }
-
   }
 
   .pager {
@@ -84,27 +83,31 @@
 
 }
   .chartPie {
-    margin-left: 100px;
-    margin-right: 100px;
+    height: 100px;
+    width: 100px;
+    //display: flex;
+    //justify-content: center;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
 .signage {
   font-size: 20px;
-  padding: 0px;
+  //padding: 0px;
 
   .BaseTable__row-cell {
     font-size: 20px;
-    padding: 0px;
+    //padding: 0px;
   }
 
   .BaseTable__header-cell-text {
     font-size: 18px;
-    padding: 0px;
+    //padding: 0px;
   }
 
   span.rt-table-cell {
-    overflow: auto;
-    white-space: pre-wrap;
+    //overflow: auto;
+    white-space: break-spaces;
   }
 }
 
