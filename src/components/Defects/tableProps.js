@@ -177,6 +177,9 @@ export const MainTableHeader = () => {
 										`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
 									);
 								}}
+								dispatch={{
+									type: 'defects.defectTable.events.onReload',
+								}}
 							/>
 						) : (
 							<Button
@@ -186,6 +189,9 @@ export const MainTableHeader = () => {
 									history.push(
 										`${paths.CONTROL_DEFECTS_DEFECTS.path}`
 									);
+								}}
+								dispatch={{
+									type: 'defects.defectTable.events.onReload',
 								}}
 							/>
 						)}
