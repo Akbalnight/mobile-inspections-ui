@@ -1,7 +1,7 @@
 const {createProxyMiddleware} = require('http-proxy-middleware');
 
 const API_URL = 'http://10.5.121.117';
-// const LOCAL_API_URL = 'http://localhost';
+// const API_URL = 'http://localhost';
 
 const OAUTH_URL = 'https://oauth.dias-dev.ru';
 
