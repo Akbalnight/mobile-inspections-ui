@@ -1,0 +1,7 @@
+{
+  "timeoutUpdate": 5000,
+  "pageSize": 8,
+  "fixWidthColumn": false,
+  "headerHeight": 70,
+  "rowHeight": 70
+}

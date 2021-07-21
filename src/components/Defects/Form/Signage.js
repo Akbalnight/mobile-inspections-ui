@@ -9,6 +9,7 @@ import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
 import {Spin} from 'antd';
 import {Pie} from 'react-chartjs-2';
+import axios from 'axios';
 
 const DATA_TABLE = {
 	viewOnPanel: true,
@@ -40,6 +41,13 @@ const DATA_COUNTERS = {
 };
 
 export const Signage = () => {
+	const [signageParams, setSignageParams] = useState({
+		timeoutUpdate: 5000,
+		pageSize: 8,
+		fixWidthColumn: false,
+		headerHeight: 70,
+		rowHeight: 70,
+	});
 	const [defectsCounter, setDefectsCounter] = useState({
 		newDetect: 0,
 		atWork: 0,
@@ -49,7 +57,7 @@ export const Signage = () => {
 		validInfo: 0,
 	});
 	const [tableVar, setTableVar] = useState({
-		pageSize: 8,
+		pageSize: signageParams.pageSize,
 		pageNum: 1,
 	});
 
@@ -68,12 +76,18 @@ export const Signage = () => {
 	};
 
 	useEffect(() => {
+		loadConfig();
 		setTimeout(() => {
 			loadCounters();
 			loadTable();
-		}, 5000);
+		}, signageParams.timeoutUpdate);
 	}, [tableVar.rows]);
 
+	const loadConfig = () => {
+		axios
+			.get('/SignageParams.json')
+			.then((res) => setSignageParams(res.data));
+	};
 	const loadCounters = () => {
 		for (const key in DATA_COUNTERS) {
 			// console.log("DATA_COUNTERS key => ", key);
@@ -202,8 +216,9 @@ export const Signage = () => {
 						rowKey={'id'}
 						type={'rt'}
 						// fixWidthColumn={true}
-						headerHeight={70}
-						rowHeight={70}
+						fixWidthColumn={signageParams.fixWidthColumn}
+						headerHeight={signageParams.headerHeight}
+						rowHeight={signageParams.rowHeight}
 						empty={
 							<div
 								className={'BaseTable__overlay custom__overlay'}
