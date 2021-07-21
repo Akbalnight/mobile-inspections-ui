@@ -50,7 +50,6 @@ export const StatusIcon = ({keyToFind, statusId, title = ''}) => {
 	const foundStatus =
 		statusesConfig &&
 		statusesConfig.find((status) => status[keyToFind] === statusId);
-
 	if (foundStatus) {
 		const StatusVariant = foundStatus.statusIconF;
 		return (
@@ -538,15 +537,15 @@ export const customColumnProps = [
 	},
 	{
 		//  в этой колонке истории использован custom SQL
-		name: 'statusProcessName',
+		name: 'statusPanelName',
 		cellRenderer: ({rowData}) => (
 			<>
 				<StatusIcon
-					keyToFind={'statusProcessId'}
-					statusId={rowData.statusProcessId}
-					title={rowData.statusProcessName}
+					keyToFind={'statusPanelId'}
+					statusId={rowData.statusPanelId}
+					title={rowData.statusPanelName}
 				/>
-				<span>{rowData.statusProcessName}</span>
+				<span>{rowData.statusPanelName}</span>
 			</>
 		),
 	},
@@ -564,6 +563,10 @@ export const customColumnProps = [
 				}}
 			/>
 		),
+	},
+	{
+		name: 'row_number',
+		style: {borderRight: '1px solid rgba(0, 0, 0, 0.09)'},
 	},
 ];
 
