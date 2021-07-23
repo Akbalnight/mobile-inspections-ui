@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
+import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
@@ -7,9 +8,12 @@ import {
 } from '../../../apis/catalog.api';
 import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
-import {Spin} from 'antd';
 import {Pie} from 'react-chartjs-2';
 import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import moment from 'moment';
+
+const version = process && process.env && process.env.REACT_APP_VERSION;
 
 const DATA_TABLE = {
 	viewOnPanel: true,
@@ -41,6 +45,7 @@ const DATA_COUNTERS = {
 };
 
 export const Signage = () => {
+	const dispatch = useDispatch();
 	const [signageParams, setSignageParams] = useState({
 		timeoutUpdate: 5000,
 		pageSize: 8,
@@ -57,8 +62,9 @@ export const Signage = () => {
 		validInfo: 0,
 	});
 	const [tableVar, setTableVar] = useState({
-		pageSize: signageParams.pageSize,
-		pageNum: 1,
+		pageNum: 0,
+		counter: 0,
+		//seconds: 0
 	});
 
 	const memoDataByChart = {
@@ -77,11 +83,16 @@ export const Signage = () => {
 
 	useEffect(() => {
 		loadConfig();
-		setTimeout(() => {
+		loadCounters();
+		setInterval(() => {
 			loadCounters();
-			loadTable();
+			dispatch(
+				setDateStore('defects.defectsSignage.events.onReload', {
+					timestamp: moment(),
+				})
+			);
 		}, signageParams.timeoutUpdate);
-	}, [tableVar.rows]);
+	}, []); // tableVar.rows
 
 	const loadConfig = () => {
 		axios
@@ -127,14 +138,44 @@ export const Signage = () => {
 					...state,
 					rows: [...resp.data],
 					pageNum: nextPageNum,
+					counter: state.counter + 1,
+					// seconds: state.seconds + (signageParams.timeoutUpdate / 1000)
 				}));
 			})
 			.catch((err) => console.log(err));
 	};
 
+	const requestLoadRowsHandler = (args) => {
+		const tableCount = tableVar.pageNum * signageParams.pageSize;
+		const serverCount = defectsCounter.validInfo;
+		const pageNum = tableCount < serverCount ? tableVar.pageNum : 0;
+		// const nextPageNum = totalCount < defectsCounter.validInfo ? tableVar.pageNum + 1 : 1;
+		setTableVar((state) => ({
+			...state,
+			pageNum: pageNum + 1,
+			counter: state.counter + 1,
+		}));
+		// console.log(`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `)
+		return apiGetUnAuthData(
+			'defectsSignage',
+			'flat'
+		)({
+			data: DATA_TABLE,
+			params: {
+				page: pageNum,
+				size: signageParams.pageSize,
+			},
+		});
+	};
+
 	return (
 		<Form>
 			<FormBody noPadding={true}>
+				<Space style={{position: 'absolute', top: 25, left: 86}}>
+					<div>Счетчик: {tableVar.counter}</div>
+					{/*<div>Циклы: {parseInt(tableVar.seconds / 60)}:{tableVar.seconds % 60}</div>*/}
+					<div>Версия: {version}</div>
+				</Space>
 				<Space className={'signage-header'}>
 					<img
 						src={logoSignage}
@@ -191,9 +232,9 @@ export const Signage = () => {
 							<Text
 								itemProps={{name: 'detectCount'}}
 								className={'detectCount'}
-								dispatch={{
-									path: 'defects.defectsSignageTable.reload',
-								}}
+								// dispatch={{
+								// 	path: 'defects.defectsSignageTable.reload',
+								// }}
 								label={defectsCounter.detected || '0'}
 							/>
 						</Space>
@@ -219,25 +260,37 @@ export const Signage = () => {
 						fixWidthColumn={signageParams.fixWidthColumn}
 						headerHeight={signageParams.headerHeight}
 						rowHeight={signageParams.rowHeight}
-						empty={
-							<div
-								className={'BaseTable__overlay custom__overlay'}
-							>
-								<Spin
-									tip='Обновляем данные...'
-									size={'large'}
-									className={'no__bg'}
-									style={{background: 'none'}}
-								/>
-							</div>
-						}
+						// empty={
+						// 	<div
+						// 		className={'BaseTable__overlay custom__overlay'}
+						// 	>
+						// 		<Spin
+						// 			tip='Обновляем данные...'
+						// 			size={'large'}
+						// 			className={'no__bg'}
+						// 			style={{background: 'none'}}
+						// 		/>
+						// 	</div>
+						// }
 						zebraStyle={true}
-						dispatch={{path: 'defects.defectsSignageTable.table'}}
+						// dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
-						rows={tableVar.rows}
+						// rows={tableVar.rows}
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
 						)}
+						requestLoadRows={requestLoadRowsHandler}
+						subscribe={[
+							{
+								name: 'onSearch',
+								path: 'rtd.defects.defectsSignage.events.onReload',
+								onChange: ({reloadTable}) => {
+									reloadTable({});
+								},
+							},
+						]}
+						// dispatch={{path: 'defects.defectTable.table'}}
+						// req={}
 					/>
 				</Layout>
 			</FormBody>
