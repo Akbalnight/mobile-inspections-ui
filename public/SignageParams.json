@@ -3,5 +3,6 @@
   "pageSize": 8,
   "fixWidthColumn": false,
   "headerHeight": 70,
-  "rowHeight": 70
+  "rowHeight": 70,
+  "counterReload": 60
 }
