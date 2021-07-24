@@ -52,6 +52,7 @@ export const Signage = () => {
 		fixWidthColumn: false,
 		headerHeight: 70,
 		rowHeight: 70,
+		counterReload: 1,
 	});
 	const [defectsCounter, setDefectsCounter] = useState({
 		newDetect: 0,
@@ -61,10 +62,11 @@ export const Signage = () => {
 		detected: 0,
 		validInfo: 0,
 	});
-	const [tableVar, setTableVar] = useState({
-		pageNum: 0,
+	const [pageNum, setPageNum] = useState(0);
+	const [statistics, setStatistics] = useState({
+		timeOfWorkToday: 0,
+		timeOfWorkAfterLastReload: 0,
 		counter: 0,
-		//seconds: 0
 	});
 
 	const memoDataByChart = {
@@ -85,7 +87,6 @@ export const Signage = () => {
 		loadConfig();
 		loadCounters();
 		setInterval(() => {
-			loadCounters();
 			dispatch(
 				setDateStore('defects.defectsSignage.events.onReload', {
 					timestamp: moment(),
@@ -102,10 +103,9 @@ export const Signage = () => {
 	const loadCounters = () => {
 		for (const key in DATA_COUNTERS) {
 			// console.log("DATA_COUNTERS key => ", key);
-			apiGetUnAuthData(
-				'defectsSignage',
-				'count'
-			)({
+			apiGetUnAuthData({
+				configName: 'defectsSignage',
+				mode: 'count',
 				data: DATA_COUNTERS[key],
 				params: {},
 			})
@@ -116,63 +116,46 @@ export const Signage = () => {
 		}
 	};
 
-	const loadTable = () => {
-		apiGetUnAuthData(
-			'defectsSignage',
-			'flat'
-		)({
+	const requestLoadRowsHandler = () => {
+		const tableCount = pageNum * signageParams.pageSize;
+		const serverCount = defectsCounter.validInfo;
+		const _pageNum = tableCount < serverCount ? pageNum : 0;
+		// console.log("_pageNum => ", statistics.counter, signageParams.counterReload, statistics.counter >= signageParams.counterReload, _pageNum)
+		if (
+			statistics.counter >= signageParams.counterReload &&
+			_pageNum === 0
+		) {
+			window.location.reload(true);
+		}
+		setPageNum(_pageNum + 1);
+		setStatistics((state) => ({...state, counter: state.counter + 1}));
+		// console.log(`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `)
+		// console.log(navigator.userAgent)
+		return apiGetUnAuthData({
+			configName: 'defectsSignage',
+			mode: 'flat',
 			data: DATA_TABLE,
 			params: {
-				page: tableVar.pageNum - 1,
-				size: tableVar.pageSize,
+				page: _pageNum,
+				size: signageParams.pageSize,
 			},
 		})
 			.then((resp) => {
-				const totalCount = tableVar.pageNum * tableVar.pageSize;
-				const nextPageNum =
-					totalCount < defectsCounter.validInfo
-						? tableVar.pageNum + 1
-						: 1;
-				// console.log('totalCount, validInfo, nextPageNum=> ', totalCount, defectsCounter.validInfo, nextPageNum)
-				setTableVar((state) => ({
-					...state,
-					rows: [...resp.data],
-					pageNum: nextPageNum,
-					counter: state.counter + 1,
-					// seconds: state.seconds + (signageParams.timeoutUpdate / 1000)
-				}));
+				// console.log("Successfully load rows");
+				loadCounters();
+				return new Promise((resolve) => resolve(resp));
 			})
-			.catch((err) => console.log(err));
-	};
-
-	const requestLoadRowsHandler = (args) => {
-		const tableCount = tableVar.pageNum * signageParams.pageSize;
-		const serverCount = defectsCounter.validInfo;
-		const pageNum = tableCount < serverCount ? tableVar.pageNum : 0;
-		// const nextPageNum = totalCount < defectsCounter.validInfo ? tableVar.pageNum + 1 : 1;
-		setTableVar((state) => ({
-			...state,
-			pageNum: pageNum + 1,
-			counter: state.counter + 1,
-		}));
-		// console.log(`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `)
-		return apiGetUnAuthData(
-			'defectsSignage',
-			'flat'
-		)({
-			data: DATA_TABLE,
-			params: {
-				page: pageNum,
-				size: signageParams.pageSize,
-			},
-		});
+			.catch((err) => {
+				console.log('Failed load rows');
+				return new Promise((resolve, reject) => reject(err));
+			});
 	};
 
 	return (
 		<Form>
 			<FormBody noPadding={true}>
 				<Space style={{position: 'absolute', top: 25, left: 86}}>
-					<div>Счетчик: {tableVar.counter}</div>
+					<div>Счетчик: {statistics.counter}</div>
 					{/*<div>Циклы: {parseInt(tableVar.seconds / 60)}:{tableVar.seconds % 60}</div>*/}
 					<div>Версия: {version}</div>
 				</Space>
