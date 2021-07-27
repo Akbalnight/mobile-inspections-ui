@@ -40,54 +40,61 @@
     align-self: flex-end;
   }
 
-  .defect-info .ant-typography {
-    // -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    //  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    //  'Noto Color Emoji';
-    //font-family: Roboto; //sans-serif;
-    font-size: min(24px, calc(100vw * 4 / 75));
+  .defect-info {
+    margin-right: 20px;
+    .ant-typography {
+      // -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+      //  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      //  'Noto Color Emoji';
+      //font-family: Roboto; //sans-serif;
+      font-size: min(24px, calc(100vw * 4 / 75));
 
-    &.newDetectCount,
-    &.atWorkCount,
-    &.expiredCount,
-    &.eliminateCount,
-    &.detectCount,
-    .regularColor{
-      font-size: 32px;
-      font-weight: 700;
+      &.newDetectCount,
+      &.atWorkCount,
+      &.expiredCount,
+      &.eliminateCount,
+      &.detectCount,
+      .regularColor {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      &.newDetectCount {
+        color: #FAB610;
+      }
+
+      &.atWorkCount {
+        color: #0475A7;
+      }
+
+      &.expiredCount {
+        color: #EC6546;
+      }
+
+      &.eliminateCount {
+        color: #024B6C;
+      }
+
+      &.detectCount {
+        color: #5C85AB;
+      }
+
+      .regularColor {
+        color: black;
+      }
     }
 
-    &.newDetectCount {
-      color: #FAB610;
+    .pager {
+      font-size: 20px;
     }
-    &.atWorkCount {
-      color: #0475A7;
-    }
-    &.expiredCount {
-      color: #EC6546;
-    }
-    &.eliminateCount {
-      color: #024B6C;
-    }
-    &.detectCount {
-      color: #5C85AB;
-    }
-    .regularColor {
-      color: black;
-    }
+
   }
-
-  .pager {
-    font-size: 20px;
-  }
-
 }
   .chartPie {
     height: 100px;
     width: 100px;
     //display: flex;
     //justify-content: center;
-    margin-left: 20px;
     margin-right: 20px;
   }
 
