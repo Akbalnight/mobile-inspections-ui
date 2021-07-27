@@ -221,14 +221,14 @@ export const Signage = () => {
 								label={defectsCounter.detected || '0'}
 							/>
 						</Space>
-						<Pie
-							className={'chartPie'}
-							data={memoDataByChart}
-							options={{
-								plugins: {legend: {display: false}},
-								animation: {duration: 0},
-							}}
-						/>
+						{/*<Pie*/}
+						{/*	className={'chartPie'}*/}
+						{/*	data={memoDataByChart}*/}
+						{/*	options={{*/}
+						{/*		plugins: {legend: {display: false}},*/}
+						{/*		animation: {duration: 0},*/}
+						{/*	}}*/}
+						{/*/>*/}
 					</Space>
 					{/*<Text*/}
 					{/*	className={'pager'}*/}
