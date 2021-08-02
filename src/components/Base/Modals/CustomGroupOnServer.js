@@ -56,7 +56,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				requestSaveForm: ({data, params}) =>
 					apiSaveByConfigName(`${catalogName}CatalogSave`)({
-						// method: type === 'add' ? 'POST' : 'PUT',
+						method: type === 'add' ? 'POST' : 'PUT',
 						data: {...data, isGroup: true},
 						params,
 					}), //не забыть поставить
