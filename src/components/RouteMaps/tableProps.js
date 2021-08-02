@@ -39,10 +39,10 @@ export const RouteMapsTableHeader = () => {
 			data: {routeId: onSelectRoute},
 		})
 			.then((response) => {
-				console.log('apiGetDataCountByConfigName ', {
-					routeId: onSelectRoute,
-					position: response.data,
-				});
+				// console.log('apiGetDataCountByConfigName ', {
+				// 	routeId: onSelectRoute,
+				// 	position: response.data,
+				// });
 				callBack({
 					routeMap: {
 						id: null,
