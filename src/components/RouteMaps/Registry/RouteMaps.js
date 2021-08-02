@@ -102,11 +102,17 @@ const RouteMaps = (props) => {
 						/>
 						<Switcher
 							itemProps={{initialValue: 0}}
+							// dispatch={{ path: 'routeMaps.mainForm.Switcher' }}
 							subscribe={[
 								{
 									name: 'choiceSwitcher',
 									path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
-									onChange: ({value, setSubscribeProps}) => {
+									// extraData: 'rtd.routeMaps.mainForm.Switcher',
+									onChange: ({
+										value,
+										extraData,
+										setSubscribeProps,
+									}) => {
 										value &&
 											value.value &&
 											setSubscribeProps &&
