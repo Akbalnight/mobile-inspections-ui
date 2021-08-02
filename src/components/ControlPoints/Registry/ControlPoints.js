@@ -22,6 +22,7 @@ const ControlPoints = () => {
 				/>
 				<FormBody noPadding={true}>
 					<Table
+						className={'control-points-registry'}
 						footerShow={true}
 						searchParamName={'name'}
 						customColumnProps={customColumnProps}
@@ -89,8 +90,7 @@ const ControlPoints = () => {
 							/**Action reload*/
 							{
 								name: 'onReload',
-								path:
-									'rtd.controlPoints.controlPointsTable.table.events.onReload',
+								path: 'rtd.controlPoints.controlPointsTable.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
