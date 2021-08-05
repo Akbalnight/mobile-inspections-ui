@@ -3,13 +3,21 @@
  * файл со всеми customFields, поля и валидация в объекты таблицы
  */
 import React from 'react';
-import {Button, Row, Space, Search, Checkbox} from 'rt-design';
+import {
+	Button,
+	Row,
+	Space,
+	Search,
+	Checkbox,
+	notificationError,
+} from 'rt-design';
 import {useHistory} from 'react-router';
 import {
 	EditOutlined,
 	FolderOutlined,
 	PlusOutlined,
 	ReloadOutlined,
+	DeleteOutlined,
 } from '@ant-design/icons';
 import {paths} from '../../constants/paths';
 import {
@@ -21,6 +29,12 @@ import {CustomGroupView} from '../Base/Modals/CustomGroupView';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {codeNormalizer} from '../Base/Functions/TextUtils';
 import {Access} from 'mobile-inspections-base-ui';
+import {RfidIcon} from '../../imgs/controlPoints/icons';
+import {notification, Tooltip} from 'antd';
+import {apiSaveByConfigName} from '../../apis/catalog.api';
+import {useDispatch} from 'react-redux';
+import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
+import moment from 'moment';
 
 /**
  *
@@ -161,6 +175,45 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 	);
 };
 
+const RfidCode = ({rowData, cellData}) => {
+	const dispatch = useDispatch();
+
+	const onClickDeleteRfid = () => {
+		apiSaveByConfigName(`mobileControlPointsSave`)({
+			method: 'PUT',
+			data: {id: rowData.id, rfidCode: null},
+			params: {},
+		})
+			.then((res) => {
+				notification.success({message: 'Метка успешно удалена'});
+				dispatch(
+					setDateStore(
+						'controlPoints.controlPointsTable.table.events.onReload',
+						{timestamp: moment()}
+					)
+				);
+			})
+			.catch(notificationError);
+	};
+
+	return (
+		<Space style={{lineHeight: 1, paddingTop: '2px'}}>
+			<RfidIcon />
+			<div>{cellData}</div>
+			<Tooltip title='Удалить RFID метку'>
+				<Button
+					className={'remove-rfid-btn'}
+					shape='circle'
+					size={'small'}
+					type={'text'}
+					icon={<DeleteOutlined />}
+					onClick={onClickDeleteRfid}
+				/>
+			</Tooltip>
+		</Space>
+	);
+};
+
 export const customColumnProps = [
 	{
 		name: 'code',
@@ -176,10 +229,11 @@ export const customColumnProps = [
 		},
 	},
 	{
-		name: 'rfidCode',
-		cellRenderer: ({cellData}) =>
+		name: 'rfidCode', //mobileControlPointsSave
+		className: 'rfid-cell',
+		cellRenderer: ({rowData, cellData}) =>
 			cellData ? (
-				<Checkbox checked={!cellData} disabled={!cellData} />
+				<RfidCode rowData={rowData} cellData={cellData} />
 			) : (
 				'---'
 			),

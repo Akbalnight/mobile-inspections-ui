@@ -6,6 +6,7 @@
     "@ant-design/icons": "^4.3.0",
     "antd": "^4.8.4",
     "axios": "^0.21.0",
+    "chart.js": "^3.4.1",
     "cookie": "^0.4.1",
     "interactjs": "^1.10.2",
     "js-sha256": "^0.9.0",
@@ -14,6 +15,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-calendar-timeline": "^0.27.0",
+    "react-chartjs-2": "^3.0.3",
     "react-color": "^2.19.3",
     "react-dom": "^17.0.1",
     "react-player": "^2.9.0",
@@ -25,7 +27,7 @@
     "react-zoom-pan-pinch": "^2.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.71"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.72"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^2.34.0",
@@ -46,7 +48,7 @@
     "build": "react-app-rewired build",
     "clean": "rm -rf ./node_modules ./package-lock.json",
     "reinstall": "npm run clean && npm install",
-    "rebuild": "npm run clean && npm install && npm run build",
+    "rebuild": "npm run reinstall && npm run build",
     "test": "react-app-rewired test",
     "eject": "eact-app-rewired eject",
     "lint": "eslint \"./src/**/*.js\" --max-warnings=0"

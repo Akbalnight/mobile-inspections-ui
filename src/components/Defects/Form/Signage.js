@@ -1,293 +1,279 @@
 import React, {useEffect, useState} from 'react';
-import {Form, FormBody, Layout, Table, Space, Text, Divider} from 'rt-design';
+import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
+import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
 	apiGetUnAuthData,
 } from '../../../apis/catalog.api';
-import {ReactComponent as MainLogo} from '../../../imgs/logo-signage.svg';
+import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
-import {Spin} from 'antd';
+import {Pie} from 'react-chartjs-2';
+import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import moment from 'moment';
+
+const version = process && process.env && process.env.REACT_APP_VERSION;
+
+const DATA_TABLE = {
+	viewOnPanel: true,
+	statusIds: [
+		'e07a6417-840e-4743-a4f0-45da6570743f', // newDetect
+		'ce4e57eb-ae8f-4648-98ec-410808da380e', // atWork
+		'04d98b77-f4c7-46ed-be25-b01b035027fd', // expired
+	],
+};
+const DATA_COUNTERS = {
+	newDetect: {
+		viewOnPanel: true,
+		statusId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+	},
+	atWork: {
+		viewOnPanel: true,
+		statusId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+	},
+	expired: {
+		viewOnPanel: true,
+		statusId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+	},
+	eliminate: {
+		viewOnPanel: true,
+		statusId: '418406b1-8f78-4448-96e1-8caa022fe242',
+	},
+	detected: {viewOnPanel: true},
+	validInfo: DATA_TABLE,
+};
 
 export const Signage = () => {
+	const dispatch = useDispatch();
+	const [signageParams, setSignageParams] = useState({
+		timeoutUpdate: 5000,
+		pageSize: 8,
+		fixWidthColumn: false,
+		headerHeight: 70,
+		rowHeight: 70,
+		counterReload: 1,
+	});
 	const [defectsCounter, setDefectsCounter] = useState({
-		detected: 0,
+		newDetect: 0,
+		atWork: 0,
+		expired: 0,
 		eliminate: 0,
-		sendToPanel: 0,
+		detected: 0,
 		validInfo: 0,
 	});
-	const [tableVar, setTableVar] = useState({
-		pageSize: 10,
-		countPages: 0,
-		rows: [],
+	const [pageNum, setPageNum] = useState(0);
+	const [statistics, setStatistics] = useState({
+		timeOfWorkToday: 0,
+		timeOfWorkAfterLastReload: 0,
+		counter: 0,
 	});
 
-	useEffect(() => {
-		/** Request data count by defects */
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, detected: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defects */
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusIds: [
-					'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-					'879f0adf-0d96-449e-bcee-800f81c4e58d',
-					'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
+	const memoDataByChart = {
+		datasets: [
+			{
+				data: [
+					defectsCounter.eliminate,
+					defectsCounter.expired,
+					defectsCounter.atWork,
+					defectsCounter.newDetect,
 				],
+				backgroundColor: ['#024B6C', '#EC6546', '#0475A7', '#FAB610'],
 			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, validInfo: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defect status 'Устранен'*/
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				statusId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({...state, eliminate: resp.data}))
-			)
-			.catch((err) => console.error());
-
-		/** Request data count by defect viewOnPanel */
-		apiGetUnAuthData(
-			'defectsSignage',
-			'count'
-		)({
-			data: {
-				viewOnPanel: true,
-			},
-			params: {},
-		})
-			.then((resp) =>
-				setDefectsCounter((state) => ({
-					...state,
-					sendToPanel: resp.data,
-				}))
-			)
-			.catch((err) => console.error());
-	}, []);
+		],
+	};
 
 	useEffect(() => {
-		const currentTimeout = 5000;
-		if (tableVar.countPages < defectsCounter.validInfo) {
-			setTimeout(() => {
-				return apiGetUnAuthData(
-					'defectsSignage',
-					'flat'
-				)({
-					data: {
-						statusIds: [
-							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-							'879f0adf-0d96-449e-bcee-800f81c4e58d',
-							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-						],
-					},
-					params: {
-						page:
-							tableVar.countPages !== 0
-								? tableVar.countPages / tableVar.pageSize
-								: tableVar.countPages,
-						size: tableVar.pageSize,
-					},
+		loadConfig();
+		loadCounters();
+		setInterval(() => {
+			dispatch(
+				setDateStore('defects.defectsSignage.events.onReload', {
+					timestamp: moment(),
 				})
-					.then((resp) =>
-						setTableVar((state) => ({
-							...state,
-							rows: [...resp.data],
-							countPages:
-								state.countPages + state.pageSize <
-								defectsCounter.validInfo
-									? state.countPages + state.pageSize
-									: defectsCounter.validInfo,
-						}))
-					)
-					.catch((err) => console.error());
-			}, currentTimeout);
-		} else if (
-			tableVar.countPages === defectsCounter.validInfo &&
-			tableVar.countPages > tableVar.pageSize
-		) {
-			setTimeout(() => {
-				apiGetUnAuthData(
-					'defectsSignage',
-					'flat'
-				)({
-					data: {
-						statusIds: [
-							'1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
-							'879f0adf-0d96-449e-bcee-800f81c4e58d',
-							'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
-						],
-					},
-					params: {
-						page: 0,
-						size: tableVar.pageSize,
-					},
-				})
-					.then((resp) =>
-						setTableVar((state) => ({
-							...state,
-							rows: [...resp.data],
-							countPages: tableVar.pageSize,
-						}))
-					)
-					.catch((err) => console.error());
-				// setTableVar((state) => ({...state, rows: [], countPages: 10}));
-			}, currentTimeout);
+			);
+		}, signageParams.timeoutUpdate);
+	}, []); // tableVar.rows
+
+	const loadConfig = () => {
+		axios
+			.get('/SignageParams.json')
+			.then((res) => setSignageParams(res.data));
+	};
+	const loadCounters = () => {
+		for (const key in DATA_COUNTERS) {
+			// console.log("DATA_COUNTERS key => ", key);
+			apiGetUnAuthData({
+				configName: 'defectsSignage',
+				mode: 'count',
+				data: DATA_COUNTERS[key],
+				params: {},
+			})
+				.then((resp) =>
+					setDefectsCounter((state) => ({...state, [key]: resp.data}))
+				)
+				.catch((err) => console.log(err));
 		}
-	}, [tableVar.countPages, tableVar.pageSize, defectsCounter.validInfo]);
+	};
+
+	const requestLoadRowsHandler = () => {
+		const tableCount = pageNum * signageParams.pageSize;
+		const serverCount = defectsCounter.validInfo;
+		const _pageNum = tableCount < serverCount ? pageNum : 0;
+		// console.log("_pageNum => ", statistics.counter, signageParams.counterReload, statistics.counter >= signageParams.counterReload, _pageNum)
+		if (
+			statistics.counter >= signageParams.counterReload &&
+			_pageNum === 0
+		) {
+			window.location.reload(true);
+		}
+		setPageNum(_pageNum + 1);
+		setStatistics((state) => ({...state, counter: state.counter + 1}));
+		// console.log(`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `)
+		// console.log(navigator.userAgent)
+		return apiGetUnAuthData({
+			configName: 'defectsSignage',
+			mode: 'flat',
+			data: DATA_TABLE,
+			params: {
+				page: _pageNum,
+				size: signageParams.pageSize,
+			},
+		})
+			.then((resp) => {
+				// console.log("Successfully load rows");
+				loadCounters();
+				return new Promise((resolve) => resolve(resp));
+			})
+			.catch((err) => {
+				console.log('Failed load rows');
+				return new Promise((resolve, reject) => reject(err));
+			});
+	};
 
 	return (
 		<Form>
 			<FormBody noPadding={true}>
-				<Space
-					style={{
-						justifyContent: 'space-between',
-						marginRight: '300px',
-					}}
-				>
-					<Space>
-						<MainLogo />
+				<Space style={{position: 'absolute', top: 25, left: 86}}>
+					<div>Счетчик: {statistics.counter}</div>
+					{/*<div>Циклы: {parseInt(tableVar.seconds / 60)}:{tableVar.seconds % 60}</div>*/}
+					<div>Версия: {version}</div>
+				</Space>
+				<Space className={'signage-header'}>
+					<img
+						src={logoSignage}
+						style={{height: '100px'}}
+						alt={'logo'}
+					/>
+					<Space className={'defect-info'} size={32}>
+						<Space
+							direction={'vertical'}
+							className={'counter-container'}
+						>
+							<Text label={'Новый'} />
+							<Text
+								itemProps={{name: 'newDetectCount'}}
+								className={'newDetectCount'}
+								label={defectsCounter.newDetect || '0'}
+							/>
+						</Space>
+						<Space
+							direction={'vertical'}
+							className={'counter-container'}
+						>
+							<Text label={'В работе'} />
+							<Text
+								itemProps={{name: 'atWorkCount'}}
+								className={'atWorkCount'}
+								label={defectsCounter.atWork || '0'}
+							/>
+						</Space>
+						<Space
+							direction={'vertical'}
+							className={'counter-container'}
+						>
+							<Text label={'Просрочен'} />
+							<Text
+								itemProps={{name: 'expiredCount'}}
+								className={'expiredCount'}
+								label={defectsCounter.expired || '0'}
+							/>
+						</Space>
+						<Space
+							direction={'vertical'}
+							className={'counter-container'}
+						>
+							<Text label={'Устранен'} />
+							<Text
+								itemProps={{name: 'eliminateCount'}}
+								className={'eliminateCount'}
+								label={defectsCounter.eliminate || '0'}
+							/>
+						</Space>
+						<Space direction={'vertical'}>
+							<Text label={'Всего'} />
+							<Text
+								itemProps={{name: 'detectCount'}}
+								className={'detectCount'}
+								// dispatch={{
+								// 	path: 'defects.defectsSignageTable.reload',
+								// }}
+								label={defectsCounter.detected || '0'}
+							/>
+						</Space>
+						{/*<Pie*/}
+						{/*	className={'chartPie'}*/}
+						{/*	data={memoDataByChart}*/}
+						{/*	options={{*/}
+						{/*		plugins: {legend: {display: false}},*/}
+						{/*		animation: {duration: 0},*/}
+						{/*	}}*/}
+						{/*/>*/}
 					</Space>
-					<Space className={'defect-info mt-16'}>
-						<Text
-							itemProps={{name: 'detectCount'}}
-							className={'detectCount'}
-							dispatch={{
-								path: 'defects.defectsSignageTable.reload',
-							}}
-							label={
-								<span
-									style={{
-										textAlign: 'center',
-									}}
-								>
-									<div className={'regularColor'}>
-										Обнаружено
-									</div>
-									<div>{defectsCounter.detected}</div>
-								</span>
-							}
-						/>
-						<Divider type={'vertical'} />
-						<Text
-							itemProps={{name: 'sendPanelCount'}}
-							className={'sendPanelCount'}
-							label={
-								<span
-									style={{
-										textAlign: 'center',
-									}}
-								>
-									<div className={'regularColor'}>
-										Передано в ПП
-									</div>
-									<div>{defectsCounter.sendToPanel}</div>
-								</span>
-							}
-						/>
-						<Divider type={'vertical'} />
-						<Text
-							itemProps={{name: 'eliminateCount'}}
-							className={'eliminateCount'}
-							label={
-								<span
-									style={{
-										textAlign: 'center',
-									}}
-								>
-									<div className={'regularColor'}>
-										Устранено
-									</div>
-									<div>{defectsCounter.eliminate}</div>
-								</span>
-							}
-						/>
-					</Space>
+					{/*<Text*/}
+					{/*	className={'pager'}*/}
+					{/*	label={`Дефектов ${tableVar.countPages}/${defectsCounter.validInfo}`}*/}
+					{/*/>*/}
 				</Space>
 				<Layout className={'signage'}>
-					<Space
-						className={'pb-8 mr-16'}
-						style={{justifyContent: 'flex-end'}}
-					>
-						<Text
-							label={`Дефектов ${tableVar.countPages}/${defectsCounter.validInfo}`}
-							className={'mr-16'}
-						/>
-					</Space>
 					<Table
 						rowKey={'id'}
 						type={'rt'}
-						fixWidthColumn={true}
-						headerHeight={52}
-						rowHeight={60}
-						defaultSortBy={{
-							key: 'dateDetectDefect',
-							order: 'desc',
-						}}
-						empty={
-							<div
-								className={'BaseTable__overlay custom__overlay'}
-							>
-								{' '}
-								<MainLogo className={'ml-16'} />
-								<Spin
-									tip='Обновляем данные...'
-									size={'large'}
-									className={'no__bg'}
-									style={{background: 'none'}}
-								/>{' '}
-							</div>
-						}
+						// fixWidthColumn={true}
+						fixWidthColumn={signageParams.fixWidthColumn}
+						headerHeight={signageParams.headerHeight}
+						rowHeight={signageParams.rowHeight}
+						// empty={
+						// 	<div
+						// 		className={'BaseTable__overlay custom__overlay'}
+						// 	>
+						// 		<Spin
+						// 			tip='Обновляем данные...'
+						// 			size={'large'}
+						// 			className={'no__bg'}
+						// 			style={{background: 'none'}}
+						// 		/>
+						// 	</div>
+						// }
 						zebraStyle={true}
-						dispatch={{path: 'defects.defectsSignageTable.table'}}
+						// dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
-						rows={tableVar.rows}
+						// rows={tableVar.rows}
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
 						)}
+						requestLoadRows={requestLoadRowsHandler}
 						subscribe={[
-							/** This situation we make force reload in table. You change timeout which you need*/
 							{
-								name: 'forceReload',
-								path: 'rtd.defects.defectsSignageTable.reload',
+								name: 'onSearch',
+								path: 'rtd.defects.defectsSignage.events.onReload',
 								onChange: ({reloadTable}) => {
-									setTimeout(
-										() =>
-											reloadTable({
-												sortBy: {
-													key: 'dateDetectDefect',
-													order: 'desc',
-												},
-											}),
-										//600000
-										10000
-									);
+									reloadTable({});
 								},
 							},
 						]}
+						// dispatch={{path: 'defects.defectTable.table'}}
+						// req={}
 					/>
 				</Layout>
 			</FormBody>
