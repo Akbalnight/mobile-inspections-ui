@@ -178,7 +178,8 @@ export const MainTableHeader = () => {
 									);
 								}}
 								dispatch={{
-									type: 'defects.defectTable.events.onReload',
+									path: 'defects.defectTable.events.onReload',
+									type: 'event',
 								}}
 							/>
 						) : (
@@ -191,7 +192,8 @@ export const MainTableHeader = () => {
 									);
 								}}
 								dispatch={{
-									type: 'defects.defectTable.events.onReload',
+									path: 'defects.defectTable.events.onReload',
+									type: 'event',
 								}}
 							/>
 						)}
