@@ -8,7 +8,7 @@ import {
 } from '../../../apis/catalog.api';
 import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
-import {Pie} from 'react-chartjs-2';
+// import {Pie} from 'react-chartjs-2';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
@@ -69,19 +69,19 @@ export const Signage = () => {
 		counter: 0,
 	});
 
-	const memoDataByChart = {
-		datasets: [
-			{
-				data: [
-					defectsCounter.eliminate,
-					defectsCounter.expired,
-					defectsCounter.atWork,
-					defectsCounter.newDetect,
-				],
-				backgroundColor: ['#024B6C', '#EC6546', '#0475A7', '#FAB610'],
-			},
-		],
-	};
+	// const memoDataByChart = {
+	// 	datasets: [
+	// 		{
+	// 			data: [
+	// 				defectsCounter.eliminate,
+	// 				defectsCounter.expired,
+	// 				defectsCounter.atWork,
+	// 				defectsCounter.newDetect,
+	// 			],
+	// 			backgroundColor: ['#024B6C', '#EC6546', '#0475A7', '#FAB610'],
+	// 		},
+	// 	],
+	// };
 
 	useEffect(() => {
 		loadConfig();
@@ -93,6 +93,7 @@ export const Signage = () => {
 				})
 			);
 		}, signageParams.timeoutUpdate);
+		// eslint-disable-next-line
 	}, []); // tableVar.rows
 
 	const loadConfig = () => {
