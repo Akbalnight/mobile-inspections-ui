@@ -29,8 +29,40 @@ export const BigMobInsMap = () => {
 			address: 'rtd.controlPoints.table.events',
 		},
 		onRowClick: {
-			name: 'Контрольные точки, основной реестр все события',
+			name: 'Событие по обному клику',
 			address: 'rtd.controlPoints.table.events.onRowClick',
+		},
+		onRowDoubleClick: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.onRowDoubleClick',
+		},
+		addOnModal: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.addOnModal',
+		},
+		editOnModal: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.editOnModal',
+		},
+		addOnGroupModal: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.addOnGroupModal',
+		},
+		editOnGroupModal: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.editOnGroupModal',
+		},
+		deleteOnModal: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.deleteOnModal',
+		},
+		onSearch: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.onSearch',
+		},
+		onReload: {
+			name: 'Событие по обному клику',
+			address: 'rtd.controlPoints.table.events.onReload',
 		},
 		controlPointsForm: {
 			name: 'Контрольные точки, форма создания/редактирования',
