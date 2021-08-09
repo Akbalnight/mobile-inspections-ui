@@ -135,7 +135,7 @@ const operationOnServer = (type) => {
 					<Input itemProps={{...itemsInfo.name}} maxLength={100} />
 					<DatePicker
 						itemProps={{...itemsInfo.dateStartPlan}}
-						format={'DD.MM.YYYY HH:mm:ss'}
+						format={'DD.MM.YYYY HH:mm'}
 						showTime={true}
 						dispatch={{
 							path: 'detours.mainForm.modal.events.startDate',
@@ -144,8 +144,7 @@ const operationOnServer = (type) => {
 						subscribe={[
 							{
 								name: 'finishDate',
-								path:
-									'rtd.detours.mainForm.modal.events.finishDate',
+								path: 'rtd.detours.mainForm.modal.events.finishDate',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({
 										disabledDate: (startValue) =>
@@ -160,7 +159,7 @@ const operationOnServer = (type) => {
 					/>
 					<DatePicker
 						itemProps={{...itemsInfo.dateFinishPlan}}
-						format={'DD.MM.YYYY HH:mm:ss'}
+						format={'DD.MM.YYYY HH:mm'}
 						showTime={true}
 						showNow={false}
 						dispatch={{
@@ -169,8 +168,7 @@ const operationOnServer = (type) => {
 						subscribe={[
 							{
 								name: 'startDate',
-								path:
-									'rtd.detours.mainForm.modal.events.startDate',
+								path: 'rtd.detours.mainForm.modal.events.startDate',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({
 										disabledDate: (endValue) =>
@@ -244,8 +242,7 @@ const operationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path:
-										'detours.mainForm.modal.events.takeIntoAccountTimeLocation',
+									path: 'detours.mainForm.modal.events.takeIntoAccountTimeLocation',
 								}}
 							/>
 							<Checkbox
@@ -254,8 +251,7 @@ const operationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path:
-										'detours.mainForm.modal.events.takeIntoAccountDateStart',
+									path: 'detours.mainForm.modal.events.takeIntoAccountDateStart',
 								}}
 							/>
 							<Checkbox
@@ -264,8 +260,7 @@ const operationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path:
-										'detours.mainForm.modal.events.takeIntoAccountDateFinish',
+									path: 'detours.mainForm.modal.events.takeIntoAccountDateFinish',
 								}}
 							/>
 						</Col>
@@ -281,8 +276,7 @@ const operationOnServer = (type) => {
 									{
 										name: 'takeIntoAccountTimeLocation',
 										withMount: true,
-										path:
-											'rtd.detours.mainForm.modal.events.takeIntoAccountTimeLocation',
+										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountTimeLocation',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -309,8 +303,7 @@ const operationOnServer = (type) => {
 									{
 										name: 'takeIntoAccountTimeLocation',
 										withMount: true,
-										path:
-											'rtd.detours.mainForm.modal.events.takeIntoAccountDateStart',
+										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountDateStart',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -337,8 +330,7 @@ const operationOnServer = (type) => {
 									{
 										name: 'takeIntoAccountTimeLocation',
 										withMount: true,
-										path:
-											'rtd.detours.mainForm.modal.events.takeIntoAccountDateFinish',
+										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountDateFinish',
 										onChange: ({
 											value,
 											setSubscribeProps,

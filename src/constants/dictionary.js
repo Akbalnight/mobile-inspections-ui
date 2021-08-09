@@ -235,7 +235,7 @@ export const itemsInfo = {
 		],
 	},
 	executorId: {
-		label: 'Доступные испольнители',
+		label: 'Доступные исполнители',
 		name: 'staffId',
 		className: 'mb-8',
 	},

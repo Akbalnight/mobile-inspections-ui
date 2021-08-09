@@ -3,14 +3,7 @@
  * файл со всеми customFields, поля и валидация в объекты таблицы
  */
 import React from 'react';
-import {
-	Button,
-	Row,
-	Space,
-	Search,
-	Checkbox,
-	notificationError,
-} from 'rt-design';
+import {Button, Row, Space, Search, notificationError} from 'rt-design';
 import {useHistory} from 'react-router';
 import {
 	EditOutlined,

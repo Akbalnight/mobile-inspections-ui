@@ -73,7 +73,10 @@ export const GetCurrentMode = () => {
 
 export const MainTableHeader = () => {
 	const history = useHistory();
-	const currentMode = GetCurrentMode();
+	const currentMode =
+		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path
+			? 'defects'
+			: 'panelProblems';
 	return (
 		<>
 			<Access
@@ -176,6 +179,10 @@ export const MainTableHeader = () => {
 										`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
 									);
 								}}
+								dispatch={{
+									path: '1',
+									type: 'event',
+								}}
 							/>
 						) : (
 							<Button
@@ -185,6 +192,10 @@ export const MainTableHeader = () => {
 									history.push(
 										`${paths.CONTROL_DEFECTS_DEFECTS.path}`
 									);
+								}}
+								dispatch={{
+									path: '2',
+									type: 'event',
 								}}
 							/>
 						)}
@@ -434,6 +445,48 @@ export const MainTableHeader = () => {
 								reloadFilterFields(
 									'defects.defectTable.events.onReload'
 								),
+								currentMode !== 'defects'
+									? {
+											name: 'dspfjapsdofjpa',
+											withMount: true,
+											path: 'rtd.2',
+											extraData: `rtd.defects.defectTable.filter.${
+												currentMode !== 'defects'
+													? 'statusProcessId'
+													: 'statusPanelId'
+											}`,
+											onChange: ({extraData}) => {
+												extraData = undefined;
+												console.log(extraData);
+											},
+									  }
+									: {
+											name: 'dspfjapsdofjdafsdpa',
+											withMount: true,
+											path: 'rtd.1',
+											extraData: `rtd.defects.defectTable.filter.${
+												currentMode !== 'defects'
+													? 'statusProcessId'
+													: 'statusPanelId'
+											}`,
+											onChange: ({extraData}) => {
+												extraData = undefined;
+												console.log(extraData);
+											},
+									  },
+								// reloadFilterFields(
+								// 	'defects.defectTable.events.onReload'
+								// ),
+								// {
+								// 	name:'dspffsgdfjapsdofjpa',
+								// 	withMount: true,
+								// 	path:'rtd.2',
+								// 	onChange:({setSubscribeProps})=>{
+								// 		setSubscribeProps({
+								// 			value: undefined,
+								// 		});
+								// 	}
+								// },
 							]}
 						/>
 					</Space>

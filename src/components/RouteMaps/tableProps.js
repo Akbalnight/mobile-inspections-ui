@@ -6,7 +6,7 @@ import {
 import {Space, UploadFile, Button, notificationError} from 'rt-design';
 import {EditFileName} from './Modals/SaveObjectModal';
 import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';
@@ -32,6 +32,7 @@ export const RouteMapsTableHeader = () => {
 				timestamp: moment(),
 			})
 		);
+		// eslint-disable-next-line
 	}, [onSelectRoute]);
 
 	const loadDataObject = (callBack) => {

@@ -38,7 +38,7 @@ const Calendar = ({onChange, detours, value}) => {
 							<div key={item.id} className='calendar'>
 								<div>Название: {item.name}</div>
 								<div>Маршрут: {item.routeName}</div>
-								<div>Иcпольнитель: {item.staffName}</div>
+								<div>Иcполнитель: {item.staffName}</div>
 								<div>
 									Учитывать порядок:
 									<Checkbox
@@ -213,8 +213,7 @@ export default function DetoursCalendar() {
 						/** Action add detour*/
 						{
 							name: 'addDetourOnServer',
-							path:
-								'rtd.detours.mainForm.table.events.addOnModal',
+							path: 'rtd.detours.mainForm.table.events.addOnModal',
 							onChange: ({setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {},
