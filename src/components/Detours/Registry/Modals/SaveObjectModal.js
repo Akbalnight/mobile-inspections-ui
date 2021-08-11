@@ -19,16 +19,18 @@ import {
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
 import {itemsInfo} from '../../../../constants/dictionary';
-import {
-	disabledEndDate,
-	disabledStartDate,
-} from '../../../Base/Functions/DateLimits';
+import {disabledStartDate} from '../../../Base/Functions/DateLimits';
 import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDetour.svg';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
+import {useDispatch} from 'react-redux';
+import moment from 'moment';
 
-export const AddDetour = () => operationOnServer('add');
-export const EditDetour = () => operationOnServer('edit');
+export const AddDetour = () => OperationOnServer('add');
+export const EditDetour = () => OperationOnServer('edit');
 
-const operationOnServer = (type) => {
+const OperationOnServer = (type) => {
+	const dispatch = useDispatch();
+
 	const statusesInfo = {
 		stopEdit: [
 			'a0299bf4-de93-40ab-9950-37392e3fd0a5',
@@ -145,7 +147,16 @@ const operationOnServer = (type) => {
 						optionConverter={(option) => ({
 							value: option.id,
 							label: option.name,
+							className: option?.duration,
 						})}
+						onSelect={(_, option) => {
+							dispatch(
+								setDataStore(
+									`detours.mainForm.modal.events.routeId`,
+									{duration: Number(option.className)}
+								)
+							);
+						}}
 					/>
 					<DatePicker
 						itemProps={{...itemsInfo.dateStartPlan}}
@@ -180,13 +191,34 @@ const operationOnServer = (type) => {
 							path: 'detours.mainForm.modal.events.finishDate',
 						}}
 						subscribe={[
+							// {
+							// 	name: 'startDate',
+							// 	path: 'rtd.detours.mainForm.modal.events.startDate',
+							// 	onChange: ({value, setSubscribeProps}) => {
+							// 		setSubscribeProps({
+							// 			disabledDate: (endValue) =>
+							// 				disabledEndDate(value, endValue),
+							// 		});
+							// 	},
+							// },
 							{
-								name: 'startDate',
+								name: 'solutionByStartDate',
 								path: 'rtd.detours.mainForm.modal.events.startDate',
-								onChange: ({value, setSubscribeProps}) => {
+								extraData:
+									'rtd.detours.mainForm.modal.events.routeId',
+								onChange: ({
+									value,
+									extraData,
+									setSubscribeProps,
+								}) => {
+									console.log({value}, extraData.duration);
+									const endTime = moment(value).add(
+										extraData?.duration,
+										'minutes'
+									);
+									console.log(endTime);
 									setSubscribeProps({
-										disabledDate: (endValue) =>
-											disabledEndDate(value, endValue),
+										value: endTime,
 									});
 								},
 							},
