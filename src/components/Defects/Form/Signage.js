@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
-import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
@@ -88,7 +88,7 @@ export const Signage = () => {
 		loadCounters();
 		setInterval(() => {
 			dispatch(
-				setDateStore('defects.defectsSignage.events.onReload', {
+				setDataStore('defects.defectsSignage.events.onReload', {
 					timestamp: moment(),
 				})
 			);

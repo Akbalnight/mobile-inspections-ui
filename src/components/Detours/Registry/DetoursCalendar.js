@@ -33,30 +33,30 @@ const Calendar = ({onChange, detours, value}) => {
 			<>
 				{listData &&
 					listData.map((item) => {
-						// console.log(item)
 						const content = (
 							<div key={item.id} className='calendar'>
-								<div>Название : {item.name}</div>
-								<div>Маршрут : {item.routeName}</div>
-								<div>Иcполнитель : {item.staffName}</div>
+								<div>{`Название: ${item.name}`}</div>
+								<div>{`Маршрут: ${item.routeName}`}</div>
+								<div>{`Иcполнитель: ${item.staffName}`}</div>
 								<div>
-									Учитывать порядок :{' '}
-									<Checkbox
-										checked={item.saveOrderControlPoints}
-										disabled
-									/>
+									{`Учитывать порядок: ${(
+										<Checkbox
+											checked={
+												item.saveOrderControlPoints
+											}
+											disabled
+										/>
+									)}`}
 								</div>
 								<div>
-									Начало :{' '}
-									{moment(item.dateStartPlan).format(
-										'DD.MM.YYYY HH:mm'
-									)}
+									{`Начало: ${moment(
+										item.dateStartPlan
+									).format('DD.MM.YYYY HH:mm')}`}
 								</div>
 								<div>
-									Окончание :{' '}
-									{moment(item.dateFinishPlan).format(
-										'DD.MM.YYYY HH:mm'
-									)}
+									{`Окончание: ${moment(
+										item.dateFinishPlan
+									).format('DD.MM.YYYY HH:mm')}`}
 								</div>
 							</div>
 						);
