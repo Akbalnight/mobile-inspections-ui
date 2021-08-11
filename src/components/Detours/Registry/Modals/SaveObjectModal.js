@@ -133,6 +133,20 @@ const operationOnServer = (type) => {
 				<FormBody>
 					<Title label={'Описание'} level={5} />
 					<Input itemProps={{...itemsInfo.name}} maxLength={100} />
+					<Select
+						itemProps={{...itemsInfo.routeId}}
+						placeholder={'Выберите маршрут'}
+						mode={'single'}
+						allowClear={true}
+						showSearch={true}
+						filterOption={false}
+						searchParamName={'name'}
+						requestLoadRows={apiGetFlatDataByConfigName('routes')}
+						optionConverter={(option) => ({
+							value: option.id,
+							label: option.name,
+						})}
+					/>
 					<DatePicker
 						itemProps={{...itemsInfo.dateStartPlan}}
 						format={'DD.MM.YYYY HH:mm'}
@@ -178,20 +192,7 @@ const operationOnServer = (type) => {
 							},
 						]}
 					/>
-					<Select
-						itemProps={{...itemsInfo.routeId}}
-						placeholder={'Выберите маршрут'}
-						mode={'single'}
-						allowClear={true}
-						showSearch={true}
-						filterOption={false}
-						searchParamName={'name'}
-						requestLoadRows={apiGetFlatDataByConfigName('routes')}
-						optionConverter={(option) => ({
-							value: option.id,
-							label: option.name,
-						})}
-					/>
+
 					{type !== 'add' ? (
 						<Select
 							itemProps={{...itemsInfo.detourStatusId}}
