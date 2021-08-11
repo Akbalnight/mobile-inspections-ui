@@ -1,49 +1,30 @@
-import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
-import {Input} from 'antd';
+import React from 'react';
+import {MapContainer, TileLayer, Popup, Marker} from 'react-leaflet';
 
-const {Form, Button, Custom, FormBody, Text} = classic;
-export const DebugMarsel = () => {
-	// const handleChange = (e) => {
-	//     console.log(e.target.value)
-	// }
+export const DebugMarsel = ({src}) => {
 	return (
-		<BasePage>
-			<Form>
-				<FormBody>
-					<Custom
-						itemProps={{name: 'popugai'}}
-						render={({onChange, defaulValue, value}) => {
-							return (
-								<Input
-									onChange={onChange}
-									value={defaulValue}
-								/>
-							);
-						}}
-						dispatch={{
-							path: 'debugMarsel.input',
-						}}
-					/>
-					<Text
-						itemProps={{name: 'newText'}}
-						subscribe={[
-							{
-								name: 'first',
-								path: 'rtd.debugMarsel.input',
-								onChange: ({value, setSubscribeProps}) => {
-									console.log(value);
-									value &&
-										setSubscribeProps &&
-										setSubscribeProps({value: value});
-								},
-							},
-						]}
-					/>
-
-					<Button htmlType={'submit'}>Save</Button>
-				</FormBody>
-			</Form>
-		</BasePage>
+		<MapContainer
+			center={[51.505, -0.09]}
+			zoom={13}
+			scrollWheelZoom={false}
+			style={{height: '300px', width: '300px'}}
+		>
+			<TileLayer
+				// attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				url={src}
+				style={{height: '300px', width: '300px'}}
+			/>
+			<Marker position={[51.505, -0.09]}>
+				<Popup>
+					A pretty CSS3 popup. <br /> Easily customizable.
+				</Popup>
+			</Marker>
+		</MapContainer>
+		// <MapContainer center={[51, 73]}  >
+		//     <TileLayer
+		//         url={src}
+		//         bounds={[[50, 72], [52, 74]]}
+		//     />
+		// </MapContainer>
 	);
 };
