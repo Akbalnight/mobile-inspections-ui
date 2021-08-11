@@ -177,10 +177,6 @@ export const MainTableHeader = () => {
 										`${paths.CONTROL_DEFECTS_PANEL_PROBLEMS.path}`
 									);
 								}}
-								dispatch={{
-									path: '1',
-									type: 'event',
-								}}
 							/>
 						) : (
 							<Button
@@ -190,10 +186,6 @@ export const MainTableHeader = () => {
 									history.push(
 										`${paths.CONTROL_DEFECTS_DEFECTS.path}`
 									);
-								}}
-								dispatch={{
-									path: '2',
-									type: 'event',
 								}}
 							/>
 						)}
@@ -228,7 +220,6 @@ export const MainTableHeader = () => {
 								icon={<SearchOutlined />}
 								type={'default'}
 								htmlType={'submit'}
-								// event?
 								dispatch={{
 									path: 'defects.defectTable.events.onBtnSearch',
 								}}
