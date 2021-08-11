@@ -29,44 +29,92 @@ export const BigMobInsMap = () => {
 			address: 'rtd.controlPoints.table.events',
 		},
 		onRowClick: {
-			name: 'Событие по обному клику',
+			name: 'Событие по одинарному клику',
 			address: 'rtd.controlPoints.table.events.onRowClick',
 		},
 		onRowDoubleClick: {
-			name: 'Событие по обному клику',
+			name: 'Событие по двойному клику',
 			address: 'rtd.controlPoints.table.events.onRowDoubleClick',
 		},
 		addOnModal: {
-			name: 'Событие по обному клику',
+			name: 'Событие добавления объекта',
 			address: 'rtd.controlPoints.table.events.addOnModal',
 		},
 		editOnModal: {
-			name: 'Событие по обному клику',
+			name: 'Событие изменение объекта',
 			address: 'rtd.controlPoints.table.events.editOnModal',
 		},
 		addOnGroupModal: {
-			name: 'Событие по обному клику',
+			name: 'Событие добавления группы объектов',
 			address: 'rtd.controlPoints.table.events.addOnGroupModal',
 		},
 		editOnGroupModal: {
-			name: 'Событие по обному клику',
+			name: 'Событие изменение группы объектов',
 			address: 'rtd.controlPoints.table.events.editOnGroupModal',
 		},
 		deleteOnModal: {
-			name: 'Событие по обному клику',
+			name: 'Событие пометки на удаление',
 			address: 'rtd.controlPoints.table.events.deleteOnModal',
 		},
 		onSearch: {
-			name: 'Событие по обному клику',
+			name: 'Событие поиска',
 			address: 'rtd.controlPoints.table.events.onSearch',
 		},
 		onReload: {
-			name: 'Событие по обному клику',
+			name: 'Событие перезагрузки',
 			address: 'rtd.controlPoints.table.events.onReload',
 		},
 		controlPointsForm: {
 			name: 'Контрольные точки, форма создания/редактирования',
 			address: 'rtd.controlPoints.form',
+		},
+		equipmentsTableOnDelete: {
+			name: 'Событие удаления локально',
+			address: 'rtd.controlPoints.form.equipmentsTable.onDelete',
+		},
+		techMapsTableOnDelete: {
+			name: 'Событие удаления локально',
+			address: 'rtd.controlPoints.form.techMapsTable.onDelete',
+		},
+		equipmentsTable: {
+			name: 'Реестр оборудования',
+			address: 'rtd.controlPoints.form.equipmentsTable',
+		},
+		equipmentsTableModal: {
+			name: 'Реестр выбора оборудования',
+			address: 'rtd.controlPoints.form.equipmentsTable.select',
+		},
+		equipmentsSelectOnSave: {
+			name: 'Сохранение при выборе',
+			address: 'rtd.controlPoints.form.equipmentsTable.select.onSave',
+		},
+		equipmentsSelectOnSearch: {
+			name: 'Поиск при выборе',
+			address: 'rtd.controlPoints.form.equipmentsTable.select.onSearch',
+		},
+		equipmentsSelectTable: {
+			name: 'Реестр при выборе',
+			address: 'rtd.controlPoints.form.equipmentsTable.select.table',
+		},
+		techMapsTable: {
+			name: 'Реестр технологических карт',
+			address: 'rtd.controlPoints.form.techMapsTable',
+		},
+		techMapsTableModal: {
+			name: 'Реестр выбора оборудования',
+			address: 'rtd.controlPoints.form.techMapsTable.select',
+		},
+		techMapsSelectOnSave: {
+			name: 'Сохранение при выборе',
+			address: 'rtd.controlPoints.form.techMapsTable.select.onSave',
+		},
+		techMapsSelectOnSearch: {
+			name: 'Поиск при выборе',
+			address: 'rtd.controlPoints.form.techMapsTable.select.onSearch',
+		},
+		techMapsSelectTable: {
+			name: 'Реестр при выборе',
+			address: 'rtd.controlPoints.form.techMapsTable.select.table',
 		},
 	};
 
@@ -75,14 +123,12 @@ export const BigMobInsMap = () => {
 			trigger='hover'
 			placement='topLeft'
 			content={
-				<>
-					<div style={{width: '200px', whiteSpace: 'pre-line'}}>
-						{descInfo[title]?.name}
-					</div>
-					<div style={{width: '200px', wordBreak: 'break-all'}}>
+				<div className={'popContainer'}>
+					<div>{descInfo[title]?.name}</div>
+					<div className={'popAddressLine'}>
 						{descInfo[title]?.address}
 					</div>
-				</>
+				</div>
 			}
 			overlayClassName={`mi-map-popover-hover`}
 		>
@@ -125,6 +171,44 @@ export const BigMobInsMap = () => {
 											title: nodeByTree('onRowClick'),
 											key: 'rtd.controlPoints.table.events.onRowClick',
 										},
+										{
+											title: nodeByTree(
+												'onRowDoubleClick'
+											),
+											key: 'rtd.controlPoints.table.events.onRowDoubleClick',
+										},
+										{
+											title: nodeByTree('addOnModal'),
+											key: 'rtd.controlPoints.table.events.addOnModal',
+										},
+										{
+											title: nodeByTree('editOnModal'),
+											key: 'rtd.controlPoints.table.events.editOnModal',
+										},
+										{
+											title: nodeByTree(
+												'addOnGroupModal'
+											),
+											key: 'rtd.controlPoints.table.events.addOnGroupModal',
+										},
+										{
+											title: nodeByTree(
+												'editOnGroupModal'
+											),
+											key: 'rtd.controlPoints.table.events.editOnGroupModal',
+										},
+										{
+											title: nodeByTree('deleteOnModal'),
+											key: 'rtd.controlPoints.table.events.deleteOnModal',
+										},
+										{
+											title: nodeByTree('onSearch'),
+											key: 'rtd.controlPoints.table.events.onSearch',
+										},
+										{
+											title: nodeByTree('onReload'),
+											key: 'rtd.controlPoints.table.events.onReload',
+										},
 									],
 								},
 							],
@@ -132,6 +216,84 @@ export const BigMobInsMap = () => {
 						{
 							title: nodeByTree('controlPointsForm'),
 							key: 'rtd.controlPoints.form',
+							children: [
+								{
+									title: nodeByTree('equipmentsTable'),
+									key: 'rtd.controlPoints.form.equipmentsTable',
+									children: [
+										{
+											title: nodeByTree(
+												'equipmentsTableOnDelete'
+											),
+											key: 'rtd.controlPoints.form.equipmentsTable.onDelete',
+										},
+										{
+											title: nodeByTree(
+												'equipmentsTableModal'
+											),
+											key: 'rtd.controlPoints.form.equipmentsTable.select',
+											children: [
+												{
+													title: nodeByTree(
+														'equipmentsSelectOnSave'
+													),
+													key: 'rtd.controlPoints.form.equipmentsTable.select.onSave',
+												},
+												{
+													title: nodeByTree(
+														'equipmentsSelectOnSearch'
+													),
+													key: 'rtd.controlPoints.form.equipmentsTable.select.onSearch',
+												},
+												{
+													title: nodeByTree(
+														'equipmentsSelectTable'
+													),
+													key: 'rtd.controlPoints.form.equipmentsTable.select.table',
+												},
+											],
+										},
+									],
+								},
+								{
+									title: nodeByTree('techMapsTable'),
+									key: 'rtd.controlPoints.form.techMapsTable',
+									children: [
+										{
+											title: nodeByTree(
+												'techMapsTableOnDelete'
+											),
+											key: 'rtd.controlPoints.form.techMapsTable.onDelete',
+										},
+										{
+											title: nodeByTree(
+												'techMapsTableModal'
+											),
+											key: 'rtd.controlPoints.form.techMapsTable.select',
+											children: [
+												{
+													title: nodeByTree(
+														'techMapsSelectOnSave'
+													),
+													key: 'rtd.controlPoints.form.techMapsTable.select.onSave',
+												},
+												{
+													title: nodeByTree(
+														'techMapsSelectOnSearch'
+													),
+													key: 'rtd.controlPoints.form.techMapsTable.select.onSearch',
+												},
+												{
+													title: nodeByTree(
+														'techMapsSelectTable'
+													),
+													key: 'rtd.controlPoints.form.techMapsTable.select.table',
+												},
+											],
+										},
+									],
+								},
+							],
 						},
 					],
 				},

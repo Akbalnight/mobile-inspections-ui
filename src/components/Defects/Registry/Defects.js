@@ -73,6 +73,10 @@ export default function Defects() {
 										};
 										reloadTable({
 											filter: composedFilter,
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
@@ -93,6 +97,10 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
@@ -104,6 +112,10 @@ export default function Defects() {
 										reloadTable({
 											filter: {},
 											searchValue: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
@@ -124,6 +136,10 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
