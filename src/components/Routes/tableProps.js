@@ -24,6 +24,12 @@ export const customColumnProps = [
 	{...code},
 	{...position, width: '50px', align: 'center'},
 	{...duration},
+	{
+		name: 'hybridId',
+		cellRenderer: ({rowData}) => {
+			console.log(rowData);
+		},
+	},
 ];
 
 export const MainTableHeader = () => {
@@ -143,15 +149,13 @@ export const ControlPointTableHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
+					path: 'routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path:
-							'rtd.routes.routeForm.controlPointsTable.table.selected',
+						path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
@@ -166,15 +170,13 @@ export const ControlPointTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
+					path: 'routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path:
-							'rtd.routes.routeForm.controlPointsTable.table.selected',
+						path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&

@@ -65,10 +65,10 @@ const Calendar = ({onChange, detours, value}) => {
 							String(value._d).slice(0, 15) ===
 							String(moment(item.dateStartPlan)._d).slice(0, 15)
 						) {
-							console.log(1); // тут проблема, замедлялся рендеринг.
+							// console.log(1); // тут проблема, замедлялся рендеринг.
 							return (
 								<Popover
-									title={value.format('DD MMMM YYYY')}
+									title={value.format('DD.MM.YYYY')}
 									trigger={'hover'}
 									content={content}
 									overlayClassName={`${calendarPrefix}-popover-hover`}
