@@ -154,14 +154,6 @@ const RouteForm = (props) => {
 								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
 								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
-									// value &&
-									// setSubscribeProps &&
-									// setSubscribeProps({
-									//     rowKey: `${
-									//         value.value.id +
-									//         value.value.techMapId
-									//     }`,
-									// });
 								},
 							},
 							/** Edit table Items */
@@ -180,11 +172,17 @@ const RouteForm = (props) => {
 									removeRow();
 								},
 							},
-							/** Action change state after push on Button */
+							/** Action change position to up after push on Button */
 							{
 								name: 'onClickMoveUpControlPoint',
 								path: 'rtd.routes.routeForm.controlPointsTable.actions.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
+							},
+							/** Action change position to down after push on Button */
+							{
+								name: 'onClickMoveDownControlPoint',
+								path: 'rtd.routes.routeForm.controlPointsTable.actions.onClickMoveDown',
+								onChange: ({moveDownRow}) => moveDownRow(),
 							},
 						]}
 					/>
