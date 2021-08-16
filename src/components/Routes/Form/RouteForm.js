@@ -131,7 +131,7 @@ const RouteForm = (props) => {
 					<ControlPointTableHeader />
 					<Table
 						itemProps={{name: 'controlPoints'}}
-						rowKey={'id'}
+						// rowKey={`position`}
 						customColumnProps={customColumnProps}
 						dispatch={{
 							path: 'routes.routeForm.controlPointsTable.table',
@@ -149,8 +149,20 @@ const RouteForm = (props) => {
 							{
 								name: 'addOnLocal',
 								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
-								onChange: ({value, addRow}) => {
+								onChange: ({
+									value,
+									addRow,
+									setSubscribeProps,
+								}) => {
 									value && addRow(value.value);
+									value &&
+										setSubscribeProps &&
+										setSubscribeProps({
+											rowKey: `${
+												value.value.id +
+												value.value.techMapId
+											}`,
+										});
 								},
 							},
 							/** Edit table Items */

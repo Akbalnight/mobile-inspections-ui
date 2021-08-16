@@ -97,14 +97,14 @@ export const ViewDetour = () => {
 							</Access>
 							<DateText
 								itemProps={{
-									...itemsInfo.dateStartPlan,
+									...itemsInfo.dateStartFact,
 									rules: [],
 								}}
 								format={'LLLL'}
 							/>
 							<DateText
 								itemProps={{
-									...itemsInfo.dateFinishPlan,
+									...itemsInfo.dateFinishFact,
 									rules: [],
 								}}
 								format={'LLLL'}

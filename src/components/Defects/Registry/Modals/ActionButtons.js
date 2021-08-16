@@ -5,13 +5,19 @@ import {
 	apiGetConfigByName,
 } from '../../../../apis/catalog.api';
 import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
+import {customColumnProps} from '../../tableProps';
 
 export const ButtonSendToSap = () => {
 	const processBeforeSaveForm = (rawValues) => {
 		const defectsToSapQueueArray =
 			rawValues &&
 			rawValues.defectsToSapQueueArray.map((row) => {
-				return {...row, sendedToSap: true, viewOnPanel: true};
+				return {
+					...row,
+					sendedToSap: true,
+					viewOnPanel: true,
+					statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+				};
 			});
 		return {defectsToSapQueueArray};
 	};
@@ -82,6 +88,7 @@ export const ButtonSendToSap = () => {
 							itemProps={{
 								name: 'defectsToSapQueueArray',
 							}}
+							customColumnProps={customColumnProps}
 							fixWidthColumn={true}
 							requestLoadConfig={apiGetConfigByName('defects')}
 						/>
