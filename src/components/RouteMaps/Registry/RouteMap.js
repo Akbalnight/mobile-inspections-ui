@@ -104,80 +104,80 @@ const RouteMap = () => {
 					return (
 						<>
 							{src ? (
-								<DebugMarsel src={src} />
+								// 	<DebugMarsel src={src} />
+								<TransformWrapper
+									centerZoomedOut={true}
+									maxScale={3}
+									onWheel={onChange}
+									onPanning={onChange}
+									onPinching={onChange}
+									onZoom={onChange}
+								>
+									{({
+										zoomIn,
+										zoomOut,
+										resetTransform,
+										...rest
+									}) => {
+										return (
+											<>
+												<Space
+													style={{
+														width: '95%',
+														justifyContent:
+															'flex-end',
+													}}
+													className={'px-8'}
+												>
+													<Space
+														direction={'vertical'}
+														className={
+															'buttonBlock'
+														}
+													>
+														<Button
+															icon={
+																<PlusOutlined />
+															}
+															onClick={() =>
+																zoomIn()
+															}
+															disabled={true}
+														/>
+														<Button
+															icon={
+																<MinusOutlined />
+															}
+															onClick={() =>
+																zoomOut()
+															}
+															disabled={true}
+														/>
+														<Button
+															icon={
+																<FullscreenOutlined />
+															}
+															onClick={() =>
+																resetTransform()
+															}
+															disabled={true}
+														/>
+													</Space>
+												</Space>
+												<TransformComponent>
+													<img
+														className={
+															'routeMapImage'
+														}
+														src={src}
+														alt={`Маршрутная карта`}
+													/>
+												</TransformComponent>
+											</>
+										);
+									}}
+								</TransformWrapper>
 							) : (
-								// <TransformWrapper
-								// 	centerZoomedOut={true}
-								// 	maxScale={3}
-								// 	onWheel={onChange}
-								// 	onPanning={onChange}
-								// 	onPinching={onChange}
-								// 	onZoom={onChange}
-								// >
-								// 	{({
-								// 		zoomIn,
-								// 		zoomOut,
-								// 		resetTransform,
-								// 		...rest
-								// 	}) => {
-								// 		return (
-								// 			<>
-								// 				<Space
-								// 					style={{
-								// 						width: '95%',
-								// 						justifyContent:
-								// 							'flex-end',
-								// 					}}
-								// 					className={'px-8'}
-								// 				>
-								// 					<Space
-								// 						direction={'vertical'}
-								// 						className={
-								// 							'buttonBlock'
-								// 						}
-								// 					>
-								// 						<Button
-								// 							icon={
-								// 								<PlusOutlined />
-								// 							}
-								// 							onClick={() =>
-								// 								zoomIn()
-								// 							}
-								// 							disabled={true}
-								// 						/>
-								// 						<Button
-								// 							icon={
-								// 								<MinusOutlined />
-								// 							}
-								// 							onClick={() =>
-								// 								zoomOut()
-								// 							}
-								// 							disabled={true}
-								// 						/>
-								// 						<Button
-								// 							icon={
-								// 								<FullscreenOutlined />
-								// 							}
-								// 							onClick={() =>
-								// 								resetTransform()
-								// 							}
-								// 							disabled={true}
-								// 						/>
-								// 					</Space>
-								// 				</Space>
-								// 				<TransformComponent>
-								// 					<img
-								// 						className={
-								// 							'routeMapImage'
-								// 						}
-								// 						src={src}
-								// 						alt={`Маршрутная карта`}
-								// 					/>
-								// 				</TransformComponent>
-								// 			</>
-								// 		);
-								// 	}}
-								// </TransformWrapper>
 								<Result
 									title='Выберите маршрутную карту'
 									extra={<ArrowLeftOutlined />}
