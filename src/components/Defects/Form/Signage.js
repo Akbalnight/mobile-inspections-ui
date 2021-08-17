@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
-import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
@@ -8,7 +8,7 @@ import {
 } from '../../../apis/catalog.api';
 import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
-import {Pie} from 'react-chartjs-2';
+// import {Pie} from 'react-chartjs-2';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
@@ -69,30 +69,31 @@ export const Signage = () => {
 		counter: 0,
 	});
 
-	const memoDataByChart = {
-		datasets: [
-			{
-				data: [
-					defectsCounter.eliminate,
-					defectsCounter.expired,
-					defectsCounter.atWork,
-					defectsCounter.newDetect,
-				],
-				backgroundColor: ['#024B6C', '#EC6546', '#0475A7', '#FAB610'],
-			},
-		],
-	};
+	// const memoDataByChart = {
+	// 	datasets: [
+	// 		{
+	// 			data: [
+	// 				defectsCounter.eliminate,
+	// 				defectsCounter.expired,
+	// 				defectsCounter.atWork,
+	// 				defectsCounter.newDetect,
+	// 			],
+	// 			backgroundColor: ['#024B6C', '#EC6546', '#0475A7', '#FAB610'],
+	// 		},
+	// 	],
+	// };
 
 	useEffect(() => {
 		loadConfig();
 		loadCounters();
 		setInterval(() => {
 			dispatch(
-				setDateStore('defects.defectsSignage.events.onReload', {
+				setDataStore('defects.defectsSignage.events.onReload', {
 					timestamp: moment(),
 				})
 			);
 		}, signageParams.timeoutUpdate);
+		// eslint-disable-next-line
 	}, []); // tableVar.rows
 
 	const loadConfig = () => {

@@ -271,10 +271,10 @@ const RouteMaps = (props) => {
 										]}
 									/>
 								</Layout>
-								<Title level={5} className={'p-8'}>
+								<Title level={5} className={'pt-16'}>
 									Контрольные точки
 								</Title>
-								<Layout className={'my-16'}>
+								<Layout>
 									<Table
 										itemProps={{name: 'controlPointsTable'}}
 										pageSize={1}

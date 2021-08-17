@@ -147,6 +147,7 @@ export const MainTableHeader = () => {
 					</div>
 				</Space>
 			</Access>
+
 			<Access
 				roles={[
 					'ROLE_MI_SHIFT_SUPERVISOR',
@@ -219,7 +220,6 @@ export const MainTableHeader = () => {
 								icon={<SearchOutlined />}
 								type={'default'}
 								htmlType={'submit'}
-								// event?
 								dispatch={{
 									path: 'defects.defectTable.events.onBtnSearch',
 								}}

@@ -26,6 +26,7 @@ import Schedules from '../components/Detours/Schedules/Schedules';
 import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 import {Signage} from '../components/Defects/Form/Signage';
+import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -89,6 +90,12 @@ export const paths = {
 	// 	component: DebugMarsel,
 	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	// },
+	MI_MAP: {
+		title: 'MI_Map',
+		path: '/map',
+		component: BigMobInsMap,
+		roles: ['ROLE_ADMIN'],
+	},
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',

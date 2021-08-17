@@ -3,14 +3,7 @@
  * файл со всеми customFields, поля и валидация в объекты таблицы
  */
 import React from 'react';
-import {
-	Button,
-	Row,
-	Space,
-	Search,
-	Checkbox,
-	notificationError,
-} from 'rt-design';
+import {Button, Row, Space, Search, notificationError} from 'rt-design';
 import {useHistory} from 'react-router';
 import {
 	EditOutlined,
@@ -33,7 +26,7 @@ import {RfidIcon} from '../../imgs/controlPoints/icons';
 import {notification, Tooltip} from 'antd';
 import {apiSaveByConfigName} from '../../apis/catalog.api';
 import {useDispatch} from 'react-redux';
-import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';
 
 /**
@@ -187,7 +180,7 @@ const RfidCode = ({rowData, cellData}) => {
 			.then((res) => {
 				notification.success({message: 'Метка успешно удалена'});
 				dispatch(
-					setDateStore(
+					setDataStore(
 						'controlPoints.controlPointsTable.table.events.onReload',
 						{timestamp: moment()}
 					)

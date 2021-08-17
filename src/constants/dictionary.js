@@ -207,6 +207,28 @@ export const itemsInfo = {
 			},
 		],
 	},
+	dateStartFact: {
+		name: 'dateStartFact',
+		label: 'Начало обхода (факт.)',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните дату начала обхода',
+				required: true,
+			},
+		],
+	},
+	dateFinishFact: {
+		name: 'dateFinishFact',
+		label: 'Окончание обхода (факт.)',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните дату окончания обхода',
+				required: true,
+			},
+		],
+	},
 	routeId: {
 		name: 'routeId',
 		label: 'Маршрут',
@@ -235,7 +257,7 @@ export const itemsInfo = {
 		],
 	},
 	executorId: {
-		label: 'Доступные испольнители',
+		label: 'Доступные исполнители',
 		name: 'staffId',
 		className: 'mb-8',
 	},
