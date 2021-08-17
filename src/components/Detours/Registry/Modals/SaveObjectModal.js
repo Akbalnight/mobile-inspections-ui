@@ -211,12 +211,12 @@ const OperationOnServer = (type) => {
 									extraData,
 									setSubscribeProps,
 								}) => {
-									console.log({value}, extraData.duration);
+									console.log({value}, extraData?.duration);
 									const endTime = moment(value).add(
-										extraData?.duration,
+										extraData && extraData?.duration,
 										'minutes'
 									);
-									console.log(endTime);
+
 									setSubscribeProps({
 										value: endTime,
 									});
@@ -393,7 +393,7 @@ const OperationOnServer = (type) => {
 					title: 'Редактировать',
 				}}
 				modalConfig={{
-					type: `viewObject`,
+					type: `view`,
 					title: <WarningDetour />,
 					width: 430,
 					bodyStyle: {height: 150},

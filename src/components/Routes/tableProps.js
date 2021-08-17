@@ -19,6 +19,7 @@ import {
 import {DeleteControlPointToRoute} from './Form/Modals/DeleteObjectModal';
 import {ViewControlPointModal} from './Form/Modals/ViewControlPointModal';
 import {Access} from 'mobile-inspections-base-ui';
+import {generateUUID} from 'rt-design/lib/components/utils/baseUtils';
 
 export const customColumnProps = [
 	{...code},
@@ -26,8 +27,24 @@ export const customColumnProps = [
 	{...duration},
 	{
 		name: 'hybridId',
-		cellRenderer: ({rowData}) => {
-			console.log(rowData);
+		hidden: true,
+	},
+];
+
+export const customFields = [
+	/**
+	 * This validate work like that. Our 'hybridId' have some VALUE, this VALUE goes to validate.
+	 * If in validate all right and return true, our VALUE goes to value and transform.
+	 */
+	{
+		name: 'hybridId',
+		value: (row) => `${row.controlPointId}-${row.techMapId}`,
+		validate: (row, rows) => {
+			const tmp = `${row.controlPointId}-${row.techMapId}`;
+			row.id = generateUUID();
+			return rows
+				? !rows.map((row) => row.hybridId).includes(tmp)
+				: false;
 		},
 	},
 ];
@@ -139,7 +156,7 @@ export const MainTableHeader = () => {
 	);
 };
 
-export const ControlPointTableHeader = () => {
+export const ControlPointsHeader = () => {
 	return (
 		<Space className={'p-8'}>
 			<AddControlPointToRoute />
@@ -149,7 +166,7 @@ export const ControlPointTableHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
+					path: 'routes.routeForm.controlPointsTable.actions.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
@@ -170,12 +187,12 @@ export const ControlPointTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
+					path: 'routes.routeForm.controlPointsTable.actions.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[
 					{
-						name: 'btnUp',
+						name: 'btnDown',
 						path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
