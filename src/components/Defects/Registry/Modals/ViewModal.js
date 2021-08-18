@@ -37,8 +37,10 @@ export const DefectCardInfoModal = () => {
 			code: codeNormalizer(row.code),
 			defectUploadFilesHolder: {
 				// попросить объяснения, зечем такая вложенность?
-				defectUploadFiles: {
-					defectId: row.id,
+				dataObject: {
+					defectUploadFiles: {
+						defectId: row.id,
+					},
 				},
 			},
 		};
@@ -67,8 +69,7 @@ export const DefectCardInfoModal = () => {
 			subscribe={[
 				{
 					name: 'infoForm',
-					path:
-						'rtd.defects.defectTable.table.events.onRowDoubleClick',
+					path: 'rtd.defects.defectTable.table.events.onRowDoubleClick',
 					onChange: ({value, setModalData, openModal}) => {
 						if (value && setModalData) {
 							setModalData({
