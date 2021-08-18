@@ -21,7 +21,7 @@ import {
 import {itemsInfo} from '../../../../constants/dictionary';
 import {disabledStartDate} from '../../../Base/Functions/DateLimits';
 import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDetour.svg';
-import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
+import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
 
@@ -151,7 +151,7 @@ const OperationOnServer = (type) => {
 						})}
 						onSelect={(_, option) => {
 							dispatch(
-								setDataStore(
+								setDateStore(
 									`detours.mainForm.modal.events.routeId`,
 									{duration: Number(option.className)}
 								)

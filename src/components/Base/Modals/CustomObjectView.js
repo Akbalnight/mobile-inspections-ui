@@ -33,6 +33,8 @@ import React from 'react';
 import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
+import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
+import {useDispatch} from 'react-redux';
 
 /**
  *
@@ -46,6 +48,7 @@ import {AttachmentsPreview} from '../Functions/MediaUtils';
 export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 	let sRow;
 	let history = useHistory();
+	const dispatch = useDispatch();
 
 	const catalogRoles = [
 		'ROLE_ADMIN',
@@ -275,6 +278,9 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
 											)}
+											uploadProps={{
+												maxCount: 10,
+											}}
 											dispatch={{
 												path: `${mainWay}.${catalogName}Table.modal.warrantyUpload`,
 												type: 'event',
@@ -288,20 +294,28 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 														value,
 														setSubscribeProps,
 													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
+														const authRoles =
+															value.roles
+																.replace(
+																	'[',
+																	''
 																)
-															);
+																.replace(
+																	']',
+																	''
+																)
+																.split(', ')
+																.some((el) =>
+																	catalogRoles.includes(
+																		el
+																	)
+																);
 														value &&
 															setSubscribeProps &&
 															setSubscribeProps({
 																buttonProps: {
-																	disabled: !authRoles,
+																	disabled:
+																		!authRoles,
 																},
 															});
 													},
@@ -368,6 +382,28 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												name: 'attachmentUploadObject',
 												valuePropName: 'dataObject',
 											}}
+											uploadProps={{
+												maxCount: 10,
+												onChange: (file, fileList) => {
+													if (file) {
+														setTimeout(() => {
+															dispatch(
+																setDateStore(
+																	`${mainWay}.${catalogName}Table.modal.uploadCompleted`,
+																	{
+																		equipmentFiles:
+																			{
+																				equipmentId:
+																					sRow.id,
+																				type: 'attachment',
+																			},
+																	}
+																)
+															);
+														}, 2000);
+													}
+												},
+											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
 											)}
@@ -387,20 +423,47 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 														value,
 														setSubscribeProps,
 													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
+														const authRoles =
+															value.roles
+																.replace(
+																	'[',
+																	''
 																)
-															);
+																.replace(
+																	']',
+																	''
+																)
+																.split(', ')
+																.some((el) =>
+																	catalogRoles.includes(
+																		el
+																	)
+																);
 														value &&
 															setSubscribeProps &&
 															setSubscribeProps({
 																buttonProps: {
-																	disabled: !authRoles,
+																	disabled:
+																		!authRoles,
+																},
+															});
+													},
+												},
+												//     path: `rtd.${mainWay}.${catalogName}Table.modal.attachmentUpload`,
+
+												{
+													name: '1234',
+													path: `rtd.${mainWay}.${catalogName}Table.modal.uploadCompleted`,
+													onChange: ({
+														value,
+														setSubscribeProps,
+													}) => {
+														console.log(value);
+														value &&
+															setSubscribeProps &&
+															setSubscribeProps({
+																dataObject: {
+																	...value,
 																},
 															});
 													},
@@ -421,6 +484,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 													}
 												/>
 											) : null;
+										}}
+										dispatch={{
+											path: '123',
+											type: 'event',
 										}}
 										subscribe={[
 											{

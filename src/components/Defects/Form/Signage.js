@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
-import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
+import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
@@ -88,7 +88,7 @@ export const Signage = () => {
 		loadCounters();
 		setInterval(() => {
 			dispatch(
-				setDataStore('defects.defectsSignage.events.onReload', {
+				setDateStore('defects.defectsSignage.events.onReload', {
 					timestamp: moment(),
 				})
 			);
@@ -244,18 +244,6 @@ export const Signage = () => {
 						fixWidthColumn={signageParams.fixWidthColumn}
 						headerHeight={signageParams.headerHeight}
 						rowHeight={signageParams.rowHeight}
-						// empty={
-						// 	<div
-						// 		className={'BaseTable__overlay custom__overlay'}
-						// 	>
-						// 		<Spin
-						// 			tip='Обновляем данные...'
-						// 			size={'large'}
-						// 			className={'no__bg'}
-						// 			style={{background: 'none'}}
-						// 		/>
-						// 	</div>
-						// }
 						zebraStyle={true}
 						// dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
@@ -264,15 +252,15 @@ export const Signage = () => {
 							'defectsSignage'
 						)}
 						requestLoadRows={requestLoadRowsHandler}
-						subscribe={[
-							{
-								name: 'onSearch',
-								path: 'rtd.defects.defectsSignage.events.onReload',
-								onChange: ({reloadTable}) => {
-									reloadTable({});
-								},
-							},
-						]}
+						// subscribe={[
+						// 	{
+						// 		name: 'onSearch',
+						// 		path: 'rtd.defects.defectsSignage.events.onReload',
+						// 		onChange: ({reloadTable}) => {
+						// 			reloadTable({});
+						// 		},
+						// 	},
+						// ]}
 						// dispatch={{path: 'defects.defectTable.table'}}
 						// req={}
 					/>
