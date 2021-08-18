@@ -44,7 +44,7 @@ export const ViewDetour = () => {
 				title: `Информация об обходе`,
 				width: 850,
 				bodyStyle: {
-					height: 650,
+					height: 680,
 				},
 				form: {
 					name: 'detourDataView',
@@ -95,6 +95,20 @@ export const ViewDetour = () => {
 									]}
 								/>
 							</Access>
+							<DateText
+								itemProps={{
+									...itemsInfo.dateStartPlan,
+									rules: [],
+								}}
+								format={'LLLL'}
+							/>
+							<DateText
+								itemProps={{
+									...itemsInfo.dateFinishPlan,
+									rules: [],
+								}}
+								format={'LLLL'}
+							/>
 							<DateText
 								itemProps={{
 									...itemsInfo.dateStartFact,

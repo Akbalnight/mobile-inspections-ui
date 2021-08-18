@@ -62,7 +62,6 @@ export const RouteMapsTableHeader = () => {
 			<UploadFile
 				itemProps={{
 					name: 'uploadRouteMaps',
-					valuePropName: 'dataObject',
 				}}
 				dispatch={{
 					path: `routeMaps.mainForm.routeMapsTable.routeMapUpload`,

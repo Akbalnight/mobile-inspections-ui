@@ -86,6 +86,34 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 		});
 	};
 
+	const AuthSubscription = (componentName, arrOfRole) => {
+		return {
+			name: 'staffRoles',
+			path: 'auth',
+			withMount: true,
+			onChange: ({value, setSubscribeProps}) => {
+				const authRoles = value.roles
+					.replace('[', '')
+					.replace(']', '')
+					.split(', ')
+					.some((el) => arrOfRole.includes(el));
+				value &&
+					setSubscribeProps &&
+					setSubscribeProps(
+						componentName === 'upload'
+							? {
+									buttonProps: {
+										disabled: !authRoles,
+									},
+							  }
+							: {
+									hidden: !authRoles,
+							  }
+					);
+			},
+		};
+	};
+
 	const BtnEdit = (props) => {
 		if (sRow) {
 			return (
@@ -94,27 +122,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 					onClick={() => {
 						history.push(props.historyPath + '/' + sRow.id);
 					}}
-					subscribe={[
-						{
-							name: 'staffRoles',
-							withMount: true,
-							path: `auth`,
-							onChange: ({value, setSubscribeProps}) => {
-								const authRoles = value.roles
-									.replace('[', '')
-									.replace(']', '')
-									.split(', ')
-									.some((el) =>
-										controlPointRoles.includes(el)
-									);
-								value &&
-									setSubscribeProps &&
-									setSubscribeProps({
-										hidden: !authRoles,
-									});
-							},
-						},
-					]}
+					subscribe={[AuthSubscription('button', controlPointRoles)]}
 				>
 					Редактировать
 				</Button>
@@ -242,7 +250,11 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 									/>
 								</Layout>
 							</TabPane>
-							<TabPane tab={<WarrantyTab />} key={'warranty'}>
+							<TabPane
+								tab={<WarrantyTab />}
+								key={'warranty'}
+								scrollable={true}
+							>
 								<Layout>
 									<Space
 										style={{
@@ -270,7 +282,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										<UploadFile
 											itemProps={{
 												name: 'warrantyUploadObject',
-												// valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -280,40 +291,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												type: 'event',
 											}}
 											subscribe={[
-												{
-													name: 'staffRoles',
-													path: 'auth',
-													withMount: true,
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														const authRoles =
-															value.roles
-																.replace(
-																	'[',
-																	''
-																)
-																.replace(
-																	']',
-																	''
-																)
-																.split(', ')
-																.some((el) =>
-																	catalogRoles.includes(
-																		el
-																	)
-																);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																buttonProps: {
-																	disabled:
-																		!authRoles,
-																},
-															});
-													},
-												},
+												AuthSubscription(
+													'upload',
+													catalogRoles
+												),
 											]}
 										/>
 									</Space>
@@ -375,7 +356,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										<UploadFile
 											itemProps={{
 												name: 'attachmentUploadObject',
-												// valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -388,40 +368,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												type: 'event',
 											}}
 											subscribe={[
-												{
-													name: 'staffRoles',
-													path: 'auth',
-													withMount: true,
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														const authRoles =
-															value.roles
-																.replace(
-																	'[',
-																	''
-																)
-																.replace(
-																	']',
-																	''
-																)
-																.split(', ')
-																.some((el) =>
-																	catalogRoles.includes(
-																		el
-																	)
-																);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																buttonProps: {
-																	disabled:
-																		!authRoles,
-																},
-															});
-													},
-												},
+												AuthSubscription(
+													'upload',
+													catalogRoles
+												),
 											]}
 										/>
 									</Space>
