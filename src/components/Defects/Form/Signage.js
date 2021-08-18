@@ -85,7 +85,7 @@ export const Signage = () => {
 
 	useEffect(() => {
 		loadConfig();
-		loadCounters();
+		loadCounters().then((r) => r);
 		setInterval(() => {
 			dispatch(
 				setDataStore('defects.defectsSignage.events.onReload', {
@@ -101,20 +101,20 @@ export const Signage = () => {
 			.get('/SignageParams.json')
 			.then((res) => setSignageParams(res.data));
 	};
-	const loadCounters = () => {
+	const loadCounters = async () => {
+		const result = {};
 		for (const key in DATA_COUNTERS) {
 			// console.log("DATA_COUNTERS key => ", key);
-			apiGetUnAuthData({
+			const res = await apiGetUnAuthData({
 				configName: 'defectsSignage',
 				mode: 'count',
 				data: DATA_COUNTERS[key],
 				params: {},
-			})
-				.then((resp) =>
-					setDefectsCounter((state) => ({...state, [key]: resp.data}))
-				)
-				.catch((err) => console.log(err));
+			});
+			result[key] = res.data;
 		}
+		// console.log('resp => ', result)
+		setDefectsCounter(result);
 	};
 
 	const requestLoadRowsHandler = () => {
@@ -130,7 +130,9 @@ export const Signage = () => {
 		}
 		setPageNum(_pageNum + 1);
 		setStatistics((state) => ({...state, counter: state.counter + 1}));
-		// console.log(`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `)
+		console.log(
+			`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `
+		);
 		// console.log(navigator.userAgent)
 		return apiGetUnAuthData({
 			configName: 'defectsSignage',
@@ -142,8 +144,8 @@ export const Signage = () => {
 			},
 		})
 			.then((resp) => {
-				// console.log("Successfully load rows");
-				loadCounters();
+				// console.log("Successfully load rows", resp);
+				loadCounters().then((r) => r);
 				return new Promise((resolve) => resolve(resp));
 			})
 			.catch((err) => {
@@ -238,28 +240,12 @@ export const Signage = () => {
 				</Space>
 				<Layout className={'signage'}>
 					<Table
-						rowKey={'id'}
 						type={'rt'}
-						// fixWidthColumn={true}
 						fixWidthColumn={signageParams.fixWidthColumn}
 						headerHeight={signageParams.headerHeight}
 						rowHeight={signageParams.rowHeight}
-						// empty={
-						// 	<div
-						// 		className={'BaseTable__overlay custom__overlay'}
-						// 	>
-						// 		<Spin
-						// 			tip='Обновляем данные...'
-						// 			size={'large'}
-						// 			className={'no__bg'}
-						// 			style={{background: 'none'}}
-						// 		/>
-						// 	</div>
-						// }
 						zebraStyle={true}
-						// dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
-						// rows={tableVar.rows}
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
 						)}
@@ -273,8 +259,6 @@ export const Signage = () => {
 								},
 							},
 						]}
-						// dispatch={{path: 'defects.defectTable.table'}}
-						// req={}
 					/>
 				</Layout>
 			</FormBody>

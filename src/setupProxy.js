@@ -4,9 +4,17 @@ const API_URL = 'http://10.5.121.117';
 // const API_URL = 'http://localhost';
 
 const OAUTH_URL = 'https://oauth.dias-dev.ru';
-// const OAUTH_URL = 'http://10.5.31.117';
+// const API_URL = 'http://10.5.31.117';
 
 module.exports = function (app) {
+	// app.use(
+	// 	'/',
+	// 	createProxyMiddleware({
+	// 		target: `${API_URL}/`,
+	// 		changeOrigin: true,
+	// 		// pathRewrite: {'^/api/catalog': ''},
+	// 	})
+	// );
 	app.use(
 		'/api/catalog',
 		createProxyMiddleware({

@@ -80,8 +80,8 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 		};
 		callBack({
 			...row,
-			warrantyUploadObject: dataObjectWarranty,
-			attachmentUploadObject: dataObjectAttachment,
+			warrantyUploadObject: {dataObject: dataObjectWarranty},
+			attachmentUploadObject: {dataObject: dataObjectAttachment},
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение
 		});
 	};
@@ -270,7 +270,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										<UploadFile
 											itemProps={{
 												name: 'warrantyUploadObject',
-												valuePropName: 'dataObject',
+												// valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -288,20 +288,28 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 														value,
 														setSubscribeProps,
 													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
+														const authRoles =
+															value.roles
+																.replace(
+																	'[',
+																	''
 																)
-															);
+																.replace(
+																	']',
+																	''
+																)
+																.split(', ')
+																.some((el) =>
+																	catalogRoles.includes(
+																		el
+																	)
+																);
 														value &&
 															setSubscribeProps &&
 															setSubscribeProps({
 																buttonProps: {
-																	disabled: !authRoles,
+																	disabled:
+																		!authRoles,
 																},
 															});
 													},
@@ -360,13 +368,14 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 							<TabPane
 								tab={<AttachmentsTab />}
 								key={'attachments'}
+								scrollable={true}
 							>
 								<Layout>
 									<Space style={{justifyContent: 'flex-end'}}>
 										<UploadFile
 											itemProps={{
 												name: 'attachmentUploadObject',
-												valuePropName: 'dataObject',
+												// valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -387,20 +396,28 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 														value,
 														setSubscribeProps,
 													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
+														const authRoles =
+															value.roles
+																.replace(
+																	'[',
+																	''
 																)
-															);
+																.replace(
+																	']',
+																	''
+																)
+																.split(', ')
+																.some((el) =>
+																	catalogRoles.includes(
+																		el
+																	)
+																);
 														value &&
 															setSubscribeProps &&
 															setSubscribeProps({
 																buttonProps: {
-																	disabled: !authRoles,
+																	disabled:
+																		!authRoles,
 																},
 															});
 													},
@@ -438,7 +455,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 																sRow.id,
 															type: 'attachment',
 														},
-														// params: {size: 50},
+														params: {size: 1},
 													})
 														.then((response) => {
 															// console.log('warranty response.data:', response.data)
