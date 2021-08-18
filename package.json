@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.6.1",
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
     "antd": "^4.8.4",
     "axios": "^0.21.0",
     "chart.js": "^3.4.1",
@@ -27,7 +31,7 @@
     "react-zoom-pan-pinch": "^2.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.72"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.74"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^2.34.0",
@@ -41,7 +45,7 @@
     "prettier": "^2.2.0",
     "react-app-rewired": "^2.1.6",
     "react-scripts": "^4.0.0",
-    "typescript": "^4.1.2"
+    "typescript": "^4.3.5"
   },
   "scripts": {
     "start": "react-app-rewired start",

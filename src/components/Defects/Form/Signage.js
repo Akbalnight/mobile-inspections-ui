@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, FormBody, Layout, Table, Space, Text} from 'rt-design';
-import {setDateStore} from 'rt-design/lib/redux/rtd.actions';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
@@ -85,10 +85,10 @@ export const Signage = () => {
 
 	useEffect(() => {
 		loadConfig();
-		loadCounters();
+		loadCounters().then((r) => r);
 		setInterval(() => {
 			dispatch(
-				setDateStore('defects.defectsSignage.events.onReload', {
+				setDataStore('defects.defectsSignage.events.onReload', {
 					timestamp: moment(),
 				})
 			);
@@ -101,20 +101,20 @@ export const Signage = () => {
 			.get('/SignageParams.json')
 			.then((res) => setSignageParams(res.data));
 	};
-	const loadCounters = () => {
+	const loadCounters = async () => {
+		const result = {};
 		for (const key in DATA_COUNTERS) {
 			// console.log("DATA_COUNTERS key => ", key);
-			apiGetUnAuthData({
+			const res = await apiGetUnAuthData({
 				configName: 'defectsSignage',
 				mode: 'count',
 				data: DATA_COUNTERS[key],
 				params: {},
-			})
-				.then((resp) =>
-					setDefectsCounter((state) => ({...state, [key]: resp.data}))
-				)
-				.catch((err) => console.log(err));
+			});
+			result[key] = res.data;
 		}
+		// console.log('resp => ', result)
+		setDefectsCounter(result);
 	};
 
 	const requestLoadRowsHandler = () => {
@@ -130,7 +130,9 @@ export const Signage = () => {
 		}
 		setPageNum(_pageNum + 1);
 		setStatistics((state) => ({...state, counter: state.counter + 1}));
-		// console.log(`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `)
+		console.log(
+			`Page num: [${pageNum}] Table count: [${tableCount}], Server count: [${serverCount}] `
+		);
 		// console.log(navigator.userAgent)
 		return apiGetUnAuthData({
 			configName: 'defectsSignage',
@@ -142,8 +144,8 @@ export const Signage = () => {
 			},
 		})
 			.then((resp) => {
-				// console.log("Successfully load rows");
-				loadCounters();
+				// console.log("Successfully load rows", resp);
+				loadCounters().then((r) => r);
 				return new Promise((resolve) => resolve(resp));
 			})
 			.catch((err) => {
@@ -238,31 +240,25 @@ export const Signage = () => {
 				</Space>
 				<Layout className={'signage'}>
 					<Table
-						rowKey={'id'}
 						type={'rt'}
-						// fixWidthColumn={true}
 						fixWidthColumn={signageParams.fixWidthColumn}
 						headerHeight={signageParams.headerHeight}
 						rowHeight={signageParams.rowHeight}
 						zebraStyle={true}
-						// dispatch={{path: 'defects.defectsSignageTable.table'}}
 						customColumnProps={customColumnProps}
-						// rows={tableVar.rows}
 						requestLoadConfig={apiGetUnAuthConfigByName(
 							'defectsSignage'
 						)}
 						requestLoadRows={requestLoadRowsHandler}
-						// subscribe={[
-						// 	{
-						// 		name: 'onSearch',
-						// 		path: 'rtd.defects.defectsSignage.events.onReload',
-						// 		onChange: ({reloadTable}) => {
-						// 			reloadTable({});
-						// 		},
-						// 	},
-						// ]}
-						// dispatch={{path: 'defects.defectTable.table'}}
-						// req={}
+						subscribe={[
+							{
+								name: 'onSearch',
+								path: 'rtd.defects.defectsSignage.events.onReload',
+								onChange: ({reloadTable}) => {
+									reloadTable({});
+								},
+							},
+						]}
 					/>
 				</Layout>
 			</FormBody>
