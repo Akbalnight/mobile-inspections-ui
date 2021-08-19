@@ -260,6 +260,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										style={{
 											justifyContent: 'space-between',
 										}}
+										className={'mr-8'}
 									>
 										<DateText
 											itemProps={{
@@ -352,7 +353,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 								scrollable={true}
 							>
 								<Layout>
-									<Space style={{justifyContent: 'flex-end'}}>
+									<Space
+										style={{justifyContent: 'flex-end'}}
+										className={'mr-8'}
+									>
 										<UploadFile
 											itemProps={{
 												name: 'attachmentUploadObject',

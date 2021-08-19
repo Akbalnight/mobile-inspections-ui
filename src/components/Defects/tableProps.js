@@ -250,6 +250,7 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.startOf('day')
 								}
@@ -284,6 +285,7 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.endOf('day')
 								}
@@ -323,6 +325,7 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.startOf('day')
 								}
@@ -357,6 +360,7 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.endOf('day')
 								}
