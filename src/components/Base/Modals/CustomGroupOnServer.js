@@ -64,7 +64,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 					name: `${type}GroupModalForm`,
 					loadInitData: loadData,
 					onFinish: (values) => {
-						console.log('values', values);
+						//console.log('values', values);
 					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
