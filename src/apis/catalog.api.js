@@ -5,11 +5,18 @@ export const apiGetConfigByName = (configName) => () =>
 		url: '/api/dynamicdq/configuration/' + configName,
 		method: 'GET',
 	});
-
-export const apiGetConfigByObject = ({configName, data, params}) =>
+export const apiGetDataByConfigName = ({
+	hierarchical,
+	lazyLoad,
+	configName,
+	data,
+	params,
+}) =>
 	genericRequest({
-		url: '/api/dynamicdq/configuration/' + configName,
-		method: 'GET',
+		url: `/api/dynamicdq/data/${
+			hierarchical && !lazyLoad ? 'hierarchical' : 'flat'
+		}/${configName}`,
+		method: 'POST',
 		data,
 		params,
 	});
@@ -36,16 +43,41 @@ export const apiGetHierarchicalDataByConfigName =
 			params,
 		});
 
-export const apiGetLazyLoadDataByConfigName =
-	(configName) =>
-	({data, params}) =>
-		apiGetDataByConfigName({
-			configName: configName,
-			hierarchical: true,
-			lazyLoad: true,
+export const apiSaveByConfigName =
+	(catalogName) =>
+	({method, data, params}) =>
+		genericRequest({
+			url: `/api/dynamicdq/data/save/${catalogName}`,
+			method: method,
 			data,
 			params,
 		});
+
+export const apiGetDataFlatConfigManagement =
+	(configName) =>
+	({data, params}) =>
+		genericRequest({
+			url: `/api/management/data/flat/${configName}`,
+			method: 'POST',
+			data,
+			params,
+		});
+
+export const apiGetUnAuthData = ({configName, mode, data, params}) =>
+	genericRequest({
+		url: `/api/dynamicdq/unauthorized/data/${mode}/${configName}`,
+		method: 'POST',
+		data,
+		params,
+	});
+export const apiGetUnAuthConfigByName = (configName) => () =>
+	genericRequest({
+		url: `/api/dynamicdq/unauthorized/configuration/${configName}`,
+		method: 'POST',
+	});
+
+export const apiSaveFileByConfigName = (catalogName) => (data) =>
+	genericUploadRequest(`/api/dynamicdq/data/save/file/${catalogName}`, data);
 
 export const apiGetDataCountByConfigName =
 	(configName) =>
@@ -57,21 +89,28 @@ export const apiGetDataCountByConfigName =
 			params,
 		});
 
-export const apiGetDataByConfigName = ({
-	hierarchical,
-	lazyLoad,
-	configName,
-	data,
-	params,
-}) =>
+/**
+ * не используемые ниже
+ * */
+
+export const apiGetConfigByObject = ({configName, data, params}) =>
 	genericRequest({
-		url: `/api/dynamicdq/data/${
-			hierarchical && !lazyLoad ? 'hierarchical' : 'flat'
-		}/${configName}`,
-		method: 'POST',
+		url: '/api/dynamicdq/configuration/' + configName,
+		method: 'GET',
 		data,
 		params,
 	});
+
+export const apiGetLazyLoadDataByConfigName =
+	(configName) =>
+	({data, params}) =>
+		apiGetDataByConfigName({
+			configName: configName,
+			hierarchical: true,
+			lazyLoad: true,
+			data,
+			params,
+		});
 
 export const apiGetCatalogWithParentById = ({catalogName, id, params}) =>
 	genericRequest({
@@ -160,41 +199,4 @@ export const apiSaveControlPoints = ({method, data, params}) =>
 		method: method,
 		data,
 		params,
-	});
-
-export const apiSaveByConfigName =
-	(catalogName) =>
-	({method, data, params}) =>
-		genericRequest({
-			// url: `/api/catalog/controlPoints`,
-			url: `/api/dynamicdq/data/save/${catalogName}`,
-			method: method,
-			data,
-			params,
-		});
-
-export const apiSaveFileByConfigName = (catalogName) => (data) =>
-	genericUploadRequest(`/api/dynamicdq/data/save/file/${catalogName}`, data);
-
-export const apiGetDataFlatConfigManagement =
-	(configName) =>
-	({data, params}) =>
-		genericRequest({
-			url: `/api/management/data/flat/${configName}`,
-			method: 'POST',
-			data,
-			params,
-		});
-
-export const apiGetUnAuthData = ({configName, mode, data, params}) =>
-	genericRequest({
-		url: `/api/dynamicdq/unauthorized/data/${mode}/${configName}`,
-		method: 'POST',
-		data,
-		params,
-	});
-export const apiGetUnAuthConfigByName = (configName) => () =>
-	genericRequest({
-		url: `/api/dynamicdq/unauthorized/configuration/${configName}`,
-		method: 'POST',
 	});

@@ -21,7 +21,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-	apiSaveTechMap,
+	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
 import {paths} from '../../../constants/paths';
@@ -92,7 +92,7 @@ const TechMap = (props) => {
 		<Form
 			name={'TechMapsForm'}
 			loadInitData={loadData}
-			requestSaveForm={apiSaveTechMap}
+			requestSaveForm={apiSaveByConfigName('techMaps')}
 			methodSaveForm={techMapId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}
@@ -222,8 +222,7 @@ const TechMap = (props) => {
 							/** Add table Items */
 							{
 								name: 'techOperationAddOnLocal',
-								path:
-									'rtd.techMaps.techOperations.table.modal.events.onAddRow',
+								path: 'rtd.techMaps.techOperations.table.modal.events.onAddRow',
 								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
 								},
@@ -231,30 +230,26 @@ const TechMap = (props) => {
 							/** Edit table Items */
 							{
 								name: 'techOperationEditOnLocal',
-								path:
-									'rtd.techMaps.techOperations.table.modal.events.onEditRow',
+								path: 'rtd.techMaps.techOperations.table.modal.events.onEditRow',
 								onChange: ({value, editRow}) => {
 									value && editRow(value.value);
 								},
 							},
 							{
 								name: 'techOperationDeleteOnLocal',
-								path:
-									'rtd.techMaps.techOperations.table.events.btnDelete',
+								path: 'rtd.techMaps.techOperations.table.events.btnDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},
 							},
 							{
 								name: 'onClickMoveUp',
-								path:
-									'rtd.techMaps.techOperations.table.actions.onClickMoveUp',
+								path: 'rtd.techMaps.techOperations.table.actions.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
 							},
 							{
 								name: 'onClickMoveDown',
-								path:
-									'rtd.techMaps.techOperations.table.actions.onClickMoveDown',
+								path: 'rtd.techMaps.techOperations.table.actions.onClickMoveDown',
 								onChange: ({moveDownRow}) => moveDownRow(),
 							},
 						]}
