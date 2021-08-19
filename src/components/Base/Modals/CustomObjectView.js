@@ -80,10 +80,38 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 		};
 		callBack({
 			...row,
-			warrantyUploadObject: dataObjectWarranty,
-			attachmentUploadObject: dataObjectAttachment,
+			warrantyUploadObject: {dataObject: dataObjectWarranty},
+			attachmentUploadObject: {dataObject: dataObjectAttachment},
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение
 		});
+	};
+
+	const AuthSubscription = (componentName, arrOfRole) => {
+		return {
+			name: 'staffRoles',
+			path: 'auth',
+			withMount: true,
+			onChange: ({value, setSubscribeProps}) => {
+				const authRoles = value.roles
+					.replace('[', '')
+					.replace(']', '')
+					.split(', ')
+					.some((el) => arrOfRole.includes(el));
+				value &&
+					setSubscribeProps &&
+					setSubscribeProps(
+						componentName === 'upload'
+							? {
+									buttonProps: {
+										disabled: !authRoles,
+									},
+							  }
+							: {
+									hidden: !authRoles,
+							  }
+					);
+			},
+		};
 	};
 
 	const BtnEdit = (props) => {
@@ -94,27 +122,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 					onClick={() => {
 						history.push(props.historyPath + '/' + sRow.id);
 					}}
-					subscribe={[
-						{
-							name: 'staffRoles',
-							withMount: true,
-							path: `auth`,
-							onChange: ({value, setSubscribeProps}) => {
-								const authRoles = value.roles
-									.replace('[', '')
-									.replace(']', '')
-									.split(', ')
-									.some((el) =>
-										controlPointRoles.includes(el)
-									);
-								value &&
-									setSubscribeProps &&
-									setSubscribeProps({
-										hidden: !authRoles,
-									});
-							},
-						},
-					]}
+					subscribe={[AuthSubscription('button', controlPointRoles)]}
 				>
 					Редактировать
 				</Button>
@@ -242,12 +250,17 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 									/>
 								</Layout>
 							</TabPane>
-							<TabPane tab={<WarrantyTab />} key={'warranty'}>
+							<TabPane
+								tab={<WarrantyTab />}
+								key={'warranty'}
+								scrollable={true}
+							>
 								<Layout>
 									<Space
 										style={{
 											justifyContent: 'space-between',
 										}}
+										className={'mr-8'}
 									>
 										<DateText
 											itemProps={{
@@ -270,7 +283,6 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										<UploadFile
 											itemProps={{
 												name: 'warrantyUploadObject',
-												valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -280,32 +292,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												type: 'event',
 											}}
 											subscribe={[
-												{
-													name: 'staffRoles',
-													path: 'auth',
-													withMount: true,
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
-																)
-															);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																buttonProps: {
-																	disabled: !authRoles,
-																},
-															});
-													},
-												},
+												AuthSubscription(
+													'upload',
+													catalogRoles
+												),
 											]}
 										/>
 									</Space>
@@ -360,13 +350,16 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 							<TabPane
 								tab={<AttachmentsTab />}
 								key={'attachments'}
+								scrollable={true}
 							>
 								<Layout>
-									<Space style={{justifyContent: 'flex-end'}}>
+									<Space
+										style={{justifyContent: 'flex-end'}}
+										className={'mr-8'}
+									>
 										<UploadFile
 											itemProps={{
 												name: 'attachmentUploadObject',
-												valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -379,32 +372,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												type: 'event',
 											}}
 											subscribe={[
-												{
-													name: 'staffRoles',
-													path: 'auth',
-													withMount: true,
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
-																)
-															);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																buttonProps: {
-																	disabled: !authRoles,
-																},
-															});
-													},
-												},
+												AuthSubscription(
+													'upload',
+													catalogRoles
+												),
 											]}
 										/>
 									</Space>
@@ -438,7 +409,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 																sRow.id,
 															type: 'attachment',
 														},
-														// params: {size: 50},
+														params: {size: 1},
 													})
 														.then((response) => {
 															// console.log('warranty response.data:', response.data)

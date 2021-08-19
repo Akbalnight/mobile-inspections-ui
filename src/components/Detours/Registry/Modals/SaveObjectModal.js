@@ -191,16 +191,6 @@ const OperationOnServer = (type) => {
 							path: 'detours.mainForm.modal.events.finishDate',
 						}}
 						subscribe={[
-							// {
-							// 	name: 'startDate',
-							// 	path: 'rtd.detours.mainForm.modal.events.startDate',
-							// 	onChange: ({value, setSubscribeProps}) => {
-							// 		setSubscribeProps({
-							// 			disabledDate: (endValue) =>
-							// 				disabledEndDate(value, endValue),
-							// 		});
-							// 	},
-							// },
 							{
 								name: 'solutionByStartDate',
 								path: 'rtd.detours.mainForm.modal.events.startDate',
@@ -211,12 +201,11 @@ const OperationOnServer = (type) => {
 									extraData,
 									setSubscribeProps,
 								}) => {
-									console.log({value}, extraData.duration);
 									const endTime = moment(value).add(
-										extraData?.duration,
+										extraData && extraData?.duration,
 										'minutes'
 									);
-									console.log(endTime);
+
 									setSubscribeProps({
 										value: endTime,
 									});
@@ -393,7 +382,7 @@ const OperationOnServer = (type) => {
 					title: 'Редактировать',
 				}}
 				modalConfig={{
-					type: `viewObject`,
+					type: `view`,
 					title: <WarningDetour />,
 					width: 430,
 					bodyStyle: {height: 150},

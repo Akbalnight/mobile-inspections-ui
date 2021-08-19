@@ -10,7 +10,7 @@ import {
 	FieldTimeOutlined,
 	SearchOutlined,
 } from '@ant-design/icons';
-import {checkBox, code, dateTime} from '../Base/customColumnProps';
+import {checkBox, code, dateTimeExcludeSecond} from '../Base/customColumnProps';
 import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
 import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
 import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
@@ -250,6 +250,7 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.startOf('day')
 								}
@@ -284,6 +285,7 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.endOf('day')
 								}
@@ -323,6 +325,7 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.startOf('day')
 								}
@@ -357,6 +360,7 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
 									date?.endOf('day')
 								}
@@ -508,10 +512,10 @@ export const MainTableHeader = () => {
 export const customColumnProps = [
 	// на данный момент оставлю так, если будет потребность в другом формате исправим
 	{...code},
-	{...dateTime('dateDetectDefect')},
-	{...dateTime('dateEliminationPlan')},
-	{...dateTime('dateEliminationFact')},
-	{...dateTime('ts')}, // специально для истории изменений дефектов (в конфиге custom SQL)
+	{...dateTimeExcludeSecond('dateDetectDefect')},
+	{...dateTimeExcludeSecond('dateEliminationPlan')},
+	{...dateTimeExcludeSecond('dateEliminationFact')},
+	{...dateTimeExcludeSecond('ts')}, // специально для истории изменений дефектов (в конфиге custom SQL)
 	{...checkBox('sendedToSap')},
 	{...checkBox('viewOnPanel')},
 	{...checkBox('kpi')},

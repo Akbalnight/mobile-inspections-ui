@@ -15,7 +15,6 @@ import {
 	Button,
 	Custom,
 	Divider,
-	executeRequest,
 } from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
@@ -25,7 +24,11 @@ import {
 } from '../../../apis/catalog.api';
 import {paths} from '../../../constants/paths';
 import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
-import {ControlPointTableHeader, customColumnProps} from '../tableProps';
+import {
+	ControlPointsHeader,
+	customColumnProps,
+	customFields,
+} from '../tableProps';
 import {Result} from 'antd';
 import {WayOutModal} from './Modals/WayOutModal';
 
@@ -100,9 +103,6 @@ const RouteForm = (props) => {
 			onFinish={() => {
 				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 			}}
-			dispatch={{
-				path: 'routes.routeForm',
-			}}
 		>
 			<FormHeader>
 				<Title
@@ -127,11 +127,14 @@ const RouteForm = (props) => {
 					<InputNumber itemProps={{...itemsInfo.duration}} min={0} />
 				</Space>
 				<Title label={'Контрольные точки'} level={5} />
+
 				<Layout style={{border: '1px solid #DFDFDF'}}>
-					<ControlPointTableHeader />
+					<ControlPointsHeader />
 					<Table
 						itemProps={{name: 'controlPoints'}}
-						// rowKey={`position`}
+						onRowClick={(_) => console.log(_)}
+						rowKey={`id`}
+						customFields={customFields}
 						customColumnProps={customColumnProps}
 						dispatch={{
 							path: 'routes.routeForm.controlPointsTable.table',
@@ -149,20 +152,8 @@ const RouteForm = (props) => {
 							{
 								name: 'addOnLocal',
 								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
-								onChange: ({
-									value,
-									addRow,
-									setSubscribeProps,
-								}) => {
+								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
-									value &&
-										setSubscribeProps &&
-										setSubscribeProps({
-											rowKey: `${
-												value.value.id +
-												value.value.techMapId
-											}`,
-										});
 								},
 							},
 							/** Edit table Items */
@@ -177,56 +168,21 @@ const RouteForm = (props) => {
 							{
 								name: 'deleteOnLocal',
 								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
-								onChange: ({value, removeRow}) => {
+								onChange: ({removeRow}) => {
 									removeRow();
 								},
 							},
-							/** Action change state after push on Button */
+							/** Action change position to up after push on Button */
 							{
-								name: 'onClickMoveUp',
-								path: 'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
+								name: 'onClickMoveUpControlPoint',
+								path: 'rtd.routes.routeForm.controlPointsTable.actions.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
 							},
-							/** Action change state after push on Button */
+							/** Action change position to down after push on Button */
 							{
-								name: 'onClickMoveDown',
-								path: 'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
+								name: 'onClickMoveDownControlPoint',
+								path: 'rtd.routes.routeForm.controlPointsTable.actions.onClickMoveDown',
 								onChange: ({moveDownRow}) => moveDownRow(),
-							},
-
-							/** Action change row position in table */
-							{
-								name: 'onMoveUpRow',
-								path: 'rtd.routes.routeForm.controlPointsTable.table.events.onMoveUpRow',
-								onChange: ({value}) => {
-									console.log(value);
-									executeRequest(
-										apiSaveByConfigName(
-											'routeMapPositionSave'
-										)
-									)({
-										data: {
-											routeMaps: value.value,
-										},
-										method: 'POST',
-									});
-								},
-							},
-							/** Action change row position in table */
-							{
-								name: 'onMoveDownRow',
-								path: 'rtd.routes.routeForm.controlPointsTable.table.events.onMoveDownRow',
-								onChange: ({value}) =>
-									executeRequest(
-										apiSaveByConfigName(
-											'routeMapPositionSave'
-										)
-									)({
-										data: {
-											routeMaps: value.value,
-										},
-										method: 'POST',
-									}),
 							},
 						]}
 					/>

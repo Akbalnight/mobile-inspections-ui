@@ -13,7 +13,6 @@ export const FilesTabFields = ({sRow}) => {
 				<UploadFile
 					itemProps={{
 						name: 'defectUploadFilesHolder', // <- по этому ключу лежит объект с данными для загрузки
-						valuePropName: 'dataObject',
 					}}
 					requestUploadFile={apiSaveFileByConfigName(
 						`defectFilesSave`
