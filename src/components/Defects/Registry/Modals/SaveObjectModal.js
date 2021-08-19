@@ -124,6 +124,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<DatePicker
 					itemProps={{
@@ -132,6 +133,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 			</>
 		);
@@ -148,6 +150,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 			</>
 		);
@@ -165,6 +168,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<Select
 					itemProps={{
@@ -204,7 +208,7 @@ const OperationOnServer = (catalogName, type) => {
 			}}
 			modalConfig={{
 				type: `save`,
-				title: 'Редактрование дефекта',
+				title: 'Редактирование дефекта',
 				width: catalogName === 'defects' ? 600 : 500,
 				bodyStyle: {height: catalogName === 'defects' ? 760 : 640},
 				methodSaveForm: 'PUT',

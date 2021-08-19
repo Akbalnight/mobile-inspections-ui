@@ -191,16 +191,6 @@ const OperationOnServer = (type) => {
 							path: 'detours.mainForm.modal.events.finishDate',
 						}}
 						subscribe={[
-							// {
-							// 	name: 'startDate',
-							// 	path: 'rtd.detours.mainForm.modal.events.startDate',
-							// 	onChange: ({value, setSubscribeProps}) => {
-							// 		setSubscribeProps({
-							// 			disabledDate: (endValue) =>
-							// 				disabledEndDate(value, endValue),
-							// 		});
-							// 	},
-							// },
 							{
 								name: 'solutionByStartDate',
 								path: 'rtd.detours.mainForm.modal.events.startDate',
@@ -211,7 +201,6 @@ const OperationOnServer = (type) => {
 									extraData,
 									setSubscribeProps,
 								}) => {
-									console.log({value}, extraData?.duration);
 									const endTime = moment(value).add(
 										extraData && extraData?.duration,
 										'minutes'
