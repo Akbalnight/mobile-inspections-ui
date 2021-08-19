@@ -24,7 +24,7 @@ const PointsOnMap = (props) => {
 	);
 	useEffect(() => {
 		// onChange && onChange(scale);
-		console.log('PointsOnMap', {scale, positionX, positionY});
+		// console.log('PointsOnMap', {scale, positionX, positionY});
 		setTransformStyle(
 			`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
 		);
