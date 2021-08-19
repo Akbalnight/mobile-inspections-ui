@@ -66,7 +66,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 					loadInitData: loadData,
 					processBeforeSaveForm,
 					onFinish: (values) => {
-						console.log('values', values);
+						// console.log('values', values);
 					},
 					labelCol: {span: 10},
 					wrapperCol: {span: 10},
