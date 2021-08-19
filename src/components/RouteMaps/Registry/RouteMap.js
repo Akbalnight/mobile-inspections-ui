@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Custom, Space, Button} from 'rt-design';
+import {Custom, Space, Button, Switch, Switcher, Text} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
 import {
@@ -9,7 +9,7 @@ import {
 	PlusOutlined,
 } from '@ant-design/icons';
 import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
-import {DebugMarsel} from '../../Debug/DebugMarsel/DebugMarsel';
+// import {DebugMarsel} from '../../Debug/DebugMarsel/DebugMarsel';
 // import Draggable from 'react-draggable';
 
 const PointsOnMap = (props) => {
@@ -135,6 +135,14 @@ const RouteMap = () => {
 															'buttonBlock'
 														}
 													>
+														<Switch
+															itemProps={{
+																name: 'switchMode',
+															}}
+															dispatch={{
+																path: 'routeMaps.mainForm.editMode',
+															}}
+														/>
 														<Button
 															icon={
 																<PlusOutlined />
@@ -187,68 +195,98 @@ const RouteMap = () => {
 					);
 				}}
 			/>
-			<Custom
-				itemProps={{name: 'routeMapPoints'}}
-				dispatch={{path: 'routeMaps.mainForm.routeMapPoints.onChange'}}
+			<Switcher
+				itemProps={{initialValue: 1}}
 				subscribe={[
+					/** Role model in portal necessary stay where*/
 					{
-						/** Action change controlPoints in routeMap*/
-						// Обновить точки при изменении карты (картинки)
-						// extraData - точки
-						name: 'onSelectedRouteMap',
-						path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
-						extraData:
-							'rtd.routeMaps.mainForm.controlPointsTable.rows',
-						onChange: ({value, extraData, setSubscribeProps}) => {
-							if (value && Array.isArray(extraData)) {
-								const points = extraData.filter(
-									(item) => item.routeMapId === value.id
-								);
-								setSubscribeProps({existPoints: points});
-							}
-						},
-					},
-					{
-						/** Action change controlPoints coordinate in table*/
-						// Обновить точки при изменении таблицы с точками
-						// extraData - выбранная карт (картинка)
-						name: 'onChangeControlPoints',
-						path: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
-						extraData:
-							'rtd.routeMaps.mainForm.routeMapsTable.selected',
-						onChange: ({value, extraData, setSubscribeProps}) => {
-							if (extraData && Array.isArray(value)) {
-								const points = value.filter(
-									(item) => item.routeMapId === extraData.id
-								);
-								setSubscribeProps({existPoints: points});
-							}
-						},
-					},
-					{
-						name: 'zoomAction',
-						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+						name: `changeRnd`,
+						path: `rtd.routeMaps.mainForm.editMode`,
+						// extraData: 'auth.roles', // .username
 						onChange: ({value, setSubscribeProps}) => {
-							console.log(
-								'zoomAction => ',
-								value.value && value.value.state
-							);
 							value &&
-								value.value &&
 								setSubscribeProps({
-									scale: value.value.state.scale,
-									positionX: value.value.state.positionX,
-									positionY: value.value.state.positionY,
+									value: value ? 0 : 1,
 								});
-							/**
-							 * выходит ошибка(Уже неактуально)
-							 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
-							 * */
 						},
 					},
 				]}
-				render={PointsOnMap}
-			/>
+			>
+				<Custom
+					itemProps={{name: 'routeMapPoints'}}
+					dispatch={{
+						path: 'routeMaps.mainForm.routeMapPoints.onChange',
+					}}
+					subscribe={[
+						{
+							/** Action change controlPoints in routeMap*/
+							// Обновить точки при изменении карты (картинки)
+							// extraData - точки
+							name: 'onSelectedRouteMap',
+							path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+							extraData:
+								'rtd.routeMaps.mainForm.controlPointsTable.rows',
+							onChange: ({
+								value,
+								extraData,
+								setSubscribeProps,
+							}) => {
+								if (value && Array.isArray(extraData)) {
+									const points = extraData.filter(
+										(item) => item.routeMapId === value.id
+									);
+									setSubscribeProps({existPoints: points});
+								}
+							},
+						},
+						{
+							/** Action change controlPoints coordinate in table*/
+							// Обновить точки при изменении таблицы с точками
+							// extraData - выбранная карт (картинка)
+							name: 'onChangeControlPoints',
+							path: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
+							extraData:
+								'rtd.routeMaps.mainForm.routeMapsTable.selected',
+							onChange: ({
+								value,
+								extraData,
+								setSubscribeProps,
+							}) => {
+								if (extraData && Array.isArray(value)) {
+									const points = value.filter(
+										(item) =>
+											item.routeMapId === extraData.id
+									);
+									setSubscribeProps({existPoints: points});
+								}
+							},
+						},
+						{
+							name: 'zoomAction',
+							path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+							onChange: ({value, setSubscribeProps}) => {
+								console.log(
+									'zoomAction => ',
+									value.value && value.value.state
+								);
+								value &&
+									value.value &&
+									setSubscribeProps({
+										scale: value.value.state.scale,
+										positionX: value.value.state.positionX,
+										positionY: value.value.state.positionY,
+									});
+								/**
+								 * выходит ошибка(Уже неактуально)
+								 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
+								 * */
+							},
+						},
+					]}
+					render={PointsOnMap}
+				/>
+				<Text label={'dskfjasdfhasdkjfhalsdjfh'} />
+			</Switcher>
 		</div>
 	);
 };
