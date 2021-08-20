@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Custom, Space, Button, Switch, Switcher, Text} from 'rt-design';
+import {Custom, Space, Button, Switch} from 'rt-design';
 import {Rnd} from 'react-rnd';
 import {Result} from 'antd';
 import {
@@ -19,13 +19,12 @@ const PointsOnMap = (props) => {
 		scale = 1,
 		positionX = 0,
 		positionY = 0,
+		notDraggable = false,
 	} = props;
 	const [transformStyle, setTransformStyle] = useState(
 		`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
 	);
 	useEffect(() => {
-		// onChange && onChange(scale);
-		// console.log('PointsOnMap', {scale, positionX, positionY});
 		setTransformStyle(
 			`translate3d(${positionX}px, ${positionY}px, 0) scale(${scale})`
 		);
@@ -48,6 +47,8 @@ const PointsOnMap = (props) => {
 						key={`${index}-${point.id}`}
 						bounds={'.routeMapImage'}
 						size={{width: widthIcon, height: heightIcon}}
+						disableDragging={!notDraggable}
+						enableResizing={false}
 						style={{
 							background: '#39839D',
 							textAlign: 'center',
@@ -83,6 +84,7 @@ const RouteMap = () => {
 	 *
 	 *
 	 * */
+	// console.log(visibleRnd)
 	return (
 		<div className={'routeMapContainer'}>
 			<Custom
@@ -139,6 +141,7 @@ const RouteMap = () => {
 															itemProps={{
 																name: 'switchMode',
 															}}
+															// onChange={setVisibleRnd}
 															dispatch={{
 																path: 'routeMaps.mainForm.editMode',
 															}}
@@ -195,98 +198,115 @@ const RouteMap = () => {
 					);
 				}}
 			/>
-			<Switcher
-				itemProps={{initialValue: 1}}
+
+			<Custom
+				itemProps={{name: 'routeMapPoints'}}
+				dispatch={{
+					path: 'routeMaps.mainForm.routeMapPoints.onChange',
+				}}
 				subscribe={[
-					/** Role model in portal necessary stay where*/
 					{
-						name: `changeRnd`,
-						path: `rtd.routeMaps.mainForm.editMode`,
-						// extraData: 'auth.roles', // .username
-						onChange: ({value, setSubscribeProps}) => {
-							value &&
+						/** Action change controlPoints in routeMap*/
+						// Обновить точки при изменении карты (картинки)
+						// extraData - точки
+						name: 'onSelectedRouteMap',
+						path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+						extraData: {
+							rows: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
+							dragging: `rtd.routeMaps.mainForm.editMode`,
+						},
+						onChange: ({value, extraData, setSubscribeProps}) => {
+							console.log(extraData);
+							if (value && Array.isArray(extraData.rows)) {
+								const points = extraData.rows.filter(
+									(item) => item.routeMapId === value.id
+								);
 								setSubscribeProps({
-									value: value ? 0 : 1,
+									existPoints: points,
+									notDraggable: extraData.dragging,
 								});
+							}
+						},
+					},
+					{
+						/** Action change controlPoints coordinate in table*/
+						// Обновить точки при изменении таблицы с точками
+						// extraData - выбранная карт (картинка)
+						name: 'onChangeControlPoints',
+						path: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
+						extraData: {
+							selected:
+								'rtd.routeMaps.mainForm.routeMapsTable.selected',
+							dragging: `rtd.routeMaps.mainForm.editMode`,
+						},
+						onChange: ({value, extraData, setSubscribeProps}) => {
+							if (extraData.selected && Array.isArray(value)) {
+								const points = value.filter(
+									(item) =>
+										item.routeMapId ===
+										extraData.selected.id
+								);
+								setSubscribeProps({
+									existPoints: points,
+									notDraggable: extraData.dragging,
+								});
+							}
+						},
+					},
+					{
+						/** Action zoom*/
+						name: 'zoomAction',
+						path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
+						extraData: `rtd.routeMaps.mainForm.editMode`,
+						onChange: ({value, setSubscribeProps, extraData}) => {
+							// console.log(
+							//     'zoomAction => ',
+							//     value.value && value.value.state
+							// );
+							value &&
+								value.value &&
+								setSubscribeProps({
+									scale: value.value.state.scale,
+									positionX: value.value.state.positionX,
+									positionY: value.value.state.positionY,
+									notDraggable: extraData,
+								});
+							/**
+							 * выходит ошибка(Уже неактуально)
+							 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
+							 * */
+						},
+					},
+					{
+						/**Action switch draggable */
+						name: 'switchDraggable',
+						path: `rtd.routeMaps.mainForm.editMode`,
+						extraData: {
+							rows: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
+							selected:
+								'rtd.routeMaps.mainForm.routeMapsTable.selected',
+						},
+						onChange: ({value, extraData, setSubscribeProps}) => {
+							console.log(value);
+							if (
+								extraData.selected &&
+								Array.isArray(extraData.rows)
+							) {
+								const points = extraData.rows.filter(
+									(item) =>
+										item.routeMapId ===
+										extraData.selected.id
+								);
+								setSubscribeProps({
+									existPoints: points,
+									notDraggable: value,
+								});
+							}
 						},
 					},
 				]}
-			>
-				<Custom
-					itemProps={{name: 'routeMapPoints'}}
-					dispatch={{
-						path: 'routeMaps.mainForm.routeMapPoints.onChange',
-					}}
-					subscribe={[
-						{
-							/** Action change controlPoints in routeMap*/
-							// Обновить точки при изменении карты (картинки)
-							// extraData - точки
-							name: 'onSelectedRouteMap',
-							path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
-							extraData:
-								'rtd.routeMaps.mainForm.controlPointsTable.rows',
-							onChange: ({
-								value,
-								extraData,
-								setSubscribeProps,
-							}) => {
-								if (value && Array.isArray(extraData)) {
-									const points = extraData.filter(
-										(item) => item.routeMapId === value.id
-									);
-									setSubscribeProps({existPoints: points});
-								}
-							},
-						},
-						{
-							/** Action change controlPoints coordinate in table*/
-							// Обновить точки при изменении таблицы с точками
-							// extraData - выбранная карт (картинка)
-							name: 'onChangeControlPoints',
-							path: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
-							extraData:
-								'rtd.routeMaps.mainForm.routeMapsTable.selected',
-							onChange: ({
-								value,
-								extraData,
-								setSubscribeProps,
-							}) => {
-								if (extraData && Array.isArray(value)) {
-									const points = value.filter(
-										(item) =>
-											item.routeMapId === extraData.id
-									);
-									setSubscribeProps({existPoints: points});
-								}
-							},
-						},
-						{
-							name: 'zoomAction',
-							path: 'rtd.routeMaps.mainForm.routeMapPoints.zoomSection',
-							onChange: ({value, setSubscribeProps}) => {
-								console.log(
-									'zoomAction => ',
-									value.value && value.value.state
-								);
-								value &&
-									value.value &&
-									setSubscribeProps({
-										scale: value.value.state.scale,
-										positionX: value.value.state.positionX,
-										positionY: value.value.state.positionY,
-									});
-								/**
-								 * выходит ошибка(Уже неактуально)
-								 * TypeError: Failed to execute 'requestAnimationFrame' on 'Window': parameter 1 is not of type 'Function'.
-								 * */
-							},
-						},
-					]}
-					render={PointsOnMap}
-				/>
-				<Text label={'dskfjasdfhasdkjfhalsdjfh'} />
-			</Switcher>
+				render={PointsOnMap}
+			/>
 		</div>
 	);
 };
