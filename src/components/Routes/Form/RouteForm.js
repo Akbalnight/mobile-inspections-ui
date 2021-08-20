@@ -234,7 +234,8 @@ const RouteForm = (props) => {
 						title={
 							'Вы можете перейти в Конструктор маршрутных карт'
 						}
-						style={{height: '450px'}}
+						// style={{height: 'calc(100% -60%)'}}
+						className={'resultRouteForm'}
 						extra={<WayOutModal />}
 					/>
 				)}
