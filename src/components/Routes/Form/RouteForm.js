@@ -103,6 +103,9 @@ const RouteForm = (props) => {
 			onFinish={() => {
 				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 			}}
+			dispatch={{
+				path: 'routes.routeForm.data',
+			}}
 		>
 			<FormHeader>
 				<Title
@@ -132,7 +135,6 @@ const RouteForm = (props) => {
 					<ControlPointsHeader />
 					<Table
 						itemProps={{name: 'controlPoints'}}
-						onRowClick={(_) => console.log(_)}
 						rowKey={`id`}
 						customFields={customFields}
 						customColumnProps={customColumnProps}

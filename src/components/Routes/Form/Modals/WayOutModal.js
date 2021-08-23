@@ -1,3 +1,5 @@
+import React from 'react';
+import {useHistory} from 'react-router';
 import {ReactComponent as Warning} from '../../../../imgs/warning-mdl-big.svg';
 import {
 	apiGetFlatDataByConfigName,
@@ -5,8 +7,6 @@ import {
 } from '../../../../apis/catalog.api';
 import {paths} from '../../../../constants/paths';
 import {Modal, FormBody, Text, Input, notificationError} from 'rt-design';
-import React from 'react';
-import {useHistory} from 'react-router';
 
 export const WayOutModal = () => {
 	const history = useHistory();
@@ -75,7 +75,7 @@ export const WayOutModal = () => {
 											'Ошибка загрузки данных формы'
 										)
 									),
-							100
+							1000 // ?
 						);
 					},
 
@@ -91,7 +91,7 @@ export const WayOutModal = () => {
 				subscribe={[
 					{
 						name: `wayOutModal`,
-						path: 'rtd.routes.routeForm',
+						path: 'rtd.routes.routeForm.data',
 						onChange: ({value, setModalData, setButtonProps}) => {
 							value &&
 								value.name !== null &&
