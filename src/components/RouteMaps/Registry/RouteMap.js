@@ -9,6 +9,7 @@ import {
 	PlusOutlined,
 } from '@ant-design/icons';
 import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
+
 // import {DebugMarsel} from '../../Debug/DebugMarsel/DebugMarsel';
 // import Draggable from 'react-draggable';
 
@@ -76,15 +77,6 @@ const PointsOnMap = (props) => {
 };
 
 const RouteMap = () => {
-	/**
-	 * Я дошел до вот такой статьи https://habr.com/ru/company/yandex/blog/559442/
-	 *
-	 * В изначально, были проблемы с сущностью https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-	 *
-	 *
-	 *
-	 * */
-	// console.log(visibleRnd)
 	return (
 		<div className={'routeMapContainer'}>
 			<Custom
@@ -139,12 +131,33 @@ const RouteMap = () => {
 													>
 														<Switch
 															itemProps={{
-																name: 'switchMode',
+																name: `switchMode`,
+																valuePropName:
+																	'checked',
 															}}
-															// onChange={setVisibleRnd}
 															dispatch={{
 																path: 'routeMaps.mainForm.editMode',
 															}}
+															subscribe={[
+																{
+																	name: 'onSelectedRouteMap',
+																	path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+																	onChange: ({
+																		value,
+																		setSubscribeProps,
+																	}) => {
+																		console.log(
+																			'trigger'
+																		);
+																		setSubscribeProps(
+																			{
+																				checked:
+																					!value,
+																			}
+																		);
+																	},
+																},
+															]}
 														/>
 														<Button
 															icon={
@@ -216,7 +229,6 @@ const RouteMap = () => {
 							dragging: `rtd.routeMaps.mainForm.editMode`,
 						},
 						onChange: ({value, extraData, setSubscribeProps}) => {
-							console.log(extraData);
 							if (value && Array.isArray(extraData.rows)) {
 								const points = extraData.rows.filter(
 									(item) => item.routeMapId === value.id
