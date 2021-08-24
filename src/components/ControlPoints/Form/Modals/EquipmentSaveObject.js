@@ -4,9 +4,8 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../../apis/catalog.api';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Modal, FormBody, Row, Col, Table, Search} from 'rt-design';
 
-const {Modal, FormBody, Row, Col, Table, Search} = classic;
 export const EquipmentAddModal = () => {
 	return (
 		<Modal
@@ -27,8 +26,7 @@ export const EquipmentAddModal = () => {
 				},
 			}}
 			dispatch={{
-				path:
-					'controlPoints.controlPointForm.equipments.addModal.onSave',
+				path: 'controlPoints.controlPointForm.equipments.addModal.onSave',
 				type: 'event',
 			}}
 		>
@@ -37,8 +35,7 @@ export const EquipmentAddModal = () => {
 					<Col span={12}>
 						<Search
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.equipments.addModal.onSearch',
+								path: 'controlPoints.controlPointForm.equipments.addModal.onSearch',
 							}}
 							className={'mb-8'}
 						/>
@@ -56,8 +53,7 @@ export const EquipmentAddModal = () => {
 					subscribe={[
 						{
 							name: 'onControlPointsSearch',
-							path:
-								'rtd.controlPoints.controlPointForm.equipments.addModal.onSearch',
+							path: 'rtd.controlPoints.controlPointForm.equipments.addModal.onSearch',
 							onChange: ({value, reloadTable}) => {
 								reloadTable({
 									filter: {name: value},
@@ -66,8 +62,7 @@ export const EquipmentAddModal = () => {
 						},
 					]}
 					dispatch={{
-						path:
-							'controlPoints.controlPointForm.equipments.addModal.table',
+						path: 'controlPoints.controlPointForm.equipments.addModal.table',
 					}}
 				/>
 			</FormBody>

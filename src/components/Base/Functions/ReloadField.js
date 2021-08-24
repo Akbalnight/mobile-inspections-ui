@@ -1,9 +1,9 @@
 /**
  * Reload filter fields
  */
-export const reloadFilterFields = (subscribeWay) => {
+export const reloadFilterFields = (subscribeWay, name = 'reset') => {
 	return {
-		name: 'onReload',
+		name: `${name}OnReload`,
 		path: `rtd.${subscribeWay}`,
 		onChange: ({setSubscribeProps}) => {
 			setSubscribeProps({

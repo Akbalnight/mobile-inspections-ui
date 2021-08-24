@@ -1,4 +1,18 @@
-import {classic} from 'rt-design';
+import {
+	Modal,
+	FormBody,
+	Tabs,
+	TabPane,
+	Text,
+	Table,
+	List,
+	Checkbox,
+	DateText,
+	Layout,
+	Title,
+	Row,
+	Col,
+} from 'rt-design';
 import React from 'react';
 import {ReactComponent as InfoTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
 import {ReactComponent as DetourCompositionTab} from '../../../../imgs/tabPane/catalogTabs/equipmentTabs/detourCompositionTab.svg';
@@ -11,22 +25,10 @@ import {
 } from '../../../../apis/catalog.api';
 import {customColumnProps} from '../../tableProps';
 import {Access} from 'mobile-inspections-base-ui';
+import moment from 'moment';
 
 const {Panel} = Collapse;
 
-const {
-	Modal,
-	FormBody,
-	Tabs,
-	TabPane,
-	Text,
-	Table,
-	List,
-	Checkbox,
-	DateText,
-	Layout,
-	Title,
-} = classic;
 export const ViewDetour = () => {
 	let sRow;
 	const loadData = (callBack, row) => {
@@ -38,15 +40,14 @@ export const ViewDetour = () => {
 		return sRow;
 	};
 
-	// console.log(sRow);
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: `Информация об обходе`,
 				width: 850,
 				bodyStyle: {
-					height: 650,
+					height: 680,
 				},
 				form: {
 					name: 'detourDataView',
@@ -78,6 +79,123 @@ export const ViewDetour = () => {
 						style={{padding: '16px'}}
 					>
 						<Layout>
+							<Row
+								style={{justifyContent: 'space-around'}}
+								className={'mt-16'}
+							>
+								<Col span={10}>
+									<DateText
+										itemProps={{
+											...itemsInfo.dateStartPlan,
+											rules: [],
+										}}
+										format={'DD.MM.YYYY HH:mm'}
+									/>
+									<DateText
+										itemProps={{
+											...itemsInfo.dateFinishPlan,
+											rules: [],
+										}}
+										format={'DD.MM.YYYY HH:mm'}
+									/>
+									<Text
+										itemProps={{
+											label: 'Продолжительность план',
+										}}
+										subscribe={[
+											{
+												name: 'planDuration',
+												withMount: true,
+												path: 'rtd.detours.mainForm.table.events.onRowDoubleClick',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													let startTime = moment(
+														value.value
+															.dateStartPlan
+													);
+													let endTime = moment(
+														value.value
+															.dateFinishPlan
+													);
+													const diffTime =
+														endTime.diff(
+															startTime,
+															'minutes'
+														);
+
+													value &&
+														setSubscribeProps &&
+														setSubscribeProps({
+															value: `${
+																diffTime
+																	? diffTime
+																	: '0'
+															} мин.`,
+														});
+												},
+											},
+										]}
+									/>
+								</Col>
+								<Col span={10}>
+									<DateText
+										itemProps={{
+											...itemsInfo.dateStartFact,
+											rules: [],
+										}}
+										format={'DD.MM.YYYY HH:mm'}
+									/>
+									<DateText
+										itemProps={{
+											...itemsInfo.dateFinishFact,
+											rules: [],
+										}}
+										format={'DD.MM.YYYY HH:mm'}
+									/>
+									<Text
+										itemProps={{
+											label: 'Продолжительность факт',
+										}}
+										subscribe={[
+											{
+												name: 'factDuration',
+												withMount: true,
+												path: 'rtd.detours.mainForm.table.events.onRowDoubleClick',
+												onChange: ({
+													value,
+													setSubscribeProps,
+												}) => {
+													let startTime = moment(
+														value.value
+															.dateStartFact
+													);
+													let endTime = moment(
+														value.value
+															.dateFinishFact
+													);
+													const diffTime =
+														endTime.diff(
+															startTime,
+															'minutes'
+														);
+
+													value &&
+														setSubscribeProps &&
+														setSubscribeProps({
+															value: `${
+																diffTime
+																	? diffTime
+																	: '0'
+															} мин.`,
+														});
+												},
+											},
+										]}
+									/>
+								</Col>
+							</Row>
 							<Text itemProps={{...itemsInfo.name, rules: []}} />
 							<Access roles={['ROLE_ADMIN']}>
 								<Text
@@ -97,21 +215,8 @@ export const ViewDetour = () => {
 									]}
 								/>
 							</Access>
-							<DateText
-								itemProps={{
-									...itemsInfo.dateStartPlan,
-									rules: [],
-								}}
-								format={'LLLL'}
-							/>
-							<DateText
-								itemProps={{
-									...itemsInfo.dateFinishPlan,
-									rules: [],
-								}}
-								format={'LLLL'}
-							/>
 							<Text itemProps={{...itemsInfo.executorName}} />
+
 							<Checkbox
 								itemProps={{
 									...itemsInfo.saveOrderControlPoints,

@@ -1,16 +1,6 @@
 import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
 import {checkBox, date, dateTime} from '../Base/customColumnProps';
-import {classic} from 'rt-design';
-import React from 'react';
-import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
-import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
-import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
-import {reloadFilterFields} from '../Base/Functions/ReloadField';
-import {ViewDetour} from './Registry/Modals/ViewModal';
-import {Access} from 'mobile-inspections-base-ui';
-// import {DeleteDetour} from './Registry/Modals/DeleteObjectModal';
-
-const {
+import {
 	Space,
 	Select,
 	DatePicker,
@@ -20,7 +10,14 @@ const {
 	RadioGroup,
 	Text,
 	Switcher,
-} = classic;
+} from 'rt-design';
+import React from 'react';
+import {AddDetour, EditDetour} from './Registry/Modals/SaveObjectModal';
+import {CalendarOutlined, TableOutlined} from '@ant-design/icons';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {ViewDetour} from './Registry/Modals/ViewModal';
+import {Access} from 'mobile-inspections-base-ui';
 
 export const DetoursMainTableHeader = () => {
 	return (
@@ -68,7 +65,8 @@ export const DetoursMainTableHeader = () => {
 						}}
 						subscribe={[
 							reloadFilterFields(
-								'detours.mainForm.filter.events.onReload'
+								'detours.mainForm.table.onReload',
+								'reset'
 							),
 						]}
 					/>
@@ -100,11 +98,12 @@ export const DetoursMainTableHeader = () => {
 							}}
 							subscribe={[
 								reloadFilterFields(
-									'detours.mainForm.filter.events.onReload'
+									'detours.mainForm.table.onReload'
 								),
 								/** Action clear value*/
 								reloadFilterFields(
-									'detours.mainForm.table.events.viewMode'
+									'detours.mainForm.table.events.viewMode',
+									'calendar'
 								),
 							]}
 						/>
@@ -131,12 +130,13 @@ export const DetoursMainTableHeader = () => {
 								path: 'detours.mainForm.filter.events.staffId',
 							}}
 							subscribe={[
-								reloadFilterFields(
-									'detours.mainForm.filter.events.onReload'
-								),
 								/** Action clear value*/
 								reloadFilterFields(
-									'detours.mainForm.table.events.viewMode'
+									'detours.mainForm.table.events.viewMode',
+									'calendar'
+								),
+								reloadFilterFields(
+									'detours.mainForm.table.onReload'
 								),
 							]}
 						/>
@@ -145,8 +145,7 @@ export const DetoursMainTableHeader = () => {
 						subscribe={[
 							{
 								name: 'detourMainForm',
-								path:
-									'rtd.detours.mainForm.table.events.viewMode',
+								path: 'rtd.detours.mainForm.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({value: value});
 								},
@@ -163,15 +162,16 @@ export const DetoursMainTableHeader = () => {
 										className: 'mb-0',
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
+									onChange={(date, dateString) =>
+										date?.startOf('day')
+									}
 									dispatch={{
-										path:
-											'detours.mainForm.filter.events.startDate',
+										path: 'detours.mainForm.filter.events.startDate',
 									}}
 									subscribe={[
 										{
 											name: 'finishDate',
-											path:
-												'rtd.detours.mainForm.filter.events.finishDate',
+											path: 'rtd.detours.mainForm.filter.events.finishDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -188,7 +188,11 @@ export const DetoursMainTableHeader = () => {
 											},
 										},
 										reloadFilterFields(
-											'detours.mainForm.filter.events.onReload'
+											'detours.mainForm.table.onReload'
+										),
+										reloadFilterFields(
+											'detours.mainForm.table.events.viewMode',
+											'calendar'
 										),
 									]}
 								/>
@@ -199,15 +203,16 @@ export const DetoursMainTableHeader = () => {
 										className: 'mb-0',
 									}}
 									format={'DD-MM-YYYY HH:mm:ss'}
+									onChange={(date, dateString) =>
+										date?.endOf('day')
+									}
 									dispatch={{
-										path:
-											'detours.mainForm.filter.events.finishDate',
+										path: 'detours.mainForm.filter.events.finishDate',
 									}}
 									subscribe={[
 										{
 											name: 'startDate',
-											path:
-												'rtd.detours.mainForm.filter.events.startDate',
+											path: 'rtd.detours.mainForm.filter.events.startDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -222,7 +227,11 @@ export const DetoursMainTableHeader = () => {
 											},
 										},
 										reloadFilterFields(
-											'detours.mainForm.filter.events.onReload'
+											'detours.mainForm.table.onReload'
+										),
+										reloadFilterFields(
+											'detours.mainForm.table.events.viewMode',
+											'calendar'
 										),
 									]}
 								/>
@@ -235,8 +244,7 @@ export const DetoursMainTableHeader = () => {
 								format={'MMM YYYY'}
 								picker='month'
 								dispatch={{
-									path:
-										'detours.mainForm.filter.events.month',
+									path: 'detours.mainForm.filter.events.month',
 								}}
 								subscribe={[
 									{
@@ -278,7 +286,8 @@ export const DetoursMainTableHeader = () => {
 						</Button>
 						<Button
 							dispatch={{
-								path: 'detours.mainForm.filter.events.onReload',
+								path: 'detours.mainForm.table.onReload',
+								type: 'event',
 							}}
 						>
 							Сбросить
@@ -346,4 +355,19 @@ export const customColumnProps = [
 		name: 'descriptionCauses',
 		hidden: true,
 	},
+];
+
+export const schedulesCustomColumn = [
+	{
+		name: 'interval',
+		cellRenderer: ({rowData, cellData}) => {
+			let period =
+				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
+
+			return cellData + ' ' + period;
+		},
+	},
+	{...dateTime('dateStart')},
+	{...dateTime('nextExecution')},
+	{...dateTime('dateFinish')},
 ];

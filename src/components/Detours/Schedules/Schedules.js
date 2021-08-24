@@ -4,31 +4,19 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 import {Access, BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, Table, FormBody, Space, Search, Button} from 'rt-design';
 import {AddDetourButton, EditDetourButton} from './Modals/EditModal';
-import {dateTime} from '../../Base/customColumnProps';
 import {DetourSchedulesView} from './Modals/ViewModal';
 import {ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from '../../Base/Functions/ReloadField';
+import {schedulesCustomColumn} from '../tableProps';
 
-const {Form, Table, FormBody, Space, Search, Button} = classic;
-
-const columnProps = [
-	{
-		name: 'interval',
-		cellRenderer: ({rowData, cellData}) => {
-			let period =
-				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
-
-			return cellData + ' ' + period;
-		},
-	},
-	{...dateTime('dateStart')},
-	{...dateTime('nextExecution')},
-	{...dateTime('dateFinish')},
-];
-
-const Registry = () => {
+/***
+ *
+ * @returns {JSX.object}
+ * @desc This is component to show repeat of detours by time.
+ */
+const Schedules = () => {
 	return (
 		<BasePage>
 			<Form>
@@ -68,8 +56,7 @@ const Registry = () => {
 									/** Action search activate btn*/
 									{
 										name: 'onSearchPush',
-										path:
-											'rtd.detours.schedulesTable.table.events.onSearch',
+										path: 'rtd.detours.schedulesTable.table.events.onSearch',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -84,8 +71,7 @@ const Registry = () => {
 									/** Action reload in mainForm.table deactivate btn*/
 									{
 										name: 'onReloadPush',
-										path:
-											'rtd.detours.schedulesTable.table.rows',
+										path: 'rtd.detours.schedulesTable.table.rows',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -102,16 +88,14 @@ const Registry = () => {
 									},
 								]}
 								dispatch={{
-									path:
-										'detours.schedulesTable.table.events.onReload',
+									path: 'detours.schedulesTable.table.events.onReload',
 								}}
 							/>
 							<Search
 								itemProps={{name: 'onSearch'}}
 								placeholder={'Введите наименование'}
 								dispatch={{
-									path:
-										'detours.schedulesTable.table.events.onSearch',
+									path: 'detours.schedulesTable.table.events.onSearch',
 								}}
 								subscribe={[
 									/** Reload Search value field, clear STORE*/
@@ -130,20 +114,19 @@ const Registry = () => {
 							'repeaters'
 						)}
 						requestLoadConfig={apiGetConfigByName('repeaters')}
-						customColumnProps={columnProps}
+						customColumnProps={schedulesCustomColumn}
 						dispatch={{path: 'detours.schedulesTable.table'}}
 						subscribe={[
+							/** Action add new event*/
 							{
 								name: 'onEditModal',
-								path:
-									'rtd.detours.schedulesTable.table.events.onEditModal',
+								path: 'rtd.detours.schedulesTable.table.events.onEditModal',
 								onChange: ({reloadTable}) => reloadTable({}),
 							},
 							/** Action search*/
 							{
 								name: 'onSearch',
-								path:
-									'rtd.detours.schedulesTable.table.events.onSearch',
+								path: 'rtd.detours.schedulesTable.table.events.onSearch',
 								onChange: ({value, reloadTable}) => {
 									reloadTable({
 										searchValue: value,
@@ -153,8 +136,7 @@ const Registry = () => {
 							/** Action reload*/
 							{
 								name: 'onReload',
-								path:
-									'rtd.detours.schedulesTable.table.events.onReload',
+								path: 'rtd.detours.schedulesTable.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
@@ -167,4 +149,4 @@ const Registry = () => {
 	);
 };
 
-export default Registry;
+export default Schedules;

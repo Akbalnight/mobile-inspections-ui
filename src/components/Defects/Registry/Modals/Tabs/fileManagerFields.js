@@ -1,12 +1,10 @@
-import {classic, notificationError} from 'rt-design';
+import {Layout, Space, Custom, UploadFile, notificationError} from 'rt-design';
 import React from 'react';
 import {AttachmentsPreview} from '../../../../Base/Functions/MediaUtils';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../../../apis/catalog.api';
-
-const {Layout, Space, Custom, UploadFile} = classic;
 
 export const FilesTabFields = ({sRow}) => {
 	return (
@@ -15,7 +13,6 @@ export const FilesTabFields = ({sRow}) => {
 				<UploadFile
 					itemProps={{
 						name: 'defectUploadFilesHolder', // <- по этому ключу лежит объект с данными для загрузки
-						valuePropName: 'dataObject',
 					}}
 					requestUploadFile={apiSaveFileByConfigName(
 						`defectFilesSave`

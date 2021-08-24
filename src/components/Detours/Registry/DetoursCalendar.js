@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
-import {classic, notificationError} from 'rt-design';
+import {Custom, Layout, notificationError} from 'rt-design';
 import moment from 'moment';
 import {Calendar as AntCalendar, Popover, Checkbox} from 'antd';
 import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
 import {calendarPrefix} from '../../../utils/baseUtils';
-
-const {Custom, Layout} = classic;
 
 /**
  *
@@ -35,30 +33,31 @@ const Calendar = ({onChange, detours, value}) => {
 			<>
 				{listData &&
 					listData.map((item) => {
-						// console.log(item)
 						const content = (
 							<div key={item.id} className='calendar'>
-								<div>Название: {item.name}</div>
-								<div>Маршрут: {item.routeName}</div>
-								<div>Иcпольнитель: {item.staffName}</div>
+								<div>{`Название: ${item.name}`}</div>
+								<div>{`Маршрут: ${item.routeName}`}</div>
+								<div>{`Иcполнитель: ${item.staffName}`}</div>
 								<div>
-									Учитывать порядок:
-									<Checkbox
-										checked={item.saveOrderControlPoints}
-										disabled
-									/>
+									{`Начало: ${moment(
+										item.dateStartPlan
+									).format('DD.MM.YYYY HH:mm')}`}
 								</div>
 								<div>
-									Начало:
-									{moment(item.dateStartPlan).format(
-										'DD MMM YY HH:mm:ss'
-									)}
+									{`Окончание: ${moment(
+										item.dateFinishPlan
+									).format('DD.MM.YYYY HH:mm')}`}
 								</div>
 								<div>
-									Окончание:
-									{moment(item.dateFinishPlan).format(
-										'DD MMM YY HH:mm:ss'
-									)}
+									<pre>
+										Учитывать порядок:{' '}
+										<Checkbox
+											checked={
+												item.saveOrderControlPoints
+											}
+											disabled
+										/>
+									</pre>
 								</div>
 							</div>
 						);
@@ -66,10 +65,10 @@ const Calendar = ({onChange, detours, value}) => {
 							String(value._d).slice(0, 15) ===
 							String(moment(item.dateStartPlan)._d).slice(0, 15)
 						) {
-							console.log(1); // тут проблема, замедлялся рендеринг.
+							// console.log(1); // тут проблема, замедлялся рендеринг.
 							return (
 								<Popover
-									title={value.format('DD MMMM YYYY')}
+									title={value.format('DD.MM.YYYY')}
 									trigger={'hover'}
 									content={content}
 									overlayClassName={`${calendarPrefix}-popover-hover`}
@@ -215,8 +214,7 @@ export default function DetoursCalendar() {
 						/** Action add detour*/
 						{
 							name: 'addDetourOnServer',
-							path:
-								'rtd.detours.mainForm.table.events.addOnModal',
+							path: 'rtd.detours.mainForm.table.events.addOnModal',
 							onChange: ({setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {},

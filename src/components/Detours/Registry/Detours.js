@@ -1,5 +1,5 @@
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, FormBody, Table, Switcher} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -7,8 +7,6 @@ import {
 import {customColumnProps, DetoursMainTableHeader} from '../tableProps';
 import React from 'react';
 import DetoursCalendar from './DetoursCalendar';
-
-const {Form, FormBody, Table, Switcher} = classic;
 
 /**
  *
@@ -25,8 +23,7 @@ export const Detours = () => {
 						subscribe={[
 							{
 								name: 'detourMainForm',
-								path:
-									'rtd.detours.mainForm.table.events.viewMode',
+								path: 'rtd.detours.mainForm.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({value: value});
 								},
@@ -47,8 +44,7 @@ export const Detours = () => {
 								/** Action add detour*/
 								{
 									name: 'addDetourOnServer',
-									path:
-										'rtd.detours.mainForm.table.events.addOnModal',
+									path: 'rtd.detours.mainForm.table.events.addOnModal',
 									onChange: ({reloadTable}) => {
 										reloadTable({});
 									},
@@ -56,8 +52,7 @@ export const Detours = () => {
 								/** Action edit detour*/
 								{
 									name: 'editDetourOnServer',
-									path:
-										'rtd.detours.mainForm.table.events.editOnModal',
+									path: 'rtd.detours.mainForm.table.events.editOnModal',
 									onChange: ({reloadTable}) => {
 										reloadTable({});
 									},
@@ -66,8 +61,7 @@ export const Detours = () => {
 								/** Action search by detour name*/
 								{
 									name: 'onSearch',
-									path:
-										'rtd.detours.mainForm.table.events.onSearch',
+									path: 'rtd.detours.mainForm.table.events.onSearch',
 									extraData:
 										'rtd.detours.mainForm.filter.events',
 									onChange: ({
@@ -90,11 +84,9 @@ export const Detours = () => {
 
 								{
 									name: 'onApplyFilter',
-									path:
-										'rtd.detours.mainForm.table.onApplyFilter',
+									path: 'rtd.detours.mainForm.table.onApplyFilter',
 									extraData: {
-										filter:
-											'rtd.detours.mainForm.filter.events',
+										filter: 'rtd.detours.mainForm.filter.events',
 										searchValue:
 											'rtd.detours.mainForm.table.events.onSearch',
 									},
@@ -104,23 +96,18 @@ export const Detours = () => {
 											extraData
 										);
 										reloadTable({
-											searchValue: extraData.searchValue,
-											filter: extraData.filter,
+											searchValue: extraData?.searchValue,
+											filter: extraData?.filter,
 										});
 									},
 								},
 								{
 									/** Action on push button Сбросить */
 									name: 'onReload',
-									path:
-										'rtd.detours.mainForm.filter.events.onReload',
+									path: 'rtd.detours.mainForm.table.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({filter: {}});
 									},
-								},
-								{
-									name: 'onDelete',
-									path: 'rtd.detours.',
 								},
 							]}
 						/>

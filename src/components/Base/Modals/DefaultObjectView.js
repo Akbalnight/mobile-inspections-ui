@@ -1,9 +1,8 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Text} from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import React from 'react';
 import {objectView} from '../Functions/DefaultObject';
-
-const {Modal, FormBody, Text} = classic;
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -49,7 +48,7 @@ export const DefaultObjectView = ({mainWay, catalogName, unique}) => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title:
 					catalogName !== 'staff'
 						? `Карточка ${unique}`
@@ -68,7 +67,10 @@ export const DefaultObjectView = ({mainWay, catalogName, unique}) => {
 			subscribe={[
 				{
 					name: `${catalogName}ModalInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.events.onRowDoubleClick`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

@@ -4,10 +4,8 @@ import {AuthorizationCode, Login} from 'mobile-inspections-base-ui';
 // НСИ
 import Catalog from '../components/Catalog/Form/Catalog';
 // Тех карты
-
-import TechMapsForm from '../components/TechMapsForm/TechMaps';
-import TechMapDataForm from '../components/TechMapsForm/TechMapDataEdit';
-
+import TechMapsNew from '../components/TechMaps/Registry/TechMaps';
+import {TechMapsAdd, TechMapsEdit} from '../components/TechMaps/Form/TechMap';
 // Контрольные точки
 import ControlPoints from '../components/ControlPoints/Registry/ControlPoints';
 import {
@@ -22,13 +20,13 @@ import {
 } from '../components/RouteMaps/Registry/RouteMaps';
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
-import Registry from '../components/Detours/Schedules/Registry';
-import WorkSchedules from '../components/WorkSchedules/WorkSchedules';
+import Schedules from '../components/Detours/Schedules/Schedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 import {Signage} from '../components/Defects/Form/Signage';
+import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -92,6 +90,12 @@ export const paths = {
 	// 	component: DebugMarsel,
 	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	// },
+	MI_MAP: {
+		title: 'MI_Map',
+		path: '/map',
+		component: BigMobInsMap,
+		roles: ['ROLE_ADMIN'],
+	},
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',
@@ -129,17 +133,29 @@ export const paths = {
 			'ROLE_MI_DETOURS_RESP',
 		],
 	},
-	/** Тех. карты на формах */
-	DETOURS_CONFIGURATOR_TECH_MAPS_FORM: {
+	DETOURS_CONFIGURATOR_TECH_MAPS: {
 		title: 'Технологические карты и операции',
-		path: '/detours-configurator/formTechMaps',
-		component: TechMapsForm,
-		roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
+		path: '/detours-configurator/techMaps',
+		component: TechMapsNew,
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MOBILE_APP',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOURS_CREATOR',
+			'ROLE_MI_ADMIN',
+		],
 	},
-	DETOURS_CONFIGURATOR_TECH_MAP_DATA_FORM: {
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_ADD: {
+		title: 'Создание технологической карты',
+		path: '/detours-configurator/techMaps/new',
+		component: TechMapsAdd,
+	},
+
+	DETOURS_CONFIGURATOR_TECH_MAPS_FORM_EDIT: {
 		title: 'Редактирование технологической карты',
-		path: '/detours-configurator/formTechMaps/:id',
-		component: TechMapDataForm,
+		path: '/detours-configurator/techMaps/:id',
+		component: TechMapsEdit,
 	},
 	DETOURS_CONFIGURATOR_CONTROL_POINTS: {
 		title: 'Контрольные точки',
@@ -205,7 +221,7 @@ export const paths = {
 	DETOURS_CONFIGURATOR_DETOURS_SCHEDULES_TABLE: {
 		title: 'Расписание обходов',
 		path: '/detours-configurator/schedules',
-		component: Registry,
+		component: Schedules,
 		roles: [
 			'ROLE_ADMIN',
 			'ROLE_MOBILE_APP',
@@ -249,12 +265,6 @@ export const paths = {
 			'ROLE_MI_DETOURS_APPROVER',
 			'ROLE_MI_DETOURS_RESP',
 		],
-	},
-	CONTROL_EQUIPMENTS_WORK_SCHEDULES: {
-		title: 'Рабочие графики',
-		path: '/controlEquipments/work-schedules',
-		component: WorkSchedules,
-		roles: ['ROLE_ADMIN'],
 	},
 	CONTROL_DEFECTS: {
 		title: 'Учет и контроль дефектов',

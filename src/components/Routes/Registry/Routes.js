@@ -1,5 +1,5 @@
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Form, FormBody, Table} from 'rt-design';
 import {customColumnProps, MainTableHeader} from '../tableProps';
 import {
 	apiGetConfigByName,
@@ -7,12 +7,11 @@ import {
 } from '../../../apis/catalog.api';
 import React from 'react';
 
-const {Form, FormBody, Table} = classic;
 export const Routes = () => {
 	return (
 		<BasePage>
 			<Form>
-				<FormBody noPadding={true} scrollable={true}>
+				<FormBody noPadding={true} scrollable={false}>
 					<MainTableHeader />
 					<Table
 						infinityMode={true}
@@ -24,8 +23,7 @@ export const Routes = () => {
 						subscribe={[
 							{
 								name: 'onSearch',
-								path:
-									'rtd.routes.mainForm.table.events.onSearch',
+								path: 'rtd.routes.mainForm.table.events.onSearch',
 								onChange: ({value, reloadTable}) => {
 									reloadTable({
 										searchValue: value,
@@ -34,8 +32,7 @@ export const Routes = () => {
 							},
 							{
 								name: 'onReload',
-								path:
-									'rtd.routes.mainForm.table.events.onReload',
+								path: 'rtd.routes.mainForm.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},

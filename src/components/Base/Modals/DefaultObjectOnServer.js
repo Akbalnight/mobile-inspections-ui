@@ -1,9 +1,10 @@
-import {classic} from 'rt-design';
+import {Modal, FormBody, Input} from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import React from 'react';
 import {objectOnServer} from '../Functions/DefaultObject';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -16,8 +17,6 @@ export const AddDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('add', mainWay, catalogName, unique);
 export const EditDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
 	operationOnServer('edit', mainWay, catalogName, unique);
-
-const {Modal, FormBody, Input} = classic;
 
 /**
  *
@@ -43,15 +42,6 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 	 * @param rawValues
 	 * @desc Function return few changes in save object
 	 */
-	const processBeforeSaveForm = (rawValues) => {
-		if (catalogName === 'staff') {
-			const values = {...rawValues};
-			return {
-				...values,
-				id: values.userId,
-			};
-		} else return rawValues;
-	};
 
 	/**
 	 *
@@ -84,7 +74,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
@@ -92,14 +82,13 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				bodyStyle: {
 					height: modalHeight(catalogName),
 				},
-				requestSaveRow: apiSaveByConfigName(
+				requestSaveForm: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				),
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					processBeforeSaveForm: processBeforeSaveForm,
-					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 					onFinish: (values) => {
 						console.log('values', values);
 					},
@@ -108,13 +97,19 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				},
 			}}
 			dispatch={{
-				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnModal`,
+				path: `${changeStorePath(
+					mainWay,
+					catalogName
+				)}.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&
@@ -130,7 +125,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				{catalogName !== 'staff' ? (
 					<Input itemProps={{...itemsInfo.name}} />
 				) : null}
-				{objectOnServer(catalogName)}
+				{objectOnServer(mainWay, catalogName)}
 			</FormBody>
 		</Modal>
 	);

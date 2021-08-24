@@ -10,9 +10,7 @@ import {
 import {disabledEndDate, disabledStartDate} from './DateLimits';
 import {ReactComponent as MeasuringPointsTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/measuringPointsTab.svg';
 import React from 'react';
-import {classic} from 'rt-design';
-
-const {
+import {
 	TreeSelect,
 	Checkbox,
 	Input,
@@ -25,7 +23,8 @@ const {
 	Button,
 	FormList,
 	Title,
-} = classic;
+} from 'rt-design';
+import {changeStorePath} from './ChangeStorePath';
 
 /**
  *
@@ -34,7 +33,7 @@ const {
  * @desc objectOnServer - func choice JSX by catalogName in CustomObjectOnServer.js
  */
 
-export const objectOnServer = (catalogName) => {
+export const objectOnServer = (mainWay, catalogName) => {
 	switch (catalogName) {
 		case 'equipments':
 			return (
@@ -135,12 +134,18 @@ export const objectOnServer = (catalogName) => {
 									}}
 									format={'DD.MM.YYYY'}
 									dispatch={{
-										path: `catalog.${catalogName}Table.modal.dateWarrantyStart`,
+										path: `${changeStorePath(
+											mainWay,
+											catalogName
+										)}.data.dateWarrantyStart`,
 									}}
 									subscribe={[
 										{
 											name: `${catalogName}ModalStartDatePicker`,
-											path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyFinish`,
+											path: `rtd.${changeStorePath(
+												mainWay,
+												catalogName
+											)}.data.dateWarrantyFinish`,
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -164,12 +169,18 @@ export const objectOnServer = (catalogName) => {
 									}}
 									format={'DD.MM.YYYY'}
 									dispatch={{
-										path: `catalog.${catalogName}Table.modal.dateWarrantyFinish`,
+										path: `${changeStorePath(
+											mainWay,
+											catalogName
+										)}.data.dateWarrantyFinish`,
 									}}
 									subscribe={[
 										{
 											name: `${catalogName}ModalFinishDatePicker`,
-											path: `rtd.catalog.${catalogName}Table.modal.dateWarrantyStart`,
+											path: `rtd.${changeStorePath(
+												mainWay,
+												catalogName
+											)}.data.dateWarrantyStart`,
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -239,14 +250,14 @@ export const objectOnServer = (catalogName) => {
 																				'Заполните точку измерения',
 																		},
 																	],
-																	label:
-																		'Точка измерений',
+																	label: 'Точка измерений',
 																	labelCol: {
 																		span: 10,
 																	},
-																	wrapperCol: {
-																		span: 14,
-																	},
+																	wrapperCol:
+																		{
+																			span: 14,
+																		},
 																}}
 																placeholder='Данные точки измерения'
 															/>

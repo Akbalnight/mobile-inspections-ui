@@ -1,21 +1,4 @@
-import {classic} from 'rt-design';
-import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import React from 'react';
 import {
-	apiGetFlatDataByConfigName,
-	apiSaveByConfigName,
-} from '../../../../apis/catalog.api';
-import {itemsInfo} from '../../../../constants/dictionary';
-import {
-	disabledEndDate,
-	disabledStartDate,
-} from '../../../Base/Functions/DateLimits';
-import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDetour.svg';
-
-export const AddDetour = () => operationOnServer('add');
-export const EditDetour = () => operationOnServer('edit');
-
-const {
 	Modal,
 	FormBody,
 	Title,
@@ -28,8 +11,26 @@ const {
 	Col,
 	Text,
 	Switcher,
-} = classic;
-const operationOnServer = (type) => {
+} from 'rt-design';
+import {EditOutlined, PlusOutlined} from '@ant-design/icons';
+import React from 'react';
+import {
+	apiGetFlatDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../../apis/catalog.api';
+import {itemsInfo} from '../../../../constants/dictionary';
+import {disabledStartDate} from '../../../Base/Functions/DateLimits';
+import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDetour.svg';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
+import {useDispatch} from 'react-redux';
+import moment from 'moment';
+
+export const AddDetour = () => OperationOnServer('add');
+export const EditDetour = () => OperationOnServer('edit');
+
+const OperationOnServer = (type) => {
+	const dispatch = useDispatch();
+
 	const statusesInfo = {
 		stopEdit: [
 			'a0299bf4-de93-40ab-9950-37392e3fd0a5',
@@ -84,13 +85,14 @@ const operationOnServer = (type) => {
 					title: type === 'add' ? 'Создать' : 'Редактировать',
 				}}
 				modalConfig={{
-					type: `${type}OnServer`,
+					type: `save`,
 					title: `${
 						type === 'add' ? 'Создание' : 'Редактирование'
 					} обхода`,
 					width: 700,
 					bodyStyle: {height: type === 'add' ? 630 : 670},
-					requestSaveRow: apiSaveByConfigName('saveDetourForm'),
+					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+					requestSaveForm: apiSaveByConfigName('saveDetourForm'),
 					form: {
 						name: `${type}ModalForm`,
 						dispatch: {
@@ -133,9 +135,32 @@ const operationOnServer = (type) => {
 				<FormBody>
 					<Title label={'Описание'} level={5} />
 					<Input itemProps={{...itemsInfo.name}} maxLength={100} />
+					<Select
+						itemProps={{...itemsInfo.routeId}}
+						placeholder={'Выберите маршрут'}
+						mode={'single'}
+						allowClear={true}
+						showSearch={true}
+						filterOption={false}
+						searchParamName={'name'}
+						requestLoadRows={apiGetFlatDataByConfigName('routes')}
+						optionConverter={(option) => ({
+							value: option.id,
+							label: option.name,
+							className: option?.duration,
+						})}
+						onSelect={(_, option) => {
+							dispatch(
+								setDataStore(
+									`detours.mainForm.modal.events.routeId`,
+									{duration: Number(option.className)}
+								)
+							);
+						}}
+					/>
 					<DatePicker
 						itemProps={{...itemsInfo.dateStartPlan}}
-						format={'DD.MM.YYYY HH:mm:ss'}
+						format={'DD.MM.YYYY HH:mm'}
 						showTime={true}
 						dispatch={{
 							path: 'detours.mainForm.modal.events.startDate',
@@ -144,8 +169,7 @@ const operationOnServer = (type) => {
 						subscribe={[
 							{
 								name: 'finishDate',
-								path:
-									'rtd.detours.mainForm.modal.events.finishDate',
+								path: 'rtd.detours.mainForm.modal.events.finishDate',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({
 										disabledDate: (startValue) =>
@@ -160,7 +184,7 @@ const operationOnServer = (type) => {
 					/>
 					<DatePicker
 						itemProps={{...itemsInfo.dateFinishPlan}}
-						format={'DD.MM.YYYY HH:mm:ss'}
+						format={'DD.MM.YYYY HH:mm'}
 						showTime={true}
 						showNow={false}
 						dispatch={{
@@ -168,32 +192,28 @@ const operationOnServer = (type) => {
 						}}
 						subscribe={[
 							{
-								name: 'startDate',
-								path:
-									'rtd.detours.mainForm.modal.events.startDate',
-								onChange: ({value, setSubscribeProps}) => {
+								name: 'solutionByStartDate',
+								path: 'rtd.detours.mainForm.modal.events.startDate',
+								extraData:
+									'rtd.detours.mainForm.modal.events.routeId',
+								onChange: ({
+									value,
+									extraData,
+									setSubscribeProps,
+								}) => {
+									const endTime = moment(value).add(
+										extraData && extraData?.duration,
+										'minutes'
+									);
+
 									setSubscribeProps({
-										disabledDate: (endValue) =>
-											disabledEndDate(value, endValue),
+										value: endTime,
 									});
 								},
 							},
 						]}
 					/>
-					<Select
-						itemProps={{...itemsInfo.routeId}}
-						placeholder={'Выберите маршрут'}
-						mode={'single'}
-						allowClear={true}
-						showSearch={true}
-						filterOption={false}
-						searchParamName={'name'}
-						requestLoadRows={apiGetFlatDataByConfigName('routes')}
-						optionConverter={(option) => ({
-							value: option.id,
-							label: option.name,
-						})}
-					/>
+
 					{type !== 'add' ? (
 						<Select
 							itemProps={{...itemsInfo.detourStatusId}}
@@ -244,8 +264,7 @@ const operationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path:
-										'detours.mainForm.modal.events.takeIntoAccountTimeLocation',
+									path: 'detours.mainForm.modal.events.takeIntoAccountTimeLocation',
 								}}
 							/>
 							<Checkbox
@@ -254,8 +273,7 @@ const operationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path:
-										'detours.mainForm.modal.events.takeIntoAccountDateStart',
+									path: 'detours.mainForm.modal.events.takeIntoAccountDateStart',
 								}}
 							/>
 							<Checkbox
@@ -264,8 +282,7 @@ const operationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path:
-										'detours.mainForm.modal.events.takeIntoAccountDateFinish',
+									path: 'detours.mainForm.modal.events.takeIntoAccountDateFinish',
 								}}
 							/>
 						</Col>
@@ -280,8 +297,8 @@ const operationOnServer = (type) => {
 								subscribe={[
 									{
 										name: 'takeIntoAccountTimeLocation',
-										path:
-											'rtd.detours.mainForm.modal.events.takeIntoAccountTimeLocation',
+										withMount: true,
+										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountTimeLocation',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -307,8 +324,8 @@ const operationOnServer = (type) => {
 								subscribe={[
 									{
 										name: 'takeIntoAccountTimeLocation',
-										path:
-											'rtd.detours.mainForm.modal.events.takeIntoAccountDateStart',
+										withMount: true,
+										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountDateStart',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -334,8 +351,8 @@ const operationOnServer = (type) => {
 								subscribe={[
 									{
 										name: 'takeIntoAccountTimeLocation',
-										path:
-											'rtd.detours.mainForm.modal.events.takeIntoAccountDateFinish',
+										withMount: true,
+										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountDateFinish',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -365,7 +382,7 @@ const operationOnServer = (type) => {
 					title: 'Редактировать',
 				}}
 				modalConfig={{
-					type: `viewObject`,
+					type: `view`,
 					title: <WarningDetour />,
 					width: 430,
 					bodyStyle: {height: 150},

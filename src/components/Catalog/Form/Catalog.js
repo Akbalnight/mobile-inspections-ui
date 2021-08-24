@@ -1,6 +1,6 @@
 import React from 'react';
 import SplitPane from 'react-split-pane';
-import {classic} from 'rt-design';
+import {List} from 'rt-design';
 import {Link, useLocation} from 'react-router-dom';
 import {paths} from '../../../constants/paths';
 import {Route, Switch} from 'react-router';
@@ -10,7 +10,6 @@ import {ArrowLeftOutlined} from '@ant-design/icons';
 import {catalogConfigs} from '../Registry/catalogConfigs';
 import {Catalogs} from '../Registry/Catalogs';
 
-const {List, Button} = classic;
 const CATALOG_DATA_PATH = {
 	title: 'Справочник',
 	path: '/catalog/:name',
@@ -19,6 +18,7 @@ const CATALOG_DATA_PATH = {
 
 const Catalog = () => {
 	let {pathname} = useLocation();
+
 	// let history = useHistory();
 	// console.log('pathname - ', pathname);
 	/**
@@ -35,28 +35,24 @@ const Catalog = () => {
 			<SplitPane
 				className={'Catalog'}
 				split='vertical'
-				minSize={200}
-				maxSize={500}
+				minSize={300}
+				maxSize={350}
 				defaultSize={300}
 			>
-				<div className={'CatalogList'}>
+				<div className={'catalogList'}>
 					<List
 						dataSource={catalogConfigs(paths)}
 						itemLayout={'vertical'}
 						renderItem={(item) => (
-							<Link to={item.path}>
-								<Button
-									style={{
-										color: 'rgba(0, 0, 0, 0.65)',
-										width: '100%',
-										textAlign: 'left',
-									}}
-									className={'catalogBtn'}
-									type={'text'}
-								>
+							<li
+								className={
+									pathname === item.path ? 'activeItem' : ''
+								}
+							>
+								<Link to={item.path} className={'catalogLink'}>
 									{item.title}
-								</Button>
-							</Link>
+								</Link>
+							</li>
 						)}
 					/>
 				</div>

@@ -1,5 +1,9 @@
 import React from 'react';
-import {toDDMMYYYYdot, toDDMMYYYYHHMMSS} from '../../utils/datesUtils';
+import {
+	toDDMMYYYYdot,
+	toDDMMYYYYHHMM,
+	toDDMMYYYYHHMMSS,
+} from '../../utils/datesUtils';
 import {Checkbox} from 'antd';
 import {codeNormalizer} from './Functions/TextUtils';
 
@@ -34,4 +38,8 @@ export const date = (name) => ({
 export const dateTime = (name) => ({
 	name: name,
 	cellRenderer: ({cellData}) => toDDMMYYYYHHMMSS(cellData),
+});
+export const dateTimeExcludeSecond = (name) => ({
+	name: name,
+	cellRenderer: ({cellData}) => toDDMMYYYYHHMM(cellData),
 });

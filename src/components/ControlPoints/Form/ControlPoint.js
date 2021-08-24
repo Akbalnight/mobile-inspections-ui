@@ -1,27 +1,11 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic, notificationError} from 'rt-design';
 import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-	apiGetHierarchicalDataByConfigName,
-	apiSaveControlPoints,
-} from '../../../apis/catalog.api';
-import {useHistory, useParams} from 'react-router';
-import {paths} from '../../../constants/paths';
-import {DeleteOutlined} from '@ant-design/icons';
-import {selectRowsById} from '../../Base/Functions/TableSelectById';
-import {EquipmentAddModal} from './Modals/EquipmentSaveObject';
-import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
-import {TechMapAddModal} from './Modals/TechMapSaveObject';
-
-const {
 	Form,
 	FormHeader,
 	FormBody,
 	FormFooter,
 	Input,
-	InputNumber,
 	Title,
 	TreeSelect,
 	Button,
@@ -30,7 +14,21 @@ const {
 	Col,
 	Layout,
 	Space,
-} = classic;
+	notificationError,
+} from 'rt-design';
+import {
+	apiGetConfigByName,
+	apiGetFlatDataByConfigName,
+	apiGetHierarchicalDataByConfigName,
+	apiSaveByConfigName,
+} from '../../../apis/catalog.api';
+import {useHistory, useParams} from 'react-router';
+import {paths} from '../../../constants/paths';
+import {DeleteOutlined} from '@ant-design/icons';
+import {selectRowsById} from '../../Base/Functions/TableSelectById';
+import {EquipmentAddModal} from './Modals/EquipmentSaveObject';
+import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
+import {TechMapAddModal} from './Modals/TechMapSaveObject';
 
 export const ControlPointAdd = () => {
 	return (
@@ -76,7 +74,6 @@ const ControlPoint = (props) => {
 		}
 	};
 
-	// const onFinish = (values) => {
 	const onFinish = () => {
 		history.push(paths.DETOURS_CONFIGURATOR_CONTROL_POINTS.path);
 	};
@@ -85,7 +82,7 @@ const ControlPoint = (props) => {
 		<Form
 			name={'controlPointForm'}
 			loadInitData={loadData}
-			requestSaveForm={apiSaveControlPoints}
+			requestSaveForm={apiSaveByConfigName('controlPoints')}
 			methodSaveForm={controlPointId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}
@@ -100,15 +97,6 @@ const ControlPoint = (props) => {
 			</FormHeader>
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
-					{controlPointId ? (
-						<InputNumber
-							itemProps={{
-								name: 'code',
-								label: 'Код',
-								hidden: true,
-							}}
-						/>
-					) : null}
 					<Col span={8}>
 						<Input
 							itemProps={{
@@ -161,16 +149,13 @@ const ControlPoint = (props) => {
 							type={'default'}
 							disabled={true}
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.equipments.events.onDelete',
+								path: 'controlPoints.controlPointForm.equipments.events.onDelete',
 								type: 'event',
 							}}
 							subscribe={[
 								{
-									name:
-										'onControlPointsTableEquipmentsSelect',
-									path:
-										'rtd.controlPoints.controlPointForm.equipments.table.selected',
+									name: 'onControlPointsTableEquipmentsSelect',
+									path: 'rtd.controlPoints.controlPointForm.equipments.table.selected',
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabled: value ? !value : true,
@@ -193,14 +178,12 @@ const ControlPoint = (props) => {
 							'controlPointsEquipments'
 						)}
 						dispatch={{
-							path:
-								'controlPoints.controlPointForm.equipments.table',
+							path: 'controlPoints.controlPointForm.equipments.table',
 						}}
 						subscribe={[
 							{
 								name: 'onEquipmentsLocalAdd',
-								path:
-									'rtd.controlPoints.controlPointForm.equipments.addModal.onSave',
+								path: 'rtd.controlPoints.controlPointForm.equipments.addModal.onSave',
 								extraData:
 									'rtd.controlPoints.controlPointForm.equipments.addModal.table.selected',
 								onChange: ({extraData, addRows}) => {
@@ -209,8 +192,7 @@ const ControlPoint = (props) => {
 							},
 							{
 								name: 'onEquipmentsLocalDelete',
-								path:
-									'rtd.controlPoints.controlPointForm.equipments.events.onDelete',
+								path: 'rtd.controlPoints.controlPointForm.equipments.events.onDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},
@@ -232,15 +214,13 @@ const ControlPoint = (props) => {
 							type={'default'}
 							disabled={true}
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.techMaps.events.onDelete',
+								path: 'controlPoints.controlPointForm.techMaps.events.onDelete',
 								type: 'event',
 							}}
 							subscribe={[
 								{
 									name: 'onControlPointsTableTechMapsSelect',
-									path:
-										'rtd.controlPoints.controlPointForm.techMaps.table.selected',
+									path: 'rtd.controlPoints.controlPointForm.techMaps.table.selected',
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabled: value ? !value : true,
@@ -263,14 +243,12 @@ const ControlPoint = (props) => {
 							'controlPointsTechMaps'
 						)}
 						dispatch={{
-							path:
-								'controlPoints.controlPointForm.techMaps.table',
+							path: 'controlPoints.controlPointForm.techMaps.table',
 						}}
 						subscribe={[
 							{
 								name: 'onTechMapsLocalAdd',
-								path:
-									'rtd.controlPoints.controlPointForm.techMaps.addModal.onSave',
+								path: 'rtd.controlPoints.controlPointForm.techMaps.addModal.onSave',
 								extraData:
 									'rtd.controlPoints.controlPointForm.techMaps.addModal.table.selected',
 								// addRow не поддерживает валидацию, потому использован addRows
@@ -280,8 +258,7 @@ const ControlPoint = (props) => {
 							},
 							{
 								name: 'onTechMapsLocalDelete',
-								path:
-									'rtd.controlPoints.controlPointForm.techMaps.events.onDelete',
+								path: 'rtd.controlPoints.controlPointForm.techMaps.events.onDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},

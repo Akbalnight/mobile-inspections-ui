@@ -25,19 +25,106 @@
   }
 }
 
- .defect-info .ant-typography {
-   font-family: "Roboto", sans-serif;
-   font-size: 26px;
-    &.eliminateCount{
-      color:#98B8E3
+
+.signage-header {
+  justify-content: space-between;
+  padding: 16px;
+
+  .counter-container {
+    padding-right: 32px;
+    border-right: 2px solid rgba(0, 0, 0, 0.25);
   }
-   &.detectCount{
-     color: #F2C94C;
-   }
-   &.sendPanelCount{
-     color: #39839D;
-   }
+
+  > .ant-space-item:last-child {
+    align-self: flex-end;
+  }
+
+  .defect-info {
+    margin-right: 20px;
+    .ant-typography {
+      // -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+      //  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      //  'Noto Color Emoji';
+      //font-family: Roboto; //sans-serif;
+      font-size: min(24px, calc(100vw * 4 / 75));
+
+      &.newDetectCount,
+      &.atWorkCount,
+      &.expiredCount,
+      &.eliminateCount,
+      &.detectCount,
+      .regularColor {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      &.newDetectCount {
+        color: #FAB610;
+      }
+
+      &.atWorkCount {
+        color: #0475A7;
+      }
+
+      &.expiredCount {
+        color: #EC6546;
+      }
+
+      &.eliminateCount {
+        color: #024B6C;
+      }
+
+      &.detectCount {
+        color: #5C85AB;
+      }
+
+      .regularColor {
+        color: black;
+      }
+    }
+
+    .pager {
+      font-size: 20px;
+    }
+
+  }
 }
- .rowClassName{
-   background: darkred;
- }
+  .chartPie {
+    height: 100px;
+    width: 100px;
+    //display: flex;
+    //justify-content: center;
+    margin-right: 20px;
+  }
+
+.signage {
+  font-size: 20px;
+  //padding: 0px;
+
+  .BaseTable__row-cell {
+    font-size: 20px;
+    //padding: 0px;
+  }
+
+  .BaseTable__header-cell-text {
+    font-size: 18px;
+    //padding: 0px;
+  }
+
+  span.rt-table-cell {
+    //overflow: auto;
+    white-space: break-spaces;
+  }
+}
+
+.BaseTable__overlay.custom__overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .anticon {
+    margin-left: -50px;
+
+  }
+}

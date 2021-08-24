@@ -1,10 +1,9 @@
-import {classic} from 'rt-design';
+import {Modal, Text, FormBody} from 'rt-design';
 import {DeleteOutlined} from '@ant-design/icons';
 import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
-
-const {Modal, Text, FormBody} = classic;
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -32,7 +31,7 @@ export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 				title: `Удалить ${unique}`,
 			}}
 			modalConfig={{
-				type: 'editOnServer',
+				type: 'save',
 				title: (
 					<span style={{display: 'flex', flexDirection: 'row'}}>
 						<Warning />{' '}
@@ -44,7 +43,8 @@ export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 				width: 420,
 				// bodyStyle: {height: 200},
 				okText: 'Удалить',
-				requestSaveRow: ({method, data, params}) =>
+				methodSaveForm: 'PUT',
+				requestSaveForm: ({method, data, params}) =>
 					apiSaveByConfigName(`${catalogName}CatalogSave`)({
 						method: 'PUT',
 						data: {...data, id: sRow.id, deleted: true},
@@ -56,13 +56,19 @@ export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 				},
 			}}
 			dispatch={{
-				path: `${mainWay}.${catalogName}Table.modal.events.deleteOnModal`,
+				path: `${changeStorePath(
+					mainWay,
+					catalogName
+				)}.events.deleteOnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						setButtonProps && setButtonProps({disabled: !value});

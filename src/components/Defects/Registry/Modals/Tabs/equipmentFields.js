@@ -1,7 +1,5 @@
-import {classic} from 'rt-design';
+import {Layout, Text} from 'rt-design';
 import React from 'react';
-
-const {Layout, Text} = classic;
 
 export const EquipmentTabFields = () => {
 	return (

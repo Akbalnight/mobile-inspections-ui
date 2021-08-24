@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {classic} from 'rt-design';
+import {Layout, Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
@@ -18,11 +18,7 @@ import './Defects.less';
  * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
 
-const {Layout, Form, FormBody, Table} = classic;
-
 export default function Defects() {
-	// const searchBtn = useRef(null);
-
 	const history = useHistory();
 
 	/**
@@ -40,12 +36,12 @@ export default function Defects() {
 						<MainTableHeader />
 						<Table
 							selectable={true}
-							searchParamName={'name'}
+							searchParamName={'equipment'}
 							fixWidthColumn={true}
 							headerHeight={35}
 							defaultSortBy={{
 								key: 'dateDetectDefect',
-								order: 'asc',
+								order: 'desc',
 							}}
 							infinityMode={true}
 							dispatch={{path: 'defects.defectTable.table'}}
@@ -57,18 +53,19 @@ export default function Defects() {
 							subscribe={[
 								{
 									name: 'onSearch',
-									path:
-										'rtd.defects.defectTable.events.onBtnSearch',
+									path: 'rtd.defects.defectTable.events.onBtnSearch',
 									extraData: {
-										filter:
-											'rtd.defects.defectTable.filter',
+										filter: 'rtd.defects.defectTable.filter',
 										searchValue:
 											'rtd.defects.defectTable.events.searchValue',
 									},
 									onChange: ({extraData, reloadTable}) => {
 										const searchValue =
 											extraData && extraData.searchValue
-												? {name: extraData.searchValue}
+												? {
+														equipment:
+															extraData.searchValue,
+												  }
 												: {};
 										const composedFilter = {
 											...extraData.filter,
@@ -76,17 +73,19 @@ export default function Defects() {
 										};
 										reloadTable({
 											filter: composedFilter,
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
 								/** Событие фильтрации в таблице по параметрам */
 								{
 									name: 'onApplyFilter',
-									path:
-										'rtd.defects.defectTable.events.onApplyFilter',
+									path: 'rtd.defects.defectTable.events.onApplyFilter',
 									extraData: {
-										filter:
-											'rtd.defects.defectTable.filter',
+										filter: 'rtd.defects.defectTable.filter',
 										searchValue:
 											'rtd.defects.defectTable.events.searchValue',
 									},
@@ -98,29 +97,34 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
 								{
 									/** Обработчик события на кнопку овистить фильтр */
 									name: 'onReload',
-									path:
-										'rtd.defects.defectTable.events.onReload',
+									path: 'rtd.defects.defectTable.events.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({
 											filter: {},
 											searchValue: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
 								{
-									/** Обработчик события отправки дефектов в Panel problems */
-									name: 'onSendToPanel',
-									path:
-										'rtd.defects.defectTable.modal.events.onSendToPanelModal',
+									/** Обработчик события отправки дефектов в SAP */
+									name: 'onSendToSap',
+									path: 'rtd.defects.defectTable.modal.events.onSendToSapModal',
 									extraData: {
-										filter:
-											'rtd.defects.defectTable.filter',
+										filter: 'rtd.defects.defectTable.filter',
 										searchValue:
 											'rtd.defects.defectTable.events.onSearch',
 									},
@@ -132,19 +136,9 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
-										});
-									},
-								},
-								{
-									/** Обработчик события на кнопку овистить фильтр */
-									name: 'onCloseViewModal',
-									path:
-										'rtd.defects.defectTable.modal.events.viewObject',
-									onChange: ({reloadTable}) => {
-										reloadTable({
 											sortBy: {
 												key: 'dateDetectDefect',
-												order: 'asc',
+												order: 'desc',
 											},
 										});
 									},

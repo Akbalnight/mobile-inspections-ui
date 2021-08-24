@@ -183,7 +183,7 @@ export const itemsInfo = {
 	},
 
 	/**
-	 * Detours/Registry/Modals/SaveObjectModal.js
+	 * Detours/Schedules/Modals/SaveObjectModal.js
 	 */
 	dateStartPlan: {
 		name: 'dateStartPlan',
@@ -199,6 +199,28 @@ export const itemsInfo = {
 	dateFinishPlan: {
 		name: 'dateFinishPlan',
 		label: 'Окончание обхода (план)',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните дату окончания обхода',
+				required: true,
+			},
+		],
+	},
+	dateStartFact: {
+		name: 'dateStartFact',
+		label: 'Начало обхода (факт.)',
+		className: 'mb-8',
+		rules: [
+			{
+				message: 'Заполните дату начала обхода',
+				required: true,
+			},
+		],
+	},
+	dateFinishFact: {
+		name: 'dateFinishFact',
+		label: 'Окончание обхода (факт.)',
 		className: 'mb-8',
 		rules: [
 			{
@@ -235,7 +257,7 @@ export const itemsInfo = {
 		],
 	},
 	executorId: {
-		label: 'Доступные испольнители',
+		label: 'Доступные исполнители',
 		name: 'staffId',
 		className: 'mb-8',
 	},
@@ -293,5 +315,25 @@ export const itemsInfo = {
 				required: true,
 			},
 		],
+	},
+	needInputData: {
+		name: 'needInputData',
+		label: 'Ввод данных',
+		className: 'mb-8',
+	},
+	labelInputData: {
+		name: 'labelInputData',
+		label: 'Подпись ввода данных',
+		className: 'mb-8',
+	},
+	equipmentStop: {
+		name: 'equipmentStop',
+		label: 'Остановка оборудования',
+		className: 'mb-8',
+	},
+	increasedDanger: {
+		name: 'increasedDanger',
+		label: 'Повышенная опасность',
+		className: 'mb-8',
 	},
 };

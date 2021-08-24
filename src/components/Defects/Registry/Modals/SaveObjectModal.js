@@ -3,16 +3,8 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
+import {DefectDetection} from '../../../Base/Block/DefectDetection';
 import {
-	// defectDetection,
-	DefectDetection,
-} from '../../../Base/Block/DefectDetection';
-import {classic} from 'rt-design';
-import {Access} from 'mobile-inspections-base-ui';
-import React from 'react';
-import {StatusIcon} from '../../tableProps';
-
-const {
 	Text,
 	DatePicker,
 	Select,
@@ -21,7 +13,10 @@ const {
 	Modal,
 	TextArea,
 	FormBody,
-} = classic;
+} from 'rt-design';
+import {Access} from 'mobile-inspections-base-ui';
+import React from 'react';
+import {StatusIcon} from '../../tableProps';
 
 /**
  *
@@ -129,6 +124,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<DatePicker
 					itemProps={{
@@ -137,6 +133,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 			</>
 		);
@@ -153,6 +150,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 			</>
 		);
@@ -170,6 +168,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<Select
 					itemProps={{
@@ -208,11 +207,12 @@ const OperationOnServer = (catalogName, type) => {
 				disabled: true,
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
-				title: 'Редактрование дефекта',
+				type: `save`,
+				title: 'Редактирование дефекта',
 				width: catalogName === 'defects' ? 600 : 500,
 				bodyStyle: {height: catalogName === 'defects' ? 760 : 640},
-				requestSaveRow: apiSaveByConfigName(
+				methodSaveForm: 'PUT',
+				requestSaveForm: apiSaveByConfigName(
 					catalogName === 'defects'
 						? 'saveEditModalDefect'
 						: 'saveEditModalPanelProblem'
@@ -220,7 +220,6 @@ const OperationOnServer = (catalogName, type) => {
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					methodSaveForm: 'PUT',
 					processBeforeSaveForm: processBeforeSaveForm,
 					// onFinish: (values) => {
 					//     console.log('edit defect values', values);

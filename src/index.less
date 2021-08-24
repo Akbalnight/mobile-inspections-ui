@@ -7,12 +7,13 @@
 @import './constants/variables';
 @import './components/Base/PageForm';
 
-@import './components/Catalog/Registry/Catalog.less';
+@import './components/Catalog/Catalog.less';
 @import './components/RouteMaps/Registry/RouteMaps.less';
 @import './components/Detours/Registry/DetoursCalendar.less';
 
+@import './components/Detours/Schedules/Schedules.less';
 
-@import './components/Detours/Schedules/styles';
+@import "components/ControlPoints/ControlPoints";
 
 #root {
 	height: 100vh;
@@ -113,16 +114,24 @@
 	padding-top: 8px;
 	padding-bottom: 8px;
 }
+.py-16 {
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
 
 .pb-8 {
 	padding-bottom: 8px;
+}
+
+.pt-0 {
+	padding-top: 0;
 }
 .pt-8 {
 	padding-top: 8px;
 }
 
-.pt-0 {
-	padding-top: 0;
+.pt-16 {
+	padding-top: 16px;
 }
 /*Tabs header*/
 
@@ -162,7 +171,6 @@
 }
 
 .lastSelectModal .rt-form-body {
-
 	overflow: visible;
 }
 
@@ -175,4 +183,12 @@
 .ant-table-cell:hover .BaseTable__column-resizer {
 	visibility: visible;
 	opacity: 0.5;
+}
+
+.ant-tooltip-content a {
+	color: white;
+}
+
+.resultRouteForm{
+	height:40%;
 }

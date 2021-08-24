@@ -1,12 +1,20 @@
-import {classic} from 'rt-design';
+import {
+	Modal,
+	FormBody,
+	Text,
+	Table,
+	Layout,
+	Space,
+	Title,
+	Custom,
+} from 'rt-design';
 import React from 'react';
 import {itemsInfo} from '../../../../constants/dictionary';
-import {duration} from '../../../Base/customColumnProps';
 import {apiGetConfigByName} from '../../../../apis/catalog.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {AttachmentsPreview} from '../../../Base/Functions/MediaUtils';
+import {customColumnProps} from '../../tableProps';
 
-const {Modal, FormBody, Text, Table, Layout, Space, Title, Custom} = classic;
 export const RouteViewModal = () => {
 	let sRow;
 
@@ -33,7 +41,7 @@ export const RouteViewModal = () => {
 	return (
 		<Modal
 			modalConfig={{
-				type: 'viewObject',
+				type: 'view',
 				title: 'Информация о маршруте',
 				width: 900,
 				bodyStyle: {height: 700},
@@ -69,7 +77,7 @@ export const RouteViewModal = () => {
 				<Layout style={{height: '150px'}}>
 					<Table
 						itemProps={{name: 'cpById'}}
-						customColumnProps={[{...duration}]}
+						customColumnProps={customColumnProps}
 						requestLoadConfig={apiGetConfigByName(
 							'routeControlPoints'
 						)}

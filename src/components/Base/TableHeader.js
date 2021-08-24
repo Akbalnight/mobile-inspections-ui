@@ -15,12 +15,11 @@ import {
 } from './Modals/DefaultObjectOnServer';
 import {DefaultObjectView} from './Modals/DefaultObjectView';
 import React from 'react';
-import {classic} from 'rt-design';
+import {Row, Search, Space, Button} from 'rt-design';
 import {Access} from 'mobile-inspections-base-ui';
 import {ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from './Functions/ReloadField';
-
-const {Row, Search, Space, Button} = classic;
+import {changeStorePath} from './Functions/ChangeStorePath';
 
 /**
  *
@@ -42,6 +41,7 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 						<Access
 							roles={[
 								'ROLE_ADMIN',
+								'ROLE_MI_ADMIN',
 								'ROLE_MI_SHIFT_SUPERVISOR',
 								'ROLE_MI_DETOURS_CREATOR',
 							]}
@@ -80,7 +80,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 								/** Action search activate btn*/
 								{
 									name: 'onSearchPush',
-									path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+									path: `rtd.${changeStorePath(
+										mainWay,
+										catalogName
+									)}.events.onSearch`,
 									onChange: ({value, setSubscribeProps}) => {
 										value &&
 											setSubscribeProps &&
@@ -90,7 +93,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 								/** Action reload in mainForm.table deactivate btn*/
 								{
 									name: 'onReloadPush',
-									path: `rtd.${mainWay}.${catalogName}Table.table.rows`,
+									path: `rtd.${changeStorePath(
+										mainWay,
+										catalogName
+									)}.rows`,
 									onChange: ({value, setSubscribeProps}) => {
 										/** We might thinking about ${path}.rows array length*/
 
@@ -102,7 +108,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 								},
 							]}
 							dispatch={{
-								path: `${mainWay}.${catalogName}Table.table.events.onReload`,
+								path: `${changeStorePath(
+									mainWay,
+									catalogName
+								)}.events.onReload`,
 							}}
 						/>
 						<CustomObjectView
@@ -145,7 +154,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 								/** Action search activate btn*/
 								{
 									name: 'onSearchPush',
-									path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+									path: `rtd.${changeStorePath(
+										mainWay,
+										catalogName
+									)}.events.onSearch`,
 									onChange: ({value, setSubscribeProps}) => {
 										value &&
 											setSubscribeProps &&
@@ -155,7 +167,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 								/** Action reload in mainForm.table deactivate btn*/
 								{
 									name: 'onReloadPush',
-									path: `rtd.${mainWay}.${catalogName}Table.table.rows`,
+									path: `rtd.${changeStorePath(
+										mainWay,
+										catalogName
+									)}.rows`,
 									onChange: ({value, setSubscribeProps}) => {
 										/** We might thinking about ${path}.rows array length*/
 										/**
@@ -169,7 +184,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 								},
 							]}
 							dispatch={{
-								path: `${mainWay}.${catalogName}Table.table.events.onReload`,
+								path: `${changeStorePath(
+									mainWay,
+									catalogName
+								)}.events.onReload`,
 							}}
 						/>
 						<DefaultObjectView
@@ -192,12 +210,18 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 						: 'Введите сотрудника'
 				}
 				dispatch={{
-					path: `${mainWay}.${catalogName}Table.table.events.onSearch`,
+					path: `${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onSearch`,
 				}}
 				subscribe={[
 					/** Reload Search value field, clear STORE*/
 					reloadFilterFields(
-						`${mainWay}.${catalogName}Table.table.events.onReload`
+						`${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`
 					),
 				]}
 			/>

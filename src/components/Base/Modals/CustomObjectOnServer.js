@@ -1,10 +1,9 @@
 import React from 'react';
-import {classic} from 'rt-design';
+import {FormBody, Modal} from 'rt-design';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {objectOnServer} from '../Functions/CustomObject';
-
-const {FormBody, Modal} = classic;
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -34,7 +33,13 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 		sRow = row;
 		callBack(type === 'add' ? null : sRow);
 	};
-
+	const processBeforeSaveForm = (rawValues) => {
+		return {
+			...rawValues,
+			isGroup: false,
+			deleted: rawValues?.deleted ? rawValues.deleted : false,
+		};
+	};
 	return (
 		<Modal
 			buttonProps={{
@@ -47,33 +52,38 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				title: type === 'add' ? 'Создать' : 'Редактировать',
 			}}
 			modalConfig={{
-				type: `${type}OnServer`,
+				type: `save`,
 				title: `${
 					type === 'add' ? 'Создание' : 'Редактирование'
 				} ${unique}`,
 				width: catalogName === 'equipments' ? 650 : 500,
 				bodyStyle: {height: catalogName === 'equipments' ? 700 : 200},
-				requestSaveRow: apiSaveByConfigName(
+				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
+				requestSaveForm: apiSaveByConfigName(
 					`${catalogName}CatalogSave`
 				),
 				form: {
 					name: `${type}ModalForm`,
 					loadInitData: loadData,
-					onFinish: (values) => {
-						console.log('values', values);
-					},
+					processBeforeSaveForm,
 					labelCol: {span: 10},
 					wrapperCol: {span: 10},
 				},
 			}}
 			dispatch={{
-				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnModal`,
+				path: `${changeStorePath(
+					mainWay,
+					catalogName
+				)}.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type === 'edit' &&
@@ -87,7 +97,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				},
 			]}
 		>
-			<FormBody>{objectOnServer(catalogName)}</FormBody>
+			<FormBody>{objectOnServer(mainWay, catalogName)}</FormBody>
 		</Modal>
 	);
 };

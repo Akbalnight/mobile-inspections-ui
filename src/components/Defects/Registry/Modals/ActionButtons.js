@@ -4,16 +4,20 @@ import {
 	apiSaveByConfigName,
 	apiGetConfigByName,
 } from '../../../../apis/catalog.api';
-import {classic} from 'rt-design';
+import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
+import {customColumnProps} from '../../tableProps';
 
-const {FormBody, Layout, Text, Table, Modal} = classic;
-
-export const ButtonSendToPanel = () => {
+export const ButtonSendToSap = () => {
 	const processBeforeSaveForm = (rawValues) => {
 		const defectsToSapQueueArray =
 			rawValues &&
 			rawValues.defectsToSapQueueArray.map((row) => {
-				return {...row, viewOnPanel: true}; //sendedToSap: true,
+				return {
+					...row,
+					sendedToSap: true,
+					viewOnPanel: true,
+					statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+				};
 			});
 		return {defectsToSapQueueArray};
 	};
@@ -21,7 +25,7 @@ export const ButtonSendToPanel = () => {
 		<>
 			<Modal
 				toolTipProps={{
-					title: 'Передать',
+					title: 'Передать в SAP',
 				}}
 				buttonProps={{
 					type: 'default',
@@ -29,16 +33,16 @@ export const ButtonSendToPanel = () => {
 					disabled: true,
 				}}
 				modalConfig={{
-					type: 'editOnServer',
-					title: `Передать в Панель Проблем`,
+					type: 'save',
+					title: `Передать в SAP`,
 					width: 650,
 					bodyStyle: {height: 450},
 					okText: 'Передать',
-					requestSaveRow: apiSaveByConfigName(`sapViewOnPanelSave`),
+					methodSaveForm: 'POST',
+					requestSaveForm: apiSaveByConfigName(`sapViewOnPanelSave`),
 					form: {
-						name: 'defectsToPanelQueueModal',
+						name: 'defectsToSapQueueModal',
 						noPadding: false,
-						methodSaveForm: 'POST',
 						labelCol: {span: 12},
 						wrapperCol: {span: 6},
 						loadInitData: (callBack, row) => {
@@ -48,7 +52,7 @@ export const ButtonSendToPanel = () => {
 					},
 				}}
 				dispatch={{
-					path: 'defects.defectTable.modal.events.onSendToPanelModal',
+					path: 'defects.defectTable.modal.events.onSendToSapModal',
 					// диспатчим туда же, где фильтр таблицы, т.к. перезагрузка таблицы одинаковая
 					// path: 'rtd.defects.defectTable.events.onApplyFilter',
 					type: 'event',
@@ -84,6 +88,7 @@ export const ButtonSendToPanel = () => {
 							itemProps={{
 								name: 'defectsToSapQueueArray',
 							}}
+							customColumnProps={customColumnProps}
 							fixWidthColumn={true}
 							requestLoadConfig={apiGetConfigByName('defects')}
 						/>
