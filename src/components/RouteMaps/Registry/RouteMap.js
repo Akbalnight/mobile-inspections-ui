@@ -106,6 +106,12 @@ const RouteMap = () => {
 									onPanning={onChange}
 									onPinching={onChange}
 									onZoom={onChange}
+									pinch={{disabled: true}}
+									panning={{
+										disabled: false,
+										velocityDisabled: false,
+										excluded: ['routeMapImage'],
+									}}
 								>
 									{({
 										zoomIn,
