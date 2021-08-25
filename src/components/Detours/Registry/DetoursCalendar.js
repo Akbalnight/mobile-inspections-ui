@@ -38,6 +38,7 @@ const Calendar = ({onChange, detours, value}) => {
 								<div>{`Название: ${item.name}`}</div>
 								<div>{`Маршрут: ${item.routeName}`}</div>
 								<div>{`Иcполнитель: ${item.staffName}`}</div>
+								<div>{`Статус: ${item.statusName}`}</div>
 								<div>
 									{`Начало: ${moment(
 										item.dateStartPlan
@@ -49,15 +50,12 @@ const Calendar = ({onChange, detours, value}) => {
 									).format('DD.MM.YYYY HH:mm')}`}
 								</div>
 								<div>
-									<pre>
-										Учитывать порядок:{' '}
-										<Checkbox
-											checked={
-												item.saveOrderControlPoints
-											}
-											disabled
-										/>
-									</pre>
+									Учитывать порядок:{' '}
+									<Checkbox
+										checked={item.saveOrderControlPoints}
+										disabled
+										className={'ml-4'}
+									/>
 								</div>
 							</div>
 						);
