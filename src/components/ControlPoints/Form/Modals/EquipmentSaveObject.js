@@ -26,7 +26,7 @@ export const EquipmentAddModal = () => {
 				},
 			}}
 			dispatch={{
-				path: 'controlPoints.controlPointForm.equipments.addModal.onSave',
+				path: 'controlPoints.form.equipmentsTable.select.onSave',
 				type: 'event',
 			}}
 		>
@@ -35,7 +35,7 @@ export const EquipmentAddModal = () => {
 					<Col span={12}>
 						<Search
 							dispatch={{
-								path: 'controlPoints.controlPointForm.equipments.addModal.onSearch',
+								path: 'controlPoints.form.equipmentsTable.select.onSearch',
 							}}
 							className={'mb-8'}
 						/>
@@ -53,7 +53,7 @@ export const EquipmentAddModal = () => {
 					subscribe={[
 						{
 							name: 'onControlPointsSearch',
-							path: 'rtd.controlPoints.controlPointForm.equipments.addModal.onSearch',
+							path: 'rtd.controlPoints.form.equipmentsTable.select.onSearch',
 							onChange: ({value, reloadTable}) => {
 								reloadTable({
 									filter: {name: value},
@@ -62,7 +62,7 @@ export const EquipmentAddModal = () => {
 						},
 					]}
 					dispatch={{
-						path: 'controlPoints.controlPointForm.equipments.addModal.table',
+						path: 'controlPoints.form.equipmentsTable.select.table',
 					}}
 				/>
 			</FormBody>
