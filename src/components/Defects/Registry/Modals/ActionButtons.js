@@ -16,7 +16,7 @@ export const ButtonSendToSap = () => {
 					...row,
 					sendedToSap: true,
 					viewOnPanel: true,
-					statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+					statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
 				};
 			});
 		return {defectsToSapQueueArray};

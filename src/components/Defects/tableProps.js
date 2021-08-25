@@ -529,16 +529,16 @@ export const customColumnProps = [
 			/>
 		),
 	},
-	{
-		name: 'statusPanelId',
-		cellRenderer: ({rowData}) => (
-			<StatusIcon
-				keyToFind={'statusPanelId'}
-				statusId={rowData.statusPanelId}
-				title={rowData.statusPanelName}
-			/>
-		),
-	},
+	// {
+	// 	name: 'statusPanelId',
+	// 	cellRenderer: ({rowData}) => (
+	// 		<StatusIcon
+	// 			keyToFind={'statusPanelId'}
+	// 			statusId={rowData.statusPanelId}
+	// 			title={rowData.statusPanelName}
+	// 		/>
+	// 	),
+	// },
 	{
 		//  в этой колонке истории использован custom SQL
 		name: 'statusPanelName',
@@ -551,6 +551,22 @@ export const customColumnProps = [
 				/>
 				<span style={{whiteSpace: 'nowrap'}}>
 					{rowData.statusPanelName}
+				</span>
+			</>
+		),
+	},
+	{
+		//  в этой колонке истории использован custom SQL
+		name: 'statusProcessName',
+		cellRenderer: ({rowData}) => (
+			<>
+				<StatusIcon
+					keyToFind={'statusProcessId'}
+					statusId={rowData.statusProcessId}
+					title={rowData.statusProcessName}
+				/>
+				<span style={{whiteSpace: 'nowrap'}}>
+					{rowData.statusProcessName}
 				</span>
 			</>
 		),
@@ -584,7 +600,7 @@ export const statusesConfig = [
 		statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
 		statusIcon: <ThunderboltOutlined />,
 		statusIconF: ThunderboltOutlined,
-		statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+		// statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
 		color: '#FF4040',
 	},
 	{
@@ -594,7 +610,7 @@ export const statusesConfig = [
 		statusProcessId: '879f0adf-0d96-449e-bcee-800f81c4e58d',
 		statusIcon: <SettingOutlined />,
 		statusIconF: SettingOutlined,
-		statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+		// statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
 		color: '#F2C94C',
 	},
 	{
@@ -604,7 +620,7 @@ export const statusesConfig = [
 		statusProcessId: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
 		statusIcon: <FieldTimeOutlined />,
 		statusIconF: FieldTimeOutlined,
-		statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+		// statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
 		color: '#e07c04',
 	},
 	{
@@ -614,7 +630,7 @@ export const statusesConfig = [
 		statusProcessId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
 		statusIcon: <MailOutlined />,
 		statusIconF: MailOutlined,
-		statusPanelId: '418406b1-8f78-4448-96e1-8caa022fe242',
+		// statusPanelId: '418406b1-8f78-4448-96e1-8caa022fe242',
 		color: '#98B8E3',
 	},
 	{
@@ -624,7 +640,7 @@ export const statusesConfig = [
 		statusProcessId: '83b4bbf8-e1da-43d4-8e0d-a973a136eeaa',
 		statusIcon: <CheckOutlined />,
 		statusIconF: CheckOutlined,
-		statusPanelId: '',
+		// statusPanelId: '',
 		color: '#686868',
 	},
 	{
@@ -634,17 +650,17 @@ export const statusesConfig = [
 		statusProcessId: '086d775e-f41b-4af6-86c8-31f340344f47',
 		statusIcon: <CaretRightOutlined />,
 		statusIconF: CaretRightOutlined,
-		statusPanelId: '', // сюда вставить ID четвертого статуса, как он появится
+		// statusPanelId: '', // сюда вставить ID четвертого статуса, как он появится
 		color: '#98B8E3',
 	},
 	{
-		// на расммотрении
+		// на расмотрении
 		priorityId: '',
 		// priorityIcon: <Four />,
 		statusProcessId: '',
 		statusIcon: <QuestionOutlined />,
 		statusIconF: QuestionOutlined,
-		statusPanelId: '3252ec53-44a7-4cfd-ac24-650d85236bd2', // сюда вставить ID четвертого статуса, как он появится
+		// statusPanelId: '3252ec53-44a7-4cfd-ac24-650d85236bd2', // сюда вставить ID четвертого статуса, как он появится
 		color: '#686868',
 	},
 ];
