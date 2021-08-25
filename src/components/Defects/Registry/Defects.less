@@ -1,131 +1,126 @@
-
 .asSearch {
-  display: flex;
+	display: flex;
 
-  input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    position: relative;
-    z-index: 1;
-  }
+	input {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		position: relative;
+		z-index: 1;
+	}
 
-  button {
-    min-width: 32px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    position: relative;
-    z-index: 0;
-    margin-left: -1px;
-    color: rgba(0, 0, 0, 0.45);
+	button {
+		min-width: 32px;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		position: relative;
+		z-index: 0;
+		margin-left: -1px;
+		color: rgba(0, 0, 0, 0.45);
 
-    &:focus,
-    &:hover {
-      z-index: 2;
-
-    }
-  }
+		&:focus,
+		&:hover {
+			z-index: 2;
+		}
+	}
 }
-
 
 .signage-header {
-  justify-content: space-between;
-  padding: 16px;
+	justify-content: space-between;
+	padding: 16px;
 
-  .counter-container {
-    padding-right: 32px;
-    border-right: 2px solid rgba(0, 0, 0, 0.25);
-  }
+	.counter-container {
+		padding-right: 32px;
+		border-right: 2px solid rgba(0, 0, 0, 0.25);
+	}
 
-  > .ant-space-item:last-child {
-    align-self: flex-end;
-  }
+	> .ant-space-item:last-child {
+		align-self: flex-end;
+	}
 
-  .defect-info {
-    margin-right: 20px;
-    .ant-typography {
-      // -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-      //  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-      //  'Noto Color Emoji';
-      //font-family: Roboto; //sans-serif;
-      font-size: min(24px, calc(100vw * 4 / 75));
+	.defect-info {
+		margin-right: 20px;
+		.ant-typography {
+			// -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+			//  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+			//  'Noto Color Emoji';
+			//font-family: Roboto; //sans-serif;
+			font-size: min(24px, calc(100vw * 4 / 75));
 
-      &.newDetectCount,
-      &.atWorkCount,
-      &.expiredCount,
-      &.eliminateCount,
-      &.detectCount,
-      .regularColor {
-        font-size: 32px;
-        font-weight: 700;
-      }
+			&.newDetectCount,
+			&.atWorkCount,
+			&.expiredCount,
+			&.eliminateCount,
+			&.detectCount,
+			.regularColor {
+				font-size: 32px;
+				font-weight: 700;
+			}
 
-      &.newDetectCount {
-        color: #FAB610;
-      }
+			&.newDetectCount {
+				color: #fab610;
+			}
 
-      &.atWorkCount {
-        color: #0475A7;
-      }
+			&.atWorkCount {
+				color: #0475a7;
+			}
 
-      &.expiredCount {
-        color: #EC6546;
-      }
+			&.expiredCount {
+				color: #ec6546;
+			}
 
-      &.eliminateCount {
-        color: #024B6C;
-      }
+			&.eliminateCount {
+				color: #024b6c;
+			}
 
-      &.detectCount {
-        color: #5C85AB;
-      }
+			&.detectCount {
+				color: #5c85ab;
+			}
 
-      .regularColor {
-        color: black;
-      }
-    }
+			.regularColor {
+				color: black;
+			}
+		}
 
-    .pager {
-      font-size: 20px;
-    }
-
-  }
+		.pager {
+			font-size: 20px;
+		}
+	}
 }
-  .chartPie {
-    height: 100px;
-    width: 100px;
-    //display: flex;
-    //justify-content: center;
-    margin-right: 20px;
-  }
+.chartPie {
+	height: 100px;
+	width: 100px;
+	//display: flex;
+	//justify-content: center;
+	margin-right: 20px;
+}
 
 .signage {
-  font-size: 20px;
-  //padding: 0px;
+	font-size: 20px;
+	//padding: 0px;
 
-  .BaseTable__row-cell {
-    font-size: 20px;
-    //padding: 0px;
-  }
+	.BaseTable__row-cell {
+		font-size: 20px;
+		//padding: 0px;
+	}
 
-  .BaseTable__header-cell-text {
-    font-size: 18px;
-    //padding: 0px;
-  }
+	.BaseTable__header-cell-text {
+		font-size: 18px;
+		//padding: 0px;
+	}
 
-  span.rt-table-cell {
-    //overflow: auto;
-    white-space: break-spaces;
-  }
+	span.rt-table-cell {
+		//overflow: auto;
+		white-space: break-spaces;
+	}
 }
 
 .BaseTable__overlay.custom__overlay {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-  .anticon {
-    margin-left: -50px;
-
-  }
+	.anticon {
+		margin-left: -50px;
+	}
 }

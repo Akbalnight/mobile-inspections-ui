@@ -5,8 +5,8 @@ export const nameInput = {
 	rules: [
 		{
 			message: 'Заполните наименование',
-			required: true
-		}
+			required: true,
+		},
 	],
-	child: {componentType: 'Input'}
+	child: {componentType: 'Input'},
 };

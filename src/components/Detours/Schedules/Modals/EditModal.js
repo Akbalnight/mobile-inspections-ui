@@ -25,10 +25,12 @@ import {itemsInfo} from '../../../../constants/dictionary';
 /** checkValue задается при первом вызове функции
  * value и setSubscribeProps прилетают при срабатывании subscribe
  */
-const onChangeRepeaterType = (checkValue) => ({value, setSubscribeProps}) => {
-	const disabled = value.value !== checkValue;
-	setSubscribeProps({disabled: disabled});
-};
+const onChangeRepeaterType =
+	(checkValue) =>
+	({value, setSubscribeProps}) => {
+		const disabled = value.value !== checkValue;
+		setSubscribeProps({disabled: disabled});
+	};
 
 const prefixCls = 'detours-schedules-registry-modal';
 
@@ -200,8 +202,7 @@ const EditModal = (type) => {
 								...footerCheckboxLayout,
 							}}
 							dispatch={{
-								path:
-									'detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
+								path: 'detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
 							}}
 						/>
 						<Checkbox
@@ -211,8 +212,7 @@ const EditModal = (type) => {
 								...footerCheckboxLayout,
 							}}
 							dispatch={{
-								path:
-									'detours.detourSchedules.modal.events.takeIntoAccountDateStart',
+								path: 'detours.detourSchedules.modal.events.takeIntoAccountDateStart',
 							}}
 						/>
 						<Checkbox
@@ -222,8 +222,7 @@ const EditModal = (type) => {
 								...footerCheckboxLayout,
 							}}
 							dispatch={{
-								path:
-									'detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
+								path: 'detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
 							}}
 						/>
 					</Col>
@@ -240,8 +239,7 @@ const EditModal = (type) => {
 								{
 									name: 'takeIntoAccountTimeLocation',
 									withMount: true,
-									path:
-										'rtd.detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
+									path: 'rtd.detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
 									onChange: ({value, setSubscribeProps}) => {
 										value
 											? setSubscribeProps({
@@ -266,8 +264,7 @@ const EditModal = (type) => {
 								{
 									name: 'takeIntoAccountTimeLocation',
 									withMount: true,
-									path:
-										'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateStart',
+									path: 'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateStart',
 									onChange: ({value, setSubscribeProps}) => {
 										value
 											? setSubscribeProps({
@@ -292,8 +289,7 @@ const EditModal = (type) => {
 								{
 									name: 'takeIntoAccountTimeLocation',
 									withMount: true,
-									path:
-										'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
+									path: 'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
 									onChange: ({value, setSubscribeProps}) => {
 										value
 											? setSubscribeProps({
@@ -369,8 +365,7 @@ const EditModal = (type) => {
 							]}
 							className={`${prefixCls}-repeater-type`}
 							dispatch={{
-								path:
-									'detours.schedules.registry.editModal.repeaterType',
+								path: 'detours.schedules.registry.editModal.repeaterType',
 								type: 'event',
 							}}
 						/>
@@ -384,8 +379,7 @@ const EditModal = (type) => {
 							subscribe={[
 								{
 									name: 'repeaterType',
-									path:
-										'rtd.detours.schedules.registry.editModal.repeaterType',
+									path: 'rtd.detours.schedules.registry.editModal.repeaterType',
 									onChange: onChangeRepeaterType('02'),
 								},
 							]}
@@ -398,8 +392,7 @@ const EditModal = (type) => {
 								subscribe={[
 									{
 										name: 'repeaterType',
-										path:
-											'rtd.detours.schedules.registry.editModal.repeaterType',
+										path: 'rtd.detours.schedules.registry.editModal.repeaterType',
 										onChange: onChangeRepeaterType('03'),
 									},
 								]}

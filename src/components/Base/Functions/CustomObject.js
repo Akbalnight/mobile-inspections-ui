@@ -237,14 +237,14 @@ export const objectOnServer = (catalogName) => {
 																				'Заполните точку измерения',
 																		},
 																	],
-																	label:
-																		'Точка измерений',
+																	label: 'Точка измерений',
 																	labelCol: {
 																		span: 10,
 																	},
-																	wrapperCol: {
-																		span: 14,
-																	},
+																	wrapperCol:
+																		{
+																			span: 14,
+																		},
 																}}
 																placeholder='Данные точки измерения'
 															/>

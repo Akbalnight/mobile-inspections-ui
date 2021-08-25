@@ -267,8 +267,7 @@ const DebugConfig = () => {
 							subscribe: [
 								{
 									name: 'startDate',
-									path:
-										'rtd.debug.form.table.filter.startDate',
+									path: 'rtd.debug.form.table.filter.startDate',
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabledDate: (endValue) =>
@@ -355,9 +354,8 @@ const DebugConfig = () => {
 							mode: 'multiple',
 							allowClear: true,
 							infinityMode: true,
-							requestLoadRows: apiGetFlatDataByConfigName(
-								'routes'
-							),
+							requestLoadRows:
+								apiGetFlatDataByConfigName('routes'),
 							optionConverter: (option) => ({
 								label: (
 									<span>
@@ -391,9 +389,10 @@ const DebugConfig = () => {
 							mode: 'multiple',
 							allowClear: true,
 							infinityMode: true,
-							requestLoadRows: apiGetFlatDataByConfigName(
-								'routeControlPoints'
-							),
+							requestLoadRows:
+								apiGetFlatDataByConfigName(
+									'routeControlPoints'
+								),
 							optionConverter: (option) => ({
 								label: (
 									<span>
@@ -408,8 +407,7 @@ const DebugConfig = () => {
 							subscribe: [
 								{
 									name: 'onSelectRoute',
-									path:
-										'rtd.debug.form.table.events.onSelectRoute',
+									path: 'rtd.debug.form.table.events.onSelectRoute',
 									onChange: ({
 										value,
 										extraData,

@@ -32,15 +32,13 @@ export const DeleteControlPointToRoute = () => {
 				},
 			}}
 			dispatch={{
-				path:
-					'routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
+				path: 'routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: 'btnDelete',
-					path:
-						'rtd.routes.routeForm.controlPointsTable.table.selected',
+					path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
 					onChange: ({value, setButtonProps}) => {
 						value &&
 							setButtonProps &&

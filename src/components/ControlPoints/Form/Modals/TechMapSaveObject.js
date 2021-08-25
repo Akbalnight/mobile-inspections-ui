@@ -35,8 +35,7 @@ export const TechMapAddModal = () => {
 					<Col span={12}>
 						<Search
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.techMaps.addModal.onSearch',
+								path: 'controlPoints.controlPointForm.techMaps.addModal.onSearch',
 							}}
 							className={'mb-8'}
 						/>
@@ -59,8 +58,7 @@ export const TechMapAddModal = () => {
 					subscribe={[
 						{
 							name: 'onTechMapsSearch',
-							path:
-								'rtd.controlPoints.controlPointForm.techMaps.addModal.onSearch',
+							path: 'rtd.controlPoints.controlPointForm.techMaps.addModal.onSearch',
 							onChange: ({value, reloadTable}) => {
 								reloadTable({
 									filter: {name: value},
@@ -69,8 +67,7 @@ export const TechMapAddModal = () => {
 						},
 					]}
 					dispatch={{
-						path:
-							'controlPoints.controlPointForm.techMaps.addModal.table',
+						path: 'controlPoints.controlPointForm.techMaps.addModal.table',
 					}}
 				/>
 				<Table
@@ -85,8 +82,7 @@ export const TechMapAddModal = () => {
 					subscribe={[
 						{
 							name: 'onTechMapSelect',
-							path:
-								'rtd.controlPoints.controlPointForm.techMaps.addModal.table.selected',
+							path: 'rtd.controlPoints.controlPointForm.techMaps.addModal.table.selected',
 							onChange: ({value, reloadTable}) => {
 								value &&
 									!value.isGroup &&

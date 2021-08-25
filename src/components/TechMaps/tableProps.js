@@ -233,8 +233,7 @@ export const TechOperTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'techMaps.techOperations.table.actions.onClickMoveDown',
+					path: 'techMaps.techOperations.table.actions.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[

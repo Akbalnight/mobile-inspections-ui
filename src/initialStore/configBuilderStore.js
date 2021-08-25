@@ -1,4 +1,4 @@
 export const initialState = {
 	configs: [],
-	selection: {}
+	selection: {},
 };
