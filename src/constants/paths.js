@@ -244,7 +244,12 @@ export const paths = {
 		title: 'Редактирование маршрутной карты',
 		path: '/detours-configurator/route-maps/:id',
 		component: EditRouteMaps,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',

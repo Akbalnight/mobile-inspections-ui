@@ -1,22 +1,14 @@
 import React from 'react';
-import {
-	Button,
-	executeRequest,
-	Form,
-	FormBody,
-	Layout,
-	Select,
-	Table,
-	Title,
-} from 'rt-design';
+import {Form, FormBody, Layout, Table, Title} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
-import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
-import {customColumnProps, RouteMapsTableHeader} from '../tableProps';
 import Switcher from './Tables/Switcher';
+import {useHistory} from 'react-router';
+import {paths} from '../../../constants/paths';
+import {routesCustomColumnProps} from '../tableProps';
 
 const processBeforeSaveForm = (rawValues: any) => {
 	return {
@@ -25,9 +17,37 @@ const processBeforeSaveForm = (rawValues: any) => {
 };
 
 const LeftSide = ({routeId}: {routeId: string}) => {
+	const history = useHistory();
+	const onRouteSelect = ({rowData}: any) =>
+		history.push(
+			`${paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path}/${rowData.id}`
+		);
+
 	const loadData = (callBack: (params: any) => void) => {
+		// console.log('loadData', routeId ? {routeSelect: routeId} : null)
 		return callBack(routeId ? {routeSelect: routeId} : null);
+		// return callBack({});
 	};
+
+	const content = routeId ? (
+		<Switcher routeId={routeId} />
+	) : (
+		<React.Fragment>
+			<Title level={5} style={{margin: '12px 0'}}>
+				Выберите маршрут
+			</Title>
+			<Layout>
+				<Table
+					itemProps={{name: 'routeSelect'}}
+					// dispatch={{ path: 'routeMaps.mainForm.events.onSelectRoute' }}
+					customColumnProps={routesCustomColumnProps}
+					requestLoadConfig={apiGetConfigByName('routes')}
+					requestLoadRows={apiGetFlatDataByConfigName('routes')}
+					onRowClick={onRouteSelect}
+				/>
+			</Layout>
+		</React.Fragment>
+	);
 
 	return (
 		<Form
@@ -42,28 +62,15 @@ const LeftSide = ({routeId}: {routeId: string}) => {
 				})
 			}
 		>
-			<FormBody scrollable={false} noPadding={false}>
-				<Title level={4}>Маршрут</Title>
-				<Select
-					itemProps={{name: 'routeSelect'}}
-					autoClearSearchValue={true}
-					filterOption={false}
-					showArrow={true}
-					showSearch={true}
-					searchParamName={'name'}
-					// mode={'single'}
-					requestLoadRows={apiGetFlatDataByConfigName('routes')}
-					dispatch={{
-						path: 'routeMaps.mainForm.events.onSelectRoute',
-						type: 'event',
-					}}
-				/>
-				<Switcher routeId={routeId} />
+			<FormBody
+				scrollable={false}
+				noPadding={true}
+				style={{padding: '0 24px 24px 24px'}}
+			>
+				{content}
 			</FormBody>
 		</Form>
 	);
 };
-
-LeftSide.propTypes = {};
 
 export default LeftSide;

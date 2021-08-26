@@ -7,7 +7,7 @@ import {Space, UploadFile, Button, notificationError} from 'rt-design';
 import {EditFileName} from './Modals/SaveObjectModal';
 import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';
 
@@ -15,41 +15,39 @@ export const customColumnProps = [
 	{...position, width: '50px', align: 'center'},
 ];
 
+export const routesCustomColumnProps = [
+	{name: 'code', hidden: true},
+	{name: 'duration', hidden: true},
+];
+
 /**
  * routeMapsTable header
  * */
 
-export const RouteMapsTableHeader = () => {
+export const RouteMapsTableHeader = ({routeId}) => {
 	const dispatch = useDispatch();
 
-	const onSelectRoute = useSelector(
-		(state) => state.rtd.routeMaps.mainForm.events.onSelectRoute.value
-	);
-
 	useEffect(() => {
+		// console.log('RouteMapsTableHeader useEffect =>', routeId)
 		dispatch(
 			setDataStore('routeMaps.mainForm.routeMapsTable.actions.onReload', {
 				timestamp: moment(),
 			})
 		);
-		// eslint-disable-next-line
-	}, [onSelectRoute]);
+	}, [routeId]);
 
 	const loadDataObject = (callBack) => {
 		apiGetDataCountByConfigName('routeMaps')({
-			data: {routeId: onSelectRoute},
+			data: {routeId: routeId},
 		})
 			.then((response) => {
-				// console.log('apiGetDataCountByConfigName ', {
-				// 	routeId: onSelectRoute,
-				// 	position: response.data,
-				// });
+				// console.log('RouteMapsTableHeader loadDataObject =>', routeId)
 				callBack({
 					routeMap: {
 						id: null,
 						position: response.data + 1,
 						fileId: null,
-						routeId: onSelectRoute,
+						routeId: routeId,
 					},
 				});
 			})

@@ -1,74 +1,68 @@
-import React from 'react';
-import {
-	Button,
-	executeRequest,
-	Layout,
-	Table,
-	Title,
-	Switcher as RtSwitcher,
-} from 'rt-design';
-import {ArrowUpOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
-import {customColumnProps, RouteMapsTableHeader} from '../../tableProps';
-import {
-	apiGetConfigByName,
-	apiGetFlatDataByConfigName,
-	apiSaveByConfigName,
-} from '../../../../apis/catalog.api';
+import React, {useEffect, useState} from 'react';
+import {Layout, Title, Space, notificationError} from 'rt-design';
+import {LeftOutlined} from '@ant-design/icons';
+import {RouteMapsTableHeader} from '../../tableProps';
 import RouteMapsTable from './RouteMapsTable';
 import ControlPointsTable from './ControlPointsTable';
+import {paths} from '../../../../constants/paths';
+import {useHistory} from 'react-router';
+import moment from 'moment';
+import {
+	apiGetDataCountByConfigName,
+	apiGetFlatDataByConfigName,
+} from '../../../../apis/catalog.api';
 
 const Switcher = ({routeId}: {routeId: string}) => {
+	const history = useHistory();
+	const [routeData, setRouteData] = useState({name: '---'});
+
+	useEffect(() => {
+		apiGetFlatDataByConfigName('routes')({data: {id: routeId}, params: {}})
+			.then((response) => setRouteData(response.data[0]))
+			.catch((error) =>
+				notificationError(error, 'Ошибка загрузки маршрута')
+			);
+	}, []);
+
+	const onBackPage = () =>
+		history.push(`${paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path}`);
+	//
 	return (
-		<RtSwitcher
-			itemProps={{initialValue: 0}}
-			// dispatch={{ path: 'routeMaps.mainForm.Switcher' }}
-			subscribe={[
-				{
-					name: 'choiceSwitcher',
-					path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
-					onChange: ({value, setSubscribeProps}) => {
-						value &&
-							value.value &&
-							setSubscribeProps &&
-							setSubscribeProps({value: 1});
-					},
-				},
-			]}
-		>
-			<Title level={2}>
-				<span
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						textAlign: 'center',
-						marginTop: '300px',
-					}}
+		<Layout style={{paddingBottom: '0px'}}>
+			<div style={{display: 'flex', margin: '12px 0'}}>
+				<Space
+					style={{position: 'absolute', cursor: 'pointer'}}
+					className={'ant-typography ant-typography-secondary'}
+					onClick={onBackPage}
 				>
-					<ArrowUpOutlined />
-					Выберите маршрут
-					<ExclamationCircleTwoTone />
-				</span>
+					<LeftOutlined style={{fontSize: '16px'}} />
+					<Title
+						level={5}
+						type='secondary'
+						style={{marginBottom: '2px'}}
+					>
+						Назад
+					</Title>
+				</Space>
+				<Title level={5} style={{margin: 'auto'}}>
+					{routeData.name}
+				</Title>
+			</div>
+			<Title level={5} style={{marginTop: 0}}>
+				Маршрутные карты
 			</Title>
-			<Layout className={'py-16 mb-16'}>
-				<Title level={5} className={'pt-8'}>
-					Маршрутные карты
-				</Title>
-				<Layout style={{border: '1px solid #DFDFDF'}}>
-					<RouteMapsTableHeader />
-					<RouteMapsTable routeId={routeId} />
-				</Layout>
-				<Title level={5} className={'pt-16'}>
-					Контрольные точки
-				</Title>
-				<Layout>
-					<ControlPointsTable routeId={routeId} />
-				</Layout>
+			<Layout style={{border: '1px solid #DFDFDF'}}>
+				<RouteMapsTableHeader routeId={routeId} />
+				<RouteMapsTable routeId={routeId} />
 			</Layout>
-		</RtSwitcher>
+			<Title level={5} className={'pt-16'}>
+				Контрольные точки
+			</Title>
+			<Layout>
+				<ControlPointsTable routeId={routeId} />
+			</Layout>
+		</Layout>
 	);
 };
-
-Switcher.propTypes = {};
 
 export default Switcher;

@@ -7,17 +7,17 @@ import {
 import {Button, Table, TablesSubscribeOnChangeOptions} from 'rt-design';
 
 const ControlPointsTable = ({routeId}: {routeId: string}) => {
-	const onSelectRoute = (params: TablesSubscribeOnChangeOptions) => {
-		const {value, reloadTable} = params;
-		value && reloadTable && reloadTable({filter: {routeId: value.value}});
-	};
+	// const onSelectRoute = (params: TablesSubscribeOnChangeOptions) => {
+	// 	const {value, reloadTable} = params;
+	// 	value && reloadTable && reloadTable({filter: {routeId: value.value}});
+	// };
 
 	const onSelectedControlPoint = (params: TablesSubscribeOnChangeOptions) => {
 		const {value, extraData, editRow} = params;
 		const row = value.value; //.value.rowData;
 		if (row && extraData && row.routeMapId === null) {
 			// Add new point
-			// console.log('controlPointsTable - onSelectedControlPoint => Add new point')
+			// console.log('controlPointsTable - onSelectedControlPoint => Add new point', row)
 			const _row = {
 				...row,
 				routeMapId: extraData.id,
@@ -26,7 +26,7 @@ const ControlPointsTable = ({routeId}: {routeId: string}) => {
 			editRow(_row);
 		} else if (row && extraData && row.routeMapId !== extraData.id) {
 			// move point
-			// console.log('controlPointsTable - onSelectedControlPoint => move point from', row.routeMapId)
+			// console.log('controlPointsTable - onSelectedControlPoint => move point from', row)
 			const _row = {
 				...row,
 				routeMapId: extraData.id,
@@ -62,12 +62,12 @@ const ControlPointsTable = ({routeId}: {routeId: string}) => {
 			}}
 			subscribe={[
 				/** Action reload table after select Route in Select*/
-				{
-					name: 'controlPointTable',
-					withMount: true,
-					path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
-					onChange: onSelectRoute,
-				},
+				// {
+				// 	name: 'controlPointTable',
+				// 	withMount: true,
+				// 	path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+				// 	onChange: onSelectRoute,
+				// },
 				/** Action change table state by click on table*/
 				{
 					// Изменить таблицу с точками по клику на таблицу с точками
@@ -85,7 +85,7 @@ const ControlPointsTable = ({routeId}: {routeId: string}) => {
 				},
 			]}
 			footerProps={{
-				height: 50,
+				height: 32,
 				rightCustomSideElement: () => (
 					<>
 						<Button type={'primary'} htmlType={'submit'}>
