@@ -60,12 +60,6 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 		return (
 			<Button
 				className={['ant-btn-icon-only']}
-				dispatch={{
-					path: `${changeStorePath(
-						mainWay,
-						catalogName
-					)}.events.onClickEdit`,
-				}}
 				disabled={true}
 				subscribe={[
 					{

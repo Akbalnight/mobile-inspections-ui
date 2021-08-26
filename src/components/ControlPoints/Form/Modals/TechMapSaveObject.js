@@ -57,6 +57,7 @@ export const TechMapAddModal = () => {
 					requestLoadConfig={apiGetConfigByName('techMaps')}
 					subscribe={[
 						{
+							/** не работает поиск в конфигурации techMaps, нужно изменить настройку. Предлагаю для данной таблицы сделать дополнительный конфиг */
 							name: 'onTechMapsSearch',
 							path: 'rtd.controlPoints.form.techMapsTable.select.onSearch',
 							onChange: ({value, reloadTable}) => {

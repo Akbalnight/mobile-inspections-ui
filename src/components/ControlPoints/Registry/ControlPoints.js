@@ -34,23 +34,6 @@ const ControlPoints = () => {
 							path: 'controlPoints.table',
 						}}
 						subscribe={[
-							/**Action add object*/
-							{
-								name: 'addOnModal',
-								path: `rtd.controlPoints.table.events.addOnModal`,
-								onChange: ({reloadTable}) => {
-									reloadTable({});
-								},
-							},
-
-							/**Action edit object*/
-							{
-								name: 'editOnModal',
-								path: `rtd.controlPoints.table.events.editOnModal`,
-								onChange: ({reloadTable}) => {
-									reloadTable({});
-								},
-							},
 							/**Action add group of object*/
 							{
 								name: 'addOnModal',

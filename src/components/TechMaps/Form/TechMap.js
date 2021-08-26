@@ -217,39 +217,39 @@ const TechMap = (props) => {
 							},
 						]}
 						customColumnProps={formCustomColumnProps}
-						dispatch={{path: 'techMaps.techOperations.table'}}
+						dispatch={{path: 'techMaps.form.techOperationsTable'}}
 						subscribe={[
-							/** Add table Items */
+							/** Add table Items local*/
 							{
 								name: 'techOperationAddOnLocal',
-								path: 'rtd.techMaps.techOperations.table.modal.events.onAddRow',
+								path: 'rtd.techMaps.form.techOperationsTable.events.addOnModal',
 								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
 								},
 							},
-							/** Edit table Items */
+							/** Edit table Items local*/
 							{
 								name: 'techOperationEditOnLocal',
-								path: 'rtd.techMaps.techOperations.table.modal.events.onEditRow',
+								path: 'rtd.techMaps.form.techOperationsTable.events.addOnModal',
 								onChange: ({value, editRow}) => {
 									value && editRow(value.value);
 								},
 							},
 							{
 								name: 'techOperationDeleteOnLocal',
-								path: 'rtd.techMaps.techOperations.table.events.btnDelete',
+								path: 'rtd.techMaps.form.techOperationsTable.events.onDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},
 							},
 							{
 								name: 'onClickMoveUp',
-								path: 'rtd.techMaps.techOperations.table.actions.onClickMoveUp',
+								path: 'rtd.techMaps.form.techOperationsTable.events.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
 							},
 							{
 								name: 'onClickMoveDown',
-								path: 'rtd.techMaps.techOperations.table.actions.onClickMoveDown',
+								path: 'rtd.techMaps.form.techOperationsTable.events.onClickMoveDown',
 								onChange: ({moveDownRow}) => moveDownRow(),
 							},
 						]}

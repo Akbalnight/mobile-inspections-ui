@@ -22,9 +22,10 @@ import {code, duration, position} from '../Base/customColumnProps';
 import {
 	AddTechOperationButton,
 	EditTechOperationButton,
-} from './Form/Modals/EditModal';
+} from './Form/Modals/TechOperSaveObject';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {Access} from 'mobile-inspections-base-ui';
+import {changeStorePath} from '../Base/Functions/ChangeStorePath';
 
 /**
  *
@@ -57,14 +58,14 @@ export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 		return (
 			<Button
 				className={['ant-btn-icon-only']}
-				dispatch={{
-					path: 'techMaps.mainForm.events.onClickEdit',
-				}}
 				disabled={true}
 				subscribe={[
 					{
 						name: 'selected',
-						path: 'rtd.techMaps.techMapsTable.table.selected',
+						path: `rtd.${changeStorePath(
+							mainWay,
+							catalogName
+						)}.selected`,
 						onChange: ({value, setSubscribeProps}) => {
 							if (value && !value.isGroup) {
 								sValueId = value.id;
@@ -124,7 +125,10 @@ export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 						/** Action search activate btn*/
 						{
 							name: 'onSearchPush',
-							path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.onSearch`,
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&
@@ -134,10 +138,12 @@ export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 						/** Action reload in mainForm.table deactivate btn*/
 						{
 							name: 'onReloadPush',
-							path: `rtd.${mainWay}.${catalogName}Table.table.rows`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.rows`,
 							onChange: ({value, setSubscribeProps}) => {
 								/** We might thinking about ${path}.rows array length*/
-
 								value &&
 									value.length >= 4 &&
 									setSubscribeProps &&
@@ -146,7 +152,10 @@ export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 						},
 					]}
 					dispatch={{
-						path: `${mainWay}.${catalogName}Table.table.events.onReload`,
+						path: `${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`,
 					}}
 				/>
 				<CustomObjectView
@@ -160,12 +169,18 @@ export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 				itemProps={{name: 'onSearch'}}
 				placeholder={'Введите наименование'}
 				dispatch={{
-					path: `${mainWay}.${catalogName}Table.table.events.onSearch`,
+					path: `${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onSearch`,
 				}}
 				subscribe={[
 					/** Reload Search value field, clear STORE*/
 					reloadFilterFields(
-						`${mainWay}.${catalogName}Table.table.events.onReload`
+						`${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`
 					),
 				]}
 			/>
@@ -187,13 +202,13 @@ export const TechOperTableHeader = () => {
 				type={'default'}
 				disabled={true}
 				dispatch={{
-					path: 'techMaps.techOperations.table.events.btnDelete',
+					path: 'techMaps.form.techOperationsTable.events.onDelete',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'onTechMapsTechOperationsSelect',
-						path: 'rtd.techMaps.techOperations.table.selected',
+						path: 'rtd.techMaps.form.techOperationsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value
 								? setSubscribeProps({
@@ -210,13 +225,13 @@ export const TechOperTableHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'techMaps.techOperations.table.actions.onClickMoveUp',
+					path: 'techMaps.form.techOperationsTable.events.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path: 'rtd.techMaps.techOperations.table.selected',
+						path: 'rtd.techMaps.form.techOperationsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value && setSubscribeProps
 								? setSubscribeProps({
@@ -233,13 +248,13 @@ export const TechOperTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'techMaps.techOperations.table.actions.onClickMoveDown',
+					path: 'techMaps.form.techOperationsTable.events.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path: 'rtd.techMaps.techOperations.table.selected',
+						path: 'rtd.techMaps.form.techOperationsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value && setSubscribeProps
 								? setSubscribeProps({
