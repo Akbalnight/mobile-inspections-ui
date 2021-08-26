@@ -79,7 +79,7 @@ export const MainTableHeader = () => {
 							subscribe={[
 								{
 									name: 'editRouteForm',
-									path: 'rtd.routes.mainForm.table.selected',
+									path: 'rtd.routes.table.selected',
 									onChange: ({value, setSubscribeProps}) => {
 										if (value) {
 											sValueId = value.id;
@@ -110,7 +110,7 @@ export const MainTableHeader = () => {
 						/** Action search activate btn*/
 						{
 							name: 'onSearchPush',
-							path: 'rtd.routes.mainForm.table.events.onSearch',
+							path: 'rtd.routes.table.events.onSearch',
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&
@@ -120,7 +120,7 @@ export const MainTableHeader = () => {
 						/** Action reload in mainForm.table deactivate btn*/
 						{
 							name: 'onReloadPush',
-							path: 'rtd.routes.mainForm.table.rows',
+							path: 'rtd.routes.table.rows',
 							onChange: ({value, setSubscribeProps}) => {
 								/** We might thinking about ${path}.rows array length*/
 
@@ -142,13 +142,11 @@ export const MainTableHeader = () => {
 					itemProps={{name: 'onSearch'}}
 					placeholder={'Введите наименование'}
 					dispatch={{
-						path: 'routes.mainForm.table.events.onSearch',
+						path: 'routes.table.events.onSearch',
 					}}
 					subscribe={[
 						/** Reload Search value field, clear STORE*/
-						reloadFilterFields(
-							'routes.mainForm.table.events.onReload'
-						),
+						reloadFilterFields('routes.table.events.onReload'),
 					]}
 				/>
 			</Space>
@@ -166,13 +164,13 @@ export const ControlPointsHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'routes.routeForm.controlPointsTable.actions.onClickMoveUp',
+					path: 'routes.form.controlPointsTable.events.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
+						path: 'rtd.routes.form.controlPointsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
@@ -187,13 +185,13 @@ export const ControlPointsHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'routes.routeForm.controlPointsTable.actions.onClickMoveDown',
+					path: 'routes.form.controlPointsTable.events.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnDown',
-						path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
+						path: 'rtd.routes.form.controlPointsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&

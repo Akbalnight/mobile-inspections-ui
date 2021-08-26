@@ -96,7 +96,7 @@ const RouteForm = (props) => {
 
 	return (
 		<Form
-			name={'routeForm'}
+			name={'form'}
 			loadInitData={loadData}
 			methodSaveForm={routeId ? 'PUT' : 'POST'}
 			requestSaveForm={apiSaveByConfigName('routes')}
@@ -104,7 +104,7 @@ const RouteForm = (props) => {
 				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 			}}
 			dispatch={{
-				path: 'routes.routeForm.data',
+				path: 'routes.form.data',
 			}}
 		>
 			<FormHeader>
@@ -139,7 +139,7 @@ const RouteForm = (props) => {
 						customFields={customFields}
 						customColumnProps={customColumnProps}
 						dispatch={{
-							path: 'routes.routeForm.controlPointsTable.table',
+							path: 'routes.form.controlPointsTable',
 						}}
 						requestLoadRows={selectRowsById(
 							'routeControlPoints',
@@ -153,7 +153,7 @@ const RouteForm = (props) => {
 							/** Add table Items */
 							{
 								name: 'addOnLocal',
-								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
+								path: 'rtd.routes.form.controlPointsTable.events.addOnModal',
 								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
 								},
@@ -161,7 +161,7 @@ const RouteForm = (props) => {
 							/** Edit table Items */
 							{
 								name: 'editOnLocal',
-								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onEditRow',
+								path: 'rtd.routes.form.controlPointsTable.events.editOnModal',
 								onChange: ({value, editRow}) => {
 									value && editRow(value.value);
 								},
@@ -169,7 +169,7 @@ const RouteForm = (props) => {
 							/** Delete table Items */
 							{
 								name: 'deleteOnLocal',
-								path: 'rtd.routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
+								path: 'rtd.routes.form.controlPointsTable.events.onDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},
@@ -177,13 +177,13 @@ const RouteForm = (props) => {
 							/** Action change position to up after push on Button */
 							{
 								name: 'onClickMoveUpControlPoint',
-								path: 'rtd.routes.routeForm.controlPointsTable.actions.onClickMoveUp',
+								path: 'rtd.routes.form.controlPointsTable.events.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
 							},
 							/** Action change position to down after push on Button */
 							{
 								name: 'onClickMoveDownControlPoint',
-								path: 'rtd.routes.routeForm.controlPointsTable.actions.onClickMoveDown',
+								path: 'rtd.routes.form.controlPointsTable.events.onClickMoveDown',
 								onChange: ({moveDownRow}) => moveDownRow(),
 							},
 						]}
@@ -236,7 +236,6 @@ const RouteForm = (props) => {
 						title={
 							'Вы можете перейти в Конструктор маршрутных карт'
 						}
-						// style={{height: 'calc(100% -60%)'}}
 						className={'resultRouteForm'}
 						extra={<WayOutModal />}
 					/>
