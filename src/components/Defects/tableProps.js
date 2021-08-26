@@ -405,20 +405,14 @@ export const MainTableHeader = () => {
 							mode={'single'}
 							allowClear={true}
 							requestLoadRows={apiGetFlatDataByConfigName(
-								currentMode === 'defects'
-									? 'defectStatusesProcess'
-									: 'panelProblemsStatuses'
+								'defectStatusesProcess'
 							)}
 							optionConverter={(option) => ({
 								label: (
 									<>
 										<StatusIcon
 											statusId={option.id}
-											keyToFind={
-												currentMode === 'defects'
-													? 'statusProcessId'
-													: 'statusPanelId'
-											}
+											keyToFind={'statusProcessId'}
 										/>{' '}
 										<span className={'ml-8'}>
 											{option.name}
@@ -428,11 +422,7 @@ export const MainTableHeader = () => {
 								value: option.id,
 							})}
 							dispatch={{
-								path: `defects.defectTable.filter.${
-									currentMode === 'defects'
-										? 'statusProcessId'
-										: 'statusPanelId'
-								}`,
+								path: `defects.defectTable.filter.statusProcessId`,
 							}}
 							subscribe={[
 								reloadFilterFields(
