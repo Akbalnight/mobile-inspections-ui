@@ -23,8 +23,7 @@ export const Routes = () => {
 						subscribe={[
 							{
 								name: 'onSearch',
-								path:
-									'rtd.routes.mainForm.table.events.onSearch',
+								path: 'rtd.routes.mainForm.table.events.onSearch',
 								onChange: ({value, reloadTable}) => {
 									reloadTable({
 										searchValue: value,
@@ -33,8 +32,7 @@ export const Routes = () => {
 							},
 							{
 								name: 'onReload',
-								path:
-									'rtd.routes.mainForm.table.events.onReload',
+								path: 'rtd.routes.mainForm.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},

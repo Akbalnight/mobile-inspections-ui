@@ -46,8 +46,7 @@ export const ViewControlPointModal = () => {
 			subscribe={[
 				{
 					name: 'openViewModal',
-					path:
-						'rtd.routes.routeForm.controlPointsTable.table.events.onRowDoubleClick',
+					path: 'rtd.routes.routeForm.controlPointsTable.table.events.onRowDoubleClick',
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

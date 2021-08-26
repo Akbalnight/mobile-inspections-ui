@@ -88,8 +88,7 @@ const DocExample = () => {
 												value: option.id,
 											})}
 											dispatch={{
-												path:
-													'example.form.table.filter.statusProcessId',
+												path: 'example.form.table.filter.statusProcessId',
 											}}
 										/>
 									</Col>
@@ -120,8 +119,7 @@ const DocExample = () => {
 												};
 											}}
 											dispatch={{
-												path:
-													'example.form.table.filter.equipmentId',
+												path: 'example.form.table.filter.equipmentId',
 											}}
 										/>
 									</Col>
@@ -137,8 +135,7 @@ const DocExample = () => {
 									subscribe={[
 										{
 											name: 'defectStatus',
-											path:
-												'rtd.example.form.table.filter.statusProcessId',
+											path: 'rtd.example.form.table.filter.statusProcessId',
 											extraData:
 												'rtd.example.form.table.filter',
 											onChange: ({
@@ -152,8 +149,7 @@ const DocExample = () => {
 										},
 										{
 											name: 'defectEquipments',
-											path:
-												'rtd.example.form.table.filter.equipmentId',
+											path: 'rtd.example.form.table.filter.equipmentId',
 											extraData:
 												'rtd.example.form.table.filter',
 											onChange: ({
@@ -167,8 +163,7 @@ const DocExample = () => {
 										},
 										{
 											name: 'onReloadTable',
-											path:
-												'rtd.example.form.table.events.onReloadTable',
+											path: 'rtd.example.form.table.events.onReloadTable',
 											extraData:
 												'rtd.example.form.table.filter',
 											onChange: ({
@@ -193,8 +188,7 @@ const DocExample = () => {
 								<Button
 									itemProps={{label: 'Button'}}
 									dispatch={{
-										path:
-											'example.form.table.events.onReloadTable',
+										path: 'example.form.table.events.onReloadTable',
 										type: 'event',
 									}}
 								>
@@ -220,13 +214,11 @@ const DocExample = () => {
 								<Switch itemProps={{label: 'Switch'}} />
 								<RadioGroup
 									itemProps={{
-										label:
-											'RadioGroup. Click for use Switcher',
+										label: 'RadioGroup. Click for use Switcher',
 										name: 'SwitcherRadioGroup',
 									}}
 									dispatch={{
-										path:
-											'example.form.tab3.SwitcherRadioGroup',
+										path: 'example.form.tab3.SwitcherRadioGroup',
 									}}
 									optionType={'button'}
 									buttonStyle={'solid'}
@@ -239,8 +231,7 @@ const DocExample = () => {
 									subscribe={[
 										{
 											name: 'SwitcherRadioGroup',
-											path:
-												'rtd.example.form.tab3.SwitcherRadioGroup',
+											path: 'rtd.example.form.tab3.SwitcherRadioGroup',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -268,8 +259,7 @@ const DocExample = () => {
 									subscribe={[
 										{
 											name: 'SwitcherRadioGroup',
-											path:
-												'rtd.example.form.tab3.SwitcherRadioGroup',
+											path: 'rtd.example.form.tab3.SwitcherRadioGroup',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -314,8 +304,7 @@ const DocExample = () => {
 											},
 										}}
 										dispatch={{
-											path:
-												'example.form.tab3.addModalExample',
+											path: 'example.form.tab3.addModalExample',
 										}}
 									>
 										<FormBody
@@ -352,8 +341,7 @@ const DocExample = () => {
 										subscribe={[
 											{
 												name: 'addModalExample',
-												path:
-													'rtd.example.form.tab3.addModalExample',
+												path: 'rtd.example.form.tab3.addModalExample',
 												onChange: ({
 													value,
 													setSubscribeProps,
@@ -377,8 +365,7 @@ const DocExample = () => {
 										subscribe={[
 											{
 												name: 'addModalExample',
-												path:
-													'rtd.example.form.tab3.addModalExample',
+												path: 'rtd.example.form.tab3.addModalExample',
 												onChange: ({
 													value,
 													setSubscribeProps,

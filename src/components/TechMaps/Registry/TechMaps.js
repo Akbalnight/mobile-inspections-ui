@@ -59,8 +59,7 @@ const TechMaps = () => {
 							/**Action reload*/
 							{
 								name: 'onReload',
-								path:
-									'rtd.techMaps.techMapsTable.table.events.onReload',
+								path: 'rtd.techMaps.techMapsTable.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},

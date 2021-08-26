@@ -123,8 +123,7 @@ const EditModal = (type) => {
 						...footerCheckboxLayout,
 					}}
 					dispatch={{
-						path:
-							'techMaps.techOperations.table.modal.events.needInputData',
+						path: 'techMaps.techOperations.table.modal.events.needInputData',
 						type: 'event',
 					}}
 				/>
@@ -141,8 +140,7 @@ const EditModal = (type) => {
 					subscribe={[
 						{
 							name: 'unDisabled',
-							path:
-								'rtd.techMaps.techOperations.table.modal.events.needInputData',
+							path: 'rtd.techMaps.techOperations.table.modal.events.needInputData',
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&

@@ -58,13 +58,11 @@ const DebugTable = () => {
 								subscribe={[
 									{
 										name: 'onAdd',
-										path:
-											'rtd.debugTable.table.1.events.onAdd',
+										path: 'rtd.debugTable.table.1.events.onAdd',
 										onChange: ({addRow}) => {
 											// addRows, addRowAsCopy, editRow, removeRow, moveUpRow, moveDownRow
 											const row = {
-												id:
-													'54efdf8e-998c-4c3d-88e2-07f9cbd69861',
+												id: '54efdf8e-998c-4c3d-88e2-07f9cbd69861',
 												code: 999,
 												name: 'Маршрут Add',
 												duration: 999,

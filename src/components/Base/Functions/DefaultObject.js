@@ -201,9 +201,8 @@ export const objectOnServer = (catalogName) => {
 												)({data: {id: value}})
 													.then((res) =>
 														setSubscribeProps({
-															value:
-																res.data[0]
-																	.username,
+															value: res.data[0]
+																.username,
 														})
 													)
 													.catch((err) =>
@@ -275,9 +274,10 @@ export const objectOnServer = (catalogName) => {
 																	labelCol: {
 																		span: 4,
 																	},
-																	wrapperCol: {
-																		span: 18,
-																	},
+																	wrapperCol:
+																		{
+																			span: 18,
+																		},
 																	rules: [
 																		{
 																			required: true,
@@ -297,22 +297,24 @@ export const objectOnServer = (catalogName) => {
 																	{
 																		name: `${catalogName}ModalStartDatePicker`,
 																		path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateScheduleFinish`,
-																		onChange: ({
-																			value,
-																			setSubscribeProps,
-																		}) => {
-																			setSubscribeProps(
-																				{
-																					disabledDate: (
-																						startValue
-																					) =>
-																						disabledStartDate(
-																							startValue,
-																							value
-																						),
-																				}
-																			);
-																		},
+																		onChange:
+																			({
+																				value,
+																				setSubscribeProps,
+																			}) => {
+																				setSubscribeProps(
+																					{
+																						disabledDate:
+																							(
+																								startValue
+																							) =>
+																								disabledStartDate(
+																									startValue,
+																									value
+																								),
+																					}
+																				);
+																			},
 																	},
 																]}
 															/>
@@ -332,9 +334,10 @@ export const objectOnServer = (catalogName) => {
 																	labelCol: {
 																		span: 4,
 																	},
-																	wrapperCol: {
-																		span: 18,
-																	},
+																	wrapperCol:
+																		{
+																			span: 18,
+																		},
 																	rules: [
 																		{
 																			required: true,
@@ -354,22 +357,24 @@ export const objectOnServer = (catalogName) => {
 																	{
 																		name: `${catalogName}ModalFinishDatePicker`,
 																		path: `rtd.catalog.${catalogName}Table.modal.datePicker.${index}-dateScheduleStart`,
-																		onChange: ({
-																			value,
-																			setSubscribeProps,
-																		}) => {
-																			setSubscribeProps(
-																				{
-																					disabledDate: (
-																						endValue
-																					) =>
-																						disabledEndDate(
-																							value,
-																							endValue
-																						),
-																				}
-																			);
-																		},
+																		onChange:
+																			({
+																				value,
+																				setSubscribeProps,
+																			}) => {
+																				setSubscribeProps(
+																					{
+																						disabledDate:
+																							(
+																								endValue
+																							) =>
+																								disabledEndDate(
+																									value,
+																									endValue
+																								),
+																					}
+																				);
+																			},
 																	},
 																]}
 															/>
@@ -482,13 +487,14 @@ export const objectOnServer = (catalogName) => {
 																	}) => {
 																		setSubscribeProps(
 																			{
-																				disabledDate: (
-																					startValue
-																				) =>
-																					disabledStartDate(
-																						startValue,
-																						value
-																					),
+																				disabledDate:
+																					(
+																						startValue
+																					) =>
+																						disabledStartDate(
+																							startValue,
+																							value
+																						),
 																			}
 																		);
 																	},
@@ -538,13 +544,14 @@ export const objectOnServer = (catalogName) => {
 																	}) => {
 																		setSubscribeProps(
 																			{
-																				disabledDate: (
-																					endValue
-																				) =>
-																					disabledEndDate(
-																						value,
+																				disabledDate:
+																					(
 																						endValue
-																					),
+																					) =>
+																						disabledEndDate(
+																							value,
+																							endValue
+																						),
 																			}
 																		);
 																	},
@@ -658,13 +665,14 @@ export const objectOnServer = (catalogName) => {
 																	}) => {
 																		setSubscribeProps(
 																			{
-																				disabledDate: (
-																					startValue
-																				) =>
-																					disabledStartDate(
-																						startValue,
-																						value
-																					),
+																				disabledDate:
+																					(
+																						startValue
+																					) =>
+																						disabledStartDate(
+																							startValue,
+																							value
+																						),
 																			}
 																		);
 																	},
@@ -714,13 +722,14 @@ export const objectOnServer = (catalogName) => {
 																	}) => {
 																		setSubscribeProps(
 																			{
-																				disabledDate: (
-																					endValue
-																				) =>
-																					disabledEndDate(
-																						value,
+																				disabledDate:
+																					(
 																						endValue
-																					),
+																					) =>
+																						disabledEndDate(
+																							value,
+																							endValue
+																						),
 																			}
 																		);
 																	},

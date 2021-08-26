@@ -3,5 +3,5 @@ module.exports = {
 	singleQuote: true,
 	useTabs: true,
 	jsxSingleQuote: true,
-	bracketSpacing: false
+	bracketSpacing: false,
 };
