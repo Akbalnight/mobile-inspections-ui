@@ -58,7 +58,7 @@ const OperationOnServer = (type) => {
 				/** Role model in portal necessary stay where*/
 				{
 					name: `mainTableChange`,
-					path: `rtd.detours.mainForm.table.selected`,
+					path: `rtd.detours.table.selected`,
 					extraData: 'auth.roles', // .username
 					onChange: ({value, setSubscribeProps, extraData}) => {
 						console.log('switcher', extraData);
@@ -95,9 +95,6 @@ const OperationOnServer = (type) => {
 					requestSaveForm: apiSaveByConfigName('saveDetourForm'),
 					form: {
 						name: `${type}ModalForm`,
-						dispatch: {
-							path: `detours.mainForm.table.events.${type}ModalFormData`,
-						},
 						loadInitData: (callBack, row) => {
 							callBack(type === 'add' ? null : row);
 						},
@@ -111,13 +108,13 @@ const OperationOnServer = (type) => {
 					},
 				}}
 				dispatch={{
-					path: `detours.mainForm.table.events.${type}OnModal`,
+					path: `detours.table.events.${type}OnModal`,
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: `mainTableChange`,
-						path: `rtd.detours.mainForm.table.selected`,
+						path: `rtd.detours.table.selected`,
 						onChange: ({value, setModalData, setButtonProps}) => {
 							value &&
 								setModalData &&
@@ -151,10 +148,9 @@ const OperationOnServer = (type) => {
 						})}
 						onSelect={(_, option) => {
 							dispatch(
-								setDataStore(
-									`detours.mainForm.modal.events.routeId`,
-									{duration: Number(option.className)}
-								)
+								setDataStore(`detours.form.data.routeId`, {
+									duration: Number(option.className),
+								})
 							);
 						}}
 					/>
@@ -163,13 +159,13 @@ const OperationOnServer = (type) => {
 						format={'DD.MM.YYYY HH:mm'}
 						showTime={true}
 						dispatch={{
-							path: 'detours.mainForm.modal.events.startDate',
+							path: 'detours.form.data.startDate',
 						}}
 						showNow={false}
 						subscribe={[
 							{
 								name: 'finishDate',
-								path: 'rtd.detours.mainForm.modal.events.finishDate',
+								path: 'rtd.detours.form.data.finishDate',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({
 										disabledDate: (startValue) =>
@@ -188,14 +184,13 @@ const OperationOnServer = (type) => {
 						showTime={true}
 						showNow={false}
 						dispatch={{
-							path: 'detours.mainForm.modal.events.finishDate',
+							path: 'detours.form.data.finishDate',
 						}}
 						subscribe={[
 							{
 								name: 'solutionByStartDate',
-								path: 'rtd.detours.mainForm.modal.events.startDate',
-								extraData:
-									'rtd.detours.mainForm.modal.events.routeId',
+								path: 'rtd.detours.form.data.startDate',
+								extraData: 'rtd.detours.form.data.routeId',
 								onChange: ({
 									value,
 									extraData,
@@ -264,7 +259,7 @@ const OperationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path: 'detours.mainForm.modal.events.takeIntoAccountTimeLocation',
+									path: 'detours.form.data.takeIntoAccountTimeLocation',
 								}}
 							/>
 							<Checkbox
@@ -273,7 +268,7 @@ const OperationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path: 'detours.mainForm.modal.events.takeIntoAccountDateStart',
+									path: 'detours.form.data.takeIntoAccountDateStart',
 								}}
 							/>
 							<Checkbox
@@ -282,7 +277,7 @@ const OperationOnServer = (type) => {
 									...footerCheckboxLayout,
 								}}
 								dispatch={{
-									path: 'detours.mainForm.modal.events.takeIntoAccountDateFinish',
+									path: 'detours.form.data.takeIntoAccountDateFinish',
 								}}
 							/>
 						</Col>
@@ -298,7 +293,7 @@ const OperationOnServer = (type) => {
 									{
 										name: 'takeIntoAccountTimeLocation',
 										withMount: true,
-										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountTimeLocation',
+										path: 'rtd.detours.form.data.takeIntoAccountTimeLocation',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -325,7 +320,7 @@ const OperationOnServer = (type) => {
 									{
 										name: 'takeIntoAccountTimeLocation',
 										withMount: true,
-										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountDateStart',
+										path: 'rtd.detours.form.data.takeIntoAccountDateStart',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -352,7 +347,7 @@ const OperationOnServer = (type) => {
 									{
 										name: 'takeIntoAccountTimeLocation',
 										withMount: true,
-										path: 'rtd.detours.mainForm.modal.events.takeIntoAccountDateFinish',
+										path: 'rtd.detours.form.data.takeIntoAccountDateFinish',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -398,7 +393,7 @@ const OperationOnServer = (type) => {
 				subscribe={[
 					{
 						name: `mainTableChange`,
-						path: `rtd.detours.mainForm.table.selected`,
+						path: `rtd.detours.table.selected`,
 						onChange: ({value, setModalData, openModal}) => {
 							value &&
 								setModalData &&

@@ -118,13 +118,13 @@ export default function DetoursCalendar() {
 					itemProps={{name: 'calendarDetours'}}
 					render={Calendar}
 					dispatch={{
-						path: 'detours.mainForm.calendar',
+						path: 'detours.calendar',
 					}}
 					subscribe={[
 						/** Action trigger by calendar*/
 						{
 							name: 'onChangeMonth',
-							path: 'rtd.detours.mainForm.filter.events.month',
+							path: 'rtd.detours.table.data.month',
 							onChange: ({value, setSubscribeProps}) => {
 								setSubscribeProps({value: value});
 							},
@@ -132,7 +132,7 @@ export default function DetoursCalendar() {
 						/** Action search by detour name*/
 						{
 							name: 'onSearch',
-							path: 'rtd.detours.mainForm.table.events.onSearch',
+							path: 'rtd.detours.table.events.onSearch',
 							onChange: ({value, setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {name: value.value},
@@ -154,8 +154,8 @@ export default function DetoursCalendar() {
 						/** Action filter by detour routId, staffId*/
 						{
 							name: 'onApplyFilter',
-							path: 'rtd.detours.mainForm.table.onApplyFilter',
-							extraData: 'rtd.detours.mainForm.filter.events',
+							path: 'rtd.detours.table.events.onApplyFilter',
+							extraData: 'rtd.detours.table.data',
 							onChange: ({extraData, setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {
@@ -190,7 +190,7 @@ export default function DetoursCalendar() {
 						{
 							/** Action on push button Сбросить */
 							name: 'onReload',
-							path: 'rtd.detours.mainForm.filter.events.onReload',
+							path: 'rtd.detours.table.events.onReload',
 							onChange: ({setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {},
@@ -212,7 +212,7 @@ export default function DetoursCalendar() {
 						/** Action add detour*/
 						{
 							name: 'addDetourOnServer',
-							path: 'rtd.detours.mainForm.table.events.addOnModal',
+							path: 'rtd.detours.table.events.addOnModal',
 							onChange: ({setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {},

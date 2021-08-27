@@ -59,7 +59,7 @@ export const ViewDetour = () => {
 			subscribe={[
 				{
 					name: `detourModalInfo`,
-					path: `rtd.detours.mainForm.table.events.onRowDoubleClick`,
+					path: `rtd.detours.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&
@@ -106,7 +106,7 @@ export const ViewDetour = () => {
 											{
 												name: 'planDuration',
 												withMount: true,
-												path: 'rtd.detours.mainForm.table.events.onRowDoubleClick',
+												path: 'rtd.detours.table.events.onRowDoubleClick',
 												onChange: ({
 													value,
 													setSubscribeProps,
@@ -162,7 +162,7 @@ export const ViewDetour = () => {
 											{
 												name: 'factDuration',
 												withMount: true,
-												path: 'rtd.detours.mainForm.table.events.onRowDoubleClick',
+												path: 'rtd.detours.table.events.onRowDoubleClick',
 												onChange: ({
 													value,
 													setSubscribeProps,

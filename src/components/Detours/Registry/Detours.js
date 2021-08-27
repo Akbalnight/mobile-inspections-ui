@@ -23,7 +23,7 @@ export const Detours = () => {
 						subscribe={[
 							{
 								name: 'detourMainForm',
-								path: 'rtd.detours.mainForm.table.events.viewMode',
+								path: 'rtd.detours.table.events.viewMode',
 								onChange: ({value, setSubscribeProps}) => {
 									setSubscribeProps({value: value});
 								},
@@ -34,7 +34,7 @@ export const Detours = () => {
 							fixWidthColumn={true}
 							infinityMode={true}
 							searchParamName={'name'}
-							dispatch={{path: 'detours.mainForm.table'}}
+							dispatch={{path: 'detours.table'}}
 							customColumnProps={customColumnProps}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								'detours'
@@ -44,7 +44,7 @@ export const Detours = () => {
 								/** Action add detour*/
 								{
 									name: 'addDetourOnServer',
-									path: 'rtd.detours.mainForm.table.events.addOnModal',
+									path: 'rtd.detours.table.events.addOnModal',
 									onChange: ({reloadTable}) => {
 										reloadTable({});
 									},
@@ -52,7 +52,7 @@ export const Detours = () => {
 								/** Action edit detour*/
 								{
 									name: 'editDetourOnServer',
-									path: 'rtd.detours.mainForm.table.events.editOnModal',
+									path: 'rtd.detours.table.events.editOnModal',
 									onChange: ({reloadTable}) => {
 										reloadTable({});
 									},
@@ -61,19 +61,13 @@ export const Detours = () => {
 								/** Action search by detour name*/
 								{
 									name: 'onSearch',
-									path: 'rtd.detours.mainForm.table.events.onSearch',
-									extraData:
-										'rtd.detours.mainForm.filter.events',
+									path: 'rtd.detours.table.events.onSearch',
+									extraData: 'rtd.detours.table.data',
 									onChange: ({
 										value,
 										extraData,
 										reloadTable,
 									}) => {
-										console.log(
-											'Table onSearch',
-											extraData,
-											value
-										);
 										reloadTable({
 											searchValue: value,
 											filter: extraData,
@@ -84,17 +78,13 @@ export const Detours = () => {
 
 								{
 									name: 'onApplyFilter',
-									path: 'rtd.detours.mainForm.table.onApplyFilter',
+									path: 'rtd.detours.table.events.onApplyFilter',
 									extraData: {
-										filter: 'rtd.detours.mainForm.filter.events',
+										filter: 'rtd.detours.table.data',
 										searchValue:
-											'rtd.detours.mainForm.table.events.onSearch',
+											'rtd.detours.table.events.onSearch',
 									},
 									onChange: ({extraData, reloadTable}) => {
-										console.log(
-											'Table onApplyFilter',
-											extraData
-										);
 										reloadTable({
 											searchValue: extraData?.searchValue,
 											filter: extraData?.filter,
@@ -104,7 +94,7 @@ export const Detours = () => {
 								{
 									/** Action on push button Сбросить */
 									name: 'onReload',
-									path: 'rtd.detours.mainForm.table.onReload',
+									path: 'rtd.detours.table.events.onReload',
 									onChange: ({reloadTable}) => {
 										reloadTable({filter: {}});
 									},
