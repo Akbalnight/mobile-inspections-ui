@@ -304,6 +304,7 @@ const OperationOnServer = (type) => {
 												  })
 												: setSubscribeProps({
 														disabled: true,
+														value: undefined,
 												  });
 										},
 									},
@@ -331,6 +332,7 @@ const OperationOnServer = (type) => {
 												  })
 												: setSubscribeProps({
 														disabled: true,
+														value: undefined,
 												  });
 										},
 									},
@@ -358,6 +360,7 @@ const OperationOnServer = (type) => {
 												  })
 												: setSubscribeProps({
 														disabled: true,
+														value: undefined,
 												  });
 										},
 									},

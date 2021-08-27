@@ -160,7 +160,7 @@ export const DetoursMainTableHeader = () => {
 										label: 'с',
 										className: 'mb-0',
 									}}
-									format={'DD.MM.YYYY HH:mm'}
+									format={'DD.MM.YYYY'}
 									onChange={(date, dateString) =>
 										date?.startOf('day')
 									}
@@ -201,17 +201,17 @@ export const DetoursMainTableHeader = () => {
 										label: 'по',
 										className: 'mb-0',
 									}}
-									format={'DD.MM.YYYY HH:mm'}
+									format={'DD.MM.YYYY'}
 									onChange={(date, dateString) =>
 										date?.endOf('day')
 									}
 									dispatch={{
-										path: 'detours.table.data..finishDate',
+										path: 'detours.table.data.finishDate',
 									}}
 									subscribe={[
 										{
 											name: 'startDate',
-											path: 'rtd.detours.table.data..startDate',
+											path: 'rtd.detours.table.data.startDate',
 											onChange: ({
 												value,
 												setSubscribeProps,
@@ -361,19 +361,4 @@ export const customColumnProps = [
 		name: 'descriptionCauses',
 		hidden: true,
 	},
-];
-
-export const schedulesCustomColumn = [
-	{
-		name: 'interval',
-		cellRenderer: ({rowData, cellData}) => {
-			let period =
-				cellData > 1 ? rowData.periodName + 's' : rowData.periodName;
-
-			return cellData + ' ' + period;
-		},
-	},
-	{...dateTime('dateStart')},
-	{...dateTime('nextExecution')},
-	{...dateTime('dateFinish')},
 ];

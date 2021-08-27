@@ -17,7 +17,7 @@ import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
 import {AddRouteMaps, EditRouteMaps} from '../components/RouteMaps/RouteMaps';
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
-import Schedules from '../components/Detours/Schedules/Schedules';
+import Schedules from '../components/Schedules/Registry/Schedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
