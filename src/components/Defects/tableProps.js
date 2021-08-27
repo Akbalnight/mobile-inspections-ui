@@ -125,11 +125,11 @@ export const MainTableHeader = () => {
 							placeholder={'Поиск по оборудованию'}
 							subscribe={[
 								reloadFilterFields(
-									'defects.defectTable.events.onReload'
+									`${currentMode}.table.events.onReload`
 								),
 							]}
 							dispatch={{
-								path: 'defects.defectTable.events.searchValue',
+								path: `${currentMode}.table.events.onSearch`,
 							}}
 						/>
 						<Button
@@ -140,7 +140,7 @@ export const MainTableHeader = () => {
 							type={'default'}
 							htmlType={'submit'}
 							dispatch={{
-								path: 'defects.defectTable.events.onBtnSearch',
+								path: `${currentMode}.table.events.onSearchStart`,
 							}}
 						/>
 					</div>
@@ -190,28 +190,18 @@ export const MainTableHeader = () => {
 						<div className={'asSearch'}>
 							<Input
 								style={{marginRight: 0}}
-								// т.к. есть кнопка submit ниже - обработка enter не требуется
-								// будет срабатывать событие отправки формы = клик на кнопку
-								// но, вероятно, отправка будет производиться по enter в любом текстовом поле - проверить
-								// onKeyPress={(e) => {
-								//
-								//     if (e.keyCode === 13) {
-								//         searchBtn.current.click();
-								//     }
-								// }}
 								itemProps={{name: 'defectsSearchInput'}}
 								placeholder={'Поиск по оборудованию'}
 								subscribe={[
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 								dispatch={{
-									path: 'defects.defectTable.events.searchValue',
+									path: `${currentMode}.table.events.onSearch`,
 								}}
 							/>
 							<Button
-								// ref={searchBtn}
 								itemProps={{
 									name: 'defectsSearchButton',
 								}}
@@ -219,7 +209,7 @@ export const MainTableHeader = () => {
 								type={'default'}
 								htmlType={'submit'}
 								dispatch={{
-									path: 'defects.defectTable.events.onBtnSearch',
+									path: `${currentMode}.table.events.onSearchStart`,
 								}}
 							/>
 						</div>
@@ -253,12 +243,12 @@ export const MainTableHeader = () => {
 									date?.startOf('day')
 								}
 								dispatch={{
-									path: 'defects.defectTable.filter.detectStartDate',
+									path: `${currentMode}.table.data.detectStartDate`,
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path: 'rtd.defects.defectTable.filter.detectEndDate',
+										path: `rtd.${currentMode}.table.data.detectEndDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -273,7 +263,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -288,12 +278,12 @@ export const MainTableHeader = () => {
 									date?.endOf('day')
 								}
 								dispatch={{
-									path: 'defects.defectTable.filter.detectEndDate',
+									path: `${currentMode}.table.data.detectEndDate`,
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path: 'rtd.defects.defectTable.filter.detectStartDate',
+										path: `rtd.${currentMode}.table.data.detectStartDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -308,7 +298,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -328,12 +318,12 @@ export const MainTableHeader = () => {
 									date?.startOf('day')
 								}
 								dispatch={{
-									path: 'defects.defectTable.filter.eliminateStartDate',
+									path: `${currentMode}.table.data.eliminateStartDate`,
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path: 'rtd.defects.defectTable.filter.eliminateEndDate',
+										path: `rtd.${currentMode}.table.data.eliminateEndDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -348,7 +338,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -363,12 +353,12 @@ export const MainTableHeader = () => {
 									date?.endOf('day')
 								}
 								dispatch={{
-									path: 'defects.defectTable.filter.eliminateEndDate',
+									path: `${currentMode}.table.data.eliminateEndDate`,
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path: 'rtd.defects.defectTable.filter.eliminateStartDate',
+										path: `rtd.${currentMode}.table.data.eliminateStartDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -383,7 +373,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -420,11 +410,11 @@ export const MainTableHeader = () => {
 								value: option.id,
 							})}
 							dispatch={{
-								path: `defects.defectTable.filter.statusProcessId`,
+								path: `${currentMode}.table.data.statusProcessId`,
 							}}
 							subscribe={[
 								reloadFilterFields(
-									'defects.defectTable.events.onReload'
+									`${currentMode}.table.events.onReload`
 								),
 							]}
 						/>
@@ -452,14 +442,14 @@ export const MainTableHeader = () => {
 									value: option.id,
 								})}
 								dispatch={{
-									path: 'defects.defectTable.filter.panelPriority',
+									path: `${currentMode}.table.data.panelPriority`,
 								}}
 								subscribe={[
 									/**
 									 * не работает очищение при 'multiple', надо будет продумать.
 									 */
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -475,8 +465,8 @@ export const MainTableHeader = () => {
 						itemProps={{name: 'btnDefectFilterApply'}}
 						type={'primary'}
 						dispatch={{
-							path: 'defects.defectTable.events.onApplyFilter',
-							extraData: 'rtd.defects.defectTable.filter',
+							path: `${currentMode}.table.events.onApplyFilter`,
+							extraData: `rtd.${currentMode}.table.data`,
 							type: 'event',
 						}}
 					>
@@ -485,7 +475,7 @@ export const MainTableHeader = () => {
 					<Button
 						itemProps={{name: 'btnDefectFilterClear'}}
 						dispatch={{
-							path: 'defects.defectTable.events.onReload',
+							path: `${currentMode}.table.events.onReload`,
 							type: 'event',
 						}}
 					>

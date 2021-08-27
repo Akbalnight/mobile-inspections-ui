@@ -52,7 +52,7 @@ export const ButtonSendToSap = () => {
 					},
 				}}
 				dispatch={{
-					path: 'defects.defectTable.modal.events.onSendToSapModal',
+					path: 'defects.table.events.onSendToSapModal',
 					// диспатчим туда же, где фильтр таблицы, т.к. перезагрузка таблицы одинаковая
 					// path: 'rtd.defects.defectTable.events.onApplyFilter',
 					type: 'event',
@@ -60,7 +60,7 @@ export const ButtonSendToSap = () => {
 				subscribe={[
 					{
 						name: 'sendToSap',
-						path: 'rtd.defects.defectTable.table.selected',
+						path: 'rtd.defects.table.selected',
 						onChange: ({value, setModalData, setButtonProps}) => {
 							value &&
 								setModalData &&
