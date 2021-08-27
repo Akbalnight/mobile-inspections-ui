@@ -5,13 +5,13 @@ export const configBuilder = (state = initialState, action) => {
 		case 'SET_CONFIGS':
 			return {
 				...state,
-				configs: action.configs
+				configs: action.configs,
 			};
 		case 'LOAD_CONFIGS':
 			// console.log("RES LOAD_CONFIGS");
 			return {
 				...state,
-				configs: action.configs
+				configs: action.configs,
 			};
 		default:
 			return state;

@@ -1,9 +1,9 @@
-export const setConfigs = configs => ({
+export const setConfigs = (configs) => ({
 	type: 'SET_CONFIGS',
-	configs
+	configs,
 });
 
-export const loadConfigs = () => dispatch => {
+export const loadConfigs = () => (dispatch) => {
 	const action = {type: 'LOAD_CONFIGS', configs: {}};
 	dispatch(action);
 };

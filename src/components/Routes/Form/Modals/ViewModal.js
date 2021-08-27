@@ -3,11 +3,13 @@ import React from 'react';
 import {apiGetConfigByName} from '../../../../apis/catalog.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 
-export const ViewControlPointModal = () => {
+/**
+ * Control Point Table view object modal
+ * */
+export const ViewModal = () => {
 	let sRow;
 	const loadData = async (callBack, row) => {
 		sRow = {...row};
-		console.log(sRow);
 		const equipmentsByIdResponse = await selectRowsById(
 			'controlPointsEquipments',
 			'controlPointId',
@@ -46,7 +48,7 @@ export const ViewControlPointModal = () => {
 			subscribe={[
 				{
 					name: 'openViewModal',
-					path: 'rtd.routes.routeForm.controlPointsTable.table.events.onRowDoubleClick',
+					path: 'rtd.routes.form.controlPointsTable.events.onRowDoubleClick',
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

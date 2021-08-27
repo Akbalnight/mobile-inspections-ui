@@ -228,8 +228,7 @@ const DebugJSX = () => {
 									{
 										/** Обработчик события на сохранение модалки */
 										name: 'onEditModal',
-										path:
-											'rtd.2debug.form.table.events.onEditModal',
+										path: 'rtd.2debug.form.table.events.onEditModal',
 										onChange: ({value, editRow}) => {
 											editRow(value.value);
 										},
@@ -255,8 +254,7 @@ const DebugJSX = () => {
 													</span>
 												),
 												dispatch: {
-													path:
-														'debug.form.table.events.onReload',
+													path: 'debug.form.table.events.onReload',
 													type: 'event',
 												},
 											},

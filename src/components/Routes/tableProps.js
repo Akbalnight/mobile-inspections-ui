@@ -17,7 +17,7 @@ import {
 	EditControlPointToRoute,
 } from './Form/Modals/SaveObjectModal';
 import {DeleteControlPointToRoute} from './Form/Modals/DeleteObjectModal';
-import {ViewControlPointModal} from './Form/Modals/ViewControlPointModal';
+import {ViewModal} from './Form/Modals/ViewModal';
 import {Access} from 'mobile-inspections-base-ui';
 import {generateUUID} from 'rt-design/lib/components/utils/baseUtils';
 
@@ -132,7 +132,7 @@ export const MainTableHeader = () => {
 						},
 					]}
 					dispatch={{
-						path: 'routes.mainForm.table.events.onReload',
+						path: 'routes.table.events.onReload',
 					}}
 				/>
 				<RouteViewModal />
@@ -202,7 +202,7 @@ export const ControlPointsHeader = () => {
 					},
 				]}
 			/>
-			<ViewControlPointModal />
+			<ViewModal />
 		</Space>
 	);
 };

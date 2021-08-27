@@ -6,14 +6,11 @@
 
 @import './constants/variables';
 @import './components/Base/PageForm';
-
 @import './components/Catalog/Catalog.less';
-@import './components/RouteMaps/Registry/RouteMaps.less';
+@import './components/RouteMaps/RouteMap/RouteMaps.less';
 @import './components/Detours/Registry/DetoursCalendar.less';
-
 @import './components/Detours/Schedules/Schedules.less';
-
-@import "components/ControlPoints/ControlPoints";
+@import './components/ControlPoints/ControlPoints';
 
 #root {
 	height: 100vh;
@@ -38,7 +35,7 @@
 }
 
 .m-0 {
-	margin: 0
+	margin: 0;
 }
 .m-8 {
 	margin: 8px;
@@ -122,6 +119,9 @@
 .pb-8 {
 	padding-bottom: 8px;
 }
+.pb-16 {
+	padding-bottom: 16px;
+}
 
 .pt-0 {
 	padding-top: 0;
@@ -129,7 +129,6 @@
 .pt-8 {
 	padding-top: 8px;
 }
-
 .pt-16 {
 	padding-top: 16px;
 }
@@ -150,8 +149,6 @@
 
 /* react-calendar-timeline package style*/
 .react-calendar-timeline {
-
-
 	.rct-dateHeader {
 		border-bottom: 0px;
 		border-left: 0px;
@@ -178,8 +175,6 @@
 	background-color: transparent;
 }
 
-
-
 .ant-table-cell:hover .BaseTable__column-resizer {
 	visibility: visible;
 	opacity: 0.5;
@@ -189,6 +184,6 @@
 	color: white;
 }
 
-.resultRouteForm{
-	height:40%;
+.resultRouteForm {
+	height: 40%;
 }

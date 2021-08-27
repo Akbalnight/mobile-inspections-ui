@@ -18,27 +18,27 @@ const version = process && process.env && process.env.REACT_APP_VERSION;
 const DATA_TABLE = {
 	viewOnPanel: true,
 	statusIds: [
-		'e07a6417-840e-4743-a4f0-45da6570743f', // newDetect
-		'ce4e57eb-ae8f-4648-98ec-410808da380e', // atWork
-		'04d98b77-f4c7-46ed-be25-b01b035027fd', // expired
+		'1864073a-bf8d-4df2-b02d-8e5afa63c4d0', // newDetect
+		'879f0adf-0d96-449e-bcee-800f81c4e58d', // atWork
+		'df7d1216-6eb7-4a00-93a4-940047e8b9c0', // expired
 	],
 };
 const DATA_COUNTERS = {
 	newDetect: {
 		viewOnPanel: true,
-		statusId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+		statusId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
 	},
 	atWork: {
 		viewOnPanel: true,
-		statusId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+		statusId: '879f0adf-0d96-449e-bcee-800f81c4e58d',
 	},
 	expired: {
 		viewOnPanel: true,
-		statusId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+		statusId: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
 	},
 	eliminate: {
 		viewOnPanel: true,
-		statusId: '418406b1-8f78-4448-96e1-8caa022fe242',
+		statusId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
 	},
 	detected: {viewOnPanel: true},
 	validInfo: DATA_TABLE,

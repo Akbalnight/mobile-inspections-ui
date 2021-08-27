@@ -14,10 +14,7 @@ import {
 } from '../components/ControlPoints/Form/ControlPoint';
 // Маршруты и Маршрутные карты
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
-import {
-	AddRouteMaps,
-	EditRouteMaps,
-} from '../components/RouteMaps/Registry/RouteMaps';
+import {AddRouteMaps, EditRouteMaps} from '../components/RouteMaps/RouteMaps';
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
 import Schedules from '../components/Detours/Schedules/Schedules';
@@ -247,7 +244,12 @@ export const paths = {
 		title: 'Редактирование маршрутной карты',
 		path: '/detours-configurator/route-maps/:id',
 		component: EditRouteMaps,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',

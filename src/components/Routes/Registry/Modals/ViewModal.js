@@ -53,7 +53,7 @@ export const RouteViewModal = () => {
 			subscribe={[
 				{
 					name: 'openRoutesModal',
-					path: 'rtd.routes.mainForm.table.events.onRowDoubleClick',
+					path: 'rtd.routes.table.events.onRowDoubleClick',
 					onChange: ({value, setModalData, openModal}) => {
 						value && setModalData && setModalData({...value.value});
 						value && openModal();
