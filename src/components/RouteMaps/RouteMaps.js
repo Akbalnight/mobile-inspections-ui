@@ -74,9 +74,9 @@ const RouteMaps = (props) => {
 									// Обновить точки при изменении карты (картинки)
 									// extraData - точки
 									name: 'routeMap',
-									path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+									path: 'rtd.routeMaps.routeMapsTable.selected',
 									extraData:
-										'rtd.routeMaps.mainForm.controlPointsTable.rows',
+										'rtd.routeMaps.controlPointsTable.rows',
 									onChange: onSelectRouteMap,
 								},
 								{
@@ -84,9 +84,9 @@ const RouteMaps = (props) => {
 									// Обновить точки при изменении таблицы с точками
 									// extraData - выбранная карт (картинка)
 									name: 'onChangeControlPoints',
-									path: 'rtd.routeMaps.mainForm.controlPointsTable.rows',
+									path: 'rtd.routeMaps.controlPointsTable.rows',
 									extraData:
-										'rtd.routeMaps.mainForm.routeMapsTable.selected',
+										'rtd.routeMaps.routeMapsTable.selected',
 									onChange: onChangeTablePoints,
 								},
 							]}

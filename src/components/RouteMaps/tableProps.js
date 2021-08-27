@@ -30,7 +30,7 @@ export const RouteMapsTableHeader = ({routeId}) => {
 	useEffect(() => {
 		// console.log('RouteMapsTableHeader useEffect =>', routeId)
 		dispatch(
-			setDataStore('routeMaps.mainForm.routeMapsTable.actions.onReload', {
+			setDataStore('routeMaps.routeMapsTable.events.onReload', {
 				timestamp: moment(),
 			})
 		);
@@ -62,14 +62,14 @@ export const RouteMapsTableHeader = ({routeId}) => {
 					name: 'uploadRouteMaps',
 				}}
 				dispatch={{
-					path: `routeMaps.mainForm.routeMapsTable.routeMapUpload`,
+					path: `routeMaps.routeMapsTable.events.routeMapUpload`,
 					type: 'event',
 				}}
 				requestUploadFile={apiSaveFileByConfigName('routeMapFileSave')}
 				subscribe={[
 					{
 						name: 'makeHidden',
-						path: 'rtd.routeMaps.mainForm.routeMapsTable.actions.onReload',
+						path: 'rtd.routeMaps.routeMapsTable.events.onReload',
 						onChange: ({setSubscribeProps}) => {
 							// /** возможно лишний запрос, через ExtraData ошибка выходит, думаю над упрощением*/
 							loadDataObject((v) =>
@@ -84,13 +84,13 @@ export const RouteMapsTableHeader = ({routeId}) => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+					path: 'routeMaps.routeMapsTable.events.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+						path: 'rtd.routeMaps.routeMapsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
@@ -105,13 +105,13 @@ export const RouteMapsTableHeader = ({routeId}) => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path: 'routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+					path: 'routeMaps.routeMapsTable.events.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+						path: 'rtd.routeMaps.routeMapsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
