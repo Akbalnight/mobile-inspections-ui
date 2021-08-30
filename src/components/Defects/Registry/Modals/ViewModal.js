@@ -12,19 +12,15 @@ import {HistoryTab, HistoryTabFields} from './Tabs/historyFields';
 import {FormBody, Tabs, TabPane, Modal} from 'rt-design';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {codeNormalizer, emptyToNd} from '../../../Base/Functions/TextUtils';
-import {paths} from '../../../../constants/paths';
-import {useHistory} from 'react-router';
+import {GetCurrentMode} from '../../tableProps';
 
 /**
  * Карточка информации дефекта
  */
 
 export const DefectCardInfoModal = () => {
-	const history = useHistory();
 	let sRow;
-	let historyChange =
-		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
-	const currentMode = historyChange ? 'defects' : 'panelProblems';
+	const currentMode = GetCurrentMode();
 	const loadData = async (callBack, row) => {
 		sRow = row;
 		const defectHistoryResponse = await selectRowsById(

@@ -88,7 +88,7 @@ export const Signage = () => {
 		loadCounters().then((r) => r);
 		setInterval(() => {
 			dispatch(
-				setDataStore('defects.defectsSignage.events.onReload', {
+				setDataStore('defects.signageTable.events.onReload', {
 					timestamp: moment(),
 				})
 			);
@@ -253,7 +253,7 @@ export const Signage = () => {
 						subscribe={[
 							{
 								name: 'onSearch',
-								path: 'rtd.defects.defectsSignage.events.onReload',
+								path: 'rtd.defects.signageTable.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},

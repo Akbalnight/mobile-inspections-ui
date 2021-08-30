@@ -62,14 +62,14 @@ export const InfoTabFields = () => {
 					}}
 					onChange={handleCheckbox}
 					dispatch={{
-						path: 'defects.defectTable.modal.checkbox',
+						path: `${currentMode}.table.data.checkboxToSap`,
 						// type:'event'
 					}}
 					subscribe={[
 						{
 							name: 'unDisabled',
 							withMount: true,
-							path: 'rtd.defects.defectTable.table.selected',
+							path: `rtd.${currentMode}.table.selected`,
 							onChange: ({value, setSubscribeProps}) => {
 								if (
 									value &&
@@ -93,7 +93,7 @@ export const InfoTabFields = () => {
 						},
 						{
 							name: 'saveCheckbox',
-							path: 'rtd.defects.defectTable.modal.checkbox',
+							path: `rtd.${currentMode}.table.data.checkboxToSap`,
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&

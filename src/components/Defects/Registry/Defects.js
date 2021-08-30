@@ -6,7 +6,11 @@ import {
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
 import {useHistory} from 'react-router';
-import {customColumnProps, MainTableHeader} from '../tableProps';
+import {
+	customColumnProps,
+	GetCurrentMode,
+	MainTableHeader,
+} from '../tableProps';
 import {paths} from '../../../constants/paths';
 import './Defects.less';
 
@@ -19,14 +23,7 @@ import './Defects.less';
  */
 
 export default function Defects() {
-	const history = useHistory();
-
-	/**
-	 * historyChange не уверен в корректоности такой замены по файлу
-	 */
-	let historyChange =
-		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
-	const currentMode = historyChange ? 'defects' : 'panelProblems';
+	const currentMode = GetCurrentMode();
 
 	return (
 		<BasePage>
@@ -120,7 +117,7 @@ export default function Defects() {
 								{
 									/** Обработчик события отправки дефектов в SAP */
 									name: 'onSendToSap',
-									path: `rtd.${currentMode}.table.events.onSendToSapModal`,
+									path: `rtd.${currentMode}.table.events.onSendToSap`,
 									extraData: {
 										filter: `rtd.${currentMode}.table.data`,
 										searchValue: `rtd.${currentMode}.table.events.onSearch`,
