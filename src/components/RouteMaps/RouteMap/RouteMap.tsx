@@ -26,7 +26,7 @@ const RouteMap = withStore((props) => {
 				<MarkersLayer
 					itemProps={{name: 'routeMapPoints'}}
 					dispatch={{
-						path: 'routeMaps.mainForm.routeMapPoints.onChange',
+						path: 'routeMaps.data.routeMapPoints',
 					}}
 					points={existPoints}
 					bounds={bounds}

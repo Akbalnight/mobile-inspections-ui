@@ -28,6 +28,7 @@ import {apiSaveByConfigName} from '../../apis/catalog.api';
 import {useDispatch} from 'react-redux';
 import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';
+import {changeStorePath} from '../Base/Functions/ChangeStorePath';
 
 /**
  *
@@ -59,14 +60,14 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 		return (
 			<Button
 				className={['ant-btn-icon-only']}
-				dispatch={{
-					path: `${mainWay}.${catalogName}Table.events.onClickEdit`,
-				}}
 				disabled={true}
 				subscribe={[
 					{
 						name: 'btnActive',
-						path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+						path: `rtd.${changeStorePath(
+							mainWay,
+							catalogName
+						)}.selected`,
 						onChange: ({value, setSubscribeProps}) => {
 							if (value && !value.isGroup) {
 								sValueId = value.id;
@@ -119,7 +120,10 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						/** Action search activate btn*/
 						{
 							name: 'onSearchPush',
-							path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.onSearch`,
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&
@@ -129,7 +133,10 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						/** Action reload in mainForm.table deactivate btn*/
 						{
 							name: 'onReloadPush',
-							path: `rtd.${mainWay}.${catalogName}Table.table.rows`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.rows`,
 							onChange: ({value, setSubscribeProps}) => {
 								/** We might thinking about ${path}.rows array length*/
 
@@ -141,7 +148,10 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						},
 					]}
 					dispatch={{
-						path: `${mainWay}.${catalogName}Table.table.events.onReload`,
+						path: `${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`,
 					}}
 				/>
 				<CustomObjectView
@@ -155,12 +165,18 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 				itemProps={{name: 'onSearch'}}
 				placeholder={'Введите наименование'}
 				dispatch={{
-					path: `${mainWay}.${catalogName}Table.table.events.onSearch`,
+					path: `${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onSearch`,
 				}}
 				subscribe={[
 					/** Reload Search value field, clear STORE*/
 					reloadFilterFields(
-						`${mainWay}.${catalogName}Table.table.events.onReload`
+						`${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`
 					),
 				]}
 			/>
@@ -180,10 +196,9 @@ const RfidCode = ({rowData, cellData}) => {
 			.then((res) => {
 				notification.success({message: 'Метка успешно удалена'});
 				dispatch(
-					setDataStore(
-						'controlPoints.controlPointsTable.table.events.onReload',
-						{timestamp: moment()}
-					)
+					setDataStore(`controlPoints.table.events.onReload`, {
+						timestamp: moment(),
+					})
 				);
 			})
 			.catch(notificationError);
@@ -264,7 +279,6 @@ export const techMapsTableCustom = (controlPointId) => {
 			name: 'techMapId',
 			value: (row) => row.id,
 			validate: (row, rows) => {
-				// console.log('row tech maps selected:', row)
 				return !row.isGroup
 					? !rows.map((row) => row.techMapId).includes(row.id)
 					: false;

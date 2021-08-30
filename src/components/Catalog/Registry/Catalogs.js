@@ -8,6 +8,7 @@ import {
 
 import {customColumnPropsEquipments} from '../tableProps';
 import {TableHeader} from '../../Base/TableHeader';
+import {changeStorePath} from '../../Base/Functions/ChangeStorePath';
 
 export const Catalogs = (props) => {
 	const {mainWay, catalogName, hierarchical, unique} = props;
@@ -25,7 +26,9 @@ export const Catalogs = (props) => {
 					searchParamName={
 						catalogName !== 'staff' ? 'name' : 'username'
 					}
-					dispatch={{path: `${mainWay}.${catalogName}Table.table`}}
+					dispatch={{
+						path: `${changeStorePath(mainWay, catalogName)}`,
+					}}
 					requestLoadRows={
 						hierarchical
 							? apiGetHierarchicalDataByConfigName(catalogName)
@@ -37,7 +40,10 @@ export const Catalogs = (props) => {
 						/** Action add object*/
 						{
 							name: 'onAddModal',
-							path: `rtd.${mainWay}.${catalogName}Table.modal.events.addOnModal`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.addOnModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -45,7 +51,10 @@ export const Catalogs = (props) => {
 						/** Action edit object*/
 						{
 							name: 'onEditModal',
-							path: `rtd.${mainWay}.${catalogName}Table.modal.events.editOnModal`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.editOnModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -53,7 +62,10 @@ export const Catalogs = (props) => {
 						/** Action add group of object*/
 						{
 							name: 'onAddGroupModal',
-							path: `rtd.${mainWay}.${catalogName}Table.modal.events.addOnGroupModal`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.addOnGroupModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -61,7 +73,10 @@ export const Catalogs = (props) => {
 						/** Action edit group of object*/
 						{
 							name: 'onEditGroupModal',
-							path: `rtd.${mainWay}.${catalogName}Table.modal.events.editOnGroupModal`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.editOnGroupModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -70,7 +85,10 @@ export const Catalogs = (props) => {
 						/** We won't have a decision for this question*/
 						{
 							name: 'onDeleteModal',
-							path: `rtd.${mainWay}.${catalogName}Table.modal.events.deleteOnModal`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.deleteOnModal`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},
@@ -78,7 +96,10 @@ export const Catalogs = (props) => {
 						/** Action search by name*/
 						{
 							name: 'onSearch',
-							path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.onSearch`,
 							onChange: ({value, reloadTable}) => {
 								reloadTable({searchValue: value});
 							},
@@ -86,7 +107,10 @@ export const Catalogs = (props) => {
 						/** Action reload table after search*/
 						{
 							name: 'onReload',
-							path: `rtd.${mainWay}.${catalogName}Table.table.events.onReload`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.onReload`,
 							onChange: ({reloadTable}) => {
 								reloadTable({});
 							},

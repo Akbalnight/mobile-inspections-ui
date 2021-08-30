@@ -6,6 +6,7 @@ import {
 } from '../../../apis/catalog.api';
 import React from 'react';
 import {itemsInfo} from '../../../constants/dictionary';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -59,25 +60,29 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 						method: type === 'add' ? 'POST' : 'PUT',
 						data: {...data, isGroup: true},
 						params,
-					}), //не забыть поставить
+					}),
 				form: {
 					name: `${type}GroupModalForm`,
 					loadInitData: loadData,
-					onFinish: (values) => {
-						//console.log('values', values);
-					},
+
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
 				},
 			}}
 			dispatch={{
-				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnGroupModal`,
+				path: `${changeStorePath(
+					mainWay,
+					catalogName
+				)}.events.${type}OnGroupModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&

@@ -39,27 +39,26 @@ export const DeleteDetour = ({catalogName, unique}) => {
 					</span>
 				),
 				width: 420,
-				// bodyStyle: {height: 200},
 				okText: 'Удалить',
 				requestSaveRow: ({method, data, params}) =>
 					apiSaveByConfigName(`${catalogName}Save`)({
 						method: 'PUT',
 						data: {...data, id: sRow.id, deleted: true},
 						params,
-					}), //не забыть поставить
+					}),
 				form: {
 					name: `${catalogName}ModalForm`,
 					loadInitData: loadData,
 				},
 			}}
 			dispatch={{
-				path: `${catalogName}.mainForm.table.events.deleteOnModal`,
+				path: `${catalogName}.table.events.deleteOnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.detours.mainForm.table.selected`,
+					path: `rtd.detours.table.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						setButtonProps && setButtonProps({disabled: !value});

@@ -18,8 +18,8 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../../apis/catalog.api';
 
-export const AddControlPointToRoute = () => OperationOnLocal('add');
-export const EditControlPointToRoute = () => OperationOnLocal('edit');
+export const AddControlPointToRoute = () => operationOnLocal('add');
+export const EditControlPointToRoute = () => operationOnLocal('edit');
 
 /**
  *
@@ -27,9 +27,8 @@ export const EditControlPointToRoute = () => OperationOnLocal('edit');
  * @returns {JSX.object}
  * @desc function change row in RouteForm.js controlPointTable
  */
-const OperationOnLocal = (type) => {
+const operationOnLocal = (type) => {
 	let sRow;
-	const toCapitalize = type[0].toUpperCase() + type.substring(1);
 
 	const loadData = (callBack, row) => {
 		sRow = {...row};
@@ -90,7 +89,7 @@ const OperationOnLocal = (type) => {
 			subscribe={[
 				{
 					name: `${type}ControlPointModal`,
-					path: 'rtd.routes.routeForm.controlPointsTable.table.selected',
+					path: 'rtd.routes.form.controlPointsTable.selected',
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type === 'edit' &&
@@ -103,7 +102,7 @@ const OperationOnLocal = (type) => {
 				},
 			]}
 			dispatch={{
-				path: `routes.routeForm.controlPointsTable.modal.events.on${toCapitalize}Row`,
+				path: `routes.form.controlPointsTable.events.${type}OnModal`,
 				type: 'event',
 			}}
 		>
@@ -125,7 +124,7 @@ const OperationOnLocal = (type) => {
 						children: option.children,
 					})}
 					dispatch={{
-						path: 'routes.routeForm.controlPointsTable.modal.controlPointSelect',
+						path: 'routes.form.controlPointsTable.data.controlPointSelect',
 					}}
 				/>
 				<Title level={5} label={'Оборудование'} className={'my-16'} />
@@ -140,7 +139,7 @@ const OperationOnLocal = (type) => {
 						subscribe={[
 							{
 								name: 'controlPointEquipments',
-								path: 'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
+								path: 'rtd.routes.form.controlPointsTable.data.controlPointSelect',
 								onChange: ({value, reloadTable}) => {
 									value &&
 										reloadTable &&
@@ -174,14 +173,14 @@ const OperationOnLocal = (type) => {
 						label: option.name,
 					})}
 					dispatch={{
-						path: 'routes.routeForm.controlPointsTable.modal.techMapSelect',
+						path: 'routes.form.controlPointsTable.data.techMapSelect',
 					}}
 					subscribe={[
 						/** Эта подписка не работает, фильтр обновляется по requestLoadRows*/
 						{
 							name: 'controlPointTechMaps',
 							// withMount: true,
-							path: 'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
+							path: 'rtd.routes.form.controlPointsTable.data.controlPointSelect',
 							onChange: ({value, setSubscribeProps}) => {
 								// console.log('1111',value)
 								value &&
@@ -209,12 +208,12 @@ const OperationOnLocal = (type) => {
 							'techOperationsSmall'
 						)}
 						dispatch={{
-							path: 'routes.routeForm.controlPointsTable.modal.techOperationTable',
+							path: 'routes.form.controlPointsTable.data.table',
 						}}
 						subscribe={[
 							{
 								name: 'controlPointTechMaps',
-								path: 'rtd.routes.routeForm.controlPointsTable.modal.techMapSelect',
+								path: 'rtd.routes.form.controlPointsTable.data.techMapSelect',
 								onChange: ({value, reloadTable}) => {
 									value &&
 										reloadTable &&
@@ -241,7 +240,7 @@ const OperationOnLocal = (type) => {
 										subscribe={[
 											{
 												name: 'techMapTechOperation',
-												path: 'rtd.routes.routeForm.controlPointsTable.modal.techOperationTable.rows',
+												path: 'rtd.routes.form.controlPointsTable.data.table.rows',
 												onChange: ({
 													value,
 													setSubscribeProps,
@@ -271,7 +270,7 @@ const OperationOnLocal = (type) => {
 					subscribe={[
 						{
 							name: 'takeANameCP',
-							path: 'rtd.routes.routeForm.controlPointsTable.modal.controlPointSelect',
+							path: 'rtd.routes.form.controlPointsTable.data.controlPointSelect',
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									apiGetFlatDataByConfigName('controlPoints')(
@@ -300,7 +299,7 @@ const OperationOnLocal = (type) => {
 					subscribe={[
 						{
 							name: 'takeANameTM',
-							path: 'rtd.routes.routeForm.controlPointsTable.modal.techMapSelect',
+							path: 'rtd.routes.form.controlPointsTable.data.techMapSelect',
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									apiGetFlatDataByConfigName('techMaps')({

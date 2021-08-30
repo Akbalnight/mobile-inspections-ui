@@ -50,7 +50,7 @@ const RouteMapsTable = ({routeId}: {routeId: string}) => {
 			requestLoadRows={apiGetFlatDataByConfigName('routeMaps')}
 			requestLoadConfig={apiGetConfigByName('routeMaps')}
 			dispatch={{
-				path: 'routeMaps.mainForm.routeMapsTable',
+				path: 'routeMaps.routeMapsTable',
 			}}
 			subscribe={[
 				/** Action reload table after select Route in Select*/
@@ -63,40 +63,40 @@ const RouteMapsTable = ({routeId}: {routeId: string}) => {
 				/** Action reload table after upload file */
 				{
 					name: 'routeMapUpload',
-					path: `rtd.routeMaps.mainForm.routeMapsTable.routeMapUpload`,
-					extraData: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+					path: `rtd.routeMaps.routeMapsTable.events.routeMapUpload`,
+					// extraData: 'rtd.routeMaps.mainForm.events.onSelectRoute',
 					onChange: onRouteMapUpload,
+				},
+				/** Action change row position in table */
+				{
+					name: 'editFileName',
+					path: 'rtd.routeMaps.routeMapsTable.events.editFileName',
+					onChange: onEditFileName,
 				},
 				/** Action change state after push on Button */
 				{
 					name: 'onClickMoveUp',
-					path: 'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveUp',
+					path: 'rtd.routeMaps.routeMapsTable.events.onClickMoveUp',
 					onChange: ({moveUpRow}) => moveUpRow(),
 				},
 				/** Action change state after push on Button */
 				{
 					name: 'onClickMoveDown',
-					path: 'rtd.routeMaps.mainForm.routeMapsTable.actions.onClickMoveDown',
+					path: 'rtd.routeMaps.routeMapsTable.events.onClickMoveDown',
 					onChange: ({moveDownRow}) => moveDownRow(),
 				},
 
 				/** Action change row position in table */
 				{
 					name: 'onMoveUpRow',
-					path: 'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveUpRow',
+					path: 'rtd.routeMaps.routeMapsTable.events.onMoveUpRow',
 					onChange: onMoveUpRow,
 				},
 				/** Action change row position in table */
 				{
 					name: 'onMoveDownRow',
-					path: 'rtd.routeMaps.mainForm.routeMapsTable.events.onMoveDownRow',
+					path: 'rtd.routeMaps.routeMapsTable.events.onMoveDownRow',
 					onChange: onMoveDownRow,
-				},
-				/** Action change row position in table */
-				{
-					name: 'editFileName',
-					path: 'rtd.routeMaps.mainForm.routeMapsTable.modal.editFileName',
-					onChange: onEditFileName,
 				},
 			]}
 		/>

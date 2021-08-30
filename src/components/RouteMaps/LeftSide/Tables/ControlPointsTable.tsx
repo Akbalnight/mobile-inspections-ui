@@ -58,29 +58,29 @@ const ControlPointsTable = ({routeId}: {routeId: string}) => {
 			)}
 			requestLoadConfig={apiGetConfigByName('routeControlPointsDebug')}
 			dispatch={{
-				path: 'routeMaps.mainForm.controlPointsTable',
+				path: 'routeMaps.controlPointsTable',
 			}}
 			subscribe={[
 				/** Action reload table after select Route in Select*/
 				// {
 				// 	name: 'controlPointTable',
 				// 	withMount: true,
-				// 	path: 'rtd.routeMaps.mainForm.events.onSelectRoute',
+				// 	path: 'rtd.routeMaps.controlPointsTable.events.onSelectRoute',
 				// 	onChange: onSelectRoute,
 				// },
 				/** Action change table state by click on table*/
 				{
 					// Изменить таблицу с точками по клику на таблицу с точками
 					name: 'onSelectedControlPoint',
-					path: 'rtd.routeMaps.mainForm.controlPointsTable.events.onRowClick',
-					extraData: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+					path: 'rtd.routeMaps.controlPointsTable.events.onRowClick',
+					extraData: 'rtd.routeMaps.routeMapsTable.selected',
 					onChange: onSelectedControlPoint,
 				},
 				/** Action change table rows value*/
 				{
 					// Изменить таблицу с точками по изменению на карте (картинке)
 					name: 'onChangeRouteMapPoints',
-					path: 'rtd.routeMaps.mainForm.routeMapPoints.onChange',
+					path: 'rtd.routeMaps.data.routeMapPoints',
 					onChange: onChangeRouteMapPoints,
 				},
 			]}

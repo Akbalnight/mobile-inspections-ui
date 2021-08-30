@@ -33,6 +33,7 @@ import React from 'react';
 import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -288,7 +289,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												`${catalogName}FilesCatalogSave`
 											)}
 											dispatch={{
-												path: `${mainWay}.${catalogName}Table.modal.warrantyUpload`,
+												path: `${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.warrantyUpload`,
 												type: 'event',
 											}}
 											subscribe={[
@@ -316,7 +320,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										subscribe={[
 											{
 												name: 'warrantyUploadFile',
-												path: `rtd.${mainWay}.${catalogName}Table.modal.warrantyUpload`,
+												path: `rtd.${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.warrantyUpload`,
 												onChange: ({
 													setSubscribeProps,
 												}) => {
@@ -368,7 +375,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												title: 'Загрузить',
 											}}
 											dispatch={{
-												path: `${mainWay}.${catalogName}Table.modal.attachmentUpload`,
+												path: `${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.attachmentUpload`,
 												type: 'event',
 											}}
 											subscribe={[
@@ -395,9 +405,11 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										}}
 										subscribe={[
 											{
-												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'attachmentUploadFile',
-												path: `rtd.${mainWay}.${catalogName}Table.modal.attachmentUpload`,
+												path: `rtd.${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.attachmentUpload`,
 												onChange: ({
 													setSubscribeProps,
 												}) => {
@@ -412,9 +424,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 														params: {size: 1},
 													})
 														.then((response) => {
-															// console.log('warranty response.data:', response.data)
 															setSubscribeProps({
-																// warrantyPreviewFiles: normalizePreviewFiles(response.data),
 																attachmentPreviewFiles:
 																	response.data,
 															});
@@ -609,7 +619,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 			subscribe={[
 				{
 					name: `${catalogName}ModalInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.events.onRowDoubleClick`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

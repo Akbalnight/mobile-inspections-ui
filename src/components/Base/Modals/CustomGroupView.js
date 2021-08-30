@@ -1,6 +1,7 @@
 import {Modal, FormBody, Text} from 'rt-design';
 import React from 'react';
 import {itemsInfo} from '../../../constants/dictionary';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -27,7 +28,10 @@ export const CustomGroupView = ({mainWay, catalogName}) => {
 			subscribe={[
 				{
 					name: `${catalogName}ModalInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.events.onRowDoubleClick`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

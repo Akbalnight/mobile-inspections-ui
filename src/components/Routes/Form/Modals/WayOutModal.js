@@ -91,7 +91,7 @@ export const WayOutModal = () => {
 				subscribe={[
 					{
 						name: `wayOutModal`,
-						path: 'rtd.routes.routeForm.data',
+						path: 'rtd.routes.form.data',
 						onChange: ({value, setModalData, setButtonProps}) => {
 							value &&
 								value.name !== null &&
