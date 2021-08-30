@@ -6,8 +6,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 } from '../../../apis/catalog.api';
 
-import {customColumnPropsEquipments} from '../tableProps';
-import {TableHeader} from '../../Base/TableHeader';
+import {customColumnPropsEquipments, TableHeader} from '../tableProps';
 import {changeStorePath} from '../../Base/Functions/ChangeStorePath';
 
 export const Catalogs = (props) => {

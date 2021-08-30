@@ -1,4 +1,4 @@
 export const changeStorePath = (mainWay, catalogName) =>
 	mainWay !== catalogName
-		? `${mainWay}.${catalogName}Table.table`
+		? `${mainWay}.${catalogName}Table`
 		: `${catalogName}.table`;

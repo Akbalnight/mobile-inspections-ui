@@ -16,7 +16,7 @@ import {
 } from 'rt-design';
 import {Access} from 'mobile-inspections-base-ui';
 import React from 'react';
-import {StatusIcon} from '../../tableProps';
+import {GetCurrentMode, StatusIcon} from '../../tableProps';
 
 /**
  *
@@ -26,7 +26,7 @@ export const EditDefectCard = ({catalogName}) =>
 	OperationOnServer(catalogName, 'edit', {});
 
 const OperationOnServer = (catalogName, type) => {
-	// console.log('catalogName on server:', catalogName)
+	const currentMode = GetCurrentMode();
 	const loadData = (callBack, row) => {
 		callBack(row);
 	};
@@ -194,7 +194,6 @@ const OperationOnServer = (catalogName, type) => {
 			</>
 		);
 	};
-
 	return (
 		<Modal
 			title={'Редактровать дефект'}
@@ -235,7 +234,7 @@ const OperationOnServer = (catalogName, type) => {
 			subscribe={[
 				{
 					name: 'editForm',
-					path: 'rtd.defects.defectTable.table.selected',
+					path: `rtd.${currentMode}.table.selected`,
 					extraData: 'auth.roles',
 					onChange: ({
 						value,

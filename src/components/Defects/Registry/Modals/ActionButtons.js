@@ -52,7 +52,7 @@ export const ButtonSendToSap = () => {
 					},
 				}}
 				dispatch={{
-					path: 'defects.table.events.onSendToSapModal',
+					path: 'defects.table.events.onSendToSap',
 					// диспатчим туда же, где фильтр таблицы, т.к. перезагрузка таблицы одинаковая
 					// path: 'rtd.defects.defectTable.events.onApplyFilter',
 					type: 'event',
