@@ -4,7 +4,7 @@ import {ReactComponent as DETOURS_CONFIGURATOR} from '../imgs/menu/detours_confi
 // import {ReactComponent as CONTROL_EQUIPMENTS} from '../imgs/menu/control_equipments.svg';
 import {ReactComponent as CONTROL_DEFECTS} from '../imgs/menu/control_defects.svg';
 import {ReactComponent as ANALYTICS} from '../imgs/menu/analytics.svg';
-// import {BugOutlined} from '@ant-design/icons';
+import {BugOutlined} from '@ant-design/icons';
 import {paths} from './paths';
 
 export const menu = [
@@ -26,6 +26,10 @@ export const menu = [
 	// 	...paths.DEBUG_TABLE,
 	// paths.DEBUG_CP_ANTON,
 	// },
+	{
+		icon: BugOutlined,
+		...paths.DEBUG_RABBIT,
+	},
 	// {
 	// 	icon: BugOutlined,
 	// 	...paths.DEBUG_MARSEL,
