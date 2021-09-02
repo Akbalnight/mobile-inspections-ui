@@ -29,7 +29,7 @@ const Analytics = ({analyticId}) => {
 			split='vertical'
 			minSize={300}
 			maxSize={500}
-			defaultSize={350}
+			defaultSize={400}
 			pane2Style={{overflow: 'auto'}}
 		>
 			<div className={'analyticsConfig'}>

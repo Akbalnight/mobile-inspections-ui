@@ -1,9 +1,10 @@
 import React from 'react';
-import {Form, FormBody, Layout, Table, Title, List} from 'rt-design';
+import {Form, FormBody, Layout, Space, Button, Title, List} from 'rt-design';
 import {Link, useLocation} from 'react-router-dom';
 import {paths} from '../../../constants/paths';
 import {analyticConfigs} from '../Registry/analyticConfigs';
 import {TemplatesForm} from './Tables/TemplatesForm';
+import {cpus} from 'os';
 
 export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 	let {pathname} = useLocation();
@@ -39,15 +40,28 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 		</>
 	);
 
+	const footer = analyticId ? (
+		<Space
+			className={'p-8'}
+			style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}
+		>
+			<Button>Сбросить</Button>
+			<Button type={'primary'} htmlType={'submit'}>
+				Сформировать
+			</Button>
+		</Space>
+	) : null;
+
 	return (
 		<Form name={'configForm'} loadInitData={loadData}>
 			<FormBody
 				scrollable={false}
 				noPadding={true}
-				// style={{padding: '0 24px 24px 24px'}}
+				style={{padding: '0 24px 24px 24px'}}
 			>
 				{content}
 			</FormBody>
+			{footer}
 		</Form>
 	);
 };
