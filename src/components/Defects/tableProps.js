@@ -10,7 +10,7 @@ import {
 	FieldTimeOutlined,
 	SearchOutlined,
 } from '@ant-design/icons';
-import {checkBox, code, dateTime} from '../Base/customColumnProps';
+import {checkBox, code, dateTimeExcludeSecond} from '../Base/customColumnProps';
 import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
 import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
 import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
@@ -29,7 +29,6 @@ import {
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {useHistory} from 'react-router';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
-import {EditDefectCard} from './Registry/Modals/SaveObjectModal';
 import {ButtonSendToSap} from './Registry/Modals/ActionButtons';
 import {DefectCardInfoModal} from './Registry/Modals/ViewModal';
 import {Access} from 'mobile-inspections-base-ui';
@@ -50,7 +49,6 @@ export const StatusIcon = ({keyToFind, statusId, title = ''}) => {
 	const foundStatus =
 		statusesConfig &&
 		statusesConfig.find((status) => status[keyToFind] === statusId);
-
 	if (foundStatus) {
 		const StatusVariant = foundStatus.statusIconF;
 		return (
@@ -127,11 +125,11 @@ export const MainTableHeader = () => {
 							placeholder={'Поиск по оборудованию'}
 							subscribe={[
 								reloadFilterFields(
-									'defects.defectTable.events.onReload'
+									`${currentMode}.table.events.onReload`
 								),
 							]}
 							dispatch={{
-								path: 'defects.defectTable.events.searchValue',
+								path: `${currentMode}.table.events.onSearch`,
 							}}
 						/>
 						<Button
@@ -142,12 +140,13 @@ export const MainTableHeader = () => {
 							type={'default'}
 							htmlType={'submit'}
 							dispatch={{
-								path: 'defects.defectTable.events.onBtnSearch',
+								path: `${currentMode}.table.events.onSearchStart`,
 							}}
 						/>
 					</div>
 				</Space>
 			</Access>
+
 			<Access
 				roles={[
 					'ROLE_MI_SHIFT_SUPERVISOR',
@@ -163,7 +162,6 @@ export const MainTableHeader = () => {
 					}}
 				>
 					<Space>
-						<EditDefectCard catalogName={currentMode} />
 						{currentMode === 'defects' ? <ButtonSendToSap /> : null}
 						<DefectCardInfoModal />
 					</Space>
@@ -192,39 +190,26 @@ export const MainTableHeader = () => {
 						<div className={'asSearch'}>
 							<Input
 								style={{marginRight: 0}}
-								// т.к. есть кнопка submit ниже - обработка enter не требуется
-								// будет срабатывать событие отправки формы = клик на кнопку
-								// но, вероятно, отправка будет производиться по enter в любом текстовом поле - проверить
-								// onKeyPress={(e) => {
-								//
-								//     if (e.keyCode === 13) {
-								//         searchBtn.current.click();
-								//     }
-								// }}
 								itemProps={{name: 'defectsSearchInput'}}
 								placeholder={'Поиск по оборудованию'}
 								subscribe={[
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 								dispatch={{
-									path:
-										'defects.defectTable.events.searchValue',
+									path: `${currentMode}.table.events.onSearch`,
 								}}
 							/>
 							<Button
-								// ref={searchBtn}
 								itemProps={{
 									name: 'defectsSearchButton',
 								}}
 								icon={<SearchOutlined />}
 								type={'default'}
 								htmlType={'submit'}
-								// event?
 								dispatch={{
-									path:
-										'defects.defectTable.events.onBtnSearch',
+									path: `${currentMode}.table.events.onSearchStart`,
 								}}
 							/>
 						</div>
@@ -253,18 +238,17 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
-									date.startOf('day')
+									date?.startOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.detectStartDate',
+									path: `${currentMode}.table.data.detectStartDate`,
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path:
-											'rtd.defects.defectTable.filter.detectEndDate',
+										path: `rtd.${currentMode}.table.data.detectEndDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -279,7 +263,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -289,18 +273,17 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
-									date.endOf('day')
+									date?.endOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.detectEndDate',
+									path: `${currentMode}.table.data.detectEndDate`,
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path:
-											'rtd.defects.defectTable.filter.detectStartDate',
+										path: `rtd.${currentMode}.table.data.detectStartDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -315,7 +298,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -330,18 +313,17 @@ export const MainTableHeader = () => {
 									label: 'c',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
-									date.startOf('day')
+									date?.startOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.eliminateStartDate',
+									path: `${currentMode}.table.data.eliminateStartDate`,
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path:
-											'rtd.defects.defectTable.filter.eliminateEndDate',
+										path: `rtd.${currentMode}.table.data.eliminateEndDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -356,7 +338,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -366,18 +348,17 @@ export const MainTableHeader = () => {
 									label: 'по',
 									className: 'mb-0',
 								}}
+								format={'DD.MM.YYYY'}
 								onChange={(date, dateString) =>
-									date.endOf('day')
+									date?.endOf('day')
 								}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.eliminateEndDate',
+									path: `${currentMode}.table.data.eliminateEndDate`,
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path:
-											'rtd.defects.defectTable.filter.eliminateStartDate',
+										path: `rtd.${currentMode}.table.data.eliminateStartDate`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -392,7 +373,7 @@ export const MainTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -412,20 +393,14 @@ export const MainTableHeader = () => {
 							mode={'single'}
 							allowClear={true}
 							requestLoadRows={apiGetFlatDataByConfigName(
-								currentMode === 'defects'
-									? 'defectStatusesProcess'
-									: 'panelProblemsStatuses'
+								'defectStatusesProcess'
 							)}
 							optionConverter={(option) => ({
 								label: (
 									<>
 										<StatusIcon
 											statusId={option.id}
-											keyToFind={
-												currentMode === 'defects'
-													? 'statusProcessId'
-													: 'statusPanelId'
-											}
+											keyToFind={'statusProcessId'}
 										/>{' '}
 										<span className={'ml-8'}>
 											{option.name}
@@ -433,19 +408,13 @@ export const MainTableHeader = () => {
 									</>
 								),
 								value: option.id,
-								className: '',
-								disabled: undefined,
 							})}
 							dispatch={{
-								path: `defects.defectTable.filter.${
-									currentMode === 'defects'
-										? 'statusProcessId'
-										: 'statusPanelId'
-								}`,
+								path: `${currentMode}.table.data.statusProcessId`,
 							}}
 							subscribe={[
 								reloadFilterFields(
-									'defects.defectTable.events.onReload'
+									`${currentMode}.table.events.onReload`
 								),
 							]}
 						/>
@@ -471,19 +440,16 @@ export const MainTableHeader = () => {
 								optionConverter={(option) => ({
 									label: <span>{option.name}</span>,
 									value: option.id,
-									className: '',
-									disabled: undefined,
 								})}
 								dispatch={{
-									path:
-										'defects.defectTable.filter.panelPriority',
+									path: `${currentMode}.table.data.panelPriority`,
 								}}
 								subscribe={[
 									/**
 									 * не работает очищение при 'multiple', надо будет продумать.
 									 */
 									reloadFilterFields(
-										'defects.defectTable.events.onReload'
+										`${currentMode}.table.events.onReload`
 									),
 								]}
 							/>
@@ -499,8 +465,8 @@ export const MainTableHeader = () => {
 						itemProps={{name: 'btnDefectFilterApply'}}
 						type={'primary'}
 						dispatch={{
-							path: 'defects.defectTable.events.onApplyFilter',
-							extraData: 'rtd.defects.defectTable.filter',
+							path: `${currentMode}.table.events.onApplyFilter`,
+							extraData: `rtd.${currentMode}.table.data`,
 							type: 'event',
 						}}
 					>
@@ -509,7 +475,7 @@ export const MainTableHeader = () => {
 					<Button
 						itemProps={{name: 'btnDefectFilterClear'}}
 						dispatch={{
-							path: 'defects.defectTable.events.onReload',
+							path: `${currentMode}.table.events.onReload`,
 							type: 'event',
 						}}
 					>
@@ -524,10 +490,10 @@ export const MainTableHeader = () => {
 export const customColumnProps = [
 	// на данный момент оставлю так, если будет потребность в другом формате исправим
 	{...code},
-	{...dateTime('dateDetectDefect')},
-	{...dateTime('dateEliminationPlan')},
-	{...dateTime('dateEliminationFact')},
-	{...dateTime('ts')}, // специально для истории изменений дефектов (в конфиге custom SQL)
+	{...dateTimeExcludeSecond('dateDetectDefect')},
+	{...dateTimeExcludeSecond('dateEliminationPlan')},
+	{...dateTimeExcludeSecond('dateEliminationFact')},
+	{...dateTimeExcludeSecond('ts')}, // специально для истории изменений дефектов (в конфиге custom SQL)
 	{...checkBox('sendedToSap')},
 	{...checkBox('viewOnPanel')},
 	{...checkBox('kpi')},
@@ -541,14 +507,30 @@ export const customColumnProps = [
 			/>
 		),
 	},
+	// {
+	// 	name: 'statusPanelId',
+	// 	cellRenderer: ({rowData}) => (
+	// 		<StatusIcon
+	// 			keyToFind={'statusPanelId'}
+	// 			statusId={rowData.statusPanelId}
+	// 			title={rowData.statusPanelName}
+	// 		/>
+	// 	),
+	// },
 	{
-		name: 'statusPanelId',
+		//  в этой колонке истории использован custom SQL
+		name: 'statusPanelName',
 		cellRenderer: ({rowData}) => (
-			<StatusIcon
-				keyToFind={'statusPanelId'}
-				statusId={rowData.statusPanelId}
-				title={rowData.statusPanelName}
-			/>
+			<>
+				<StatusIcon
+					keyToFind={'statusPanelId'}
+					statusId={rowData.statusPanelId}
+					title={rowData.statusPanelName}
+				/>
+				<span style={{whiteSpace: 'nowrap'}}>
+					{rowData.statusPanelName}
+				</span>
+			</>
 		),
 	},
 	{
@@ -561,7 +543,9 @@ export const customColumnProps = [
 					statusId={rowData.statusProcessId}
 					title={rowData.statusProcessName}
 				/>
-				<span>{rowData.statusProcessName}</span>
+				<span style={{whiteSpace: 'nowrap'}}>
+					{rowData.statusProcessName}
+				</span>
 			</>
 		),
 	},
@@ -580,26 +564,10 @@ export const customColumnProps = [
 			/>
 		),
 	},
-	// {
-	//     name: 'statusPanelId',
-	//     cellRenderer: ({cellData}) => {
-	//         let statusIndicator = statusesConfig.find(
-	//             (el) => el.statusPanelId === cellData
-	//         );
-	//         return statusIndicator ? (
-	//             <div
-	//                 style={{
-	//                     width: 10,
-	//                     height: 10,
-	//                     background: `${statusIndicator.color}`,
-	//                     borderRadius: '50%',
-	//                 }}
-	//             ></div>
-	//         ) : (
-	//             <div>Без статуса</div>
-	//         );
-	//     },
-	// },
+	{
+		name: 'row_number',
+		style: {borderRight: '1px solid rgba(0, 0, 0, 0.09)'},
+	},
 ];
 
 export const statusesConfig = [
@@ -610,7 +578,7 @@ export const statusesConfig = [
 		statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
 		statusIcon: <ThunderboltOutlined />,
 		statusIconF: ThunderboltOutlined,
-		statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
+		// statusPanelId: 'e07a6417-840e-4743-a4f0-45da6570743f',
 		color: '#FF4040',
 	},
 	{
@@ -620,7 +588,7 @@ export const statusesConfig = [
 		statusProcessId: '879f0adf-0d96-449e-bcee-800f81c4e58d',
 		statusIcon: <SettingOutlined />,
 		statusIconF: SettingOutlined,
-		statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
+		// statusPanelId: 'ce4e57eb-ae8f-4648-98ec-410808da380e',
 		color: '#F2C94C',
 	},
 	{
@@ -630,7 +598,7 @@ export const statusesConfig = [
 		statusProcessId: 'df7d1216-6eb7-4a00-93a4-940047e8b9c0',
 		statusIcon: <FieldTimeOutlined />,
 		statusIconF: FieldTimeOutlined,
-		statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
+		// statusPanelId: '04d98b77-f4c7-46ed-be25-b01b035027fd',
 		color: '#e07c04',
 	},
 	{
@@ -640,7 +608,7 @@ export const statusesConfig = [
 		statusProcessId: '16f09a44-11fc-4f82-b7b5-1eb2e812d8fa',
 		statusIcon: <MailOutlined />,
 		statusIconF: MailOutlined,
-		statusPanelId: '418406b1-8f78-4448-96e1-8caa022fe242',
+		// statusPanelId: '418406b1-8f78-4448-96e1-8caa022fe242',
 		color: '#98B8E3',
 	},
 	{
@@ -650,7 +618,7 @@ export const statusesConfig = [
 		statusProcessId: '83b4bbf8-e1da-43d4-8e0d-a973a136eeaa',
 		statusIcon: <CheckOutlined />,
 		statusIconF: CheckOutlined,
-		statusPanelId: '',
+		// statusPanelId: '',
 		color: '#686868',
 	},
 	{
@@ -660,17 +628,17 @@ export const statusesConfig = [
 		statusProcessId: '086d775e-f41b-4af6-86c8-31f340344f47',
 		statusIcon: <CaretRightOutlined />,
 		statusIconF: CaretRightOutlined,
-		statusPanelId: '', // сюда вставить ID четвертого статуса, как он появится
+		// statusPanelId: '', // сюда вставить ID четвертого статуса, как он появится
 		color: '#98B8E3',
 	},
 	{
-		// на расммотрении
+		// на расмотрении
 		priorityId: '',
 		// priorityIcon: <Four />,
 		statusProcessId: '',
 		statusIcon: <QuestionOutlined />,
 		statusIconF: QuestionOutlined,
-		statusPanelId: '3252ec53-44a7-4cfd-ac24-650d85236bd2', // сюда вставить ID четвертого статуса, как он появится
+		// statusPanelId: '3252ec53-44a7-4cfd-ac24-650d85236bd2', // сюда вставить ID четвертого статуса, как он появится
 		color: '#686868',
 	},
 ];

@@ -5,9 +5,11 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {useHistory} from 'react-router';
-import {customColumnProps, MainTableHeader} from '../tableProps';
-import {paths} from '../../../constants/paths';
+import {
+	customColumnProps,
+	GetCurrentMode,
+	MainTableHeader,
+} from '../tableProps';
 import './Defects.less';
 
 /**
@@ -19,14 +21,7 @@ import './Defects.less';
  */
 
 export default function Defects() {
-	const history = useHistory();
-
-	/**
-	 * historyChange не уверен в корректоности такой замены по файлу
-	 */
-	let historyChange =
-		history.location.pathname === paths.CONTROL_DEFECTS_DEFECTS.path;
-	const currentMode = historyChange ? 'defects' : 'panelProblems';
+	const currentMode = GetCurrentMode();
 
 	return (
 		<BasePage>
@@ -44,7 +39,7 @@ export default function Defects() {
 								order: 'desc',
 							}}
 							infinityMode={true}
-							dispatch={{path: 'defects.defectTable.table'}}
+							dispatch={{path: `${currentMode}.table`}}
 							customColumnProps={customColumnProps}
 							requestLoadRows={apiGetFlatDataByConfigName(
 								currentMode
@@ -53,11 +48,10 @@ export default function Defects() {
 							subscribe={[
 								{
 									name: 'onSearch',
-									path: 'rtd.defects.defectTable.events.onBtnSearch',
+									path: `rtd.${currentMode}.table.events.onSearchStart`,
 									extraData: {
-										filter: 'rtd.defects.defectTable.filter',
-										searchValue:
-											'rtd.defects.defectTable.events.searchValue',
+										filter: `rtd..table.data`,
+										searchValue: `rtd.${currentMode}.table.events.onSearch`,
 									},
 									onChange: ({extraData, reloadTable}) => {
 										const searchValue =
@@ -73,17 +67,20 @@ export default function Defects() {
 										};
 										reloadTable({
 											filter: composedFilter,
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
 								/** Событие фильтрации в таблице по параметрам */
 								{
 									name: 'onApplyFilter',
-									path: 'rtd.defects.defectTable.events.onApplyFilter',
+									path: `rtd.${currentMode}.table.events.onApplyFilter`,
 									extraData: {
-										filter: 'rtd.defects.defectTable.filter',
-										searchValue:
-											'rtd.defects.defectTable.events.searchValue',
+										filter: `rtd.${currentMode}.table.data`,
+										searchValue: `rtd.${currentMode}.table.events.onSearch`,
 									},
 									onChange: ({extraData, reloadTable}) => {
 										reloadTable({
@@ -93,28 +90,35 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
 								{
 									/** Обработчик события на кнопку овистить фильтр */
 									name: 'onReload',
-									path: 'rtd.defects.defectTable.events.onReload',
+									path: `rtd.${currentMode}.table.events.onReload`,
 									onChange: ({reloadTable}) => {
 										reloadTable({
 											filter: {},
 											searchValue: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},
 								{
 									/** Обработчик события отправки дефектов в SAP */
 									name: 'onSendToSap',
-									path: 'rtd.defects.defectTable.modal.events.onSendToSapModal',
+									path: `rtd.${currentMode}.table.events.onSendToSap`,
 									extraData: {
-										filter: 'rtd.defects.defectTable.filter',
-										searchValue:
-											'rtd.defects.defectTable.events.onSearch',
+										filter: `rtd.${currentMode}.table.data`,
+										searchValue: `rtd.${currentMode}.table.events.onSearch`,
 									},
 									onChange: ({extraData, reloadTable}) => {
 										reloadTable({
@@ -124,6 +128,10 @@ export default function Defects() {
 											filter: extraData
 												? extraData.filter
 												: '',
+											sortBy: {
+												key: 'dateDetectDefect',
+												order: 'desc',
+											},
 										});
 									},
 								},

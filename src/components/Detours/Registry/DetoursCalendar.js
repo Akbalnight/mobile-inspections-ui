@@ -33,30 +33,29 @@ const Calendar = ({onChange, detours, value}) => {
 			<>
 				{listData &&
 					listData.map((item) => {
-						// console.log(item)
 						const content = (
 							<div key={item.id} className='calendar'>
-								<div>Название: {item.name}</div>
-								<div>Маршрут: {item.routeName}</div>
-								<div>Иcпольнитель: {item.staffName}</div>
+								<div>{`Название: ${item.name}`}</div>
+								<div>{`Маршрут: ${item.routeName}`}</div>
+								<div>{`Иcполнитель: ${item.staffName}`}</div>
+								<div>{`Статус: ${item.statusName}`}</div>
 								<div>
-									Учитывать порядок:
+									{`Начало: ${moment(
+										item.dateStartPlan
+									).format('DD.MM.YYYY HH:mm')}`}
+								</div>
+								<div>
+									{`Окончание: ${moment(
+										item.dateFinishPlan
+									).format('DD.MM.YYYY HH:mm')}`}
+								</div>
+								<div>
+									Учитывать порядок:{' '}
 									<Checkbox
 										checked={item.saveOrderControlPoints}
 										disabled
+										className={'ml-4'}
 									/>
-								</div>
-								<div>
-									Начало:
-									{moment(item.dateStartPlan).format(
-										'DD MMM YY HH:mm:ss'
-									)}
-								</div>
-								<div>
-									Окончание:
-									{moment(item.dateFinishPlan).format(
-										'DD MMM YY HH:mm:ss'
-									)}
 								</div>
 							</div>
 						);
@@ -64,10 +63,10 @@ const Calendar = ({onChange, detours, value}) => {
 							String(value._d).slice(0, 15) ===
 							String(moment(item.dateStartPlan)._d).slice(0, 15)
 						) {
-							console.log(1); // тут проблема, замедлялся рендеринг.
+							// console.log(1); // тут проблема, замедлялся рендеринг.
 							return (
 								<Popover
-									title={value.format('DD MMMM YYYY')}
+									title={value.format('DD.MM.YYYY')}
 									trigger={'hover'}
 									content={content}
 									overlayClassName={`${calendarPrefix}-popover-hover`}
@@ -119,13 +118,13 @@ export default function DetoursCalendar() {
 					itemProps={{name: 'calendarDetours'}}
 					render={Calendar}
 					dispatch={{
-						path: 'detours.mainForm.calendar',
+						path: 'detours.calendar',
 					}}
 					subscribe={[
 						/** Action trigger by calendar*/
 						{
 							name: 'onChangeMonth',
-							path: 'rtd.detours.mainForm.filter.events.month',
+							path: 'rtd.detours.table.data.month',
 							onChange: ({value, setSubscribeProps}) => {
 								setSubscribeProps({value: value});
 							},
@@ -133,7 +132,7 @@ export default function DetoursCalendar() {
 						/** Action search by detour name*/
 						{
 							name: 'onSearch',
-							path: 'rtd.detours.mainForm.table.events.onSearch',
+							path: 'rtd.detours.table.events.onSearch',
 							onChange: ({value, setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {name: value.value},
@@ -155,8 +154,8 @@ export default function DetoursCalendar() {
 						/** Action filter by detour routId, staffId*/
 						{
 							name: 'onApplyFilter',
-							path: 'rtd.detours.mainForm.table.onApplyFilter',
-							extraData: 'rtd.detours.mainForm.filter.events',
+							path: 'rtd.detours.table.events.onApplyFilter',
+							extraData: 'rtd.detours.table.data',
 							onChange: ({extraData, setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {
@@ -191,7 +190,7 @@ export default function DetoursCalendar() {
 						{
 							/** Action on push button Сбросить */
 							name: 'onReload',
-							path: 'rtd.detours.mainForm.filter.events.onReload',
+							path: 'rtd.detours.table.events.onReload',
 							onChange: ({setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {},
@@ -213,8 +212,7 @@ export default function DetoursCalendar() {
 						/** Action add detour*/
 						{
 							name: 'addDetourOnServer',
-							path:
-								'rtd.detours.mainForm.table.events.addOnModal',
+							path: 'rtd.detours.table.events.addOnModal',
 							onChange: ({setSubscribeProps}) => {
 								apiGetFlatDataByConfigName('detours')({
 									data: {},

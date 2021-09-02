@@ -5,21 +5,22 @@ import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
 } from '../../../../../apis/catalog.api';
+import {GetCurrentMode} from '../../../tableProps';
 
 export const FilesTabFields = ({sRow}) => {
+	const currentMode = GetCurrentMode();
 	return (
 		<Layout className={'px-8'}>
 			<Space className={'mb-8'}>
 				<UploadFile
 					itemProps={{
 						name: 'defectUploadFilesHolder', // <- по этому ключу лежит объект с данными для загрузки
-						valuePropName: 'dataObject',
 					}}
 					requestUploadFile={apiSaveFileByConfigName(
 						`defectFilesSave`
 					)}
 					dispatch={{
-						path: 'defects.defectTable.modal.defectFileUpload',
+						path: `${currentMode}.table.data.defectFileUpload`,
 						type: 'event',
 					}}
 				/>
@@ -33,7 +34,7 @@ export const FilesTabFields = ({sRow}) => {
 					{
 						// withMount: true, // можно использовать, если не сработает событие монтирования кнопки
 						name: 'defectFileUploadCustom',
-						path: `rtd.defects.defectTable.modal.defectFileUpload`,
+						path: `rtd.${currentMode}.table.data.defectFileUpload`,
 						onChange: ({setSubscribeProps}) => {
 							apiGetFlatDataByConfigName('defectFiles')({
 								data: {

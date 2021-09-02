@@ -33,6 +33,7 @@ import React from 'react';
 import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -80,10 +81,38 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 		};
 		callBack({
 			...row,
-			warrantyUploadObject: dataObjectWarranty,
-			attachmentUploadObject: dataObjectAttachment,
+			warrantyUploadObject: {dataObject: dataObjectWarranty},
+			attachmentUploadObject: {dataObject: dataObjectAttachment},
 			measuringPoints: row.measuringPoints ? row.measuringPoints : [], //очень некрасивое решение
 		});
+	};
+
+	const AuthSubscription = (componentName, arrOfRole) => {
+		return {
+			name: 'staffRoles',
+			path: 'auth',
+			withMount: true,
+			onChange: ({value, setSubscribeProps}) => {
+				const authRoles = value.roles
+					.replace('[', '')
+					.replace(']', '')
+					.split(', ')
+					.some((el) => arrOfRole.includes(el));
+				value &&
+					setSubscribeProps &&
+					setSubscribeProps(
+						componentName === 'upload'
+							? {
+									buttonProps: {
+										disabled: !authRoles,
+									},
+							  }
+							: {
+									hidden: !authRoles,
+							  }
+					);
+			},
+		};
 	};
 
 	const BtnEdit = (props) => {
@@ -94,27 +123,7 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 					onClick={() => {
 						history.push(props.historyPath + '/' + sRow.id);
 					}}
-					subscribe={[
-						{
-							name: 'staffRoles',
-							withMount: true,
-							path: `auth`,
-							onChange: ({value, setSubscribeProps}) => {
-								const authRoles = value.roles
-									.replace('[', '')
-									.replace(']', '')
-									.split(', ')
-									.some((el) =>
-										controlPointRoles.includes(el)
-									);
-								value &&
-									setSubscribeProps &&
-									setSubscribeProps({
-										hidden: !authRoles,
-									});
-							},
-						},
-					]}
+					subscribe={[AuthSubscription('button', controlPointRoles)]}
 				>
 					Редактировать
 				</Button>
@@ -242,12 +251,17 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 									/>
 								</Layout>
 							</TabPane>
-							<TabPane tab={<WarrantyTab />} key={'warranty'}>
+							<TabPane
+								tab={<WarrantyTab />}
+								key={'warranty'}
+								scrollable={true}
+							>
 								<Layout>
 									<Space
 										style={{
 											justifyContent: 'space-between',
 										}}
+										className={'mr-8'}
 									>
 										<DateText
 											itemProps={{
@@ -270,42 +284,22 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										<UploadFile
 											itemProps={{
 												name: 'warrantyUploadObject',
-												valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
 											)}
 											dispatch={{
-												path: `${mainWay}.${catalogName}Table.modal.warrantyUpload`,
+												path: `${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.warrantyUpload`,
 												type: 'event',
 											}}
 											subscribe={[
-												{
-													name: 'staffRoles',
-													path: 'auth',
-													withMount: true,
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
-																)
-															);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																buttonProps: {
-																	disabled: !authRoles,
-																},
-															});
-													},
-												},
+												AuthSubscription(
+													'upload',
+													catalogRoles
+												),
 											]}
 										/>
 									</Space>
@@ -326,7 +320,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										subscribe={[
 											{
 												name: 'warrantyUploadFile',
-												path: `rtd.${mainWay}.${catalogName}Table.modal.warrantyUpload`,
+												path: `rtd.${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.warrantyUpload`,
 												onChange: ({
 													setSubscribeProps,
 												}) => {
@@ -360,13 +357,16 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 							<TabPane
 								tab={<AttachmentsTab />}
 								key={'attachments'}
+								scrollable={true}
 							>
 								<Layout>
-									<Space style={{justifyContent: 'flex-end'}}>
+									<Space
+										style={{justifyContent: 'flex-end'}}
+										className={'mr-8'}
+									>
 										<UploadFile
 											itemProps={{
 												name: 'attachmentUploadObject',
-												valuePropName: 'dataObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
 												`${catalogName}FilesCatalogSave`
@@ -375,36 +375,17 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												title: 'Загрузить',
 											}}
 											dispatch={{
-												path: `${mainWay}.${catalogName}Table.modal.attachmentUpload`,
+												path: `${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.attachmentUpload`,
 												type: 'event',
 											}}
 											subscribe={[
-												{
-													name: 'staffRoles',
-													path: 'auth',
-													withMount: true,
-													onChange: ({
-														value,
-														setSubscribeProps,
-													}) => {
-														const authRoles = value.roles
-															.replace('[', '')
-															.replace(']', '')
-															.split(', ')
-															.some((el) =>
-																catalogRoles.includes(
-																	el
-																)
-															);
-														value &&
-															setSubscribeProps &&
-															setSubscribeProps({
-																buttonProps: {
-																	disabled: !authRoles,
-																},
-															});
-													},
-												},
+												AuthSubscription(
+													'upload',
+													catalogRoles
+												),
 											]}
 										/>
 									</Space>
@@ -424,9 +405,11 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 										}}
 										subscribe={[
 											{
-												// withMount: true, // сейчас срабатывает по событию монтирования кнопки
 												name: 'attachmentUploadFile',
-												path: `rtd.${mainWay}.${catalogName}Table.modal.attachmentUpload`,
+												path: `rtd.${changeStorePath(
+													mainWay,
+													catalogName
+												)}.data.attachmentUpload`,
 												onChange: ({
 													setSubscribeProps,
 												}) => {
@@ -438,12 +421,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 																sRow.id,
 															type: 'attachment',
 														},
-														// params: {size: 50},
+														params: {size: 1},
 													})
 														.then((response) => {
-															// console.log('warranty response.data:', response.data)
 															setSubscribeProps({
-																// warrantyPreviewFiles: normalizePreviewFiles(response.data),
 																attachmentPreviewFiles:
 																	response.data,
 															});
@@ -638,7 +619,10 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 			subscribe={[
 				{
 					name: `${catalogName}ModalInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.events.onRowDoubleClick`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						value &&
 							setModalData &&

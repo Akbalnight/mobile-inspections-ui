@@ -24,7 +24,7 @@ const TechMaps = () => {
 					<Table
 						customColumnProps={mainCustomColumnProps}
 						searchParamName={'name'}
-						dispatch={{path: 'techMaps.techMapsTable.table'}}
+						dispatch={{path: 'techMaps.table'}}
 						requestLoadRows={apiGetHierarchicalDataByConfigName(
 							'techMaps'
 						)}
@@ -33,7 +33,7 @@ const TechMaps = () => {
 							/** Action add group of object*/
 							{
 								name: 'addOnGroupModal',
-								path: `rtd.techMaps.techMapsTable.modal.events.addOnGroupModal`,
+								path: `rtd.techMaps.table.events.addOnGroupModal`,
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
@@ -41,7 +41,7 @@ const TechMaps = () => {
 							/** Action edit group of object*/
 							{
 								name: 'editOnGroupModal',
-								path: `rtd.techMaps.techMapsTable.modal.events.editOnGroupModal`,
+								path: `rtd.techMaps.table.events.editOnGroupModal`,
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
@@ -49,7 +49,7 @@ const TechMaps = () => {
 							/**Action search*/
 							{
 								name: 'searchOnTable',
-								path: `rtd.techMaps.techMapsTable.table.events.onSearch`,
+								path: `rtd.techMaps.table.events.onSearch`,
 								onChange: ({value, reloadTable}) => {
 									reloadTable({
 										searchValue: value,
@@ -59,8 +59,7 @@ const TechMaps = () => {
 							/**Action reload*/
 							{
 								name: 'onReload',
-								path:
-									'rtd.techMaps.techMapsTable.table.events.onReload',
+								path: 'rtd.techMaps.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},

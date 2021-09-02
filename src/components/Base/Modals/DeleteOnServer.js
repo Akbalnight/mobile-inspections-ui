@@ -3,6 +3,7 @@ import {DeleteOutlined} from '@ant-design/icons';
 import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -55,13 +56,19 @@ export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
 				},
 			}}
 			dispatch={{
-				path: `${mainWay}.${catalogName}Table.modal.events.deleteOnModal`,
+				path: `${changeStorePath(
+					mainWay,
+					catalogName
+				)}.events.deleteOnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						setButtonProps && setButtonProps({disabled: !value});

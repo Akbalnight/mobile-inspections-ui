@@ -4,18 +4,26 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.6.1",
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
     "antd": "^4.8.4",
     "axios": "^0.21.0",
+    "chart.js": "^3.4.1",
     "cookie": "^0.4.1",
     "interactjs": "^1.10.2",
     "js-sha256": "^0.9.0",
+    "leaflet": "^1.7.1",
     "mobile-inspections-base-ui": "git+https://robot:qhp-8Yy-9z6-hv3@atlassian.dias-dev.ru/bitbucket/scm/mobinspect/mobile-inspections-base-ui.git#semver:^0.0.20",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-calendar-timeline": "^0.27.0",
+    "react-chartjs-2": "^3.0.3",
     "react-color": "^2.19.3",
     "react-dom": "^17.0.1",
+    "react-leaflet": "^3.2.1",
     "react-player": "^2.9.0",
     "react-redux": "^7.2.2",
     "react-rnd": "^10.2.3",
@@ -25,9 +33,12 @@
     "react-zoom-pan-pinch": "^2.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.71"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.77"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.7.4",
+    "@types/react-router": "^5.1.16",
+    "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/parser": "^2.34.0",
     "babel-plugin-import": "^1.13.1",
     "customize-cra": "^1.0.0",
@@ -39,21 +50,24 @@
     "prettier": "^2.2.0",
     "react-app-rewired": "^2.1.6",
     "react-scripts": "^4.0.0",
-    "typescript": "^4.1.2"
+    "typescript": "^4.3.5"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "clean": "rm -rf ./node_modules ./package-lock.json",
     "reinstall": "npm run clean && npm install",
-    "rebuild": "npm run clean && npm install && npm run build",
+    "rebuild": "npm run reinstall && npm run build",
     "test": "react-app-rewired test",
     "eject": "eact-app-rewired eject",
     "lint": "eslint \"./src/**/*.js\" --max-warnings=0"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "off"
+    }
   },
   "husky": {
     "hooks": {

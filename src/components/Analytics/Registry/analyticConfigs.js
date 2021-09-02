@@ -1,17 +1,17 @@
 export const analyticConfigs = (paths) => [
 	{
 		name: 'detours',
-		path: `${paths.ANALYTICS.path}/detours`,
-		title: 'Аналитика по завершенным отчетам',
+		path: `${paths.ANALYTICS_MAIN.path}/detours`,
+		title: 'Аналитика по завершенным обходам',
 	},
 	{
 		name: 'defects',
-		path: `${paths.ANALYTICS.path}/defects`,
+		path: `${paths.ANALYTICS_MAIN.path}/defects`,
 		title: 'Аналитика по дефектам',
 	},
 	{
 		name: 'constructorReports',
-		path: `${paths.ANALYTICS.path}/constructorReports`,
+		path: `${paths.ANALYTICS_MAIN.path}/constructorReports`,
 		title: 'Конструктор отчетов',
 	},
 ];

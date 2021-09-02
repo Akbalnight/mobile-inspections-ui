@@ -14,19 +14,17 @@ import {
 } from '../components/ControlPoints/Form/ControlPoint';
 // Маршруты и Маршрутные карты
 import {RoutesAdd, RoutesEdit} from '../components/Routes/Form/RouteForm';
-import {
-	AddRouteMaps,
-	EditRouteMaps,
-} from '../components/RouteMaps/Registry/RouteMaps';
+import {AddRouteMaps, EditRouteMaps} from '../components/RouteMaps/RouteMaps';
 // Обходы
 import {Detours} from '../components/Detours/Registry/Detours';
-import Schedules from '../components/Detours/Schedules/Schedules';
+import Schedules from '../components/Schedules/Registry/Schedules';
 
 // Дефекты
 import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 import {Signage} from '../components/Defects/Form/Signage';
-import {Analytic} from '../components/Analytics/Form/Analytic';
+import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
+import {AnalyticsById, AnalyticsMain} from '../components/Analytics/Analytics';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -90,6 +88,12 @@ export const paths = {
 	// 	component: DebugMarsel,
 	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	// },
+	MI_MAP: {
+		title: 'MI_Map',
+		path: '/map',
+		component: BigMobInsMap,
+		roles: ['ROLE_ADMIN'],
+	},
 	CATALOG: {
 		exact: false,
 		title: 'НСИ',
@@ -241,7 +245,12 @@ export const paths = {
 		title: 'Редактирование маршрутной карты',
 		path: '/detours-configurator/route-maps/:id',
 		component: EditRouteMaps,
-		roles: ['ROLE_ADMIN'],
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
 	},
 	CONTROL_EQUIPMENTS: {
 		title: 'Управление обслуживанием оборудования',
@@ -316,11 +325,26 @@ export const paths = {
 		component: Home,
 		roles: ['ROLE_ADMIN'],
 	},
-	ANALYTICS: {
-		exact: false,
+	ANALYTICS_MAIN: {
 		title: 'Аналитика и отчетность',
 		path: '/analytics',
-		component: Analytic,
+		component: AnalyticsMain,
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
+	},
+	ANALYTICS_BY_ID: {
+		title: 'Аналитика и отчетность',
+		path: '/analytics/:id',
+		component: AnalyticsById,
 		roles: [
 			'ROLE_ADMIN',
 			'ROLE_MI_ADMIN',

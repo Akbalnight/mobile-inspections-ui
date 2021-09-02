@@ -18,6 +18,7 @@ export const DefectDetection = () => {
 					// ],
 				}}
 				showTime={true}
+				format={'DD.MM.YYYY HH:mm'}
 			/>
 			<Checkbox
 				itemProps={{

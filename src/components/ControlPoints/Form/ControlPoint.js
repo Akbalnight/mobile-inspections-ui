@@ -20,7 +20,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-	apiSaveControlPoints,
+	apiSaveByConfigName,
 } from '../../../apis/catalog.api';
 import {useHistory, useParams} from 'react-router';
 import {paths} from '../../../constants/paths';
@@ -80,9 +80,9 @@ const ControlPoint = (props) => {
 
 	return (
 		<Form
-			name={'controlPointForm'}
+			name={'form'}
 			loadInitData={loadData}
-			requestSaveForm={apiSaveControlPoints}
+			requestSaveForm={apiSaveByConfigName('controlPoints')}
 			methodSaveForm={controlPointId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}
@@ -149,16 +149,13 @@ const ControlPoint = (props) => {
 							type={'default'}
 							disabled={true}
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.equipments.events.onDelete',
+								path: 'controlPoints.form.equipmentsTable.onDelete',
 								type: 'event',
 							}}
 							subscribe={[
 								{
-									name:
-										'onControlPointsTableEquipmentsSelect',
-									path:
-										'rtd.controlPoints.controlPointForm.equipments.table.selected',
+									name: 'onControlPointsTableEquipmentsSelect',
+									path: 'rtd.controlPoints.form.equipmentsTable.selected',
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabled: value ? !value : true,
@@ -181,24 +178,21 @@ const ControlPoint = (props) => {
 							'controlPointsEquipments'
 						)}
 						dispatch={{
-							path:
-								'controlPoints.controlPointForm.equipments.table',
+							path: 'controlPoints.form.equipmentsTable',
 						}}
 						subscribe={[
 							{
 								name: 'onEquipmentsLocalAdd',
-								path:
-									'rtd.controlPoints.controlPointForm.equipments.addModal.onSave',
+								path: 'rtd.controlPoints.form.equipmentsTable.select.onSave',
 								extraData:
-									'rtd.controlPoints.controlPointForm.equipments.addModal.table.selected',
+									'rtd.controlPoints.form.equipmentsTable.select.table.selected',
 								onChange: ({extraData, addRows}) => {
 									addRows(extraData);
 								},
 							},
 							{
 								name: 'onEquipmentsLocalDelete',
-								path:
-									'rtd.controlPoints.controlPointForm.equipments.events.onDelete',
+								path: 'rtd.controlPoints.form.equipmentsTable.onDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},
@@ -220,15 +214,13 @@ const ControlPoint = (props) => {
 							type={'default'}
 							disabled={true}
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.techMaps.events.onDelete',
+								path: 'controlPoints.form.techMapsTable.onDelete',
 								type: 'event',
 							}}
 							subscribe={[
 								{
 									name: 'onControlPointsTableTechMapsSelect',
-									path:
-										'rtd.controlPoints.controlPointForm.techMaps.table.selected',
+									path: 'rtd.controlPoints.form.techMapsTable.selected',
 									onChange: ({value, setSubscribeProps}) => {
 										setSubscribeProps({
 											disabled: value ? !value : true,
@@ -251,16 +243,14 @@ const ControlPoint = (props) => {
 							'controlPointsTechMaps'
 						)}
 						dispatch={{
-							path:
-								'controlPoints.controlPointForm.techMaps.table',
+							path: 'controlPoints.form.techMapsTable',
 						}}
 						subscribe={[
 							{
 								name: 'onTechMapsLocalAdd',
-								path:
-									'rtd.controlPoints.controlPointForm.techMaps.addModal.onSave',
+								path: 'rtd.controlPoints.form.techMapsTable.select.onSave',
 								extraData:
-									'rtd.controlPoints.controlPointForm.techMaps.addModal.table.selected',
+									'rtd.controlPoints.form.techMapsTable.select.table.selected',
 								// addRow не поддерживает валидацию, потому использован addRows
 								onChange: ({extraData, addRows}) => {
 									addRows([extraData]);
@@ -268,8 +258,7 @@ const ControlPoint = (props) => {
 							},
 							{
 								name: 'onTechMapsLocalDelete',
-								path:
-									'rtd.controlPoints.controlPointForm.techMaps.events.onDelete',
+								path: 'rtd.controlPoints.form.techMapsTable.onDelete',
 								onChange: ({removeRow}) => {
 									removeRow();
 								},

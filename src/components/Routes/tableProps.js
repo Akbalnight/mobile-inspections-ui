@@ -17,13 +17,36 @@ import {
 	EditControlPointToRoute,
 } from './Form/Modals/SaveObjectModal';
 import {DeleteControlPointToRoute} from './Form/Modals/DeleteObjectModal';
-import {ViewControlPointModal} from './Form/Modals/ViewControlPointModal';
+import {ViewModal} from './Form/Modals/ViewModal';
 import {Access} from 'mobile-inspections-base-ui';
+import {generateUUID} from 'rt-design/lib/components/utils/baseUtils';
 
 export const customColumnProps = [
 	{...code},
 	{...position, width: '50px', align: 'center'},
 	{...duration},
+	{
+		name: 'hybridId',
+		hidden: true,
+	},
+];
+
+export const customFields = [
+	/**
+	 * This validate work like that. Our 'hybridId' have some VALUE, this VALUE goes to validate.
+	 * If in validate all right and return true, our VALUE goes to value and transform.
+	 */
+	{
+		name: 'hybridId',
+		value: (row) => `${row.controlPointId}-${row.techMapId}`,
+		validate: (row, rows) => {
+			const tmp = `${row.controlPointId}-${row.techMapId}`;
+			row.id = generateUUID();
+			return rows
+				? !rows.map((row) => row.hybridId).includes(tmp)
+				: false;
+		},
+	},
 ];
 
 export const MainTableHeader = () => {
@@ -56,7 +79,7 @@ export const MainTableHeader = () => {
 							subscribe={[
 								{
 									name: 'editRouteForm',
-									path: 'rtd.routes.mainForm.table.selected',
+									path: 'rtd.routes.table.selected',
 									onChange: ({value, setSubscribeProps}) => {
 										if (value) {
 											sValueId = value.id;
@@ -87,7 +110,7 @@ export const MainTableHeader = () => {
 						/** Action search activate btn*/
 						{
 							name: 'onSearchPush',
-							path: 'rtd.routes.mainForm.table.events.onSearch',
+							path: 'rtd.routes.table.events.onSearch',
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&
@@ -97,7 +120,7 @@ export const MainTableHeader = () => {
 						/** Action reload in mainForm.table deactivate btn*/
 						{
 							name: 'onReloadPush',
-							path: 'rtd.routes.mainForm.table.rows',
+							path: 'rtd.routes.table.rows',
 							onChange: ({value, setSubscribeProps}) => {
 								/** We might thinking about ${path}.rows array length*/
 
@@ -109,7 +132,7 @@ export const MainTableHeader = () => {
 						},
 					]}
 					dispatch={{
-						path: 'routes.mainForm.table.events.onReload',
+						path: 'routes.table.events.onReload',
 					}}
 				/>
 				<RouteViewModal />
@@ -119,13 +142,11 @@ export const MainTableHeader = () => {
 					itemProps={{name: 'onSearch'}}
 					placeholder={'Введите наименование'}
 					dispatch={{
-						path: 'routes.mainForm.table.events.onSearch',
+						path: 'routes.table.events.onSearch',
 					}}
 					subscribe={[
 						/** Reload Search value field, clear STORE*/
-						reloadFilterFields(
-							'routes.mainForm.table.events.onReload'
-						),
+						reloadFilterFields('routes.table.events.onReload'),
 					]}
 				/>
 			</Space>
@@ -133,7 +154,7 @@ export const MainTableHeader = () => {
 	);
 };
 
-export const ControlPointTableHeader = () => {
+export const ControlPointsHeader = () => {
 	return (
 		<Space className={'p-8'}>
 			<AddControlPointToRoute />
@@ -143,15 +164,13 @@ export const ControlPointTableHeader = () => {
 				icon={<ArrowUpOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
+					path: 'routes.form.controlPointsTable.events.onClickMoveUp',
 					type: 'event',
 				}}
 				subscribe={[
 					{
 						name: 'btnUp',
-						path:
-							'rtd.routes.routeForm.controlPointsTable.table.selected',
+						path: 'rtd.routes.form.controlPointsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
@@ -166,15 +185,13 @@ export const ControlPointTableHeader = () => {
 				icon={<ArrowDownOutlined />}
 				disabled={true}
 				dispatch={{
-					path:
-						'routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
+					path: 'routes.form.controlPointsTable.events.onClickMoveDown',
 					type: 'event',
 				}}
 				subscribe={[
 					{
-						name: 'btnUp',
-						path:
-							'rtd.routes.routeForm.controlPointsTable.table.selected',
+						name: 'btnDown',
+						path: 'rtd.routes.form.controlPointsTable.selected',
 						onChange: ({value, setSubscribeProps}) => {
 							value &&
 								setSubscribeProps &&
@@ -185,7 +202,7 @@ export const ControlPointTableHeader = () => {
 					},
 				]}
 			/>
-			<ViewControlPointModal />
+			<ViewModal />
 		</Space>
 	);
 };

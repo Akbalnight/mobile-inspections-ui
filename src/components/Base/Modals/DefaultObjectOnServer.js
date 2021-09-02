@@ -4,6 +4,7 @@ import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import React from 'react';
 import {objectOnServer} from '../Functions/DefaultObject';
+import {changeStorePath} from '../Functions/ChangeStorePath';
 
 /**
  *
@@ -96,13 +97,19 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				},
 			}}
 			dispatch={{
-				path: `${mainWay}.${catalogName}Table.modal.events.${type}OnModal`,
+				path: `${changeStorePath(
+					mainWay,
+					catalogName
+				)}.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `${catalogName}TableInfo`,
-					path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+					path: `rtd.${changeStorePath(
+						mainWay,
+						catalogName
+					)}.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value && setModalData && setModalData(value);
 						type !== 'add' &&
@@ -118,7 +125,7 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				{catalogName !== 'staff' ? (
 					<Input itemProps={{...itemsInfo.name}} />
 				) : null}
-				{objectOnServer(catalogName)}
+				{objectOnServer(mainWay, catalogName)}
 			</FormBody>
 		</Modal>
 	);

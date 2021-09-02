@@ -5,13 +5,19 @@ import {
 	apiGetConfigByName,
 } from '../../../../apis/catalog.api';
 import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
+import {customColumnProps} from '../../tableProps';
 
 export const ButtonSendToSap = () => {
 	const processBeforeSaveForm = (rawValues) => {
 		const defectsToSapQueueArray =
 			rawValues &&
 			rawValues.defectsToSapQueueArray.map((row) => {
-				return {...row, sendedToSap: true, viewOnPanel: true};
+				return {
+					...row,
+					sendedToSap: true,
+					viewOnPanel: true,
+					statusProcessId: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0',
+				};
 			});
 		return {defectsToSapQueueArray};
 	};
@@ -46,7 +52,7 @@ export const ButtonSendToSap = () => {
 					},
 				}}
 				dispatch={{
-					path: 'defects.defectTable.modal.events.onSendToSapModal',
+					path: 'defects.table.events.onSendToSap',
 					// диспатчим туда же, где фильтр таблицы, т.к. перезагрузка таблицы одинаковая
 					// path: 'rtd.defects.defectTable.events.onApplyFilter',
 					type: 'event',
@@ -54,7 +60,7 @@ export const ButtonSendToSap = () => {
 				subscribe={[
 					{
 						name: 'sendToSap',
-						path: 'rtd.defects.defectTable.table.selected',
+						path: 'rtd.defects.table.selected',
 						onChange: ({value, setModalData, setButtonProps}) => {
 							value &&
 								setModalData &&
@@ -82,6 +88,7 @@ export const ButtonSendToSap = () => {
 							itemProps={{
 								name: 'defectsToSapQueueArray',
 							}}
+							customColumnProps={customColumnProps}
 							fixWidthColumn={true}
 							requestLoadConfig={apiGetConfigByName('defects')}
 						/>

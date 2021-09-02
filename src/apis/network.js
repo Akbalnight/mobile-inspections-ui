@@ -53,6 +53,7 @@ export const genericUploadRequest = (url, data) => {
 	const formData = new FormData();
 	formData.append('file', data.file);
 	formData.append('dataObject', JSON.stringify(data.dataObject));
+	// console.log('genericUploadRequest => ', data);
 	const options = {
 		url,
 		method: 'POST',

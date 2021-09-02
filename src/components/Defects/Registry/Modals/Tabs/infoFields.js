@@ -1,4 +1,7 @@
-import {apiGetConfigByName} from '../../../../../apis/catalog.api';
+import {
+	apiGetConfigByName,
+	apiSaveByConfigName,
+} from '../../../../../apis/catalog.api';
 import React from 'react';
 import {Layout, Table, Title, Text, Checkbox, DateText} from 'rt-design';
 import {customColumnProps, GetCurrentMode} from '../../../tableProps';
@@ -8,6 +11,20 @@ import {customColumnProps, GetCurrentMode} from '../../../tableProps';
  */
 export const InfoTabFields = () => {
 	const currentMode = GetCurrentMode();
+
+	const handleCheckbox = (event) => {
+		// console.log({event})
+		typeof event === 'object' &&
+			apiSaveByConfigName('saveDefectToSap')({
+				method: 'POST',
+				data: {
+					id: event.target.defaultChecked,
+					sendedToSap: event.target.checked,
+				},
+				params: {},
+			});
+	};
+
 	return (
 		<>
 			<Layout className={'p-8'}>
@@ -35,6 +52,58 @@ export const InfoTabFields = () => {
 						}}
 					/>
 				)}
+				<Checkbox
+					disabled={true}
+					itemProps={{
+						name: 'newCheckbox',
+						label: 'Отправлено в SAP',
+						valuePropName: 'checked',
+						className: 'mb-0',
+					}}
+					onChange={handleCheckbox}
+					dispatch={{
+						path: `${currentMode}.table.data.checkboxToSap`,
+						// type:'event'
+					}}
+					subscribe={[
+						{
+							name: 'unDisabled',
+							withMount: true,
+							path: `rtd.${currentMode}.table.selected`,
+							onChange: ({value, setSubscribeProps}) => {
+								if (
+									value &&
+									setSubscribeProps &&
+									value[0] &&
+									value[0].sendedToSap !== null
+								) {
+									setSubscribeProps({
+										checked: value[0].sendedToSap,
+										disabled: !value[0].viewOnPanel,
+										defaultChecked: value[0].id,
+									});
+								} else {
+									value[0] &&
+										setSubscribeProps({
+											disabled: !value[0].viewOnPanel,
+											// defaultChecked: value[0].id,
+										});
+								}
+							},
+						},
+						{
+							name: 'saveCheckbox',
+							path: `rtd.${currentMode}.table.data.checkboxToSap`,
+							onChange: ({value, setSubscribeProps}) => {
+								value &&
+									setSubscribeProps &&
+									setSubscribeProps({
+										disabled: true,
+									});
+							},
+						},
+					]}
+				/>
 				<Title level={5}>Выявление дефекта</Title>
 				<DateText
 					itemProps={{

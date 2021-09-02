@@ -3,13 +3,14 @@
  * файл со всеми customFields, поля и валидация в объекты таблицы
  */
 import React from 'react';
-import {Button, Row, Space, Search, Checkbox} from 'rt-design';
+import {Button, Row, Space, Search, notificationError} from 'rt-design';
 import {useHistory} from 'react-router';
 import {
 	EditOutlined,
 	FolderOutlined,
 	PlusOutlined,
 	ReloadOutlined,
+	DeleteOutlined,
 } from '@ant-design/icons';
 import {paths} from '../../constants/paths';
 import {
@@ -21,6 +22,13 @@ import {CustomGroupView} from '../Base/Modals/CustomGroupView';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {codeNormalizer} from '../Base/Functions/TextUtils';
 import {Access} from 'mobile-inspections-base-ui';
+import {RfidIcon} from '../../imgs/controlPoints/icons';
+import {notification, Tooltip} from 'antd';
+import {apiSaveByConfigName} from '../../apis/catalog.api';
+import {useDispatch} from 'react-redux';
+import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
+import moment from 'moment';
+import {changeStorePath} from '../Base/Functions/ChangeStorePath';
 
 /**
  *
@@ -52,14 +60,14 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 		return (
 			<Button
 				className={['ant-btn-icon-only']}
-				dispatch={{
-					path: `${mainWay}.${catalogName}Table.events.onClickEdit`,
-				}}
 				disabled={true}
 				subscribe={[
 					{
 						name: 'btnActive',
-						path: `rtd.${mainWay}.${catalogName}Table.table.selected`,
+						path: `rtd.${changeStorePath(
+							mainWay,
+							catalogName
+						)}.selected`,
 						onChange: ({value, setSubscribeProps}) => {
 							if (value && !value.isGroup) {
 								sValueId = value.id;
@@ -112,7 +120,10 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						/** Action search activate btn*/
 						{
 							name: 'onSearchPush',
-							path: `rtd.${mainWay}.${catalogName}Table.table.events.onSearch`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.events.onSearch`,
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&
@@ -122,7 +133,10 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						/** Action reload in mainForm.table deactivate btn*/
 						{
 							name: 'onReloadPush',
-							path: `rtd.${mainWay}.${catalogName}Table.table.rows`,
+							path: `rtd.${changeStorePath(
+								mainWay,
+								catalogName
+							)}.rows`,
 							onChange: ({value, setSubscribeProps}) => {
 								/** We might thinking about ${path}.rows array length*/
 
@@ -134,7 +148,10 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						},
 					]}
 					dispatch={{
-						path: `${mainWay}.${catalogName}Table.table.events.onReload`,
+						path: `${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`,
 					}}
 				/>
 				<CustomObjectView
@@ -148,15 +165,59 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 				itemProps={{name: 'onSearch'}}
 				placeholder={'Введите наименование'}
 				dispatch={{
-					path: `${mainWay}.${catalogName}Table.table.events.onSearch`,
+					path: `${changeStorePath(
+						mainWay,
+						catalogName
+					)}.events.onSearch`,
 				}}
 				subscribe={[
 					/** Reload Search value field, clear STORE*/
 					reloadFilterFields(
-						`${mainWay}.${catalogName}Table.table.events.onReload`
+						`${changeStorePath(
+							mainWay,
+							catalogName
+						)}.events.onReload`
 					),
 				]}
 			/>
+		</Space>
+	);
+};
+
+const RfidCode = ({rowData, cellData}) => {
+	const dispatch = useDispatch();
+
+	const onClickDeleteRfid = () => {
+		apiSaveByConfigName(`mobileControlPointsSave`)({
+			method: 'PUT',
+			data: {id: rowData.id, rfidCode: null},
+			params: {},
+		})
+			.then((res) => {
+				notification.success({message: 'Метка успешно удалена'});
+				dispatch(
+					setDataStore(`controlPoints.table.events.onReload`, {
+						timestamp: moment(),
+					})
+				);
+			})
+			.catch(notificationError);
+	};
+
+	return (
+		<Space style={{lineHeight: 1, paddingTop: '2px'}}>
+			<RfidIcon />
+			<div>{cellData}</div>
+			<Tooltip title='Удалить RFID метку'>
+				<Button
+					className={'remove-rfid-btn'}
+					shape='circle'
+					size={'small'}
+					type={'text'}
+					icon={<DeleteOutlined />}
+					onClick={onClickDeleteRfid}
+				/>
+			</Tooltip>
 		</Space>
 	);
 };
@@ -176,10 +237,11 @@ export const customColumnProps = [
 		},
 	},
 	{
-		name: 'rfidCode',
-		cellRenderer: ({cellData}) =>
+		name: 'rfidCode', //mobileControlPointsSave
+		className: 'rfid-cell',
+		cellRenderer: ({rowData, cellData}) =>
 			cellData ? (
-				<Checkbox checked={!cellData} disabled={!cellData} />
+				<RfidCode rowData={rowData} cellData={cellData} />
 			) : (
 				'---'
 			),
@@ -217,7 +279,6 @@ export const techMapsTableCustom = (controlPointId) => {
 			name: 'techMapId',
 			value: (row) => row.id,
 			validate: (row, rows) => {
-				// console.log('row tech maps selected:', row)
 				return !row.isGroup
 					? !rows.map((row) => row.techMapId).includes(row.id)
 					: false;

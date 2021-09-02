@@ -38,8 +38,7 @@ export const selectModalDebug = [
 									child: {
 										componentType: 'Search',
 										dispatch: {
-											path:
-												'debug.form.modal.select.events.onSearch',
+											path: 'debug.form.modal.select.events.onSearch',
 											type: 'event',
 										},
 									},
@@ -58,17 +57,17 @@ export const selectModalDebug = [
 										nodeAssociated: false,
 										searchParamName: 'name',
 										// style: {height: '600px'},
-										requestLoadRows: apiGetHierarchicalDataByConfigName(
-											'equipmentsAutoQuery'
-										),
+										requestLoadRows:
+											apiGetHierarchicalDataByConfigName(
+												'equipmentsAutoQuery'
+											),
 										requestLoadConfig: apiGetConfigByName(
 											'equipmentsAutoQuery'
 										),
 										subscribe: [
 											{
 												name: 'onSearch',
-												path:
-													'rtd.debug.form.modal.select.events.onSearch',
+												path: 'rtd.debug.form.modal.select.events.onSearch',
 												onChange: ({
 													value,
 													extraData,

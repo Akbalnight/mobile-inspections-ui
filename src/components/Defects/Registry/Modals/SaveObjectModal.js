@@ -16,7 +16,7 @@ import {
 } from 'rt-design';
 import {Access} from 'mobile-inspections-base-ui';
 import React from 'react';
-import {StatusIcon} from '../../tableProps';
+import {GetCurrentMode, StatusIcon} from '../../tableProps';
 
 /**
  *
@@ -26,7 +26,7 @@ export const EditDefectCard = ({catalogName}) =>
 	OperationOnServer(catalogName, 'edit', {});
 
 const OperationOnServer = (catalogName, type) => {
-	// console.log('catalogName on server:', catalogName)
+	const currentMode = GetCurrentMode();
 	const loadData = (callBack, row) => {
 		callBack(row);
 	};
@@ -124,6 +124,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<DatePicker
 					itemProps={{
@@ -132,6 +133,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 			</>
 		);
@@ -148,6 +150,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 			</>
 		);
@@ -165,6 +168,7 @@ const OperationOnServer = (catalogName, type) => {
 						className: 'mb-8',
 					}}
 					showTime={true}
+					format={'DD.MM.YYYY HH:mm'}
 				/>
 				<Select
 					itemProps={{
@@ -190,7 +194,6 @@ const OperationOnServer = (catalogName, type) => {
 			</>
 		);
 	};
-
 	return (
 		<Modal
 			title={'Редактровать дефект'}
@@ -204,7 +207,7 @@ const OperationOnServer = (catalogName, type) => {
 			}}
 			modalConfig={{
 				type: `save`,
-				title: 'Редактрование дефекта',
+				title: 'Редактирование дефекта',
 				width: catalogName === 'defects' ? 600 : 500,
 				bodyStyle: {height: catalogName === 'defects' ? 760 : 640},
 				methodSaveForm: 'PUT',
@@ -231,7 +234,7 @@ const OperationOnServer = (catalogName, type) => {
 			subscribe={[
 				{
 					name: 'editForm',
-					path: 'rtd.defects.defectTable.table.selected',
+					path: `rtd.${currentMode}.table.selected`,
 					extraData: 'auth.roles',
 					onChange: ({
 						value,

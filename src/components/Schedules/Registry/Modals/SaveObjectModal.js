@@ -25,45 +25,47 @@ import {itemsInfo} from '../../../../constants/dictionary';
 /** checkValue задается при первом вызове функции
  * value и setSubscribeProps прилетают при срабатывании subscribe
  */
-const onChangeRepeaterType = (checkValue) => ({value, setSubscribeProps}) => {
-	const disabled = value.value !== checkValue;
-	setSubscribeProps({disabled: disabled});
-};
+const onChangeRepeaterType =
+	(checkValue) =>
+	({value, setSubscribeProps}) => {
+		const disabled = value.value !== checkValue;
+		setSubscribeProps({disabled: disabled});
+	};
 
 const prefixCls = 'detours-schedules-registry-modal';
 
-export const AddDetourButton = () => EditModal('add');
-export const EditDetourButton = () => EditModal('edit');
+export const AddDetourButton = () => operaionOnServer('add');
+export const EditDetourButton = () => operaionOnServer('edit');
 
-const processBeforeSaveForm = (rawValues) => {
-	const values = {...rawValues};
+const operaionOnServer = (type) => {
+	const processBeforeSaveForm = (rawValues) => {
+		const values = {...rawValues};
 
-	//Доступен ли repeater для выполнения
-	values.isAvailable = true;
-	//По умолчанию все конфиги для обходов
-	values.configName = 'detours';
+		//Доступен ли repeater для выполнения
+		values.isAvailable = true;
+		//По умолчанию все конфиги для обходов
+		values.configName = 'detours';
 
-	rawValues.data.detourBeginTime = rawValues.data.detourBeginTime.format(
-		'YYYY-MM-DDTHH:mm:ss.SSSSZ'
-	);
+		rawValues.data.detourBeginTime = rawValues.data.detourBeginTime.format(
+			'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+		);
 
-	rawValues.data.detourEndTime = rawValues.data.detourEndTime.format(
-		'YYYY-MM-DDTHH:mm:ss.SSSSZ'
-	);
+		rawValues.data.detourEndTime = rawValues.data.detourEndTime.format(
+			'YYYY-MM-DDTHH:mm:ss.SSSSZ'
+		);
 
-	if (values.repeaterType === '02') {
-		values.finalCount = null;
-	} else if (values.repeaterType === '03') {
-		values.dateFinish = null;
-	} else {
-		values.finalCount = null;
-		values.dateFinish = null;
-	}
+		if (values.repeaterType === '02') {
+			values.finalCount = null;
+		} else if (values.repeaterType === '03') {
+			values.dateFinish = null;
+		} else {
+			values.finalCount = null;
+			values.dateFinish = null;
+		}
 
-	return values;
-};
+		return values;
+	};
 
-const EditModal = (type) => {
 	const footerCheckboxLayout = {
 		labelCol: {span: 23},
 		wrapperCol: {span: 1},
@@ -92,7 +94,7 @@ const EditModal = (type) => {
 				width: 700,
 				bodyStyle: {height: 580},
 				form: {
-					name: 'detours.schedules.registry.editModal',
+					name: 'schedulesEditModal',
 					className: prefixCls,
 					labelCol: {span: 8},
 					wrapperCol: {span: 16},
@@ -104,13 +106,13 @@ const EditModal = (type) => {
 				},
 			}}
 			dispatch={{
-				path: 'detours.schedulesTable.table.events.onEditModal',
+				path: `schedules.table.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: 'tableCloseInfo',
-					path: 'rtd.detours.schedulesTable.table.selected',
+					path: 'rtd.schedules.table.selected',
 					onChange: ({value, setModalData, setButtonProps}) => {
 						// Задать значение модальному окну по событию "Выбор строки в таблице"
 						value && setModalData && setModalData(value);
@@ -166,7 +168,6 @@ const EditModal = (type) => {
 						label: 'Исполнитель:',
 						rules: [{required: true}],
 					}}
-					// widthControl={'250px'}
 					requestLoadRows={apiGetFlatDataByConfigName('staffAuto')}
 					optionConverter={(option) => ({
 						label: <span>{option.username}</span>,
@@ -200,8 +201,7 @@ const EditModal = (type) => {
 								...footerCheckboxLayout,
 							}}
 							dispatch={{
-								path:
-									'detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
+								path: 'schedules.form.data.takeIntoAccountTimeLocation',
 							}}
 						/>
 						<Checkbox
@@ -211,8 +211,7 @@ const EditModal = (type) => {
 								...footerCheckboxLayout,
 							}}
 							dispatch={{
-								path:
-									'detours.detourSchedules.modal.events.takeIntoAccountDateStart',
+								path: 'schedules.form.data.takeIntoAccountDateStart',
 							}}
 						/>
 						<Checkbox
@@ -222,8 +221,7 @@ const EditModal = (type) => {
 								...footerCheckboxLayout,
 							}}
 							dispatch={{
-								path:
-									'detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
+								path: 'schedules.form.data.takeIntoAccountDateFinish',
 							}}
 						/>
 					</Col>
@@ -240,8 +238,7 @@ const EditModal = (type) => {
 								{
 									name: 'takeIntoAccountTimeLocation',
 									withMount: true,
-									path:
-										'rtd.detours.detourSchedules.modal.events.takeIntoAccountTimeLocation',
+									path: 'rtd.schedules.form.data.takeIntoAccountTimeLocation',
 									onChange: ({value, setSubscribeProps}) => {
 										value
 											? setSubscribeProps({
@@ -249,6 +246,7 @@ const EditModal = (type) => {
 											  })
 											: setSubscribeProps({
 													disabled: true,
+													value: undefined,
 											  });
 									},
 								},
@@ -266,8 +264,7 @@ const EditModal = (type) => {
 								{
 									name: 'takeIntoAccountTimeLocation',
 									withMount: true,
-									path:
-										'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateStart',
+									path: 'rtd.schedules.form.data.takeIntoAccountDateStart',
 									onChange: ({value, setSubscribeProps}) => {
 										value
 											? setSubscribeProps({
@@ -275,6 +272,7 @@ const EditModal = (type) => {
 											  })
 											: setSubscribeProps({
 													disabled: true,
+													value: undefined,
 											  });
 									},
 								},
@@ -292,8 +290,7 @@ const EditModal = (type) => {
 								{
 									name: 'takeIntoAccountTimeLocation',
 									withMount: true,
-									path:
-										'rtd.detours.detourSchedules.modal.events.takeIntoAccountDateFinish',
+									path: 'rtd.schedules.form.data.takeIntoAccountDateFinish',
 									onChange: ({value, setSubscribeProps}) => {
 										value
 											? setSubscribeProps({
@@ -301,6 +298,7 @@ const EditModal = (type) => {
 											  })
 											: setSubscribeProps({
 													disabled: true,
+													value: undefined,
 											  });
 									},
 								},
@@ -320,7 +318,6 @@ const EditModal = (type) => {
 						// Поле обязательнок заполнению
 						rules: [{required: true}],
 					}}
-					// widthControl={200}
 					optionConverter={(option) => ({
 						label: option.label,
 						value: option.value,
@@ -369,8 +366,7 @@ const EditModal = (type) => {
 							]}
 							className={`${prefixCls}-repeater-type`}
 							dispatch={{
-								path:
-									'detours.schedules.registry.editModal.repeaterType',
+								path: 'schedules.form.data.repeaterType',
 								type: 'event',
 							}}
 						/>
@@ -383,9 +379,8 @@ const EditModal = (type) => {
 							disabled={true}
 							subscribe={[
 								{
-									name: 'repeaterType',
-									path:
-										'rtd.detours.schedules.registry.editModal.repeaterType',
+									name: 'repeaterTypeDatePicker',
+									path: 'rtd.schedules.form.data.repeaterType',
 									onChange: onChangeRepeaterType('02'),
 								},
 							]}
@@ -397,9 +392,8 @@ const EditModal = (type) => {
 								disabled={true}
 								subscribe={[
 									{
-										name: 'repeaterType',
-										path:
-											'rtd.detours.schedules.registry.editModal.repeaterType',
+										name: 'repeaterTypeInput',
+										path: 'rtd.schedules.form.data.repeaterType',
 										onChange: onChangeRepeaterType('03'),
 									},
 								]}
@@ -412,5 +406,3 @@ const EditModal = (type) => {
 		</Modal>
 	);
 };
-
-export default EditModal;

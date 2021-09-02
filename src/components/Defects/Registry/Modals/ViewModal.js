@@ -12,6 +12,7 @@ import {HistoryTab, HistoryTabFields} from './Tabs/historyFields';
 import {FormBody, Tabs, TabPane, Modal} from 'rt-design';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {codeNormalizer, emptyToNd} from '../../../Base/Functions/TextUtils';
+import {GetCurrentMode} from '../../tableProps';
 
 /**
  * Карточка информации дефекта
@@ -19,7 +20,7 @@ import {codeNormalizer, emptyToNd} from '../../../Base/Functions/TextUtils';
 
 export const DefectCardInfoModal = () => {
 	let sRow;
-
+	const currentMode = GetCurrentMode();
 	const loadData = async (callBack, row) => {
 		sRow = row;
 		const defectHistoryResponse = await selectRowsById(
@@ -37,8 +38,10 @@ export const DefectCardInfoModal = () => {
 			code: codeNormalizer(row.code),
 			defectUploadFilesHolder: {
 				// попросить объяснения, зечем такая вложенность?
-				defectUploadFiles: {
-					defectId: row.id,
+				dataObject: {
+					defectUploadFiles: {
+						defectId: row.id,
+					},
 				},
 			},
 		};
@@ -67,8 +70,7 @@ export const DefectCardInfoModal = () => {
 			subscribe={[
 				{
 					name: 'infoForm',
-					path:
-						'rtd.defects.defectTable.table.events.onRowDoubleClick',
+					path: `rtd.${currentMode}.table.events.onRowDoubleClick`,
 					onChange: ({value, setModalData, openModal}) => {
 						if (value && setModalData) {
 							setModalData({
@@ -79,6 +81,11 @@ export const DefectCardInfoModal = () => {
 					},
 				},
 			]}
+			dispatch={{
+				/**НАЧАТЬ ТУТ*/
+				path: `${currentMode}.table.events.viewObject`,
+				type: 'event',
+			}}
 		>
 			<FormBody noPadding={true}>
 				<Tabs type={'card'} className={'p-8'}>

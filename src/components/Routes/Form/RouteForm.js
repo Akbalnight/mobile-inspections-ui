@@ -15,7 +15,6 @@ import {
 	Button,
 	Custom,
 	Divider,
-	executeRequest,
 } from 'rt-design';
 import {itemsInfo} from '../../../constants/dictionary';
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
@@ -25,7 +24,11 @@ import {
 } from '../../../apis/catalog.api';
 import {paths} from '../../../constants/paths';
 import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
-import {ControlPointTableHeader, customColumnProps} from '../tableProps';
+import {
+	ControlPointsHeader,
+	customColumnProps,
+	customFields,
+} from '../tableProps';
 import {Result} from 'antd';
 import {WayOutModal} from './Modals/WayOutModal';
 
@@ -93,7 +96,7 @@ const RouteForm = (props) => {
 
 	return (
 		<Form
-			name={'routeForm'}
+			name={'form'}
 			loadInitData={loadData}
 			methodSaveForm={routeId ? 'PUT' : 'POST'}
 			requestSaveForm={apiSaveByConfigName('routes')}
@@ -101,7 +104,7 @@ const RouteForm = (props) => {
 				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 			}}
 			dispatch={{
-				path: 'routes.routeForm',
+				path: 'routes.form.data',
 			}}
 		>
 			<FormHeader>
@@ -127,14 +130,16 @@ const RouteForm = (props) => {
 					<InputNumber itemProps={{...itemsInfo.duration}} min={0} />
 				</Space>
 				<Title label={'Контрольные точки'} level={5} />
+
 				<Layout style={{border: '1px solid #DFDFDF'}}>
-					<ControlPointTableHeader />
+					<ControlPointsHeader />
 					<Table
 						itemProps={{name: 'controlPoints'}}
-						rowKey={'controlPointId'}
+						rowKey={`id`}
+						customFields={customFields}
 						customColumnProps={customColumnProps}
 						dispatch={{
-							path: 'routes.routeForm.controlPointsTable.table',
+							path: 'routes.form.controlPointsTable',
 						}}
 						requestLoadRows={selectRowsById(
 							'routeControlPoints',
@@ -148,8 +153,7 @@ const RouteForm = (props) => {
 							/** Add table Items */
 							{
 								name: 'addOnLocal',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.events.onAddRow',
+								path: 'rtd.routes.form.controlPointsTable.events.addOnModal',
 								onChange: ({value, addRow}) => {
 									value && addRow(value.value);
 								},
@@ -157,8 +161,7 @@ const RouteForm = (props) => {
 							/** Edit table Items */
 							{
 								name: 'editOnLocal',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.events.onEditRow',
+								path: 'rtd.routes.form.controlPointsTable.events.editOnModal',
 								onChange: ({value, editRow}) => {
 									value && editRow(value.value);
 								},
@@ -166,62 +169,22 @@ const RouteForm = (props) => {
 							/** Delete table Items */
 							{
 								name: 'deleteOnLocal',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.modal.events.onRemoveRow',
-								onChange: ({value, removeRow}) => {
+								path: 'rtd.routes.form.controlPointsTable.events.onDelete',
+								onChange: ({removeRow}) => {
 									removeRow();
 								},
 							},
-							/** Action change state after push on Button */
+							/** Action change position to up after push on Button */
 							{
-								name: 'onClickMoveUp',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveUp',
+								name: 'onClickMoveUpControlPoint',
+								path: 'rtd.routes.form.controlPointsTable.events.onClickMoveUp',
 								onChange: ({moveUpRow}) => moveUpRow(),
 							},
-							/** Action change state after push on Button */
+							/** Action change position to down after push on Button */
 							{
-								name: 'onClickMoveDown',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.actions.onClickMoveDown',
+								name: 'onClickMoveDownControlPoint',
+								path: 'rtd.routes.form.controlPointsTable.events.onClickMoveDown',
 								onChange: ({moveDownRow}) => moveDownRow(),
-							},
-
-							/** Action change row position in table */
-							{
-								name: 'onMoveUpRow',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.events.onMoveUpRow',
-								onChange: ({value}) => {
-									console.log(value);
-									executeRequest(
-										apiSaveByConfigName(
-											'routeMapPositionSave'
-										)
-									)({
-										data: {
-											routeMaps: value.value,
-										},
-										method: 'POST',
-									});
-								},
-							},
-							/** Action change row position in table */
-							{
-								name: 'onMoveDownRow',
-								path:
-									'rtd.routes.routeForm.controlPointsTable.table.events.onMoveDownRow',
-								onChange: ({value}) =>
-									executeRequest(
-										apiSaveByConfigName(
-											'routeMapPositionSave'
-										)
-									)({
-										data: {
-											routeMaps: value.value,
-										},
-										method: 'POST',
-									}),
 							},
 						]}
 					/>
@@ -273,7 +236,7 @@ const RouteForm = (props) => {
 						title={
 							'Вы можете перейти в Конструктор маршрутных карт'
 						}
-						style={{height: '450px'}}
+						className={'resultRouteForm'}
 						extra={<WayOutModal />}
 					/>
 				)}

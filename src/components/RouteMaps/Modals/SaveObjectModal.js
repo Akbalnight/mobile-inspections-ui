@@ -34,7 +34,7 @@ export const EditFileName = () => {
 				/** Modal data & button(props) change  */
 				{
 					name: 'editFileName',
-					path: 'rtd.routeMaps.mainForm.routeMapsTable.selected',
+					path: 'rtd.routeMaps.routeMapsTable.selected',
 					onChange: ({value, setButtonProps, setModalData}) => {
 						value && setModalData && setModalData({...value});
 						value &&
@@ -46,7 +46,7 @@ export const EditFileName = () => {
 				},
 			]}
 			dispatch={{
-				path: `routeMaps.mainForm.routeMapsTable.modal.editFileName`,
+				path: `routeMaps.routeMapsTable.events.editFileName`,
 				type: 'event',
 			}}
 		>

@@ -10,10 +10,10 @@ import {
 	Text,
 } from 'rt-design';
 
-export const AddTechOperationButton = () => EditModal('add');
-export const EditTechOperationButton = () => EditModal('edit');
+export const AddTechOperationButton = () => operationOnLocal('add');
+export const EditTechOperationButton = () => operationOnLocal('edit');
 
-const EditModal = (type) => {
+const operationOnLocal = (type) => {
 	const footerCheckboxLayout = {
 		labelCol: {span: 8},
 		wrapperCol: {span: 10},
@@ -22,8 +22,6 @@ const EditModal = (type) => {
 		labelCol: {span: 8},
 		wrapperCol: {span: 10},
 	};
-
-	const toCapitalize = type[0].toUpperCase() + type.substring(1);
 
 	const processBeforeSaveForm = (rawValues) => {
 		let values;
@@ -58,7 +56,7 @@ const EditModal = (type) => {
 					type === 'add' ? 'Добавить' : 'Изменить'
 				} технологическую операцию`,
 				form: {
-					name: 'techMaps.techOperations.editModal',
+					name: 'techOperationsEditForm',
 					labelCol: {span: 10},
 					wrapperCol: {span: 12},
 					processBeforeSaveForm,
@@ -77,13 +75,13 @@ const EditModal = (type) => {
 				},
 			}}
 			dispatch={{
-				path: `techMaps.techOperations.table.modal.events.on${toCapitalize}Row`,
+				path: `techMaps.form.techOperationsTable.events.${type}OnModal`,
 				type: 'event',
 			}}
 			subscribe={[
 				{
 					name: `LocalTableChange`,
-					path: `rtd.techMaps.techOperations.table.selected`,
+					path: `rtd.techMaps.form.techOperationsTable.selected`,
 					onChange: ({value, setModalData, setButtonProps}) => {
 						value &&
 							setModalData &&
@@ -123,8 +121,7 @@ const EditModal = (type) => {
 						...footerCheckboxLayout,
 					}}
 					dispatch={{
-						path:
-							'techMaps.techOperations.table.modal.events.needInputData',
+						path: 'techMaps.form.techOperationsTable.events.needInputData',
 						type: 'event',
 					}}
 				/>
@@ -141,8 +138,7 @@ const EditModal = (type) => {
 					subscribe={[
 						{
 							name: 'unDisabled',
-							path:
-								'rtd.techMaps.techOperations.table.modal.events.needInputData',
+							path: 'rtd.techMaps.form.techOperationsTable.events.needInputData',
 							onChange: ({value, setSubscribeProps}) => {
 								value &&
 									setSubscribeProps &&
@@ -198,5 +194,3 @@ const EditModal = (type) => {
 		</Modal>
 	);
 };
-
-export default EditModal;

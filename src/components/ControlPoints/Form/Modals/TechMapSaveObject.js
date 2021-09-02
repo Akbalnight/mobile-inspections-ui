@@ -26,7 +26,7 @@ export const TechMapAddModal = () => {
 				},
 			}}
 			dispatch={{
-				path: 'controlPoints.controlPointForm.techMaps.addModal.onSave',
+				path: 'controlPoints.form.techMapsTable.select.onSave',
 				type: 'event',
 			}}
 		>
@@ -35,8 +35,7 @@ export const TechMapAddModal = () => {
 					<Col span={12}>
 						<Search
 							dispatch={{
-								path:
-									'controlPoints.controlPointForm.techMaps.addModal.onSearch',
+								path: 'controlPoints.form.techMapsTable.select.onSearch',
 							}}
 							className={'mb-8'}
 						/>
@@ -58,9 +57,9 @@ export const TechMapAddModal = () => {
 					requestLoadConfig={apiGetConfigByName('techMaps')}
 					subscribe={[
 						{
+							/** не работает поиск в конфигурации techMaps, нужно изменить настройку. Предлагаю для данной таблицы сделать дополнительный конфиг */
 							name: 'onTechMapsSearch',
-							path:
-								'rtd.controlPoints.controlPointForm.techMaps.addModal.onSearch',
+							path: 'rtd.controlPoints.form.techMapsTable.select.onSearch',
 							onChange: ({value, reloadTable}) => {
 								reloadTable({
 									filter: {name: value},
@@ -69,8 +68,7 @@ export const TechMapAddModal = () => {
 						},
 					]}
 					dispatch={{
-						path:
-							'controlPoints.controlPointForm.techMaps.addModal.table',
+						path: 'controlPoints.form.techMapsTable.select.table',
 					}}
 				/>
 				<Table
@@ -85,8 +83,7 @@ export const TechMapAddModal = () => {
 					subscribe={[
 						{
 							name: 'onTechMapSelect',
-							path:
-								'rtd.controlPoints.controlPointForm.techMaps.addModal.table.selected',
+							path: 'rtd.controlPoints.form.techMapsTable.select.table.selected',
 							onChange: ({value, reloadTable}) => {
 								value &&
 									!value.isGroup &&

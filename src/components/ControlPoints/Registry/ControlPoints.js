@@ -22,6 +22,7 @@ const ControlPoints = () => {
 				/>
 				<FormBody noPadding={true}>
 					<Table
+						className={'control-points-registry'}
 						footerShow={true}
 						searchParamName={'name'}
 						customColumnProps={customColumnProps}
@@ -30,30 +31,13 @@ const ControlPoints = () => {
 						)}
 						requestLoadConfig={apiGetConfigByName('controlPoints')}
 						dispatch={{
-							path: 'controlPoints.controlPointsTable.table',
+							path: 'controlPoints.table',
 						}}
 						subscribe={[
-							/**Action add object*/
-							{
-								name: 'addOnModal',
-								path: `rtd.controlPoints.controlPointsTable.modal.events.addOnModal`,
-								onChange: ({reloadTable}) => {
-									reloadTable({});
-								},
-							},
-
-							/**Action edit object*/
-							{
-								name: 'editOnModal',
-								path: `rtd.controlPoints.controlPointsTable.modal.events.editOnModal`,
-								onChange: ({reloadTable}) => {
-									reloadTable({});
-								},
-							},
 							/**Action add group of object*/
 							{
 								name: 'addOnModal',
-								path: `rtd.controlPoints.controlPointsTable.modal.events.addOnGroupModal`,
+								path: `rtd.controlPoints.table.events.addOnGroupModal`,
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
@@ -62,7 +46,7 @@ const ControlPoints = () => {
 							/**Action edit group of object*/
 							{
 								name: 'editOnModal',
-								path: `rtd.controlPoints.controlPointsTable.modal.events.editOnGroupModal`,
+								path: `rtd.controlPoints.table.events.editOnGroupModal`,
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
@@ -71,7 +55,7 @@ const ControlPoints = () => {
 							/**Action delete object*/
 							{
 								name: 'deleteOnModal',
-								path: `rtd.controlPoints.controlPointsTable.modal.events.deleteOnModal`,
+								path: `rtd.controlPoints.table.events.deleteOnModal`,
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
@@ -79,7 +63,7 @@ const ControlPoints = () => {
 							/**Action search*/
 							{
 								name: 'searchOnTable',
-								path: `rtd.controlPoints.controlPointsTable.table.events.onSearch`,
+								path: `rtd.controlPoints.table.events.onSearch`,
 								onChange: ({value, reloadTable}) => {
 									reloadTable({
 										searchValue: value,
@@ -89,8 +73,7 @@ const ControlPoints = () => {
 							/**Action reload*/
 							{
 								name: 'onReload',
-								path:
-									'rtd.controlPoints.controlPointsTable.table.events.onReload',
+								path: 'rtd.controlPoints.table.events.onReload',
 								onChange: ({reloadTable}) => {
 									reloadTable({});
 								},
