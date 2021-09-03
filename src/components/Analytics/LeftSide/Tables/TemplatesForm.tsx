@@ -1,16 +1,46 @@
 import React from 'react';
-import {Layout, Space, Title, Button} from 'rt-design';
+import {Layout, Space, Title, deprecated, Text, Row} from 'rt-design';
 import {paths} from '../../../../constants/paths';
 import {LeftOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router';
-import {TemplatesTable} from './TemplatesTable';
-import {TemplatesTableHeader} from '../../tableProps';
-import {ConstructorFields} from './ConstructorFields';
+
+const {Form} = deprecated;
 
 export const TemplatesForm = ({analyticId}: {analyticId: string}) => {
+	// плохо
+	// console.log(analyticId)
 	const history = useHistory();
 
 	const onBackPage = () => history.push(`${paths.ANALYTICS_MAIN.path}`);
+
+	/**
+	 * export const getObjectExcludedProps = (object, exclude) => {
+    let returnObject = {};
+    Object.keys(object).forEach((key) =>
+        !exclude.includes(key) ? (returnObject[key] = object[key]) : undefined // было null
+    );
+    return returnObject;
+};
+	 *
+	 * */
+
+	const settingsConfig = {
+		name: 'settingConfigForm',
+		labelCol: {span: 8},
+		wrapperCol: {span: 16},
+		body: [
+			{
+				componentType: 'Item',
+				child: {
+					componentType: 'Title',
+					label: 'Тут будет полезная информация',
+					className: 'mb-0',
+					level: 3,
+				},
+			},
+		],
+	};
+
 	return (
 		<Layout>
 			<div style={{display: 'flex', margin: '12px 0'}}>
@@ -29,19 +59,35 @@ export const TemplatesForm = ({analyticId}: {analyticId: string}) => {
 					</Title>
 				</Space>
 			</div>
-			<Title level={5} className={'pt-16'}>
-				Шаблоны отчетов
-			</Title>
-			<Layout style={{border: '1px solid #DFDFDF'}}>
-				<TemplatesTableHeader />
-				<TemplatesTable />
-			</Layout>
-			<Title level={5} className={'pt-16'}>
-				Дополнительные параметры
-			</Title>
-			<Layout>
-				<ConstructorFields />
-			</Layout>
+			{/*<Form {...settingsConfig}/>*/}
+			{/*			<Space*/}
+			{/*			subscribe={[*/}
+			{/*				{*/}
+			{/*					name:'inputJson',*/}
+			{/*					withMount: true,*/}
+			{/*					path:'rtd.analytics.templatesTable.events.onRowClick',*/}
+			{/*					onChange:({value, setSubscribeProps})=>{*/}
+			{/*						// console.log(value.value)*/}
+			{/*						try {*/}
+			{/*						const section=JSON.parse(" {\"selected\": {\n" +*/}
+			{/*							"              \"description\": \"Основной реестр выделенные строки\",\n" +*/}
+			{/*							"              \"type\": \"<Title label={'kjdfhlasj'}/>\"\n" +*/}
+			{/*							"            }}")*/}
+			{/*							console.log(typeof Object(section.selected.type))*/}
+			{/*							setSubscribeProps({*/}
+			{/*								split: Object(section.selected.type)*/}
+			{/*							})*/}
+
+			{/*						} catch(err){*/}
+			{/*							console.log(1)*/}
+			{/*						}*/}
+			{/*					}*/}
+			{/*				}*/}
+			{/*			]}>*/}
+			{/*s*/}
+			{/*				ds*/}
+			{/*				<div>ws</div>*/}
+			{/*			</Space>*/}
 		</Layout>
 	);
 };

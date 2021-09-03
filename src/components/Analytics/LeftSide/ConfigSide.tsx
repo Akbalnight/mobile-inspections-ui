@@ -1,10 +1,20 @@
 import React from 'react';
-import {Form, FormBody, Layout, Space, Button, Title, List} from 'rt-design';
+import {
+	Form,
+	FormBody,
+	Layout,
+	Space,
+	Button,
+	Title,
+	List,
+	FormFooter,
+} from 'rt-design';
 import {Link, useLocation} from 'react-router-dom';
 import {paths} from '../../../constants/paths';
 import {analyticConfigs} from '../Registry/analyticConfigs';
 import {TemplatesForm} from './Tables/TemplatesForm';
-import {cpus} from 'os';
+import {TemplatesTableHeader} from '../tableProps';
+import {TemplatesTable} from './Tables/TemplatesTable';
 
 export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 	let {pathname} = useLocation();
@@ -17,32 +27,19 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 		<TemplatesForm analyticId={analyticId} />
 	) : (
 		<>
-			<Title level={5} style={{padding: '24px 24px 10px 24px'}}>
-				Выберите шаблон отчета
+			<Title level={4} style={{padding: '24px 24px 10px 24px'}}>
+				Отчет
 			</Title>
 			<Layout>
-				<List
-					dataSource={analyticConfigs(paths)}
-					itemLayout={'vertical'}
-					renderItem={(item) => (
-						<li
-							className={
-								pathname === item.path ? 'activeItem' : ''
-							}
-						>
-							<Link to={item.path} className={'analyticLink'}>
-								{item.title}
-							</Link>
-						</li>
-					)}
-				/>
+				<TemplatesTableHeader />
+				<TemplatesTable />
 			</Layout>
 		</>
 	);
 
 	const footer = analyticId ? (
 		<Space
-			className={'p-8'}
+			// className={'p-8'}
 			style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}
 		>
 			<Button>Сбросить</Button>
@@ -61,7 +58,7 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 			>
 				{content}
 			</FormBody>
-			{footer}
+			<FormFooter>{footer}</FormFooter>
 		</Form>
 	);
 };
