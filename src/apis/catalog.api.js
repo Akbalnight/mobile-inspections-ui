@@ -1,5 +1,5 @@
 import {genericRequest, genericUploadRequest} from './network';
-//
+
 export const apiGetConfigByName = (configName) => () =>
 	genericRequest({
 		url: '/api/dynamicdq/configuration/' + configName,
@@ -44,12 +44,12 @@ export const apiGetHierarchicalDataByConfigName =
 		});
 
 export const apiSaveByConfigName =
-	(catalogName) =>
+	(catalogName, systemEvent) =>
 	({method, data, params}) =>
 		genericRequest({
 			url: `/api/dynamicdq/data/save/${catalogName}`,
 			method: method,
-			data,
+			data: {...data, systemEvent: systemEvent},
 			params,
 		});
 
