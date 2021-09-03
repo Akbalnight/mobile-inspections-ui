@@ -3,7 +3,7 @@ export const systemEvents = {
 		finish: {
 			id: '845c2def-c0b4-472f-bcab-45e6476ab32c',
 			dataTemplate: {
-				routeId: 'id',
+				routeName: 'name',
 				routeDuration: 'duration',
 			},
 		},
