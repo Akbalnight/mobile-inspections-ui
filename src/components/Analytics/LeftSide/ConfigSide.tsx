@@ -6,21 +6,17 @@ import {
 	Space,
 	Button,
 	Title,
-	List,
+	Text,
 	FormFooter,
 } from 'rt-design';
-import {Link, useLocation} from 'react-router-dom';
-import {paths} from '../../../constants/paths';
-import {analyticConfigs} from '../Registry/analyticConfigs';
+
 import {TemplatesForm} from './Tables/TemplatesForm';
 import {TemplatesTableHeader} from '../tableProps';
 import {TemplatesTable} from './Tables/TemplatesTable';
 
 export const ConfigSide = ({analyticId}: {analyticId: string}) => {
-	let {pathname} = useLocation();
-
 	const loadData = (callBack: (params: any) => void) => {
-		return callBack(analyticId ? {NEW_NAME: analyticId} : null);
+		return callBack(analyticId ? {id: analyticId} : null);
 	};
 
 	const content = analyticId ? (
@@ -42,8 +38,22 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 			// className={'p-8'}
 			style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}
 		>
-			<Button>Сбросить</Button>
-			<Button type={'primary'} htmlType={'submit'}>
+			<Button
+				dispatch={{
+					path: 'analytics.form.events.onReload',
+				}}
+			>
+				Сбросить
+			</Button>
+			<Button
+				type={'primary'}
+				htmlType={'submit'}
+				dispatch={{
+					path: 'analytics.form.events.onSubmit',
+					extraData: 'rtd.analytics.filter.data',
+					type: 'event',
+				}}
+			>
 				Сформировать
 			</Button>
 		</Space>
@@ -57,6 +67,17 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 				style={{padding: '0 24px 24px 24px'}}
 			>
 				{content}
+				<Text
+					subscribe={[
+						{
+							name: '1234',
+							path: 'rtd.analytics.form.events.onSubmit',
+							onChange: ({value}) => {
+								console.log(value);
+							},
+						},
+					]}
+				/>
 			</FormBody>
 			<FormFooter>{footer}</FormFooter>
 		</Form>

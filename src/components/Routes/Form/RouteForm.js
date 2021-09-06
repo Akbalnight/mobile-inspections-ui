@@ -31,6 +31,7 @@ import {
 } from '../tableProps';
 import {Result} from 'antd';
 import {WayOutModal} from './Modals/WayOutModal';
+import {systemEvents} from '../../../constants/systemEvents';
 
 export const RoutesAdd = () => {
 	return (
@@ -99,7 +100,10 @@ const RouteForm = (props) => {
 			name={'form'}
 			loadInitData={loadData}
 			methodSaveForm={routeId ? 'PUT' : 'POST'}
-			requestSaveForm={apiSaveByConfigName('routes')}
+			requestSaveForm={apiSaveByConfigName(
+				'routes',
+				systemEvents.ROUTE_CREATION_SUCCESS
+			)}
 			onFinish={() => {
 				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
 			}}
