@@ -26,10 +26,10 @@ export const menu = [
 	// 	...paths.DEBUG_TABLE,
 	// paths.DEBUG_CP_ANTON,
 	// },
-	// {
-	// 	icon: BugOutlined,
-	// 	...paths.DEBUG_RABBIT,
-	// },
+	{
+		icon: BugOutlined,
+		...paths.DEBUG_RABBIT,
+	},
 	// {
 	// 	icon: BugOutlined,
 	// 	...paths.DEBUG_MARSEL,
