@@ -15,7 +15,7 @@ import {ReactComponent as One} from '../../imgs/defects/priority/one.svg';
 import {ReactComponent as Two} from '../../imgs/defects/priority/two.svg';
 import {ReactComponent as Three} from '../../imgs/defects/priority/three.svg';
 import {ReactComponent as Four} from '../../imgs/defects/priority/four.svg';
-import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../apis/application.api';
 import {paths} from '../../constants/paths';
 import {
 	Space,

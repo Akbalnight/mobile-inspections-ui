@@ -28,7 +28,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import React from 'react';
 import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';

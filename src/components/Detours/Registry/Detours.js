@@ -3,7 +3,7 @@ import {Form, FormBody, Table, Switcher} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {customColumnProps, DetoursMainTableHeader} from '../tableProps';
 import React from 'react';
 import DetoursCalendar from './DetoursCalendar';

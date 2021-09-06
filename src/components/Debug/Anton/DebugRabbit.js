@@ -3,7 +3,7 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {Button, notificationError} from 'rt-design';
 import {FormItems} from 'rt-design';
 import {genericRequest} from '../../../apis/network';
-import {apiGetConfigByName} from '../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../apis/application.api';
 
 const DebugRabbit = () => {
 	const dataTask = [

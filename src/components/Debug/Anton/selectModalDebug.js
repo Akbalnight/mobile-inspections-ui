@@ -1,7 +1,7 @@
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {PlusOutlined} from '@ant-design/icons';
 
 export const selectModalDebug = [

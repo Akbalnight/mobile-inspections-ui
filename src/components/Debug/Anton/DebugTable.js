@@ -5,7 +5,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {code} from '../../Base/customColumnProps';
 
 const {Form, Space, Table, Layout, FormBody, Title, Button} = classic;

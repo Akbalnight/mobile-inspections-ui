@@ -4,7 +4,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import Switcher from './Tables/Switcher';
 import {useHistory} from 'react-router';
 import {paths} from '../../../constants/paths';

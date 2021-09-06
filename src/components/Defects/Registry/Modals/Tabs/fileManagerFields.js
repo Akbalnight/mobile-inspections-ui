@@ -4,7 +4,7 @@ import {AttachmentsPreview} from '../../../../Base/Functions/MediaUtils';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../../../../apis/catalog.api';
+} from '../../../../../apis/application.api';
 import {GetCurrentMode} from '../../../tableProps';
 
 export const FilesTabFields = ({sRow}) => {

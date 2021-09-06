@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormBody, Modal} from 'rt-design';
-import {apiSaveByConfigName} from '../../../apis/catalog.api';
+import {apiSaveByConfigName} from '../../../apis/application.api';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {objectOnServer} from '../Functions/CustomObject';
 import {changeStorePath} from '../Functions/ChangeStorePath';

@@ -1,6 +1,6 @@
 import {DeleteOutlined} from '@ant-design/icons';
 import {ReactComponent as Warning} from '../../../../imgs/warning-mdl-big.svg';
-import {apiSaveByConfigName} from '../../../../apis/catalog.api';
+import {apiSaveByConfigName} from '../../../../apis/application.api';
 import React from 'react';
 import {Modal, Text, FormBody} from 'rt-design';
 

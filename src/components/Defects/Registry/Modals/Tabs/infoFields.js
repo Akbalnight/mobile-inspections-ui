@@ -1,7 +1,7 @@
 import {
 	apiGetConfigByName,
 	apiSaveByConfigName,
-} from '../../../../../apis/catalog.api';
+} from '../../../../../apis/application.api';
 import React from 'react';
 import {Layout, Table, Title, Text, Checkbox, DateText} from 'rt-design';
 import {customColumnProps, GetCurrentMode} from '../../../tableProps';

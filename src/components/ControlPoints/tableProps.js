@@ -24,7 +24,7 @@ import {codeNormalizer} from '../Base/Functions/TextUtils';
 import {Access} from 'mobile-inspections-base-ui';
 import {RfidIcon} from '../../imgs/controlPoints/icons';
 import {notification, Tooltip} from 'antd';
-import {apiSaveByConfigName} from '../../apis/catalog.api';
+import {apiSaveByConfigName} from '../../apis/application.api';
 import {useDispatch} from 'react-redux';
 import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';

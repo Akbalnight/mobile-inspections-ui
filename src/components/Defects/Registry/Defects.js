@@ -4,7 +4,7 @@ import {Layout, Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {useHistory} from 'react-router';
 import {
 	customColumnProps,

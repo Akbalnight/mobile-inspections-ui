@@ -21,7 +21,7 @@ import {selectRowsById} from '../../Base/Functions/TableSelectById';
 import {
 	apiGetConfigByName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {paths} from '../../../constants/paths';
 import {AttachmentsPreview} from '../../Base/Functions/MediaUtils';
 import {

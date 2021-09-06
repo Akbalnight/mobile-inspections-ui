@@ -1,4 +1,4 @@
-import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../apis/application.api';
 /**
  * Проверяет необходимость запроса в базу данных. Если не передан id записи - вернет пустой промис */
 export const selectRowsById =

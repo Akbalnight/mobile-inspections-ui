@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Form, Table, FormBody} from 'rt-design';
 import {schedulesCustomColumn, SchedulesTableHeader} from '../tableProps';

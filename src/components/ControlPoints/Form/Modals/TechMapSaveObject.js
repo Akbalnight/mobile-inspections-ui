@@ -2,7 +2,7 @@ import {PlusOutlined} from '@ant-design/icons';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import React from 'react';
 import {Modal, FormBody, Row, Col, Search, Table} from 'rt-design';
 

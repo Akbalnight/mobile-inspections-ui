@@ -6,7 +6,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {EditOutlined, MehOutlined, ReloadOutlined} from '@ant-design/icons';
 const {
 	Form,

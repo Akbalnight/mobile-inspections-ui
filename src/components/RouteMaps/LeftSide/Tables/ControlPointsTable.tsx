@@ -3,7 +3,7 @@ import {customColumnProps} from '../../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {Button, Table, TablesSubscribeOnChangeOptions} from 'rt-design';
 
 const ControlPointsTable = ({routeId}: {routeId: string}) => {

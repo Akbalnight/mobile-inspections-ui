@@ -3,7 +3,7 @@ import {EditOutlined, FolderAddOutlined} from '@ant-design/icons';
 import {
 	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import React from 'react';
 import {itemsInfo} from '../../../constants/dictionary';
 import {changeStorePath} from '../Functions/ChangeStorePath';

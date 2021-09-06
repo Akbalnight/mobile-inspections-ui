@@ -22,7 +22,7 @@ import {Collapse} from 'antd';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {customColumnProps} from '../../tableProps';
 import {Access} from 'mobile-inspections-base-ui';
 import moment from 'moment';
