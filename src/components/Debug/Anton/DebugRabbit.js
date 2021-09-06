@@ -12,56 +12,60 @@ const DebugRabbit = () => {
 			configName: 'routes',
 			body: {},
 			pageable: {page: 0, size: 2},
-			events: {
-				start: {
-					id: '845c2def-c0b4-472f-bcab-45e6476ab32c',
-					dataTemplate: {
-						routeId: 'id',
-						// routeLink: paths.DEBUG_RABBIT.path,
-						routeName: 'header.name',
-						routeDur: 'duration',
-					},
-				},
-			},
-			output: 'routesData',
+			output: 'routes',
 		},
 		{
 			typeExecutor: 'object',
 			configName: 'routes',
-			body: {},
+			body: {id: '1220f37b-0a7e-4da7-b940-bac2ee38b216'},
 			pageable: {page: 0, size: 2},
-			output: 'header',
+			output: 'route.one',
 		},
 		{
-			typeExecutor: 'excelCreate',
-			output: 'file-name.xlsx',
-		},
-		{
-			typeExecutor: 'excelAddTable', // addRow // addCell
-			body: {
-				file: 'file-name.xlsx',
-				startCell: {row: 1, col: 1},
-				data: 'routesData',
-			},
-			output: 'route.lastRowIndex',
-		},
-		{
-			typeExecutor: 'excelAddRow',
-			body: {
-				file: 'file-name.xlsx',
-				startCell: {row: 'route.lastRowIndex', col: 1},
-				data: 'header.name',
-			},
-			output: 'lastRowIndex',
-		},
-		{
-			typeExecutor: 'excelSave',
+			typeExecutor: 'object',
 			configName: 'routes',
+			body: {id: '37f77a31-28cf-4522-b48a-a23998bdd8d9'},
+			pageable: {page: 0, size: 2},
+			output: 'route.two',
+		},
+		{
+			typeExecutor: 'output',
 			body: {
-				file: 'file-name.xlsx',
-				dataObject: {},
+				routeName: 'route.one.name',
+				routeCode: 'route.two.code',
+				data: 'routes',
 			},
 		},
+		// {
+		// 	typeExecutor: 'excelCreate',
+		// 	output: 'file-name.xlsx',
+		// },
+		// {
+		// 	typeExecutor: 'excelAddTable', // addRow // addCell
+		// 	body: {
+		// 		file: 'file-name.xlsx',
+		// 		startCell: {row: 1, col: 1},
+		// 		data: 'routesData',
+		// 	},
+		// 	output: 'route.lastRowIndex',
+		// },
+		// {
+		// 	typeExecutor: 'excelAddRow',
+		// 	body: {
+		// 		file: 'file-name.xlsx',
+		// 		startCell: {row: 'route.lastRowIndex', col: 1},
+		// 		data: 'header.name',
+		// 	},
+		// 	output: 'lastRowIndex',
+		// },
+		// {
+		// 	typeExecutor: 'excelSave',
+		// 	configName: 'routes',
+		// 	body: {
+		// 		file: 'file-name.xlsx',
+		// 		dataObject: {},
+		// 	},
+		// },
 		// {
 		// 	typeExecutor: 'event',
 		// 	body: {
@@ -86,10 +90,6 @@ const DebugRabbit = () => {
 		// 			},
 		// 		},
 		// 	},
-		// },
-		// {
-		// 	typeExecutor: 'output',
-		// 	body: 'routesData',
 		// },
 		// {
 		// 	// equal not_equal  and or / greater_equal / less_equal / greater / less
@@ -151,8 +151,7 @@ const DebugRabbit = () => {
 
 	const onClickButton = () => {
 		genericRequest({
-			url: `/api/dynamicdq/rabbit/task`,
-			// url: `/api/dynamicdq/rabbit/task`,
+			url: `/api/dynamicdq/task/sync`,
 			method: 'POST',
 			data: dataTask,
 		})
@@ -165,7 +164,7 @@ const DebugRabbit = () => {
 	return (
 		<BasePage>
 			<Button onClick={onClickButton}>Send task</Button>
-			<FormItems items={items} />
+			{/*<FormItems items={items} />*/}
 		</BasePage>
 	);
 };
