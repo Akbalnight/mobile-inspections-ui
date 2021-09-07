@@ -2,7 +2,10 @@ import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {useParams} from 'react-router';
 import SplitPane from 'react-split-pane';
-import {ConfigSide} from './LeftSide/ConfigSide';
+import {ConfigSide} from './ConfigSide/ConfigSide';
+import {Space, Title} from 'rt-design';
+import {LeftOutlined} from '@ant-design/icons';
+import {AnalyticHistory} from './AnalyticHistory/AnalyticHistory';
 
 export const AnalyticsMain = () => {
 	return (
@@ -35,7 +38,23 @@ const Analytics = ({analyticId}) => {
 			<div className={'analyticsConfig'}>
 				<ConfigSide analyticId={analyticId} />
 			</div>
-			<div className={'analyticsContainer'}>2</div>
+			<div className={'analyticsContainer'}>
+				{analyticId ? (
+					<AnalyticHistory />
+				) : (
+					<Space style={{margin: 'auto'}}>
+						<LeftOutlined
+							style={{fontSize: '32px', color: '#1890ff'}}
+						/>
+						<Title
+							level={2}
+							style={{marginBottom: '2px', color: '#1890ff'}}
+						>
+							Выберите отчет
+						</Title>
+					</Space>
+				)}
+			</div>
 		</SplitPane>
 	);
 };

@@ -20,7 +20,7 @@ const chooseSubscribe = (object: any) => {
 		} else if (el === 'dateStart') {
 			subArr.push({
 				name: 'finishDate',
-				path: `rtd.analytics.filter.events.startDate`,
+				path: `rtd.analytics.filter.data.startDate`,
 				onChange: ({
 					value,
 					setSubscribeProps,
@@ -38,7 +38,7 @@ const chooseSubscribe = (object: any) => {
 		} else if (el === 'dateFinish') {
 			subArr.push({
 				name: 'startDate',
-				path: `rtd.analytics.filter.events.finishDate`,
+				path: `rtd.analytics.filter.data.finishDate`,
 				onChange: ({
 					value,
 					setSubscribeProps,
@@ -115,7 +115,7 @@ const chooseOptionConverter = (configName: any) => {
 	}
 };
 
-export const resolveToObject = (items: any) =>
+export const parseById = (items: any) =>
 	items.map((item: any) => {
 		if (item.loadRows) {
 			item.requestLoadRows = chooseRequest(item.loadRows);
@@ -125,7 +125,7 @@ export const resolveToObject = (items: any) =>
 			item.subscribe = chooseSubscribe(item.subscribe);
 		}
 		if (item.children) {
-			resolveToObject(item.children);
+			parseById(item.children);
 		}
 		return item;
 	});

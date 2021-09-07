@@ -6,7 +6,7 @@ import {
 	Space,
 	Button,
 	Title,
-	Text,
+	FormItems,
 	FormFooter,
 } from 'rt-design';
 
@@ -16,7 +16,7 @@ import {TemplatesTable} from './Tables/TemplatesTable';
 
 export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 	const loadData = (callBack: (params: any) => void) => {
-		return callBack(analyticId ? {id: analyticId} : null);
+		return callBack(analyticId ? {filterConfig: analyticId} : null);
 	};
 
 	const content = analyticId ? (
@@ -35,7 +35,6 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 
 	const footer = analyticId ? (
 		<Space
-			// className={'p-8'}
 			style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}
 		>
 			<Button
@@ -67,17 +66,6 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 				style={{padding: '0 24px 24px 24px'}}
 			>
 				{content}
-				<Text
-					subscribe={[
-						{
-							name: '1234',
-							path: 'rtd.analytics.form.events.onSubmit',
-							onChange: ({value}) => {
-								console.log(value);
-							},
-						},
-					]}
-				/>
 			</FormBody>
 			<FormFooter>{footer}</FormFooter>
 		</Form>

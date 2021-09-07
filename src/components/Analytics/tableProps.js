@@ -1,25 +1,185 @@
 import React from 'react';
-import {Space, Search} from 'rt-design';
+import {Space, Search, Button, Text, DatePicker, Divider} from 'rt-design';
+import {ReloadOutlined} from '@ant-design/icons';
+import {changeStorePath} from '../Base/Functions/ChangeStorePath';
+import {reloadFilterFields} from '../Base/Functions/ReloadField';
+import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 
 export const TemplatesTableHeader = () => {
 	return (
-		<Space className={'pb-8'} style={{width: '100%'}}>
-			<Search
-				itemProps={{
-					name: 'onSearch',
-				}}
-				style={{width: '100%'}}
-				placeholder={'Введите наименование'}
-				dispatch={{
-					path: 'analytics.templatesTable.events.onSearch',
-				}}
-				subscribe={
-					[
-						/** Reload Search value field, clear STORE*/
-						// reloadFilterFields('schedules.table.events.onReload'),
-					]
-				}
-			/>
-		</Space>
+		<Search
+			itemProps={{
+				name: 'onSearch',
+			}}
+			style={{width: '100%'}}
+			placeholder={'Введите наименование'}
+			className={'py-8'}
+			dispatch={{
+				path: 'analytics.templatesTable.events.onSearch',
+			}}
+		/>
+	);
+};
+
+export const HistoryTableHeader = () => {
+	return (
+		<>
+			<Space className={'p-8'} direction={'vertical'}>
+				<Space style={{width: '100%', justifyContent: 'flex-end'}}>
+					<Button
+						icon={<ReloadOutlined />}
+						hidden={true}
+						subscribe={[
+							/** Action search activate btn*/
+							{
+								name: 'onSearchPush',
+								path: `rtd.analytics.historyTable.events.onSearch`,
+								onChange: ({value, setSubscribeProps}) => {
+									value &&
+										setSubscribeProps &&
+										setSubscribeProps({hidden: !value});
+								},
+							},
+							/** Action reload in mainForm.table deactivate btn*/
+							{
+								name: 'onReloadPush',
+								path: `rtd.analytic.historyTable.rows`,
+								onChange: ({value, setSubscribeProps}) => {
+									/** We might thinking about ${path}.rows array length*/
+
+									value &&
+										value.length >= 4 &&
+										setSubscribeProps &&
+										setSubscribeProps({hidden: value});
+								},
+							},
+						]}
+						dispatch={{
+							path: `analytic.historyTable.events.onReload`,
+						}}
+					/>
+					<Search
+						itemProps={{
+							name: 'onSearch',
+						}}
+						placeholder={'Введите наименование'}
+						dispatch={{
+							path: 'analytics.historyTable.events.onSearch',
+						}}
+						subscribe={[
+							/** Reload Search value field, clear STORE*/
+							reloadFilterFields(
+								'analytic.historyTable.events.onReload'
+							),
+						]}
+					/>
+				</Space>
+				<Divider className={'mb-0 mt-0'} />
+				<Space style={{width: '100%', justifyContent: 'space-between'}}>
+					<Space direction={'vertical'} className={'mr-8'}>
+						<Text className={'mb-0'}>Период дат</Text>
+						<Space>
+							<DatePicker
+								itemProps={{
+									name: 'dateDetectDefectStart',
+									label: 'c',
+									className: 'mb-0',
+								}}
+								format={'DD.MM.YYYY'}
+								onChange={(date, dateString) =>
+									date?.startOf('day')
+								}
+								dispatch={{
+									path: `analytic.historyTable.data.detectStartDate`,
+								}}
+								subscribe={[
+									{
+										name: 'startDate',
+										path: `rtd.analytic.historyTable.data.detectEndDate`,
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (startValue) =>
+													disabledStartDate(
+														startValue,
+														value
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										`analytic.historyTable.events.onReload`
+									),
+								]}
+							/>
+							<DatePicker
+								itemProps={{
+									name: 'dateDetectDefectEnd',
+									label: 'по',
+									className: 'mb-0',
+								}}
+								format={'DD.MM.YYYY'}
+								onChange={(date, dateString) =>
+									date?.endOf('day')
+								}
+								dispatch={{
+									path: `analytic.historyTable.data.detectEndDate`,
+								}}
+								subscribe={[
+									{
+										name: 'endDate',
+										path: `rtd.analytic.historyTable.data.detectStartDate`,
+										onChange: ({
+											value,
+											setSubscribeProps,
+										}) => {
+											setSubscribeProps({
+												disabledDate: (endValue) =>
+													disabledEndDate(
+														value,
+														endValue
+													),
+											});
+										},
+									},
+									reloadFilterFields(
+										`analytic.historyTable.events.onReload`
+									),
+								]}
+							/>
+						</Space>
+					</Space>
+					<Space
+						className={'mt-16'}
+						style={{
+							justifyContent: 'space-between',
+						}}
+					>
+						<Button
+							itemProps={{name: 'btnFilterApply'}}
+							type={'primary'}
+							dispatch={{
+								path: `analytic.historyTable.events.onApplyFilter`,
+								extraData: `rtd.analytic.historyTable.table.data`,
+								type: 'event',
+							}}
+						>
+							Применить
+						</Button>
+						<Button
+							itemProps={{name: 'btnFilterClear'}}
+							dispatch={{
+								path: `analytic.historyTable.events.onReload`,
+								type: 'event',
+							}}
+						>
+							Сбросить
+						</Button>
+					</Space>
+				</Space>
+			</Space>
+		</>
 	);
 };
