@@ -2,7 +2,6 @@ import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Button, notificationError} from 'rt-design';
 import {genericRequest} from '../../../apis/network';
-import {systemEvents} from '../../../constants/systemEvents';
 
 const DebugRabbit = () => {
 	const dataTask = [

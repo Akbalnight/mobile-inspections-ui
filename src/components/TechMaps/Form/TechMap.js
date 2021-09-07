@@ -27,6 +27,7 @@ import {useHistory, useParams} from 'react-router';
 import {paths} from '../../../constants/paths';
 import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
 import {uuid} from '../../../utils/baseUtils';
+import {systemEvents} from '../../../constants/systemEvents';
 
 export const TechMapsAdd = () => {
 	return (
@@ -92,7 +93,10 @@ const TechMap = (props) => {
 		<Form
 			name={'TechMapsForm'}
 			loadInitData={loadData}
-			requestSaveForm={apiSaveByConfigName('techMaps')}
+			requestSaveForm={apiSaveByConfigName(
+				'techMaps',
+				systemEvents.TECH_MAPS_CREATION_SUCCESS
+			)}
 			methodSaveForm={techMapId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}

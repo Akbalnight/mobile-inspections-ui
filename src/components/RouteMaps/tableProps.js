@@ -34,6 +34,7 @@ export const RouteMapsTableHeader = ({routeId}) => {
 				timestamp: moment(),
 			})
 		);
+		// eslint-disable-next-line
 	}, [routeId]);
 
 	const loadDataObject = (callBack) => {

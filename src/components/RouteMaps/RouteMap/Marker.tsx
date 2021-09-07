@@ -85,6 +85,7 @@ export const Marker = ({point, bounds, onChange}: DraggableMarkerProps) => {
 				}
 			},
 		}),
+		// eslint-disable-next-line
 		[bounds]
 	);
 	return (

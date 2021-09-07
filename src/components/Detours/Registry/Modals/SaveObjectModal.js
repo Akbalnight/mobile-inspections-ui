@@ -24,6 +24,7 @@ import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDe
 import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
+import {systemEvents} from '../../../../constants/systemEvents';
 
 export const AddDetour = () => OperationOnServer('add');
 export const EditDetour = () => OperationOnServer('edit');
@@ -92,7 +93,10 @@ const OperationOnServer = (type) => {
 					width: 700,
 					bodyStyle: {height: type === 'add' ? 630 : 670},
 					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
-					requestSaveForm: apiSaveByConfigName('saveDetourForm'),
+					requestSaveForm: apiSaveByConfigName(
+						'saveDetourForm',
+						systemEvents.DETOUR_CREATION_SUCCESS
+					),
 					form: {
 						name: `${type}ModalForm`,
 						loadInitData: (callBack, row) => {
