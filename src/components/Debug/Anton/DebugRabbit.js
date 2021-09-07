@@ -1,71 +1,106 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Button, notificationError} from 'rt-design';
+import {Button, Form, Input, notificationError} from 'rt-design';
 import {FormItems} from 'rt-design';
-import {genericRequest} from '../../../apis/network';
+import {genericDownloadRequest, genericRequest} from '../../../apis/network';
 import {apiGetConfigByName} from '../../../apis/application.api';
 
 const DebugRabbit = () => {
 	const dataTask = [
+		/** ========== DATA ========== */
 		{
 			typeExecutor: 'flat',
-			configName: 'routes',
+			configName: 'defects',
 			body: {},
-			pageable: {page: 0, size: 2},
-			output: 'routes',
+			pageable: {page: 0, size: 1},
+			output: 'report.data.defects',
 		},
 		{
 			typeExecutor: 'object',
 			configName: 'routes',
 			body: {id: '1220f37b-0a7e-4da7-b940-bac2ee38b216'},
 			pageable: {page: 0, size: 2},
-			output: 'route.one',
+			output: 'report.data.route.one',
 		},
 		{
 			typeExecutor: 'object',
 			configName: 'routes',
 			body: {id: '37f77a31-28cf-4522-b48a-a23998bdd8d9'},
 			pageable: {page: 0, size: 2},
-			output: 'route.two',
+			output: 'report.data.route.two',
+		},
+		/** ========== EXCEL ========== */
+		{
+			typeExecutor: 'createExcel',
+			body: {
+				sheets: [
+					'report.data.route.one.name',
+					'MySheet',
+					'route.two.code',
+				],
+			},
+			output: 'excel.workbook',
+		},
+		{
+			typeExecutor: 'addTableExcel',
+			configName: 'defects',
+			body: {
+				file: 'excel.workbook',
+				sheet: 'route.one.name',
+				startCell: {row: 0, col: 0},
+				data: 'report.data.defects',
+			},
+			output: 'excel.lastRowIndex',
+		},
+		{
+			typeExecutor: 'addRowExcel', // addTableExcel // addRow // addCell
+			body: {
+				file: 'excel.workbook',
+				sheet: 'route.one.name',
+				startCell: {row: 'excel.lastRowIndex.rowIndex', col: 0},
+				data: 'report.data.route.one',
+			},
+			output: 'excel.lastRowIndex',
+		},
+		// {
+		// 	typeExecutor: 'addRowExcel', // addTableExcel // addRow // addCell
+		// 	body: {
+		// 		file: 'excel.report',
+		// 		sheet: 'route.one.name',
+		// 		startCell: {row: 5, col: 5},
+		// 		data: 'route.one',
+		// 	},
+		// 	output: 'excel.lastRowIndex',
+		// },
+		// {
+		// 	typeExecutor: 'addRowExcel', // addTableExcel // addRow // addCell
+		// 	body: {
+		// 		file: 'excel.report',
+		// 		sheet: 'route.one.name',
+		// 		startCell: {row: 6, col: 5},
+		// 		data: 'route.two',
+		// 	},
+		// 	output: 'excel.lastRowIndex',
+		// },
+		{
+			typeExecutor: 'saveExcel',
+			configName: 'file',
+			body: {
+				file: 'excel.workbook',
+				fileName: 'file-name.xlsx',
+			},
+			output: 'excel.file',
+			// localhost:3001/api/dynamicdq/data/file/mobileFiles/1b0889fb-9aa0-48a4-9d21-2d8d7b349675
 		},
 		{
 			typeExecutor: 'output',
 			body: {
-				routeName: 'route.one.name',
-				routeCode: 'route.two.code',
-				data: 'routes',
+				file: 'excel.file.id',
+				routeName: 'report.data.route.one.name',
+				routeCode: 'report.data.route.two.code',
+				data: 'report.data.defects',
 			},
 		},
-		// {
-		// 	typeExecutor: 'excelCreate',
-		// 	output: 'file-name.xlsx',
-		// },
-		// {
-		// 	typeExecutor: 'excelAddTable', // addRow // addCell
-		// 	body: {
-		// 		file: 'file-name.xlsx',
-		// 		startCell: {row: 1, col: 1},
-		// 		data: 'routesData',
-		// 	},
-		// 	output: 'route.lastRowIndex',
-		// },
-		// {
-		// 	typeExecutor: 'excelAddRow',
-		// 	body: {
-		// 		file: 'file-name.xlsx',
-		// 		startCell: {row: 'route.lastRowIndex', col: 1},
-		// 		data: 'header.name',
-		// 	},
-		// 	output: 'lastRowIndex',
-		// },
-		// {
-		// 	typeExecutor: 'excelSave',
-		// 	configName: 'routes',
-		// 	body: {
-		// 		file: 'file-name.xlsx',
-		// 		dataObject: {},
-		// 	},
-		// },
 		// {
 		// 	typeExecutor: 'event',
 		// 	body: {
@@ -155,15 +190,32 @@ const DebugRabbit = () => {
 			method: 'POST',
 			data: dataTask,
 		})
-			.then((r) => console.log('DebugRabbit', r))
+			.then((r) => {
+				console.log('onClickButton', r);
+				setId(r.data.file);
+			})
 			.catch((error) =>
-				notificationError(error, 'Ошибка при сохранении')
+				notificationError(error, 'Ошибка при выполнении')
 			);
+	};
+
+	const [id, setId] = useState();
+	const onClickLoadFile = () => {
+		genericDownloadRequest({
+			url: `/api/dynamicdq/data/file/mobileFiles/${id}`,
+			method: 'GET',
+		})
+			.then((r) => console.log('onClickLoadFile', r))
+			.catch((error) => notificationError(error, 'Ошибка при получении'));
 	};
 
 	return (
 		<BasePage>
-			<Button onClick={onClickButton}>Send task</Button>
+			<Form>
+				<Button onClick={onClickButton}>Send task</Button>
+				<Input value={id} onChange={(e) => setId(e.target.value)} />
+				<Button onClick={onClickLoadFile}>Load</Button>
+			</Form>
 			{/*<FormItems items={items} />*/}
 		</BasePage>
 	);
