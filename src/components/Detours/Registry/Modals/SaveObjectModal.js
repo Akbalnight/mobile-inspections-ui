@@ -95,7 +95,11 @@ const OperationOnServer = (type) => {
 					methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 					requestSaveForm: apiSaveByConfigName(
 						'saveDetourForm',
-						systemEvents.DETOUR_CREATION_SUCCESS
+						systemEvents[
+							type === 'add'
+								? 'DETOUR_CREATION_SUCCESS'
+								: 'DETOUR_EDITION_SUCCESS'
+						]
 					),
 					form: {
 						name: `${type}ModalForm`,

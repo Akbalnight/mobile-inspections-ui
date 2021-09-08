@@ -95,7 +95,11 @@ const TechMap = (props) => {
 			loadInitData={loadData}
 			requestSaveForm={apiSaveByConfigName(
 				'techMaps',
-				systemEvents.TECH_MAPS_CREATION_SUCCESS
+				systemEvents[
+					techMapId
+						? 'TECH_MAPS_EDITION_SUCCESS'
+						: 'TECH_MAPS_CREATION_SUCCESS'
+				]
 			)}
 			methodSaveForm={techMapId ? 'PUT' : 'POST'}
 			onFinish={onFinish}

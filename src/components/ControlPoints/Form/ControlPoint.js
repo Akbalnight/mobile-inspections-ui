@@ -85,7 +85,11 @@ const ControlPoint = (props) => {
 			loadInitData={loadData}
 			requestSaveForm={apiSaveByConfigName(
 				'controlPoints',
-				systemEvents.CONTROL_POINTS_CREATION_SUCCESS
+				systemEvents[
+					controlPointId
+						? 'CONTROL_POINTS_EDITION_SUCCESS'
+						: 'CONTROL_POINTS_CREATION_SUCCESS'
+				]
 			)}
 			methodSaveForm={controlPointId ? 'PUT' : 'POST'}
 			onFinish={onFinish}

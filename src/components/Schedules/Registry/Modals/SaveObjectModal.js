@@ -94,7 +94,11 @@ const operationOnServer = (type) => {
 				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				requestSaveForm: apiSaveByConfigName(
 					`repeaterDataSave`,
-					systemEvents.SCHEDULE_CREATION_SUCCESS
+					systemEvents[
+						type === 'add'
+							? 'SCHEDULE_CREATION_SUCCESS'
+							: 'SCHEDULE_EDITION_SUCCESS'
+					]
 				),
 				width: 700,
 				bodyStyle: {height: 580},

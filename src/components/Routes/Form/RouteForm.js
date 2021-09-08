@@ -102,7 +102,9 @@ const RouteForm = (props) => {
 			methodSaveForm={routeId ? 'PUT' : 'POST'}
 			requestSaveForm={apiSaveByConfigName(
 				'routes',
-				systemEvents.ROUTE_CREATION_SUCCESS
+				systemEvents[
+					routeId ? 'ROUTE_EDITION_SUCCESS' : 'ROUTE_CREATION_SUCCESS'
+				]
 			)}
 			onFinish={() => {
 				history.push(paths.DETOURS_CONFIGURATOR_ROUTES.path);
