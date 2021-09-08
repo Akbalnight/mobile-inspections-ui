@@ -6,62 +6,112 @@ import {genericDownloadRequest, genericRequest} from '../../../apis/network';
 import {apiGetConfigByName} from '../../../apis/application.api';
 
 const DebugRabbit = () => {
+	// Таблицы log_system_event_types, log_system_events, log_http_requests, files
+	// Конфиги query: mobileFiles, save: file
+
 	const dataTask = [
 		/** ========== DATA ========== */
 		{
 			typeExecutor: 'flat',
-			configName: 'defects',
-			body: {},
+			configName: 'historyValues',
+			body: {
+				idPoint: '4aca241c-b701-4ed3-8fcd-f67aff27da08',
+				from: '2019-12-01T00:00:00.000Z',
+				to: '2020-01-01T00:00:00.000Z',
+				part: 'D',
+			},
 			pageable: {page: 0, size: 1},
-			output: 'report.data.defects',
+			output: 'report.historyValues',
 		},
-		{
-			typeExecutor: 'object',
-			configName: 'routes',
-			body: {id: '1220f37b-0a7e-4da7-b940-bac2ee38b216'},
-			pageable: {page: 0, size: 2},
-			output: 'report.data.route.one',
-		},
-		{
-			typeExecutor: 'object',
-			configName: 'routes',
-			body: {id: '37f77a31-28cf-4522-b48a-a23998bdd8d9'},
-			pageable: {page: 0, size: 2},
-			output: 'report.data.route.two',
-		},
+		// {
+		// 	typeExecutor: 'object',
+		// 	configName: 'routes',
+		// 	body: {id: '1220f37b-0a7e-4da7-b940-bac2ee38b216'},
+		// 	pageable: {page: 0, size: 2},
+		// 	output: 'report.route.one',
+		// },
+		// {
+		// 	typeExecutor: 'object',
+		// 	configName: 'routes',
+		// 	body: {id: '37f77a31-28cf-4522-b48a-a23998bdd8d9'},
+		// 	pageable: {page: 0, size: 2},
+		// 	output: 'report.route.two',
+		// },
 		/** ========== EXCEL ========== */
 		{
 			typeExecutor: 'createExcel',
 			body: {
 				sheets: [
-					'report.data.route.one.name',
-					'MySheet',
-					'route.two.code',
+					// 'report.route.one.name',
+					'Ведомость',
+					// 'report.route.two.code',
 				],
 			},
 			output: 'excel.workbook',
 		},
 		{
+			// Таблица из простого массива, colSpan, rowSpan, Ячейка со сложным текстом и стилями
 			typeExecutor: 'addTableExcel',
-			configName: 'defects',
+			// configName: 'defects',
 			body: {
 				file: 'excel.workbook',
-				sheet: 'route.one.name',
-				startCell: {row: 0, col: 0},
-				data: 'report.data.defects',
+				sheet: 'Ведомость',
+				startCell: {row: 13, col: 0},
+				// hiddenHeader: true,
+				// headerHeight: 0,
+				// rowHeight: 30,
+				fields: [
+					{
+						name: 'ts',
+						align: 'center',
+						width: 80,
+						colspan: 2,
+						rowspan: 2,
+						typeData: 'date',
+					}, // dateFormat: "yyyy-MM-dd HH:mm:ss"
+					{
+						name: 'q',
+						align: 'right',
+						width: 70,
+						colspan: 2,
+						rowspan: 2,
+					},
+					{
+						name: 'm1',
+						align: 'right',
+						width: 70,
+						colspan: 2,
+						rowspan: 2,
+					},
+					{
+						name: 'm2',
+						align: 'right',
+						width: 70,
+						colspan: 2,
+						rowspan: 2,
+					},
+				],
+				// data: ['report.historyValues.rows.0', 'report.historyValues.rows.JS{var row = [report.historyValues.rows.0]; row.ts;}'],
+				// data: ['report.historyValues.rows.JS{ if([report.historyValues.length] > 0) 0 }', 'report.historyValues.rows.JS{[report.historyValues.length] - 1}'],
+				// data: ['report.historyValues.rows.JS{ function calc() { return 28 - 1; }; calc() }JS', 'report.historyValues.rows.JS{[report.historyValues.length] - 1}JS'],
+				data: [
+					'report.historyValues.rows.JS{ ' +
+						'function calc(length) { if(length > 0) return 19; }; calc([report.historyValues.length]) }JS',
+					'report.historyValues.rows.JS{[report.historyValues.length] - 1}JS',
+				],
 			},
 			output: 'excel.lastRowIndex',
 		},
-		{
-			typeExecutor: 'addRowExcel', // addTableExcel // addRow // addCell
-			body: {
-				file: 'excel.workbook',
-				sheet: 'route.one.name',
-				startCell: {row: 'excel.lastRowIndex.rowIndex', col: 0},
-				data: 'report.data.route.one',
-			},
-			output: 'excel.lastRowIndex',
-		},
+		// {
+		// 	typeExecutor: 'addRowExcel', // addTableExcel // addRow // addCell
+		// 	body: {
+		// 		file: 'excel.workbook',
+		// 		sheet: 'report.route.one.name',
+		// 		startCell: {row: 'excel.lastRowIndex.rowIndex', col: 0},
+		// 		data: 'report.route.one',
+		// 	},
+		// 	output: 'excel.lastRowIndex',
+		// },
 		// {
 		// 	typeExecutor: 'addRowExcel', // addTableExcel // addRow // addCell
 		// 	body: {
@@ -96,9 +146,9 @@ const DebugRabbit = () => {
 			typeExecutor: 'output',
 			body: {
 				file: 'excel.file.id',
-				routeName: 'report.data.route.one.name',
-				routeCode: 'report.data.route.two.code',
-				data: 'report.data.defects',
+				routeName: 'report.route.one.name',
+				routeCode: 'report.route.two.code',
+				data: 'report.defects',
 			},
 		},
 		// {
