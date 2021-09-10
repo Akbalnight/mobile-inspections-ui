@@ -10,6 +10,7 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';
+import {systemEvents} from '../../constants/systemEvents';
 
 export const customColumnProps = [
 	{...position, width: '50px', align: 'center'},
@@ -66,7 +67,10 @@ export const RouteMapsTableHeader = ({routeId}) => {
 					path: `routeMaps.routeMapsTable.events.routeMapUpload`,
 					type: 'event',
 				}}
-				requestUploadFile={apiSaveFileByConfigName('routeMapFileSave')}
+				requestUploadFile={apiSaveFileByConfigName(
+					'routeMapFileSave',
+					systemEvents.ROUTE_MAPS_FILES_ADDITION_SUCCESS
+				)}
 				subscribe={[
 					{
 						name: 'makeHidden',

@@ -35,6 +35,7 @@ import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
 import {changeStorePath} from '../Functions/ChangeStorePath';
 import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
+import {systemEvents} from '../../../constants/systemEvents';
 
 /**
  *
@@ -291,7 +292,8 @@ export const CustomObjectView = ({mainWay, catalogName}) => {
 												name: 'warrantyUploadObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
-												`${catalogName}FilesCatalogSave`
+												`${catalogName}FilesCatalogSave`,
+												systemEvents.EQUIPMENTS_FILES_ADD_SUCCESS
 											)}
 											dispatch={{
 												path: `${changeStorePath(
@@ -374,7 +376,8 @@ export const CustomObjectView = ({mainWay, catalogName}) => {
 												name: 'attachmentUploadObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
-												`${catalogName}FilesCatalogSave`
+												`${catalogName}FilesCatalogSave`,
+												systemEvents.EQUIPMENTS_FILES_ADDITION_SUCCESS
 											)}
 											toolTipProps={{
 												title: 'Загрузить',

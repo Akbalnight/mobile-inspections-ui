@@ -6,6 +6,7 @@ import {
 	apiSaveByConfigName,
 } from '../../../../apis/catalog.api';
 import {executeRequest, Table, TablesSubscribeOnChangeOptions} from 'rt-design';
+import {systemEvents} from '../../../../constants/systemEvents';
 
 const RouteMapsTable = ({routeId}: {routeId: string}) => {
 	// const onRouteChoiceFilter = (params: TablesSubscribeOnChangeOptions) => {
@@ -20,13 +21,23 @@ const RouteMapsTable = ({routeId}: {routeId: string}) => {
 	};
 
 	const onMoveUpRow = ({value}: TablesSubscribeOnChangeOptions) =>
-		executeRequest(apiSaveByConfigName('routeMapPositionSave'))({
+		executeRequest(
+			apiSaveByConfigName(
+				'routeMapPositionSave',
+				systemEvents.ROUTE_MAPS_FILES_POSITION_SUCCESS
+			)
+		)({
 			data: {routeMaps: value.value},
 			method: 'POST',
 		});
 
 	const onMoveDownRow = ({value}: TablesSubscribeOnChangeOptions) =>
-		executeRequest(apiSaveByConfigName('routeMapPositionSave'))({
+		executeRequest(
+			apiSaveByConfigName(
+				'routeMapPositionSave',
+				systemEvents.ROUTE_MAPS_FILES_POSITION_SUCCESS
+			)
+		)({
 			data: {routeMaps: value.value},
 			method: 'POST',
 		});
