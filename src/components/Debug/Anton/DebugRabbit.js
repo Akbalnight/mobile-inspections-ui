@@ -50,7 +50,7 @@ const DebugRabbit = () => {
 			output: 'excel.workbook',
 		},
 		{
-			// Таблица из простого массива, colSpan, rowSpan, Ячейка со сложным текстом и стилями
+			// + Таблица из простого массива, +colSpan, +rowSpan, Ячейка со сложным текстом и стилями
 			typeExecutor: 'addTableExcel',
 			// configName: 'defects',
 			body: {
@@ -62,43 +62,68 @@ const DebugRabbit = () => {
 				// rowHeight: 30,
 				fields: [
 					{
+						header: 'Дата/время',
 						name: 'ts',
 						align: 'center',
 						width: 80,
-						colspan: 2,
-						rowspan: 2,
+						colSpan: 2,
+						rowSpan: 2,
 						typeData: 'date',
+						headerStyle: {
+							border: {top: true, right: true, bottom: true},
+							font: {size: 12, bold: true},
+						},
+						cellStyle: {border: {right: true}},
 					}, // dateFormat: "yyyy-MM-dd HH:mm:ss"
 					{
+						header: 'Q [Гкал]',
 						name: 'q',
 						align: 'right',
 						width: 70,
-						colspan: 2,
-						rowspan: 2,
+						colSpan: 2,
+						rowSpan: 2,
+						typeData: 'double',
+						headerStyle: {
+							border: {top: true, right: true, bottom: true},
+							font: {size: 15},
+						},
+						cellBorder: {right: true},
+						// dataFormat: "#,##0.00"
 					},
 					{
+						header: 'M1 [т]',
 						name: 'm1',
 						align: 'right',
 						width: 70,
-						colspan: 2,
-						rowspan: 2,
+						// colSpan: 2,
+						// rowSpan: 2,
+						typeData: 'double',
+						dataFormat: '#,##0.000',
+						headerBorder: {top: true, right: true, bottom: true},
+						cellStyle: {border: {right: true}, font: {size: 8}},
 					},
 					{
+						header: 'M2 [т]',
 						name: 'm2',
 						align: 'right',
 						width: 70,
-						colspan: 2,
-						rowspan: 2,
+						// colSpan: 2,
+						// rowSpan: 2,
+						typeData: 'double',
+						dataFormat: '#,##0.000',
+						headerBorder: {top: true, right: true, bottom: true},
+						cellBorder: {right: true},
 					},
 				],
+				data: [], // 'report.historyValues.rows',
 				// data: ['report.historyValues.rows.0', 'report.historyValues.rows.JS{var row = [report.historyValues.rows.0]; row.ts;}'],
 				// data: ['report.historyValues.rows.JS{ if([report.historyValues.length] > 0) 0 }', 'report.historyValues.rows.JS{[report.historyValues.length] - 1}'],
 				// data: ['report.historyValues.rows.JS{ function calc() { return 28 - 1; }; calc() }JS', 'report.historyValues.rows.JS{[report.historyValues.length] - 1}JS'],
-				data: [
-					'report.historyValues.rows.JS{ ' +
-						'function calc(length) { if(length > 0) return 19; }; calc([report.historyValues.length]) }JS',
-					'report.historyValues.rows.JS{[report.historyValues.length] - 1}JS',
-				],
+				// data: [
+				// 	'report.historyValues.rows.JS{ ' +
+				// 		'function calc(length) { if(length > 0) return 19; }; calc([report.historyValues.length]) }JS',
+				// 	'report.historyValues.rows.JS{[report.historyValues.length] - 1}JS',
+				// ],
 			},
 			output: 'excel.lastRowIndex',
 		},
