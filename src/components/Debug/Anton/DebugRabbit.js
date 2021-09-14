@@ -9,6 +9,86 @@ const DebugRabbit = () => {
 	// Таблицы log_system_event_types, log_system_events, log_http_requests, files
 	// Конфиги query: mobileFiles, save: file
 
+	const taskOperations = [
+		{
+			typeExecutor: 'flat',
+			configName: 'detours',
+			body: {startDate: '2021-08-15T21:00:00.000Z'},
+			output: 'data.detours',
+		},
+		{
+			typeExecutor: 'createExcel',
+			body: {sheets: ['Обходы']},
+			output: 'excel.workbook',
+		},
+		{
+			typeExecutor: 'addTableExcel',
+			// configName: 'detours',
+			body: {
+				file: 'excel.workbook',
+				sheet: 'Обходы',
+				startCell: {row: 0, col: 0},
+				fields: [
+					{
+						header: 'Наименование',
+						name: 'name',
+						align: 'center',
+						width: 80,
+						// colSpan: 2,
+						// rowSpan: 2,
+						// typeData: 'date',
+						// headerStyle: {
+						// 	border: {top: true, right: true, bottom: true},
+						// 	font: {size: 12, bold: true},
+						// },
+						// cellStyle: {border: {right: true}},
+					},
+					{
+						header: 'Дата',
+						name: 'dateStartPlan',
+						align: 'center',
+						width: 80,
+						colSpan: 2,
+						rowSpan: 2,
+						typeData: 'date',
+						// dataFormat: "yyyy-MM HH:mm"
+					},
+				],
+				data: [], // 'data.detours.rows',
+			},
+			output: 'excel.lastRowCol',
+		},
+		{
+			typeExecutor: 'saveExcel',
+			configName: 'file',
+			body: {file: 'excel.workbook', fileName: 'file-name.xlsx'},
+			output: 'excel.file',
+		},
+		{
+			typeExecutor: 'save',
+			configName: 'reportHistoryFile',
+			body: {
+				id: null,
+				reportId: 'b40715b9-58b7-4c0c-9c8a-6c58601a60c5',
+				name: 'Отчет от 14.09',
+				// name: "data.detours.rows.JS{[data.detours.length] - 1}JS.name", //'Отчет от 14.09', // JS{new Date().getTime()}JS
+				// data: 'data.detours.rows',
+				data: 'data.detours.rows',
+				files: {excelId: 'excel.file.id'},
+			},
+		},
+		{
+			typeExecutor: 'output',
+			body: {
+				laRowCol: 'excel.lastRowCol',
+				length: 'data.detours.length',
+				routes: 'data.detours.rows',
+				file: 'excel.file.id',
+				excel: 'excel.file',
+			},
+		},
+	];
+
 	const dataTask = [
 		/** ========== DATA ========== */
 		{
@@ -74,7 +154,7 @@ const DebugRabbit = () => {
 							font: {size: 12, bold: true},
 						},
 						cellStyle: {border: {right: true}},
-					}, // dateFormat: "yyyy-MM-dd HH:mm:ss"
+					}, // dataFormat: "yyyy-MM-dd HH:mm:ss"
 					{
 						header: 'Q [Гкал]',
 						name: 'q',
@@ -263,7 +343,7 @@ const DebugRabbit = () => {
 		genericRequest({
 			url: `/api/dynamicdq/task/sync`,
 			method: 'POST',
-			data: dataTask,
+			data: taskOperations,
 		})
 			.then((r) => {
 				console.log('onClickButton', r);
