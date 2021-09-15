@@ -6,7 +6,7 @@ import RouteMapsTable from './RouteMapsTable';
 import ControlPointsTable from './ControlPointsTable';
 import {paths} from '../../../../constants/paths';
 import {useHistory} from 'react-router';
-import {apiGetFlatDataByConfigName} from '../../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 
 const Switcher = ({routeId}: {routeId: string}) => {
 	const history = useHistory();

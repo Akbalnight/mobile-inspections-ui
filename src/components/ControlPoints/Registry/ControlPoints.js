@@ -4,7 +4,7 @@ import {Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {ControlPointsTableHeader, customColumnProps} from '../tableProps';
 
 /**

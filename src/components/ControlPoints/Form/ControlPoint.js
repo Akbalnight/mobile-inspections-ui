@@ -21,7 +21,7 @@ import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {useHistory, useParams} from 'react-router';
 import {paths} from '../../../constants/paths';
 import {DeleteOutlined} from '@ant-design/icons';

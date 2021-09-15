@@ -7,7 +7,7 @@ import {
 import {
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {StatusIcon} from '../../../Defects/tableProps';
 import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
 

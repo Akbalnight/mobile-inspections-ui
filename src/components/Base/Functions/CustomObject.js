@@ -1,6 +1,6 @@
 import {ReactComponent as InfoTab} from '../../../imgs/tabPane/catalogTabs/equipmentTabs/infoTab.svg';
 import {itemsInfo} from '../../../constants/dictionary';
-import {apiGetHierarchicalDataByConfigName} from '../../../apis/catalog.api';
+import {apiGetHierarchicalDataByConfigName} from '../../../apis/application.api';
 import {
 	DeleteOutlined,
 	FolderOutlined,

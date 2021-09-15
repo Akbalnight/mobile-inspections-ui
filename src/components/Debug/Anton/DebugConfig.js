@@ -3,7 +3,7 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {checkBox, code, dateTime} from '../../Base/customColumnProps';
 import {MehOutlined, ReloadOutlined} from '@ant-design/icons';
 import {editModalDebug} from './editModalDebug';

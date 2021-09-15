@@ -10,7 +10,7 @@ import {
 } from 'rt-design';
 import React from 'react';
 import {itemsInfo} from '../../../../constants/dictionary';
-import {apiGetConfigByName} from '../../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../../apis/application.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 import {AttachmentsPreview} from '../../../Base/Functions/MediaUtils';
 import {customColumnProps} from '../../tableProps';

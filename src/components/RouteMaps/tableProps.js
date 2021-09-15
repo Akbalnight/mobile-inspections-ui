@@ -1,8 +1,8 @@
 import {position} from '../Base/customColumnProps';
 import {
-	apiGetDataCountByConfigName,
+	apiGetCountDataByConfigName,
 	apiSaveFileByConfigName,
-} from '../../apis/catalog.api';
+} from '../../apis/application.api';
 import {Space, UploadFile, Button, notificationError} from 'rt-design';
 import {EditFileName} from './Modals/SaveObjectModal';
 import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons';
@@ -38,7 +38,7 @@ export const RouteMapsTableHeader = ({routeId}) => {
 	}, [routeId]);
 
 	const loadDataObject = (callBack) => {
-		apiGetDataCountByConfigName('routeMaps')({
+		apiGetCountDataByConfigName('routeMaps')({
 			data: {routeId: routeId},
 		})
 			.then((response) => {

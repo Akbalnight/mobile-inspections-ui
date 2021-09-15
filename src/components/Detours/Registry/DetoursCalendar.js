@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Custom, Layout, notificationError} from 'rt-design';
 import moment from 'moment';
 import {Calendar as AntCalendar, Popover, Checkbox} from 'antd';
-import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../apis/application.api';
 import {calendarPrefix} from '../../../utils/baseUtils';
 
 /**

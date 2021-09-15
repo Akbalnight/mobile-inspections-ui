@@ -3,7 +3,7 @@ import {Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {paths} from '../../../../constants/paths';
 import {useHistory} from 'react-router';
 

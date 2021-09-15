@@ -3,7 +3,7 @@ import {Layout, Table, Space} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {HistoryTableHeader} from '../tableProps';
 
 export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {

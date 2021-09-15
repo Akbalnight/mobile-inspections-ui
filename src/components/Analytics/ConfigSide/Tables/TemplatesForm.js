@@ -3,7 +3,7 @@ import {Layout, Space, Title, FormItems, notificationError} from 'rt-design';
 import {paths} from '../../../../constants/paths';
 import {LeftOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router';
-import {apiGetFlatDataByConfigName} from '../../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 import {parseById} from './parseFunc';
 
 export const TemplatesForm = ({analyticId}) => {
@@ -43,12 +43,12 @@ export const TemplatesForm = ({analyticId}) => {
 					>
 						Назад
 					</Title>
-					<Title
-						level={4}
-						style={{textAlign: 'center', marginBottom: '2px'}}
-					>
-						{filterConfig.name}
-					</Title>
+					{/*<Title*/}
+					{/*	level={3}*/}
+					{/*	style={{textAlign: 'center', margin: '0 20px'}}*/}
+					{/*>*/}
+					{/*	Параметры отчета*/}
+					{/*</Title>*/}
 				</Space>
 			</div>
 			{filterConfig && (

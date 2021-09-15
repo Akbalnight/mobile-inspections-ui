@@ -3,7 +3,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {classic} from 'rt-design';
 import {Input as AntInput} from 'antd';

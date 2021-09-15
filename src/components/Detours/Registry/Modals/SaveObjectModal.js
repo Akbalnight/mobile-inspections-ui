@@ -17,7 +17,7 @@ import React from 'react';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {itemsInfo} from '../../../../constants/dictionary';
 import {disabledStartDate} from '../../../Base/Functions/DateLimits';
 import {ReactComponent as WarningDetour} from '../../../../imgs/detour/warningDetour.svg';

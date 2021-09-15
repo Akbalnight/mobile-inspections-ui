@@ -1,5 +1,5 @@
 import React from 'react';
-import {apiGetFlatDataByConfigName} from '../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../apis/application.api';
 import {Input, Select, DatePicker, Checkbox, TextArea} from 'rt-design';
 
 export const DefectDetection = () => {

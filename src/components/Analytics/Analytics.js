@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {useParams} from 'react-router';
 import SplitPane from 'react-split-pane';
 import {ConfigSide} from './ConfigSide/ConfigSide';
-import {Space, Title} from 'rt-design';
+import {notificationError, Space, Title} from 'rt-design';
 import {LeftOutlined} from '@ant-design/icons';
 import {AnalyticHistory} from './AnalyticHistory/AnalyticHistory';
+import {apiGetFlatDataByConfigName} from '../../apis/application.api';
 
 export const AnalyticsMain = () => {
 	return (
@@ -16,8 +17,25 @@ export const AnalyticsMain = () => {
 };
 export const AnalyticsById = () => {
 	const pageParams = useParams();
+	const [analyticById, setAnalyticById] = useState({
+		title: 'Аналитика и отчетность',
+	});
+
+	useEffect(() => {
+		apiGetFlatDataByConfigName('analyticReports')({
+			data: {id: pageParams.id},
+		})
+			.then(({data}) =>
+				setAnalyticById({...data[0], title: data[0].name})
+			)
+			.catch((error) =>
+				notificationError(error, 'Ошибка загрузки данных формы')
+			);
+	}, [pageParams.id]);
+	// console.log(analyticById)
+
 	return (
-		<BasePage>
+		<BasePage extraPaths={[analyticById]}>
 			<Analytics analyticId={pageParams.id} />
 		</BasePage>
 	);
