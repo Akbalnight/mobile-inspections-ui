@@ -1,9 +1,9 @@
 import React from 'react';
 import {Space, Search, Button, Text, DatePicker, Divider} from 'rt-design';
 import {ReloadOutlined} from '@ant-design/icons';
-import {changeStorePath} from '../Base/Functions/ChangeStorePath';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
+import {dateTimeExcludeSecond} from '../Base/customColumnProps';
 
 export const TemplatesTableHeader = () => {
 	return (
@@ -183,3 +183,5 @@ export const HistoryTableHeader = () => {
 		</>
 	);
 };
+
+export const customColumnProps = [dateTimeExcludeSecond('ts')];

@@ -4,7 +4,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/application.api';
-import {HistoryTableHeader} from '../tableProps';
+import {customColumnProps, HistoryTableHeader} from '../tableProps';
 
 export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
 	return (
@@ -16,6 +16,7 @@ export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
 				requestLoadRows={apiGetFlatDataByConfigName(
 					'analyticReportsHistory'
 				)}
+				customColumnProps={customColumnProps}
 				requestLoadConfig={apiGetConfigByName('analyticReportsHistory')}
 				dispatch={{
 					path: 'analytic.historyTable',
