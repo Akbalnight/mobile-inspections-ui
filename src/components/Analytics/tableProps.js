@@ -1,9 +1,19 @@
 import React from 'react';
-import {Space, Search, Button, Text, DatePicker, Divider} from 'rt-design';
-import {ReloadOutlined} from '@ant-design/icons';
+import {
+	Space,
+	Search,
+	Button,
+	Text,
+	DatePicker,
+	Divider,
+	Tooltip,
+	notificationError,
+} from 'rt-design';
+import {FileExcelOutlined, ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {dateTimeExcludeSecond} from '../Base/customColumnProps';
+import {genericDownloadRequest, genericRequest} from '../../apis/network';
 
 export const TemplatesTableHeader = () => {
 	return (
@@ -184,4 +194,34 @@ export const HistoryTableHeader = () => {
 	);
 };
 
-export const customColumnProps = [dateTimeExcludeSecond('ts')];
+export const customColumnProps = [
+	dateTimeExcludeSecond('ts'),
+	{
+		name: 'files',
+		cellRenderer: ({rowData}) => {
+			const onClickLoadFile = () => {
+				genericDownloadRequest({
+					url: `/api/dynamicdq/data/file/mobileFiles/${rowData.files?.excelId}`,
+					method: 'GET',
+				})
+					.then((r) => console.log('onClickLoadFile', r))
+					.catch((error) =>
+						notificationError(error, 'Ошибка при получении')
+					);
+			};
+			return (
+				<>
+					Данный отчет вы можете скачать тут:{' '}
+					<Tooltip title={'Скачать'}>
+						{' '}
+						<Button
+							onClick={onClickLoadFile}
+							icon={<FileExcelOutlined />}
+							type={'text'}
+						/>
+					</Tooltip>
+				</>
+			);
+		},
+	},
+];
