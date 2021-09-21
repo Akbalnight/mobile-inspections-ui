@@ -13,6 +13,9 @@ export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
 			<Table
 				rowKey={`id`}
 				searchParamName={'name'}
+        defaultFilter={{
+          reportId: analyticId
+        }}
 				requestLoadRows={apiGetFlatDataByConfigName(
 					'analyticReportsHistory'
 				)}
@@ -29,6 +32,9 @@ export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
 						onChange: ({value, reloadTable}) => {
 							reloadTable({
 								searchValue: value,
+                filter:{
+                  reportId: analyticId? analyticId: null
+                }
 							});
 						},
 					},
@@ -37,7 +43,19 @@ export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
 						name: 'onReload',
 						path: 'rtd.analytic.historyTable.events.onReload',
 						onChange: ({reloadTable}) => {
-							reloadTable({});
+							reloadTable({ filter:{
+                reportId: analyticId? analyticId: null
+              }});
+						},
+					},
+					{
+						name: 'actionReload',
+						path: 'rtd.analytics.form.events.onSubmit',
+						onChange: ({reloadTable}) => {
+							reloadTable({
+                filter:{
+                  reportId: analyticId
+                }              });
 						},
 					},
 				]}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Button, Form, Input, notificationError} from 'rt-design';
+import {Button, DatePicker, Form, Input, notificationError} from 'rt-design';
 import {FormItems} from 'rt-design';
 import {genericDownloadRequest, genericRequest} from '../../../apis/network';
 import {apiGetConfigByName} from '../../../apis/application.api';
@@ -9,7 +9,7 @@ const DebugRabbit = () => {
 	// Таблицы log_system_event_types, log_system_events, log_http_requests, files
 	// Конфиги query: mobileFiles, save: file
 
-	const detourOperations = [
+	const taskOperations = [
 		{
 			typeExecutor: 'saveVar',
 			body: {
@@ -205,7 +205,7 @@ const DebugRabbit = () => {
 		},
 	];
 
-	const taskOperations = [
+	const task1Operations = [
 		{
 			typeExecutor: 'saveVar',
 			body: {
@@ -658,7 +658,12 @@ const DebugRabbit = () => {
 			<Form>
 				<Button onClick={onClickButton}>Send task</Button>
 				<Input value={id} onChange={(e) => setId(e.target.value)} />
-				<Button onClick={onClickLoadFile}>Load</Button>
+				<Button onClick={onClickLoadFile} >Load</Button>
+        <DatePicker
+        itemProps={{name:'dateExp'}}
+        // onChange={(date,dateString)=>{ return date}}
+        dispatch={{path:'123435', type:'event'}}
+        />
 			</Form>
 			{/*<FormItems items={items} />*/}
 		</BasePage>

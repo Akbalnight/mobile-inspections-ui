@@ -13,7 +13,7 @@ import {FileExcelOutlined, ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {dateTimeExcludeSecond} from '../Base/customColumnProps';
-import {genericDownloadRequest, genericRequest} from '../../apis/network';
+import {genericDownloadRequest} from '../../apis/network';
 
 export const TemplatesTableHeader = () => {
 	return (

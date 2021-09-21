@@ -58,7 +58,7 @@ const Analytics = ({analyticId}) => {
 			</div>
 			<div className={'analyticsContainer'}>
 				{analyticId ? (
-					<AnalyticHistory />
+					<AnalyticHistory analyticId={analyticId}/>
 				) : (
 					<Space style={{margin: 'auto'}}>
 						<LeftOutlined

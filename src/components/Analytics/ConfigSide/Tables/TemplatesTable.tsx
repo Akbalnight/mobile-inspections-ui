@@ -33,7 +33,7 @@ export const TemplatesTable = () => {
 								searchValue: value,
 							});
 						},
-					},
+					}
 				]}
 				onRowClick={onRouteSelect}
 			/>

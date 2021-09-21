@@ -1,31 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import {Layout, Space, Title, FormItems, notificationError} from 'rt-design';
+import React from 'react';
+import {Layout, Space, Title, FormItems} from 'rt-design';
 import {paths} from '../../../../constants/paths';
 import {LeftOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router';
-import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 import {parseById} from './parseFunc';
 
-export const TemplatesForm = ({analyticId}) => {
+
+export const TemplatesForm = ({analyticId, fields}) => {
+
 	const history = useHistory();
-	const [filterConfig, setFilterConfig] = useState({filterConfig: ['---']});
+
 	const onBackPage = () => history.push(`${paths.ANALYTICS_MAIN.path}`);
 
-	useEffect(() => {
-		apiGetFlatDataByConfigName('analyticReports')({
-			data: {id: analyticId},
-			params: {},
-		})
-			.then((response) => {
-				console.log(response.data);
-				setFilterConfig(response.data[0]);
-			})
-			.catch((error) =>
-				notificationError(error, 'Ошибка загрузки маршрута')
-			);
-
-		// eslint-disable-next-line
-	}, []);
+	
 
 	return (
 		<Layout>
@@ -43,18 +30,16 @@ export const TemplatesForm = ({analyticId}) => {
 					>
 						Назад
 					</Title>
-					{/*<Title*/}
-					{/*	level={3}*/}
-					{/*	style={{textAlign: 'center', margin: '0 20px'}}*/}
-					{/*>*/}
-					{/*	Параметры отчета*/}
-					{/*</Title>*/}
+			
 				</Space>
 			</div>
-			{filterConfig && (
+			{fields && (
 				<FormItems
 					className={'mt-0'}
-					items={parseById(filterConfig.filterConfig)}
+					items={parseById(fields)}
+          dispatch={{
+            path:'1'
+          }}
 				/>
 			)}
 		</Layout>
