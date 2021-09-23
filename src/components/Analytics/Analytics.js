@@ -3,10 +3,11 @@ import {BasePage} from 'mobile-inspections-base-ui';
 import {useParams} from 'react-router';
 import SplitPane from 'react-split-pane';
 import {ConfigSide} from './ConfigSide/ConfigSide';
-import {notificationError, Space, Title} from 'rt-design';
+import {Form, notificationError, Space, Title, FormBody} from 'rt-design';
 import {LeftOutlined} from '@ant-design/icons';
 import {AnalyticHistory} from './AnalyticHistory/AnalyticHistory';
 import {apiGetFlatDataByConfigName} from '../../apis/application.api';
+
 
 export const AnalyticsMain = () => {
 	return (
@@ -58,7 +59,14 @@ const Analytics = ({analyticId}) => {
 			</div>
 			<div className={'analyticsContainer'}>
 				{analyticId ? (
-					<AnalyticHistory analyticId={analyticId}/>
+					<Form>
+						<FormBody
+            scrollable={false}
+            noPadding={true}
+            >
+							<AnalyticHistory analyticId={analyticId} />
+						</FormBody>
+					</Form>
 				) : (
 					<Space style={{margin: 'auto'}}>
 						<LeftOutlined

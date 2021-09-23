@@ -13,49 +13,63 @@ export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
 			<Table
 				rowKey={`id`}
 				searchParamName={'name'}
-        defaultFilter={{
-          reportId: analyticId
-        }}
+				defaultFilter={{
+					reportId: analyticId,
+				}}
 				requestLoadRows={apiGetFlatDataByConfigName(
 					'analyticReportsHistory'
 				)}
 				customColumnProps={customColumnProps}
 				requestLoadConfig={apiGetConfigByName('analyticReportsHistory')}
 				dispatch={{
-					path: 'analytic.historyTable',
+					path: 'analytics.historyTable',
 				}}
 				subscribe={[
 					/**Action search*/
 					{
 						name: 'searchOnTable',
-						path: `rtd.analytic.historyTable.events.onSearch`,
+						path: `rtd.analytics.historyTable.events.onSearch`,
 						onChange: ({value, reloadTable}) => {
 							reloadTable({
 								searchValue: value,
-                filter:{
-                  reportId: analyticId? analyticId: null
-                }
+								filter: {
+									reportId: analyticId ? analyticId : null,
+								},
 							});
 						},
 					},
 					/**Action reload*/
 					{
 						name: 'onReload',
-						path: 'rtd.analytic.historyTable.events.onReload',
-						onChange: ({reloadTable}) => {
-							reloadTable({ filter:{
-                reportId: analyticId? analyticId: null
-              }});
+						path: 'rtd.analytics.historyTable.events.onReload',
+						onChange: ({value, reloadTable}) => {
+							reloadTable({
+								filter: {
+									reportId: analyticId ? analyticId : null,
+								},
+							});
 						},
 					},
+					/**Action apply filter*/
+					{
+						name: 'onApplyFilter',
+						path: 'rtd.analytics.historyTable.events.onApplyFilter',
+						onChange: ({value, reloadTable}) => {
+							reloadTable({
+								filter: {...value?.extraData, reportId: analyticId},
+							});
+						},
+					},
+					/** Action reload by add new report */
 					{
 						name: 'actionReload',
-						path: 'rtd.analytics.form.events.onSubmit',
+						path: 'rtd.analytics.form.events.onReload',
 						onChange: ({reloadTable}) => {
 							reloadTable({
-                filter:{
-                  reportId: analyticId
-                }              });
+								filter: {
+									reportId: analyticId,
+								},
+							});
 						},
 					},
 				]}

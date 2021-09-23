@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import {
 	Button,
 	Form,
@@ -6,6 +7,7 @@ import {
 	FormFooter,
 	Layout,
 	notificationError,
+	setDataStore,
 	Space,
 	SubscribeOnChangeOptions,
 	Title,
@@ -13,212 +15,52 @@ import {
 import {apiGetFlatDataByConfigName} from '../../../apis/application.api';
 import {genericRequest} from '../../../apis/network';
 import {TemplatesTableHeader} from '../tableProps';
-import {parseById} from './Tables/parseFunc';
 import {TemplatesForm} from './Tables/TemplatesForm';
 import {TemplatesTable} from './Tables/TemplatesTable';
 
-const taskOperations = [
-	{
-		typeExecutor: 'flat',
-		configName: 'reportDetours',
-		body: 'configData.filter',
-		output: 'data.detours',
-	},
-
-	{
-		typeExecutor: 'createExcel',
-		body: {sheets: ['Обходы']},
-		output: 'excel.workbook',
-	},
-	{
-		typeExecutor: 'addTableExcel',
-		configName: 'reportDetours',
-		body: {
-			file: 'excel.workbook',
-			sheet: 'Обходы',
-			startCell: {row: 0, col: 0},
-			fields: [
-				{
-					header: 'Дата обнаружения',
-					name: 'dateStartPlan',
-					visible: true,
-					align: 'center',
-					typeData: 'date',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Маршрут',
-					name: 'routeName',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Пользователь',
-					name: 'staffName',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Время начала обхода',
-					name: 'dateStartPlan',
-					visible: true,
-					align: 'center',
-					typeData: 'date',
-					dataFormat: 'HH:mm:ss',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Время окончания обхода',
-					name: 'dateFinishPlan',
-					visible: true,
-					align: 'center',
-					typeData: 'date',
-					dataFormat: 'HH:mm:ss',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-
-				{
-					header: 'Фактическая длительность обхода',
-					name: 'durationPlan',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Фактическая длительность обхода',
-					name: 'durationFact',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Пользователь',
-					name: 'staffName',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Количество выявленных дефектов',
-					name: 'countDetected',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Количество подтвержденных дефектов',
-					name: 'countConfirmed',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-				{
-					header: 'Количество устраненных дефектов ',
-					name: 'countEliminated',
-					visible: true,
-					align: 'center',
-					width: 120,
-					rowSpan: 2,
-					headerStyle: 'configData.base.headerStyle',
-					cellStyle: 'configData.base.cellStyle',
-				},
-			],
-			data: 'data.detours.rows',
-		},
-		output: 'excel.lastRowCol',
-	},
-	{
-		typeExecutor: 'saveExcel',
-		configName: 'file',
-		body: {file: 'excel.workbook', fileName: 'configData.base.fileName'},
-		output: 'excel.file',
-	},
-	{
-		typeExecutor: 'save',
-		configName: 'reportHistoryFile',
-		body: {
-			id: null,
-			reportId: 'configData.base.reportId',
-			name: 'configData.base.fileName',
-			data: 'data.detours.rows',
-			files: {excelId: 'excel.file.id'},
-		},
-	},
-	{
-		typeExecutor: 'output',
-		body: {
-			lastRowCol: 'excel.lastRowCol',
-			detours: 'data.detours.rows',
-			file: 'excel.file.id',
-			excel: 'excel.file',
-      saveVar: 'configData'
-		},
-	},
-];
+interface SVarObject {
+	typeExecutor: string;
+	body?: {
+		base?: {
+			fileName?: string;
+			reportId?: string;
+			headerStyle?: {
+				border?: {
+					top: boolean;
+					bottom: boolean;
+					right: boolean;
+					left: boolean;
+				};
+				font?: {
+					size: number;
+					bold: boolean;
+				};
+			};
+			cellStyle?: {
+				border: {right: boolean; bottom: boolean; left: boolean};
+			};
+		};
+		filter?: any;
+	};
+	output?: string;
+}
 
 export const ConfigSide = ({analyticId}: {analyticId: string}) => {
-	const [config, setConfig] = useState({
-		filterConfig: ['---'],
-		templates: ['---'],
-    name:''
-	});
 
-	useEffect(() => {
-		apiGetFlatDataByConfigName('analyticReports')({
-			data: {id: analyticId},
-			params: {},
-		})
-			.then((response) => {
-				setConfig(response.data[0]);
-			})
-			.catch((error) =>
-				notificationError(error, 'Ошибка загрузки маршрута')
-			);
-		// eslint-disable-next-line
-	}, []);
+const dispatch =useDispatch()
 
 	const loadData = (callBack: (params: any) => void) => {
 		return callBack(analyticId ? {id: analyticId} : null); //??
 	};
 
-	const pushOnButton = ({value}: SubscribeOnChangeOptions) => {
-			let tmpObj: any = {
+	const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
+		const {templates, name} = extraData;
+
+		let tmpObj: any = {
 			typeExecutor: 'saveVar',
 			body: {
 				base: {
-					fileName: `${config.name} JS{new Date().toLocaleString()}JS.xlsx`,
+					fileName: `${name} JS{new Date().toLocaleString()}JS.xlsx`,
 					reportId: analyticId,
 					headerStyle: {
 						border: {
@@ -237,6 +79,7 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 			},
 			output: 'configData',
 		};
+
 		for (let key in value.extraData) {
 			if (typeof value.extraData[key] === 'object') {
 				tmpObj.body.filter[key] = value.extraData[key].format();
@@ -245,33 +88,21 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 			}
 		}
 
-		console.log(tmpObj);
 		genericRequest({
 			url: `/api/dynamicdq/task/sync`,
 			method: 'POST',
-			data: [tmpObj, ...config.templates],
+			data: [tmpObj, ...templates],
 		})
 			.then((r) => {
 				console.log('onClickButton', r);
+        setTimeout(() => {
+          dispatch(setDataStore('analytics.form.events.onReload',{}))
+        }, 1000);
 			})
 			.catch((error) =>
 				notificationError(error, 'Ошибка при выполнении')
 			);
 	};
-
-	const content = analyticId ? (
-		<TemplatesForm analyticId={analyticId} fields={config.filterConfig} />
-	) : (
-		<>
-			<Title level={4} style={{padding: '24px 24px 10px 24px'}}>
-				Отчет
-			</Title>
-			<Layout>
-				<TemplatesTableHeader />
-				<TemplatesTable />
-			</Layout>
-		</>
-	);
 
 	const footer = analyticId ? (
 		<Space
@@ -296,6 +127,7 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 					{
 						name: 'itselfSubscribe',
 						path: 'rtd.analytics.form.events.onSubmit',
+						extraData: 'rtd.analytics.form.templates',
 						onChange: pushOnButton,
 					},
 				]}
@@ -306,17 +138,28 @@ export const ConfigSide = ({analyticId}: {analyticId: string}) => {
 	) : null;
 
 	return (
-		<Form
-			name={'configForm'}
-			loadInitData={loadData}
-			// onFinish={console.log}
-		>
+		<Form name={'configForm'} loadInitData={loadData}>
 			<FormBody
 				scrollable={false}
 				noPadding={true}
 				style={{padding: '0 24px 24px 24px'}}
 			>
-				{content}
+				{analyticId ? (
+					<TemplatesForm analyticId={analyticId} />
+				) : (
+					<>
+						<Title
+							level={4}
+							style={{padding: '24px 24px 10px 24px'}}
+						>
+							Отчет
+						</Title>
+						<Layout>
+							<TemplatesTableHeader />
+							<TemplatesTable />
+						</Layout>
+					</>
+				)}
 			</FormBody>
 			<FormFooter>{footer}</FormFooter>
 		</Form>

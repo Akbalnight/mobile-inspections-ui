@@ -53,24 +53,24 @@ export const HistoryTableHeader = () => {
 							/** Action reload in mainForm.table deactivate btn*/
 							{
 								name: 'onReloadPush',
-								path: `rtd.analytic.historyTable.rows`,
+								path: `rtd.analytics.historyTable.rows`,
 								onChange: ({value, setSubscribeProps}) => {
 									/** We might thinking about ${path}.rows array length*/
 
 									value &&
-										value.length >= 4 &&
+										value.length >= 3 &&
 										setSubscribeProps &&
 										setSubscribeProps({hidden: value});
 								},
 							},
 						]}
 						dispatch={{
-							path: `analytic.historyTable.events.onReload`,
+							path: `analytics.historyTable.events.onReloadBtn`,
 						}}
 					/>
 					<Search
 						itemProps={{
-							name: 'onSearch',
+							name: 'onSearchAnalytics',
 						}}
 						placeholder={'Введите наименование'}
 						dispatch={{
@@ -79,7 +79,11 @@ export const HistoryTableHeader = () => {
 						subscribe={[
 							/** Reload Search value field, clear STORE*/
 							reloadFilterFields(
-								'analytic.historyTable.events.onReload'
+								'analytics.historyTable.events.onReloadBtn'
+							),
+							reloadFilterFields(
+								'analytics.historyTable.events.onReload',
+                'onReload'
 							),
 						]}
 					/>
@@ -91,7 +95,7 @@ export const HistoryTableHeader = () => {
 						<Space>
 							<DatePicker
 								itemProps={{
-									name: 'dateDetectDefectStart',
+									name: 'dateStartHistory',
 									label: 'c',
 									className: 'mb-0',
 								}}
@@ -100,12 +104,12 @@ export const HistoryTableHeader = () => {
 									date?.startOf('day')
 								}
 								dispatch={{
-									path: `analytic.historyTable.data.detectStartDate`,
+									path: 'analytics.historyTable.data.dateStart',
 								}}
 								subscribe={[
 									{
 										name: 'startDate',
-										path: `rtd.analytic.historyTable.data.detectEndDate`,
+										path: 'rtd.analytics.historyTable.data.dateFinish',
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -120,13 +124,14 @@ export const HistoryTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										`analytic.historyTable.events.onReload`
+										`analytics.historyTable.events.onReload`
 									),
 								]}
 							/>
+
 							<DatePicker
 								itemProps={{
-									name: 'dateDetectDefectEnd',
+									name: 'dateFinishHistory',
 									label: 'по',
 									className: 'mb-0',
 								}}
@@ -135,12 +140,12 @@ export const HistoryTableHeader = () => {
 									date?.endOf('day')
 								}
 								dispatch={{
-									path: `analytic.historyTable.data.detectEndDate`,
+									path: `analytics.historyTable.data.dateFinish`,
 								}}
 								subscribe={[
 									{
 										name: 'endDate',
-										path: `rtd.analytic.historyTable.data.detectStartDate`,
+										path: `rtd.analytics.historyTable.data.dateStart`,
 										onChange: ({
 											value,
 											setSubscribeProps,
@@ -155,7 +160,7 @@ export const HistoryTableHeader = () => {
 										},
 									},
 									reloadFilterFields(
-										`analytic.historyTable.events.onReload`
+										`analytics.historyTable.events.onReload`
 									),
 								]}
 							/>
@@ -171,8 +176,8 @@ export const HistoryTableHeader = () => {
 							itemProps={{name: 'btnFilterApply'}}
 							type={'primary'}
 							dispatch={{
-								path: `analytic.historyTable.events.onApplyFilter`,
-								extraData: `rtd.analytic.historyTable.table.data`,
+								path: `analytics.historyTable.events.onApplyFilter`,
+								extraData: `rtd.analytics.historyTable.data`,
 								type: 'event',
 							}}
 						>
@@ -181,7 +186,7 @@ export const HistoryTableHeader = () => {
 						<Button
 							itemProps={{name: 'btnFilterClear'}}
 							dispatch={{
-								path: `analytic.historyTable.events.onReload`,
+								path: `analytics.historyTable.events.onReload`,
 								type: 'event',
 							}}
 						>

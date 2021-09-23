@@ -28,7 +28,6 @@ const chooseSubscribe = (object: any) => {
 					value: any;
 					setSubscribeProps: any;
 				}) => {
-					console.log(value);
 					setSubscribeProps({
 						disabledDate: (endValue: any) =>
 							disabledEndDate(value, endValue),
@@ -60,15 +59,23 @@ const chooseSubscribe = (object: any) => {
 const chooseRequest = (configName: string) => {
 	switch (configName) {
 		case 'equipments':
+		case 'equipmentsParent':
 			return ({data, params}: {data: any; params: any}) =>
-				apiGetHierarchicalDataByConfigName(configName)({
-					data: {...data, isGroup: true},
+				apiGetHierarchicalDataByConfigName('equipments')({
+					data: {...data, isGroup: configName !== 'equipments'},
 					params,
 				});
+
 		case 'defectTypical':
 			return ({data, params}: {data: any; params: any}) =>
 				apiGetFlatDataByConfigName(configName)({
 					data: {...data, isGroup: false},
+					params,
+				});
+		case 'defectStatusesProcessNew':
+			return ({data, params}: {data: any; params: any}) =>
+				apiGetFlatDataByConfigName('defectStatusesProcess')({
+					data: {...data, id:'1864073a-bf8d-4df2-b02d-8e5afa63c4d0'},
 					params,
 				});
 		default:
@@ -84,6 +91,7 @@ const chooseOptionConverter = (configName: any) => {
 				label: option.username,
 			});
 		case 'defectStatusesProcess':
+		case 'defectStatusesProcessNew':
 			return (option: any) => ({
 				label: (
 					<>
@@ -102,7 +110,7 @@ const chooseOptionConverter = (configName: any) => {
 				label: (
 					<span>
 						{option.isGroup ? <FolderOutlined /> : <ToolOutlined />}{' '}
-						{option.techPlacePath}
+						{option.name}
 					</span>
 				),
 				children: option.children,
@@ -118,6 +126,7 @@ const chooseOptionConverter = (configName: any) => {
 export const parseById = (items: any) =>
 	items.map((item: any) => {
 		if (item.loadRows) {
+
 			item.requestLoadRows = chooseRequest(item.loadRows);
 			item.optionConverter = chooseOptionConverter(item.loadRows);
 		}
