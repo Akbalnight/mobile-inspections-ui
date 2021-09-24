@@ -13,7 +13,6 @@ export type PointProps = {
 
 export interface DraggableMarkerProps {
 	point: PointProps;
-
 	bounds: LatLngBounds;
 	onChange: any;
 }
@@ -86,7 +85,6 @@ export const Marker = ({point, bounds, onChange}: DraggableMarkerProps) => {
 				}
 			},
 		}),
-
 		// eslint-disable-next-line
 		[bounds]
 	);

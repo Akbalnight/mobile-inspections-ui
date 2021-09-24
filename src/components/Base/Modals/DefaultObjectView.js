@@ -3,6 +3,8 @@ import {itemsInfo} from '../../../constants/dictionary';
 import React from 'react';
 import {objectView} from '../Functions/DefaultObject';
 import {changeStorePath} from '../Functions/ChangeStorePath';
+import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
+import {paths} from '../../../constants/paths';
 
 /**
  *
@@ -12,7 +14,11 @@ import {changeStorePath} from '../Functions/ChangeStorePath';
  * @returns {JSX.Element}
  * @desc Modal view table info about row(onRowDoubleClick) , only object
  */
-export const DefaultObjectView = ({mainWay, catalogName, unique}) => {
+export const DefaultObjectView = ({mainWay, catalogName}) => {
+	const objByCatalogName = catalogConfigs(paths).find(
+		(el) => el.name === catalogName
+	);
+	const {unique} = objByCatalogName;
 	/**
 	 *
 	 * @param callBack function change state (row)

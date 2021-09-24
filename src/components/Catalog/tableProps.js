@@ -27,12 +27,11 @@ import {reloadFilterFields} from '../Base/Functions/ReloadField';
  *
  * @param mainWay name of server configuration
  * @param catalogName name of server configuration
- * @param unique phrase on Russian
  * @returns {JSX.object}
  * @desc Function choice table header buttons(action modals) and view modals
  */
 
-export const TableHeader = ({mainWay, catalogName, unique}) => {
+export const TableHeader = ({mainWay, catalogName}) => {
 	const configCatalogName = (catalogName) => {
 		switch (catalogName) {
 			case 'equipments':
@@ -51,27 +50,22 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 							<AddCustomObjectOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 							<AddCustomGroupOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 							<EditCustomObjectOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 							<EditCustomGroupOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 							<DeleteOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 						</Access>
 						<Button
@@ -119,7 +113,6 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 						<CustomObjectView
 							mainWay={mainWay}
 							catalogName={catalogName}
-							unique={unique}
 						/>
 						<CustomGroupView
 							catalogName={catalogName}
@@ -140,12 +133,10 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 							<AddDefaultObjectOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 							<EditDefaultObjectOnServer
 								mainWay={mainWay}
 								catalogName={catalogName}
-								unique={unique}
 							/>
 						</Access>
 						<Button
@@ -195,7 +186,6 @@ export const TableHeader = ({mainWay, catalogName, unique}) => {
 						<DefaultObjectView
 							mainWay={mainWay}
 							catalogName={catalogName}
-							unique={unique}
 						/>
 					</>
 				);

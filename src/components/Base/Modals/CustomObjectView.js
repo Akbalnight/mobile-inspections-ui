@@ -34,19 +34,25 @@ import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
 import {changeStorePath} from '../Functions/ChangeStorePath';
+import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
+import {systemEvents} from '../../../constants/systemEvents';
 
 /**
  *
  * @param catalogName name of server configuration
  * @param mainWay name of server configuration
- * @param unique phrase on Russian
  * @returns {JSX.Element}
  * @desc This is view modal by server information there we have is_group props
  *
  */
-export const CustomObjectView = ({mainWay, catalogName, unique}) => {
+export const CustomObjectView = ({mainWay, catalogName}) => {
 	let sRow;
 	let history = useHistory();
+
+	const objByCatalogName = catalogConfigs(paths).find(
+		(el) => el.name === catalogName
+	);
+	const {unique} = objByCatalogName;
 
 	const catalogRoles = [
 		'ROLE_ADMIN',
@@ -286,7 +292,8 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												name: 'warrantyUploadObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
-												`${catalogName}FilesCatalogSave`
+												`${catalogName}FilesCatalogSave`,
+												systemEvents.EQUIPMENTS_FILES_ADD_SUCCESS
 											)}
 											dispatch={{
 												path: `${changeStorePath(
@@ -369,7 +376,8 @@ export const CustomObjectView = ({mainWay, catalogName, unique}) => {
 												name: 'attachmentUploadObject',
 											}}
 											requestUploadFile={apiSaveFileByConfigName(
-												`${catalogName}FilesCatalogSave`
+												`${catalogName}FilesCatalogSave`,
+												systemEvents.EQUIPMENTS_FILES_ADDITION_SUCCESS
 											)}
 											toolTipProps={{
 												title: 'Загрузить',

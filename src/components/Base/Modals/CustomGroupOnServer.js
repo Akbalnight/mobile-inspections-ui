@@ -7,30 +7,36 @@ import {
 import React from 'react';
 import {itemsInfo} from '../../../constants/dictionary';
 import {changeStorePath} from '../Functions/ChangeStorePath';
+import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
+import {paths} from '../../../constants/paths';
+import {systemEvents} from '../../../constants/systemEvents';
 
 /**
  *
  * @param catalogName name of server configuration<string>
- * @param unique phrase on Russian<string>
  * @param mainWay name of server configuration<string>
  * @returns {JSX.object}
  *
  */
-export const AddCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
-	operationOnServer('add', mainWay, catalogName, unique);
-export const EditCustomGroupOnServer = ({mainWay, catalogName, unique}) =>
-	operationOnServer('edit', mainWay, catalogName, unique);
+export const AddCustomGroupOnServer = ({mainWay, catalogName}) =>
+	operationOnServer('add', mainWay, catalogName);
+export const EditCustomGroupOnServer = ({mainWay, catalogName}) =>
+	operationOnServer('edit', mainWay, catalogName);
 
 /**
  *
  * @param type modal type<string>
  * @param catalogName name of server configuration<string>
  * @param mainWay name of server configuration<string>
- * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Modal work if table have is_group props in row
  */
-const operationOnServer = (type, mainWay, catalogName, unique) => {
+const operationOnServer = (type, mainWay, catalogName) => {
+	const objByCatalogName = catalogConfigs(paths).find(
+		(el) => el.name === catalogName
+	);
+	const {unique, creationGroup, editionGroup} = objByCatalogName;
+
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
@@ -56,7 +62,12 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 				bodyStyle: {height: catalogName === 'equipments' ? 250 : 200},
 				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				requestSaveForm: ({data, params}) =>
-					apiSaveByConfigName(`${catalogName}CatalogSave`)({
+					apiSaveByConfigName(
+						`${catalogName}CatalogSave`,
+						systemEvents[
+							type === 'add' ? creationGroup : editionGroup
+						]
+					)({
 						method: type === 'add' ? 'POST' : 'PUT',
 						data: {...data, isGroup: true},
 						params,
