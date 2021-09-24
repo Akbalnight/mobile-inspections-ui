@@ -11,14 +11,13 @@ import {
 } from 'rt-design';
 import {
 	FileExcelFilled,
-	FileExcelOutlined,
 	ReloadOutlined,
 } from '@ant-design/icons';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {dateTimeExcludeSecond} from '../Base/customColumnProps';
 import {genericDownloadRequest} from '../../apis/network';
-import {toDDMMYYYYHHMM} from '../../utils/datesUtils';
+
 
 export const TemplatesTableHeader = () => {
 	return (

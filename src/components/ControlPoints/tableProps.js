@@ -104,14 +104,12 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 					<AddObjectButton />
 					<AddCustomGroupOnServer
 						mainWay={mainWay}
-						catalogName={catalogName}
-						unique={unique}
+						catalogName={catalogName}						
 					/>
 					<EditObjectButton />
 					<EditCustomGroupOnServer
 						mainWay={mainWay}
-						catalogName={catalogName}
-						unique={unique}
+						catalogName={catalogName}						
 					/>
 				</Access>
 				<Button

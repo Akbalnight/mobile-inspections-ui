@@ -4,11 +4,7 @@ import {Layout, Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-<<<<<<< HEAD
 } from '../../../apis/application.api';
-=======
-} from '../../../apis/catalog.api';
->>>>>>> 55eeb7505f72c0ad7f88e2cdc33ea652eafe35e8
 import {
 	customColumnProps,
 	GetCurrentMode,

@@ -29,6 +29,36 @@ export const systemEvents = {
 			},
 		},
 	},
+	CONTROL_POINTS_GROUP_CREATION_SUCCESS: {
+		finish: {
+			id: 'd3b2cc62-a908-4e85-9650-d1239e4b9284',
+			dataTemplate: {
+				cpName: 'name',
+				cpParent: 'parentId',
+			},
+		},
+		error: {
+			id: 'f3c082a1-a535-4077-bada-b6470979876c',
+			dataTemplate: {
+				cpName: 'name',
+			},
+		},
+	},
+	CONTROL_POINTS_GROUP_EDITION_SUCCESS: {
+		finish: {
+			id: 'e6219bef-a42f-4f65-9568-6ec4e97023d2',
+			dataTemplate: {
+				cpName: 'name',
+				cpParent: 'parentId',
+			},
+		},
+		error: {
+			id: 'f3c082a1-a535-4077-bada-b6470979876c',
+			dataTemplate: {
+				cpName: 'name',
+			},
+		},
+	},
 	DEFECT_FILES_ADDITION_SUCCESS: {
 		finish: {
 			id: 'f7173f65-f074-4bb7-a6f7-083905dcee93',
