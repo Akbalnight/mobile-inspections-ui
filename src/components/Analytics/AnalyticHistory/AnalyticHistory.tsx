@@ -13,6 +13,7 @@ export const AnalyticHistory:React.FC<{analyticId: string}> = ({analyticId}) => 
 			<Table
 				rowKey={`id`}
 				searchParamName={'name'}
+        fixWidthColumn={true}
 				defaultFilter={{
 					reportId: analyticId,
 				}}

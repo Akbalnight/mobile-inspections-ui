@@ -58,7 +58,7 @@ export const TemplatesForm: React.FC<{analyticId: string}> = ({analyticId}) => {
 		<Layout>
 			<div style={{display: 'flex', margin: '12px 0'}}>
 				<Space
-					style={{position: 'absolute', cursor: 'pointer'}}
+					style={{position: 'relative', cursor: 'pointer'}}
 					className={'ant-typography ant-typography-secondary'}
 					onClick={onBackPage}
 				>
@@ -69,6 +69,12 @@ export const TemplatesForm: React.FC<{analyticId: string}> = ({analyticId}) => {
 						style={{marginBottom: '2px'}}
 					>
 						Назад
+					</Title>
+					<Title
+						level={4}
+						style={{marginBottom: '2px', marginLeft: '50px'}}
+					>
+						Параметры отчета
 					</Title>
 				</Space>
 			</div>

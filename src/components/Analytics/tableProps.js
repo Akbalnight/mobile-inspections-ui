@@ -9,11 +9,16 @@ import {
 	Tooltip,
 	notificationError,
 } from 'rt-design';
-import {FileExcelOutlined, ReloadOutlined} from '@ant-design/icons';
+import {
+	FileExcelFilled,
+	FileExcelOutlined,
+	ReloadOutlined,
+} from '@ant-design/icons';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {dateTimeExcludeSecond} from '../Base/customColumnProps';
 import {genericDownloadRequest} from '../../apis/network';
+import {toDDMMYYYYHHMM} from '../../utils/datesUtils';
 
 export const TemplatesTableHeader = () => {
 	return (
@@ -58,7 +63,7 @@ export const HistoryTableHeader = () => {
 									/** We might thinking about ${path}.rows array length*/
 
 									value &&
-										value.length >=10 &&
+										value.length >= 10 &&
 										setSubscribeProps &&
 										setSubscribeProps({hidden: value});
 								},
@@ -197,6 +202,7 @@ export const HistoryTableHeader = () => {
 
 export const customColumnProps = [
 	dateTimeExcludeSecond('ts'),
+
 	{
 		name: 'files',
 		cellRenderer: ({rowData}) => {
@@ -212,12 +218,14 @@ export const customColumnProps = [
 			};
 			return (
 				<>
-					Данный отчет вы можете скачать тут:{' '}
+					{/* Данный отчет вы можете скачать тут:{' '} */}
 					<Tooltip title={'Скачать'}>
 						{' '}
 						<Button
 							onClick={onClickLoadFile}
-							icon={<FileExcelOutlined />}
+							icon={
+								<FileExcelFilled style={{color: '#0d8040'}} />
+							}
 							type={'text'}
 						/>
 					</Tooltip>

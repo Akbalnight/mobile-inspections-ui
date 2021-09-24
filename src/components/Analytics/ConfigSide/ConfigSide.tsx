@@ -56,7 +56,7 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 			typeExecutor: 'saveVar',
 			body: {
 				base: {
-					fileName: `${name} JS{new Date().toLocaleString()}JS.xlsx`,
+					fileName: `${name} JS{new Date().toLocaleDateString()}JS.xlsx`,
 					reportId: analyticId,
 					headerStyle: {
 						border: {
@@ -138,7 +138,7 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 	return (
 		<Form name={'configForm'}>
 			<FormBody
-				scrollable={false}
+				scrollable={true}
 				noPadding={true}
 				style={{padding: '0 24px 24px 24px'}}
 			>
@@ -148,7 +148,7 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 					<>
 						<Title
 							level={4}
-							style={{padding: '24px 24px 10px 24px'}}
+							style={{padding: '10px 10px 0px 150px'}}
 						>
 							Отчет
 						</Title>
