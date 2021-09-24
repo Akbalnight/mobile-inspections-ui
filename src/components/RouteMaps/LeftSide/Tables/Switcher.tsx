@@ -6,7 +6,7 @@ import RouteMapsTable from './RouteMapsTable';
 import ControlPointsTable from './ControlPointsTable';
 import {paths} from '../../../../constants/paths';
 import {useHistory} from 'react-router';
-import {apiGetFlatDataByConfigName} from '../../../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 
 const Switcher = ({routeId}: {routeId: string}) => {
 	const history = useHistory();
@@ -18,12 +18,13 @@ const Switcher = ({routeId}: {routeId: string}) => {
 			.catch((error) =>
 				notificationError(error, 'Ошибка загрузки маршрута')
 			);
+
 		// eslint-disable-next-line
 	}, []);
 
 	const onBackPage = () =>
 		history.push(`${paths.DETOURS_CONFIGURATOR_ROUTE_MAPS.path}`);
-
+	//
 	return (
 		<Layout style={{paddingBottom: '0px'}}>
 			<div style={{display: 'flex', margin: '12px 0'}}>

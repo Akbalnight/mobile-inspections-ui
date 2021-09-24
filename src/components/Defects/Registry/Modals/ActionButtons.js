@@ -3,7 +3,7 @@ import {ReactComponent as SendToSap} from '../../../../imgs/defects/send-to-sap-
 import {
 	apiSaveByConfigName,
 	apiGetConfigByName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
 import {customColumnProps} from '../../tableProps';
 import {systemEvents} from '../../../../constants/systemEvents';

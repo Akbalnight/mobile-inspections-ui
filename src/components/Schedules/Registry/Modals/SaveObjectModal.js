@@ -3,7 +3,7 @@ import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {
 	Select,
 	RadioGroup,

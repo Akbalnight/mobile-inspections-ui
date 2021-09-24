@@ -62,7 +62,7 @@ export const menu = [
 	},
 	{
 		// analytics
-		...paths.ANALYTICS,
+		...paths.ANALYTICS_MAIN,
 		icon: ANALYTICS,
 	},
 ];

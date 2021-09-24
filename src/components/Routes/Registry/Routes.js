@@ -4,7 +4,7 @@ import {customColumnProps, MainTableHeader} from '../tableProps';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import React from 'react';
 
 export const Routes = () => {

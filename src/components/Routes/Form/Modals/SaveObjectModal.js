@@ -16,7 +16,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 
 export const AddControlPointToRoute = () => operationOnLocal('add');
 export const EditControlPointToRoute = () => operationOnLocal('edit');

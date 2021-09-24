@@ -1,7 +1,7 @@
 import {Modal, FormBody, Input} from 'rt-design';
 import {EditOutlined} from '@ant-design/icons';
 import React from 'react';
-import {apiSaveByConfigName} from '../../../apis/catalog.api';
+import {apiSaveByConfigName} from '../../../apis/application.api';
 import {itemsInfo} from '../../../constants/dictionary';
 import {systemEvents} from '../../../constants/systemEvents';
 

@@ -1,6 +1,6 @@
 import {Modal, FormBody, Text, Title, Layout, Table} from 'rt-design';
 import React from 'react';
-import {apiGetConfigByName} from '../../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../../apis/application.api';
 import {selectRowsById} from '../../../Base/Functions/TableSelectById';
 
 /**

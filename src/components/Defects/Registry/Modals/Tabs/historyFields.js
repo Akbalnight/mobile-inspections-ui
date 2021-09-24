@@ -1,4 +1,4 @@
-import {apiGetConfigByName} from '../../../../../apis/catalog.api';
+import {apiGetConfigByName} from '../../../../../apis/application.api';
 import {Layout, Table} from 'rt-design';
 import React from 'react';
 import {customColumnProps} from '../../../tableProps';

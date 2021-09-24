@@ -1,0 +1,73 @@
+.analytics {
+   .analyticsConfig,
+   .analyticsContainer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; //center
+    .ant-result .anticon.anticon-arrow-left {
+      font-size: 40px;
+    }
+  }
+
+  .analyticsConfig {
+    .command-panel-container {
+      .right-system-side {
+        flex: 1 1 auto;
+        display: flex;
+
+        .search {
+          flex: 1 1 auto;
+          width: auto;
+        }
+      }
+    }
+
+    .BaseTable__row-cell a {
+      height: 100%;
+      width: 100%;
+      line-height: 30px;
+    }
+  }
+}
+
+#analyticModalForm {
+  .ant-spin.ant-spin-spinning {
+    display: block;
+    margin: auto;
+  }
+
+  .NoRequiredField {
+    label {
+      margin-left: 8px;
+    }
+  }
+}
+
+
+.analyticsConfig {
+  li {
+    padding: 5px 5px 5px 8px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.018);
+    }
+  }
+
+  .activeReport, .activeReport:hover {
+    background: rgba(0, 0, 0, 0.063);
+  }
+
+  a {
+    color: rgba(0, 0, 0, 0.65);
+    padding: 0 24px ;
+    &:hover, &:target{
+      color: rgba(0, 0, 0, 0.9);
+    }
+  }
+
+  .ant-list-items {
+    width: 500px;
+  }
+}

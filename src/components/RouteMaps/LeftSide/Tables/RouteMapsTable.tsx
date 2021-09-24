@@ -4,7 +4,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {executeRequest, Table, TablesSubscribeOnChangeOptions} from 'rt-design';
 import {systemEvents} from '../../../../constants/systemEvents';
 

@@ -3,7 +3,7 @@ import {
 	apiGetDataFlatConfigManagement,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import {disabledEndDate, disabledStartDate} from './DateLimits';
 import {
 	CalendarOutlined,

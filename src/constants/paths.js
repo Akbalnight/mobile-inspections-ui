@@ -24,7 +24,8 @@ import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 import {Signage} from '../components/Defects/Form/Signage';
 import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
-import DebugRabbit from '../components/Debug/Anton/DebugRabbit';
+// import DebugRabbit from '../components/Debug/Anton/DebugRabbit';
+import {AnalyticsById, AnalyticsMain} from '../components/Analytics/Analytics';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -82,12 +83,12 @@ export const paths = {
 	// 	component: DebugTable,
 	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	// },
-	DEBUG_RABBIT: {
-		title: 'Debug rabbit',
-		path: '/rabbit-debug',
-		component: DebugRabbit,
-		roles: ['ROLE_ADMIN'],
-	},
+	// DEBUG_RABBIT: {
+	// 	title: 'Debug rabbit',
+	// 	path: '/rabbit-debug',
+	// 	component: DebugRabbit,
+	// 	roles: ['ROLE_ADMIN'],
+	// },
 	// DEBUG_MARSEL: {
 	// 	title: 'DebugMarsel',
 	// 	path: '/debugMarsel',
@@ -331,10 +332,26 @@ export const paths = {
 		component: Home,
 		roles: ['ROLE_ADMIN'],
 	},
-	ANALYTICS: {
+	ANALYTICS_MAIN: {
 		title: 'Аналитика и отчетность',
 		path: '/analytics',
-		component: Home,
+		component: AnalyticsMain,
+		roles: [
+			'ROLE_ADMIN',
+			'ROLE_MI_ADMIN',
+			'ROLE_MI_SHIFT_SUPERVISOR',
+			'ROLE_MI_DETOURS_RESP',
+			'ROLE_MI_DETOURS_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_APPROVER',
+			'ROLE_MI_DETOUR_SCHEDULES_CREATOR',
+			'ROLE_MI_DETOUR_SCHEDULES_RESP',
+			'ROLE_MI_DETOURS_CREATOR',
+		],
+	},
+	ANALYTICS_BY_ID: {
+		title: 'Аналитика и отчетность',
+		path: '/analytics/:id',
+		component: AnalyticsById,
 		roles: [
 			'ROLE_ADMIN',
 			'ROLE_MI_ADMIN',

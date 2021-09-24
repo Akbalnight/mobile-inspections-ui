@@ -1,4 +1,4 @@
-import {apiGetFlatDataByConfigName} from '../../apis/catalog.api';
+import {apiGetFlatDataByConfigName} from '../../apis/application.api';
 import {checkBox, date, dateTime} from '../Base/customColumnProps';
 import {
 	Space,

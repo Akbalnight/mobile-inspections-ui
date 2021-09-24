@@ -5,7 +5,7 @@ import {customColumnProps} from '../tableProps';
 import {
 	apiGetUnAuthConfigByName,
 	apiGetUnAuthData,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 import logoSignage from '../../../imgs/logo-signage.png';
 import '../Registry/Defects.less';
 // import {Pie} from 'react-chartjs-2';

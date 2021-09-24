@@ -4,7 +4,7 @@ import {ReactComponent as Warning} from '../../../../imgs/warning-mdl-big.svg';
 import {
 	apiGetFlatDataByConfigName,
 	apiSaveByConfigName,
-} from '../../../../apis/catalog.api';
+} from '../../../../apis/application.api';
 import {paths} from '../../../../constants/paths';
 import {Modal, FormBody, Text, Input, notificationError} from 'rt-design';
 import {systemEvents} from '../../../../constants/systemEvents';

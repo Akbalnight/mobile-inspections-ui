@@ -4,7 +4,7 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 	apiGetHierarchicalDataByConfigName,
-} from '../../../apis/catalog.api';
+} from '../../../apis/application.api';
 
 import {customColumnPropsEquipments, TableHeader} from '../tableProps';
 import {changeStorePath} from '../../Base/Functions/ChangeStorePath';
