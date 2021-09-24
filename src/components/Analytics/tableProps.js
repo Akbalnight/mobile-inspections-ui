@@ -58,14 +58,14 @@ export const HistoryTableHeader = () => {
 									/** We might thinking about ${path}.rows array length*/
 
 									value &&
-										value.length >= 3 &&
+										value.length >=10 &&
 										setSubscribeProps &&
 										setSubscribeProps({hidden: value});
 								},
 							},
 						]}
 						dispatch={{
-							path: `analytics.historyTable.events.onReloadBtn`,
+							path: `analytics.historyTable.events.onReload`,
 						}}
 					/>
 					<Search
@@ -79,11 +79,7 @@ export const HistoryTableHeader = () => {
 						subscribe={[
 							/** Reload Search value field, clear STORE*/
 							reloadFilterFields(
-								'analytics.historyTable.events.onReloadBtn'
-							),
-							reloadFilterFields(
-								'analytics.historyTable.events.onReload',
-                'onReload'
+								'analytics.historyTable.events.onReload'
 							),
 						]}
 					/>

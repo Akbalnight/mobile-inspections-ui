@@ -7,7 +7,7 @@ import {
 import {paths} from '../../../../constants/paths';
 import {useHistory} from 'react-router';
 
-export const TemplatesTable = () => {
+export const TemplatesTable:React.FC = () => {
 	const history = useHistory();
 
 	const onRouteSelect = ({rowData}: any) =>

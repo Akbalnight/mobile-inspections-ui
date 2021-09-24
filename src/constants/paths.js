@@ -24,7 +24,7 @@ import Defects from '../components/Defects/Registry/Defects';
 import {Routes} from '../components/Routes/Registry/Routes';
 import {Signage} from '../components/Defects/Form/Signage';
 import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
-import DebugRabbit from '../components/Debug/Anton/DebugRabbit';
+// import DebugRabbit from '../components/Debug/Anton/DebugRabbit';
 import {AnalyticsById, AnalyticsMain} from '../components/Analytics/Analytics';
 
 // Debugs
@@ -83,12 +83,12 @@ export const paths = {
 	// 	component: DebugTable,
 	// 	roles: ['ROLE_ADMIN', 'ROLE_MOBILE_APP'],
 	// },
-	DEBUG_RABBIT: {
-		title: 'Debug rabbit',
-		path: '/rabbit-debug',
-		component: DebugRabbit,
-		roles: ['ROLE_ADMIN'],
-	},
+	// DEBUG_RABBIT: {
+	// 	title: 'Debug rabbit',
+	// 	path: '/rabbit-debug',
+	// 	component: DebugRabbit,
+	// 	roles: ['ROLE_ADMIN'],
+	// },
 	// DEBUG_MARSEL: {
 	// 	title: 'DebugMarsel',
 	// 	path: '/debugMarsel',

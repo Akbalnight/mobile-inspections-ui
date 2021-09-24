@@ -10,11 +10,12 @@ import {
 } from '../../../../apis/application.api';
 import {StatusIcon} from '../../../Defects/tableProps';
 import {FolderOutlined, ToolOutlined} from '@ant-design/icons';
+import {SubscribeOnChangeOptions} from 'rt-design';
 
-const chooseSubscribe = (object: any) => {
+const chooseSubscribe = (subscribeObj: any) => {
 	let subArr: any[] = [];
 
-	Object.keys(object).map((el: any) => {
+	Object.keys(subscribeObj).map((el: any) => {
 		if (el === 'reload') {
 			subArr.push(reloadFilterFields('analytics.form.events.onReload'));
 		} else if (el === 'dateStart') {
@@ -24,10 +25,7 @@ const chooseSubscribe = (object: any) => {
 				onChange: ({
 					value,
 					setSubscribeProps,
-				}: {
-					value: any;
-					setSubscribeProps: any;
-				}) => {
+				}: SubscribeOnChangeOptions) => {
 					setSubscribeProps({
 						disabledDate: (endValue: any) =>
 							disabledEndDate(value, endValue),
@@ -41,10 +39,7 @@ const chooseSubscribe = (object: any) => {
 				onChange: ({
 					value,
 					setSubscribeProps,
-				}: {
-					value: any;
-					setSubscribeProps: any;
-				}) => {
+				}: SubscribeOnChangeOptions) => {
 					setSubscribeProps({
 						disabledDate: (startValue: any) =>
 							disabledStartDate(startValue, value),
@@ -52,6 +47,7 @@ const chooseSubscribe = (object: any) => {
 				},
 			});
 		}
+    return el
 	});
 	return subArr;
 };
@@ -75,7 +71,7 @@ const chooseRequest = (configName: string) => {
 		case 'defectStatusesProcessNew':
 			return ({data, params}: {data: any; params: any}) =>
 				apiGetFlatDataByConfigName('defectStatusesProcess')({
-					data: {...data, id:'1864073a-bf8d-4df2-b02d-8e5afa63c4d0'},
+					data: {...data, id: '1864073a-bf8d-4df2-b02d-8e5afa63c4d0'},
 					params,
 				});
 		default:
@@ -83,7 +79,7 @@ const chooseRequest = (configName: string) => {
 	}
 };
 
-const chooseOptionConverter = (configName: any) => {
+const chooseOptionConverter = (configName: string) => {
 	switch (configName) {
 		case 'staff':
 			return (option: any) => ({
@@ -125,10 +121,10 @@ const chooseOptionConverter = (configName: any) => {
 
 export const parseById = (items: any) =>
 	items.map((item: any) => {
-		if (item.loadRows) {
-
-			item.requestLoadRows = chooseRequest(item.loadRows);
-			item.optionConverter = chooseOptionConverter(item.loadRows);
+		const {loadRows} = item;
+		if (loadRows) {
+			item.requestLoadRows = chooseRequest(loadRows);
+			item.optionConverter = chooseOptionConverter(loadRows);
 		}
 		if (item.subscribe) {
 			item.subscribe = chooseSubscribe(item.subscribe);

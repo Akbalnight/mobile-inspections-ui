@@ -14,8 +14,15 @@ import {parseById} from './parseFunc';
 import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 import {useDispatch} from 'react-redux';
 
-export const TemplatesForm = ({analyticId}) => {
-	const [config, setConfig] = useState({
+export interface ConfigState {
+	filterConfig?: object[] | string[];
+	templates?: object[] | string[];
+	name?: string;
+	id?: string;
+}
+
+export const TemplatesForm: React.FC<{analyticId: string}> = ({analyticId}) => {
+	const [config, setConfig] = useState<ConfigState>({
 		filterConfig: ['---'],
 		templates: ['---'],
 		name: '',
@@ -25,7 +32,7 @@ export const TemplatesForm = ({analyticId}) => {
 	const onBackPage = () => history.push(`${paths.ANALYTICS_MAIN.path}`);
 
 	useEffect(() => {
-			if (analyticId) {
+		if (analyticId) {
 			apiGetFlatDataByConfigName('analyticReports')({
 				data: {id: analyticId},
 				params: {},
@@ -67,10 +74,7 @@ export const TemplatesForm = ({analyticId}) => {
 			</div>
 			{
 				<>
-					<FormItems
-						className={'mt-0'}
-						items={parseById(config.filterConfig)}
-					/>
+					<FormItems items={parseById(config.filterConfig)} />
 				</>
 			}
 		</Layout>

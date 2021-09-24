@@ -12,7 +12,7 @@ import {
 	SubscribeOnChangeOptions,
 	Title,
 } from 'rt-design';
-import {apiGetFlatDataByConfigName} from '../../../apis/application.api';
+
 import {genericRequest} from '../../../apis/network';
 import {TemplatesTableHeader} from '../tableProps';
 import {TemplatesForm} from './Tables/TemplatesForm';
@@ -42,21 +42,17 @@ interface SVarObject {
 		};
 		filter?: any;
 	};
-	output?: string;
+	output: string;
 }
 
-export const ConfigSide = ({analyticId}: {analyticId: string}) => {
+export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 
 const dispatch =useDispatch()
 
-	const loadData = (callBack: (params: any) => void) => {
-		return callBack(analyticId ? {id: analyticId} : null); //??
-	};
-
-	const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
+const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 		const {templates, name} = extraData;
 
-		let tmpObj: any = {
+		let saveVarObject: SVarObject = {
 			typeExecutor: 'saveVar',
 			body: {
 				base: {
@@ -81,20 +77,22 @@ const dispatch =useDispatch()
 		};
 
 		for (let key in value.extraData) {
+      if (saveVarObject.body){
 			if (typeof value.extraData[key] === 'object') {
-				tmpObj.body.filter[key] = value.extraData[key].format();
+				saveVarObject.body.filter[key] = value.extraData[key].format();
 			} else {
-				tmpObj.body.filter[key] = value.extraData[key];
+				saveVarObject.body.filter[key] = value.extraData[key];
 			}
+    }
 		}
 
 		genericRequest({
 			url: `/api/dynamicdq/task/sync`,
 			method: 'POST',
-			data: [tmpObj, ...templates],
+			data: [saveVarObject, ...templates],
 		})
 			.then((r) => {
-				console.log('onClickButton', r);
+				console.log('createReportDone', r);
         setTimeout(() => {
           dispatch(setDataStore('analytics.form.events.onReload',{}))
         }, 1000);
@@ -138,7 +136,7 @@ const dispatch =useDispatch()
 	) : null;
 
 	return (
-		<Form name={'configForm'} loadInitData={loadData}>
+		<Form name={'configForm'}>
 			<FormBody
 				scrollable={false}
 				noPadding={true}

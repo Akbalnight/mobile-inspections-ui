@@ -6,7 +6,7 @@ import {
 } from '../../../apis/application.api';
 import {customColumnProps, HistoryTableHeader} from '../tableProps';
 
-export const AnalyticHistory = ({analyticId}: {analyticId: string}) => {
+export const AnalyticHistory:React.FC<{analyticId: string}> = ({analyticId}) => {
 	return (
 		<Layout style={{height: '100%'}}>
 			<HistoryTableHeader />
