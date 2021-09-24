@@ -46,12 +46,25 @@ import {systemEvents} from '../../../constants/systemEvents';
  *
  */
 export const CustomObjectView = ({mainWay, catalogName}) => {
-	let sRow;
+	let sRow, objByCatalogName;
 	let history = useHistory();
+	if (catalogName === 'controlPoints') {
+		objByCatalogName = {
+			unique: 'контрольных точек',
+		};
+	} else if (catalogName === 'techMaps') {
+		objByCatalogName = {
+			unique: 'контрольных точек',
+		};
+	} else {
+		objByCatalogName = catalogConfigs(paths).find(
+			(el) => el.name === catalogName
+		);
+	}
 
-	const objByCatalogName = catalogConfigs(paths).find(
-		(el) => el.name === catalogName
-	);
+	// const objByCatalogName = catalogConfigs(paths).find(
+	// 	(el) => el.name === catalogName
+	// );
 	const {unique} = objByCatalogName;
 
 	const catalogRoles = [

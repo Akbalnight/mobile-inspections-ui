@@ -30,11 +30,29 @@ export const EditCustomObjectOnServer = ({mainWay, catalogName}) =>
  * @desc Modal work only object in row
  */
 const operationOnServer = (type, mainWay, catalogName) => {
-	let sRow;
+	let sRow, objByCatalogName
+  if (catalogName==='controlPoints') {
+    objByCatalogName={
+      unique: 'контрольных точек',
+      creation:'CONTROL_POINTS_CREATION_SUCCESS',
+      edition:'CONTROL_POINTS_EDITION_SUCCESS'
+    }
+  } else if (catalogName==='techMaps'){
+    objByCatalogName={
+      unique: 'контрольных точек',
+      creation:'TECH_MAPS_CREATION_SUCCESS',
+      edition:'TECH_MAPS_EDITION_SUCCESS'
+    }
+  }else {
+     objByCatalogName = catalogConfigs(paths).find(
+      (el) => el.name === catalogName
+    );
 
-	const objByCatalogName = catalogConfigs(paths).find(
-		(el) => el.name === catalogName
-	);
+  }
+
+	// const objByCatalogName = catalogConfigs(paths).find(
+	// 	(el) => el.name === catalogName
+	// );
 	const {unique, creation, edition} = objByCatalogName;
 
 	const loadData = (callBack, row) => {

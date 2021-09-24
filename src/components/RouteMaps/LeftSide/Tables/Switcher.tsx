@@ -8,6 +8,7 @@ import {paths} from '../../../../constants/paths';
 import {useHistory} from 'react-router';
 import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 
+
 const Switcher = ({routeId}: {routeId: string}) => {
 	const history = useHistory();
 	const [routeData, setRouteData] = useState({name: '---'});
@@ -18,7 +19,6 @@ const Switcher = ({routeId}: {routeId: string}) => {
 			.catch((error) =>
 				notificationError(error, 'Ошибка загрузки маршрута')
 			);
-
 		// eslint-disable-next-line
 	}, []);
 
