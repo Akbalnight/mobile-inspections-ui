@@ -29,6 +29,7 @@ import {selectRowsById} from '../../Base/Functions/TableSelectById';
 import {EquipmentAddModal} from './Modals/EquipmentSaveObject';
 import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
 import {TechMapAddModal} from './Modals/TechMapSaveObject';
+import {systemEvents} from '../../../constants/systemEvents';
 
 export const ControlPointAdd = () => {
 	return (
@@ -82,7 +83,14 @@ const ControlPoint = (props) => {
 		<Form
 			name={'form'}
 			loadInitData={loadData}
-			requestSaveForm={apiSaveByConfigName('controlPoints')}
+			requestSaveForm={apiSaveByConfigName(
+				'controlPoints',
+				systemEvents[
+					controlPointId
+						? 'CONTROL_POINTS_EDITION_SUCCESS'
+						: 'CONTROL_POINTS_CREATION_SUCCESS'
+				]
+			)}
 			methodSaveForm={controlPointId ? 'PUT' : 'POST'}
 			onFinish={onFinish}
 			labelCol={{span: 8}}

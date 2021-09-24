@@ -10,16 +10,12 @@ import {customColumnPropsEquipments, TableHeader} from '../tableProps';
 import {changeStorePath} from '../../Base/Functions/ChangeStorePath';
 
 export const Catalogs = (props) => {
-	const {mainWay, catalogName, hierarchical, unique} = props;
+	const {mainWay, catalogName, hierarchical} = props;
 
 	return (
 		<Form>
 			<FormBody noPadding={true} name={'catalogSideFormDec'}>
-				<TableHeader
-					mainWay={mainWay}
-					catalogName={catalogName}
-					unique={unique}
-				/>
+				<TableHeader mainWay={mainWay} catalogName={catalogName} />
 				<Table
 					fixWidthColumn={true}
 					searchParamName={

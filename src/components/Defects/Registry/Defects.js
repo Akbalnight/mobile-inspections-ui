@@ -5,13 +5,11 @@ import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/catalog.api';
-import {useHistory} from 'react-router';
 import {
 	customColumnProps,
 	GetCurrentMode,
 	MainTableHeader,
 } from '../tableProps';
-import {paths} from '../../../constants/paths';
 import './Defects.less';
 
 /**

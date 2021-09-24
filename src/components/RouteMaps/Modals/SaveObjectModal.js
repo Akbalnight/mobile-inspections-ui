@@ -3,6 +3,7 @@ import {EditOutlined} from '@ant-design/icons';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import {itemsInfo} from '../../../constants/dictionary';
+import {systemEvents} from '../../../constants/systemEvents';
 
 export const EditFileName = () => {
 	return (
@@ -23,7 +24,10 @@ export const EditFileName = () => {
 					height: 150,
 				},
 				methodSaveForm: 'PUT',
-				requestSaveForm: apiSaveByConfigName('routeMapFileNameSave'),
+				requestSaveForm: apiSaveByConfigName(
+					'routeMapFileNameSave',
+					systemEvents.ROUTE_MAPS_FILES_NAME_EDITION_SUCCESS
+				),
 				form: {
 					name: `editModalForm`,
 					labelCol: {span: 10},

@@ -6,6 +6,7 @@ import {
 } from '../../../../apis/catalog.api';
 import {FormBody, Layout, Text, Table, Modal} from 'rt-design';
 import {customColumnProps} from '../../tableProps';
+import {systemEvents} from '../../../../constants/systemEvents';
 
 export const ButtonSendToSap = () => {
 	const processBeforeSaveForm = (rawValues) => {
@@ -39,7 +40,10 @@ export const ButtonSendToSap = () => {
 					bodyStyle: {height: 450},
 					okText: 'Передать',
 					methodSaveForm: 'POST',
-					requestSaveForm: apiSaveByConfigName(`sapViewOnPanelSave`),
+					requestSaveForm: apiSaveByConfigName(
+						`sapViewOnPanelSave`,
+						systemEvents.DEFECT_SEND_TO_SAP_SUCCESS
+					),
 					form: {
 						name: 'defectsToSapQueueModal',
 						noPadding: false,

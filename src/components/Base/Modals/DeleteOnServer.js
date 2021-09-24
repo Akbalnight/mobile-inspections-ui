@@ -4,16 +4,21 @@ import {ReactComponent as Warning} from '../../../imgs/warning-mdl-big.svg';
 import React from 'react';
 import {apiSaveByConfigName} from '../../../apis/catalog.api';
 import {changeStorePath} from '../Functions/ChangeStorePath';
+import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
+import {paths} from '../../../constants/paths';
 
 /**
  *
  * @param catalogName name of server configuration<string>
  * @param mainWay name of server configuration<string>
- * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Delete modal(button)
  */
-export const DeleteOnServer = ({mainWay, catalogName, unique}) => {
+export const DeleteOnServer = ({mainWay, catalogName}) => {
+	const objByCatalogName = catalogConfigs(paths).find(
+		(el) => el.name === catalogName
+	);
+	const {unique} = objByCatalogName;
 	let sRow;
 	const loadData = (callBack, row) => {
 		sRow = row;

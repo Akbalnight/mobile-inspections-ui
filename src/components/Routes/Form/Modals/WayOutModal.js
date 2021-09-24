@@ -7,6 +7,7 @@ import {
 } from '../../../../apis/catalog.api';
 import {paths} from '../../../../constants/paths';
 import {Modal, FormBody, Text, Input, notificationError} from 'rt-design';
+import {systemEvents} from '../../../../constants/systemEvents';
 
 export const WayOutModal = () => {
 	const history = useHistory();
@@ -43,7 +44,10 @@ export const WayOutModal = () => {
 					cancelText: 'Нет',
 					methodSaveForm: 'POST',
 					requestSaveForm: ({data}) => {
-						apiSaveByConfigName('routes')({
+						apiSaveByConfigName(
+							'routes',
+							systemEvents.ROUTE_CREATION_SUCCESS
+						)({
 							method: 'POST',
 							data: {...data},
 						});

@@ -36,6 +36,7 @@ import {changeStorePath} from './ChangeStorePath';
 
 /**
  *
+ * @param mainWay catalogName name of section<string>
  * @param catalogName catalogName name of server configuration<string>
  * @returns {null|*}
  * @desc Choise function by DefaultObjectOnServer.js

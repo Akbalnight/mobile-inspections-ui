@@ -33,7 +33,7 @@
     "react-zoom-pan-pinch": "^2.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.77"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.78"
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.4",
@@ -63,7 +63,10 @@
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "off"
+    }
   },
   "husky": {
     "hooks": {

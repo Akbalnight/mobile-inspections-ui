@@ -21,6 +21,7 @@ import {
 	Title,
 } from 'rt-design';
 import {itemsInfo} from '../../../../constants/dictionary';
+import {systemEvents} from '../../../../constants/systemEvents';
 
 /** checkValue задается при первом вызове функции
  * value и setSubscribeProps прилетают при срабатывании subscribe
@@ -34,10 +35,11 @@ const onChangeRepeaterType =
 
 const prefixCls = 'detours-schedules-registry-modal';
 
-export const AddDetourButton = () => operaionOnServer('add');
-export const EditDetourButton = () => operaionOnServer('edit');
+export const AddDetourButton = () => operationOnServer('add');
 
-const operaionOnServer = (type) => {
+export const EditDetourButton = () => operationOnServer('edit');
+
+const operationOnServer = (type) => {
 	const processBeforeSaveForm = (rawValues) => {
 		const values = {...rawValues};
 
@@ -90,7 +92,14 @@ const operaionOnServer = (type) => {
 					type === 'add' ? 'Создание' : 'Изменение'
 				} расписания обхода`,
 				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
-				requestSaveForm: apiSaveByConfigName(`repeaterDataSave`),
+				requestSaveForm: apiSaveByConfigName(
+					`repeaterDataSave`,
+					systemEvents[
+						type === 'add'
+							? 'SCHEDULE_CREATION_SUCCESS'
+							: 'SCHEDULE_EDITION_SUCCESS'
+					]
+				),
 				width: 700,
 				bodyStyle: {height: 580},
 				form: {

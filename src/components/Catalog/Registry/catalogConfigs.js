@@ -10,6 +10,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Организационная структура предприятия',
 		hierarchical: true,
 		unique: 'департамента',
+		creation: 'DEPARTMENTS_CREATION_SUCCESS',
+		edition: 'DEPARTMENTS_EDITION_SUCCESS',
 	},
 	{
 		name: 'techMapsStatuses',
@@ -17,6 +19,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы технологических карт',
 		hierarchical: false,
 		unique: 'статуса технологических карт',
+		creation: 'TECH_MAPS_STATUSES_CREATION_SUCCESS',
+		edition: 'TECH_MAPS_STATUSES_EDITION_SUCCESS',
 	},
 	{
 		name: 'staffPositions',
@@ -24,6 +28,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Должности',
 		hierarchical: false,
 		unique: 'должности',
+		creation: 'STAFF_POSITIONS_CREATION_SUCCESS',
+		edition: 'STAFF_POSITIONS_EDITION_SUCCESS',
 	},
 	{
 		name: 'equipments',
@@ -31,6 +37,10 @@ export const catalogConfigs = (paths) => [
 		title: 'Оборудование',
 		hierarchical: true,
 		unique: 'оборудования',
+		creation: 'EQUIPMENTS_CREATION_SUCCESS',
+		edition: 'EQUIPMENTS_EDITION_SUCCESS',
+		creationGroup: 'EQUIPMENTS_GROUP_CREATION_SUCCESS',
+		editionGroup: 'EQUIPMENTS_GROUP_EDITION_SUCCESS',
 	},
 	{
 		name: 'staffQualifications',
@@ -38,6 +48,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Квалификации',
 		hierarchical: false,
 		unique: 'квалификации',
+		creation: 'STAFF_QUALIFICATIONS_CREATION_SUCCESS',
+		edition: 'STAFF_QUALIFICATIONS_EDITION_SUCCESS',
 	},
 	{
 		name: 'defectStatusesProcess',
@@ -45,6 +57,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы обработки дефектов',
 		hierarchical: false,
 		unique: 'статуса обработки дефекта',
+		creation: 'DEFECT_STATUSES_PROCESS_CREATION_SUCCESS',
+		edition: 'DEFECT_STATUSES_PROCESS_EDITION_SUCCESS',
 	},
 	{
 		name: 'panelProblemsPriorities',
@@ -52,6 +66,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Приоритеты панели проблем',
 		hierarchical: false,
 		unique: 'приоритета панели проблем',
+		creation: 'PANEL_PROBLEMS_PRIORITIES_CREATION_SUCCESS',
+		edition: 'PANEL_PROBLEMS_PRIORITIES_EDITION_SUCCESS',
 	},
 	{
 		name: 'panelProblemsStatuses',
@@ -59,6 +75,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы панели проблем',
 		hierarchical: false,
 		unique: 'статуса панели проблем',
+		creation: 'PANEL_PROBLEMS_STATUSES_CREATION_SUCCESS',
+		edition: 'PANEL_PROBLEMS_STATUSES_EDITION_SUCCESS',
 	},
 	{
 		name: 'sapStatuses',
@@ -66,6 +84,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы SAP',
 		hierarchical: false,
 		unique: 'статуса SAP',
+		creation: 'SAP_STATUSES_CREATION_SUCCESS',
+		edition: 'SAP_STATUSES_EDITION_SUCCESS',
 	},
 	{
 		name: 'routeStatuses',
@@ -73,6 +93,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы обработки маршрутов',
 		hierarchical: false,
 		unique: 'статуса маршрута',
+		creation: 'ROUTE_STATUSES_CREATION_SUCCESS',
+		edition: 'ROUTE_STATUSES_EDITION_SUCCESS',
 	},
 	{
 		name: 'repeaterStatuses',
@@ -80,6 +102,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы обработки расписания обходов',
 		hierarchical: false,
 		unique: 'статуса расписания обхода',
+		creation: 'SCHEDULES_STATUSES_CREATION_SUCCESS',
+		edition: 'SCHEDULES_STATUSES_EDITION_SUCCESS',
 	},
 	{
 		name: 'staffWorkSchedules',
@@ -87,6 +111,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Рабочие графики',
 		hierarchical: false,
 		unique: 'рабочего графика',
+		creation: 'STAFF_WORK_SCHEDULES_CREATION_SUCCESS',
+		edition: 'STAFF_WORK_SCHEDULES_EDITION_SUCCESS',
 	},
 	{
 		name: 'detoursStatuses',
@@ -94,6 +120,8 @@ export const catalogConfigs = (paths) => [
 		title: 'Статусы обработки обходов',
 		hierarchical: false,
 		unique: 'статуса обхода',
+		creation: 'DETOURS_STATUSES_CREATION_SUCCESS',
+		edition: 'DETOURS_STATUSES_EDITION_SUCCESS',
 	},
 	{
 		name: 'defectTypical',
@@ -101,6 +129,10 @@ export const catalogConfigs = (paths) => [
 		title: 'Типовые дефекты',
 		hierarchical: true,
 		unique: 'типового дефекта',
+		creation: 'DEFECT_TYPICAL_CREATION_SUCCESS',
+		edition: 'DEFECT_TYPICAL_EDITION_SUCCESS',
+		creationGroup: 'DEFECT_TYPICAL_GROUP_CREATION_SUCCESS',
+		editionGroup: 'DEFECT_TYPICAL_GROUP_EDITION_SUCCESS',
 	},
 	{
 		name: 'staff',
@@ -108,5 +140,7 @@ export const catalogConfigs = (paths) => [
 		title: 'Сотрудник',
 		hierarchical: false,
 		unique: 'карточки сотрудника',
+		creation: 'STAFF_CREATION_SUCCESS',
+		edition: 'STAFF_EDITION_SUCCESS',
 	},
 ];

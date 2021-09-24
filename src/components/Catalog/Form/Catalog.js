@@ -71,7 +71,6 @@ const Catalog = () => {
 											mainWay={'catalog'}
 											catalogName={item.name}
 											hierarchical={item.hierarchical}
-											unique={item.unique}
 										/>
 									)}
 								/>
@@ -91,33 +90,4 @@ const Catalog = () => {
 	);
 };
 
-Catalog.propTypes = {};
-
-Catalog.defaultProps = {};
-
 export default Catalog;
-
-/**
- * Старый лист
- *
- *  <List
- autoLoadRows={false}
- rows={catalogConfigs(paths)}
- selectedRowKeys={[pathname]}
- type={'localSide'}
- showElements={['search']}
- // rowRender={"title"}
- rowRender={({rowData}) => (
-                            <Link
-                                style={{
-                                    flex: '1 1 auto',
-                                    color: 'rgba(0, 0, 0, 0.65)',
-                                }}
-                                to={rowData.path}
-                            >
-                                {rowData.title}
-                            </Link>
-                        )}
- rowKey={'path'}
- />
- * */
