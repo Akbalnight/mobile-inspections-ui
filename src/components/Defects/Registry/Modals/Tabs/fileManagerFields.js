@@ -6,6 +6,7 @@ import {
 	apiSaveFileByConfigName,
 } from '../../../../../apis/application.api';
 import {GetCurrentMode} from '../../../tableProps';
+import {systemEvents} from '../../../../../constants/systemEvents';
 
 export const FilesTabFields = ({sRow}) => {
 	const currentMode = GetCurrentMode();
@@ -17,7 +18,8 @@ export const FilesTabFields = ({sRow}) => {
 						name: 'defectUploadFilesHolder', // <- по этому ключу лежит объект с данными для загрузки
 					}}
 					requestUploadFile={apiSaveFileByConfigName(
-						`defectFilesSave`
+						`defectFilesSave`,
+						systemEvents.DEFECT_FILES_ADDITION_SUCCESS
 					)}
 					dispatch={{
 						path: `${currentMode}.table.data.defectFileUpload`,

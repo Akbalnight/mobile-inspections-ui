@@ -29,6 +29,7 @@ import {useDispatch} from 'react-redux';
 import {setDataStore} from 'rt-design/lib/redux/rtd.actions';
 import moment from 'moment';
 import {changeStorePath} from '../Base/Functions/ChangeStorePath';
+import {systemEvents} from '../../constants/systemEvents';
 
 /**
  *
@@ -188,9 +189,17 @@ const RfidCode = ({rowData, cellData}) => {
 	const dispatch = useDispatch();
 
 	const onClickDeleteRfid = () => {
-		apiSaveByConfigName(`mobileControlPointsSave`)({
+		apiSaveByConfigName(
+			`mobileControlPointsSave`,
+			systemEvents.CONTROL_POINTS_CREATION_SUCCESS
+		)({
 			method: 'PUT',
-			data: {id: rowData.id, rfidCode: null},
+			data: {
+				id: rowData.id,
+				rfidCode: null,
+				name: rowData.name,
+				parentId: rowData.parentId,
+			},
 			params: {},
 		})
 			.then((res) => {

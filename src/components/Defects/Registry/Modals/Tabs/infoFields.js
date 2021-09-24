@@ -13,7 +13,9 @@ export const InfoTabFields = () => {
 	const currentMode = GetCurrentMode();
 
 	const handleCheckbox = (event) => {
-		// console.log({event})
+		/**
+		 * Нужно расписать необходимость данный функционал
+		 * */
 		typeof event === 'object' &&
 			apiSaveByConfigName('saveDefectToSap')({
 				method: 'POST',

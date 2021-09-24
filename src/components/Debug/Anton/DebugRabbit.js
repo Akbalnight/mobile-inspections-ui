@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
+<<<<<<< HEAD
 import {Button, DatePicker, Form, Input, notificationError} from 'rt-design';
 import {FormItems} from 'rt-design';
 import {genericDownloadRequest, genericRequest} from '../../../apis/network';
 import {apiGetConfigByName} from '../../../apis/application.api';
+=======
+import {Button, notificationError} from 'rt-design';
+import {genericRequest} from '../../../apis/network';
+>>>>>>> 55eeb7505f72c0ad7f88e2cdc33ea652eafe35e8
 
 const DebugRabbit = () => {
 	// Таблицы log_system_event_types, log_system_events, log_http_requests, files

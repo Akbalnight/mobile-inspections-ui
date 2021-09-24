@@ -5,29 +5,34 @@ import {apiSaveByConfigName} from '../../../apis/application.api';
 import React from 'react';
 import {objectOnServer} from '../Functions/DefaultObject';
 import {changeStorePath} from '../Functions/ChangeStorePath';
+import {systemEvents} from '../../../constants/systemEvents';
+import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
+import {paths} from '../../../constants/paths';
 
 /**
  *
  * @param catalogName name of server configuration
  * @param mainWay name of server configuration
- * @param unique phrase on Russian
  * @returns {JSX.object}
  */
-export const AddDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
-	operationOnServer('add', mainWay, catalogName, unique);
-export const EditDefaultObjectOnServer = ({mainWay, catalogName, unique}) =>
-	operationOnServer('edit', mainWay, catalogName, unique);
+export const AddDefaultObjectOnServer = ({mainWay, catalogName}) =>
+	operationOnServer('add', mainWay, catalogName);
+export const EditDefaultObjectOnServer = ({mainWay, catalogName}) =>
+	operationOnServer('edit', mainWay, catalogName);
 
 /**
  *
  * @param type modal type<string>
  * @param catalogName name of server configuration<string>
  * @param mainWay name of server configuration<string>
- * @param unique phrase on Russian<string>
  * @returns {JSX.object}
  * @desc Modal work only object in row
  */
-const operationOnServer = (type, mainWay, catalogName, unique) => {
+const operationOnServer = (type, mainWay, catalogName) => {
+	const objByCatalogName = catalogConfigs(paths).find(
+		(el) => el.name === catalogName
+	);
+	const {unique, creation, edition} = objByCatalogName;
 	/**
 	 *
 	 * @param callBack function change state (row)
@@ -36,12 +41,6 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 	const loadData = (callBack, row) => {
 		callBack(type === 'add' ? null : row);
 	};
-
-	/**
-	 *
-	 * @param rawValues
-	 * @desc Function return few changes in save object
-	 */
 
 	/**
 	 *
@@ -83,7 +82,8 @@ const operationOnServer = (type, mainWay, catalogName, unique) => {
 					height: modalHeight(catalogName),
 				},
 				requestSaveForm: apiSaveByConfigName(
-					`${catalogName}CatalogSave`
+					`${catalogName}CatalogSave`,
+					systemEvents[type === 'add' ? creation : edition]
 				),
 				methodSaveForm: type === 'add' ? 'POST' : 'PUT',
 				form: {
