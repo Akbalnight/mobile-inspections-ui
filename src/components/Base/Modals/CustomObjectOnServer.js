@@ -4,9 +4,8 @@ import {apiSaveByConfigName} from '../../../apis/application.api';
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {objectOnServer} from '../Functions/CustomObject';
 import {changeStorePath} from '../Functions/ChangeStorePath';
-import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
-import {paths} from '../../../constants/paths';
 import {systemEvents} from '../../../constants/systemEvents';
+import {logSelectByCatalogName} from '../Functions/LogSelectByName';
 
 /**
  *
@@ -30,29 +29,8 @@ export const EditCustomObjectOnServer = ({mainWay, catalogName}) =>
  * @desc Modal work only object in row
  */
 const operationOnServer = (type, mainWay, catalogName) => {
-	let sRow, objByCatalogName
-  if (catalogName==='controlPoints') {
-    objByCatalogName={
-      unique: 'контрольных точек',
-      creation:'CONTROL_POINTS_CREATION_SUCCESS',
-      edition:'CONTROL_POINTS_EDITION_SUCCESS'
-    }
-  } else if (catalogName==='techMaps'){
-    objByCatalogName={
-      unique: 'контрольных точек',
-      creation:'TECH_MAPS_CREATION_SUCCESS',
-      edition:'TECH_MAPS_EDITION_SUCCESS'
-    }
-  }else {
-     objByCatalogName = catalogConfigs(paths).find(
-      (el) => el.name === catalogName
-    );
-
-  }
-
-	// const objByCatalogName = catalogConfigs(paths).find(
-	// 	(el) => el.name === catalogName
-	// );
+	let sRow;
+	const objByCatalogName = logSelectByCatalogName(catalogName);
 	const {unique, creation, edition} = objByCatalogName;
 
 	const loadData = (callBack, row) => {

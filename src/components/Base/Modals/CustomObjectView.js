@@ -34,8 +34,8 @@ import {paths} from '../../../constants/paths';
 import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
 import {changeStorePath} from '../Functions/ChangeStorePath';
-import {catalogConfigs} from '../../Catalog/Registry/catalogConfigs';
 import {systemEvents} from '../../../constants/systemEvents';
+import { logSelectByCatalogName } from '../Functions/LogSelectByName';
 
 /**
  *
@@ -46,25 +46,10 @@ import {systemEvents} from '../../../constants/systemEvents';
  *
  */
 export const CustomObjectView = ({mainWay, catalogName}) => {
-	let sRow, objByCatalogName;
+	let sRow
 	let history = useHistory();
-	if (catalogName === 'controlPoints') {
-		objByCatalogName = {
-			unique: 'контрольных точек',
-		};
-	} else if (catalogName === 'techMaps') {
-		objByCatalogName = {
-			unique: 'контрольных точек',
-		};
-	} else {
-		objByCatalogName = catalogConfigs(paths).find(
-			(el) => el.name === catalogName
-		);
-	}
 
-	// const objByCatalogName = catalogConfigs(paths).find(
-	// 	(el) => el.name === catalogName
-	// );
+  const objByCatalogName= logSelectByCatalogName(catalogName)
 	const {unique} = objByCatalogName;
 
 	const catalogRoles = [

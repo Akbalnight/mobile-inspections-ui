@@ -34,12 +34,11 @@ import {systemEvents} from '../../constants/systemEvents';
 /**
  *
  * @param catalogName name of server configuration
- * @param mainWay name of server configuration
- * @param unique phrase on Russian
+ * @param mainWay name of server configuration 
  * @returns {JSX.object}
  * @desc Function choice table header buttons(action modals) and view modals
  */
-export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
+export const ControlPointsTableHeader = ({mainWay, catalogName}) => {
 	let history = useHistory();
 
 	const AddObjectButton = () => {
@@ -155,8 +154,7 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 				/>
 				<CustomObjectView
 					mainWay={mainWay}
-					catalogName={catalogName}
-					unique={unique}
+					catalogName={catalogName}				
 				/>
 				<CustomGroupView catalogName={catalogName} mainWay={mainWay} />
 			</Row>
