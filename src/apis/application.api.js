@@ -6,7 +6,7 @@ export const apiGetConfigByName = (configName) => () =>
 		method: 'GET',
 	});
 
-const apiRequestByMode =
+export const apiRequestByMode =
 	(mode) =>
 	(configName) =>
 	({data, params}) =>

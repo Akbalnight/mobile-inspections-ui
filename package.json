@@ -23,17 +23,20 @@
     "react-chartjs-2": "^3.0.3",
     "react-color": "^2.19.3",
     "react-dom": "^17.0.1",
+    "react-grid-layout": "^1.3.0",
     "react-leaflet": "^3.2.1",
     "react-player": "^2.9.0",
     "react-redux": "^7.2.2",
     "react-rnd": "^10.2.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-sizeme": "^3.0.2",
     "react-split-pane": "^0.1.92",
     "react-zoom-pan-pinch": "^2.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.78"
+    "rt-design": "git+https://github.com/iron-tech-space/react-tech-design.git#semver:^0.0.78",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.4",
