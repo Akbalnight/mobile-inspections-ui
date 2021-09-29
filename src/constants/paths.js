@@ -26,6 +26,7 @@ import {Signage} from '../components/Defects/Form/Signage';
 import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
 // import DebugRabbit from '../components/Debug/Anton/DebugRabbit';
 import {AnalyticsById, AnalyticsMain} from '../components/Analytics/Analytics';
+import {ReportView} from '../components/Analytics/ReportView/ReportView';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -363,5 +364,11 @@ export const paths = {
 			'ROLE_MI_DETOUR_SCHEDULES_RESP',
 			'ROLE_MI_DETOURS_CREATOR',
 		],
+	},
+	REPORT_BY_ID: {
+		title: 'Отчет',
+		path: '/analytics/:analyticId/report/:id',
+		component: ReportView,
+		roles: ['ROLE_ADMIN', 'ROLE_MI_ADMIN', 'ROLE_MI_SHIFT_SUPERVISOR'],
 	},
 };

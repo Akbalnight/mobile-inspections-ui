@@ -1,12 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import {Layout, Table, Space} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetFlatDataByConfigName,
 } from '../../../apis/application.api';
+import { paths } from '../../../constants/paths';
 import {customColumnProps, HistoryTableHeader} from '../tableProps';
 
 export const AnalyticHistory:React.FC<{analyticId: string}> = ({analyticId}) => {
+
+  const history = useHistory()
+
+
 	return (
 		<Layout style={{height: '100%'}}>
 			<HistoryTableHeader />
@@ -17,6 +23,7 @@ export const AnalyticHistory:React.FC<{analyticId: string}> = ({analyticId}) => 
 				defaultFilter={{
 					reportId: analyticId,
 				}}
+        onRowClick={({rowData})=> history.push(paths.ANALYTICS_MAIN.path+'/'+analyticId+'/report/'+rowData.id)}
 				requestLoadRows={apiGetFlatDataByConfigName(
 					'analyticReportsHistory'
 				)}

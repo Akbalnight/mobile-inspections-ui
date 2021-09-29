@@ -113,6 +113,7 @@ export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 					dispatch(
 						setDataStore('analytics.form.events.onReload', {})
 					);
+         
 				}, 1000);
 			})
 			.catch((error) =>

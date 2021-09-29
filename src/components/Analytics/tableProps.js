@@ -205,7 +205,8 @@ export const customColumnProps = [
 	{
 		name: 'files',
 		cellRenderer: ({rowData}) => {
-			const onClickLoadFile = () => {
+			const onClickLoadFile = (e) => {
+        e.stopPropagation()
 				genericDownloadRequest({
 					url: `/api/dynamicdq/data/file/mobileFiles/${rowData.files?.excelId}`,
 					method: 'GET',
