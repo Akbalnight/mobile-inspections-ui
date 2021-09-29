@@ -108,13 +108,11 @@ export const TechMapsTableHeader = ({mainWay, catalogName, unique}) => {
 					<AddCustomGroupOnServer
 						mainWay={mainWay}
 						catalogName={catalogName}
-						unique={unique}
 					/>
 					<EditObjectButton />
 					<EditCustomGroupOnServer
 						mainWay={mainWay}
 						catalogName={catalogName}
-						unique={unique}
 					/>
 				</Access>
 				<Button
