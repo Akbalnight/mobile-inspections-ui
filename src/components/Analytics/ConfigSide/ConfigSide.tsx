@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
 	Button,
 	Form,
@@ -41,22 +41,36 @@ interface SVarObject {
 			};
 		};
 		filter?: any;
+		events?: {
+			start?: {
+				id: string;
+				dataTemplate?: any;
+			};
+			finish?: {
+				id: string;
+				dataTemplate?: any;
+			};
+			error?: {
+				id: string;
+				dataTemplate?: any;
+			};
+		};
 	};
-	output: string;
+  output: string;
 }
 
 export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
+	const dispatch = useDispatch();
 
-const dispatch =useDispatch()
-
-const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
-		const {templates, name} = extraData;
+	const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
+		const {templates, name, events} = extraData;
+		const uniqueReportName: string = `${name} JS{new Date().toLocaleDateString()}JS.xlsx`
 
 		let saveVarObject: SVarObject = {
 			typeExecutor: 'saveVar',
 			body: {
 				base: {
-					fileName: `${name} JS{new Date().toLocaleDateString()}JS.xlsx`,
+					fileName: uniqueReportName ,
 					reportId: analyticId,
 					headerStyle: {
 						border: {
@@ -71,19 +85,21 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 						border: {right: true, bottom: true, left: true},
 					},
 				},
-				filter: {},
+				filter: {name: uniqueReportName, unique:'taskVars.taskId'},
+				events: {...events},
 			},
-			output: 'configData',
+				output: 'configData',
 		};
 
 		for (let key in value.extraData) {
-      if (saveVarObject.body){
-			if (typeof value.extraData[key] === 'object') {
-				saveVarObject.body.filter[key] = value.extraData[key].format();
-			} else {
-				saveVarObject.body.filter[key] = value.extraData[key];
+			if (saveVarObject.body) {
+				if (typeof value.extraData[key] === 'object') {
+					saveVarObject.body.filter[key] =
+						value.extraData[key].format();
+				} else {
+					saveVarObject.body.filter[key] = value.extraData[key];
+				}
 			}
-    }
 		}
 
 		genericRequest({
@@ -93,9 +109,11 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 		})
 			.then((r) => {
 				console.log('createReportDone', r);
-        setTimeout(() => {
-          dispatch(setDataStore('analytics.form.events.onReload',{}))
-        }, 1000);
+				setTimeout(() => {
+					dispatch(
+						setDataStore('analytics.form.events.onReload', {})
+					);
+				}, 1000);
 			})
 			.catch((error) =>
 				notificationError(error, 'Ошибка при выполнении')
