@@ -11,6 +11,7 @@ import {apiRequestByMode} from '../../../apis/application.api';
 import {LeftOutlined} from '@ant-design/icons';
 import {paths} from '../../../constants/paths';
 import Logs from './Panels/Logs';
+import LineChart from './Panels/LineChart';
 
 const ReactGridLayout = WidthProvider(RGL);
 const startGridWidth = 1200;
@@ -34,24 +35,28 @@ interface DashboardProps {
 
 const contents = {
 	logs: Logs,
+	lineChart: LineChart,
 };
 
-const DashboardPanel = ({title, type, params}: DashboardPanelProps) => {
-	// @ts-ignore
-	const Content: any = contents[type];
-	return (
-		<div className={'dashboard-panel'}>
-			<div className={'dashboard-panel-header'}>{title}</div>
-			<div className={'dashboard-panel-content'}>
-				<Content {...params} />
+const DashboardPanel = withSize({monitorHeight: true})(
+	({size, title, type, params}: {size: any} & DashboardPanelProps) => {
+		// console.log('DashboardPanel', size)
+		// @ts-ignore
+		const Content: any = contents[type];
+		return (
+			<div className={'dashboard-panel'}>
+				<div className={'dashboard-panel-header'}>{title}</div>
+				<div className={'dashboard-panel-content'}>
+					<Content size={size} {...params} />
+				</div>
 			</div>
-		</div>
-	);
-};
+		);
+	}
+);
 
 const DashboardGrid = withSize()(({size, panels}: DashboardGridProps) => {
 	const width = size.width > 0 ? size.width : startGridWidth;
-	// console.log('Grid dashboard', panels)
+	// console.log('Grid dashboard', size)
 	const renderPanels =
 		panels &&
 		panels.map(({gridPos, ...panel}, index) => (
