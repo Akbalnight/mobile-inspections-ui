@@ -1,25 +1,74 @@
 // @ts-ignore
 import {BasePage} from 'mobile-inspections-base-ui';
-import {useParams} from 'react-router';
-import {Form, FormBody, SubscribeOnChangeOptions, Table} from 'rt-design';
-import {apiGetConfigByName} from '../../../apis/application.api';
-// import { FormBody } from 'rt-design/dist/components/Form/Form';
+import {LeftOutlined} from '@ant-design/icons';
+import {useHistory, useParams} from 'react-router';
+import {
+	Form,
+	FormBody,
+	Space,
+	Table,
+	TablesSubscribeOnChangeOptions,
+	Title,
+} from 'rt-design';
+import {apiGetConfigByName, apiGetFlatDataByConfigName} from '../../../apis/application.api';
+import {paths} from '../../../constants/paths';
 
 export const ReportView: React.FC = () => {
+	const history = useHistory();
 	const {analyticId, id} = useParams<{analyticId: string; id: string}>();
-	// console.log({analyticId, id});
+  
+	const onBackPage = () =>
+  history.push(`${paths.ANALYTICS_MAIN.path}/${analyticId}`);
+  
+	if (analyticId) {
+    /**
+     * Тут нужно будет сделать запрос 1 по analyticId, templates->addTableExcel->body->fields->[]
+     * Нужно в БД положить названия кофигов чтобы доставть отттуда
+     * в запросе 2, заменить данные и вернуть Promise.resolve()
+     * 
+     * план для ближайших дней
+     */
+    // apiGetFlatDataByConfigName('analyticReports')({data:{id:analyticId}, params:{}}).then(console.log)//1
+    // apiGetConfigByName('reportDefects')().then(console.log);//2
+	}
 
+	const loadConfig = ({data, params}: {data: any; params: any}) => {
+		const newData = {...data};
+
+		return Promise.resolve();
+	};
 	return (
 		<BasePage>
-			<div>1</div>
 			<Form>
-				<FormBody noPadding={true} scrollable={true}>
+				<FormBody noPadding={true}>
+					<Space
+						style={{
+							position: 'relative',
+							cursor: 'pointer',
+							margin: '20px 20px 10px 20px',
+						}}
+						className={'ant-typography ant-typography-secondary'}
+						onClick={onBackPage}
+					>
+						<LeftOutlined style={{fontSize: '16px'}} />
+						<Title
+							level={5}
+							type='secondary'
+							style={{marginBottom: '2px'}}
+						>
+							Назад
+						</Title>
+						<Title
+							level={4}
+							style={{marginBottom: '2px', marginLeft: '50px'}}
+						>
+							Тут может быть название
+						</Title>
+					</Space>
 					<Table
-						rows={[]}
-						setRows={(rows) => console.log(rows)}
-						requestLoadConfig={apiGetConfigByName(
-							'reportEquipments'
-						)}
+						type={'rt'}
+						// requestLoadConfig={loadConfig}
+						requestLoadConfig={apiGetConfigByName('reportDefects')}
 						subscribe={[
 							{
 								name: 'defaultData',
@@ -28,19 +77,21 @@ export const ReportView: React.FC = () => {
 								onChange: ({
 									value,
 									setSubscribeProps,
-								}: SubscribeOnChangeOptions) => {
-									console.log(value);
-									const filtred = value?.find(
+								}: TablesSubscribeOnChangeOptions) => {
+									console.log({value});
+
+									const reportById = value?.find(
 										(el: any) => el.id === id
 									);
-									console.log(filtred);
 
 									value &&
+										reportById &&
 										setSubscribeProps &&
 										setSubscribeProps({
-											setRows: (rows: any[]) =>
-												(rows = filtred.data),
-											// rows:filtred.data
+											rows: reportById.data,
+											// requestLoadConfig: apiGetConfigByName(
+											//   'reportDefects'
+											// )
 										});
 								},
 							},
