@@ -98,9 +98,12 @@ const Dashboard = () => {
 
 	console.log('dashboard => ', dashboard);
 	return (
+		// extraPaths={[{title: dashboard.title}]} {title: "Администрирование"}, {title: 'Dashboards'},
 		<BasePage className={'dashboard'}>
 			<Layout style={{width: '100%'}}>
-				<Layout style={{padding: '8px'}}>
+				<Layout
+					style={{padding: '8px', borderBottom: '1px solid #d9d9d9'}}
+				>
 					<Space
 						style={{
 							position: 'absolute',
