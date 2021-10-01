@@ -35,11 +35,10 @@ import {systemEvents} from '../../constants/systemEvents';
  *
  * @param catalogName name of server configuration
  * @param mainWay name of server configuration
- * @param unique phrase on Russian
  * @returns {JSX.object}
  * @desc Function choice table header buttons(action modals) and view modals
  */
-export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
+export const ControlPointsTableHeader = ({mainWay, catalogName}) => {
 	let history = useHistory();
 
 	const AddObjectButton = () => {
@@ -104,12 +103,12 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 					<AddObjectButton />
 					<AddCustomGroupOnServer
 						mainWay={mainWay}
-						catalogName={catalogName}						
+						catalogName={catalogName}
 					/>
 					<EditObjectButton />
 					<EditCustomGroupOnServer
 						mainWay={mainWay}
-						catalogName={catalogName}						
+						catalogName={catalogName}
 					/>
 				</Access>
 				<Button
@@ -153,11 +152,7 @@ export const ControlPointsTableHeader = ({mainWay, catalogName, unique}) => {
 						)}.events.onReload`,
 					}}
 				/>
-				<CustomObjectView
-					mainWay={mainWay}
-					catalogName={catalogName}
-					unique={unique}
-				/>
+				<CustomObjectView mainWay={mainWay} catalogName={catalogName} />
 				<CustomGroupView catalogName={catalogName} mainWay={mainWay} />
 			</Row>
 			<Search

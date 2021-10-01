@@ -18,7 +18,6 @@ const ControlPoints = ({match: {title}}) => {
 				<ControlPointsTableHeader
 					mainWay={'controlPoints'}
 					catalogName={'controlPoints'}
-					unique={'контрольных точек'}
 				/>
 				<FormBody noPadding={true}>
 					<Table

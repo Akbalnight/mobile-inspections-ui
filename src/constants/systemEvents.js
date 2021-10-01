@@ -1,4 +1,18 @@
 export const systemEvents = {
+	ANALYTIC_REPORT_CREATION_SUCCESS: {
+		finish: {
+			id: 'a5df4474-a226-4d63-a305-bb032717ffe2',
+			dataTemplate: {
+				name: 'name',
+			},
+		},
+		error: {
+			id: 'c2776a07-6a19-4926-815f-97143af7ccc0',
+			dataTemplate: {
+				name: 'name',
+			},
+		},
+	},
 	CONTROL_POINTS_CREATION_SUCCESS: {
 		finish: {
 			id: '6b26dc03-3ead-41bf-b766-e9a74d919aac',
@@ -38,7 +52,7 @@ export const systemEvents = {
 			},
 		},
 		error: {
-			id: 'f3c082a1-a535-4077-bada-b6470979876c',
+			id: '1b54a72f-4160-4dce-bfa3-cad962233a1f',
 			dataTemplate: {
 				cpName: 'name',
 			},
@@ -53,7 +67,7 @@ export const systemEvents = {
 			},
 		},
 		error: {
-			id: 'f3c082a1-a535-4077-bada-b6470979876c',
+			id: '1b54a72f-4160-4dce-bfa3-cad962233a1f',
 			dataTemplate: {
 				cpName: 'name',
 			},
@@ -724,6 +738,36 @@ export const systemEvents = {
 		},
 		error: {
 			id: '494c1209f-1c2f-4ecb-9faa-7eaee5f1cfc9',
+			dataTemplate: {
+				tmName: 'name',
+			},
+		},
+	},
+	TECH_MAPS_GROUP_CREATION_SUCCESS: {
+		finish: {
+			id: 'f7ddd665-6984-4c93-bc5f-19ed4074166c',
+			dataTemplate: {
+				tmName: 'name',
+				tmParent: 'parentId',
+			},
+		},
+		error: {
+			id: '9b309e93-963d-4a4a-9cf5-26b227221e07',
+			dataTemplate: {
+				tmName: 'name',
+			},
+		},
+	},
+	TECH_MAPS_GROUP_EDITION_SUCCESS: {
+		finish: {
+			id: '8793f613-4fad-41a3-882e-977fa5fb347c',
+			dataTemplate: {
+				tmName: 'name',
+				tmParent: 'parentId',
+			},
+		},
+		error: {
+			id: '9b309e93-963d-4a4a-9cf5-26b227221e07',
 			dataTemplate: {
 				tmName: 'name',
 			},

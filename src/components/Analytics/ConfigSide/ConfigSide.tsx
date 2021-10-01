@@ -41,6 +41,20 @@ interface SVarObject {
 			};
 		};
 		filter?: any;
+		events?: {
+			start?: {
+				id: string;
+				dataTemplate?: any;
+			};
+			finish?: {
+				id: string;
+				dataTemplate?: any;
+			};
+			error?: {
+				id: string;
+				dataTemplate?: any;
+			};
+		};
 	};
 	output: string;
 }
@@ -49,13 +63,14 @@ export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 	const dispatch = useDispatch();
 
 	const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
-		const {templates, name} = extraData;
+		const {templates, name, events} = extraData;
+		const uniqueReportName: string = `${name} JS{new Date().toLocaleDateString()}JS.xlsx`;
 
 		let saveVarObject: SVarObject = {
 			typeExecutor: 'saveVar',
 			body: {
 				base: {
-					fileName: `${name} JS{new Date().toLocaleDateString()}JS.xlsx`,
+					fileName: uniqueReportName,
 					reportId: analyticId,
 					headerStyle: {
 						border: {
@@ -70,7 +85,8 @@ export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 						border: {right: true, bottom: true, left: true},
 					},
 				},
-				filter: {},
+				filter: {name: uniqueReportName, unique: 'taskVars.taskId'},
+				events: {...events},
 			},
 			output: 'configData',
 		};
