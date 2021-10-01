@@ -8,7 +8,7 @@ import React from 'react';
 import {itemsInfo} from '../../../constants/dictionary';
 import {changeStorePath} from '../Functions/ChangeStorePath';
 import {systemEvents} from '../../../constants/systemEvents';
-import { logSelectByCatalogName } from '../Functions/LogSelectByName';
+import {logSelectByCatalogName} from '../Functions/LogSelectByName';
 
 /**
  *
@@ -31,7 +31,7 @@ export const EditCustomGroupOnServer = ({mainWay, catalogName}) =>
  * @desc Modal work if table have is_group props in row
  */
 const operationOnServer = (type, mainWay, catalogName) => {
-  const objByCatalogName =logSelectByCatalogName(catalogName)  
+	const objByCatalogName = logSelectByCatalogName(catalogName);
 	const {unique, creationGroup, editionGroup} = objByCatalogName;
 
 	const loadData = (callBack, row) => {

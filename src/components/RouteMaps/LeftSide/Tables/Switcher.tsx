@@ -8,7 +8,6 @@ import {paths} from '../../../../constants/paths';
 import {useHistory} from 'react-router';
 import {apiGetFlatDataByConfigName} from '../../../../apis/application.api';
 
-
 const Switcher = ({routeId}: {routeId: string}) => {
 	const history = useHistory();
 	const [routeData, setRouteData] = useState({name: '---'});
@@ -28,32 +27,32 @@ const Switcher = ({routeId}: {routeId: string}) => {
 	return (
 		<Layout style={{paddingBottom: '0px'}}>
 			<div style={{display: 'flex', margin: '12px 0'}}>
-				<Space
-					style={{position: 'absolute', cursor: 'pointer'}}
-					className={'ant-typography ant-typography-secondary'}
-					onClick={onBackPage}
-				>
-					<LeftOutlined style={{fontSize: '16px'}} />
-					<Title
-						level={5}
-						type='secondary'
-						style={{marginBottom: '2px'}}
-					>
-						Назад
-					</Title>
-				</Space>
-				<Title level={5} style={{margin: 'auto'}}>
+				{/*<Space*/}
+				{/*	style={{position: 'absolute', cursor: 'pointer'}}*/}
+				{/*	className={'ant-typography ant-typography-secondary'}*/}
+				{/*	onClick={onBackPage}*/}
+				{/*>*/}
+				{/*	<LeftOutlined style={{fontSize: '16px'}} />*/}
+				{/*	<Title*/}
+				{/*		level={5}*/}
+				{/*		type='secondary'*/}
+				{/*		style={{marginBottom: '2px'}}*/}
+				{/*	>*/}
+				{/*		Назад*/}
+				{/*	</Title>*/}
+				{/*</Space>*/}
+				<Title level={4} style={{margin: 'auto'}}>
 					{routeData.name}
 				</Title>
 			</div>
-			<Title level={5} style={{marginTop: 0}}>
+			<Title level={5} className={'mt-0 ml-16'}>
 				Маршрутные карты
 			</Title>
 			<Layout style={{border: '1px solid #DFDFDF'}}>
 				<RouteMapsTableHeader routeId={routeId} />
 				<RouteMapsTable routeId={routeId} />
 			</Layout>
-			<Title level={5} className={'pt-16'}>
+			<Title level={5} className={'pt-16 ml-16'}>
 				Контрольные точки
 			</Title>
 			<Layout>

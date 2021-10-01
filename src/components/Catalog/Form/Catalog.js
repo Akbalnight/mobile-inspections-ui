@@ -16,11 +16,11 @@ const CATALOG_DATA_PATH = {
 	component: Catalogs,
 };
 
-const Catalog = () => {
-	let {pathname} = useLocation();
+const Catalog = ({location: {pathname}}) => {
+	// let {pathname} = useLocation();
 
 	// let history = useHistory();
-	// console.log('pathname - ', pathname);
+	// console.log('Catalog props - ', props);
 	/**
 	 * pathname.split('/').length > 2 ? null: CATALOG_DATA_PATH.path
 	 * в этой строке происходит дейстиве которое приводит title страницы к сзначению undefined.
@@ -30,8 +30,11 @@ const Catalog = () => {
 	 *
 	 * в BasePage.js, из контекста берется занчение paths, но у нас есть сопоставимый объект catalogConfigs. Надо обсудить концепцию UI(Breadcrumbs, title) в данном разделе
 	 */
+	const catalogPaths = catalogConfigs(paths);
+	const found = catalogPaths.find((item) => item.path === pathname);
+	const title = found ? found.title : 'НСИ';
 	return (
-		<BasePage path={pathname} extraPaths={catalogConfigs(paths)}>
+		<BasePage title={title} path={pathname} extraPaths={catalogPaths}>
 			<SplitPane
 				className={'Catalog'}
 				split='vertical'
@@ -41,7 +44,7 @@ const Catalog = () => {
 			>
 				<div className={'catalogList'}>
 					<List
-						dataSource={catalogConfigs(paths)}
+						dataSource={catalogPaths}
 						itemLayout={'vertical'}
 						renderItem={(item) => (
 							<li
@@ -58,7 +61,7 @@ const Catalog = () => {
 				</div>
 				<div className={'CatalogData'}>
 					<Switch>
-						{catalogConfigs(paths).map((item, index) => {
+						{catalogPaths.map((item, index) => {
 							const Component = CATALOG_DATA_PATH.component;
 							return (
 								<Route

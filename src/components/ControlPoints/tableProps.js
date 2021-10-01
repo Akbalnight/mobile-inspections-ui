@@ -34,7 +34,7 @@ import {systemEvents} from '../../constants/systemEvents';
 /**
  *
  * @param catalogName name of server configuration
- * @param mainWay name of server configuration 
+ * @param mainWay name of server configuration
  * @returns {JSX.object}
  * @desc Function choice table header buttons(action modals) and view modals
  */
@@ -103,12 +103,12 @@ export const ControlPointsTableHeader = ({mainWay, catalogName}) => {
 					<AddObjectButton />
 					<AddCustomGroupOnServer
 						mainWay={mainWay}
-						catalogName={catalogName}						
+						catalogName={catalogName}
 					/>
 					<EditObjectButton />
 					<EditCustomGroupOnServer
 						mainWay={mainWay}
-						catalogName={catalogName}						
+						catalogName={catalogName}
 					/>
 				</Access>
 				<Button
@@ -152,10 +152,7 @@ export const ControlPointsTableHeader = ({mainWay, catalogName}) => {
 						)}.events.onReload`,
 					}}
 				/>
-				<CustomObjectView
-					mainWay={mainWay}
-					catalogName={catalogName}				
-				/>
+				<CustomObjectView mainWay={mainWay} catalogName={catalogName} />
 				<CustomGroupView catalogName={catalogName} mainWay={mainWay} />
 			</Row>
 			<Search

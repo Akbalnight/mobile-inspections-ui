@@ -26,6 +26,8 @@ import {Signage} from '../components/Defects/Form/Signage';
 import {BigMobInsMap} from '../components/Debug/DebugMarsel/MI_map';
 // import DebugRabbit from '../components/Debug/Anton/DebugRabbit';
 import {AnalyticsById, AnalyticsMain} from '../components/Analytics/Analytics';
+import Dashboard from '../components/Management/Dashboard/Dashboard';
+import Dashboards from '../components/Management/Dashboards/Dashboards';
 
 // Debugs
 // import DebugConfig from '../components/Debug/Anton/DebugConfig';
@@ -363,5 +365,24 @@ export const paths = {
 			'ROLE_MI_DETOUR_SCHEDULES_RESP',
 			'ROLE_MI_DETOURS_CREATOR',
 		],
+	},
+	MANAGEMENT: {
+		title: 'Администрирование',
+		path: '/management',
+		isGroup: true,
+		redirect: '/management/logs',
+		roles: ['ROLE_ADMIN', 'ROLE_MI_ADMIN'],
+	},
+	MANAGEMENT_DASHBOARDS: {
+		title: 'Dashboards',
+		path: '/management/dashboards',
+		component: Dashboards,
+		roles: ['ROLE_ADMIN', 'ROLE_MI_ADMIN'],
+	},
+	MANAGEMENT_DASHBOARD: {
+		title: 'Some board',
+		path: '/management/dashboards/:id',
+		component: Dashboard,
+		roles: ['ROLE_ADMIN', 'ROLE_MI_ADMIN'],
 	},
 };

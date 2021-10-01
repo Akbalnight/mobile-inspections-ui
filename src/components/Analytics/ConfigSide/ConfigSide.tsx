@@ -56,7 +56,7 @@ interface SVarObject {
 			};
 		};
 	};
-  output: string;
+	output: string;
 }
 
 export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
@@ -64,13 +64,13 @@ export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 
 	const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 		const {templates, name, events} = extraData;
-		const uniqueReportName: string = `${name} JS{new Date().toLocaleDateString()}JS.xlsx`
+		const uniqueReportName: string = `${name} JS{new Date().toLocaleDateString()}JS.xlsx`;
 
 		let saveVarObject: SVarObject = {
 			typeExecutor: 'saveVar',
 			body: {
 				base: {
-					fileName: uniqueReportName ,
+					fileName: uniqueReportName,
 					reportId: analyticId,
 					headerStyle: {
 						border: {
@@ -85,10 +85,10 @@ export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 						border: {right: true, bottom: true, left: true},
 					},
 				},
-				filter: {name: uniqueReportName, unique:'taskVars.taskId'},
+				filter: {name: uniqueReportName, unique: 'taskVars.taskId'},
 				events: {...events},
 			},
-				output: 'configData',
+			output: 'configData',
 		};
 
 		for (let key in value.extraData) {
@@ -156,20 +156,20 @@ export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
 	return (
 		<Form name={'configForm'}>
 			<FormBody
-				scrollable={true}
+				scrollable={false}
 				noPadding={true}
-				style={{padding: '0 24px 24px 24px'}}
+				// style={{padding: '0 24px 24px 24px'}}
 			>
 				{analyticId ? (
 					<TemplatesForm analyticId={analyticId} />
 				) : (
 					<>
-						<Title
-							level={4}
-							style={{padding: '10px 10px 0px 150px'}}
-						>
-							Отчет
-						</Title>
+						{/*<Title*/}
+						{/*	level={4}*/}
+						{/*	style={{padding: '10px 10px 0px 150px'}}*/}
+						{/*>*/}
+						{/*	Отчет*/}
+						{/*</Title>*/}
 						<Layout>
 							<TemplatesTableHeader />
 							<TemplatesTable />

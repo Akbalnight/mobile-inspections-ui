@@ -13,9 +13,9 @@ import DetoursCalendar from './DetoursCalendar';
  * @returns {JSX.object}
  * @desc Detour main component. You see 2 view blocks, table(full info) and calendar(short info)
  */
-export const Detours = () => {
+export const Detours = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<Form>
 				<FormBody noPadding={true}>
 					<DetoursMainTableHeader />

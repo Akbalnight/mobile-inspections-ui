@@ -9,15 +9,11 @@ import {
 	Tooltip,
 	notificationError,
 } from 'rt-design';
-import {
-	FileExcelFilled,
-	ReloadOutlined,
-} from '@ant-design/icons';
+import {FileExcelFilled, ReloadOutlined} from '@ant-design/icons';
 import {reloadFilterFields} from '../Base/Functions/ReloadField';
 import {disabledEndDate, disabledStartDate} from '../Base/Functions/DateLimits';
 import {dateTimeExcludeSecond} from '../Base/customColumnProps';
 import {genericDownloadRequest} from '../../apis/network';
-
 
 export const TemplatesTableHeader = () => {
 	return (
@@ -25,9 +21,9 @@ export const TemplatesTableHeader = () => {
 			itemProps={{
 				name: 'onSearch',
 			}}
-			style={{width: '100%'}}
+			style={{width: 'auto'}}
 			placeholder={'Введите наименование'}
-			className={'py-8'}
+			className={'m-8'}
 			dispatch={{
 				path: 'analytics.templatesTable.events.onSearch',
 			}}

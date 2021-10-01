@@ -12,9 +12,9 @@ import {schedulesCustomColumn, SchedulesTableHeader} from '../tableProps';
  * @returns {JSX.object}
  * @desc This is component to show repeat of detours by time.
  */
-const Schedules = () => {
+const Schedules = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<Form>
 				<FormBody noPadding={true} scrollable={false}>
 					<SchedulesTableHeader />

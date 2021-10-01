@@ -4,6 +4,9 @@
 @import '~mobile-inspections-base-ui/dist/index';
 @import '~rt-design/lib/index';
 
+@import '~react-grid-layout/css/styles.css';
+@import '~react-resizable/css/styles.css';
+
 @import './constants/variables';
 @import './components/Base/PageForm';
 @import './components/Catalog/Catalog.less';
@@ -12,6 +15,7 @@
 @import './components/Schedules/Schedules.less';
 @import './components/ControlPoints/ControlPoints';
 @import "./components/Analytics/Analytics.less";
+@import "./components/Management/Dashboard/Dashboard";
 
 #root {
 	height: 100vh;
@@ -85,11 +89,20 @@
 .ml-16 {
 	margin-left: 16px;
 }
+/** X-axis*/
+.mx-16 {
+	margin-left: 16px;
+	margin-right: 16px;
+}
 
 /** Y-axis*/
 .my-0 {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+.my-8 {
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
 .my-16 {
 	margin-top: 16px;

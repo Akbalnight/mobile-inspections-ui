@@ -35,7 +35,7 @@ import {useHistory} from 'react-router';
 import {AttachmentsPreview} from '../Functions/MediaUtils';
 import {changeStorePath} from '../Functions/ChangeStorePath';
 import {systemEvents} from '../../../constants/systemEvents';
-import { logSelectByCatalogName } from '../Functions/LogSelectByName';
+import {logSelectByCatalogName} from '../Functions/LogSelectByName';
 
 /**
  *
@@ -46,10 +46,10 @@ import { logSelectByCatalogName } from '../Functions/LogSelectByName';
  *
  */
 export const CustomObjectView = ({mainWay, catalogName}) => {
-	let sRow
+	let sRow;
 	let history = useHistory();
 
-  const objByCatalogName= logSelectByCatalogName(catalogName)
+	const objByCatalogName = logSelectByCatalogName(catalogName);
 	const {unique} = objByCatalogName;
 
 	const catalogRoles = [

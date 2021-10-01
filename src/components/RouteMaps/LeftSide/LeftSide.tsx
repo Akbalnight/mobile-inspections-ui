@@ -33,9 +33,9 @@ const LeftSide = ({routeId}: {routeId: string}) => {
 		<Switcher routeId={routeId} />
 	) : (
 		<React.Fragment>
-			<Title level={5} style={{margin: '12px 0'}}>
-				Выберите маршрут
-			</Title>
+			{/*<Title level={5} style={{margin: '12px 0'}}>*/}
+			{/*	Выберите маршрут*/}
+			{/*</Title>*/}
 			<Layout>
 				<Table
 					itemProps={{name: 'routeSelect'}}
@@ -65,7 +65,7 @@ const LeftSide = ({routeId}: {routeId: string}) => {
 			<FormBody
 				scrollable={false}
 				noPadding={true}
-				style={{padding: '0 24px 24px 24px'}}
+				// style={{padding: '0 24px 24px 24px'}}
 			>
 				{content}
 			</FormBody>

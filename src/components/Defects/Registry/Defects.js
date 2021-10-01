@@ -20,11 +20,11 @@ import './Defects.less';
  * свод  данных(сокращенный) о тех же сущностях. Свод необходим для струдников обсулживающих данные дефекты
  */
 
-export default function Defects() {
+export default function Defects({match: {title}}) {
 	const currentMode = GetCurrentMode();
 
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<Form name={'defectsLogForm'}>
 				<Layout>
 					<FormBody noPadding={true}>
