@@ -8,15 +8,14 @@ import {LeftOutlined} from '@ant-design/icons';
 import {AnalyticHistory} from './AnalyticHistory/AnalyticHistory';
 import {apiGetFlatDataByConfigName} from '../../apis/application.api';
 
-
-export const AnalyticsMain = () => {
+export const AnalyticsMain = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<Analytics />
 		</BasePage>
 	);
 };
-export const AnalyticsById = () => {
+export const AnalyticsById = ({match: {title}}) => {
 	const pageParams = useParams();
 	const [analyticById, setAnalyticById] = useState({
 		title: 'Аналитика и отчетность',
@@ -33,10 +32,14 @@ export const AnalyticsById = () => {
 				notificationError(error, 'Ошибка загрузки данных формы')
 			);
 	}, [pageParams.id]);
-	// console.log(analyticById)
 
+	// console.log("AnalyticsById => ", analyticById)
 	return (
-		<BasePage extraPaths={[analyticById]}>
+		<BasePage
+			goBack={true}
+			title={analyticById.name}
+			extraPaths={[analyticById]}
+		>
 			<Analytics analyticId={pageParams.id} />
 		</BasePage>
 	);
@@ -60,10 +63,7 @@ const Analytics = ({analyticId}) => {
 			<div className={'analyticsContainer'}>
 				{analyticId ? (
 					<Form>
-						<FormBody
-            scrollable={false}
-            noPadding={true}
-            >
+						<FormBody scrollable={false} noPadding={true}>
 							<AnalyticHistory analyticId={analyticId} />
 						</FormBody>
 					</Form>

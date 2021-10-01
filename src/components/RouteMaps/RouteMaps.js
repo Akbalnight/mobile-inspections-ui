@@ -1,24 +1,26 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form} from 'rt-design';
+import {Form, Space, Title} from 'rt-design';
 import SplitPane from 'react-split-pane';
 import {useParams} from 'react-router';
 import LeftSide from './LeftSide/LeftSide';
 import RouteMap from './RouteMap/RouteMap';
+import {LeftOutlined} from '@ant-design/icons';
 
-export const AddRouteMaps = () => {
+export const AddRouteMaps = ({match: {title}}) => {
+	// console.log('AddRouteMaps')
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<RouteMaps />
 		</BasePage>
 	);
 };
 
-export const EditRouteMaps = () => {
-	const pageParams = useParams();
+export const EditRouteMaps = ({match: {title, params}}) => {
+	// console.log('EditRouteMaps')
 	return (
-		<BasePage>
-			<RouteMaps routeId={pageParams.id} />
+		<BasePage goBack={true} title={title}>
+			<RouteMaps routeId={params.id} />
 		</BasePage>
 	);
 };
@@ -65,7 +67,7 @@ const RouteMaps = (props) => {
 				<LeftSide routeId={routeId} />
 			</div>
 			<div className={'routeMapsContainer'}>
-				{routeId && (
+				{routeId ? (
 					<Form>
 						<RouteMap
 							subscribe={[
@@ -92,6 +94,18 @@ const RouteMaps = (props) => {
 							]}
 						/>
 					</Form>
+				) : (
+					<Space style={{margin: 'auto'}}>
+						<LeftOutlined
+							style={{fontSize: '32px', color: '#1890ff'}}
+						/>
+						<Title
+							level={2}
+							style={{marginBottom: '2px', color: '#1890ff'}}
+						>
+							Выберите маршрут
+						</Title>
+					</Space>
 				)}
 			</div>
 		</SplitPane>

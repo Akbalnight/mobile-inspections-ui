@@ -7,9 +7,9 @@ import {
 } from '../../../apis/application.api';
 import React from 'react';
 
-export const Routes = () => {
+export const Routes = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<Form>
 				<FormBody noPadding={true} scrollable={false}>
 					<MainTableHeader />

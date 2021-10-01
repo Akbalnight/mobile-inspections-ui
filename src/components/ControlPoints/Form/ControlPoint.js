@@ -31,19 +31,19 @@ import {equipmentTableCustom, techMapsTableCustom} from '../tableProps';
 import {TechMapAddModal} from './Modals/TechMapSaveObject';
 import {systemEvents} from '../../../constants/systemEvents';
 
-export const ControlPointAdd = () => {
+export const ControlPointAdd = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage goBack={true} title={title}>
 			<ControlPoint />
 		</BasePage>
 	);
 };
 
-export const ControlPointEdit = () => {
-	const pageParams = useParams();
+export const ControlPointEdit = ({match: {title, params}}) => {
+	// console.log("ControlPoint props", props);
 	return (
-		<BasePage>
-			<ControlPoint controlPointId={pageParams.id} />
+		<BasePage goBack={true} title={title}>
+			<ControlPoint controlPointId={params.id} />
 		</BasePage>
 	);
 };
@@ -96,13 +96,13 @@ const ControlPoint = (props) => {
 			labelCol={{span: 8}}
 			wrapperCol={{span: 14}}
 		>
-			<FormHeader>
-				<Title level={3}>
-					{controlPointId
-						? `Редактирование контрольной точки`
-						: `Создание контрольной точки`}
-				</Title>
-			</FormHeader>
+			{/*<FormHeader>*/}
+			{/*	<Title level={3}>*/}
+			{/*		{controlPointId*/}
+			{/*			? `Редактирование контрольной точки`*/}
+			{/*			: `Создание контрольной точки`}*/}
+			{/*	</Title>*/}
+			{/*</FormHeader>*/}
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
 					<Col span={8}>

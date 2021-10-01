@@ -98,34 +98,34 @@ const Dashboard = () => {
 
 	console.log('dashboard => ', dashboard);
 	return (
-		<BasePage className={'dashboard'}>
+		<BasePage goBack={true} title={dashboard.title} className={'dashboard'}>
 			<Layout style={{width: '100%'}}>
-				<Layout style={{padding: '8px'}}>
-					<Space
-						style={{
-							position: 'absolute',
-							cursor: 'pointer',
-							color: 'rgba(0, 0, 0, 0.45)',
-							lineHeight: 1,
-							marginTop: '2px',
-						}}
-						onClick={onBackPage}
-					>
-						<LeftOutlined style={{fontSize: '16px'}} />
-						<div style={{fontSize: '14px', fontWeight: 600}}>
-							Назад
-						</div>
-					</Space>
-					<div
-						style={{
-							margin: 'auto',
-							fontSize: '14px',
-							fontWeight: 600,
-						}}
-					>
-						{dashboard.title}
-					</div>
-				</Layout>
+				{/*<Layout style={{padding: '8px'}}>*/}
+				{/*	<Space*/}
+				{/*		style={{*/}
+				{/*			position: 'absolute',*/}
+				{/*			cursor: 'pointer',*/}
+				{/*			color: 'rgba(0, 0, 0, 0.45)',*/}
+				{/*			lineHeight: 1,*/}
+				{/*			marginTop: '2px',*/}
+				{/*		}}*/}
+				{/*		onClick={onBackPage}*/}
+				{/*	>*/}
+				{/*		<LeftOutlined style={{fontSize: '16px'}} />*/}
+				{/*		<div style={{fontSize: '14px', fontWeight: 600}}>*/}
+				{/*			Назад*/}
+				{/*		</div>*/}
+				{/*	</Space>*/}
+				{/*	<div*/}
+				{/*		style={{*/}
+				{/*			margin: 'auto',*/}
+				{/*			fontSize: '14px',*/}
+				{/*			fontWeight: 600,*/}
+				{/*		}}*/}
+				{/*	>*/}
+				{/*		{dashboard.title}*/}
+				{/*	</div>*/}
+				{/*</Layout>*/}
 				<div
 					style={{
 						backgroundColor: '#f0f2f5',

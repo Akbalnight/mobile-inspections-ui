@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Form, FormBody, Table} from 'rt-design';
+import {Button, Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,
@@ -11,9 +11,9 @@ import {ControlPointsTableHeader, customColumnProps} from '../tableProps';
  * нейминг подписки некорректный, сейчас использована подписка на catalog
  * нужно пееделать в подписку по разделам
  * */
-const ControlPoints = () => {
+const ControlPoints = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<Form>
 				<ControlPointsTableHeader
 					mainWay={'controlPoints'}

@@ -29,20 +29,18 @@ import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
 import {uuid} from '../../../utils/baseUtils';
 import {systemEvents} from '../../../constants/systemEvents';
 
-export const TechMapsAdd = () => {
+export const TechMapsAdd = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage goBack={true} title={title}>
 			<TechMap />
 		</BasePage>
 	);
 };
 
-export const TechMapsEdit = () => {
-	const pageParams = useParams();
-
+export const TechMapsEdit = ({match: {title, params}}) => {
 	return (
-		<BasePage>
-			<TechMap techMapId={pageParams.id} />
+		<BasePage goBack={true} title={title}>
+			<TechMap techMapId={params.id} />
 		</BasePage>
 	);
 };
@@ -106,13 +104,13 @@ const TechMap = (props) => {
 			labelCol={{span: 8}}
 			wrapperCol={{span: 16}}
 		>
-			<FormHeader>
-				<Title level={3}>
-					{techMapId
-						? `Редактирование технологической карты`
-						: `Создание технологической карты`}
-				</Title>
-			</FormHeader>
+			{/*<FormHeader>*/}
+			{/*	<Title level={3}>*/}
+			{/*		{techMapId*/}
+			{/*			? `Редактирование технологической карты`*/}
+			{/*			: `Создание технологической карты`}*/}
+			{/*	</Title>*/}
+			{/*</FormHeader>*/}
 			<FormBody>
 				<Row style={{justifyContent: 'flex-start'}}>
 					<Col span={8}>

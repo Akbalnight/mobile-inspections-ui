@@ -33,18 +33,17 @@ import {Result} from 'antd';
 import {WayOutModal} from './Modals/WayOutModal';
 import {systemEvents} from '../../../constants/systemEvents';
 
-export const RoutesAdd = () => {
+export const RoutesAdd = ({match: {title}}) => {
 	return (
-		<BasePage>
+		<BasePage goBack={true} title={title}>
 			<RouteForm />
 		</BasePage>
 	);
 };
-export const RoutesEdit = () => {
-	const pageParams = useParams();
+export const RoutesEdit = ({match: {title, params}}) => {
 	return (
-		<BasePage>
-			<RouteForm routeId={pageParams.id} />
+		<BasePage goBack={true} title={title}>
+			<RouteForm routeId={params.id} />
 		</BasePage>
 	);
 };
@@ -113,19 +112,19 @@ const RouteForm = (props) => {
 				path: 'routes.form.data',
 			}}
 		>
-			<FormHeader>
-				<Title
-					level={3}
-					label={
-						routeId
-							? 'Редактирование маршрута'
-							: 'Создание маршрута'
-					}
-				/>
-			</FormHeader>
+			{/*<FormHeader>*/}
+			{/*	<Title*/}
+			{/*		level={3}*/}
+			{/*		label={*/}
+			{/*			routeId*/}
+			{/*				? 'Редактирование маршрута'*/}
+			{/*				: 'Создание маршрута'*/}
+			{/*		}*/}
+			{/*	/>*/}
+			{/*</FormHeader>*/}
 			<FormBody>
 				<Space
-					className={'my-16'}
+					className={'mb-16'}
 					style={{
 						justifyContent: 'space-around',
 						width: '60%',

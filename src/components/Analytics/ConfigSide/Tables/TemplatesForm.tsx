@@ -57,26 +57,23 @@ export const TemplatesForm: React.FC<{analyticId: string}> = ({analyticId}) => {
 	return (
 		<Layout>
 			<div style={{display: 'flex', margin: '12px 0'}}>
-				<Space
-					style={{position: 'relative', cursor: 'pointer'}}
-					className={'ant-typography ant-typography-secondary'}
-					onClick={onBackPage}
-				>
-					<LeftOutlined style={{fontSize: '16px'}} />
-					<Title
-						level={5}
-						type='secondary'
-						style={{marginBottom: '2px'}}
-					>
-						Назад
-					</Title>
-					<Title
-						level={4}
-						style={{marginBottom: '2px', marginLeft: '50px'}}
-					>
-						Параметры отчета
-					</Title>
-				</Space>
+				{/*<Space*/}
+				{/*	style={{position: 'relative', cursor: 'pointer'}}*/}
+				{/*	className={'ant-typography ant-typography-secondary'}*/}
+				{/*	onClick={onBackPage}*/}
+				{/*>*/}
+				{/*	<LeftOutlined style={{fontSize: '16px'}} />*/}
+				{/*	<Title*/}
+				{/*		level={5}*/}
+				{/*		type='secondary'*/}
+				{/*		style={{marginBottom: '2px'}}*/}
+				{/*	>*/}
+				{/*		Назад*/}
+				{/*	</Title>*/}
+				{/*</Space>*/}
+				<Title level={4} style={{margin: 'auto'}}>
+					Параметры отчета
+				</Title>
 			</div>
 			{
 				<>

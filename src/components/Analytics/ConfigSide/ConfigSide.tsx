@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
 	Button,
 	Form,
@@ -46,10 +46,9 @@ interface SVarObject {
 }
 
 export const ConfigSide: React.FC<{analyticId: string}> = ({analyticId}) => {
+	const dispatch = useDispatch();
 
-const dispatch =useDispatch()
-
-const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
+	const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 		const {templates, name} = extraData;
 
 		let saveVarObject: SVarObject = {
@@ -77,13 +76,14 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 		};
 
 		for (let key in value.extraData) {
-      if (saveVarObject.body){
-			if (typeof value.extraData[key] === 'object') {
-				saveVarObject.body.filter[key] = value.extraData[key].format();
-			} else {
-				saveVarObject.body.filter[key] = value.extraData[key];
+			if (saveVarObject.body) {
+				if (typeof value.extraData[key] === 'object') {
+					saveVarObject.body.filter[key] =
+						value.extraData[key].format();
+				} else {
+					saveVarObject.body.filter[key] = value.extraData[key];
+				}
 			}
-    }
 		}
 
 		genericRequest({
@@ -93,9 +93,11 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 		})
 			.then((r) => {
 				console.log('createReportDone', r);
-        setTimeout(() => {
-          dispatch(setDataStore('analytics.form.events.onReload',{}))
-        }, 1000);
+				setTimeout(() => {
+					dispatch(
+						setDataStore('analytics.form.events.onReload', {})
+					);
+				}, 1000);
 			})
 			.catch((error) =>
 				notificationError(error, 'Ошибка при выполнении')
@@ -138,20 +140,20 @@ const pushOnButton = ({value, extraData}: SubscribeOnChangeOptions) => {
 	return (
 		<Form name={'configForm'}>
 			<FormBody
-				scrollable={true}
+				scrollable={false}
 				noPadding={true}
-				style={{padding: '0 24px 24px 24px'}}
+				// style={{padding: '0 24px 24px 24px'}}
 			>
 				{analyticId ? (
 					<TemplatesForm analyticId={analyticId} />
 				) : (
 					<>
-						<Title
-							level={4}
-							style={{padding: '10px 10px 0px 150px'}}
-						>
-							Отчет
-						</Title>
+						{/*<Title*/}
+						{/*	level={4}*/}
+						{/*	style={{padding: '10px 10px 0px 150px'}}*/}
+						{/*>*/}
+						{/*	Отчет*/}
+						{/*</Title>*/}
 						<Layout>
 							<TemplatesTableHeader />
 							<TemplatesTable />

@@ -13,13 +13,12 @@ import {
 import {useHistory} from 'react-router';
 import {paths} from '../../../constants/paths';
 
-const Dashboards = () => {
-	const history = useHistory();
+const Dashboards = ({match: {title}, history}: any) => {
 	const onRouteSelect = ({rowData}: any) =>
 		history.push(`${paths.MANAGEMENT_DASHBOARDS.path}/${rowData.id}`);
 
 	return (
-		<BasePage>
+		<BasePage title={title}>
 			<SplitPane
 				className={'routeMaps'}
 				split='vertical'
