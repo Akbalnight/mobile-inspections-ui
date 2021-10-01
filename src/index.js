@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {App} from 'mobile-inspections-base-ui';
+import {App, ChangePasswordModal, logoutUser} from 'mobile-inspections-base-ui';
 import {store} from './store';
 import * as serviceWorker from './serviceWorker';
 import {ConfigProvider} from 'antd';
@@ -44,6 +44,21 @@ ReactDOM.render(
 						<App
 							// For App
 							// Routes={AppRoutes}
+							userProfile={[
+								// onClick: () => {}
+								{
+									title: <ChangePasswordModal />,
+									onClick: () => {},
+								},
+								{title: 'separator'},
+								{title: 'version'},
+								{title: 'separator'},
+								{
+									title: 'Выход',
+									onClick: (e, auth, setUser) =>
+										logoutUser(auth.access_token, setUser),
+								},
+							]}
 							paths={paths}
 							menuProps={{
 								type: 'recursive',

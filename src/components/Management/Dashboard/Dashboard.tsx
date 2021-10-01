@@ -8,7 +8,6 @@ import {Layout, Space} from 'rt-design';
 import {withSize} from 'react-sizeme';
 import {useHistory, useParams} from 'react-router';
 import {apiRequestByMode} from '../../../apis/application.api';
-import {LeftOutlined} from '@ant-design/icons';
 import {paths} from '../../../constants/paths';
 import Logs from './Panels/Logs';
 import LineChart from './Panels/LineChart';
@@ -129,6 +128,7 @@ const Dashboard = () => {
 				<div
 					style={{
 						backgroundColor: '#f0f2f5',
+						// backgroundColor: '#edeef0', 5181b8
 						width: '100%',
 						height: '100%',
 						overflow: 'auto',
