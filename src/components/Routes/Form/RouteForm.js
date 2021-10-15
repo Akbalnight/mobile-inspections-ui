@@ -1,9 +1,8 @@
 import {BasePage} from 'mobile-inspections-base-ui';
-import {useHistory, useParams} from 'react-router';
+import {useHistory} from 'react-router';
 import React from 'react';
 import {
 	Form,
-	FormHeader,
 	FormBody,
 	FormFooter,
 	Title,

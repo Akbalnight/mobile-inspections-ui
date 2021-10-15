@@ -1,6 +1,6 @@
 import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
-import {Button, Form, FormBody, Table} from 'rt-design';
+import {Form, FormBody, Table} from 'rt-design';
 import {
 	apiGetConfigByName,
 	apiGetHierarchicalDataByConfigName,

@@ -2,7 +2,6 @@ import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	Form,
-	FormHeader,
 	FormBody,
 	FormFooter,
 	Input,
@@ -22,7 +21,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/application.api';
-import {useHistory, useParams} from 'react-router';
+import {useHistory} from 'react-router';
 import {paths} from '../../../constants/paths';
 import {DeleteOutlined} from '@ant-design/icons';
 import {selectRowsById} from '../../Base/Functions/TableSelectById';
@@ -40,7 +39,6 @@ export const ControlPointAdd = ({match: {title}}) => {
 };
 
 export const ControlPointEdit = ({match: {title, params}}) => {
-	// console.log("ControlPoint props", props);
 	return (
 		<BasePage goBack={true} title={title}>
 			<ControlPoint controlPointId={params.id} />

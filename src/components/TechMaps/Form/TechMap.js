@@ -2,7 +2,6 @@ import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {
 	Form,
-	FormHeader,
 	FormBody,
 	FormFooter,
 	Input,
@@ -23,7 +22,7 @@ import {
 	apiGetHierarchicalDataByConfigName,
 	apiSaveByConfigName,
 } from '../../../apis/application.api';
-import {useHistory, useParams} from 'react-router';
+import {useHistory} from 'react-router';
 import {paths} from '../../../constants/paths';
 import {formCustomColumnProps, TechOperTableHeader} from '../tableProps';
 import {uuid} from '../../../utils/baseUtils';
