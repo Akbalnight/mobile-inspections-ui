@@ -39,6 +39,7 @@ const LineChart = (props) => {
 			.catch((error) =>
 				notificationError(error, 'Ошибка загрузки данных')
 			);
+		// eslint-disable-next-line
 	}, []);
 
 	if (data.length > 0) {

@@ -2,13 +2,11 @@ import React from 'react';
 import {BasePage} from 'mobile-inspections-base-ui';
 import {Form, Space, Title} from 'rt-design';
 import SplitPane from 'react-split-pane';
-import {useParams} from 'react-router';
 import LeftSide from './LeftSide/LeftSide';
 import RouteMap from './RouteMap/RouteMap';
 import {LeftOutlined} from '@ant-design/icons';
 
 export const AddRouteMaps = ({match: {title}}) => {
-	// console.log('AddRouteMaps')
 	return (
 		<BasePage title={title}>
 			<RouteMaps />
@@ -17,7 +15,6 @@ export const AddRouteMaps = ({match: {title}}) => {
 };
 
 export const EditRouteMaps = ({match: {title, params}}) => {
-	// console.log('EditRouteMaps')
 	return (
 		<BasePage goBack={true} title={title}>
 			<RouteMaps routeId={params.id} />
